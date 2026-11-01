@@ -463,6 +463,55 @@
     .hero-emblem svg {
       fill: #FFFFFF !important;
     }
+  
+    /* Match Bottom Nav to Top App Bar Height & Navy/Ocean Blue Palette */
+    :root {
+      --bottom-h: var(--header-h, 58px) !important;
+    }
+    .bottom-nav {
+      height: var(--header-h, 58px) !important;
+      min-height: var(--header-h, 58px) !important;
+      max-height: var(--header-h, 58px) !important;
+      background: #082548 !important;
+      background-color: #082548 !important;
+      border-top: 1px solid rgba(2, 136, 232, 0.35) !important;
+      box-shadow: 0 -2px 10px rgba(8, 37, 72, 0.22) !important;
+      padding: 2px 6px !important;
+    }
+    .bottom-nav .nav-tab {
+      color: rgba(255, 255, 255, 0.68) !important;
+      padding: 2px 4px !important;
+      gap: 2px !important;
+    }
+    .bottom-nav .nav-tab svg {
+      width: 20px !important;
+      height: 20px !important;
+      stroke: rgba(255, 255, 255, 0.68) !important;
+    }
+    .bottom-nav .nav-tab span,
+    .bottom-nav .nav-tab .nav-label {
+      color: rgba(255, 255, 255, 0.72) !important;
+      font-size: 10.5px !important;
+      font-weight: 600 !important;
+      line-height: 1.1 !important;
+    }
+    /* Active Tab State: Pop with #0288E8 / #1994F5 Ocean Blue & Crisp White */
+    .bottom-nav .nav-tab.active {
+      color: #FFFFFF !important;
+    }
+    .bottom-nav .nav-tab.active .nav-pill,
+    .bottom-nav .nav-tab.active .icon-wrap {
+      background: rgba(2, 136, 232, 0.24) !important;
+      border-radius: 10px !important;
+    }
+    .bottom-nav .nav-tab.active svg {
+      stroke: #1994F5 !important;
+    }
+    .bottom-nav .nav-tab.active span,
+    .bottom-nav .nav-tab.active .nav-label {
+      color: #1994F5 !important;
+      font-weight: 800 !important;
+    }
   </style>
 
 </head>
