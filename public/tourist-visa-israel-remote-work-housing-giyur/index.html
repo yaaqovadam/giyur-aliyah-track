@@ -106,6 +106,33 @@
   </style>
 <script>(function(){if(!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();
 
+
+  const LANG_ORDER = ['en', 'he', 'fr', 'es', 'de'];
+  const LANG_BADGE = { en:'🌐 עברית / FR / ES / DE', he:'🌐 EN / FR / ES / DE', fr:'🌐 FR ▾', es:'🌐 ES ▾', de:'🌐 DE ▾' };
+  window.selectLangDirect = function(l) {
+    localStorage.setItem('gat_lang', l);
+    applyLang(l);
+    const m = document.getElementById('lang-pop-menu');
+    if (m) m.style.display = 'none';
+  };
+  window.toggleLang = function(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    let m = document.getElementById('lang-pop-menu');
+    if (!m) {
+      m = document.createElement('div');
+      m.id = 'lang-pop-menu';
+      m.style.cssText = 'position:fixed;top:54px;right:14px;background:#0f172a;border:1px solid #38bdf8;border-radius:12px;padding:6px;display:flex;gap:6px;z-index:9999;box-shadow:0 10px 25px rgba(0,0,0,0.4);direction:ltr;';
+      m.innerHTML = ['en:EN','he:עב','fr:FR','es:ES','de:DE'].map(p => {
+        const [k,lbl] = p.split(':');
+        return `<button onclick="selectLangDirect('${k}')" style="background:#1e293b;color:#fff;border:1px solid #475569;border-radius:8px;padding:7px 11px;font-weight:800;font-size:13px;cursor:pointer;">${lbl}</button>`;
+      }).join('');
+      document.body.appendChild(m);
+      document.addEventListener('click', () => { if (m) m.style.display = 'none'; });
+    } else {
+      m.style.display = (m.style.display === 'none') ? 'flex' : 'none';
+    }
+  };
+
 </script>
 <script src="/splash.js?v=1100"></script>
 <!-- GAT ANTI-FLASH END -->
@@ -2164,14 +2191,14 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       if (!el) return;
       if (!window.enHtmlCache[sel]) window.enHtmlCache[sel] = el.innerHTML;
       if (lang === 'he' && window.heHtmlMap[sel]) el.innerHTML = window.heHtmlMap[sel];
-      else if (lang === 'en' && window.enHtmlCache[sel]) el.innerHTML = window.enHtmlCache[sel];
+      else if (lang !== 'he' && window.enHtmlCache[sel]) el.innerHTML = window.enHtmlCache[sel];
     });
     updateShieldMath();
   }
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=11');
+      const r = await fetch('/i18n/' + lang + '.json?v=12');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
