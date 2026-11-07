@@ -45,6 +45,21 @@
     html[dir="rtl"] #left-drawer .drawer-panel { transform: translateX(100%) !important; }
     html[dir="rtl"] #left-drawer.open .drawer-panel { transform: translateX(0) !important; }
 
+  
+    /* Prevent browser horizontal back-swipe overscroll & allow smooth range slider dragging */
+    html, body { overscroll-behavior-x: none !important; }
+    input[type="range"] { touch-action: pan-x !important; -webkit-user-select: none; user-select: none; cursor: pointer; }
+
+    /* Right-align drawer rows in RTL and polish top dark stats card */
+    .drawer-row { text-align: start !important; }
+    html[dir="rtl"] .drawer-row { text-align: right !important; direction: rtl !important; justify-content: flex-start !important; }
+    .drawer-brand-center { padding: 6px 0 12px !important; text-align: center !important; }
+    .drawer-dark-stats { padding: 12px 10px !important; border-radius: 14px !important; margin-bottom: 12px !important; }
+    .dds-head { display: flex !important; align-items: center !important; justify-content: space-between !important; font-size: 12px !important; font-weight: 800 !important; margin-bottom: 10px !important; padding: 0 4px !important; }
+    .dds-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 6px !important; text-align: center !important; align-items: center !important; }
+    .dds-num { display: block !important; font-size: 14px !important; font-weight: 900 !important; white-space: nowrap !important; line-height: 1.2 !important; margin-bottom: 3px !important; }
+    .dds-lbl { display: block !important; font-size: 11px !important; opacity: 0.85 !important; white-space: nowrap !important; line-height: 1.15 !important; }
+
   </style>
 <script>(function(){if(!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();</script>
 <script src="/splash.js?v=1100"></script>
@@ -1417,9 +1432,18 @@
     // Block horizontal touch swipes from triggering browser Back/Forward
   let tStartX = 0, tStartY = 0;
   window.addEventListener('touchstart', e => {
-    if (e.touches.length === 1) { tStartX = e.touches[0].clientX; tStartY = e.touches[0].clientY; }
+    if (e.touches.length === 1) {
+      tStartX = e.touches[0].clientX;
+      tStartY = e.touches[0].clientY;
+      // Block iOS Safari native edge-swipe back/forward navigation
+      if ((tStartX < 24 || tStartX > window.innerWidth - 24) && !e.target.closest('.edge-tab, button, a, input, select')) {
+        e.preventDefault();
+      }
+    }
   }, { passive: false });
   window.addEventListener('touchmove', e => {
+    // Allow range sliders to drag freely!
+    if (e.target && e.target.closest && e.target.closest('input[type="range"]')) return;
     if (e.touches.length === 1) {
       const dx = Math.abs(e.touches[0].clientX - tStartX), dy = Math.abs(e.touches[0].clientY - tStartY);
       if (dx > dy && dx > 8) e.preventDefault();
@@ -1936,7 +1960,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=8');
+      const r = await fetch('/i18n/' + lang + '.json?v=9');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
