@@ -146,11 +146,18 @@
   applyHtmlBlocks = function(lang) {
     _baseApplyHtmlBlocks(lang);
     if (window.TRACKS_I18N && window.TRACKS_I18N[lang]) {
-      Object.entries(window.TRACKS_I18N[lang]).forEach(([sel, html]) => {
+      Object.entries(window.TRACKS_I18N[lang]).forEach(([sel, h]) => {
         const el = document.querySelector(sel);
-        if (el) el.innerHTML = html;
+        if (el) el.innerHTML = h;
       });
     }
+    if (window.UI_BLOCKS_I18N && window.UI_BLOCKS_I18N[lang]) {
+      Object.entries(window.UI_BLOCKS_I18N[lang]).forEach(([sel, h]) => {
+        const el = document.querySelector(sel);
+        if (el) el.innerHTML = h;
+      });
+    }
+    if (typeof updateShieldMath === 'function') updateShieldMath();
     const j = window.JURISDICTION_DATA && window.JURISDICTION_DATA[lang];
     let jBanner = document.getElementById('jurisdiction-doc-bar');
     if (!jBanner) {
@@ -319,7 +326,15 @@
     .ec-desc { font-size: 0.84rem; color: var(--body); line-height: 1.42; }
 
     /* Semantic SEO Articles (100% in DOM for Google, visually tucked) */
-    .seo-obstacle-library { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+    .seo-obstacle-library { margin-top: 22px; border-top: 1px solid #e2e8f0; padding-top: 16px; }
+    .seo-obstacle-library details { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+    .seo-obstacle-library summary { font-size: 0.9rem; font-weight: 800; color: var(--teal-dark); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    .seo-obstacle-library summary::after { content: "▾"; color: var(--sky); font-size: 0.85rem; }
+    .seo-obstacle-library details[open] summary::after { transform: rotate(180deg); }
+    .seo-obstacle-library article { padding: 8px 0; border-bottom: 1px solid #e2e8f0; }
+    .seo-obstacle-library article:last-child { border-bottom: none; }
+    .seo-obstacle-library h2, .seo-obstacle-library h3 { font-size: 0.88rem; font-weight: 800; color: #0f172a; margin: 6px 0 4px; }
+    .seo-obstacle-library p { font-size: 0.82rem; color: #334155; line-height: 1.5; }
 
     /* Tab 2: 3-Way Segmented Track Switcher */
     .seg-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #e2e8f0; padding: 6px; border-radius: 14px; margin-bottom: 16px; }
@@ -762,8 +777,8 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Misrad HaPanim accept Gush Etzion or private Orthodox conversion for Aliyah?","acceptedAnswer":{"@type":"Answer","text":"While an independent Orthodox Beit Din conversion like Gush Etzion is 100% Halachically kosher, Misrad HaPanim and the Chief Rabbinate do not approve tourist conversions for Law of Return Aliyah without State Giyur (Nativ / Va'adat Charigim), 9+ months in a recognized diaspora community, or Chief Rabbinate validation (Ishur Giyur) plus the Misrad HaPanim Graduated Spousal Process (Nohal 5.2.0008)."}},{"@type":"Question","name":"How long are FBI Police Checks and Single Status Apostilles valid for Misrad HaPanim and Va'adat Charigim?","acceptedAnswer":{"@type":"Answer","text":"Misrad HaPanim and the Exceptions Committee (Va'adat Charigim) enforce a strict 180-day (6-month) expiration window from the issue date on Police Background Checks (Teudat Yosher) and Single-Status Affidavits."}},{"@type":"Question","name":"What is the 24-month Sal Klita cash cliff for converts and Olim in Israel?","acceptedAnswer":{"@type":"Answer","text":"Spending more than 24 cumulative months inside Israel within the 3 years prior to receiving your Teudat Oleh cancels eligibility for the ~21,700 NIS Sal Klita absorption cash grant from Misrad HaKlita."}},{"@type":"Question","name":"How can a tourist or student legally sustain themselves in Israel during Giyur without a work permit?","acceptedAnswer":{"@type":"Answer","text":"B/2 tourists cannot work for Israeli employers, but can work remotely for non-Israeli clients paid into a foreign bank account (online English teaching, translation, remote tech) and reduce housing costs via live-in nanny, elderly caretaker, or dorm room-and-board exchanges."}}]}
 </script>
-  <script src="/i18n/jurisdiction.js?v=15"></script>
-</head>
+  <script src="/i18n/jurisdiction.js?v=18"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Giyur Aliyah Track","item":"https://giyuraliyahtrack.com/"},{"@type":"ListItem","position":2,"name":"How to Get 5\u20138+ Stamped Israeli Rabbi Letters for Beit Din","item":"https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din"}]}</script></head>
 <body>
 
   <!-- Reusable Jewish Star & Shield Badge SVG Definitions -->
@@ -827,7 +842,7 @@
           <div class="hero-emblem">
             <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4.5l2.1 3.6h4.1l-2.1 3.6 2.1 3.6h-4.1L12 19.9l-2.1-3.6H5.8l2.1-3.6-2.1-3.6h4.1L12 5.5z"/></svg>
           </div>
-          <h1 data-i18n="hero_h1">Plugging Into an Orthodox Shul & Generating Stamped Hebrew Rabbi Letters for Beit Din</h1>
+          <h1 id="spoke-h1">Plugging Into an Orthodox Shul & Generating Stamped Hebrew Rabbi Letters for Beit Din</h1>
           <p data-i18n="hero_p">Tap any box below to see the hidden trap in plain English—or jump straight to your Track & Deadline Tracker.</p>
         </div>
 
@@ -838,7 +853,7 @@
             <span data-i18n="ea_tag">Track 1 • Fast-Track Exit</span>
           </div>
           <div class="ea-title" data-i18n="ea_title">Need to Leave Now? Do NOT Board a Plane Without Your "Go-Bag" Folder</div>
-          <div class="ea-desc" data-i18n="ea_desc">If flights stop, embassies lock down, or it becomes unsafe to fly back, whatever is in your carry-on is all you will ever have. Grab these double-Apostilled originals in 7–10 days and make Aliyah from inside Israel (Shinui Ma'amad).</div>
+          <div class="ea-desc" data-i18n="ea_desc">Fleeing rising global antisemitism, embassy backlogs, or sudden flight disruptions? If it becomes unsafe to fly back, whatever is in your carry-on is all you will ever have. Pull these double-Apostilled originals in 7–10 days and file Emergency Aliyah or Giyur Transfer from inside Israel (Shinui Ma'amad).</div>
           <div class="ea-cta" data-i18n="ea_cta">Open Pre-Flight Go-Bag Checklist & Border Survival Guide →</div>
         </div>
         <div class="section-kicker">
@@ -911,7 +926,7 @@
         </button>
 
         <!-- FULL SEMANTIC SEO ARTICLES IN DOM -->
-        <div class="seo-obstacle-library" aria-hidden="false">
+        <div class="seo-obstacle-library"><details><summary>📖 Statutory Deep-Dive Library (Nohal 5.2.0008, Va'adat Charigim Ash/1 & Ishur Giyur)</summary>
           <article id="seo-obs-0"><h3>The Plain-English Big Picture of Conversion (Giyur), Marriage & Aliyah in Israel</h3><p>Religious status (Beit Din and Chief Rabbinate) and civil Aliyah/residency (Misrad HaPanim and Jewish Agency / Sochnut) are separate authorities that must be sequenced properly.</p></article>
           <article id="seo-obs-1"><h3>Escaping the Misrad HaPanim & Rabbanut Breadcrumb Loop and 6-Month Expiration Cliff</h3><p>Clerks hand out requirements one breadcrumb at a time until Birth Certificates and National Criminal Background Checks (Teudat Yosher) expire at 180 days. Our One-Shot Master Dossier opens your file on Appointment #1.</p></article>
           <article id="seo-obs-2"><h3>The Gush Etzion / Private Conversion Post-Mikvah Trap for Marriage, Children & Aliyah</h3><p>After the Mikvah, stopping without Supreme Rabbinical Court (Beit HaDin HaGadol — Ishur Giyur) validation blocks you or your future children from marrying at the Rabbanut until they finish the process you left behind. Furthermore, tourists converting in Israel must briefly return home and complete at least 9 months in a recognized community for Aliyah.</p></article>
@@ -925,7 +940,7 @@
           <article id="seo-deep-dives">
             <h2>Official Israeli Conversion (גיור), Chief Rabbinate Validation (אישור גיור בית הדין הגדול), Va'adat Charigim (ועדת חריגים טופס אש/1) & Misrad HaPanim Spousal Visa (נוהל 5.2.0008 תהליך מדורג) Playbook</h2>
             <p>Complete guide to the 5 Mandatory Apostilled Home-Country Documents (Long-Form Vault Birth Certificate, Single-Status Affidavit / תמצית רישום, Divorce/Marriage Decrees, Name Change Certificates, and 3-Bucket Federal Police Background Checks / תעודת יושר — FBI, ACRO, RCMP) within the strict 180-day expiration clock. Protect your ~21,700 NIS Sal Klita (סל קליטה) grant from the 24-month pre-Aliyah residency cliff, pass the 150 Beit Din questions (מעמד בית דין) and 80-question separated couples interview, and generate stamped Hebrew Sponsoring Rabbi (רב מלווה) and Host Family (משפחה מלווה) letters.</p>
-          </article>
+          </article></details>
         </div>
       
         
@@ -957,7 +972,7 @@
       <section class="app-view" id="view-1" aria-label="The 3 Tracks of Conversion, Marriage & Aliyah">
         <div class="hero-center" style="margin-bottom:16px;">
           <h2 class="h1-style" data-i18n="t2_h1">The 4 Tracks of Israel</h2>
-          <p>Tap each track: 1) Emergency Exit Go-Bag, 2) Private Beit Din, 3) State Giyur, or 4) Spousal Visa.</p>
+          <p data-i18n="t2_p">Tap each track: 1) Emergency Exit Go-Bag, 2) Private Beit Din, 3) State Giyur, or 4) Spousal Visa.</p>
         </div>
 
         <div class="seg-bar" role="tablist">
@@ -976,7 +991,7 @@
             <li><strong>✈️ Clearing Ben Gurion Border Control (Bikoret Gvulot) Without Refusal:</strong> Never show up at the airline desk with a one-way ticket and 8 giant trunks announcing you are moving permanently without a visa. Follow our legal return-ticket, ETA-IL, and Mixed-Couple entry protocol so your partner is never turned back at the gate.</li>
             <li><strong>🏥 Surviving Your First 60–90 Days Without a Teudat Zehut:</strong> When you do <em>Shinui Ma'amad</em> from inside Israel, you have no ID number for 2–3 months. We show you how to sign an apartment lease without a bank guarantor, enroll kids in municipal schools on foreign passports, and activate <span class="term-link" onclick="openTerm('bridge_health')">60–90 Day Private Bridge Health Insurance (Maccabi/Clalit) ⓘ</span>.</li>
                         <li><strong>💸 Paying Rent & Moving Savings Without a Teudat Zehut:</strong> Retail banks skim ~3.2% on USD/GBP/EUR wires and freeze unverified transfers. Use our <span class="term-link" onclick="openTerm('fx_shield')">No-Teudat-Zehut Shekel Rent & Currency Bridge ⓘ</span> to pay Israeli landlords directly in ₪ and save ~$2,500 per $100k moved.</li>
-            <li><strong>🔄 Emergency Mid-Conversion Transfer & 9-Month Rule:</strong> While born Jews have zero wait, diaspora converts normally face a 9-month post-Mikvah community stay rule. Forced to leave early? Learn how to bring an official Beit Din Transfer Dossier into Israel.</li>
+            <li><strong>🛡️ Rising Global Antisemitism & Emergency Waiver Protocol:</strong> Forced to leave early due to rising antisemitism or security threats? Born Jews can file immediate in-Israel <em>Shinui Ma'amad</em>; recent diaspora converts can petition for an <strong>Emergency Humanitarian Waiver</strong> of the 9-month post-Mikvah community stay rule; and mid-conversion candidates can bring a sealed <strong>Beit Din Transfer Dossier (Tik Ha'avarah)</strong> + expedited <em>Va'adat Charigim</em> (Form Ash/1) request.</li>
           </ul>
           <button class="btn-sky" onclick="switchTab(4)">Load Emergency Go-Bag Into My Live Tracker →</button>
         </article>
@@ -987,7 +1002,7 @@
           <p class="tc-lead"><strong>If you want to become 100% Halachically Jewish without waiting years for government clerks, this is a fantastic path!</strong> Israel has 5+ respected private Orthodox courts (from Modern Orthodox <em>Giyur K'Halacha</em> in Gush Etzion to Haredi courts like R' Karelitz's Beit Din in Bnei Brak). Great for students returning home Jewish or couples who want a kosher Chuppah <em>now</em> and bridge to Rabbanut validation later.</p>
           <ul class="tc-list">
             <li><strong>💸 The 24-Month Sal Klita Cash Cliff (~21,700 NIS at Stake!):</strong> Spending more than <strong>24 cumulative months inside Israel</strong> (in the 3 years before getting your Teudat Oleh) cancels your Sal Klita cash grant!</li>
-            <li><strong>🛡️ "You Are 100% Jewish—But No Aliyah" (The Dual-Gatekeeper Truth):</strong> While a private Orthodox Beit Din is 100% Halachically kosher, the Rabbanut and Misrad HaPanim block tourist conversions from automatic Aliyah as dual security gatekeepers.</li>
+            <li><strong>🛡️ The Supreme Court <em>Dahan</em> Ruling vs. The Tourist Wall:</strong> While the Supreme Court <em>Dahan</em> ruling recognizes established private Orthodox courts (<em>Gush Etzion</em> / <em>Bnei Brak</em>) for Law of Return when converting on a valid long-term visa, B/2 tourists face strict Misrad HaPanim security blocks—and the Chief Rabbinate still requires <em>Ishur Giyur</em> for marriage registration.</li>
             <li><strong>⚡ Zero Government Apostille Red Tape Upfront:</strong> Opening a private Beit Din file requires no FBI checks or Apostilles upfront! You only need the <span class="term-link" onclick="openTerm('five_docs')">5 Mandatory Apostilled Docs ⓘ</span> when bridging to the Rabbanut or Misrad HaPanim.</li>
             <li><strong>💣 Never Leave Validation Half-Finished:</strong> Stopping after the Mikvah without <span class="term-link" onclick="openTerm('ishur_giyur')">Chief Rabbinate Validation (Ishur Giyur) ⓘ</span> blocks Rabbanut weddings for you and your future kids.</li>
           </ul>
@@ -1036,9 +1051,10 @@
           <label class="zehut-select-label" for="z-track">Select Your Situation / Target Track:</label>
           <select class="zehut-select" id="z-track" onchange="updateShieldMath()">
             <option value="dual">Couple (Israeli + Partner): Need BOTH Rabbanut + Misrad HaPanim (Dual-Track)</option>
-            <option value="spousal">Spousal / Partner Visa Only: Need B/1 Work Visa & A/5 Teudat Zehut (Track 3)</option>
-            <option value="gush">Student / Visitor / Couple: Gush Etzion / Beit Din + Rabbanut Validation (Track 1)</option>
-            <option value="state">Tourist / Student Seeking State Giyur & Direct Aliyah via Va'adat Charigim (Track 2)</option>
+            <option value="shinui">Emergency Relocation / In-Israel Aliyah (Shinui Ma'amad + Go-Bag — Track 1)</option>
+            <option value="gush">Student / Visitor / Couple: Private Beit Din (Gush Etzion) + Ishur Giyur (Track 2)</option>
+            <option value="state">Tourist / Student Seeking State Giyur & Direct Aliyah via Va'adat Charigim (Track 3)</option>
+            <option value="spousal">Spousal / Partner Visa Only: Need B/1 Work Visa & A/5 Teudat Zehut (Track 4)</option>
           </select>
         </div>
 
@@ -1191,7 +1207,7 @@
         </div>
 
         <!-- MAJOR COMPONENT 1: ALL 5 HOME-COUNTRY DOCS + ISRAELI COMMUNITY LETTERS -->
-        <div class="milestone-group">
+        <div class="milestone-group" id="mg-0">
           <div class="mg-header">
             <span class="mg-title">0. 9-Month Israeli Community & Reference Letters</span>
             <span class="mg-badge">100% In Israel</span>
@@ -1206,7 +1222,7 @@
         </div>
 
         <!-- MAJOR COMPONENT 1 -->
-        <div class="milestone-group">
+        <div class="milestone-group" id="mg-1">
           <div class="mg-header">
             <span class="mg-title">1. Foreign Dossier & "3-Bucket" Police Checks</span>
             <span class="mg-badge">180-Day Cliff</span>
@@ -1235,10 +1251,10 @@
         </div>
 
         <!-- MAJOR COMPONENT 2 -->
-        <div class="milestone-group">
+        <div class="milestone-group" id="mg-2">
           <div class="mg-header">
             <span class="mg-title">2. Vetted Rabbanut Course & Beit Din Exam</span>
-            <span class="mg-badge">Track 1 & 2</span>
+            <span class="mg-badge">Track 2 & 3</span>
           </div>
           <div class="sub-item">
             <div class="si-info">
@@ -1264,7 +1280,7 @@
         </div>
 
         <!-- MAJOR COMPONENT 3 -->
-        <div class="milestone-group">
+        <div class="milestone-group" id="mg-3">
           <div class="mg-header">
             <span class="mg-title">3. Chief Rabbinate & Misrad HaPanim Sync</span>
             <span class="mg-badge">Family Protection</span>
@@ -1388,6 +1404,7 @@
         </div>
       </div>
       <div class="drawer-list">
+        <button class="drawer-row" onclick="openTerm('go_bag'); toggleLeftDrawer(false);">🚨 Pre-Flight Go-Bag & Emergency Aliyah</button>
         <button class="drawer-row" onclick="openTerm('bridge_health'); toggleLeftDrawer(false);">🏥 60–90 Day Bridge Health Insurance (No TZ)</button>
         <button class="drawer-row" onclick="openTerm('fx_shield'); toggleLeftDrawer(false);">💸 Pay Rent in ₪ & Save 2.5% on Currency Wires</button>
         <button class="drawer-row" onclick="switchTab(4); toggleLeftDrawer(false);">📸 Two-Way Hebrew Translator & PDF Filler</button>
@@ -1447,7 +1464,7 @@
       badTitle: "🛡️ The Dual-Gatekeeper Truth",
       badText: "Why don't they accept it for Aliyah? Because the Rabbanut and Misrad HaPanim work as dual security gatekeepers to stop bad actors, spies, and covert missionaries from slipping into Israeli citizenship.",
       goodTitle: "⚡ Pick the Right Track From Day 1",
-      goodText: "We show you whether you belong on Track 1 (going home), Track 2 (Rabbanut Aliyah), or Track 3 (Utah/Spousal residency) before you waste years.",
+      goodText: "We show you whether you belong on Track 1 (Emergency In-Israel Aliyah / Go-Bag), Track 2 (Private Beit Din + Ishur Giyur), Track 3 (State Giyur via Va'adat Charigim), or Track 4 (Spousal Residency Nohal 5.2.0008) before you waste years.",
       time: "⏱️ Shaves 3 to 4+ Years Off"
     },
     {
@@ -1533,7 +1550,7 @@
   ];
 
   const obstacles_he = [
-    { tag: "תיבה 1 מתוך 9 • התמונה הגדולה", title: "גוש עציון מיועד לתיירים שחוזרים לחו״ל. הרבנות הראשית מיועדת לעלייה.", body: "תייר יכול להתגייר בבית דין אורתודוקסי פרטי כמו גוש עציון, והרבנות תסכים: 'הגיור כשר ואתה 100% יהודי' — אך לא הרבנות ולא משרד הפנים יאשרו לך עלייה.", badTitle: "🛡️ האמת על שני שומרי הסף", badText: "למה לא מאשרים עלייה? כי הרבנות ומשרד הפנים פועלים כשני שומרי סף ביטחוניים למניעת ניצול לרעה וגורמים עוינים מלקבל אזרחות.", goodTitle: "⚡ בחרו במסלול הנכון מהיום הראשון", goodText: "נראה לכם אם אתם שייכים למסלול 1 (חזרה לחו״ל), מסלול 2 (עלייה דרך הרבנות), או מסלול 3 (הליך מדורג זוגי) לפני שתבזבזו שנים.", time: "⏱️ חוסך 3 עד 4+ שנים" },
+    { tag: "תיבה 1 מתוך 9 • התמונה הגדולה", title: "גוש עציון מיועד לתיירים שחוזרים לחו״ל. הרבנות הראשית מיועדת לעלייה.", body: "תייר יכול להתגייר בבית דין אורתודוקסי פרטי כמו גוש עציון, והרבנות תסכים: 'הגיור כשר ואתה 100% יהודי' — אך לא הרבנות ולא משרד הפנים יאשרו לך עלייה.", badTitle: "🛡️ האמת על שני שומרי הסף", badText: "למה לא מאשרים עלייה? כי הרבנות ומשרד הפנים פועלים כשני שומרי סף ביטחוניים למניעת ניצול לרעה וגורמים עוינים מלקבל אזרחות.", goodTitle: "⚡ בחרו במסלול הנכון מהיום הראשון", goodText: "נראה לכם אם אתם שייכים למסלול 1 (עליית חירום / שינוי מעמד), מסלול 2 (בי״ד פרטי + אישור גיור), מסלול 3 (גיור ממלכתי דרך ועדת חריגים), או מסלול 4 (הליך מדורג זוגי) לפני שתבזבזו שנים.", time: "⏱️ חוסך 3 עד 4+ שנים" },
     { tag: "תיבה 2 מתוך 9 • לולאת הפקידים", title: "לטוס הביתה ולהוציא את כל 5 המסמכים ידנית (לעומת סיוט ההזמנה מרחוק).", body: "אתם חייבים 5 מסמכים מאומתים באפוסטיל: (1) תעודת לידה מורחבת, (2) תמצית רישום / רווקות, (3) תעודות נישואין/גירושין קודמים, (4) שינוי שם, ו-(5) תעודות יושר פדרליות.", badTitle: "💥 מלכודת ההזמנה מרחוק ושעון 180 הימים", badText: "הזמנת אפוסטיל מחו״ל מתוך ישראל לוקחת חודשים, עולה הון, והמסמכים פגים אחרי 180 יום בזמן שויזת התייר נגמרת.", goodTitle: "⚡ גיחה קצרה לחו״ל להוצאת 5 המסמכים", goodText: "פתיחת התהליך כאן, טיסה קצרה להוצאת כל 5 המסמכים באפוסטיל במקום (לרוב באותו יום!) וחזרה עם תיק מושלם חוסכת שנים.", time: "⏱️ חוסך 1.5 עד 2.5 שנים" },
     { tag: "תיבה 3 מתוך 9 • מלכודת המקווה", title: "למה עצירה אחרי המקווה חוסמת חתונה ברבנות עד שמשלימים את האישור.", body: "עצירה אחרי טבילה בבית דין פרטי ללא אישור גיור מבית הדין הרבני הגדול חוסמת חתונה ברבנות — לכם או לילדיכם העתידיים.", badTitle: "💣 כלל 9 החודשים בקהילה בישראל", badText: "כדי לעבור דרך הרבנות בארץ, עליכם להביא את 5 המסמכים ולהשתלב בקהילה אורתודוקסית בישראל במשך 9+ חודשים.", goodTitle: "⚡ מחולל מכתבי רב וקהילה בלחיצה", goodText: "המערכת מדריכה אתכם באישור הגיור ושולחת טיוטות המלצה מוכנות בעברית לרב המלווה ולמשפחה המארחת בוואטסאפ.", time: "⏱️ מגן על החתונה והילדים" },
     { tag: "תיבה 4 מתוך 9 • שעון ויזת התייר (90 יום)", title: "איך ללמוד לגיור או להגיש בקשה זוגית בלי לחרוג מויזת התייר.", body: "תיירים בויזת B/2 חסומים חוקית מגיור ממלכתי ללא מעבר בוועדת חריגים (טופס אש/1).", badTitle: "🚨 מלכודת שהיית היתר וסגירת התיק", badText: "עיכוב בהגשת טופס אש/1 או אש/3 — או פספוס דרישת מסמכים תוך 30 יום — גורם לסגירת התיק בשקט.", goodTitle: "⚡ הקפאת שעון חוקית + התראות וואטסאפ", goodText: "אנו מפיקים מכתב הסבר תקני בעברית ושולחים התראות וואטסאפ לפני שמועד הפקיד פג.", time: "⏱️ חוסך 6 עד 18 חודשים" },
@@ -1682,9 +1699,14 @@
 
     const subEl = document.getElementById('fx-saved-detail');
     if (subEl) {
-      subEl.innerText = isHe
-        ? 'חיסכון לעומת ~3.2% עמלות המרה בבנק + תשלום ישיר בשקלים לבעל הדירה ללא חשבון בנק ישראלי'
-        : 'Saved vs. ~3.2% retail bank markup + pay Israeli landlords directly in ₪ before opening an Israeli bank account';
+      const fxSubMap = {
+        en: 'Saved vs. ~3.2% retail bank markup + pay Israeli landlords directly in ₪ before opening an Israeli bank account',
+        he: 'חיסכון לעומת ~3.2% עמלות המרה בבנק + תשלום ישיר בשקלים לבעל הדירה ללא חשבון בנק ישראלי',
+        fr: 'Économisé vs ~3,2% de frais bancaires + paiement direct du loyer en ₪ sans compte bancaire israélien',
+        es: 'Ahorrado vs ~3,2% de comisión bancaria + pago directo de alquiler en ₪ sin cuenta bancaria israelí',
+        de: 'Gespart ggü. ~3,2% Bankaufschlag + direkte Mietzahlung in ₪ ohne israelisches Bankkonto'
+      };
+      subEl.innerText = fxSubMap[window.gatLang] || fxSubMap.en;
     }
   }
 
@@ -1694,15 +1716,23 @@
     const months = parseInt(document.getElementById('sl-months').value, 10);
     const isHe = (window.gatLang === 'he');
 
-    document.getElementById('val-countries').innerText = isHe
-      ? (countries === 1 ? 'מדינה 1' : countries + ' מדינות')
-      : (countries + (countries === 1 ? ' Country' : ' Countries'));
-    document.getElementById('val-months').innerText = isHe
-      ? (months + ' חודשים')
-      : (months + ' Months');
+    const lang = window.gatLang || 'en';
+    const cMap = {
+      en: countries + (countries === 1 ? ' Country' : ' Countries'),
+      he: countries === 1 ? 'מדינה 1' : countries + ' מדינות',
+      fr: countries + (countries === 1 ? ' Pays' : ' Pays'),
+      es: countries + (countries === 1 ? ' País' : ' Países'),
+      de: countries + (countries === 1 ? ' Land' : ' Länder')
+    };
+    const mMap = {
+      en: months + ' Months', he: months + ' חודשים', fr: months + ' Mois', es: months + ' Meses', de: months + ' Monate'
+    };
+    document.getElementById('val-countries').innerText = cMap[lang] || cMap.en;
+    document.getElementById('val-months').innerText = mMap[lang] || mMap.en;
 
     let baseYears = 2.5;
     if (track === 'dual') baseYears = 3.2;
+    if (track === 'shinui') baseYears = 1.5;
     if (track === 'spousal') baseYears = 2.6;
     if (track === 'gush') baseYears = 1.8;
     if (track === 'state') baseYears = 2.2;
@@ -1710,12 +1740,16 @@
     const totalSaved = (baseYears + (countries - 1) * 0.35 + (months >= 6 ? 0.4 : 0)).toFixed(1);
     const apptsSaved = 4 + countries * 2;
 
-    document.getElementById('emerald-years').innerText = isHe
-      ? (totalSaved + ' שנים')
-      : (totalSaved + ' Years');
-    document.getElementById('emerald-detail').innerText = isHe
-      ? ('בנוסף למניעת ' + apptsSaved + '+ תורים מבוזבזים ופקיעת תוקף אפוסטיל')
-      : ('Plus ' + apptsSaved + '+ Wasted Clerk Appointments & Expired Apostilles Avoided');
+    const yMap = { en: totalSaved + ' Years', he: totalSaved + ' שנים', fr: totalSaved + ' Ans', es: totalSaved + ' Años', de: totalSaved + ' Jahre' };
+    const dMap = {
+      en: 'Plus ' + apptsSaved + '+ Wasted Clerk Appointments & Expired Apostilles Avoided',
+      he: 'בנוסף למניעת ' + apptsSaved + '+ תורים מבוזבזים ופקיעת תוקף אפוסטיל',
+      fr: 'Plus ' + apptsSaved + '+ RDV administratifs perdus & Apostilles expirées évités',
+      es: 'Más ' + apptsSaved + '+ citas perdidas y Apostillas vencidas evitadas',
+      de: 'Plus ' + apptsSaved + '+ verlorene Behördentermine & abgelaufene Apostillen vermieden'
+    };
+    document.getElementById('emerald-years').innerText = yMap[lang] || yMap.en;
+    document.getElementById('emerald-detail').innerText = dMap[lang] || dMap.en;
     if (typeof updateFxMath === 'function') updateFxMath();
   }
 
@@ -1726,7 +1760,15 @@
 
   function cycleStatus(btn) {
     const order = ['not-started', 'waiting', 'complete'];
-    const labels = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
+    const lang = window.gatLang || 'en';
+    const statusMap = {
+      en: { 'not-started': '⚪ Not Started', 'waiting': '⏳ Waiting', 'complete': '✅ Complete' },
+      he: { 'not-started': '⚪ טרם התחיל', 'waiting': '⏳ בהמתנה', 'complete': '✅ הושלם' },
+      fr: { 'not-started': '⚪ Non commencé', 'waiting': '⏳ En attente', 'complete': '✅ Terminé' },
+      es: { 'not-started': '⚪ No iniciado', 'waiting': '⏳ En espera', 'complete': '✅ Completado' },
+      de: { 'not-started': '⚪ Nicht begonnen', 'waiting': '⏳ Wartend', 'complete': '✅ Erledigt' }
+    };
+    const labels = statusMap[lang] || statusMap.en;
     const curr = btn.getAttribute('data-state');
     const next = order[(order.indexOf(curr) + 1) % order.length];
     btn.setAttribute('data-state', next);
@@ -1781,6 +1823,7 @@
         <li><strong>1. The Airline & Ben Gurion Border Rule:</strong> Airlines will deny boarding on a one-way ticket without an Aliyah visa or Israeli passport. Always book a refundable return leg, obtain your ETA-IL clearance, and if arriving as a mixed couple, follow our legal dual-entry sequence so the non-Israeli partner isn't turned around at <em>Bikoret Gvulot</em>.</li>
         <li><strong>2. Filing Guided vs. Direct Shinui Ma'amad:</strong> Once inside Israel with your Go-Bag, you can open your Aliyah file directly at Misrad HaPanim OR through The Jewish Agency's in-Israel center—skipping the months-long overseas consulate backlog for born Jews (while converts abroad face a separate 9-month post-Mikvah statutory community rule).</li>
         <li><strong>3. Bridging the 60-Day ID Gap:</strong> While waiting for your <em>Teudat Zehut</em> number, use private Israeli tourist/bridge medical insurance (which transitions smoothly into Maccabi/Clalit) and register children in municipal schools using their foreign passports + birth certificates.</li>
+        <li><strong>4. Rising Antisemitism Emergency Waivers (Converts & Mid-Process):</strong> If fleeing acute antisemitism before completing the mandatory 9-month post-Mikvah diaspora community stay—or while mid-conversion—have your sponsoring diaspora Beit Din issue a signed <strong>Emergency Transfer & Safety Attestation Letter</strong> on official letterhead. Present this with your Go-Bag to petition Misrad HaPanim and <em>Va'adat Charigim</em> (Form Ash/1) for a humanitarian waiver.</li>
       </ul>`,
       time: "⏱️ 7-Day Pre-Flight Sprint • 2x Apostilled Originals • Zero Need to Fly Back"
     },
@@ -1801,7 +1844,7 @@
           <br>• <strong>The Pre-Aliyah 24-Month Cliff:</strong> If you live inside Israel on tourist/student/spousal visas for <strong>more than 24 months in the 3 years prior to getting your Teudat Oleh</strong> (or >36 months in 7 years), Misrad HaKlita <strong>cancels your ~21,700+ NIS Sal Klita cash grant completely!</strong>
           <br>• <strong>The Post-Aliyah Expiration Clocks:</strong> None of these benefits last forever! Once you get your Teudat Oleh, your clocks start ticking: <strong>Sal Klita cash</strong> lasts only <strong>6 months</strong> (and stops if you travel abroad!); <strong>Free Health Insurance</strong> is only <strong>6–12 months</strong> (if unemployed); <strong>Free Ulpan</strong> expires at <strong>18 months</strong>; the <strong>70–90% Arnona discount</strong> gives you <strong>12 months</strong> (must be used within <strong>24 months</strong>); <strong>Rent Subsidy</strong> starts Month 7 and ends at <strong>2.5 years</strong>; <strong>Customs/Car/Degree subsidies</strong> expire at <strong>3 years</strong>; and <strong>Israeli Income Tax Credits (Nekudot Zikui)</strong> run for <strong>4.5 years</strong> (10 years on foreign income).
           <br>• <strong>Why Flying Home Can Still Save You:</strong> If you don't have your hometown Rabbi letter, parents' <em>Ketubah</em>, or Apostilled Birth/Police docs with you in Israel, flying home for 1–2 weeks to gather them in person (and applying via Nefesh B'Nefesh / The Jewish Agency for the free Aliyah flight, extra baggage, NBN grants, and Ben Gurion Airport instant ID setup) beats burning through your 90-day tourist visa waiting on overseas mail!</li>
-        <li><strong>Profile 2 — Converted Abroad (Outside Israel):</strong> Two strict rules apply here! First, your conversion classes and Rabbi <strong>must belong to a Beit Din officially recognized by the Israeli Chief Rabbinate</strong> (e.g., RCA/GPS in North America, London Beth Din)—random independent classes won't count! Second, Misrad HaPanim requires you to live as an active member of that <strong>recognizing Jewish community abroad for at least 9 months AFTER your conversion date</strong> before you can make Aliyah.</li>
+        <li><strong>Profile 2 — Converted Abroad (Outside Israel):</strong> Two strict rules apply here! First, your conversion classes and Rabbi <strong>must belong to a Beit Din officially recognized by the Israeli Chief Rabbinate</strong> (e.g., RCA/GPS in North America, London Beth Din)—random independent classes won't count! Second, Misrad HaPanim normally requires you to live as an active member of that <strong>recognizing Jewish community abroad for at least 9 months AFTER your conversion date</strong> before you can make Aliyah—<strong>UNLESS</strong> you face acute rising antisemitism or emergency security conditions, in which case you must bring a formal Beit Din Emergency Attestation & Transfer Dossier to petition for an in-Israel humanitarian waiver.</li>
         <li><strong>Profile 3 — Converting Inside Israel (State Rabbanut / <em>Va'adat Charigim</em> Track):</strong> There is <strong>zero required stay abroad</strong>—your 9 to 12 months of Orthodox community life AND your <strong>mandatory State-recognized conversion classes (<em>Ulpan Giyur</em> / Rabbanut-approved Rabbi curriculum)</strong> happen <strong>right here in Israel</strong>! If you already have all 5 Apostilled docs under 180 days old, open your file immediately so you can get placed into an official State conversion class. If you are missing docs (and aren't anchored by an Israeli spouse on Track 3), flying home for 1 week to pull all 5 Apostilled docs same-day and flying right back gives you a complete file AND a fresh 90-day entry stamp! <em>(And remember the 24-Month Clock: finishing your Rabbanut conversion and Aliyah before hitting 24 cumulative months inside Israel protects your ~21,700 NIS Sal Klita cash grant!)</em></li>
         <li><strong>🛡️ Use Our 180-Day Expiration Shield & Official Documents In/Out Translator:</strong> Don't let one expiring Police Check blow up a year of your life! Track every document's exact countdown in our Master Tracker and use our <strong>Official Documents In/Out Translator & Hebrew Form Filler</strong> to submit a clerk-proof Hebrew packet before your clock runs out.</li>
       </ul>`,
@@ -1866,7 +1909,10 @@
   };
 
   window.openTerm = function(key) {
-    const d = (window.gatLang === 'he' && window.termDetails_he && window.termDetails_he[key]) ? window.termDetails_he[key] : window.termDetails[key];
+    const lang = window.gatLang || localStorage.getItem('gat_lang') || 'en';
+    const d = (window.TERM_DETAILS_I18N && window.TERM_DETAILS_I18N[lang] && window.TERM_DETAILS_I18N[lang][key])
+      ? window.TERM_DETAILS_I18N[lang][key]
+      : ((lang === 'he' && window.termDetails_he && window.termDetails_he[key]) ? window.termDetails_he[key] : window.termDetails[key]);
     if (!d) return;
     document.getElementById('sh-tag').innerText = d.tag;
     document.getElementById('sh-title').innerText = d.title;
@@ -1997,10 +2043,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     '#view-2 .emerald-label', '#view-2 .emerald-sub',
     '#view-3 .hero-center p', '#rabbi-radios', '#view-3 .vetted-card',
     '#view-4 .shield-banner', '#view-4 .two-way-bar',
-    '#view-4 .milestone-group:nth-of-type(2)',
-    '#view-4 .milestone-group:nth-of-type(3)',
-    '#view-4 .milestone-group:nth-of-type(4)',
-    '#view-4 .milestone-group:nth-of-type(5)'
+    '#mg-0', '#mg-1', '#mg-2', '#mg-3'
   ];
   window.enHtmlCache = {};
   window.heHtmlMap = {
@@ -2075,7 +2118,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
         <li><strong>🎒 כלל "גשר לכיוון אחד" (אי אפשר לחזור להביא מסמכים):</strong> אם טיסות נעצרות או שמדינת המוצא הופכת מסוכנת לחזרה, לא תוכלו להזמין מרחוק טביעות אצבע מה-FBI או תעודות לידה מקוריות. הוציאו <strong>2 עותקים מקוריים עם אפוסטיל</strong> מכל <span class="term-link" onclick="openTerm('go_bag')">7 מסמכי החירום בתיק היד ⓘ</span> לפני הטיסה!</li>
         <li><strong>✈️ מעבר חלק בביקורת הגבולות בנתב״ג:</strong> לעולם אל תגיעו לדלפק הטיסה עם כרטיס לכיוון אחד ו-8 מזוודות ללא ויזה. פעלו לפי פרוטוקול כרטיס החזור, ETA-IL וכניסת זוגות מעורבים כדי למנוע סירוב כניסה.</li>
         <li><strong>🏥 הישרדות ב-60–90 הימים הראשונים ללא תעודת זהות:</strong> בשינוי מעמד מתוך הארץ, לוקח 2–3 חודשים לקבל מספר ת״ז. נראה לכם איך לשכור דירה ללא ערב בנקאי, לרשום ילדים לבית ספר ולעשות ביטוח רפואי מגשר.</li>
-        <li><strong>🔄 העברת תיק גיור בחירום וקיצור כלל 9 החודשים:</strong> נאלצים לעזוב קהילה בחו״ל באמצע גיור או לפני תום 9 חודשים מהמקווה? למדו איך להעביר תיק בית דין מוכר לישראל.</li>
+        <li><strong>🛡️ פרוטוקול חירום עקב אנטישמיות בעולם (פטור מ-9 חודשים והעברת תיק):</strong> נאלצים לעזוב בדחיפות בשל אנטישמיות או איום ביטחוני? יהודים מלידה רשאים להגיש שינוי מעמד מיידי בארץ; מתגיירים טריים בחו״ל יכולים להגיש בקשת חריגים לקיצור חובת 9 החודשים בקהילה; ומועמדים באמצע תהליך יכולים להגיע עם <strong>תיק העברה חתום מבית הדין בחו״ל</strong> ובקשה מזורזת לוועדת חריגים (אש/1).</li>
       </ul>
       <button class="btn-sky" onclick="switchTab(4)">טען את תיק החירום למעקב החי שלי ←</button>`,
     '#track-1': `<span class="tc-pill">מסלול 2 • להפוך ל-100% יהודי כשר מהר יותר (לחו״ל או כתחנת ביניים בישראל)</span>
@@ -2110,9 +2153,10 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     '#view-2 .hero-center p': 'פקידים ואפוסטיל שפג תוקפו גוזלים 2 עד 4 שנים ממועמדים לא מוכנים. חשבו כמה זמן המדריך שלנו חוסך למסלול שלכם:',
     '#view-2 .zehut-select-label': 'בחרו את המצב / מסלול היעד שלכם:',
     '#z-track': `<option value="dual">זוג (ישראלי/ת + בן/בת זוג): צריכים גם רבנות וגם משרד הפנים (מסלול כפול)</option>
-      <option value="spousal">ויזה זוגית בלבד: צריכים ויזת עבודה ב/1 ותעודת זהות א/5 (מסלול 3)</option>
-      <option value="gush">סטודנט / תייר / זוג: גוש עציון / בי״ד פרטי + אימות רבנות (מסלול 1)</option>
-      <option value="state">תייר / סטודנט המבקש גיור ממלכתי ועלייה דרך ועדת חריגים (מסלול 2)</option>`,
+      <option value="shinui">עליית חירום ושינוי מעמד מתוך ישראל + תיק מסמכי אל-חזור (מסלול 1)</option>
+      <option value="gush">סטודנט / תייר / זוג: גוש עציון / בי״ד פרטי + אישור גיור ברבנות (מסלול 2)</option>
+      <option value="state">תייר / סטודנט המבקש גיור ממלכתי ועלייה דרך ועדת חריגים (מסלול 3)</option>
+      <option value="spousal">ויזה זוגית בלבד: צריכים ויזת עבודה ב/1 ותעודת זהות א/5 (מסלול 4)</option>`,
     '#view-2 .emerald-label': 'הזמן שהמדריך שלנו חוסך לכם בתהליך:',
     '#view-2 .emerald-sub': 'בנוסף למניעת 7+ תורים מבוזבזים ופקיעת תוקף אפוסטיל',
     '#view-3 .hero-center p': 'שני בני הזוג (גם בן זוג ישראלי יהודי מלידה!) חייבים להשלים את הקורס. בחרו מה דרוש לכם להיכרות אישית:',
@@ -2129,7 +2173,21 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     '#view-4 .two-way-bar': `<a href="/app?module=songs-prayers" class="btn-action-tile"><div class="bat-top">🎵 סינכרון שמע + מאמן AI</div><div class="bat-title">12 שירי שבת, תפילות וקריאת שמע</div></a>
       <a href="/app?module=beit-din-150" class="btn-action-tile"><div class="bat-top">🕍 חפיסת הכנה למעמד בית דין</div><div class="bat-title">150 שאלות בית דין בכרטיסיות</div></a>
       <a href="/app?module=couples-sync" class="btn-action-tile"><div class="bat-top">📱 סינכרון חי ב-2 טלפונים</div><div class="bat-title">תחקור 80 השאלות הזוגי</div></a>
-      <a href="/app?module=hebrew-engine" class="btn-action-tile"><div class="bat-top">📸 צילום מכתב + 📝 מילוי PDF</div><div class="bat-title">תרגום דף פקיד / מילוי טפסי אש/1 ואש/3</div></a>`
+      <a href="/app?module=hebrew-engine" class="btn-action-tile"><div class="bat-top">📸 צילום מכתב + 📝 מילוי PDF</div><div class="bat-title">תרגום דף פקיד / מילוי טפסי אש/1 ואש/3</div></a>`,
+    '#mg-0': `<div class="mg-header"><span class="mg-title">0. 9 חודשי קהילה בישראל ומכתבי המלצה</span><span class="mg-badge">100% בישראל</span></div>
+      <div class="sub-item"><div class="si-info"><div class="si-name">מכתבי רב בית כנסת ומשפחה מלווה</div><div class="si-meta">טיוטות מוכנות בעברית בוואטסאפ • <a href="javascript:void(0)" onclick="openTerm('community_letters')" style="color:var(--sky);font-weight:800;text-decoration:none;">שלח טיוטה ←</a></div></div><button class="status-pill" data-state="waiting" onclick="cycleStatus(this)">⏳ בהמתנה</button></div>`,
+    '#mg-1': `<div class="mg-header"><span class="mg-title">1. תיק מסמכי חו״ל ותעודות יושר ("3 הסלים")</span><span class="mg-badge">צוק 180 יום</span></div>
+      <div class="sub-item"><div class="si-info"><div class="si-name">תעודת לידה מורחבת (Long-Form) + אפוסטיל</div><div class="si-meta">חייבת להיות מקורית עם שמות שני ההורים</div></div><button class="status-pill" data-state="complete" onclick="cycleStatus(this)">✅ הושלם</button></div>
+      <div class="sub-item"><div class="si-info"><div class="si-name">תמצית רישום / רווקות, גירושין ושינוי שם + אפוסטיל</div><div class="si-meta">הוצאה ידנית בחו״ל או הזמנה מראש</div></div><button class="status-pill" data-state="waiting" onclick="cycleStatus(this)">⏳ בהמתנה</button></div>
+      <div class="sub-item"><div class="si-info"><div class="si-name">תעודות יושר פדרליות (3 הסלים) + אפוסטיל</div><div class="si-meta">ארץ לידה + אזרחויות + מגורים מעל שנה מגיל 14</div></div><button class="status-pill" data-state="waiting" onclick="cycleStatus(this)">⏳ בהמתנה</button></div>`,
+    '#mg-2': `<div class="mg-header"><span class="mg-title">2. קורס מוכר רבנות ומבחן בית הדין</span><span class="mg-badge">מסלול 2 ו-3</span></div>
+      <div class="sub-item"><div class="si-info"><div class="si-name">קורס רב מלווה (שני בני הזוג רשומים)</div><div class="si-meta">רב מלווה מוכר על ידי הרבנות</div></div><button class="status-pill" data-state="complete" onclick="cycleStatus(this)">✅ הושלם</button></div>
+      <div class="sub-item"><div class="si-info"><div class="si-name">מדריכת כלה מוסמכת (טהרת המשפחה)</div><div class="si-meta">אישור הדרכת כלה רשמי לבית הדין</div></div><button class="status-pill" data-state="not-started" onclick="cycleStatus(this)">⚪ טרם התחיל</button></div>
+      <div class="sub-item"><div class="si-info"><div class="si-name">150 שאלות בית דין ו-12 שירי שבת</div><div class="si-meta">סימולטור מעמד בית דין • <a href="/app?module=beit-din-150" style="color:var(--sky);font-weight:800;text-decoration:none;">לתרגול ←</a></div></div><button class="status-pill" data-state="not-started" onclick="cycleStatus(this)">⚪ טרם התחיל</button></div>`,
+    '#mg-3': `<div class="mg-header"><span class="mg-title">3. אימות הרבנות הראשית וסינכרון משרד הפנים</span><span class="mg-badge">הגנת משפחה</span></div>
+      <div class="sub-item"><div class="si-info"><div class="si-name">אישור גיור מבית הדין הרבני הגדול</div><div class="si-meta">מגן על זכויות הנישואין ברבנות לילדים בעתיד</div></div><button class="status-pill" data-state="not-started" onclick="cycleStatus(this)">⚪ טרם התחיל</button></div>
+      <div class="sub-item"><div class="si-info"><div class="si-name">טופס אש/1 או אש/3 בעברית + מכתב הסבר</div><div class="si-meta">פתיחת תיק בפגישה הראשונה</div></div><button class="status-pill" data-state="not-started" onclick="cycleStatus(this)">⚪ טרם התחיל</button></div>
+      <div class="sub-item"><div class="si-info"><div class="si-name">סינכרון 80 שאלות זוגי ב-2 טלפונים</div><div class="si-meta">הכנה לראיון הנפרד • <a href="/app?module=couples-sync" style="color:var(--sky);font-weight:800;text-decoration:none;">סנכרנו 2 טלפונים ←</a></div></div><button class="status-pill" data-state="not-started" onclick="cycleStatus(this)">⚪ טרם התחיל</button></div>`
   };
 
   window.termDetails_he = {
@@ -2171,6 +2229,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
         <li><strong>1. כלל חברת התעופה וביקורת הגבולות:</strong> חברות תעופה מסרבות להעלות נוסעים בכרטיס לכיוון אחד ללא ויזת עולה או דרכון ישראלי. הזמינו תמיד כרטיס חזור בר-ביטול, אשרו ETA-IL, ולזוגות מעורבים — פעלו לפי נוהל הכניסה החוקי שלנו.</li>
         <li><strong>2. הגשת שינוי מעמד מתוך ישראל:</strong> מיד לאחר הנחיתה עם תיק המסמכים המלא, פתחו תיק שינוי מעמד במשרד הפנים או דרך הסוכנות היהודית בארץ בלי להמתין חודשים לתור בקונסוליה בחו״ל (בעוד שלמתגיירים בחו״ל קיים חוק נפרד של 9 חודשי קהילה אחרי המקווה).</li>
         <li><strong>3. גישור על 60 הימים הראשונים ללא ת״ז:</strong> השתמשו בביטוח בריאות פרטי מגשר (לפני הכניסה למכבי/כללית) ורשמו ילדים לבתי ספר עירוניים באמצעות דרכון זר ותעודת לידה.</li>
+        <li><strong>4. בקשת חירום עקב אנטישמיות (קיצור 9 חודשים / העברת תיק גיור):</strong> אם אתם נאלצים לעזוב בדחיפות עקב אנטישמיות לפני השלמת 9 חודשי קהילה אחרי המקווה (או באמצע לימודי הגיור), הצטיידו ב<strong>מכתב העברה ואישור מצב חירום</strong> על נייר לוגו רשמי מבית הדין בחו״ל להגשה למשרד הפנים ולוועדת חריגים (טופס אש/1).</li>
       </ul>`,
       time: "⏱️ התארגנות ב-7 ימים • 2 עותקי אפוסטיל • אפס צורך לטוס חזרה"
     },
@@ -2254,7 +2313,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=18');
+      const r = await fetch('/i18n/' + lang + '.json?v=20');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];

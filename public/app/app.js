@@ -1,3 +1,10 @@
+const RB_LABELS = {
+  en: { lblType: "Letter Type:", opts: ["🕍 Community Synagogue Rabbi (אישור רב קהילה לבית הדין)", "🕯️ Observant Shabbat Host Family (אישור משפחה מארחת / מלווה)", "🚨 Diaspora Beit Din Emergency Transfer & Safety Attestation (אישור העברת תיק בחירום)"], lblRabbi: "Rabbi or Host Family Name & City:", lblMonths: "Months of Attendance & Shabbatot Hosted:" },
+  he: { lblType: "סוג מכתב ההמלצה:", opts: ["🕍 רב בית כנסת / קהילה (אישור רב קהילה לבית הדין)", "🕯️ משפחה מלווה / מארחת בשבתות (אישור משפחה מלווה)", "🚨 אישור חירום מבית דין בחו״ל להעברת תיק / קיצור 9 חודשים"], lblRabbi: "שם הרב או המשפחה המארחת והעיר:", lblMonths: "חודשי השתתפות ושבתות אירוח:" },
+  fr: { lblType: "Type de Lettre :", opts: ["🕍 Rabbin de Synagogue / Communauté (אישור רב קהילה)", "🕯️ Famille d'Accueil de Chabbat (אישור משפחה מלווה)", "🚨 Attestation d'Urgence Beit Din Diaspora & Transfert (אישור העברת תיק בחירום)"], lblRabbi: "Nom du Rabbin ou de la Famille Hôte & Ville :", lblMonths: "Mois de Présence & Chabbatot Accueillis :" },
+  es: { lblType: "Tipo de Carta:", opts: ["🕍 Rabino de Sinagoga / Comunidad (אישור רב קהילה)", "🕯️ Familia Anfitriona de Shabat (אישור משפחה מלווה)", "🚨 Certificado de Emergencia Beit Din Diáspora y Transferencia (אישור העברת תיק בחירום)"], lblRabbi: "Nombre del Rabino o Familia Anfitriona y Ciudad:", lblMonths: "Meses de Asistencia y Shabatot Compartidos:" },
+  de: { lblType: "Art des Schreibens:", opts: ["🕍 Gemeindesynagogen-Rabbiner (אישור רב קהילה)", "🕯️ Schabbat-Gastfamilie (אישור משפחה מלווה)", "🚨 Notfall-Bestätigung Auslands-Beit-Din & Aktenübertragung (אישור העברת תיק בחירום)"], lblRabbi: "Name des Rabbiners oder der Gastfamilie & Stadt:", lblMonths: "Monate der Teilnahme & Schabbat-Besuche:" }
+};
 const APP_UI = {
   en: {
     back: "← Back to Guide",
@@ -8,7 +15,8 @@ const APP_UI = {
     m1_opts: [
       "🛡️ 30-Day Anti-Closure Extension Request (בקשת הארכת מועד - מניעת סגירת תיק)",
       "⚖️ Va'adat Charigim Statutory Cover Letter (מכתב הסבר לוועדת חריגים - טופס אש/1)",
-      "📜 Past Arrest / Teudat Yosher Rehabilitation Dossier (מכתב הסבר לתעודת יושר)"
+      "📜 Past Arrest / Teudat Yosher Rehabilitation Dossier (מכתב הסבר לתעודת יושר)",
+      "🚨 Emergency Antisemitism Waiver: 9-Month Rule & Beit Din Transfer (בקשת חירום - אנטישמיות)"
     ],
     m1_name: "Full Name (as on Passport):",
     m1_pass: "Passport Number & Country of Issue:",
@@ -35,7 +43,8 @@ const APP_UI = {
     m1_opts: [
       "🛡️ בקשת הארכת מועד של 30/60 יום ומניעת סגירת תיק מנהלית",
       "⚖️ מכתב הסבר מנומק לוועדת חריגים (טופס אש/1 - גיור ממלכתי)",
-      "📜 מכתב הסבר ושיקום לתעודת יושר (גילוי נאות מלא)"
+      "📜 מכתב הסבר ושיקום לתעודת יושר (גילוי נאות מלא)",
+      "🚨 בקשת חירום עקב אנטישמיות: פטור מ-9 חודשים / העברת תיק בית דין"
     ],
     m1_name: "שם מלא (כפי שמופיע בדרכון):",
     m1_pass: "מספר דרכון ומדינת הנפקה:",
@@ -62,7 +71,8 @@ const APP_UI = {
     m1_opts: [
       "🛡️ Demande de Prolongation de 30/60 Jours (Bloquer la Fermeture du Dossier)",
       "⚖️ Michtav Hesber Juridique pour Va'adat Charigim (Formulaire Ash/1)",
-      "📜 Dossier de Réhabilitation Casier Judiciaire Bulletin n°3"
+      "📜 Dossier de Réhabilitation Casier Judiciaire Bulletin n°3",
+      "🚨 Dérogation d'Urgence Antisémitisme : Règle des 9 Mois & Transfert Beit Din"
     ],
     m1_name: "Nom Complet (comme sur le Passeport) :",
     m1_pass: "Numéro de Passeport & Pays :",
@@ -89,7 +99,8 @@ const APP_UI = {
     m1_opts: [
       "🛡️ Solicitud de Prórroga de 30/60 Días (Frenar Cierre de Expediente)",
       "⚖️ Mijtav Hesber Legal para Va'adat Jariguim (Formulario Ash/1)",
-      "📜 Dossier de Rehabilitación de Antecedentes Penales"
+      "📜 Dossier de Rehabilitación de Antecedentes Penales",
+      "🚨 Exención de Emergencia por Antisemitismo: Regla de 9 Meses y Transferencia Beit Din"
     ],
     m1_name: "Nombre Completo (según Pasaporte):",
     m1_pass: "Número de Pasaporte y País:",
@@ -116,7 +127,8 @@ const APP_UI = {
     m1_opts: [
       "🛡️ 30/60-Tage Fristverlängerungsantrag (Aktenschließung Stoppen)",
       "⚖️ Juristischer Michtav Hesber für Va'adat Charigim (Formular Asch/1)",
-      "📜 Rehabilitations-Dossier für das Führungszeugnis"
+      "📜 Rehabilitations-Dossier für das Führungszeugnis",
+      "🚨 Notfall-Ausnahme Antisemitismus: 9-Monats-Regel & Beit-Din-Transfer"
     ],
     m1_name: "Vollständiger Name (laut Reisepass):",
     m1_pass: "Reisepassnummer & Ausstellungsland:",
@@ -244,6 +256,7 @@ function renderAll() {
           <option value="ext30">${u.m1_opts[0]}</option>
           <option value="ash1">${u.m1_opts[1]}</option>
           <option value="rehab">${u.m1_opts[2]}</option>
+          <option value="emerg">${u.m1_opts[3]}</option>
         </select>
         <label>${u.m1_name}</label>
         <input id="he-name" placeholder="David Cohen / Marie Laurent / Lukas Müller" />
@@ -260,16 +273,17 @@ function renderAll() {
       <div class="card">
         <h2>${u.m2_h2}</h2>
         <p>${u.m2_p}</p>
-        <label>Letter Type:</label>
+        <label>${(RB_LABELS[lang]||RB_LABELS.en).lblType}</label>
         <select id="rb-type">
-          <option value="rabbi">🕍 Community Synagogue Rabbi (אישור רב קהילה לבית הדין)</option>
-          <option value="host">🕯️ Observant Shabbat Host Family (אישור משפחה מארחת / מלווה)</option>
+          <option value="rabbi">${(RB_LABELS[lang]||RB_LABELS.en).opts[0]}</option>
+          <option value="host">${(RB_LABELS[lang]||RB_LABELS.en).opts[1]}</option>
+          <option value="transfer">${(RB_LABELS[lang]||RB_LABELS.en).opts[2]}</option>
         </select>
         <label>${u.m1_name}</label>
         <input id="rb-cand" placeholder="Sarah (Ruth) Miller - Passport #..." />
-        <label>Rabbi or Host Family Name & City:</label>
+        <label>${(RB_LABELS[lang]||RB_LABELS.en).lblRabbi}</label>
         <input id="rb-rabbi" placeholder="HaRav Yitzchak Levy - Jerusalem / Safed" />
-        <label>Months of Attendance & Shabbatot Hosted:</label>
+        <label>${(RB_LABELS[lang]||RB_LABELS.en).lblMonths}</label>
         <input id="rb-months" placeholder="9 months (Weekly Shabbat Tefillah & Shiurim)" />
         <button class="btn btn-emerald" onclick="genRabbiLetter()">${u.m2_btn}</button>
         <div class="hebrew-out" id="rb-output"></div>
@@ -338,6 +352,18 @@ function genHebrewDoc() {
     txt = `לכבוד: רשות האוכלוסין וההגירה - משרד הפנים\nתאריך: ${today}\nהנדון: בקשה דחופה להארכת מועד להשלמת מסמכים ומניעת סגירת תיק מנהלית\nשם המבקש/ת: ${n} | מס' דרכון: ${p}\n\nשלום רב,\nבהמשך לדרישת המסמכים שנמסרה לי, הריני לעדכן כי פעלתי באופן מיידי להזמנת מלוא תעודות המקור המאומתות בחותמת אפוסטיל מרשויות המדינה בחו"ל (${f}).\nמאחר שזמני הטיפול הרשמיים ברשויות הפדרליות בחו"ל אורכים מעבר ל-30 ימים, אבקשכם להאריך את המועד להגשת המסמכים ב-60 ימים נוספים ולהימנע מסגירת התיק.\n\nבכבוד רב,\n${n}`;
   } else if (t === 'ash1') {
     txt = `לכבוד: ועדת חריגים - מערך הגיור הממלכתי ומשרד הפנים (טופס אש/1)\nתאריך: ${today}\nהנדון: מכתב הסבר מנומק לבקשת היתר גיור ממלכתי בישראל\nשם המבקש/ת: ${n} | מס' דרכון: ${p}\n\nשלום רב,\nהריני להגיש בקשה כנה ומנומקת להצטרפות להליך גיור ממלכתי בישראל. הקשר שלי לעם היהודי, לתורת ישראל ולשמירת מצוות התגבש מתוך הכרה פנימית עמוקה. כלל מסמכי המקור המאומתים באפוסטיל (${f}) מצורפים בזאת.\nברשותי מקורות מחייה עצמאיים מלאים מחו"ל, קהילה אורתודוקסית מלווה ורב מלווה מוכר. אבקשכם לאשר את זימוני לריאיון בוועדת החריגים.\n\nבכבוד רב,\n${n}`;
+  } else if (t === 'emerg') {
+    txt = `לכבוד: ועדת חריגים - משרד הפנים / מחלקת אשרות ומעמד / מערך הגיור (טופס אש/1)
+תאריך: ${today}
+הנדון: בקשת חירום הומניטרית לקיצור תקופת 9 החודשים בקהילה / העברת תיק גיור מחו"ל עקב החרפת האנטישמיות
+שם המבקש/ת: ${n} | מס' דרכון: ${p}
+
+שלום רב,
+הריני לפנות אליכם בבקשה דחופה לאישור מעמד / המשך הליך בישראל מטעמים הומניטריים וביטחוניים כבדי משקל, לנוכח החרפה חמורה באירועי האנטישמיות והאיומים הביטחוניים כלפי הקהילה היהודית בארץ מוצאי.
+כלל מסמכי המקור המאומתים בחותמת אפוסטיל (${f}) וכן מכתב האישור וההעברה הרשמי מבית הדין / רב הקהילה בחו"ל מצורפים בזאת. אבקשכם לאשר באופן חריג פטור מהשלמת מניין 9 החודשים בחו"ל ו/או קליטת תיק הגיור ומתן אשרת שהייה חוקית בישראל.
+
+בכבוד רב,
+${n}`;
   } else {
     txt = `לכבוד: רשות האוכלוסין וההגירה - משרד הפנים / הסוכנות היהודית\nתאריך: ${today}\nהנדון: הצהרת גילוי נאות ומכתב הסבר בנוגע לתעודת היושר (שיקום מלא)\nשם המבקש/ת: ${n} | מס' דרכון: ${p}\n\nשלום רב,\nמתוך חובת תום הלב והגילוי הנאות המלא בהגשת תעודת היושר (${f}), ברצוני להבהיר מראש פרט המופיע במרשם. מדובר באירוע יחיד מהעבר הרחוק אשר הסתיים במלואו ללא כל הרשעה חוזרת. מאז ועד היום אני מנהל/ת אורח חיים נורמטיבי ושומר חוק לחלוטין.\n\nבכבוד רב,\n${n}`;
   }
@@ -352,7 +378,9 @@ function genRabbiLetter() {
   const rb = document.getElementById('rb-rabbi').value || '[שם הרב / המשפחה המארחת]';
   const m = document.getElementById('rb-months').value || '9 חודשים';
   const today = new Date().toLocaleDateString('he-IL');
-  const txt = (tp === 'rabbi')
+  const txt = (tp === 'transfer')
+    ? `בס"ד | תאריך: ${today}\nלכבוד: הרבנות הראשית לישראל / בית הדין המיוחד לגיור / משרד הפנים - ועדת חריגים\nהנדון: אישור חירום להעברת תיק גיור / קיצור תקופת 9 חודשי קהילה עבור ${cand}\n\nהנני לאשר בחתימתי ובחותמת בית הדין / הקהילה כי ${cand} למד/ה והשתתף/ה באופן פעיל ורצוף בקהילתנו האורתודוקסית מזה כ-${m}, תוך הקפדה מלאה על שמירת שבת, כשרות ותפילה.\nבשל החרפת האנטישמיות והמצב הביטחוני באזורנו, נאלץ/ה המועמד/ת לצאת לישראל בדחיפות. אנו מאשרים את כנות ההליך במלואו ומבקשים מכבוד בית הדין ומשרד הפנים לקלוט את התיק ולאשר הקלה הומניטרית בדרישת השהייה בחו"ל.\n\nבברכת התורה,\n${rb}\nחתימה וחותמת רשמית: _______________`
+    : (tp === 'rabbi')
     ? `בס"ד | תאריך: ${today}\nלכבוד: בית הדין המיוחד לגיור / הרבנות הראשית לישראל\nהנדון: המלצת רב קהילה עבור ${cand}\n\nהנני לאשר ולהמליץ בחום כי ${cand} מתפלל/ת ומשתתף/ת באופן קבוע בקהילתנו מזה כ-${m}.\nלאורך כל התקופה ניכרת הקפדה מלאה וכנה על שמירת שבת, כשרות, תפילה במניין ולימוד הלכה בעין יפה ומתוך יראת שמיים טהורה. להערכתי המלאה מדובר במועמד/ת ראוי/ה ביותר לבוא בקהל ישראל.\n\nבברכת התורה,\n${rb}\nחתימה וחותמת: _______________`
     : `בס"ד | תאריך: ${today}\nלכבוד: בית הדין המיוחד לגיור\nהנדון: אישור והמלצת משפחה מלווה / מארחת עבור ${cand}\n\nאנו שמחים לאשר כי אנו מלווים ומארחים את ${cand} בביתנו בשבתות ובמועדי ישראל מזה כ-${m}.\nזכינו לראות מקרוב התנהלות הלכתית מוקפדת, ידיעת הלכות שבת וברכות, ושמחה אמיתית בקיום המצוות.\n\nבברכה,\nמשפחת ${rb}\nטלפון וכתובת: _______________`;
   const out = document.getElementById('rb-output');

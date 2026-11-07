@@ -16,7 +16,9 @@ spokes = [
    """<h2>How In-Israel Emergency Aliyah (Shinui Ma'amad) Works</h2>
    <p>Filing for Aliyah from abroad through NBN or Jewish Agency consulates routinely takes 6 to 9+ months due to interview backlogs. Under Israel's Law of Return, eligible applicants can enter Israel on a B/2 tourist stamp and file for <strong>Shinui Ma'amad (Change of Status from Tourist to Oleh)</strong> directly inside Israel through Misrad HaPanim—provided every civil and rabbinic document is double-Apostilled before departure.</p>
    <h3>The 7 Mandatory Pre-Flight Go-Bag Documents (Bring 2 Originals of Each)</h3>
-   <p>1. Long-Form Vault Birth Certificates listing both parents with state/foreign-ministry Apostilles.<br>2. Federal Fingerprint Police Clearances (FBI Identity History Summary, UK ACRO, Canadian RCMP, etc.) issued within the strict 180-day window and Apostilled.<br>3. Official Marriage, Divorce, and Death decrees (every prior marriage must be documented) with Apostilles.<br>4. Recognized Orthodox Proof of Judaism letter (Ishur Yahadut) on official synagogue letterhead stating born-Jewish maternal lineage.<br>5. Beit Din Conversion Certificates, Certificate of Good Standing, and 9-Month Post-Mikvah Proof of Community Residence for converts.<br>6. 90-Day In-Israel Survival Setup: Private Tourist-to-Oleh Bridge Health Insurance and a licensed Israeli FX currency bridge to pay landlords in Shekels before receiving a Teudat Zehut.</p>"""),
+   <p>1. Long-Form Vault Birth Certificates listing both parents with state/foreign-ministry Apostilles.<br>2. Federal Fingerprint Police Clearances (FBI Identity History Summary, UK ACRO, Canadian RCMP, etc.) issued within the strict 180-day window and Apostilled.<br>3. Official Marriage, Divorce, and Death decrees (every prior marriage must be documented) with Apostilles.<br>4. Recognized Orthodox Proof of Judaism letter (Ishur Yahadut) on official synagogue letterhead stating born-Jewish maternal lineage.<br>5. Beit Din Conversion Certificates, Certificate of Good Standing, and 9-Month Post-Mikvah Proof of Community Residence for converts.<br>6. 90-Day In-Israel Survival Setup: Private Tourist-to-Oleh Bridge Health Insurance and a licensed Israeli FX currency bridge to pay landlords in Shekels before receiving a Teudat Zehut.</p>
+   <h3>Emergency Antisemitism Protocol: 9-Month Post-Mikvah Waiver & Mid-Conversion Transfer (Tik Ha'avarah)</h3>
+   <p>Applicants forced to leave their home country urgently due to rising antisemitism or acute security threats have three legal fast-tracks: (1) Born Jews can file immediate in-Israel <em>Shinui Ma'amad</em> upon arrival; (2) Recent diaspora converts who cannot safely remain abroad for the standard 9-month post-Mikvah community requirement can petition Misrad HaPanim for an <strong>Emergency Humanitarian Waiver</strong> backed by an official safety attestation from their sponsoring Beit Din; and (3) Mid-conversion candidates can bring a sealed <strong>Beit Din Transfer Dossier (Tik Ha'avarah)</strong> logging completed Ulpan Giyur hours to petition <em>Va'adat Charigim</em> (Form Ash/1) inside Israel.</p>"""),
 
   ("gush-etzion-private-conversion-aliyah",
    "Private Orthodox Conversion (Gush Etzion, Bnei Brak) & Aliyah",
@@ -26,7 +28,7 @@ spokes = [
    """<h2>Comparing Israel's Recognized Private Orthodox Batei Din vs. State Nativ</h2>
    <p>Independent Orthodox rabbinical courts in Israel—led by <strong>Gush Etzion (Harova / R' Nissim Karelitz traditions)</strong> and <strong>Bnei Brak (R' Karelitz / Chazon Ish traditions)</strong>—conduct 100% halachically rigorous conversions recognized under the Law of Return following the landmark Dahan Supreme Court ruling. However, navigating the post-Mikvah bureaucracy requires two critical steps:</p>
    <h3>1. Supreme Rabbinical Court Validation (Ishur Giyur) for Rabbanut Marriage</h3>
-   <p>While Misrad HaPanim recognizes approved private Orthodox conversions for Aliyah and a Teudat Zehut, local Rabbanut marriage registrars require secondary validation from the Supreme Rabbinical Court (Beit HaDin HaGadol) in Jerusalem before issuing a marriage license or registering children as Jewish.</p>
+   <p>Under the Supreme Court <em>Dahan</em> ruling, recognized private Orthodox conversions qualify under the Law of Return when the candidate held a valid long-term resident/student visa—whereas B/2 tourists converting privately face strict Misrad HaPanim security blocks unless bridged via Spousal Residency (<em>Nohal 5.2.0008</em>), 9+ months in a recognized diaspora community, or State Rabbanut validation. Furthermore, local Rabbanut marriage registrars strictly require secondary validation (<em>Ishur Giyur</em>) from the Supreme Rabbinical Court (<em>Beit HaDin HaGadol</em>) in Jerusalem before issuing a marriage license or registering future children as Jewish.</p>
    <h3>2. Protecting Your 21,700+ NIS Sal Klita Absorption Grant (24-Month Rule)</h3>
    <p>Misrad HaKlita counts total cumulative days spent inside Israel on tourist or student visas over the 3 years prior to receiving Oleh status. Exceeding 24 cumulative months forfeits the cash Sal Klita absorption basket.</p>"""),
 
@@ -121,8 +123,10 @@ for slug, title, h1, desc, tkey, oidx, article_html in spokes:
     p = re.sub(r'<meta\s+property="og:description"\s+content="[^"]*"\s*/?>', f'<meta property="og:description" content="{desc}" />', p)
     p = p.replace('href="https://giyuraliyahtrack.com/"', f'href="https://giyuraliyahtrack.com/{slug}"')
 
-    # Replace the main H1 cleanly (even with data-i18n attributes)
-    p = re.sub(r'<h1[^>]*data-i18n="hero_h1"[^>]*>.*?</h1>', f'<h1 data-i18n="hero_h1">{h1}</h1>', p, flags=re.S)
+    # Replace the main H1 cleanly and preserve spoke H1 in English
+    p = re.sub(r'<h1[^>]*data-i18n="hero_h1"[^>]*>.*?</h1>', f'<h1 id="spoke-h1">{h1}</h1>', p, flags=re.S)
+    breadcrumb_ld = f'<script type="application/ld+json">{{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Giyur Aliyah Track","item":"https://giyuraliyahtrack.com/"}},{{"@type":"ListItem","position":2,"name":{json.dumps(title)},"item":"https://giyuraliyahtrack.com/{slug}"}}]}}</script></head>'
+    p = p.replace('</head>', breadcrumb_ld, 1)
 
     # Inject unique static crawlable <article> right inside #view-0 above the spoke mesh
     spoke_article_block = f"""
