@@ -28,6 +28,8 @@
       }
     ]
   }
+  </script>
+  <script>
     // Block pinch-to-zoom & double-tap zoom on iOS Safari & Desktop Trackpads (like Flutter Web)
   document.addEventListener('gesturestart', function(e) { e.preventDefault(); }, { passive: false });
   document.addEventListener('gesturechange', function(e) { e.preventDefault(); }, { passive: false });
@@ -128,7 +130,7 @@
     .ec-desc { font-size: 0.84rem; color: var(--body); line-height: 1.42; }
 
     /* Semantic SEO Articles (100% in DOM for Google, visually tucked) */
-    .seo-obstacle-library { display: none; }
+    .seo-obstacle-library { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
     /* Tab 2: 3-Way Segmented Track Switcher */
     .seg-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: var(--pill-bg); padding: 6px; border-radius: 14px; margin-bottom: 18px; border: 1px solid var(--border-light); }
@@ -618,7 +620,7 @@
 
         <div class="section-kicker">
           <h2>Where Are You Stuck? (Tap Any Box)</h2>
-          <span>8 Core Guides</span>
+          <span>9 Core Guides</span>
         </div>
 
         <div class="enemy-grid">
@@ -668,6 +670,11 @@
             <div class="ec-top"><span>Box 8 • Past Record</span><span>Tap →</span></div>
             <div class="ec-title">Aliyah / Visa With a Criminal Record</div>
             <div class="ec-desc">Universal Police Checks (US/UK/EU/CA) & Rehabilitation Dossier.</div>
+          </button>
+                  <button class="enemy-card" onclick="openObstacle(8)" style="grid-column: 1 / -1;">
+            <div class="ec-top"><span>Box 9 • Tourist Survival</span><span>Tap →</span></div>
+            <div class="ec-title">Sustaining Yourself Without a Work Permit (Remote Work & Housing)</div>
+            <div class="ec-desc">100% legal foreign remote work (ESL, translation) + zero-rent live-in nanny, caretaker & dorm exchanges.</div>
           </button>
         </div>
 
@@ -727,7 +734,7 @@
           <p class="tc-lead">The official government conversion track that directly triggers Aliyah citizenship under the Law of Return upon completion.</p>
           <ul class="tc-list">
             <li><strong>✈️ Do You Need to Fly Home for Docs? (The 180-Day Clock & 3 Profiles):</strong> <strong>If you came to Israel with all 5 Apostilled docs already in hand (and unexpired)—relax, you don't need to go anywhere!</strong> But if you are missing even <em>one</em> document, a quick trip home can save you 4 months of mail limbo; and if you are missing most or all of them, we <strong>highly recommend</strong> flying home for a week to pull all <span class="term-link" onclick="openTerm('five_docs')">5 Apostilled docs + see which of the 3 Aliyah/Giyur rules applies to you ⓘ</span> before the <strong>180-day expiration timer</strong> on your Police & Single-Status docs runs out and resets your entire file to zero!</li>
-            <li><strong>⚠️ The Tourist/Student Wall (<em>Va'adat Charigim</em>):</strong> Tourists and students are legally blocked from entering State Giyur until they petition and pass the <strong>Exceptions Committee (Form Ash/1)</strong>.</li>
+            <li><strong>⚠️ The Tourist/Student Wall (<em>Va'adat Charigim</em>):</strong> Tourists and students are legally blocked from entering State Giyur until they petition and pass the <span class="term-link" onclick="openTerm('vaadat_charigim')">Exceptions Committee (Form Ash/1) ⓘ</span>.</li>
             <li><strong>Why Petitions Fail:</strong> Submitting an emotional English story instead of a statutory Hebrew <em>Michtav Hesber</em> (Explanation Letter) hitting the committee's exact legal criteria.</li>
             <li><strong>The Exam Hurdle:</strong> Requires passing the 3 Dayanim on 150 Halachic questions + 12 Friday Night Shabbat songs.</li>
           </ul>
@@ -895,7 +902,7 @@
           <div class="sub-item">
             <div class="si-info">
               <div class="si-name">Israeli Shul Rabbi & Host Family (Mishpacha Melavah) Letters</div>
-              <div class="si-meta">1-Tap pre-written Hebrew drafts via WhatsApp • <a href="/app?module=community-letters" style="color:var(--sky);font-weight:800;text-decoration:none;">Send Draft →</a></div>
+              <div class="si-meta">1-Tap pre-written Hebrew drafts via WhatsApp • <a href="javascript:void(0)" onclick="openTerm('community_letters')" style="color:var(--sky);font-weight:800;text-decoration:none;">Send Draft →</a></div>
             </div>
             <button class="status-pill" data-state="waiting" onclick="cycleStatus(this)">⏳ Waiting</button>
           </div>
@@ -1102,7 +1109,7 @@
   let currentObs = 0;
   const obstacles = [
     {
-      tag: "BOX 1 OF 8 • THE BIG PICTURE",
+      tag: "BOX 1 OF 9 • THE BIG PICTURE",
       title: "Gush Etzion Is for Tourists Going Home. The Rabbanut Is for Making Aliyah.",
       body: "A tourist can convert at an Orthodox Beit Din like Gush Etzion, and the Rabbanut will fully agree: 'Your conversion is kosher and you are 100% Jewish'—yet neither the Rabbanut nor Misrad HaPanim will approve you for Aliyah.",
       badTitle: "🛡️ The Dual-Gatekeeper Truth",
@@ -1112,7 +1119,7 @@
       time: "⏱️ Shaves 3 to 4+ Years Off"
     },
     {
-      tag: "BOX 2 OF 8 • THE 2-YEAR BREADCRUMB LOOP",
+      tag: "BOX 2 OF 9 • THE 2-YEAR BREADCRUMB LOOP",
       title: "The 'Fly Home & Grab All 5 Civil Docs in Person' Power Move (vs. Remote Ordering Hell).",
       body: "You need 5 Apostilled home-country documents: (1) Long-Form Birth Certificate, (2) Single Status Affidavit, (3) Prior Divorce/Marriage Decrees, (4) Name Change Docs, and (5) 3-Bucket Criminal Checks.",
       badTitle: "💥 The Remote Ordering & 180-Day Trap",
@@ -1122,7 +1129,7 @@
       time: "⏱️ Saves 1.5 to 2.5 Years"
     },
     {
-      tag: "BOX 3 OF 8 • THE UNFINISHED POST-MIKVAH TRAP",
+      tag: "BOX 3 OF 9 • THE UNFINISHED POST-MIKVAH TRAP",
       title: "Why Stopping After the Mikvah Blocks Weddings Until Someone Finishes What You Left Behind.",
       body: "When you've found your person and want to marry, waiting even one day is hell. Stopping after an independent Mikvah without Supreme Rabbinical Court validation ('Ishur Giyur') blocks your wedding—or your future kids' weddings—for years.",
       badTitle: "💣 The 9-Month Israeli Community Rule",
@@ -1132,7 +1139,7 @@
       time: "⏱️ Protects Your Wedding & Future Kids"
     },
     {
-      tag: "BOX 4 OF 8 • THE 90-DAY TOURIST VISA CLOCK",
+      tag: "BOX 4 OF 9 • THE 90-DAY TOURIST VISA CLOCK",
       title: "How to Study for Conversion or Apply With Your Partner Without Overstaying Your Visa.",
       body: "Tourists on a B/2 visa are legally blocked from entering State Conversion for Aliyah without first passing the Exceptions Committee (Va'adat Charigim).",
       badTitle: "🚨 The Overstay & File-Closure Trap",
@@ -1142,7 +1149,7 @@
       time: "⏱️ Saves 6 to 18 Months"
     },
     {
-      tag: "BOX 5 OF 8 • TWO-WAY HEBREW DOCUMENT ENGINE",
+      tag: "BOX 5 OF 9 • TWO-WAY HEBREW DOCUMENT ENGINE",
       title: "1) Snap Any Clerk Letter for Instant English + Timer. 2) Answer in English to Print Official Hebrew PDFs.",
       body: "You face two Hebrew walls: blank government forms you must submit in Hebrew, and mystery Hebrew printout sheets clerks hand you with hidden deadlines.",
       badTitle: "❌ How People Drop the Ball",
@@ -1152,7 +1159,7 @@
       time: "⏱️ Zero Missed Deadlines"
     },
     {
-      tag: "BOX 6 OF 8 • VETTED RABBI, MADRICHAT KALLAH & EXAM",
+      tag: "BOX 6 OF 9 • VETTED RABBI, MADRICHAT KALLAH & EXAM",
       title: "Both Partners Must Take the Course! Meet Our Vetted Rabbanut Team & Pass the 150 Questions.",
       body: "Even when one spouse is a born-Jewish Israeli citizen, the Beit Din requires BOTH partners to study with a recognized Sponsoring Rabbi AND complete a Family Purity course with a Rabbanut-certified Madrichat Kallah.",
       badTitle: "😰 Wasted Unrecognized Courses",
@@ -1162,7 +1169,7 @@
       time: "⏱️ Saves 6 to 18 Months"
     },
     {
-      tag: "BOX 7 OF 8 • 80-QUESTION COUPLES INTERROGATION",
+      tag: "BOX 7 OF 9 • 80-QUESTION COUPLES INTERROGATION",
       title: "Sync With Your Partner on 2 Phones Before Misrad HaPanim Puts You in Separate Rooms.",
       body: "Every year of the Graduated Spousal Process (Tahalich Medurag), clerks separate you and your partner into two rooms to ask 80 personal daily-life questions.",
       badTitle: "🚩 How Real Couples Fail",
@@ -1172,7 +1179,7 @@
       time: "⏱️ Prevents 6–12 Month Freezes"
     },
     {
-      tag: "BOX 8 OF 8 • APPLYING WITH A CRIMINAL RECORD",
+      tag: "BOX 8 OF 9 • APPLYING WITH A CRIMINAL RECORD",
       title: "Have an Old Arrest, DUI, or Expunged Record? Never Hide It—Use Our Rehabilitation Dossier.",
       body: "Misrad HaPanim requires Apostilled National Police Checks (US FBI, UK ACRO, EU, CA RCMP) from your birth country, every citizenship, and every country lived in >1 year since age 14.",
       badTitle: "🚨 Fatal Mistake: Hiding an Expunged Arrest",
@@ -1180,6 +1187,16 @@
       goodTitle: "⚡ Rehabilitation & Good Character Dossier",
       goodText: "We guide you through proper upfront disclosure backed by court dispositions, Rabbi character references, and a statutory Hebrew Rehabilitation Explanation Letter.",
       time: "⏱️ Prevents 2-Year Appeals"
+    },
+    {
+      tag: "BOX 9 OF 9 • TOURIST FINANCIAL & HOUSING SURVIVAL",
+      title: "How to Sustain Yourself on a B/2 Tourist or Student Visa Without Working Illegally.",
+      body: "Working locally in Israel on a tourist visa triggers deportation and kills your Giyur/Aliyah file—yet paying 5,000 NIS/mo rent with zero income drains savings fast.",
+      badTitle: "🚨 The Illegal Local Work Trap",
+      badText: "Waitressing, babysitting for cash, or working for an Israeli boss without a B/1 permit risks immediate border bans and failing Misrad HaPanim security checks.",
+      goodTitle: "⚡ Foreign Remote Work + Room & Board",
+      goodText: "Work remotely for foreign clients paid to your home bank (online English teaching, translation, remote tech) + slash rent via live-in nanny, elderly caretaker, or dorm volunteering.",
+      time: "⏱️ Saves 4,000–6,000 NIS/Month Safely"
     }
   ];
 
