@@ -60,44 +60,39 @@
     .dds-num { display: block !important; font-size: 14px !important; font-weight: 900 !important; white-space: nowrap !important; line-height: 1.2 !important; margin-bottom: 3px !important; }
     .dds-lbl { display: block !important; font-size: 11px !important; opacity: 0.85 !important; white-space: nowrap !important; line-height: 1.15 !important; }
 
+  
+    /* Fix .term-link overflow & make <input type="range"> sliders super smooth on iOS */
+    .term-link { white-space: normal !important; display: inline !important; line-height: 1.4 !important; word-break: break-word !important; }
+    html, body { overscroll-behavior-x: none !important; touch-action: pan-y !important; }
+    input[type="range"] {
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      width: 100% !important;
+      height: 28px !important;
+      background: transparent !important;
+      touch-action: pan-x !important;
+      cursor: pointer !important;
+      margin: 4px 0 !important;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 8px !important;
+      border-radius: 999px !important;
+      background: #cbd5e1 !important;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      width: 26px !important;
+      height: 26px !important;
+      border-radius: 50% !important;
+      background: #0284c7 !important;
+      border: 3px solid #ffffff !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25) !important;
+      margin-top: -9px !important;
+    }
+
   </style>
 <script>(function(){if(!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();
-  const _origOpenTerm = window.openTerm || openTerm;
-  window.openTerm = function(key) {
-    if (key === 'fx_shield') {
-      const isHe = (window.gatLang === 'he');
-      const modal = document.getElementById('obstacle-modal');
-      const titleEl = document.getElementById('obs-title');
-      const bodyEl = document.getElementById('obs-body');
-      if (modal && titleEl && bodyEl) {
-        titleEl.innerHTML = isHe
-          ? '💸 תשלום שכר דירה והעברת כספים ללא תעודת זהות (מניעת הקפאת בנק ו-3.2% עמלה)'
-          : '💸 Paying Israeli Landlords & Wiring Funds Without a Teudat Zehut';
-        bodyEl.innerHTML = isHe
-          ? `<div style="text-align:right; direction:rtl; line-height:1.6;">
-              <p><strong>מלכודת 60 הימים הראשונים בארץ:</strong> כשמגיעים לישראל במסלול עליית חירום (<em>שינוי מעמד</em>) או כתיירים/בני זוג, אין לכם עדיין תעודת זהות או חשבון בנק ישראלי במשך 2–3 חודשים — אבל בעלי דירות דורשים תשלום בשקלים (₪) מראש.</p>
-              <ul style="padding-right:18px; margin:12px 0;">
-                <li><strong>שוד העמלות של הבנקים (3%–4%):</strong> העברת מט"ח ישירה מבנק בחו"ל לבנק ישראלי גוררת מרווחי המרה יקרים ועמלות קורספונדנט שגוזלים כ-<strong>$3,200 על כל $100,000</strong>.</li>
-                <li><strong>הקפאת ציות (AML) בבנקים בישראל:</strong> העברת סכומים גבוהים לחשבון חדש בישראל ללא אישור מקור כספים מראש גורמת להקפאת הכסף במשך שבועות.</li>
-                <li><strong>הפתרון — חשבון גישור מוסדר לעולים (ללא צורך בת"ז):</strong> דרך ברוקר מט"ח ישראלי מורשה (כגון IsraTransfer), ניתן לפתוח חשבון בחינם עוד לפני הטיסה עם הדרכון הזר, להמיר דולר/אירו/ליש"ט בשער קרוב לרציף, ו<strong>לשלם ישירות בשקלים לחשבון הבנק של בעל הדירה, מוכר הרכב או הקבלן בארץ</strong> (העברת זה"ב/מס"ב) — גם לפני שיש לכם חשבון בנק ישראלי!</li>
-              </ul>
-              <button class="btn-sky" style="margin-top:10px; background:#059669;" onclick="openFxPartner()">פתיחת חשבון המרה ותשלום בשקלים ללא עמלות בנק ←</button>
-            </div>`
-          : `<div style="line-height:1.6;">
-              <p><strong>The First-60-Days Catch-22:</strong> When you land in Israel for <em>Shinui Ma'amad</em> (In-Israel Aliyah), conversion, or a spousal visa, you have no <em>Teudat Zehut</em> and no Israeli bank account for 60–90 days—yet Israeli landlords demand Shekels (₪) upfront to hand over apartment keys.</p>
-              <ul style="padding-left:18px; margin:12px 0;">
-                <li><strong>The 3.2% Retail Bank Skim:</strong> Wiring USD, GBP, or EUR from Chase, BofA, Barclays, or RBC straight into an Israeli bank hits you with a 3%–4% exchange rate markup plus SWIFT fees—costing you <strong>~$3,200 on every $100,000</strong> moved.</li>
-                <li><strong>The Israeli Bank AML Freeze:</strong> Wiring $25k–$100k+ into a new Israeli bank account without pre-cleared Hebrew compliance paperwork regularly triggers a multi-week anti-money-laundering freeze.</li>
-                <li><strong>The Solution — Licensed Israeli FX Escrow Bridge:</strong> Using a regulated Israeli currency specialist (like IsraTransfer), you open a free account on your foreign passport <em>before</em> you even get a Teudat Zehut. You wire USD/GBP/EUR domestically, lock in near-interbank rates (saving ~2.5%), and <strong>they wire Shekels (₪) directly to your Israeli landlord, car dealer, or lawyer</strong> via local Israeli bank transfer!</li>
-              </ul>
-              <button class="btn-sky" style="margin-top:10px; background:#059669;" onclick="openFxPartner()">Open Free Aliyah Currency Bridge & Save ~2.5% →</button>
-            </div>`;
-        modal.classList.add('open');
-        return;
-      }
-    }
-    return _origOpenTerm(key);
-  };
 
 </script>
 <script src="/splash.js?v=1100"></script>
@@ -858,7 +853,7 @@
           <ul class="tc-list">
             <li><strong>🎒 The "One-Way Bridge" Go-Bag Rule (No Returning For Missing Docs):</strong> If airspace closes, postal couriers stall, or your home city becomes unsafe to return to, you cannot order biometric FBI/ACRO/RCMP fingerprints or vault birth certificates from Israel. Pull <strong>2 physical Apostilled originals</strong> of all <span class="term-link" onclick="openTerm('go_bag')">7 Point-of-No-Return Go-Bag Documents ⓘ</span> before departure!</li>
             <li><strong>✈️ Clearing Ben Gurion Border Control (Bikoret Gvulot) Without Refusal:</strong> Never show up at the airline desk with a one-way ticket and 8 giant trunks announcing you are moving permanently without a visa. Follow our legal return-ticket, ETA-IL, and Mixed-Couple entry protocol so your partner is never turned back at the gate.</li>
-            <li><strong>🏥 Surviving Your First 60–90 Days Without a Teudat Zehut:</strong> When you do <em>Shinui Ma'amad</em> from inside Israel, you have no ID number for 2–3 months. We show you how to sign an apartment lease without a bank guarantor, enroll kids in municipal schools on foreign passports, and secure private bridge health insurance into Maccabi/Clalit.</li>
+            <li><strong>🏥 Surviving Your First 60–90 Days Without a Teudat Zehut:</strong> When you do <em>Shinui Ma'amad</em> from inside Israel, you have no ID number for 2–3 months. We show you how to sign an apartment lease without a bank guarantor, enroll kids in municipal schools on foreign passports, and activate <span class="term-link" onclick="openTerm('bridge_health')">60–90 Day Private Bridge Health Insurance (Maccabi/Clalit) ⓘ</span>.</li>
                         <li><strong>💸 Paying Rent & Moving Savings Without a Teudat Zehut:</strong> Retail banks skim ~3.2% on USD/GBP/EUR wires and freeze unverified transfers. Use our <span class="term-link" onclick="openTerm('fx_shield')">No-Teudat-Zehut Shekel Rent & Currency Bridge ⓘ</span> to pay Israeli landlords directly in ₪ and save ~$2,500 per $100k moved.</li>
             <li><strong>🔄 Emergency Mid-Conversion Transfer & 9-Month Rule:</strong> While born Jews have zero wait, diaspora converts normally face a 9-month post-Mikvah community stay rule. Forced to leave early? Learn how to bring an official Beit Din Transfer Dossier into Israel.</li>
           </ul>
@@ -972,6 +967,14 @@
           </div>
 
           <button class="btn-sky" id="fx-cta-btn" style="background:#059669;" onclick="openFxPartner()">Lock In Preferential Aliyah FX Rate & Pay in ₪ →</button>
+        </div>
+        <div class="health-calc-box" id="health-calc-box" style="margin-top:24px; padding-top:20px; border-top:2px dashed #cbd5e1;">
+          <div class="emerald-card" style="background:linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%); border:1px solid #7dd3fc; text-align:start;">
+            <div style="font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:#bae6fd; margin-bottom:6px;" id="hlth-pill">🏥 First 60–90 Days Without a Teudat Zehut</div>
+            <div style="font-size:1.18rem; font-weight:900; color:#ffffff; margin-bottom:8px; line-height:1.3;" id="hlth-title">Private "Tourist-to-Oleh" Bridge Health Insurance</div>
+            <div style="font-size:0.9rem; color:#e0f2fe; line-height:1.5; margin-bottom:14px;" id="hlth-desc">Waiting on <em>Shinui Ma'amad</em>, Giyur, or a Spousal A/5 visa? You have zero Bituach Leumi coverage until your Teudat Zehut is printed. Get immediate Maccabi/Clalit clinic & hospital coverage on your foreign passport ($1.80–$3/day) and avoid a 15,000₪+ ER bill.</div>
+            <button class="btn-sky" id="hlth-cta-btn" style="background:#38bdf8; color:#0f172a; font-weight:900;" onclick="openTerm('bridge_health')">See 60–90 Day Bridge Health Plans & Rates →</button>
+          </div>
         </div>
       </section>
 
@@ -1264,6 +1267,7 @@
         </div>
       </div>
       <div class="drawer-list">
+        <button class="drawer-row" onclick="openTerm('bridge_health'); toggleLeftDrawer(false);">🏥 60–90 Day Bridge Health Insurance (No TZ)</button>
         <button class="drawer-row" onclick="openTerm('fx_shield'); toggleLeftDrawer(false);">💸 Pay Rent in ₪ & Save 2.5% on Currency Wires</button>
         <button class="drawer-row" onclick="switchTab(4); toggleLeftDrawer(false);">📸 Two-Way Hebrew Translator & PDF Filler</button>
         <button class="drawer-row" onclick="switchTab(3); toggleLeftDrawer(false);">🕍 Vetted Sponsoring Rabbi & Kallah Team</button>
@@ -1513,18 +1517,10 @@
     if (e.touches.length === 1) {
       tStartX = e.touches[0].clientX;
       tStartY = e.touches[0].clientY;
-      // Block iOS Safari native edge-swipe back/forward navigation
-      if ((tStartX < 24 || tStartX > window.innerWidth - 24) && !e.target.closest('.edge-tab, button, a, input, select')) {
+      // Block iOS Safari native edge-swipe back/forward navigation without interfering with sliders
+      if ((tStartX < 22 || tStartX > window.innerWidth - 22) && !e.target.closest('.edge-tab, button, a, input, select')) {
         e.preventDefault();
       }
-    }
-  }, { passive: false });
-  window.addEventListener('touchmove', e => {
-    // Allow range sliders to drag freely!
-    if (e.target && e.target.closest && e.target.closest('input[type="range"]')) return;
-    if (e.touches.length === 1) {
-      const dx = Math.abs(e.touches[0].clientX - tStartX), dy = Math.abs(e.touches[0].clientY - tStartY);
-      if (dx > dy && dx > 8) e.preventDefault();
     }
   }, { passive: false });
   function toggleDrawer(open) {
@@ -1533,6 +1529,11 @@
 
   
   // Set your IsraTransfer / Currencies Direct affiliate tracking link here:
+  // Set your Private Bridge Health Insurance affiliate link (Egert & Cohen / Harel / Menora Tour-to-Oleh) here:
+  window.HEALTH_PARTNER_URL = 'https://www.egertcohen.co.il/?ref=giyuraliyahtrack';
+  function openHealthPartner() {
+    window.open(window.HEALTH_PARTNER_URL, '_blank', 'noopener,noreferrer');
+  }
   window.FX_PARTNER_URL = 'https://www.isratransfer.com/?ref=giyuraliyahtrack';
 
   function openFxPartner() {
@@ -1625,6 +1626,26 @@
 </script>
 <script>
   window.termDetails = {
+    fx_shield: {
+      tag: "💸 Aliyah Currency & Rent Escrow Bridge • Zero Bank Freeze",
+      title: "Paying Israeli Landlords in ₪ & Moving Funds Without a Teudat Zehut",
+      body: "When you arrive in Israel for Shinui Ma'amad (In-Israel Aliyah), conversion, or a spousal visa, you have no Teudat Zehut and no Israeli bank account for 60–90 days—yet landlords demand Shekels (₪) upfront before handing over keys.",
+      badTitle: "❌ The Retail Bank Trap (3.2% Skim + AML Freeze):",
+      badText: "• Wiring USD, GBP, or EUR from Chase, BofA, Barclays, or RBC straight to an Israeli bank costs <strong>~3.2% in hidden exchange markups</strong> ($3,200 lost per $100,000 moved).<br>• Worse: wiring $25k–$100k+ into a new Israeli account without pre-cleared Hebrew compliance docs regularly triggers a multi-week anti-money-laundering freeze.",
+      goodTitle: "✅ The Licensed Israeli FX Escrow Solution (Save ~2.5%):",
+      goodText: "• Open a free account on your foreign passport <em>before</em> you have a Teudat Zehut.<br>• Wire USD/GBP/EUR domestically, lock in near-interbank rates, and have your licensed Israeli FX broker <strong>wire Shekels (₪) directly to your Israeli landlord, car dealer, or contractor</strong> via local Zahav/MASAV transfer!<br><br><button class='btn-sky' style='background:#059669; margin-top:6px;' onclick='openFxPartner()'>Open Free Aliyah Currency Bridge & Save ~2.5% →</button>",
+      time: "⏱️ Setup Time: 10 Mins Online (Foreign Passport Only • No Teudat Zehut Needed)"
+    },
+    bridge_health: {
+      tag: "🏥 60–90 Day Tourist-to-Oleh Medical Shield • Maccabi / Clalit Bridge",
+      title: "Surviving Your First 60–90 Days Without Kupat Cholim (National Health Insurance)",
+      body: "While your in-Israel Aliyah (Shinui Ma'amad), Giyur, or Misrad HaPanim A/5 file is processing, you have no Teudat Zehut and zero coverage under Bituach Leumi (Maccabi, Clalit, Meuhedet, or Leumit). A single ER visit or pediatric hospitalization at Hadassah, Ichilov, or Rambam costs 4,500 to 25,000+ NIS out of pocket.",
+      badTitle: "❌ Why Overseas Travel Insurance Fails in Israel:",
+      badText: "• Standard credit-card or tourist travel insurance only covers 'emergency stabilization to fly you back home'—and immediately voids coverage if you intend to relocate.<br>• Worse: if a medical condition arises while uninsured, it can create pre-existing coverage gaps before your state Kupat Cholim kicks in.",
+      goodTitle: "✅ Israeli 'Tourist-to-Oleh' Bridge Insurance (Direct Kupat Cholim Doctor Access):",
+      goodText: "• Gives your family a local Israeli magnetic clinic card using your foreign passport number.<br>• Walk directly into <strong>Maccabi or Clalit doctors, Terem urgent care, pharmacies, and Israeli hospitals</strong> with zero upfront hospital deposits.<br>• Seamlessly bridges into full state Kupat Cholim the day your Teudat Zehut is issued!<br><br><button class='btn-sky' style='background:#0284c7; margin-top:6px;' onclick='openHealthPartner()'>Get Instant 60–90 Day Bridge Health Coverage ($1.80–$3/day) →</button>",
+      time: "⏱️ Instant Policy PDF on Foreign Passport • Direct Maccabi/Clalit Clinic Access"
+    },
     go_bag: {
       tag: "POINT-OF-NO-RETURN • 7-DAY PRE-FLIGHT GO-BAG & SHINUI MA'AMAD",
       title: "Leaving in a Hurry? Never Board a Plane to Israel Without These Double-Original Documents in Your Carry-On.",
@@ -1839,6 +1860,10 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   
   
     window.htmlSwapSelectors = [
+    '#hlth-pill',
+    '#hlth-title',
+    '#hlth-desc',
+    '#hlth-cta-btn',
     '#fx-h2',
     '#fx-lead',
     '#lbl-fx-amt',
@@ -1861,6 +1886,10 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   ];
   window.enHtmlCache = {};
   window.heHtmlMap = {
+    '#hlth-pill': '🏥 60–90 הימים הראשונים בישראל ללא תעודת זהות',
+    '#hlth-title': 'ביטוח בריאות פרטי מגשר לתיירים ועולים (גשר למכבי/כללית)',
+    '#hlth-desc': 'ממתינים לשינוי מעמד, גיור או ויזת א/5 במשרד הפנים? אין לכם כיסוי של ביטוח לאומי עד להנפקת תעודת הזהות. קבלו גישה מיידית לרופאי מכבי/כללית, מוקדי חירום ובתי חולים עם הדרכון הזר ומנעו חשבונות אשפוז של 15,000₪+.',
+    '#hlth-cta-btn': 'לפרטים ותעריפי ביטוח רפואי מגשר (ללא ת"ז) ←',
     '#fx-h2': '💸 מגן המרת מט"ח ותשלום שכר דירה בשקלים',
     '#fx-lead': 'מעבירים כסף לשכר דירה, מחייה או רכישת דירה? הבנקים לוקחים כ-3.2% בעמלות המרה סמויות. בדקו כמה כסף נשאר אצלכם בכיס דרך גשר מט"ח מורשה לעולים:',
     '#lbl-fx-amt': 'סכום ההעברה לישראל (שכירות / רכב / דירה):',
@@ -1883,6 +1912,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       </div>
       <div class="drawer-list">
         <button class="drawer-row" onclick="openTerm('go_bag'); toggleLeftDrawer(false);">🚨 תיק חירום לטיסה ועלייה מהארץ (שינוי מעמד)</button>
+        <button class="drawer-row" onclick="openTerm('bridge_health'); toggleLeftDrawer(false);">🏥 ביטוח רפואי מגשר ל-60–90 יום (ללא ת"ז)</button>
         <button class="drawer-row" onclick="openTerm('fx_shield'); toggleLeftDrawer(false);">💸 תשלום שכר דירה ב-₪ וחיסכון של 2.5% בהמרת מט"ח</button>
         <button class="drawer-row" onclick="switchTab(4); toggleLeftDrawer(false);">📸 מתרגם דו-כיווני וממלא טפסי PDF בעברית</button>
         <button class="drawer-row" onclick="switchTab(3); toggleLeftDrawer(false);">🕍 רב מלווה מוכר ומדריכת כלה מוסמכת</button>
@@ -1984,6 +2014,26 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   };
 
   window.termDetails_he = {
+    fx_shield: {
+      tag: "💸 גשר המרת מט״ח ותשלום שכר דירה בשקלים • ללא הקפאת בנק",
+      title: "תשלום לבעלי דירות בשקלים (₪) והעברת כספים ללא תעודת זהות",
+      body: "כשמגיעים לישראל במסלול עליית חירום (שינוי מעמד), גיור או הליך מדורג, אין לכם תעודת זהות או חשבון בנק ישראלי במשך 60–90 יום — אך בעלי דירות דורשים תשלום בשקלים מראש לפני מסירת מפתח.",
+      badTitle: "❌ מלכודת הבנקים (3.2% עמלה + הקפאת ציות):",
+      badText: "• העברת דולר, אירו או ליש״ט מבנק בחו״ל ישירות לבנק ישראלי גוררת <strong>כ-3.2% עמלות המרה סמויות</strong> (הפסד של כ-$3,200 על כל $100,000).<br>• חמור מכך: העברת סכומים גבוהים לחשבון חדש בישראל ללא אישור מקור כספים מראש גורמת להקפאת הכסף לשבועות.",
+      goodTitle: "✅ הפתרון: חשבון גישור מט״ח מורשה לעולים (חיסכון של כ-2.5%):",
+      goodText: "• פותחים חשבון חינם עם הדרכון הזר עוד <em>לפני</em> קבלת תעודת זהות.<br>• מעבירים מט״ח מקומית, מקבלים שער המרה מועדף, והברוקר הישראלי המורשה <strong>מעביר שקלים (₪) ישירות לחשבון הבנק של בעל הדירה, מוכר הרכב או הקבלן בארץ</strong>!<br><br><button class='btn-sky' style='background:#059669; margin-top:6px;' onclick='openFxPartner()'>פתיחת חשבון המרה ותשלום ב-₪ ללא עמלות בנק ←</button>",
+      time: "⏱️ פתיחה אונליין ב-10 דקות (עם דרכון זר בלבד • ללא צורך בת״ז)"
+    },
+    bridge_health: {
+      tag: "🏥 ביטוח רפואי מגשר ל-60–90 יום • גשר למכבי / כללית",
+      title: "כיסוי רפואי מלא בישראל ב-90 הימים הראשונים ללא תעודת זהות",
+      body: "בזמן שתיק שינוי המעמד (עלייה מהארץ), הגיור או ההליך המדורג שלכם נמצא בטיפול, אין לכם תעודת זהות ואין לכם ביטוח לאומי או קופת חולים. פנייה למיון או אשפוז בבית חולים בארץ עולה 4,500 עד 25,000+ ₪ מכיסכם.",
+      badTitle: "❌ למה ביטוח נסיעות מחו״ל לא מתאים לעולים במעבר:",
+      badText: "• ביטוח נסיעות רגיל מכסה רק חירום לצורך הטסה חזרה לחו״ל — ומתבטל ברגע שמרכז החיים שלכם עובר לישראל.<br>• בנוסף, תיירים נדרשים לשלם אלפי שקלים מראש במיון או בטרם.",
+      goodTitle: "✅ ביטוח רפואי מגשר לתיירים ועולים (גישה ישירה לרופאי קופת חולים):",
+      goodText: "• הנפקת כרטיס מגנטי רפואי בישראל על בסיס מספר הדרכון הזר שלכם.<br>• גישה ישירה ל<strong>רופאי מכבי/כללית, מוקדי טר״ם, בתי מרקחת ובתי חולים בישראל</strong> ללא תשלום מראש.<br>• רצף ביטוחי מלא עד לרגע קבלת תעודת הזהות והחיבור לקופת החולים הממלכתית!<br><br><button class='btn-sky' style='background:#0284c7; margin-top:6px;' onclick='openHealthPartner()'>הפעלת ביטוח רפואי מגשר מיידי (עם דרכון זר) ←</button>",
+      time: "⏱️ הפקת פוליסה מיידית ב-PDF עם דרכון זר • גישה לרופאי מכבי/כללית"
+    },
     go_bag: {
       tag: "נקודת האל-חזור • תיק החירום לטיסה ועלייה מתוך ישראל (שינוי מעמד)",
       title: "יוצאים בדחיפות? לעולם אל תעלו על מטוס לישראל בלי 2 עותקים מקוריים של המסמכים האלו בתיק היד.",
@@ -2085,7 +2135,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=10');
+      const r = await fetch('/i18n/' + lang + '.json?v=11');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
