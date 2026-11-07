@@ -66,7 +66,7 @@
       --bottom-h: 74px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; touch-action: pan-y; }
-    html, body, .app-shell, .app-viewport { width: 100%; max-width: 100%; overflow-x: hidden !important; overscroll-behavior-x: none !important; overflow-wrap: break-word; }
+    html, body, .app-shell, .app-viewport { width: 100%; max-width: 100%; overflow-x: hidden !important; overscroll-behavior: none !important; overscroll-behavior-x: none !important; overscroll-behavior-x: none !important; overflow-wrap: break-word; }
     html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
 
     /* App Shell Frame */
@@ -1298,52 +1298,17 @@
 
   function toggleLeftDrawer(open) { document.getElementById('left-drawer').classList.toggle('open', open); }
   
-  // Block iOS Safari screen-edge Back/Forward swipe & trackpad horizontal history nav
-  window.addEventListener('touchstart', function(e) {
+    // Block horizontal touch swipes from triggering browser Back/Forward
+  let tStartX = 0, tStartY = 0;
+  window.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) { tStartX = e.touches[0].clientX; tStartY = e.touches[0].clientY; }
+  }, { passive: false });
+  window.addEventListener('touchmove', e => {
     if (e.touches.length === 1) {
-      const x = e.touches[0].clientX;
-      if (x < 28 || x > window.innerWidth - 28) {
-        if (!e.target.closest('#left-edge-handle')) e.preventDefault();
-      }
+      const dx = Math.abs(e.touches[0].clientX - tStartX), dy = Math.abs(e.touches[0].clientY - tStartY);
+      if (dx > dy && dx > 8) e.preventDefault();
     }
   }, { passive: false });
-
-  (function(){
-    const bd = document.getElementById('left-drawer');
-    const pn = bd ? bd.querySelector('.drawer-panel') : null;
-    const hd = document.getElementById('left-edge-handle');
-    if (!bd || !pn || !hd) return;
-    let startX = 0, curX = 0, dragging = false, moved = false;
-    function start(x, e) {
-      if (e && e.cancelable) e.preventDefault();
-      startX = curX = x; dragging = true; moved = false;
-      pn.style.transition = 'none'; bd.style.transition = 'none';
-      bd.classList.add('open');
-    }
-    const pn = bd ? bd.querySelector('.drawer-panel') : null;
-    const hd = document.getElementById('left-edge-handle');
-    if (!bd || !pn || !hd) return;
-    function move(x) {
-      if (!dragging) return;
-      if (Math.abs(x - startX) > 6) moved = true;
-      curX = x;
-      const w = pn.offsetWidth || 300;
-      pn.style.transform = `translateX(${Math.min(0, Math.max(-w, curX - w))}px)`;
-    }
-    function end() {
-      if (!dragging) return;
-      dragging = false;
-      pn.style.transition = ''; bd.style.transition = ''; pn.style.transform = '';
-      if (moved && curX < 85) bd.classList.remove('open');
-    }
-    hd.addEventListener('touchstart', e => start(e.touches[0].clientX, e), {passive: false});
-    window.addEventListener('touchmove', e => move(e.touches[0].clientX), {passive: true});
-    window.addEventListener('touchend', end);
-    hd.addEventListener('mousedown', e => start(e.clientX, e));
-    window.addEventListener('mousemove', e => move(e.clientX));
-    window.addEventListener('mouseup', end);
-  })();
-
   function toggleDrawer(open) {
     document.getElementById('app-drawer').classList.toggle('open', open);
   }
