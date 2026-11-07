@@ -261,11 +261,13 @@
 
     
     /* Always-Visible Pull Handle Synced 1:1 With Left Drawer */
-    .left-edge-handle { position: fixed; left: 0; top: 50%; transform: translate3d(0, -50%, 0); z-index: 99; width: 28px; height: 96px; background: #082548; border: 2px solid #1994F5; border-left: none; border-radius: 0 14px 14px 0; box-shadow: 4px 0 16px rgba(8, 37, 72, 0.35); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: grab; touch-action: none !important; user-select: none; -webkit-user-select: none; transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), background 0.18s ease; }
-    .left-edge-handle::after { content: ''; position: absolute; top: -14px; bottom: -14px; left: -6px; right: -18px; }
-    .left-edge-handle:active { cursor: grabbing; background: #0288E8; }
+    .left-edge-handle { position: fixed; left: 0; top: 50%; transform: translate3d(0, -50%, 0); z-index: 99; width: 22px; height: 78px; background: #082548; border: 1.5px solid #1994F5; border-left: none; border-radius: 0 12px 12px 0; box-shadow: 3px 0 14px rgba(8, 37, 72, 0.28); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: grab; touch-action: none !important; user-select: none; -webkit-user-select: none; transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), width 0.18s ease, background 0.18s ease; }
+    .left-edge-handle::after { content: ""; position: absolute; top: -14px; bottom: -14px; left: -6px; right: -18px; }
+    .left-edge-handle:hover, .left-edge-handle:active { width: 26px; background: #0288E8; cursor: grabbing; }
     .left-edge-handle.open { transform: translate3d(min(320px, 86vw), -50%, 0); }
     .left-edge-handle.open .leh-arrow { transform: rotate(180deg); }
+    .leh-grip { width: 4px; height: 28px; border-left: 1.5px solid #38bdf8; border-right: 1.5px solid #38bdf8; border-radius: 2px; pointer-events: none; }
+    .leh-arrow { color: #ffffff; font-size: 10px; font-weight: 900; line-height: 1; pointer-events: none; transition: transform 0.25s ease; }
 
     /* Bottom 5-Tab Bar (Exact Zehut 2026 Uncrowded SVG Pill Style) */
     .bottom-nav { height: var(--bottom-h); background: #ffffff; border-top: 1px solid var(--border-light); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 4px 6px; flex-shrink: 0; z-index: 50; box-shadow: 0 -4px 16px rgba(11, 59, 89, 0.04); }

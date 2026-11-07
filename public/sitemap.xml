@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-  <url>
-    <loc>https://giyuraliyahtrack.com/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-    <video:video>
-      <video:thumbnail_loc>https://giyuraliyahtrack.com/bg-watercolor.jpg</video:thumbnail_loc>
-      <video:title>Giyur Aliyah Track — Conversion, Rabbanut &amp; Aliyah Guide</video:title>
-      <video:description>Interactive tracker and plain-English guide to navigating Orthodox Jewish Conversion (Giyur), the Israeli Rabbanut, Misrad HaPnim Nohal 5.2.0008, and Aliyah without losing 5 years.</video:description>
-      <video:content_loc>https://giyuraliyahtrack.com/intro.mp4</video:content_loc>
-      <video:duration>9</video:duration>
-      <video:publication_date>2026-11-01T09:00:00+02:00</video:publication_date>
-      <video:family_friendly>yes</video:family_friendly>
-    </video:video>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://giyuraliyahtrack.com/</loc></url>
+  <url><loc>https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah</loc></url>
+  <url><loc>https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel</loc></url>
+  <url><loc>https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel</loc></url>
+  <url><loc>https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din</loc></url>
+  <url><loc>https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008</loc></url>
+  <url><loc>https://giyuraliyahtrack.com/hebrew-clerk-letter-translator-form-ash1-ash3</loc></url>
+  <url><loc>https://giyuraliyahtrack.com/aliyah-spousal-visa-criminal-record-rehabilitation</loc></url>
+  <url><loc>https://giyuraliyahtrack.com/tourist-visa-israel-remote-work-housing-giyur</loc></url>
 </urlset>
