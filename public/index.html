@@ -107,30 +107,89 @@
 <script>(function(){if(!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();
 
 
-  const LANG_ORDER = ['en', 'he', 'fr', 'es', 'de'];
-  const LANG_BADGE = { en:'🌐 עברית / FR / ES / DE', he:'🌐 EN / FR / ES / DE', fr:'🌐 FR ▾', es:'🌐 ES ▾', de:'🌐 DE ▾' };
+  
+
   window.selectLangDirect = function(l) {
     localStorage.setItem('gat_lang', l);
-    applyLang(l);
     const m = document.getElementById('lang-pop-menu');
     if (m) m.style.display = 'none';
+    applyLang(l);
   };
+
   window.toggleLang = function(e) {
     if (e && e.stopPropagation) e.stopPropagation();
     let m = document.getElementById('lang-pop-menu');
     if (!m) {
       m = document.createElement('div');
       m.id = 'lang-pop-menu';
-      m.style.cssText = 'position:fixed;top:54px;right:14px;background:#0f172a;border:1px solid #38bdf8;border-radius:12px;padding:6px;display:flex;gap:6px;z-index:9999;box-shadow:0 10px 25px rgba(0,0,0,0.4);direction:ltr;';
-      m.innerHTML = ['en:EN','he:עב','fr:FR','es:ES','de:DE'].map(p => {
-        const [k,lbl] = p.split(':');
-        return `<button onclick="selectLangDirect('${k}')" style="background:#1e293b;color:#fff;border:1px solid #475569;border-radius:8px;padding:7px 11px;font-weight:800;font-size:13px;cursor:pointer;">${lbl}</button>`;
-      }).join('');
+      m.style.cssText = 'position:fixed;top:56px;right:12px;background:#0f172a;border:2px solid #38bdf8;border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:6px;z-index:99999;box-shadow:0 14px 30px rgba(0,0,0,0.45);direction:ltr;min-width:190px;';
+      const opts = [
+        ['en', '🇺🇸/🇬🇧 English (US/UK)'],
+        ['he', '🇮🇱 עברית (ישראל)'],
+        ['fr', '🇫🇷 Français (FR/BE/CH)'],
+        ['es', '🇪🇸/🇦🇷 Español (ES/LatAm)'],
+        ['de', '🇩🇪/🇦🇹 Deutsch (DACH)']
+      ];
+      m.innerHTML = opts.map(([k, lbl]) =>
+        `<button onclick="selectLangDirect('${k}')" style="background:#1e293b;color:#fff;border:1px solid #334155;border-radius:9px;padding:9px 12px;font-weight:800;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;"><span>${lbl}</span><span style="color:#38bdf8;font-size:11px;">${k.toUpperCase()}</span></button>`
+      ).join('');
       document.body.appendChild(m);
       document.addEventListener('click', () => { if (m) m.style.display = 'none'; });
     } else {
       m.style.display = (m.style.display === 'none') ? 'flex' : 'none';
     }
+  };
+  const toggleLang = window.toggleLang;
+
+  // Enhance applyHtmlBlocks and openObstacle for FR, ES, DE + Country-Specific Jurisdiction Banner
+  const _baseApplyHtmlBlocks = applyHtmlBlocks;
+  applyHtmlBlocks = function(lang) {
+    _baseApplyHtmlBlocks(lang);
+    if (window.TRACKS_I18N && window.TRACKS_I18N[lang]) {
+      Object.entries(window.TRACKS_I18N[lang]).forEach(([sel, html]) => {
+        const el = document.querySelector(sel);
+        if (el) el.innerHTML = html;
+      });
+    }
+    const j = window.JURISDICTION_DATA && window.JURISDICTION_DATA[lang];
+    let jBanner = document.getElementById('jurisdiction-doc-bar');
+    if (!jBanner) {
+      const v0 = document.getElementById('view-0');
+      const kicker = v0 ? v0.querySelector('.section-kicker') : null;
+      if (v0 && kicker) {
+        jBanner = document.createElement('div');
+        jBanner.id = 'jurisdiction-doc-bar';
+        jBanner.style.cssText = 'background:#f0f9ff;border:1px solid #7dd3fc;border-radius:14px;padding:12px 14px;margin:12px 0;font-size:0.84rem;line-height:1.5;color:#0c4a6e;';
+        v0.insertBefore(jBanner, kicker);
+      }
+    }
+    if (jBanner && j) {
+      jBanner.innerHTML = `<div style="font-weight:900;margin-bottom:4px;">${j.flag} Active Document Jurisdiction: ${j.name}</div>
+        <div>• <strong>Police:</strong> ${j.police}<br>• <strong>Birth:</strong> ${j.birth}<br>• <strong>Civil/Single:</strong> ${j.single}<br>• <strong>Apostille:</strong> ${j.apostille}</div>`;
+    }
+    const badgeMap = { en:'🇺🇸 EN ▾', he:'🇮🇱 עברית ▾', fr:'🇫🇷 FR ▾', es:'🇪🇸 ES ▾', de:'🇩🇪 DE ▾' };
+    document.querySelectorAll('#lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
+      el.textContent = badgeMap[lang] || '🌐 Lang ▾';
+    });
+  };
+
+  const _baseOpenObstacle = window.openObstacle || openObstacle;
+  window.openObstacle = function(idx) {
+    const lang = window.gatLang || localStorage.getItem('gat_lang') || 'en';
+    if (window.OBSTACLE_I18N && window.OBSTACLE_I18N[lang] && window.OBSTACLE_I18N[lang][idx]) {
+      const d = window.OBSTACLE_I18N[lang][idx];
+      document.getElementById('sh-tag').innerText = d.tag;
+      document.getElementById('sh-title').innerText = d.title;
+      document.getElementById('sh-body').innerText = d.body;
+      document.getElementById('sh-bad-title').innerText = d.badTitle;
+      document.getElementById('sh-bad-text').innerHTML = d.badText;
+      document.getElementById('sh-good-title').innerText = d.goodTitle;
+      document.getElementById('sh-good-text').innerHTML = d.goodText;
+      document.getElementById('sh-time').innerText = d.time;
+      document.getElementById('obstacle-sheet').classList.add('open');
+      return;
+    }
+    return _baseOpenObstacle(idx);
   };
 
 </script>
@@ -703,6 +762,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Misrad HaPanim accept Gush Etzion or private Orthodox conversion for Aliyah?","acceptedAnswer":{"@type":"Answer","text":"While an independent Orthodox Beit Din conversion like Gush Etzion is 100% Halachically kosher, Misrad HaPanim and the Chief Rabbinate do not approve tourist conversions for Law of Return Aliyah without State Giyur (Nativ / Va'adat Charigim), 9+ months in a recognized diaspora community, or Chief Rabbinate validation (Ishur Giyur) plus the Misrad HaPanim Graduated Spousal Process (Nohal 5.2.0008)."}},{"@type":"Question","name":"How long are FBI Police Checks and Single Status Apostilles valid for Misrad HaPanim and Va'adat Charigim?","acceptedAnswer":{"@type":"Answer","text":"Misrad HaPanim and the Exceptions Committee (Va'adat Charigim) enforce a strict 180-day (6-month) expiration window from the issue date on Police Background Checks (Teudat Yosher) and Single-Status Affidavits."}},{"@type":"Question","name":"What is the 24-month Sal Klita cash cliff for converts and Olim in Israel?","acceptedAnswer":{"@type":"Answer","text":"Spending more than 24 cumulative months inside Israel within the 3 years prior to receiving your Teudat Oleh cancels eligibility for the ~21,700 NIS Sal Klita absorption cash grant from Misrad HaKlita."}},{"@type":"Question","name":"How can a tourist or student legally sustain themselves in Israel during Giyur without a work permit?","acceptedAnswer":{"@type":"Answer","text":"B/2 tourists cannot work for Israeli employers, but can work remotely for non-Israeli clients paid into a foreign bank account (online English teaching, translation, remote tech) and reduce housing costs via live-in nanny, elderly caretaker, or dorm room-and-board exchanges."}}]}
 </script>
+  <script src="/i18n/jurisdiction.js?v=15"></script>
 </head>
 <body>
 
@@ -2191,7 +2251,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=12');
+      const r = await fetch('/i18n/' + lang + '.json?v=15');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
@@ -2220,7 +2280,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     applyPhraseMap(lang);
     localStorage.setItem('gat_lang', lang);
   }
-  function toggleLang() { applyLang(window.gatLang === 'en' ? 'he' : 'en'); }
+  function _legacyToggleLang(){}
   if (window.gatLang !== 'en') applyLang(window.gatLang);
 </script>
 </body>

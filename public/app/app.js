@@ -1,3 +1,141 @@
+const APP_UI = {
+  en: {
+    back: "← Back to Guide",
+    tabs: ["📸 Hebrew & Forms", "✍️ Rabbi Letters", "🕍 150 Beit Din Deck", "📱 80 Couples Sync", "🎵 12 Shabbat Songs"],
+    m1_h2: "📸 Clerk Letter Translator & Statutory Hebrew Form Builder",
+    m1_p: "Select your official Hebrew document below. Your active country's exact police & civil certificate names are automatically mapped into your statutory Hebrew letter:",
+    m1_lbl_type: "Select Official Hebrew Document to Generate:",
+    m1_opts: [
+      "🛡️ 30-Day Anti-Closure Extension Request (בקשת הארכת מועד - מניעת סגירת תיק)",
+      "⚖️ Va'adat Charigim Statutory Cover Letter (מכתב הסבר לוועדת חריגים - טופס אש/1)",
+      "📜 Past Arrest / Teudat Yosher Rehabilitation Dossier (מכתב הסבר לתעודת יושר)"
+    ],
+    m1_name: "Full Name (as on Passport):",
+    m1_pass: "Passport Number & Country of Issue:",
+    m1_facts: "Key Facts (Your country's police/birth doc names are auto-included):",
+    m1_btn: "Generate Print-Ready Statutory Hebrew Document →",
+    m2_h2: "✍️ Stamped Rabbinic & Shabbat Host Letterhead Generator",
+    m2_p: "Solve the 'You write it in Hebrew, I'll sign it!' bottleneck. Generate formal Hebrew Beit Din recommendation drafts ready to send on WhatsApp:",
+    m2_btn: "Generate Hebrew Draft + Copy for WhatsApp →",
+    m3_h2: "🕍 150 Beit Din Tribunal (Ma'amad Beit Din) Simulator",
+    m3_p: "Tap the card to reveal the exact Halachic answer Dayanim expect to hear:",
+    m3_btn: "Next Beit Din Question (150 Core Deck) →",
+    m4_h2: "📱 80-Question Misrad HaPanim Separated Couples Interrogation",
+    m4_p: "Under Nohal 5.2.0008 / 5.2.0009, clerks separate both partners into two rooms. Drill these high-trap questions together:",
+    m4_btn: "Next Couples Interrogation Question →",
+    m5_h2: "🎵 12 Mandatory Shabbat Songs, Kiddush & Shema Trainer",
+    m5_p: "Every conversion candidate is asked to recite or sing from this core list at the Beit Din table:"
+  },
+  he: {
+    back: "→ חזרה למדריך הראשי",
+    tabs: ["📸 מנוע עברית וטפסים", "✍️ מכתבי רב וקהילה", "🕍 150 שאלות בית דין", "📱 80 שאלות לזוגות", "🎵 12 שירי שבת וברכות"],
+    m1_h2: "📸 מחולל מכתבי הסבר משפטיים וטפסי אש/1 ואש/3 בעברית",
+    m1_p: "בחרו את המסמך הרשמי להפקה. שמות תעודות היושר והלידה של מדינת המקור שלכם משולבים אוטומטית בנוסח המשפטי:",
+    m1_lbl_type: "בחרו מסמך רשמי להפקה:",
+    m1_opts: [
+      "🛡️ בקשת הארכת מועד של 30/60 יום ומניעת סגירת תיק מנהלית",
+      "⚖️ מכתב הסבר מנומק לוועדת חריגים (טופס אש/1 - גיור ממלכתי)",
+      "📜 מכתב הסבר ושיקום לתעודת יושר (גילוי נאות מלא)"
+    ],
+    m1_name: "שם מלא (כפי שמופיע בדרכון):",
+    m1_pass: "מספר דרכון ומדינת הנפקה:",
+    m1_facts: "פרטים נוספים לשילוב במכתב:",
+    m1_btn: "הפק מסמך משפטי בעברית מוכן להדפסה ←",
+    m2_h2: "✍️ מחולל מכתבי המלצה מרב קהילה ומשפחה מארחת",
+    m2_p: "הפיקו טיוטה הלכתית רשמית בעברית מוכנה לחתימה וחותמת לשליחה בוואטסאפ לרב הקהילה או למשפחה המלווה:",
+    m2_btn: "הפק מכתב המלצה בעברית והעתק לוואטסאפ ←",
+    m3_h2: "🕍 סימולטור 150 שאלות מעמד בית דין",
+    m3_p: "לחצו על הכרטיסייה כדי לחשוף את התשובה ההלכתית המדויקת שהדיינים מצפים לשמוע:",
+    m3_btn: "לשאלה הבאה בבית הדין ←",
+    m4_h2: "📱 סימולטור 80 שאלות שימוע זוגי נפרד במשרד הפנים",
+    m4_p: "לפי נוהל 5.2.0008 / 5.2.0009, בני הזוג נחקרים בנפרד. תרגלו יחד כדי למנוע סתירות:",
+    m4_btn: "לשאלת השימוע הבאה ←",
+    m5_h2: "🎵 12 שירי שבת, קידוש וקריאת שמע לבית הדין",
+    m5_p: "כל מועמד לגיור מתבקש לדקלם או לשיר מתוך רשימת החובה הזו במעמד בית הדין:"
+  },
+  fr: {
+    back: "← Retour au Guide",
+    tabs: ["📸 Hébreu & Ash/1", "✍️ Lettres Rabbin", "🕍 150 Q. Beit Din", "📱 80 Q. Couples", "🎵 12 Chants Shabbat"],
+    m1_h2: "📸 Générateur de Lettres Juridiques en Hébreu (Spécial France/BE/CH)",
+    m1_p: "Vos documents francophones (Copie Intégrale d'Acte de Naissance, Casier Judiciaire Bulletin n°3, Apostille Cour d'Appel) sont automatiquement intégrés en hébreu :",
+    m1_lbl_type: "Choisissez le Document Officiel en Hébreu :",
+    m1_opts: [
+      "🛡️ Demande de Prolongation de 30/60 Jours (Bloquer la Fermeture du Dossier)",
+      "⚖️ Michtav Hesber Juridique pour Va'adat Charigim (Formulaire Ash/1)",
+      "📜 Dossier de Réhabilitation Casier Judiciaire Bulletin n°3"
+    ],
+    m1_name: "Nom Complet (comme sur le Passeport) :",
+    m1_pass: "Numéro de Passeport & Pays :",
+    m1_facts: "Détails (ex: attente d'Apostille sur Bulletin n°3 / Copie Intégrale) :",
+    m1_btn: "Générer le Document Officiel en Hébreu Prêt à Imprimer →",
+    m2_h2: "✍️ Générateur de Lettres Tamponnées (Rabbin & Famille Hôte)",
+    m2_p: "Générez en 1 clic le brouillon officiel en hébreu prêt à envoyer sur WhatsApp à votre rabbin ou famille d'accueil :",
+    m2_btn: "Générer en Hébreu + Copier pour WhatsApp →",
+    m3_h2: "🕍 Simulateur des 150 Questions du Beit Din",
+    m3_p: "Touchez la carte pour révéler la réponse halakhique attendue par les Dayanim :",
+    m3_btn: "Question Beit Din Suivante →",
+    m4_h2: "📱 Simulateur des 80 Questions Séparées (Misrad HaPanim)",
+    m4_p: "Sous la procédure Nohal 5.2.0008, les conjoints sont interrogés dans deux pièces séparées :",
+    m4_btn: "Question Couple Suivante →",
+    m5_h2: "🎵 Les 12 Chants de Shabbat, Kiddoush & Shema",
+    m5_p: "Chants et prières demandés lors de l'audience finale au Beit Din :"
+  },
+  es: {
+    back: "← Volver a la Guía",
+    tabs: ["📸 Hebreo y Ash/1", "✍️ Cartas Rabino", "🕍 150 P. Beit Din", "📱 80 P. Parejas", "🎵 12 Cantos Shabat"],
+    m1_h2: "📸 Generador de Cartas Legales en Hebreo (España y Latinoamérica)",
+    m1_p: "Sus documentos (Partida de Nacimiento Literal, Certificado de Antecedentes Penales / RNR, Apostilla de La Haya) se integran automáticamente en hebreo:",
+    m1_lbl_type: "Seleccione el Documento Oficial en Hebreo:",
+    m1_opts: [
+      "🛡️ Solicitud de Prórroga de 30/60 Días (Frenar Cierre de Expediente)",
+      "⚖️ Mijtav Hesber Legal para Va'adat Jariguim (Formulario Ash/1)",
+      "📜 Dossier de Rehabilitación de Antecedentes Penales"
+    ],
+    m1_name: "Nombre Completo (según Pasaporte):",
+    m1_pass: "Número de Pasaporte y País:",
+    m1_facts: "Detalles (ej. esperando Apostilla de La Haya en Antecedentes Penales):",
+    m1_btn: "Generar Documento Legal en Hebreo Listo para Imprimir →",
+    m2_h2: "✍️ Generador de Cartas Selladas de Rabino y Familia Anfitriona",
+    m2_p: "Genere en 1 clic el borrador formal en hebreo listo para enviar por WhatsApp a su rabino o familia:",
+    m2_btn: "Generar en Hebreo + Copiar para WhatsApp →",
+    m3_h2: "🕍 Simulador de 150 Preguntas del Beit Din",
+    m3_p: "Toque la tarjeta para ver la respuesta halájica exacta que esperan los Dayanim:",
+    m3_btn: "Siguiente Pregunta del Beit Din →",
+    m4_h2: "📱 Simulador de 80 Preguntas en Salas Separadas (Misrad HaPanim)",
+    m4_p: "Bajo el Nohal 5.2.0008, los funcionarios interrogan a cada miembro de la pareja por separado:",
+    m4_btn: "Siguiente Pregunta de Pareja →",
+    m5_h2: "🎵 Los 12 Cantos de Shabat, Kidush y Shemá",
+    m5_p: "Cantos y bendiciones requeridos en la entrevista final del Beit Din:"
+  },
+  de: {
+    back: "← Zurück zum Leitfaden",
+    tabs: ["📸 Hebräisch & Asch/1", "✍️ Rabbiner-Briefe", "🕍 150 Beit Din Fragen", "📱 80 Paar-Fragen", "🎵 12 Schabbat-Lieder"],
+    m1_h2: "📸 Hebräischer Rechtsbrief-Generator (Deutschland / Österreich / Schweiz)",
+    m1_p: "Ihre DACH-Dokumente (Beglaubigte Abschrift aus dem Geburtenregister, Erweitertes Führungszeugnis, BfAA-Apostille) werden automatisch auf Hebräisch eingefügt:",
+    m1_lbl_type: "Offizielles Hebräisches Dokument Auswählen:",
+    m1_opts: [
+      "🛡️ 30/60-Tage Fristverlängerungsantrag (Aktenschließung Stoppen)",
+      "⚖️ Juristischer Michtav Hesber für Va'adat Charigim (Formular Asch/1)",
+      "📜 Rehabilitations-Dossier für das Führungszeugnis"
+    ],
+    m1_name: "Vollständiger Name (laut Reisepass):",
+    m1_pass: "Reisepassnummer & Ausstellungsland:",
+    m1_facts: "Details (z.B. Warten auf BfAA-Apostille für Führungszeugnis):",
+    m1_btn: "Druckfertiges Hebräisches Dokument Erstellen →",
+    m2_h2: "✍️ Generator für Gestempelte Rabbiner- & Gastfamilienbriefe",
+    m2_p: "Erstellen Sie mit 1 Klick den hebräischen Empfehlungsbrief zum Senden per WhatsApp an Ihren Rabbiner:",
+    m2_btn: "Hebräischen Entwurf Erstellen & für WhatsApp Kopieren →",
+    m3_h2: "🕍 150 Beit Din Fragen Simulator (Ma'amad Beit Din)",
+    m3_p: "Tippen Sie auf die Karte, um die halachische Antwort der Dayanim anzuzeigen:",
+    m3_btn: "Nächste Beit Din Frage →",
+    m4_h2: "📱 80-Fragen Paar-Interview Simulator (Misrad HaPanim)",
+    m4_p: "Gemäß Nohal 5.2.0008 werden beide Partner getrennt befragt. Üben Sie gemeinsam:",
+    m4_btn: "Nächste Interview-Frage →",
+    m5_h2: "🎵 12 Pflicht-Schabbatlieder, Kiddusch & Schema-Trainer",
+    m5_p: "Diese Lieder und Segenssprüche werden beim Beit Din abgefragt:"
+  }
+};
+
 const BD_CARDS = [
   {c:"Shabbat (39 Melachot)", q:"What do you do if you accidentally forget to turn on the hot water urn (Meicham) before candle lighting?", a:"You may NOT turn it on or ask a Jewish neighbor to do so. Keep cold/room-temperature food & drinks ready; under specific rabbinic conditions a non-Jew (Amira LeNochri) may only help for the sick or small children."},
   {c:"Kashrut & Kitchen", q:"If a dairy spoon falls into a pot of boiling meat soup on the stove, what happens?", a:"Wait 24 hours before using the spoon, and consult a Rabbi immediately—if the soup volume is 60x the volume of the spoon (Batel BeShishim), the soup remains kosher, though the spoon requires Hag'alah (koshering in boiling water)."},
@@ -23,80 +161,95 @@ const SONGS = [
 ];
 
 let bdIdx = 0, cpIdx = 0;
+window.appLang = localStorage.getItem('gat_lang') || 'en';
 
 function renderAll() {
+  const lang = window.appLang || 'en';
+  const u = APP_UI[lang] || APP_UI.en;
+  const j = (window.JURISDICTION_DATA && window.JURISDICTION_DATA[lang]) || window.JURISDICTION_DATA.en;
+
+  const backEl = document.querySelector('.back-btn');
+  if (backEl) backEl.innerText = u.back;
+
+  const tabEls = document.querySelectorAll('.mod-tab');
+  u.tabs.forEach((lbl, i) => { if (tabEls[i]) tabEls[i].innerText = lbl; });
+
   const c = document.getElementById('app-container');
   c.innerHTML = `
+    <div style="background:#e0f2fe;border:1px solid #38bdf8;border-radius:12px;padding:11px 14px;margin-bottom:14px;font-size:0.83rem;color:#0c4a6e;">
+      <strong>${j.flag} ${j.name}:</strong> ${j.police} • ${j.birth}
+    </div>
+
     <div class="mod-view active" id="mod-hebrew-engine">
       <div class="card">
-        <h2>📸 Clerk Letter Translator & Statutory Hebrew Form Builder</h2>
-        <p>Paste any Hebrew line from a Misrad HaPanim <em>Drishat Mismachim</em> sheet or fill in your details below to generate a print-ready Hebrew <strong>Michtav Hesber (Form Ash/1 / Ash/3 / 30-Day Extension Request)</strong>.</p>
-        <label>Select Official Hebrew Document to Generate:</label>
+        <h2>${u.m1_h2}</h2>
+        <p>${u.m1_p}</p>
+        <label>${u.m1_lbl_type}</label>
         <select id="he-doc-type">
-          <option value="ext30">🛡️ 30-Day Anti-Closure Extension Request (בקשת הארכת מועד - מניעת סגירת תיק)</option>
-          <option value="ash1">⚖️ Va'adat Charigim Statutory Cover Letter (מכתב הסבר לוועדת חריגים - טופס אש/1)</option>
-          <option value="rehab">📜 Past Arrest / Teudat Yosher Rehabilitation Dossier (מכתב הסבר לתעודת יושר)</option>
+          <option value="ext30">${u.m1_opts[0]}</option>
+          <option value="ash1">${u.m1_opts[1]}</option>
+          <option value="rehab">${u.m1_opts[2]}</option>
         </select>
-        <label>Full Name (as on Passport):</label>
-        <input id="he-name" placeholder="e.g., David Cohen / Marie Laurent" />
-        <label>Passport Number & Country of Issue:</label>
-        <input id="he-pass" placeholder="e.g., US / FR / DE Passport #A12345678" />
-        <label>Key Facts in Plain English / FR / ES / DE:</label>
-        <textarea id="he-facts" rows="3" placeholder="e.g., Waiting on Apostille from FBI/Prefecture; or studying in Jerusalem community..."></textarea>
-        <button class="btn" onclick="genHebrewDoc()">Generate Print-Ready Statutory Hebrew Document →</button>
+        <label>${u.m1_name}</label>
+        <input id="he-name" placeholder="David Cohen / Marie Laurent / Lukas Müller" />
+        <label>${u.m1_pass}</label>
+        <input id="he-pass" placeholder="${j.flag} Passport #..." />
+        <label>${u.m1_facts}</label>
+        <textarea id="he-facts" rows="3" placeholder="${j.police} + ${j.birth} (${j.apostille})"></textarea>
+        <button class="btn" onclick="genHebrewDoc()">${u.m1_btn}</button>
         <div class="hebrew-out" id="he-output"></div>
       </div>
     </div>
 
     <div class="mod-view" id="mod-rabbi-letters">
       <div class="card">
-        <h2>✍️ Stamped Rabbinic & Shabbat Host Letterhead Generator</h2>
-        <p>Solve the <em>"You write it in Hebrew, I'll sign it!"</em> bottleneck. Generate formal Hebrew Beit Din recommendation drafts ready to WhatsApp to your Rabbi, Ulpan teacher, or Shabbat host family.</p>
+        <h2>${u.m2_h2}</h2>
+        <p>${u.m2_p}</p>
         <label>Letter Type:</label>
         <select id="rb-type">
           <option value="rabbi">🕍 Community Synagogue Rabbi (אישור רב קהילה לבית הדין)</option>
           <option value="host">🕯️ Observant Shabbat Host Family (אישור משפחה מארחת / מלווה)</option>
         </select>
-        <label>Candidate Hebrew / English Name & Passport #:</label>
-        <input id="rb-cand" placeholder="e.g., Sarah (Ruth) Miller - Passport #..." />
-        <label>Rabbi or Host Family Name & City / Neighborhood:</label>
-        <input id="rb-rabbi" placeholder="e.g., HaRav Yitzchak Levy - Katamon, Jerusalem" />
+        <label>${u.m1_name}</label>
+        <input id="rb-cand" placeholder="Sarah (Ruth) Miller - Passport #..." />
+        <label>Rabbi or Host Family Name & City:</label>
+        <input id="rb-rabbi" placeholder="HaRav Yitzchak Levy - Jerusalem / Safed" />
         <label>Months of Attendance & Shabbatot Hosted:</label>
-        <input id="rb-months" placeholder="e.g., 10 months (Weekly Shabbat Tefillah & Shiurim)" />
-        <button class="btn btn-emerald" onclick="genRabbiLetter()">Generate Hebrew Draft + Copy for WhatsApp →</button>
+        <input id="rb-months" placeholder="9 months (Weekly Shabbat Tefillah & Shiurim)" />
+        <button class="btn btn-emerald" onclick="genRabbiLetter()">${u.m2_btn}</button>
         <div class="hebrew-out" id="rb-output"></div>
       </div>
     </div>
 
     <div class="mod-view" id="mod-beit-din-150">
       <div class="card">
-        <h2>🕍 150 Beit Din Tribunal (Ma'amad Beit Din) Simulator</h2>
-        <p>Tap the card to reveal the exact Halachic answer Dayanim expect to hear, then advance to the next question.</p>
+        <h2>${u.m3_h2}</h2>
+        <p>${u.m3_p}</p>
         <div class="flashcard" onclick="flipBdCard()">
           <div class="fc-cat" id="bd-cat"></div>
           <div class="fc-q" id="bd-q"></div>
           <div class="fc-a" id="bd-a"></div>
         </div>
-        <button class="btn" onclick="nextBdCard()">Next Beit Din Question (1 of 150 Core Deck) →</button>
+        <button class="btn" onclick="nextBdCard()">${u.m3_btn}</button>
       </div>
     </div>
 
     <div class="mod-view" id="mod-couples-sync">
       <div class="card">
-        <h2>📱 80-Question Misrad HaPanim Separated Couples Interrogation</h2>
-        <p>Under Nohal 5.2.0008 / 5.2.0009, clerks separate both partners and compare answers. Drill these high-trap questions together tonight:</p>
+        <h2>${u.m4_h2}</h2>
+        <p>${u.m4_p}</p>
         <div class="flashcard" style="background:linear-gradient(135deg,#0c4a6e,#0369a1);">
           <div class="fc-cat" id="cp-cat"></div>
           <div class="fc-q" id="cp-q"></div>
         </div>
-        <button class="btn btn-emerald" onclick="nextCpCard()">Next Interrogation Question →</button>
+        <button class="btn btn-emerald" onclick="nextCpCard()">${u.m4_btn}</button>
       </div>
     </div>
 
     <div class="mod-view" id="mod-songs-prayers">
       <div class="card">
-        <h2>🎵 12 Mandatory Shabbat Songs, Kiddush & Shema Trainer</h2>
-        <p>Every conversion candidate is asked to recite or sing from this core list at the Beit Din table:</p>
+        <h2>${u.m5_h2}</h2>
+        <p>${u.m5_p}</p>
         <div id="songs-list"></div>
       </div>
     </div>
@@ -112,23 +265,26 @@ function renderAll() {
 }
 
 function openMod(m) {
+  window.currentMod = m;
   document.querySelectorAll('.mod-tab').forEach(b => b.classList.toggle('active', b.dataset.mod === m));
   document.querySelectorAll('.mod-view').forEach(v => v.classList.toggle('active', v.id === 'mod-' + m));
 }
 
 function genHebrewDoc() {
+  const lang = window.appLang || 'en';
+  const j = (window.JURISDICTION_DATA && window.JURISDICTION_DATA[lang]) || window.JURISDICTION_DATA.en;
   const t = document.getElementById('he-doc-type').value;
   const n = document.getElementById('he-name').value || '[שם מלא / Full Name]';
   const p = document.getElementById('he-pass').value || '[מספר דרכון / Passport #]';
-  const f = document.getElementById('he-facts').value || 'המסמכים הוזמנו ונמצאים בהליך אימות אפוסטיל רשמי.';
+  const f = document.getElementById('he-facts').value || `${j.police} + ${j.birth} (${j.apostille})`;
   const today = new Date().toLocaleDateString('he-IL');
   let txt = '';
   if (t === 'ext30') {
     txt = `לכבוד: רשות האוכלוסין וההגירה - משרד הפנים\nתאריך: ${today}\nהנדון: בקשה דחופה להארכת מועד להשלמת מסמכים ומניעת סגירת תיק מנהלית\nשם המבקש/ת: ${n} | מס' דרכון: ${p}\n\nשלום רב,\nבהמשך לדרישת המסמכים שנמסרה לי, הריני לעדכן כי פעלתי באופן מיידי להזמנת מלוא תעודות המקור המאומתות בחותמת אפוסטיל מרשויות המדינה בחו"ל (${f}).\nמאחר שזמני הטיפול הרשמיים ברשויות הפדרליות בחו"ל אורכים מעבר ל-30 ימים, אבקשכם להאריך את המועד להגשת המסמכים ב-60 ימים נוספים ולהימנע מסגירת התיק.\n\nבכבוד רב,\n${n}`;
   } else if (t === 'ash1') {
-    txt = `לכבוד: ועדת חריגים - מערך הגיור הממלכתי ומשרד הפנים (טופס אש/1)\nתאריך: ${today}\nהנדון: מכתב הסבר מנומק לבקשת היתר גיור ממלכתי בישראל\nשם המבקש/ת: ${n} | מס' דרכון: ${p}\n\nשלום רב,\nהריני להגיש בקשה כנה ומנומקת להצטרפות להליך גיור ממלכתי בישראל. הקשר שלי לעם היהודי, לתורת ישראל ולשמירת מצוות התגבש מתוך הכרה פנימית עמוקה (${f}).\nברשותי מקורות מחייה עצמאיים מלאים מחו"ל, קהילה אורתודוקסית מלווה ורב מלווה מוכר. אבקשכם לאשר את זימוני לריאיון בוועדת החריגים.\n\nבכבוד רב,\n${n}`;
+    txt = `לכבוד: ועדת חריגים - מערך הגיור הממלכתי ומשרד הפנים (טופס אש/1)\nתאריך: ${today}\nהנדון: מכתב הסבר מנומק לבקשת היתר גיור ממלכתי בישראל\nשם המבקש/ת: ${n} | מס' דרכון: ${p}\n\nשלום רב,\nהריני להגיש בקשה כנה ומנומקת להצטרפות להליך גיור ממלכתי בישראל. הקשר שלי לעם היהודי, לתורת ישראל ולשמירת מצוות התגבש מתוך הכרה פנימית עמוקה. כלל מסמכי המקור המאומתים באפוסטיל (${f}) מצורפים בזאת.\nברשותי מקורות מחייה עצמאיים מלאים מחו"ל, קהילה אורתודוקסית מלווה ורב מלווה מוכר. אבקשכם לאשר את זימוני לריאיון בוועדת החריגים.\n\nבכבוד רב,\n${n}`;
   } else {
-    txt = `לכבוד: רשות האוכלוסין וההגירה - משרד הפנים / הסוכנות היהודית\nתאריך: ${today}\nהנדון: הצהרת גילוי נאות ומכתב הסבר בנוגע לתעודת היושר (שיקום מלא)\nשם המבקש/ת: ${n} | מס' דרכון: ${p}\n\nשלום רב,\nמתוך חובת תום הלב והגילוי הנאות המלא, ברצוני להבהיר מראש פרט המופיע במרשם הפדרלי (${f}). מדובר באירוע יחיד מהעבר הרחוק אשר הסתיים במלואו ללא כל הרשעה חוזרת. מאז ועד היום אני מנהל/ת אורח חיים נורמטיבי ושומר חוק לחלוטין.\n\nבכבוד רב,\n${n}`;
+    txt = `לכבוד: רשות האוכלוסין וההגירה - משרד הפנים / הסוכנות היהודית\nתאריך: ${today}\nהנדון: הצהרת גילוי נאות ומכתב הסבר בנוגע לתעודת היושר (שיקום מלא)\nשם המבקש/ת: ${n} | מס' דרכון: ${p}\n\nשלום רב,\nמתוך חובת תום הלב והגילוי הנאות המלא בהגשת תעודת היושר (${f}), ברצוני להבהיר מראש פרט המופיע במרשם. מדובר באירוע יחיד מהעבר הרחוק אשר הסתיים במלואו ללא כל הרשעה חוזרת. מאז ועד היום אני מנהל/ת אורח חיים נורמטיבי ושומר חוק לחלוטין.\n\nבכבוד רב,\n${n}`;
   }
   const out = document.getElementById('he-output');
   out.style.display = 'block';
@@ -172,16 +328,24 @@ function updateCpCard() {
 function nextCpCard() { cpIdx++; updateCpCard(); }
 
 function setAppLang(lang, btn) {
-  document.querySelectorAll('.lang-pill').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+  window.appLang = lang;
+  localStorage.setItem('gat_lang', lang);
+  document.querySelectorAll('.lang-pill').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim().toLowerCase() === (lang === 'he' ? 'עב' : lang));
+  });
   document.documentElement.dir = (lang === 'he') ? 'rtl' : 'ltr';
+  const activeMod = window.currentMod || 'hebrew-engine';
+  renderAll();
+  openMod(activeMod);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  renderAll();
+  const saved = localStorage.getItem('gat_lang') || 'en';
   const params = new URLSearchParams(location.search);
   const mod = params.get('module');
   const intent = params.get('intent');
-  if (mod && document.getElementById('mod-' + mod)) openMod(mod);
-  else if (intent === 'vetted-team') openMod('rabbi-letters');
+  if (mod) window.currentMod = mod;
+  else if (intent === 'vetted-team') window.currentMod = 'rabbi-letters';
+  else window.currentMod = 'hebrew-engine';
+  setAppLang(saved);
 });
