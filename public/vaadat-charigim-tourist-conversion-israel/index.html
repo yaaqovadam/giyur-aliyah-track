@@ -1367,8 +1367,8 @@
     const countries = parseInt(document.getElementById('sl-countries').value, 10);
     const months = parseInt(document.getElementById('sl-months').value, 10);
 
-    document.getElementById('val-countries').innerText = window.gatLang === 'he' ? (countries + ' מדינות') : (countries + (countries === 1 ? ' Country' : ' Countries'));
-    document.getElementById('val-months').innerText = window.gatLang === 'he' ? (months + ' חודשים') : (months + ' Months');
+    document.getElementById('val-countries').innerText = window.gatLang === 'he' ? (countries + ' מדינות') : (window.gatLang === 'he' ? (countries + ' מדינות') : (countries + (countries === 1 ? ' Country' : ' Countries')));
+    document.getElementById('val-months').innerText = window.gatLang === 'he' ? (months + ' חודשים') : (window.gatLang === 'he' ? (months + ' חודשים') : (months + ' Months'));
 
     let baseYears = 2.5;
     if (track === 'dual') baseYears = 3.2;
@@ -1379,7 +1379,7 @@
     const totalSaved = (baseYears + (countries - 1) * 0.35 + (months >= 6 ? 0.4 : 0)).toFixed(1);
     const apptsSaved = 4 + countries * 2;
 
-    document.getElementById('emerald-years').innerText = window.gatLang === 'he' ? (totalSaved + ' שנים') : (totalSaved + ' Years');
+    document.getElementById('emerald-years').innerText = window.gatLang === 'he' ? (totalSaved + ' שנים') : (window.gatLang === 'he' ? (totalSaved + ' שנים') : (totalSaved + ' Years'));
     document.getElementById('emerald-detail').innerText = 'Plus ' + apptsSaved + '+ Wasted Clerk Appointments & Expired Apostilles Avoided';
   }
 
@@ -1602,7 +1602,8 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   }
 
   
-  window.htmlSwapSelectors = [
+  
+    window.htmlSwapSelectors = [
     '#track-0', '#track-1', '#track-2',
     '#view-2 .hero-center p', '#view-2 .zehut-select-label', '#z-track',
     '#view-2 .emerald-label', '#view-2 .emerald-sub',
@@ -1668,6 +1669,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       <a href="/app?module=couples-sync" class="btn-action-tile"><div class="bat-top">📱 סינכרון חי ב-2 טלפונים</div><div class="bat-title">תחקור 80 השאלות הזוגי</div></a>
       <a href="/app?module=hebrew-engine" class="btn-action-tile"><div class="bat-top">📸 צילום מכתב + 📝 מילוי PDF</div><div class="bat-title">תרגום דף פקיד / מילוי טפסי אש/1 ואש/3</div></a>`
   };
+
   window.termDetails_he = {
     five_docs: {
       tag: "העמקה • 5 מסמכי האפוסטיל, שעון 180 הימים והפרופיל שלכם",
