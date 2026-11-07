@@ -160,6 +160,61 @@ const SONGS = [
   {t:"Shema Yisrael & V'Ahavta (שְׁמַע יִשְׂרָאֵל)", p:"Shema Yisrael Hashem Elokeinu Hashem Echad. Baruch Shem Kevod Malchuto Le'olam Va'ed...", m:"Recited every morning and evening; cover eyes with the right hand for the first verse and whisper Baruch Shem Kevod."}
 ];
 
+
+const SONGS_I18N = {
+  en: SONGS,
+  he: [
+    {t:"שָׁלוֹם עֲלֵיכֶם (פיוט ליל שבת)", p:"שָׁלוֹם עֲלֵיכֶם מַלְאֲכֵי הַשָּׁרֵת מַלְאֲכֵי עֶלְיוֹן...", m:"שרים בליל שבת עם החזרה מבית הכנסת לפני הקידוש (3 פעמים כל בית: שלום עליכם, בואכם לשלום, ברכוני לשלום, צאתכם לשלום)."},
+    {t:"אֵשֶׁת חַיִל (משלי ל״א)", p:"אֵשֶׁת חַיִל מִי יִמְצָא וְרָחֹק מִפְּנִינִים מִכְרָהּ...", m:"נאמר בליל שבת אחרי שלום עליכם לכבוד עקרת הבית ולכבוד שבת המלכה."},
+    {t:"קִדּוּשׁ לֵיל שַׁבָּת", p:"יוֹם הַשִּׁשִּׁי, וַיְכֻלּוּ הַשָּׁמַיִם וְהָאָרֶץ וְכָל צְבָאָם...", m:"נאמר על כוס יין כשר מלאה (רביעית) לקידוש השבת בכניסתה."},
+    {t:"שְׁמַע יִשְׂרָאֵל וְאָהַבְתָּ", p:"שְׁמַע יִשְׂרָאֵל ה' אֱלֹהֵינוּ ה' אֶחָד. בָּרוּךְ שֵׁם כְּבוֹד מַלְכוּתוֹ לְעוֹלָם וָעֶד...", m:"נאמר שחרית וערבית; מכסים את העיניים ביד ימין בפסוק הראשון ואומרים בלחש 'ברוך שם כבוד מלכותו'."}
+  ],
+  fr: [
+    {t:"Shalom Aleichem (שָׁלוֹם עֲלֵיכֶם)", p:"Shalom Aleichem Malachei HaShareit Malachei Elyon...", m:"Chanté le vendredi soir au retour de la synagogue avant le Kiddoush (3x par strophe : Shalom Aleichem, Bo'achem LeShalom, Barchuni LeShalom, Tzeitchem LeShalom)."},
+    {t:"Eshet Chayil (אֵשֶׁת חַיִל — Proverbes 31)", p:"Eshet Chayil mi yimtza, v'rachok mipninim michrah...", m:"Chanté chaque vendredi soir après Shalom Aleichem en l'honneur de l'épouse et de la Reine Shabbat."},
+    {t:"Kiddoush du Vendredi Soir (קִדּוּשׁ לֵיל שַׁבָּת)", p:"Yom ha-shishi, vayechulu ha-shamayim veha-aretz...", m:"Récité sur une coupe pleine de vin casher (Revi'it) pour sanctifier l'entrée du Shabbat."},
+    {t:"Shema Yisrael & V'Ahavta (שְׁמַע יִשְׂרָאֵל)", p:"Shema Yisrael Hashem Elokeinu Hashem Echad. Baruch Shem Kevod Malchuto Le'olam Va'ed...", m:"Récité matin et soir en couvrant les yeux de la main droite au premier verset, puis en murmurant Baruch Shem Kevod."}
+  ],
+  es: [
+    {t:"Shalom Aleijem (שָׁלוֹם עֲלֵיכֶם)", p:"Shalom Aleichem Malachei HaShareit Malachei Elyon...", m:"Se canta el viernes por la noche al regresar de la sinagoga antes del Kidush (3 veces por estrofa)."},
+    {t:"Eshet Jayil (אֵשֶׁת חַיִל — Proverbios 31)", p:"Eshet Chayil mi yimtza, v'rachok mipninim michrah...", m:"Se canta cada viernes por la noche después de Shalom Aleijem en honor a la mujer del hogar y la Reina de Shabat."},
+    {t:"Kidush de Noche de Shabat (קִדּוּשׁ לֵיל שַׁבָּת)", p:"Yom ha-shishi, vayechulu ha-shamayim veha-aretz...", m:"Se recita sobre una copa llena de vino casher (Revi'it) para santificar el Shabat."},
+    {t:"Shemá Yisrael y V'Ahavta (שְׁמַע יִשְׂרָאֵל)", p:"Shema Yisrael Hashem Elokeinu Hashem Echad. Baruch Shem Kevod Malchuto Le'olam Va'ed...", m:"Se recita mañana y noche cubriendo los ojos con la mano derecha en el primer versículo y susurrando Baruj Shem Kevod."}
+  ],
+  de: [
+    {t:"Schalom Alejchem (שָׁלוֹם עֲלֵיכֶם)", p:"Shalom Aleichem Malachei HaShareit Malachei Elyon...", m:"Wird am Freitagabend nach der Rückkehr aus der Synagoge vor dem Kiddusch gesungen (3x pro Strophe)."},
+    {t:"Eschet Chajil (אֵשֶׁת חַיִל — Sprüche 31)", p:"Eshet Chayil mi yimtza, v'rachok mipninim michrah...", m:"Wird jeden Freitagabend nach Schalom Alejchem zu Ehren der Frau des Hauses und der Schabbat-Königin gesungen."},
+    {t:"Kiddusch für Freitagabend (קִדּוּשׁ לֵיל שַׁבָּת)", p:"Yom ha-shishi, vayechulu ha-shamayim veha-aretz...", m:"Wird über einem vollen Becher koscheren Weins (Revi'it) gesprochen, um den Schabbat zu heiligen."},
+    {t:"Schema Jisrael & Ve'Ahavta (שְׁמַע יִשְׂרָאֵל)", p:"Shema Yisrael Hashem Elokeinu Hashem Echad. Baruch Shem Kevod Malchuto Le'olam Va'ed...", m:"Morgens und abends gesprochen; beim ersten Vers die Augen mit der rechten Hand bedecken und Baruch Schem Kevod flüstern."}
+  ]
+};
+
+window.toggleLang = function(e) {
+  if (e) { e.preventDefault(); e.stopPropagation(); }
+  let m = document.getElementById('lang-pop-menu');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'lang-pop-menu';
+    m.style.cssText = 'position:fixed;top:56px;right:12px;background:#0f172a;border:2px solid #38bdf8;border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:6px;z-index:2147483647;box-shadow:0 16px 36px rgba(0,0,0,0.65);direction:ltr;min-width:205px;';
+    const opts = [
+      ['en', '🇺🇸/🇬🇧 English (US/UK)'],
+      ['he', '🇮🇱 עברית (ישראל)'],
+      ['fr', '🇫🇷 Français (FR/BE/CH)'],
+      ['es', '🇪🇸/🇦🇷 Español (ES/LatAm)'],
+      ['de', '🇩🇪/🇦🇹 Deutsch (DACH)']
+    ];
+    m.innerHTML = opts.map(([k, lbl]) =>
+      `<button type="button" onclick="setAppLang('${k}'); document.getElementById('lang-pop-menu').style.display='none';" style="background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:10px 12px;font-weight:800;font-size:13.5px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;width:100%;"><span>${lbl}</span><span style="color:#38bdf8;font-size:11px;margin-left:8px;">${k.toUpperCase()}</span></button>`
+    ).join('');
+    document.body.appendChild(m);
+    document.addEventListener('click', function(ev) {
+      if (m && !m.contains(ev.target)) m.style.display = 'none';
+    });
+  } else {
+    m.style.display = (m.style.display === 'none') ? 'flex' : 'none';
+  }
+};
+
 let bdIdx = 0, cpIdx = 0;
 window.appLang = localStorage.getItem('gat_lang') || 'en';
 
@@ -257,7 +312,7 @@ function renderAll() {
   updateBdCard();
   updateCpCard();
   const sl = document.getElementById('songs-list');
-  sl.innerHTML = SONGS.map(s => `<div style="padding:12px;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:10px;background:#f8fafc;">
+  sl.innerHTML = (SONGS_I18N[lang] || SONGS).map(s => `<div style="padding:12px;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:10px;background:#f8fafc;">
     <div style="font-weight:900;color:#0c4a6e;margin-bottom:4px;">${s.t}</div>
     <div style="font-size:0.88rem;color:#0f172a;font-style:italic;margin-bottom:6px;">"${s.p}"</div>
     <div style="font-size:0.82rem;color:#475569;">${s.m}</div>
@@ -334,6 +389,9 @@ function setAppLang(lang, btn) {
     b.classList.toggle('active', b.textContent.trim().toLowerCase() === (lang === 'he' ? 'עב' : lang));
   });
   document.documentElement.dir = (lang === 'he') ? 'rtl' : 'ltr';
+  const gl = document.getElementById('globe-lang-lbl');
+  const badge = {en:'EN ▾', he:'עברית ▾', fr:'FR ▾', es:'ES ▾', de:'DE ▾'};
+  if (gl) gl.textContent = badge[lang] || 'עברית';
   const activeMod = window.currentMod || 'hebrew-engine';
   renderAll();
   openMod(activeMod);
