@@ -143,7 +143,7 @@
 
     /* Tab 2: 3-Way Segmented Track Switcher */
     .seg-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #e2e8f0; padding: 6px; border-radius: 14px; margin-bottom: 16px; }
-    .seg-btn { border: none; background: transparent; padding: 11px 6px; border-radius: 10px; font-size: 0.82rem; font-weight: 800; color: var(--muted); cursor: pointer; transition: 0.15s; text-align: center; line-height: 1.25; }
+    .seg-btn { border: none; background: transparent; padding: 10px 8px; border-radius: 10px; font-size: 12.5px; font-weight: 800; color: #475569; cursor: pointer; transition: all 0.18s ease; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .seg-btn.active { background: var(--sky); color: #ffffff; box-shadow: 0 4px 12px rgba(2, 152, 236, 0.25); }
 
     .track-card { display: none; background: #ffffff; border: 2px solid var(--border); border-radius: 16px; padding: 22px; }
@@ -1461,7 +1461,7 @@
       goodTitle: "🛬 Border Control & First 60 Days Inside Israel Without a Teudat Zehut",
       goodText: `<ul>
         <li><strong>1. The Airline & Ben Gurion Border Rule:</strong> Airlines will deny boarding on a one-way ticket without an Aliyah visa or Israeli passport. Always book a refundable return leg, obtain your ETA-IL clearance, and if arriving as a mixed couple, follow our legal dual-entry sequence so the non-Israeli partner isn't turned around at <em>Bikoret Gvulot</em>.</li>
-        <li><strong>2. Filing Guided vs. Direct Shinui Ma'amad:</strong> Once inside Israel with your Go-Bag, you can open your Aliyah file directly at Misrad HaPanim OR through The Jewish Agency's in-Israel center—cutting the 9-month diaspora wait down to immediate legal residency inside the country.</li>
+        <li><strong>2. Filing Guided vs. Direct Shinui Ma'amad:</strong> Once inside Israel with your Go-Bag, you can open your Aliyah file directly at Misrad HaPanim OR through The Jewish Agency's in-Israel center—skipping the months-long overseas consulate backlog for born Jews (while converts abroad face a separate 9-month post-Mikvah statutory community rule).</li>
         <li><strong>3. Bridging the 60-Day ID Gap:</strong> While waiting for your <em>Teudat Zehut</em> number, use private Israeli tourist/bridge medical insurance (which transitions smoothly into Maccabi/Clalit) and register children in municipal schools using their foreign passports + birth certificates.</li>
       </ul>`,
       time: "⏱️ 7-Day Pre-Flight Sprint • 2x Apostilled Originals • Zero Need to Fly Back"
@@ -1671,9 +1671,9 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   ];
   window.enHtmlCache = {};
   window.heHtmlMap = {
-        '#track-0': `<span class="tc-pill">מסלול 1 • דלגו על 9 חודשי המתנה בקונסוליה ונחתו עם כל המסמכים ביד</span>
+        '#track-0': `<span class="tc-pill">מסלול 1 • דלגו על התור בקונסוליה בחו״ל ונחתו עם תיק החירום ביד</span>
       <h2>עליית חירום ושינוי מעמד מתוך ישראל (ללא צורך לטוס חזרה)</h2>
-      <p class="tc-lead"><strong>לא מוכנים להמתין 8–12 חודשים בחו״ל לנפש בנפש, לסוכנות היהודית או לתור בקונסוליה?</strong> בין אם אתם יהודים מלידה, זוג מעורב או מתגיירים — תוכלו לטוס לנתב״ג כתיירים ולבצע שינוי מעמד מתוך ישראל, <strong>בתנאי</strong> שלא תעלו למטוס בלי תיק מסמכי האל-חזור.</p>
+      <p class="tc-lead"><strong>ליהודים מלידה אין שום תקופת המתנה בחוק — רק תור בירוקרטי בסוכנות ובקונסוליה בחו״ל!</strong> בין אם אתם יהודים מלידה, זוג מעורב או מתגיירים — תוכלו לטוס לנתב״ג כתיירים ולבצע שינוי מעמד מתוך ישראל, <strong>בתנאי</strong> שלא תעלו למטוס בלי תיק מסמכי האל-חזור.</p>
       <ul class="tc-list">
         <li><strong>🎒 כלל "גשר לכיוון אחד" (אי אפשר לחזור להביא מסמכים):</strong> אם טיסות נעצרות או שמדינת המוצא הופכת מסוכנת לחזרה, לא תוכלו להזמין מרחוק טביעות אצבע מה-FBI או תעודות לידה מקוריות. הוציאו <strong>2 עותקים מקוריים עם אפוסטיל</strong> מכל <span class="term-link" onclick="openTerm('go_bag')">7 מסמכי החירום בתיק היד ⓘ</span> לפני הטיסה!</li>
         <li><strong>✈️ מעבר חלק בביקורת הגבולות בנתב״ג:</strong> לעולם אל תגיעו לדלפק הטיסה עם כרטיס לכיוון אחד ו-8 מזוודות ללא ויזה. פעלו לפי פרוטוקול כרטיס החזור, ETA-IL וכניסת זוגות מעורבים כדי למנוע סירוב כניסה.</li>
@@ -1682,7 +1682,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       </ul>
       <button class="btn-sky" onclick="switchTab(4)">טען את תיק החירום למעקב החי שלי ←</button>`,
     '#track-1': `<span class="tc-pill">מסלול 2 • להפוך ל-100% יהודי כשר מהר יותר (לחו״ל או כתחנת ביניים בישראל)</span>
-      <h2>בית דין אורתודוקסי עצמאי (למשל גוש עציון)</h2>
+      <h2>בית דין אורתודוקסי פרטי (גוש עציון, בני ברק ועוד)</h2>
       <p class="tc-lead"><strong>אם אתם רוצים להפוך ל-100% יהודים על פי ההלכה בלי להמתין שנים לפקידים ממשלתיים, זהו מסלול מדהים!</strong> בין אם אתם לומדים תורה בישראל כדי לחזור הביתה כיהודים, או שאתם זוג שרוצה להפוך ליהודים הלכתית <em>עכשיו</em> ולהמשיך להכרה ברבנות בהמשך — אלא אם כן תדלגו ישירות למסלול 2 כדי להתגייר פעם אחת בלבד.</p>
       <ul class="tc-list">
         <li><strong>💸 צוק 24 החודשים של סל קליטה (~21,700 ₪ על הכף!):</strong> שהייה של מעל <strong>24 חודשים במצטבר בישראל</strong> (ב-3 השנים שלפני קבלת תעודת עולה) בויזת תייר מבטלת לחלוטין את מענק סל הקליטה!</li>
@@ -1752,7 +1752,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       goodTitle: "🛬 ביקורת גבולות בנתב״ג ו-60 הימים הראשונים ללא תעודת זהות",
       goodText: `<ul>
         <li><strong>1. כלל חברת התעופה וביקורת הגבולות:</strong> חברות תעופה מסרבות להעלות נוסעים בכרטיס לכיוון אחד ללא ויזת עולה או דרכון ישראלי. הזמינו תמיד כרטיס חזור בר-ביטול, אשרו ETA-IL, ולזוגות מעורבים — פעלו לפי נוהל הכניסה החוקי שלנו.</li>
-        <li><strong>2. הגשת שינוי מעמד מתוך ישראל:</strong> מיד לאחר הנחיתה עם תיק המסמכים המלא, פתחו תיק שינוי מעמד במשרד הפנים או דרך הסוכנות היהודית בארץ ללא המתנה של 9 חודשים בחו״ל.</li>
+        <li><strong>2. הגשת שינוי מעמד מתוך ישראל:</strong> מיד לאחר הנחיתה עם תיק המסמכים המלא, פתחו תיק שינוי מעמד במשרד הפנים או דרך הסוכנות היהודית בארץ בלי להמתין חודשים לתור בקונסוליה בחו״ל (בעוד שלמתגיירים בחו״ל קיים חוק נפרד של 9 חודשי קהילה אחרי המקווה).</li>
         <li><strong>3. גישור על 60 הימים הראשונים ללא ת״ז:</strong> השתמשו בביטוח בריאות פרטי מגשר (לפני הכניסה למכבי/כללית) ורשמו ילדים לבתי ספר עירוניים באמצעות דרכון זר ותעודת לידה.</li>
       </ul>`,
       time: "⏱️ התארגנות ב-7 ימים • 2 עותקי אפוסטיל • אפס צורך לטוס חזרה"
