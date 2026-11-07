@@ -1262,6 +1262,18 @@
     }
   ];
 
+  const obstacles_he = [
+    { tag: "תיבה 1 מתוך 9 • התמונה הגדולה", title: "גוש עציון מיועד לתיירים שחוזרים לחו״ל. הרבנות הראשית מיועדת לעלייה.", body: "תייר יכול להתגייר בבית דין אורתודוקסי פרטי כמו גוש עציון, והרבנות תסכים: 'הגיור כשר ואתה 100% יהודי' — אך לא הרבנות ולא משרד הפנים יאשרו לך עלייה.", badTitle: "🛡️ האמת על שני שומרי הסף", badText: "למה לא מאשרים עלייה? כי הרבנות ומשרד הפנים פועלים כשני שומרי סף ביטחוניים למניעת ניצול לרעה וגורמים עוינים מלקבל אזרחות.", goodTitle: "⚡ בחרו במסלול הנכון מהיום הראשון", goodText: "נראה לכם אם אתם שייכים למסלול 1 (חזרה לחו״ל), מסלול 2 (עלייה דרך הרבנות), או מסלול 3 (הליך מדורג זוגי) לפני שתבזבזו שנים.", time: "⏱️ חוסך 3 עד 4+ שנים" },
+    { tag: "תיבה 2 מתוך 9 • לולאת הפקידים", title: "לטוס הביתה ולהוציא את כל 5 המסמכים ידנית (לעומת סיוט ההזמנה מרחוק).", body: "אתם חייבים 5 מסמכים מאומתים באפוסטיל: (1) תעודת לידה מורחבת, (2) תמצית רישום / רווקות, (3) תעודות נישואין/גירושין קודמים, (4) שינוי שם, ו-(5) תעודות יושר פדרליות.", badTitle: "💥 מלכודת ההזמנה מרחוק ושעון 180 הימים", badText: "הזמנת אפוסטיל מחו״ל מתוך ישראל לוקחת חודשים, עולה הון, והמסמכים פגים אחרי 180 יום בזמן שויזת התייר נגמרת.", goodTitle: "⚡ גיחה קצרה לחו״ל להוצאת 5 המסמכים", goodText: "פתיחת התהליך כאן, טיסה קצרה להוצאת כל 5 המסמכים באפוסטיל במקום (לרוב באותו יום!) וחזרה עם תיק מושלם חוסכת שנים.", time: "⏱️ חוסך 1.5 עד 2.5 שנים" },
+    { tag: "תיבה 3 מתוך 9 • מלכודת המקווה", title: "למה עצירה אחרי המקווה חוסמת חתונה ברבנות עד שמשלימים את האישור.", body: "עצירה אחרי טבילה בבית דין פרטי ללא אישור גיור מבית הדין הרבני הגדול חוסמת חתונה ברבנות — לכם או לילדיכם העתידיים.", badTitle: "💣 כלל 9 החודשים בקהילה בישראל", badText: "כדי לעבור דרך הרבנות בארץ, עליכם להביא את 5 המסמכים ולהשתלב בקהילה אורתודוקסית בישראל במשך 9+ חודשים.", goodTitle: "⚡ מחולל מכתבי רב וקהילה בלחיצה", goodText: "המערכת מדריכה אתכם באישור הגיור ושולחת טיוטות המלצה מוכנות בעברית לרב המלווה ולמשפחה המארחת בוואטסאפ.", time: "⏱️ מגן על החתונה והילדים" },
+    { tag: "תיבה 4 מתוך 9 • שעון ויזת התייר (90 יום)", title: "איך ללמוד לגיור או להגיש בקשה זוגית בלי לחרוג מויזת התייר.", body: "תיירים בויזת B/2 חסומים חוקית מגיור ממלכתי ללא מעבר בוועדת חריגים (טופס אש/1).", badTitle: "🚨 מלכודת שהיית היתר וסגירת התיק", badText: "עיכוב בהגשת טופס אש/1 או אש/3 — או פספוס דרישת מסמכים תוך 30 יום — גורם לסגירת התיק בשקט.", goodTitle: "⚡ הקפאת שעון חוקית + התראות וואטסאפ", goodText: "אנו מפיקים מכתב הסבר תקני בעברית ושולחים התראות וואטסאפ לפני שמועד הפקיד פג.", time: "⏱️ חוסך 6 עד 18 חודשים" },
+    { tag: "תיבה 5 מתוך 9 • מנוע עברית דו-כיווני", title: "1) צלמו מכתב פקיד לתרגום מיידי. 2) ענו באנגלית להפקת PDF בעברית.", body: "אתם מול שתי חומות עברית: טפסים ממשלתיים שיש להגיש בעברית, ודפי דרישות מסמכים שפקידים מוסרים עם מועדים נסתרים.", badTitle: "❌ איך מועמדים נופלים", badText: "יוצאים מפגישה עם דרישת מסמכים בעברית, מפספסים סעיף או מועד של 30 יום, ומאבדים שנה שלמה כשהתיק נסגר.", goodTitle: "⚡ צילום-לאנגלית + מילוי PDF בעברית", goodText: "צלמו את דף הפקיד לתרגום מיידי והפעלת טיימר — או ענו באנגלית להדפסת טפסי אש/1 ואש/3 מוכנים.", time: "⏱️ אפס מועדים מפוספסים" },
+    { tag: "תיבה 6 מתוך 9 • רב מלווה, מדריכת כלה והמבחן", title: "שני בני הזוג חייבים קורס! הכירו את הצוות המוכר שלנו ועברו 150 שאלות.", body: "גם כשאחד מבני הזוג יהודי מלידה ואזרח ישראלי, בית הדין דורש משני בני הזוג ללמוד עם רב מלווה מוכר ולעבור הדרכת כלה מוסמכת.", badTitle: "😰 קורסים לא מוכרים שמבזבזים שנה", badText: "לימוד אצל מורה שאינו מוכר ברבנות מבזבז שנה שלמה — וגמגום בשירי שבת או קידוש בבית הדין גורר דחייה של חצי שנה.", goodTitle: "⚡ צוות מוכר וגמיש + סימולטור", goodText: "נחבר אתכם לרב מלווה ומדריכת כלה מוכרים (כולל זום/1-על-1) ונתרגל את כל 150 השאלות ו-12 שירי השבת.", time: "⏱️ חוסך 6 עד 18 חודשים" },
+    { tag: "תיבה 7 מתוך 9 • תחקור 80 השאלות הזוגי", title: "סנכרנו תשובות ב-2 טלפונים לפני שמשרד הפנים מפריד אתכם לשני חדרים.", body: "בכל שנה בהליך המדורג, הפקידים מפרידים אתכם לשני חדרים ושואלים 80 שאלות אישיות על חיי היומיום.", badTitle: "🚩 איך זוגות אמיתיים נכשלים", badText: "סתירות בפרטים קטנים (מי שילם חשבון חשמל, באיזה צד ישנים, מה עשיתם בחג) גוררות הקפאת חשד של 6–12 חודשים.", goodTitle: "⚡ סינכרון 2 טלפונים בזמן אמת", goodText: "בצעו את מבחן 80 השאלות בשני טלפונים מהספה בבית וגלו כל פער לפני הראיון.", time: "⏱️ מונע הקפאות של שנה" },
+    { tag: "תיבה 8 מתוך 9 • עלייה או ויזה עם עבר פלילי", title: "יש לכם מעצר ישן או רישום שנמחק? לעולם אל תסתירו — השתמשו בתיק שיקום.", body: "משרד הפנים דורש תעודות יושר פדרליות (FBI, ACRO, RCMP) מארץ הלידה, כל אזרחות, וכל מדינה בה גרתם מעל שנה מגיל 14.", badTitle: "🚨 טעות קריטית: הסתרת מעצר שנמחק", badText: "עבירות קלות מהעבר לרוב אינן פוסלות — אך סימון 'אין עבר פלילי' כשמעצר מופיע בדוח טביעות האצבע גורם לדחייה מיידית.", goodTitle: "⚡ תיק שיקום והמלצות אופי", goodText: "נלווה אתכם בגילוי נאות מגובה במסמכי בית משפט, המלצות רבנים ומכתב הסבר שיקומי תקני בעברית.", time: "⏱️ מונע ערעורים של שנתיים" },
+    { tag: "תיבה 9 מתוך 9 • קיום ומגורים בויזת תייר", title: "איך להתקיים בישראל בויזת תייר (B/2) או סטודנט בלי לעבוד באופן לא חוקי.", body: "עבודה מקומית בישראל בויזת תייר גוררת גירוש וסגירת תיק הגיור/עלייה — אך שכר דירה של 5,000 ₪ בחודש שורף חסכונות מהר.", badTitle: "🚨 מלכודת העבודה השחורה בישראל", badText: "מלצרות, בייביסיטר במזומן או עבודה אצל מעסיק ישראלי ללא ויזת B/1 מסכנים אתכם בחותמת גירוש ל-10 שנים.", goodTitle: "⚡ עבודה מרחוק לחו״ל + מגורים תמורת התנדבות", goodText: "עבדו מרחוק עבור לקוחות בחו״ל לחשבון הבנק הזר (הוראת אנגלית אונליין, תרגום, הייטק) + חסכו שכר דירה דרך או-פר, סיעוד או התנדבות.", time: "⏱️ חוסך 4,000–6,000 ₪ בחודש כחוק" }
+  ];
+
   function switchTab(idx) {
     document.querySelectorAll('.app-view').forEach((v, i) => v.classList.toggle('active', i === idx));
     document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
@@ -1281,7 +1293,7 @@
       nextBtn.onclick = function() { nextObstacle(); };
     }
     currentObs = idx;
-    const d = obstacles[idx];
+    const d = (window.gatLang === 'he' && typeof obstacles_he !== 'undefined') ? obstacles_he[idx] : obstacles[idx];
     document.getElementById('sh-tag').innerText = d.tag;
     document.getElementById('sh-title').innerText = d.title;
     document.getElementById('sh-body').innerText = d.body;
@@ -1323,16 +1335,19 @@
       dragging = true; moved = false; startX = e.clientX; baseTx = isOpen ? 0 : -w; curTx = baseTx;
       pn.style.transition = 'none'; bd.style.transition = 'none'; hd.style.transition = 'none';
       bd.style.opacity = '1'; bd.style.pointerEvents = 'auto';
-      pn.style.transform = `translate3d(${baseTx}px,0,0)`;
-      hd.style.transform = `translate3d(${baseTx + w}px,-50%,0)`;
+      const s = document.documentElement.dir === 'rtl' ? -1 : 1;
+      pn.style.transform = `translate3d(${-baseTx * s}px,0,0)`;
+      hd.style.transform = `translate3d(${(baseTx + w) * s}px,-50%,0)`;
     });
     hd.addEventListener('pointermove', e => {
       if (!dragging) return;
-      const dx = e.clientX - startX, w = pn.offsetWidth || 320;
+      const rtl = document.documentElement.dir === 'rtl';
+      const dx = (e.clientX - startX) * (rtl ? -1 : 1), w = pn.offsetWidth || 320;
       if (Math.abs(dx) > 5) moved = true;
       curTx = Math.min(0, Math.max(-w, baseTx + dx));
-      pn.style.transform = `translate3d(${curTx}px,0,0)`;
-      hd.style.transform = `translate3d(${curTx + w}px,-50%,0)`;
+      const s = rtl ? -1 : 1;
+      pn.style.transform = `translate3d(${-curTx * s}px,0,0)`;
+      hd.style.transform = `translate3d(${(curTx + w) * s}px,-50%,0)`;
     });
     function finish() {
       if (!dragging) return;
@@ -1541,10 +1556,66 @@
     }
   </style>
   <div id="bg-watercolor-layer"></div>
-<style>html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-item, html[dir="rtl"] .radio-row { text-align: right; }</style>
+<style>
+    /* True RTL Mirroring for Drawers, Pull-Handle & Cards */
+    html[dir="rtl"] .drawer-backdrop { justify-content: flex-end; }
+    html[dir="rtl"] .drawer-backdrop:not(.left) .drawer-panel { transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.2); }
+    html[dir="rtl"] .drawer-backdrop:not(.left).open .drawer-panel { transform: translateX(0); }
+    html[dir="rtl"] .drawer-backdrop.left { justify-content: flex-start; }
+    html[dir="rtl"] .drawer-backdrop.left .drawer-panel { transform: translateX(100%); box-shadow: -10px 0 30px rgba(0,0,0,0.22); }
+    html[dir="rtl"] .drawer-backdrop.left.open .drawer-panel { transform: translateX(0); }
+    html[dir="rtl"] .left-edge-handle { left: auto; right: 0; border-right: none; border-left: 1.5px solid #1994F5; border-radius: 12px 0 0 12px; box-shadow: -3px 0 14px rgba(8,37,72,0.28); }
+    html[dir="rtl"] .left-edge-handle .leh-arrow { transform: rotate(180deg); }
+    html[dir="rtl"] .left-edge-handle.open { transform: translate3d(calc(-1 * min(320px, 86vw)), -50%, 0); }
+    html[dir="rtl"] .left-edge-handle.open .leh-arrow { transform: rotate(0deg); }
+    html[dir="rtl"] .box-trap, html[dir="rtl"] .box-fix { border-left: none; border-right: 5px solid var(--danger); text-align: right; }
+    html[dir="rtl"] .box-fix { border-right-color: var(--emerald); }
+
+html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-item, html[dir="rtl"] .radio-row { text-align: right; }</style>
 <script>
   window.gatLang = localStorage.getItem('gat_lang') || (new URLSearchParams(location.search).get('lang')) || 'en';
   window.gatDict = {};
+  
+  const gatPhrases = [
+    ["🛠️ Paperwork & Concierge", "🛠️ ניירת וליווי אישי"],
+    ["🛡️ 1-Shot Bureaucracy Shield", "🛡️ מגן בירוקרטיה במכה אחת"],
+    ["📸 Two-Way Hebrew Translator & PDF Filler", "📸 מתרגם מכתבי פקידים ומילוי PDF בעברית"],
+    ["🕍 Vetted Sponsoring Rabbi & Kallah Team", "🕍 רב מלווה ומדריכת כלה מוכרי רבנות"],
+    ["💼 Tourist Survival: Remote Work & Housing", "💼 קיום בויזת תייר: עבודה מרחוק ומגורים"],
+    ["✍️ Community Letter & Rabbi Letterhead Builder", "✍️ מחולל מכתבי קהילה ובלנק רבני"],
+    ["✈️ 5 Apostilled Docs & 24-Mo Sal Klita Rules", "✈️ 5 מסמכי אפוסטיל וכלל 24 חודשי סל קליטה"],
+    ["⚖️ Va'adat Charigim (Form Ash/1) Guide", "⚖️ מדריך ועדת חריגים (טופס אש/1)"],
+    ["ℹ️ What We Are — And What We Are NOT", "ℹ️ מי אנחנו — ומי אנחנו לא"],
+    ["⏱️ Calculate Years & Money Saved →", "⏱️ חשבו כמה שנים וכסף תחסכו ←"],
+    ["🕍 150 Beit Din Exam Flashcards & Game", "🕍 150 שאלות בית דין — כרטיסיות ומשחק"],
+    ["🎵 12 Shabbat Songs, Prayers & Shema AI", "🎵 12 שירי שבת, תפילות ומאמן שמע AI"],
+    ["📱 80-Question 2-Phone Couples Sync", "📱 סינכרון 80 שאלות זוגי ב-2 טלפונים"],
+    ["📊 Live 180-Day & 30-Day Deadline Tracker", "📊 מעקב חי: שעון 180 יום ו-30 יום"],
+    ["🔐 Full Member Portal (/app)", "🔐 פורטל חברים מלא (/app)"],
+    ["📲 Install App", "📲 התקנת האפליקציה"],
+    ["Open Tracker →", "למעקב החי ←"],
+    ["Load Track 1 Into My Live Tracker →", "טען את מסלול 1 למעקב החי שלי ←"],
+    ["Load Track 2 Into My Live Tracker →", "טען את מסלול 2 למעקב החי שלי ←"],
+    ["Load Track 3 Into My Live Tracker →", "טען את מסלול 3 למעקב החי שלי ←"],
+    ["Lock In My Track & Deadline Shield →", "נעלו את המסלול ומגן המועדים שלי ←"],
+    ["Request Warm Introduction Now →", "בקשו חיבור אישי לצוות עכשיו ←"],
+    ["Enable WhatsApp File-Closure Rescue Alerts →", "הפעילו התראות וואטסאפ נגד סגירת תיק ←"],
+    ["Never Lose a Year to an Expired Document or Closed File", "לעולם אל תאבדו שנה בגלל מסמך שפג תוקפו או תיק שנסגר"],
+    ["Interactive Prep & Paperwork Tools", "כלי הכנה וניירת אינטראקטיביים"]
+  ];
+  function applyPhraseMap(lang) {
+    const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+    let n;
+    while ((n = walk.nextNode())) {
+      const v = n.nodeValue.trim();
+      if (!v) continue;
+      for (const [enTxt, heTxt] of gatPhrases) {
+        if (lang === 'he' && v === enTxt) n.nodeValue = n.nodeValue.replace(enTxt, heTxt);
+        else if (lang === 'en' && v === heTxt) n.nodeValue = n.nodeValue.replace(heTxt, enTxt);
+      }
+    }
+  }
+
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
       const r = await fetch('/i18n/' + lang + '.json?v=1');
@@ -1558,6 +1629,7 @@
       if (d[k]) el.innerText = d[k];
     });
     window.gatLang = lang;
+    applyPhraseMap(lang);
     localStorage.setItem('gat_lang', lang);
   }
   function toggleLang() { applyLang(window.gatLang === 'en' ? 'he' : 'en'); }
