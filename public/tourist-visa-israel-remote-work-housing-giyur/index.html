@@ -11,6 +11,10 @@
     .ea-cta { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; font-weight: 800; color: #fde047; }
     html[dir="rtl"] .exodus-alert { text-align: right; }
 
+  
+    .seg-bar { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 6px !important; background: #e2e8f0; padding: 6px; border-radius: 14px; margin-bottom: 16px; }
+    .seg-btn { border: none; padding: 10px 8px !important; border-radius: 10px; font-size: 12.5px !important; font-weight: 800; cursor: pointer; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
   </style>
 <script>(function(){if(!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();</script>
 <script src="/splash.js?v=1100"></script>
@@ -735,52 +739,68 @@
 
       <!-- =========================================================
            TAB 2: TRACKS (THE 3 TRACKS OF ISRAEL)
-           ========================================================= -->
-      <section class="app-view" id="view-1" aria-label="The 3 Tracks of Conversion, Marriage & Aliyah">
-        <div class="hero-center" style="margin-bottom:16px;">
-          <h1 data-i18n="t2_h1">The 3 Tracks of Israel</h1>
-          <p>Tap each track below to see if you belong on Track 1, Track 2, Track 3—or Dual-Track.</p>
+       <div class="seg-bar">
+          <button class="seg-btn active" onclick="switchTrack(0, this)" data-i18n="seg_0">🚨 1. Emergency Exit</button>
+          <button class="seg-btn" onclick="switchTrack(1, this)" data-i18n="seg_1">🕍 2. Private Beit Din</button>
+          <button class="seg-btn" onclick="switchTrack(2, this)" data-i18n="seg_2">🏛️ 3. State Giyur</button>
+          <button class="seg-btn" onclick="switchTrack(3, this)" data-i18n="seg_3">💍 4. Spousal Visa</button>
         </div>
 
-        <div class="seg-bar" role="tablist">
-          <button class="seg-btn active" onclick="switchTrack(0, this)">1. Gush Etzion / Beit Din</button>
-          <button class="seg-btn" onclick="switchTrack(1, this)">2. State Giyur & Aliyah</button>
-          <button class="seg-btn" onclick="switchTrack(2, this)">3. Misrad HaPanim</button>
-        </div>
-
-                <article class="track-card active" id="track-0">
-          <span class="tc-pill">Track 1 • Become 100% Kosher Jewish Faster (Abroad OR Stepping-Stone in Israel)</span>
-          <h2>Independent Orthodox Beit Din (e.g., Gush Etzion)</h2>
-          <p class="tc-lead"><strong>If you want to become 100% Halachically Jewish without waiting years on government clerks, this is an incredible track!</strong> Whether you are learning Torah in Israel to go home Jewish, OR you\'re a couple who wants to become Halachically Jewish <em>now</em> (allowing you to live together in religious conscience via a private Halachic ceremony—though strictly unrecognized by the Rabbanut!) and bridge to the Rabbanut next, unless you skip straight to Track 2 so you only convert once.</p>
+        <!-- Track 1: Emergency Aliyah & Point-of-No-Return Go-Bag -->
+        <div class="track-card active" id="track-0">
+          <span class="tc-pill">Track 1 • Skip the Overseas Agency Backlog & Land With Your Go-Bag</span>
+          <h2>Emergency Relocation & In-Israel Aliyah (Shinui Ma'amad)</h2>
+          <p class="tc-lead"><strong>Born Jews have ZERO mandatory waiting period—only an overseas agency & consulate paperwork backlog!</strong> Whether you are Jewish by birth, a mixed couple, or a recent convert, you can fly directly to Ben Gurion Airport on a tourist visa and file for status inside Israel—<strong>IF</strong> you never board the plane without your Point-of-No-Return Go-Bag.</p>
           <ul class="tc-list">
-            <li><strong>💸 The 24-Month Sal Klita Cash Cliff (~21,700 NIS at Stake!):</strong> If you spend more than <strong>24 cumulative months inside Israel</strong> (within the 3 years prior to getting your <em>Teudat Oleh</em>) on tourist visas or an unrecognized track before finishing a State-recognized conversion and Aliyah, Misrad HaKlita <strong>cancels your ~21,700 NIS Sal Klita cash grant completely!</strong> Knowing your real endgame on Day 1 saves you over 21,000 NIS in cold, hard cash.</li>
-            <li><strong>🛡️ "You Are 100% Jewish—But No Aliyah" (The Gatekeeper Truth):</strong> Even though the Rabbanut agrees a Gush Etzion conversion is 100% kosher, they and Misrad HaPanim block it for Aliyah. They act as dual security gatekeepers to stop bad actors, spies, and covert missionaries from slipping into citizenship.</li>
-            <li><strong>⚡ Zero Government Apostille Bureaucracy to Start:</strong> Because Gush Etzion is an independent Halachic court (not an arm of Misrad HaPanim), you do <strong>NOT</strong> need FBI fingerprint checks, long-form vault birth certificates, or government Apostilles just to open your conversion file! All you need is your passport, personal story, Torah study, and a sponsoring Orthodox Rabbi & host family in Israel. <em>(You only need the <span class="term-link" onclick="openTerm('five_docs')">5 Apostilled Home-Country Docs ⓘ</span> later if you cross over to the State Rabbanut on Track 2 or file for Spousal Residency on Track 3!)</em></li>
-            <li><strong>💣 Never Leave Validation Unfinished:</strong> Stopping after the Mikvah without <span class="term-link" onclick="openTerm('ishur_giyur')">Chief Rabbinate validation (Ishur Giyur) ⓘ</span> blocks your wedding—or forces your future kids to finish your process, taking years when waiting even a day to marry is hell.</li>
+            <li><strong>🎒 The "One-Way Bridge" Go-Bag Rule (No Returning For Missing Docs):</strong> If airspace closes, postal couriers stall, or your home city becomes unsafe to return to, you cannot order biometric FBI/ACRO/RCMP fingerprints or vault birth certificates from Israel. Pull <strong>2 physical Apostilled originals</strong> of all <span class="term-link" onclick="openTerm('go_bag')">7 Point-of-No-Return Go-Bag Documents ⓘ</span> before departure!</li>
+            <li><strong>✈️ Clearing Ben Gurion Border Control (Bikoret Gvulot) Without Refusal:</strong> Never show up at the airline desk with a one-way ticket and 8 giant trunks announcing you are moving permanently without a visa. Follow our legal return-ticket, ETA-IL, and Mixed-Couple entry protocol so your partner is never turned back at the gate.</li>
+            <li><strong>🏥 Surviving Your First 60–90 Days Without a Teudat Zehut:</strong> When you do <em>Shinui Ma'amad</em> from inside Israel, you have no ID number for 2–3 months. We show you how to sign an apartment lease without a bank guarantor, enroll kids in municipal schools on foreign passports, and secure private bridge health insurance into Maccabi/Clalit.</li>
+            <li><strong>🔄 Emergency Mid-Conversion Transfer & 9-Month Rule:</strong> While born Jews have zero wait, diaspora converts normally face a 9-month post-Mikvah community stay rule. Forced to leave early? Learn how to bring an official Beit Din Transfer Dossier into Israel.</li>
           </ul>
-          <button class="btn-sky" onclick="switchTab(4)">Load Track 1 Into My Live Tracker →</button>
-        </article>
+          <button class="btn-sky" onclick="switchTab(4)">Load Emergency Go-Bag Into My Live Tracker →</button>
+        </div>
 
-        <article class="track-card" id="track-1">
-          <span class="tc-pill">Track 2 • Official State Conversion & Law of Return Aliyah</span>
-          <h2>State Giyur (Nativ / Ma'arach HaGiyur) & Chief Rabbanut</h2>
-          <p class="tc-lead">The official government conversion track that directly triggers Aliyah citizenship under the Law of Return upon completion.</p>
+        <!-- Track 2: Private Orthodox Beit Din -->
+        <div class="track-card" id="track-1">
+          <span class="tc-pill">Track 2 • Become 100% Halachically Jewish Faster (For Diaspora or Israel Stepping-Stone)</span>
+          <h2>Private Orthodox Beit Din (Gush Etzion, Bnei Brak & More)</h2>
+          <p class="tc-lead"><strong>If you want to become 100% Halachically Jewish without waiting years for government clerks, this is a fantastic path!</strong> Israel has 5+ respected private Orthodox courts (from Modern Orthodox <em>Giyur K'Halacha</em> in Gush Etzion to Haredi courts like R' Karelitz's Beit Din in Bnei Brak). Great for students returning home Jewish or couples who want a kosher Chuppah <em>now</em> and bridge to Rabbanut validation later.</p>
           <ul class="tc-list">
-            <li><strong>✈️ Do You Need to Fly Home for Docs? (The 180-Day Clock & 3 Profiles):</strong> <strong>If you came to Israel with all 5 Apostilled docs already in hand (and unexpired)—relax, you don't need to go anywhere!</strong> But if you are missing even <em>one</em> document, a quick trip home can save you 4 months of mail limbo; and if you are missing most or all of them, we <strong>highly recommend</strong> flying home for a week to pull all <span class="term-link" onclick="openTerm('five_docs')">5 Apostilled docs + see which of the 3 Aliyah/Giyur rules applies to you ⓘ</span> before the <strong>180-day expiration timer</strong> on your Police & Single-Status docs runs out and resets your entire file to zero!</li>
-            <li><strong>⚠️ The Tourist/Student Wall (<em>Va'adat Charigim</em>):</strong> Tourists and students are legally blocked from entering State Giyur until they petition and pass the <span class="term-link" onclick="openTerm('vaadat_charigim')">Exceptions Committee (Form Ash/1) ⓘ</span>.</li>
-            <li><strong>Why Petitions Fail:</strong> Submitting an emotional English story instead of a statutory Hebrew <em>Michtav Hesber</em> (Explanation Letter) hitting the committee's exact legal criteria.</li>
-            <li><strong>The Exam Hurdle:</strong> Requires passing the 3 Dayanim on 150 Halachic questions + 12 Friday Night Shabbat songs.</li>
+            <li><strong>💸 The 24-Month Sal Klita Cash Cliff (~21,700 NIS at Stake!):</strong> Spending more than <strong>24 cumulative months inside Israel</strong> (in the 3 years before getting your Teudat Oleh) cancels your Sal Klita cash grant!</li>
+            <li><strong>🛡️ "You Are 100% Jewish—But No Aliyah" (The Dual-Gatekeeper Truth):</strong> While a private Orthodox Beit Din is 100% Halachically kosher, the Rabbanut and Misrad HaPanim block tourist conversions from automatic Aliyah as dual security gatekeepers.</li>
+            <li><strong>⚡ Zero Government Apostille Red Tape Upfront:</strong> Opening a private Beit Din file requires no FBI checks or Apostilles upfront! You only need the <span class="term-link" onclick="openTerm('five_docs')">5 Mandatory Apostilled Docs ⓘ</span> when bridging to the Rabbanut or Misrad HaPanim.</li>
+            <li><strong>💣 Never Leave Validation Half-Finished:</strong> Stopping after the Mikvah without <span class="term-link" onclick="openTerm('ishur_giyur')">Chief Rabbinate Validation (Ishur Giyur) ⓘ</span> blocks Rabbanut weddings for you and your future kids.</li>
           </ul>
           <button class="btn-sky" onclick="switchTab(4)">Load Track 2 Into My Live Tracker →</button>
-        </article>
+        </div>
 
-        <article class="track-card" id="track-2">
-          <span class="tc-pill">Track 3 • Spousal Residency (Tahalich Medurag) & Aliyah Status</span>
-          <h2>Misrad HaPanim Civil Visa, A/5 Teudat Zehut & Citizenship</h2>
-          <p class="tc-lead">Controlled by the Ministry of Interior for spouses/partners of Israelis (Form Ash/3) and post-conversion Aliyah status changes.</p>
+        <!-- Track 3: State Giyur & Aliyah -->
+        <div class="track-card" id="track-2">
+          <span class="tc-pill">Track 3 • Official State Conversion & Law of Return Aliyah</span>
+          <h2>State Giyur (Nativ / Ma'arach HaGiyur) & Chief Rabbinate</h2>
+          <p class="tc-lead">The official government conversion pathway that grants Law of Return citizenship (Aliyah) immediately upon completion.</p>
           <ul class="tc-list">
-            <li><strong>🪤 The 2-Year "Breadcrumb Loop":</strong> Your 4.5-to-7 year residency clock does NOT start until a clerk marks your file "Complete." Clerks feed you requirements one at a time until your foreign documents hit the <strong>6-Month Expiration Cliff</strong>.</li>
-            <li><strong>🌍 The "3-Bucket" Criminal Check Rule:</strong> Demands Apostilled National Police Checks (US FBI, UK ACRO, EU, CA RCMP) from (1) birth country, (2) all citizenships, and (3) every country lived in &gt;1 year since age 14.</li>
+            <li><strong>✈️ Do You Need to Fly Home for Docs? (The 180-Day Clock & 3 Profiles):</strong> <strong>If you brought all 5 Apostilled documents with you—you are golden!</strong> If not, inspect the <span class="term-link" onclick="openTerm('five_docs')">5 Mandatory Apostilled Docs & 3 Aliyah/Giyur Profiles ⓘ</span> before your <strong>180-day clock</strong> expires!</li>
+            <li><strong>⚠️ The Tourist/Student Wall (Va'adat Charigim):</strong> Non-citizens are legally barred from State Giyur until passing the <span class="term-link" onclick="openTerm('vaadat_charigim')">Exceptions Committee (Form Ash/1) ⓘ</span>.</li>
+            <li><strong>Why Applications Fail:</strong> Submitting an emotional English story instead of a statutory Hebrew <em>Michtav Hesber</em> + <span class="term-link" onclick="openTerm('community_letters')">5–8+ Stamped Israeli Rabbi & Community Letters ⓘ</span>.</li>
+            <li><strong>The Exam Hurdle:</strong> Passing the 3-judge Beit Din panel on 150 Halacha questions + 12 Shabbat songs.</li>
+          </ul>
+          <button class="btn-sky" onclick="switchTab(4)">Load Track 3 Into My Live Tracker →</button>
+        </div>
+
+        <!-- Track 4: Misrad HaPanim Spousal Residency -->
+        <div class="track-card" id="track-3">
+          <span class="tc-pill">Track 4 • Spousal Residency (Tahalich Medurag) & Change of Status</span>
+          <h2>Misrad HaPanim Civil Visa, A/5 Teudat Zehut & Citizenship</h2>
+          <p class="tc-lead">Run by the Ministry of Interior for spouses/partners of Israelis (Form Ash/3) and post-conversion residency.</p>
+          <ul class="tc-list">
+            <li><strong>🪤 The 2-Year Clerk "Breadcrumb Loop":</strong> Your 4.5-to-7-year clock doesn't start until a clerk marks your file "Complete." Clerks drip-feed requests until your foreign docs expire at the <strong>6-month cliff</strong>.</li>
+            <li><strong>🌍 The "3-Bucket" Universal Police Check Rule:</strong> Requires Apostilled federal checks from (1) Country of Birth, (2) Every Citizenship, and (3) Every Country lived in >12 months since age 14.</li>
+            <li><strong>🕵️‍♂️ Separated 80-Question Sincerity Interrogation:</strong> Held annually in separate rooms before renewing your B/1 work visa or A/5 Teudat Zehut.</li>
+          </ul>
+          <button class="btn-sky" onclick="switchTab(4)">Load Track 4 Into My Live Tracker →</button>
+        </div>
+      m (1) birth country, (2) all citizenships, and (3) every country lived in &gt;1 year since age 14.</li>
             <li><strong>🕵️‍♂️ Separated 80-Question Couples Interrogation:</strong> Conducted every single year in separate rooms before granting B/1 or A/5 renewals.</li>
           </ul>
           <button class="btn-sky" onclick="switchTab(4)">Load Track 3 Into My Live Tracker →</button>
@@ -1284,10 +1304,13 @@
     document.getElementById('viewport').scrollTop = 0;
   }
 
-  function switchTrack(idx, btn) {
-    document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.track-card').forEach((c, i) => c.classList.toggle('active', i === idx));
+  function switchTrack(idx, btnEl) {
+    const btns = document.querySelectorAll('.seg-bar button');
+    btns.forEach((b, i) => b.classList.toggle('active', i === idx));
+    for (let i = 0; i < 4; i++) {
+      const el = document.getElementById('track-' + i);
+      if (el) el.classList.toggle('active', i === idx);
+    }
   }
 
   function openObstacle(idx) {
@@ -1822,7 +1845,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=1');
+      const r = await fetch('/i18n/' + lang + '.json?v=5');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
