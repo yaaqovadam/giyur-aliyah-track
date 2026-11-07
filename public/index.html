@@ -260,11 +260,14 @@
     .btn-install-navy { width: 100%; background: var(--teal-dark); color: #ffffff; border: none; padding: 15px; border-radius: 12px; font-size: 0.96rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 14px; }
 
     
-    /* Left-Edge Floating Pull Tab Handle */
-    .left-edge-handle { position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 75; width: 26px; height: 84px; background: #082548; border: 1.5px solid #1994F5; border-left: none; border-radius: 0 12px 12px 0; box-shadow: 3px 0 14px rgba(8, 37, 72, 0.28); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: grab; touch-action: none; transition: width 0.18s ease, background 0.18s ease; }
-    .left-edge-handle:hover, .left-edge-handle:active { width: 26px; background: #0288E8; }
-    .leh-grip { width: 4px; height: 28px; border-left: 1.5px solid #38bdf8; border-right: 1.5px solid #38bdf8; border-radius: 2px; }
-    .leh-arrow { color: #ffffff; font-size: 10px; font-weight: 900; line-height: 1; }
+    /* Attached Pull-Tab Handle Riding the Drawer Edge */
+    #left-drawer-panel { position: relative; overflow: visible !important; user-select: none; -webkit-user-select: none; }
+    .left-edge-handle { position: absolute; right: -30px; top: 50%; transform: translateY(-50%); z-index: 95; width: 30px; height: 96px; background: #082548; border: 2px solid #1994F5; border-left: none; border-radius: 0 14px 14px 0; box-shadow: 4px 0 16px rgba(8, 37, 72, 0.32); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: grab; pointer-events: auto !important; touch-action: none !important; }
+    .left-edge-handle::after { content: ''; position: absolute; top: -12px; bottom: -12px; left: -10px; right: -16px; }
+    .left-edge-handle:active { cursor: grabbing; background: #0288E8; }
+    .leh-grip { width: 4px; height: 32px; border-left: 1.5px solid #38bdf8; border-right: 1.5px solid #38bdf8; border-radius: 2px; pointer-events: none; }
+    .leh-arrow { color: #ffffff; font-size: 11px; font-weight: 900; line-height: 1; pointer-events: none; transition: transform 0.25s ease; }
+    #left-drawer.open .leh-arrow { transform: rotate(180deg); }
 
     /* Bottom 5-Tab Bar (Exact Zehut 2026 Uncrowded SVG Pill Style) */
     .bottom-nav { height: var(--bottom-h); background: #ffffff; border-top: 1px solid var(--border-light); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 4px 6px; flex-shrink: 0; z-index: 50; box-shadow: 0 -4px 16px rgba(11, 59, 89, 0.04); }
@@ -1088,15 +1091,13 @@
   </div>
 </div>
 
-<!-- FLOATING LEFT-EDGE DRAWER HANDLE -->
-<div class="left-edge-handle" id="left-edge-handle" onclick="toggleLeftDrawer(true)" title="Pull or Tap for Paperwork & Concierge">
-  <span class="leh-arrow">❯</span>
-  <div class="leh-grip"></div>
-</div>
-
 <!-- LEFT SLIDE-OUT DRAWER: PAPERWORK, SURVIVAL & CONCIERGE -->
 <div class="drawer-backdrop left" id="left-drawer" onclick="if(event.target===this) toggleLeftDrawer(false)">
-  <aside class="drawer-panel">
+  <aside class="drawer-panel" id="left-drawer-panel">
+    <div class="left-edge-handle" id="left-edge-handle" title="Tap or Drag Paperwork & Concierge">
+      <span class="leh-arrow" id="leh-arrow">❯</span>
+      <div class="leh-grip"></div>
+    </div>
     <div>
       <div class="drawer-brand-center">
         <div class="brand-title" style="font-size:1.3rem;">🛠️ Paperwork & <span>Concierge</span></div>
@@ -1296,7 +1297,48 @@
     openObstacle((currentObs + 1) % obstacles.length);
   }
 
-  function toggleLeftDrawer(open) { document.getElementById('left-drawer').classList.toggle('open', open); }
+    function toggleLeftDrawer(open) {
+    const bd = document.getElementById('left-drawer');
+    const pn = document.getElementById('left-drawer-panel');
+    if (!bd || !pn) return;
+    pn.style.transition = ''; bd.style.transition = ''; pn.style.transform = '';
+    bd.classList.toggle('open', open);
+  }
+  (function(){
+    const bd = document.getElementById('left-drawer'), pn = document.getElementById('left-drawer-panel'), hd = document.getElementById('left-edge-handle');
+    if (!bd || !pn || !hd) return;
+    let dragging = false, startX = 0, baseTx = 0, curTx = 0, moved = false;
+    hd.addEventListener('pointerdown', e => {
+      e.preventDefault(); e.stopPropagation();
+      hd.setPointerCapture(e.pointerId);
+      const w = pn.offsetWidth || 320;
+      const isOpen = bd.classList.contains('open');
+      dragging = true; moved = false; startX = e.clientX;
+      baseTx = isOpen ? 0 : -w; curTx = baseTx;
+      pn.style.transition = 'none'; bd.style.transition = 'none';
+      bd.style.opacity = '1'; bd.style.pointerEvents = 'auto';
+      pn.style.transform = `translateX(${baseTx}px)`;
+    });
+    hd.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 5) moved = true;
+      const w = pn.offsetWidth || 320;
+      curTx = Math.min(0, Math.max(-w, baseTx + dx));
+      pn.style.transform = `translateX(${curTx}px)`;
+    });
+    function finish(e) {
+      if (!dragging) return;
+      dragging = false;
+      const w = pn.offsetWidth || 320, wasOpen = bd.classList.contains('open');
+      pn.style.transition = ''; bd.style.transition = '';
+      bd.style.opacity = ''; bd.style.pointerEvents = ''; pn.style.transform = '';
+      const shouldOpen = !moved ? !wasOpen : (wasOpen ? curTx > -w * 0.25 : curTx > -w * 0.75);
+      bd.classList.toggle('open', shouldOpen);
+    }
+    hd.addEventListener('pointerup', finish);
+    hd.addEventListener('pointercancel', finish);
+  })();
   
     // Block horizontal touch swipes from triggering browser Back/Forward
   let tStartX = 0, tStartY = 0;
