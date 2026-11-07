@@ -260,14 +260,12 @@
     .btn-install-navy { width: 100%; background: var(--teal-dark); color: #ffffff; border: none; padding: 15px; border-radius: 12px; font-size: 0.96rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 14px; }
 
     
-    /* Attached Pull-Tab Handle Riding the Drawer Edge */
-    #left-drawer-panel { position: relative; overflow: visible !important; user-select: none; -webkit-user-select: none; }
-    .left-edge-handle { position: absolute; right: -30px; top: 50%; transform: translateY(-50%); z-index: 95; width: 30px; height: 96px; background: #082548; border: 2px solid #1994F5; border-left: none; border-radius: 0 14px 14px 0; box-shadow: 4px 0 16px rgba(8, 37, 72, 0.32); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: grab; pointer-events: auto !important; touch-action: none !important; }
-    .left-edge-handle::after { content: ''; position: absolute; top: -12px; bottom: -12px; left: -10px; right: -16px; }
+    /* Always-Visible Pull Handle Synced 1:1 With Left Drawer */
+    .left-edge-handle { position: fixed; left: 0; top: 50%; transform: translate3d(0, -50%, 0); z-index: 99; width: 28px; height: 96px; background: #082548; border: 2px solid #1994F5; border-left: none; border-radius: 0 14px 14px 0; box-shadow: 4px 0 16px rgba(8, 37, 72, 0.35); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: grab; touch-action: none !important; user-select: none; -webkit-user-select: none; transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), background 0.18s ease; }
+    .left-edge-handle::after { content: ''; position: absolute; top: -14px; bottom: -14px; left: -6px; right: -18px; }
     .left-edge-handle:active { cursor: grabbing; background: #0288E8; }
-    .leh-grip { width: 4px; height: 32px; border-left: 1.5px solid #38bdf8; border-right: 1.5px solid #38bdf8; border-radius: 2px; pointer-events: none; }
-    .leh-arrow { color: #ffffff; font-size: 11px; font-weight: 900; line-height: 1; pointer-events: none; transition: transform 0.25s ease; }
-    #left-drawer.open .leh-arrow { transform: rotate(180deg); }
+    .left-edge-handle.open { transform: translate3d(min(320px, 86vw), -50%, 0); }
+    .left-edge-handle.open .leh-arrow { transform: rotate(180deg); }
 
     /* Bottom 5-Tab Bar (Exact Zehut 2026 Uncrowded SVG Pill Style) */
     .bottom-nav { height: var(--bottom-h); background: #ffffff; border-top: 1px solid var(--border-light); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 4px 6px; flex-shrink: 0; z-index: 50; box-shadow: 0 -4px 16px rgba(11, 59, 89, 0.04); }
@@ -570,6 +568,9 @@
   }
   </script>
 <!-- GAT VIDEO SEO SCHEMA END -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Misrad HaPanim accept Gush Etzion or private Orthodox conversion for Aliyah?","acceptedAnswer":{"@type":"Answer","text":"While an independent Orthodox Beit Din conversion like Gush Etzion is 100% Halachically kosher, Misrad HaPanim and the Chief Rabbinate do not approve tourist conversions for Law of Return Aliyah without State Giyur (Nativ / Va'adat Charigim), 9+ months in a recognized diaspora community, or Chief Rabbinate validation (Ishur Giyur) plus the Misrad HaPanim Graduated Spousal Process (Nohal 5.2.0008)."}},{"@type":"Question","name":"How long are FBI Police Checks and Single Status Apostilles valid for Misrad HaPanim and Va'adat Charigim?","acceptedAnswer":{"@type":"Answer","text":"Misrad HaPanim and the Exceptions Committee (Va'adat Charigim) enforce a strict 180-day (6-month) expiration window from the issue date on Police Background Checks (Teudat Yosher) and Single-Status Affidavits."}},{"@type":"Question","name":"What is the 24-month Sal Klita cash cliff for converts and Olim in Israel?","acceptedAnswer":{"@type":"Answer","text":"Spending more than 24 cumulative months inside Israel within the 3 years prior to receiving your Teudat Oleh cancels eligibility for the ~21,700 NIS Sal Klita absorption cash grant from Misrad HaKlita."}},{"@type":"Question","name":"How can a tourist or student legally sustain themselves in Israel during Giyur without a work permit?","acceptedAnswer":{"@type":"Answer","text":"B/2 tourists cannot work for Israeli employers, but can work remotely for non-Israeli clients paid into a foreign bank account (online English teaching, translation, remote tech) and reduce housing costs via live-in nanny, elderly caretaker, or dorm room-and-board exchanges."}}]}
+</script>
 </head>
 <body>
 
@@ -717,6 +718,12 @@
           <article id="seo-obs-5"><h3>Vetted Rabbanut Sponsoring Rabbi, Certified Madrichat Kallah & 150 Beit Din Questions</h3><p>Both partners (even a born-Jewish Israeli spouse) must complete a recognized course with a Sponsoring Rabbi (Rav Melaveh) and a Family Purity course with a Rabbanut-certified Madrichat Kallah.</p></article>
           <article id="seo-obs-6"><h3>80-Question Separated Misrad HaPanim Couples Sincerity Interrogation</h3><p>Real-time 2-phone Firestore sync matcher highlights mismatches before your annual Tahalich Medurag interview.</p></article>
           <article id="seo-obs-7"><h3>Making Aliyah or Getting a Spousal Visa With a Past Arrest or Criminal Record</h3><p>Covers US FBI, UK ACRO, EU Ministry of Justice, and Canada RCMP checks from birth country, all citizenships, and every country lived in over 1 year since age 14, plus our upfront Rehabilitation Sub-Dossier.</p></article>
+
+          <article id="seo-obs-8"><h3>Sustaining Yourself on a B/2 Tourist or A/2 Student Visa in Israel (Remote Work & Housing)</h3><p>Working locally in Israel without a B/1 work permit triggers deportation. Sustain yourself legally via foreign remote work (online ESL English teaching, translation, remote tech paid to a foreign bank) and zero-rent live-in nanny, au pair, elderly caretaker, or midrasha/yeshiva dorm volunteering.</p></article>
+          <article id="seo-deep-dives">
+            <h2>Official Israeli Conversion (גיור), Chief Rabbinate Validation (אישור גיור בית הדין הגדול), Va'adat Charigim (ועדת חריגים טופס אש/1) & Misrad HaPanim Spousal Visa (נוהל 5.2.0008 תהליך מדורג) Playbook</h2>
+            <p>Complete guide to the 5 Mandatory Apostilled Home-Country Documents (Long-Form Vault Birth Certificate, Single-Status Affidavit / תמצית רישום, Divorce/Marriage Decrees, Name Change Certificates, and 3-Bucket Federal Police Background Checks / תעודת יושר — FBI, ACRO, RCMP) within the strict 180-day expiration clock. Protect your ~21,700 NIS Sal Klita (סל קליטה) grant from the 24-month pre-Aliyah residency cliff, pass the 150 Beit Din questions (מעמד בית דין) and 80-question separated couples interview, and generate stamped Hebrew Sponsoring Rabbi (רב מלווה) and Host Family (משפחה מלווה) letters.</p>
+          </article>
         </div>
       </section>
 
@@ -1092,12 +1099,12 @@
 </div>
 
 <!-- LEFT SLIDE-OUT DRAWER: PAPERWORK, SURVIVAL & CONCIERGE -->
+<div class="left-edge-handle" id="left-edge-handle" title="Hold & Slide or Tap for Paperwork & Concierge">
+  <span class="leh-arrow" id="leh-arrow">❯</span>
+  <div class="leh-grip"></div>
+</div>
 <div class="drawer-backdrop left" id="left-drawer" onclick="if(event.target===this) toggleLeftDrawer(false)">
   <aside class="drawer-panel" id="left-drawer-panel">
-    <div class="left-edge-handle" id="left-edge-handle" title="Tap or Drag Paperwork & Concierge">
-      <span class="leh-arrow" id="leh-arrow">❯</span>
-      <div class="leh-grip"></div>
-    </div>
     <div>
       <div class="drawer-brand-center">
         <div class="brand-title" style="font-size:1.3rem;">🛠️ Paperwork & <span>Concierge</span></div>
@@ -1297,47 +1304,45 @@
     openObstacle((currentObs + 1) % obstacles.length);
   }
 
-    function toggleLeftDrawer(open) {
-    const bd = document.getElementById('left-drawer');
-    const pn = document.getElementById('left-drawer-panel');
-    if (!bd || !pn) return;
-    pn.style.transition = ''; bd.style.transition = ''; pn.style.transform = '';
-    bd.classList.toggle('open', open);
+      function toggleLeftDrawer(open) {
+    const bd = document.getElementById('left-drawer'), pn = document.getElementById('left-drawer-panel'), hd = document.getElementById('left-edge-handle');
+    if (!bd || !pn || !hd) return;
+    pn.style.transition = ''; bd.style.transition = ''; hd.style.transition = '';
+    pn.style.transform = ''; hd.style.transform = '';
+    bd.classList.toggle('open', open); hd.classList.toggle('open', open);
   }
   (function(){
     const bd = document.getElementById('left-drawer'), pn = document.getElementById('left-drawer-panel'), hd = document.getElementById('left-edge-handle');
     if (!bd || !pn || !hd) return;
     let dragging = false, startX = 0, baseTx = 0, curTx = 0, moved = false;
     hd.addEventListener('pointerdown', e => {
-      e.preventDefault(); e.stopPropagation();
-      hd.setPointerCapture(e.pointerId);
-      const w = pn.offsetWidth || 320;
-      const isOpen = bd.classList.contains('open');
-      dragging = true; moved = false; startX = e.clientX;
-      baseTx = isOpen ? 0 : -w; curTx = baseTx;
-      pn.style.transition = 'none'; bd.style.transition = 'none';
+      e.preventDefault(); e.stopPropagation(); hd.setPointerCapture(e.pointerId);
+      const w = pn.offsetWidth || 320, isOpen = bd.classList.contains('open');
+      dragging = true; moved = false; startX = e.clientX; baseTx = isOpen ? 0 : -w; curTx = baseTx;
+      pn.style.transition = 'none'; bd.style.transition = 'none'; hd.style.transition = 'none';
       bd.style.opacity = '1'; bd.style.pointerEvents = 'auto';
-      pn.style.transform = `translateX(${baseTx}px)`;
+      pn.style.transform = `translate3d(${baseTx}px,0,0)`;
+      hd.style.transform = `translate3d(${baseTx + w}px,-50%,0)`;
     });
     hd.addEventListener('pointermove', e => {
       if (!dragging) return;
-      const dx = e.clientX - startX;
+      const dx = e.clientX - startX, w = pn.offsetWidth || 320;
       if (Math.abs(dx) > 5) moved = true;
-      const w = pn.offsetWidth || 320;
       curTx = Math.min(0, Math.max(-w, baseTx + dx));
-      pn.style.transform = `translateX(${curTx}px)`;
+      pn.style.transform = `translate3d(${curTx}px,0,0)`;
+      hd.style.transform = `translate3d(${curTx + w}px,-50%,0)`;
     });
-    function finish(e) {
+    function finish() {
       if (!dragging) return;
       dragging = false;
       const w = pn.offsetWidth || 320, wasOpen = bd.classList.contains('open');
-      pn.style.transition = ''; bd.style.transition = '';
-      bd.style.opacity = ''; bd.style.pointerEvents = ''; pn.style.transform = '';
-      const shouldOpen = !moved ? !wasOpen : (wasOpen ? curTx > -w * 0.25 : curTx > -w * 0.75);
-      bd.classList.toggle('open', shouldOpen);
+      pn.style.transition = ''; bd.style.transition = ''; hd.style.transition = '';
+      bd.style.opacity = ''; bd.style.pointerEvents = ''; pn.style.transform = ''; hd.style.transform = '';
+      const openNow = !moved ? !wasOpen : (wasOpen ? curTx > -w * 0.25 : curTx > -w * 0.75);
+      bd.classList.toggle('open', openNow); hd.classList.toggle('open', openNow);
     }
-    hd.addEventListener('pointerup', finish);
-    hd.addEventListener('pointercancel', finish);
+    hd.addEventListener('pointerup', finish); hd.addEventListener('pointercancel', finish);
+    bd.addEventListener('click', e => { if (e.target === bd) toggleLeftDrawer(false); });
   })();
   
     // Block horizontal touch swipes from triggering browser Back/Forward
