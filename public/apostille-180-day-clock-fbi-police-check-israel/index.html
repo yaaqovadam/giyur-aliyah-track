@@ -11,10 +11,6 @@
     .ea-cta { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; font-weight: 800; color: #fde047; }
     html[dir="rtl"] .exodus-alert { text-align: right; }
 
-  
-    .seg-bar { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 6px !important; background: #e2e8f0; padding: 6px; border-radius: 14px; margin-bottom: 16px; }
-    .seg-btn { border: none; padding: 10px 8px !important; border-radius: 10px; font-size: 12.5px !important; font-weight: 800; cursor: pointer; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
   </style>
 <script>(function(){if(!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();</script>
 <script src="/splash.js?v=1100"></script>
@@ -739,15 +735,21 @@
 
       <!-- =========================================================
            TAB 2: TRACKS (THE 3 TRACKS OF ISRAEL)
-       <div class="seg-bar">
+           ========================================================= -->
+      <section class="app-view" id="view-1" aria-label="The 3 Tracks of Conversion, Marriage & Aliyah">
+        <div class="hero-center" style="margin-bottom:16px;">
+          <h1 data-i18n="t2_h1">The 4 Tracks of Israel</h1>
+          <p>Tap each track: 1) Emergency Exit Go-Bag, 2) Private Beit Din, 3) State Giyur, or 4) Spousal Visa.</p>
+        </div>
+
+        <div class="seg-bar" role="tablist">
           <button class="seg-btn active" onclick="switchTrack(0, this)" data-i18n="seg_0">🚨 1. Emergency Exit</button>
           <button class="seg-btn" onclick="switchTrack(1, this)" data-i18n="seg_1">🕍 2. Private Beit Din</button>
           <button class="seg-btn" onclick="switchTrack(2, this)" data-i18n="seg_2">🏛️ 3. State Giyur</button>
           <button class="seg-btn" onclick="switchTrack(3, this)" data-i18n="seg_3">💍 4. Spousal Visa</button>
         </div>
 
-        <!-- Track 1: Emergency Aliyah & Point-of-No-Return Go-Bag -->
-        <div class="track-card active" id="track-0">
+        <article class="track-card active" id="track-0">
           <span class="tc-pill">Track 1 • Skip the Overseas Agency Backlog & Land With Your Go-Bag</span>
           <h2>Emergency Relocation & In-Israel Aliyah (Shinui Ma'amad)</h2>
           <p class="tc-lead"><strong>Born Jews have ZERO mandatory waiting period—only an overseas agency & consulate paperwork backlog!</strong> Whether you are Jewish by birth, a mixed couple, or a recent convert, you can fly directly to Ben Gurion Airport on a tourist visa and file for status inside Israel—<strong>IF</strong> you never board the plane without your Point-of-No-Return Go-Bag.</p>
@@ -758,10 +760,9 @@
             <li><strong>🔄 Emergency Mid-Conversion Transfer & 9-Month Rule:</strong> While born Jews have zero wait, diaspora converts normally face a 9-month post-Mikvah community stay rule. Forced to leave early? Learn how to bring an official Beit Din Transfer Dossier into Israel.</li>
           </ul>
           <button class="btn-sky" onclick="switchTab(4)">Load Emergency Go-Bag Into My Live Tracker →</button>
-        </div>
+        </article>
 
-        <!-- Track 2: Private Orthodox Beit Din -->
-        <div class="track-card" id="track-1">
+        <article class="track-card" id="track-1">
           <span class="tc-pill">Track 2 • Become 100% Halachically Jewish Faster (For Diaspora or Israel Stepping-Stone)</span>
           <h2>Private Orthodox Beit Din (Gush Etzion, Bnei Brak & More)</h2>
           <p class="tc-lead"><strong>If you want to become 100% Halachically Jewish without waiting years for government clerks, this is a fantastic path!</strong> Israel has 5+ respected private Orthodox courts (from Modern Orthodox <em>Giyur K'Halacha</em> in Gush Etzion to Haredi courts like R' Karelitz's Beit Din in Bnei Brak). Great for students returning home Jewish or couples who want a kosher Chuppah <em>now</em> and bridge to Rabbanut validation later.</p>
@@ -772,10 +773,9 @@
             <li><strong>💣 Never Leave Validation Half-Finished:</strong> Stopping after the Mikvah without <span class="term-link" onclick="openTerm('ishur_giyur')">Chief Rabbinate Validation (Ishur Giyur) ⓘ</span> blocks Rabbanut weddings for you and your future kids.</li>
           </ul>
           <button class="btn-sky" onclick="switchTab(4)">Load Track 2 Into My Live Tracker →</button>
-        </div>
+        </article>
 
-        <!-- Track 3: State Giyur & Aliyah -->
-        <div class="track-card" id="track-2">
+        <article class="track-card" id="track-2">
           <span class="tc-pill">Track 3 • Official State Conversion & Law of Return Aliyah</span>
           <h2>State Giyur (Nativ / Ma'arach HaGiyur) & Chief Rabbinate</h2>
           <p class="tc-lead">The official government conversion pathway that grants Law of Return citizenship (Aliyah) immediately upon completion.</p>
@@ -786,10 +786,9 @@
             <li><strong>The Exam Hurdle:</strong> Passing the 3-judge Beit Din panel on 150 Halacha questions + 12 Shabbat songs.</li>
           </ul>
           <button class="btn-sky" onclick="switchTab(4)">Load Track 3 Into My Live Tracker →</button>
-        </div>
+        </article>
 
-        <!-- Track 4: Misrad HaPanim Spousal Residency -->
-        <div class="track-card" id="track-3">
+        <article class="track-card" id="track-3">
           <span class="tc-pill">Track 4 • Spousal Residency (Tahalich Medurag) & Change of Status</span>
           <h2>Misrad HaPanim Civil Visa, A/5 Teudat Zehut & Citizenship</h2>
           <p class="tc-lead">Run by the Ministry of Interior for spouses/partners of Israelis (Form Ash/3) and post-conversion residency.</p>
@@ -799,11 +798,6 @@
             <li><strong>🕵️‍♂️ Separated 80-Question Sincerity Interrogation:</strong> Held annually in separate rooms before renewing your B/1 work visa or A/5 Teudat Zehut.</li>
           </ul>
           <button class="btn-sky" onclick="switchTab(4)">Load Track 4 Into My Live Tracker →</button>
-        </div>
-      m (1) birth country, (2) all citizenships, and (3) every country lived in &gt;1 year since age 14.</li>
-            <li><strong>🕵️‍♂️ Separated 80-Question Couples Interrogation:</strong> Conducted every single year in separate rooms before granting B/1 or A/5 renewals.</li>
-          </ul>
-          <button class="btn-sky" onclick="switchTab(4)">Load Track 3 Into My Live Tracker →</button>
         </article>
       </section>
 
@@ -1304,13 +1298,10 @@
     document.getElementById('viewport').scrollTop = 0;
   }
 
-  function switchTrack(idx, btnEl) {
-    const btns = document.querySelectorAll('.seg-bar button');
-    btns.forEach((b, i) => b.classList.toggle('active', i === idx));
-    for (let i = 0; i < 4; i++) {
-      const el = document.getElementById('track-' + i);
-      if (el) el.classList.toggle('active', i === idx);
-    }
+  function switchTrack(idx, btn) {
+    document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.track-card').forEach((c, i) => c.classList.toggle('active', i === idx));
   }
 
   function openObstacle(idx) {
@@ -1845,7 +1836,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=5');
+      const r = await fetch('/i18n/' + lang + '.json?v=6');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
