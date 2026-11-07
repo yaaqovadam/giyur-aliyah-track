@@ -5,6 +5,11 @@ assert "noindex, nofollow" in h, "Safety check: noindex must remain active!"
 
 # Define the 8 unique SEO Spoke Routes (slug, title, h1, desc, term_key, obs_idx)
 spokes = [
+  ("emergency-aliyah-go-bag-shinui-maamad",
+   "Emergency Aliyah From Inside Israel (Shinui Ma'amad) & Pre-Flight Go-Bag Checklist",
+   "Skip the 9-Month Consulate Wait: The Point-of-No-Return Pre-Flight Go-Bag & In-Israel Aliyah Playbook",
+   "Need to leave for Israel now? Never board a plane without two Apostilled originals of these 7 Go-Bag documents. How to clear Ben Gurion Airport and file Shinui Ma'amad inside Israel.",
+   "go_bag", 1),
   ("gush-etzion-private-conversion-aliyah",
    "Gush Etzion & Private Orthodox Conversion: Aliyah, Rabbanut & Ishur Giyur",
    "Gush Etzion & Independent Orthodox Conversion: The Post-Mikvah & Aliyah Playbook",
