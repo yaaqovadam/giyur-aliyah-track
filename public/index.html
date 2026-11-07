@@ -11,6 +11,40 @@
     .ea-cta { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; font-weight: 800; color: #fde047; }
     html[dir="rtl"] .exodus-alert { text-align: right; }
 
+  
+    /* Tab 3 Slider & Card Polish */
+    #view-2 { padding-top: 14px !important; }
+    #view-2 .slider-head { display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 12px !important; margin-bottom: 10px !important; }
+    #view-2 .slider-title { font-size: 14px !important; font-weight: 700 !important; line-height: 1.35 !important; flex: 1 !important; }
+    #view-2 .slider-val { white-space: nowrap !important; flex-shrink: 0 !important; background: rgba(2, 152, 236, 0.12) !important; color: #0284c7 !important; padding: 4px 10px !important; border-radius: 999px !important; font-size: 13.5px !important; font-weight: 800 !important; }
+    #view-2 .zehut-select { text-overflow: ellipsis !important; padding-inline-end: 28px !important; }
+    #view-2 .emerald-card { padding: 18px 16px !important; margin-bottom: 16px !important; }
+    #view-2 .emerald-sub { line-height: 1.4 !important; margin-top: 6px !important; }
+
+    /* Fix Drawer Slide Direction in both LTR and RTL (Physical Left vs Physical Right) */
+    .drawer-backdrop { direction: ltr !important; }
+    .drawer-backdrop .drawer-panel { direction: ltr; }
+    html[dir="rtl"] .drawer-backdrop .drawer-panel { direction: rtl; text-align: right; }
+
+    /* LTR: #left-drawer on physical left, #app-drawer (hamburger) on physical right */
+    html:not([dir="rtl"]) #left-drawer { justify-content: flex-start !important; }
+    html:not([dir="rtl"]) #left-drawer .drawer-panel { transform: translateX(-100%) !important; }
+    html:not([dir="rtl"]) #left-drawer.open .drawer-panel { transform: translateX(0) !important; }
+
+    html:not([dir="rtl"]) #app-drawer { justify-content: flex-end !important; }
+    html:not([dir="rtl"]) #app-drawer .drawer-panel { transform: translateX(100%) !important; }
+    html:not([dir="rtl"]) #app-drawer.open .drawer-panel { transform: translateX(0) !important; }
+
+    /* RTL: Hamburger is on physical LEFT, so #app-drawer slides from physical LEFT!
+       Edge tab is on physical RIGHT, so #left-drawer slides from physical RIGHT! */
+    html[dir="rtl"] #app-drawer { justify-content: flex-start !important; }
+    html[dir="rtl"] #app-drawer .drawer-panel { transform: translateX(-100%) !important; border-left: none !important; border-right: 1px solid rgba(255,255,255,0.12) !important; }
+    html[dir="rtl"] #app-drawer.open .drawer-panel { transform: translateX(0) !important; }
+
+    html[dir="rtl"] #left-drawer { justify-content: flex-end !important; }
+    html[dir="rtl"] #left-drawer .drawer-panel { transform: translateX(100%) !important; }
+    html[dir="rtl"] #left-drawer.open .drawer-panel { transform: translateX(0) !important; }
+
   </style>
 <script>(function(){if(!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();</script>
 <script src="/splash.js?v=1100"></script>
@@ -840,7 +874,7 @@
 
         <div class="slider-block">
           <div class="slider-head">
-            <span class="slider-title">Countries Lived In (&gt;1 Yr Since Age 14):</span>
+            <span class="slider-title" id="lbl-countries">Countries Lived In (&gt;1 Yr Since Age 14):</span>
             <span class="slider-val" id="val-countries">2 Countries</span>
           </div>
           <input type="range" id="sl-countries" min="1" max="5" value="2" oninput="updateShieldMath()" />
@@ -848,7 +882,7 @@
 
         <div class="slider-block">
           <div class="slider-head">
-            <span class="slider-title">Months Already Spent Waiting on Clerks:</span>
+            <span class="slider-title" id="lbl-months">Months Already Spent Waiting on Clerks:</span>
             <span class="slider-val" id="val-months">6 Months</span>
           </div>
           <input type="range" id="sl-months" min="0" max="36" step="3" value="6" oninput="updateShieldMath()" />
@@ -1684,8 +1718,8 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     window.htmlSwapSelectors = [
     '#left-drawer-panel',
     '#app-drawer .drawer-panel',
-    '#view-2 .slider-block:nth-of-type(2) .slider-title',
-    '#view-2 .slider-block:nth-of-type(3) .slider-title',
+    '#lbl-countries',
+    '#lbl-months',
     '#view-2 > .btn-sky',
     '#track-0', '#track-1', '#track-2', '#track-3',
     '#view-2 .hero-center p', '#view-2 .zehut-select-label', '#z-track',
@@ -1699,8 +1733,8 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   ];
   window.enHtmlCache = {};
   window.heHtmlMap = {
-    '#view-2 .slider-block:nth-of-type(2) .slider-title': 'מדינות בהן גרתם (מעל שנה מגיל 14):',
-    '#view-2 .slider-block:nth-of-type(3) .slider-title': 'חודשים שכבר בוזבזו בהמתנה לפקידים:',
+    '#lbl-countries': 'מדינות בהן גרתם (מעל שנה מגיל 14):',
+    '#lbl-months': 'חודשים שכבר בוזבזו בהמתנה לפקידים:',
     '#view-2 > .btn-sky': 'נעל את המסלול ומגן המועדים שלי ←',
     '#left-drawer-panel': `<div>
       <div class="drawer-brand-center">
@@ -1917,7 +1951,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=7');
+      const r = await fetch('/i18n/' + lang + '.json?v=8');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
