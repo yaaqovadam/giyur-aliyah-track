@@ -61,7 +61,45 @@
     .dds-lbl { display: block !important; font-size: 11px !important; opacity: 0.85 !important; white-space: nowrap !important; line-height: 1.15 !important; }
 
   </style>
-<script>(function(){if(!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();</script>
+<script>(function(){if(!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();
+  const _origOpenTerm = window.openTerm || openTerm;
+  window.openTerm = function(key) {
+    if (key === 'fx_shield') {
+      const isHe = (window.gatLang === 'he');
+      const modal = document.getElementById('obstacle-modal');
+      const titleEl = document.getElementById('obs-title');
+      const bodyEl = document.getElementById('obs-body');
+      if (modal && titleEl && bodyEl) {
+        titleEl.innerHTML = isHe
+          ? '💸 תשלום שכר דירה והעברת כספים ללא תעודת זהות (מניעת הקפאת בנק ו-3.2% עמלה)'
+          : '💸 Paying Israeli Landlords & Wiring Funds Without a Teudat Zehut';
+        bodyEl.innerHTML = isHe
+          ? `<div style="text-align:right; direction:rtl; line-height:1.6;">
+              <p><strong>מלכודת 60 הימים הראשונים בארץ:</strong> כשמגיעים לישראל במסלול עליית חירום (<em>שינוי מעמד</em>) או כתיירים/בני זוג, אין לכם עדיין תעודת זהות או חשבון בנק ישראלי במשך 2–3 חודשים — אבל בעלי דירות דורשים תשלום בשקלים (₪) מראש.</p>
+              <ul style="padding-right:18px; margin:12px 0;">
+                <li><strong>שוד העמלות של הבנקים (3%–4%):</strong> העברת מט"ח ישירה מבנק בחו"ל לבנק ישראלי גוררת מרווחי המרה יקרים ועמלות קורספונדנט שגוזלים כ-<strong>$3,200 על כל $100,000</strong>.</li>
+                <li><strong>הקפאת ציות (AML) בבנקים בישראל:</strong> העברת סכומים גבוהים לחשבון חדש בישראל ללא אישור מקור כספים מראש גורמת להקפאת הכסף במשך שבועות.</li>
+                <li><strong>הפתרון — חשבון גישור מוסדר לעולים (ללא צורך בת"ז):</strong> דרך ברוקר מט"ח ישראלי מורשה (כגון IsraTransfer), ניתן לפתוח חשבון בחינם עוד לפני הטיסה עם הדרכון הזר, להמיר דולר/אירו/ליש"ט בשער קרוב לרציף, ו<strong>לשלם ישירות בשקלים לחשבון הבנק של בעל הדירה, מוכר הרכב או הקבלן בארץ</strong> (העברת זה"ב/מס"ב) — גם לפני שיש לכם חשבון בנק ישראלי!</li>
+              </ul>
+              <button class="btn-sky" style="margin-top:10px; background:#059669;" onclick="openFxPartner()">פתיחת חשבון המרה ותשלום בשקלים ללא עמלות בנק ←</button>
+            </div>`
+          : `<div style="line-height:1.6;">
+              <p><strong>The First-60-Days Catch-22:</strong> When you land in Israel for <em>Shinui Ma'amad</em> (In-Israel Aliyah), conversion, or a spousal visa, you have no <em>Teudat Zehut</em> and no Israeli bank account for 60–90 days—yet Israeli landlords demand Shekels (₪) upfront to hand over apartment keys.</p>
+              <ul style="padding-left:18px; margin:12px 0;">
+                <li><strong>The 3.2% Retail Bank Skim:</strong> Wiring USD, GBP, or EUR from Chase, BofA, Barclays, or RBC straight into an Israeli bank hits you with a 3%–4% exchange rate markup plus SWIFT fees—costing you <strong>~$3,200 on every $100,000</strong> moved.</li>
+                <li><strong>The Israeli Bank AML Freeze:</strong> Wiring $25k–$100k+ into a new Israeli bank account without pre-cleared Hebrew compliance paperwork regularly triggers a multi-week anti-money-laundering freeze.</li>
+                <li><strong>The Solution — Licensed Israeli FX Escrow Bridge:</strong> Using a regulated Israeli currency specialist (like IsraTransfer), you open a free account on your foreign passport <em>before</em> you even get a Teudat Zehut. You wire USD/GBP/EUR domestically, lock in near-interbank rates (saving ~2.5%), and <strong>they wire Shekels (₪) directly to your Israeli landlord, car dealer, or lawyer</strong> via local Israeli bank transfer!</li>
+              </ul>
+              <button class="btn-sky" style="margin-top:10px; background:#059669;" onclick="openFxPartner()">Open Free Aliyah Currency Bridge & Save ~2.5% →</button>
+            </div>`;
+        modal.classList.add('open');
+        return;
+      }
+    }
+    return _origOpenTerm(key);
+  };
+
+</script>
 <script src="/splash.js?v=1100"></script>
 <!-- GAT ANTI-FLASH END -->
   <meta charset="UTF-8" />
@@ -821,6 +859,7 @@
             <li><strong>🎒 The "One-Way Bridge" Go-Bag Rule (No Returning For Missing Docs):</strong> If airspace closes, postal couriers stall, or your home city becomes unsafe to return to, you cannot order biometric FBI/ACRO/RCMP fingerprints or vault birth certificates from Israel. Pull <strong>2 physical Apostilled originals</strong> of all <span class="term-link" onclick="openTerm('go_bag')">7 Point-of-No-Return Go-Bag Documents ⓘ</span> before departure!</li>
             <li><strong>✈️ Clearing Ben Gurion Border Control (Bikoret Gvulot) Without Refusal:</strong> Never show up at the airline desk with a one-way ticket and 8 giant trunks announcing you are moving permanently without a visa. Follow our legal return-ticket, ETA-IL, and Mixed-Couple entry protocol so your partner is never turned back at the gate.</li>
             <li><strong>🏥 Surviving Your First 60–90 Days Without a Teudat Zehut:</strong> When you do <em>Shinui Ma'amad</em> from inside Israel, you have no ID number for 2–3 months. We show you how to sign an apartment lease without a bank guarantor, enroll kids in municipal schools on foreign passports, and secure private bridge health insurance into Maccabi/Clalit.</li>
+                        <li><strong>💸 Paying Rent & Moving Savings Without a Teudat Zehut:</strong> Retail banks skim ~3.2% on USD/GBP/EUR wires and freeze unverified transfers. Use our <span class="term-link" onclick="openTerm('fx_shield')">No-Teudat-Zehut Shekel Rent & Currency Bridge ⓘ</span> to pay Israeli landlords directly in ₪ and save ~$2,500 per $100k moved.</li>
             <li><strong>🔄 Emergency Mid-Conversion Transfer & 9-Month Rule:</strong> While born Jews have zero wait, diaspora converts normally face a 9-month post-Mikvah community stay rule. Forced to leave early? Learn how to bring an official Beit Din Transfer Dossier into Israel.</li>
           </ul>
           <button class="btn-sky" onclick="switchTab(4)">Load Emergency Go-Bag Into My Live Tracker →</button>
@@ -911,6 +950,29 @@
         </div>
 
         <button class="btn-sky" onclick="switchTab(4)">Lock In My Track & Deadline Shield →</button>
+
+        <div class="fx-calc-box" id="fx-calc-box" style="margin-top:26px; padding-top:22px; border-top:2px dashed #cbd5e1;">
+          <div class="hero-center" style="margin-bottom:14px;">
+            <h2 id="fx-h2" style="font-size:1.25rem; font-weight:900; color:var(--teal-dark); margin-bottom:6px;">💸 Aliyah Currency & Rent Wire Shield</h2>
+            <p id="fx-lead" style="font-size:0.92rem; color:#475569; margin:0;">Moving money for rent, living expenses, or an apartment? Retail banks skim ~3.2% in hidden exchange markups. See how much you keep using a licensed Israeli FX bridge:</p>
+          </div>
+
+          <div class="slider-block">
+            <div class="slider-head">
+              <span class="slider-title" id="lbl-fx-amt">Amount Transferring to Israel (Rent / Car / Home):</span>
+              <span class="slider-val" id="val-fx">$50,000</span>
+            </div>
+            <input type="range" id="sl-fx" min="10000" max="500000" step="10000" value="50000" oninput="updateFxMath()" />
+          </div>
+
+          <div class="emerald-card" style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border:1px solid #38bdf8;">
+            <div class="emerald-label" id="fx-card-lbl" style="color:#bae6fd;">Money Kept in Your Pocket (Not Taken by Bank Fees):</div>
+            <div class="emerald-giant" id="fx-saved-amt" style="color:#4ade80;">$1,250 (~₪4,625)</div>
+            <div class="emerald-sub" id="fx-saved-detail" style="color:#e2e8f0;">Saved vs. ~3.2% retail bank markup + pay Israeli landlords directly in ₪ before opening an Israeli bank account</div>
+          </div>
+
+          <button class="btn-sky" id="fx-cta-btn" style="background:#059669;" onclick="openFxPartner()">Lock In Preferential Aliyah FX Rate & Pay in ₪ →</button>
+        </div>
       </section>
 
       <!-- =========================================================
@@ -1202,6 +1264,7 @@
         </div>
       </div>
       <div class="drawer-list">
+        <button class="drawer-row" onclick="openTerm('fx_shield'); toggleLeftDrawer(false);">💸 Pay Rent in ₪ & Save 2.5% on Currency Wires</button>
         <button class="drawer-row" onclick="switchTab(4); toggleLeftDrawer(false);">📸 Two-Way Hebrew Translator & PDF Filler</button>
         <button class="drawer-row" onclick="switchTab(3); toggleLeftDrawer(false);">🕍 Vetted Sponsoring Rabbi & Kallah Team</button>
         <button class="drawer-row" onclick="openObstacle(8); toggleLeftDrawer(false);">💼 Tourist Survival: Remote Work & Housing</button>
@@ -1468,6 +1531,41 @@
     document.getElementById('app-drawer').classList.toggle('open', open);
   }
 
+  
+  // Set your IsraTransfer / Currencies Direct affiliate tracking link here:
+  window.FX_PARTNER_URL = 'https://www.isratransfer.com/?ref=giyuraliyahtrack';
+
+  function openFxPartner() {
+    window.open(window.FX_PARTNER_URL, '_blank', 'noopener,noreferrer');
+  }
+
+  function updateFxMath() {
+    const elSlider = document.getElementById('sl-fx');
+    if (!elSlider) return;
+    const usd = parseInt(elSlider.value, 10);
+    const isHe = (window.gatLang === 'he');
+    const fmtUsd = '$' + usd.toLocaleString('en-US');
+    const savedUsd = Math.round(usd * 0.025); // ~2.5% net savings vs 3.2% retail bank spread + SWIFT/correspondent fees
+    const savedNis = Math.round(savedUsd * 3.7);
+
+    const valEl = document.getElementById('val-fx');
+    if (valEl) valEl.innerText = fmtUsd;
+
+    const amtEl = document.getElementById('fx-saved-amt');
+    if (amtEl) {
+      amtEl.innerText = isHe
+        ? ('$' + savedUsd.toLocaleString('en-US') + ' (~₪' + savedNis.toLocaleString('en-US') + ')')
+        : ('$' + savedUsd.toLocaleString('en-US') + ' (~₪' + savedNis.toLocaleString('en-US') + ')');
+    }
+
+    const subEl = document.getElementById('fx-saved-detail');
+    if (subEl) {
+      subEl.innerText = isHe
+        ? 'חיסכון לעומת ~3.2% עמלות המרה בבנק + תשלום ישיר בשקלים לבעל הדירה ללא חשבון בנק ישראלי'
+        : 'Saved vs. ~3.2% retail bank markup + pay Israeli landlords directly in ₪ before opening an Israeli bank account';
+    }
+  }
+
   function updateShieldMath() {
     const track = document.getElementById('z-track').value;
     const countries = parseInt(document.getElementById('sl-countries').value, 10);
@@ -1496,6 +1594,7 @@
     document.getElementById('emerald-detail').innerText = isHe
       ? ('בנוסף למניעת ' + apptsSaved + '+ תורים מבוזבזים ופקיעת תוקף אפוסטיל')
       : ('Plus ' + apptsSaved + '+ Wasted Clerk Appointments & Expired Apostilles Avoided');
+    if (typeof updateFxMath === 'function') updateFxMath();
   }
 
   function selectRabbiOption(idx, row) {
@@ -1740,6 +1839,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   
   
     window.htmlSwapSelectors = [
+    '#fx-h2',
+    '#fx-lead',
+    '#lbl-fx-amt',
+    '#fx-card-lbl',
+    '#fx-cta-btn',
     '#left-drawer-panel',
     '#app-drawer .drawer-panel',
     '#lbl-countries',
@@ -1757,6 +1861,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   ];
   window.enHtmlCache = {};
   window.heHtmlMap = {
+    '#fx-h2': '💸 מגן המרת מט"ח ותשלום שכר דירה בשקלים',
+    '#fx-lead': 'מעבירים כסף לשכר דירה, מחייה או רכישת דירה? הבנקים לוקחים כ-3.2% בעמלות המרה סמויות. בדקו כמה כסף נשאר אצלכם בכיס דרך גשר מט"ח מורשה לעולים:',
+    '#lbl-fx-amt': 'סכום ההעברה לישראל (שכירות / רכב / דירה):',
+    '#fx-card-lbl': 'כסף שנשאר אצלכם בכיס (במקום עמלות בנק):',
+    '#fx-cta-btn': 'שריינו שער המרה מועדף לעולים ותשלמו ב-₪ ללא ת"ז ←',
     '#lbl-countries': 'מדינות בהן גרתם (מעל שנה מגיל 14):',
     '#lbl-months': 'חודשים שכבר בוזבזו בהמתנה לפקידים:',
     '#view-2 > .btn-sky': 'נעל את המסלול ומגן המועדים שלי ←',
@@ -1774,6 +1883,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       </div>
       <div class="drawer-list">
         <button class="drawer-row" onclick="openTerm('go_bag'); toggleLeftDrawer(false);">🚨 תיק חירום לטיסה ועלייה מהארץ (שינוי מעמד)</button>
+        <button class="drawer-row" onclick="openTerm('fx_shield'); toggleLeftDrawer(false);">💸 תשלום שכר דירה ב-₪ וחיסכון של 2.5% בהמרת מט"ח</button>
         <button class="drawer-row" onclick="switchTab(4); toggleLeftDrawer(false);">📸 מתרגם דו-כיווני וממלא טפסי PDF בעברית</button>
         <button class="drawer-row" onclick="switchTab(3); toggleLeftDrawer(false);">🕍 רב מלווה מוכר ומדריכת כלה מוסמכת</button>
         <button class="drawer-row" onclick="openObstacle(8); toggleLeftDrawer(false);">💼 הישרדות כתייר: עבודה מרחוק ושכירת דירה</button>
@@ -1975,7 +2085,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=9');
+      const r = await fetch('/i18n/' + lang + '.json?v=10');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
