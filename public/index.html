@@ -235,13 +235,17 @@
 
     /* Slide-Out Hamburger Drawer (Exact Zehut 2026 Screenshot 3 Style) */
     .drawer-backdrop { position: fixed; inset: 0; background: rgba(11, 59, 89, 0.5); z-index: 90; display: none; justify-content: flex-end; }
-    .drawer-backdrop.open { display: flex; }
+    
+    /* Smooth Tween Slide-Out Drawers (Left & Right) */
+    .drawer-backdrop { display: flex !important; opacity: 0; pointer-events: none; transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1); backdrop-filter: blur(2px); }
+    .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+    .drawer-panel { transform: translateX(100%); transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; }
+    .drawer-backdrop.open .drawer-panel { transform: translateX(0); }
     .drawer-backdrop.left { justify-content: flex-start; }
-    .drawer-backdrop.left .drawer-panel { box-shadow: 10px 0 30px rgba(0,0,0,0.2); }
-    .header-left { display: flex; align-items: center; gap: 10px; }
-    .left-drawer-btn { background: rgba(2, 136, 232, 0.18); border: 1px solid rgba(25, 148, 245, 0.45); color: #FFFFFF; cursor: pointer; padding: 6px 9px; border-radius: 10px; display: flex; align-items: center; gap: 5px; font-size: 0.72rem; font-weight: 800; }
-    .left-drawer-btn svg { width: 18px; height: 18px; stroke: #1994F5; fill: none; stroke-width: 2.2; }
+    .drawer-backdrop.left .drawer-panel { transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.22); }
+    .drawer-backdrop.left.open .drawer-panel { transform: translateX(0); }
 
+    
     .drawer-panel { background: #ffffff; width: 320px; max-width: 86vw; height: 100%; padding: 22px 18px; display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; box-shadow: -10px 0 30px rgba(0,0,0,0.2); }
     .drawer-brand-center { text-align: center; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); margin-bottom: 16px; }
     .drawer-dark-stats { background: #091e2c; color: #ffffff; padding: 16px; border-radius: 14px; margin-bottom: 16px; border: 1.5px solid #eab308; }
@@ -254,6 +258,13 @@
     .drawer-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 13px 12px; border: none; border-bottom: 1px solid #f1f5f9; background: transparent; color: var(--teal-dark); font-size: 0.96rem; font-weight: 750; text-align: left; cursor: pointer; text-decoration: none; }
     .drawer-row:hover { background: var(--pill-bg); border-radius: 10px; }
     .btn-install-navy { width: 100%; background: var(--teal-dark); color: #ffffff; border: none; padding: 15px; border-radius: 12px; font-size: 0.96rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 14px; }
+
+    
+    /* Left-Edge Floating Pull Tab Handle */
+    .left-edge-handle { position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 75; width: 22px; height: 78px; background: #082548; border: 1.5px solid #1994F5; border-left: none; border-radius: 0 12px 12px 0; box-shadow: 3px 0 14px rgba(8, 37, 72, 0.28); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: grab; touch-action: none; transition: width 0.18s ease, background 0.18s ease; }
+    .left-edge-handle:hover, .left-edge-handle:active { width: 26px; background: #0288E8; }
+    .leh-grip { width: 4px; height: 28px; border-left: 1.5px solid #38bdf8; border-right: 1.5px solid #38bdf8; border-radius: 2px; }
+    .leh-arrow { color: #ffffff; font-size: 10px; font-weight: 900; line-height: 1; }
 
     /* Bottom 5-Tab Bar (Exact Zehut 2026 Uncrowded SVG Pill Style) */
     .bottom-nav { height: var(--bottom-h); background: #ffffff; border-top: 1px solid var(--border-light); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 4px 6px; flex-shrink: 0; z-index: 50; box-shadow: 0 -4px 16px rgba(11, 59, 89, 0.04); }
@@ -591,18 +602,12 @@
 <div class="app-shell">
   <!-- PURE WHITE TOP APP HEADER (ZEHUT STYLE) -->
   <header class="app-header">
-    <div class="header-left">
-      <button class="left-drawer-btn" onclick="toggleLeftDrawer(true)" aria-label="Services & Paperwork Menu" title="Paperwork, Survival & Concierge">
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
-        <span>Services</span>
-      </button>
-      <a href="/" class="brand" onclick="switchTab(0); return false;">
+    <a href="/" class="brand" onclick="switchTab(0); return false;">
       <div class="brand-mark">
         <svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg>
       </div>
       <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
       </a>
-    </div>
     <div class="header-right">
       <button class="lang-btn" onclick="switchTab(4)" title="Snap & Translate Hebrew">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -1083,6 +1088,12 @@
   </div>
 </div>
 
+<!-- FLOATING LEFT-EDGE DRAWER HANDLE -->
+<div class="left-edge-handle" id="left-edge-handle" onclick="toggleLeftDrawer(true)" title="Pull or Tap for Paperwork & Concierge">
+  <span class="leh-arrow">❯</span>
+  <div class="leh-grip"></div>
+</div>
+
 <!-- LEFT SLIDE-OUT DRAWER: PAPERWORK, SURVIVAL & CONCIERGE -->
 <div class="drawer-backdrop left" id="left-drawer" onclick="if(event.target===this) toggleLeftDrawer(false)">
   <aside class="drawer-panel">
@@ -1286,6 +1297,34 @@
   }
 
   function toggleLeftDrawer(open) { document.getElementById('left-drawer').classList.toggle('open', open); }
+  
+  (function(){
+    const bd = document.getElementById('left-drawer');
+    const pn = bd ? bd.querySelector('.drawer-panel') : null;
+    const hd = document.getElementById('left-edge-handle');
+    if (!bd || !pn || !hd) return;
+    let startX = 0, curX = 0, dragging = false;
+    hd.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX; dragging = true;
+      pn.style.transition = 'none'; bd.style.transition = 'none';
+      bd.classList.add('open');
+    }, {passive: true});
+    window.addEventListener('touchmove', e => {
+      if (!dragging) return;
+      curX = e.touches[0].clientX;
+      const w = pn.offsetWidth || 300;
+      const offset = Math.min(0, Math.max(-w, curX - w));
+      pn.style.transform = `translateX(${offset}px)`;
+    }, {passive: true});
+    window.addEventListener('touchend', () => {
+      if (!dragging) return;
+      dragging = false;
+      pn.style.transition = ''; bd.style.transition = '';
+      pn.style.transform = '';
+      if (curX < 90) bd.classList.remove('open');
+    });
+  })();
+
   function toggleDrawer(open) {
     document.getElementById('app-drawer').classList.toggle('open', open);
   }
