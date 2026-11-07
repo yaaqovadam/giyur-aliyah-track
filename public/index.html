@@ -66,7 +66,7 @@
       --bottom-h: 74px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; touch-action: pan-y; }
-    html, body, .app-shell, .app-viewport { width: 100%; max-width: 100%; overflow-x: hidden !important; overflow-wrap: break-word; }
+    html, body, .app-shell, .app-viewport { width: 100%; max-width: 100%; overflow-x: hidden !important; overscroll-behavior-x: none !important; overflow-wrap: break-word; }
     html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
 
     /* App Shell Frame */
@@ -261,7 +261,7 @@
 
     
     /* Left-Edge Floating Pull Tab Handle */
-    .left-edge-handle { position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 75; width: 22px; height: 78px; background: #082548; border: 1.5px solid #1994F5; border-left: none; border-radius: 0 12px 12px 0; box-shadow: 3px 0 14px rgba(8, 37, 72, 0.28); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: grab; touch-action: none; transition: width 0.18s ease, background 0.18s ease; }
+    .left-edge-handle { position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 75; width: 26px; height: 84px; background: #082548; border: 1.5px solid #1994F5; border-left: none; border-radius: 0 12px 12px 0; box-shadow: 3px 0 14px rgba(8, 37, 72, 0.28); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: grab; touch-action: none; transition: width 0.18s ease, background 0.18s ease; }
     .left-edge-handle:hover, .left-edge-handle:active { width: 26px; background: #0288E8; }
     .leh-grip { width: 4px; height: 28px; border-left: 1.5px solid #38bdf8; border-right: 1.5px solid #38bdf8; border-radius: 2px; }
     .leh-arrow { color: #ffffff; font-size: 10px; font-weight: 900; line-height: 1; }
@@ -1298,31 +1298,50 @@
 
   function toggleLeftDrawer(open) { document.getElementById('left-drawer').classList.toggle('open', open); }
   
+  // Block iOS Safari screen-edge Back/Forward swipe & trackpad horizontal history nav
+  window.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      const x = e.touches[0].clientX;
+      if (x < 28 || x > window.innerWidth - 28) {
+        if (!e.target.closest('#left-edge-handle')) e.preventDefault();
+      }
+    }
+  }, { passive: false });
+
   (function(){
     const bd = document.getElementById('left-drawer');
     const pn = bd ? bd.querySelector('.drawer-panel') : null;
     const hd = document.getElementById('left-edge-handle');
     if (!bd || !pn || !hd) return;
-    let startX = 0, curX = 0, dragging = false;
-    hd.addEventListener('touchstart', e => {
-      startX = e.touches[0].clientX; dragging = true;
+    let startX = 0, curX = 0, dragging = false, moved = false;
+    function start(x, e) {
+      if (e && e.cancelable) e.preventDefault();
+      startX = curX = x; dragging = true; moved = false;
       pn.style.transition = 'none'; bd.style.transition = 'none';
       bd.classList.add('open');
-    }, {passive: true});
-    window.addEventListener('touchmove', e => {
+    }
+    const pn = bd ? bd.querySelector('.drawer-panel') : null;
+    const hd = document.getElementById('left-edge-handle');
+    if (!bd || !pn || !hd) return;
+    function move(x) {
       if (!dragging) return;
-      curX = e.touches[0].clientX;
+      if (Math.abs(x - startX) > 6) moved = true;
+      curX = x;
       const w = pn.offsetWidth || 300;
-      const offset = Math.min(0, Math.max(-w, curX - w));
-      pn.style.transform = `translateX(${offset}px)`;
-    }, {passive: true});
-    window.addEventListener('touchend', () => {
+      pn.style.transform = `translateX(${Math.min(0, Math.max(-w, curX - w))}px)`;
+    }
+    function end() {
       if (!dragging) return;
       dragging = false;
-      pn.style.transition = ''; bd.style.transition = '';
-      pn.style.transform = '';
-      if (curX < 90) bd.classList.remove('open');
-    });
+      pn.style.transition = ''; bd.style.transition = ''; pn.style.transform = '';
+      if (moved && curX < 85) bd.classList.remove('open');
+    }
+    hd.addEventListener('touchstart', e => start(e.touches[0].clientX, e), {passive: false});
+    window.addEventListener('touchmove', e => move(e.touches[0].clientX), {passive: true});
+    window.addEventListener('touchend', end);
+    hd.addEventListener('mousedown', e => start(e.clientX, e));
+    window.addEventListener('mousemove', e => move(e.clientX));
+    window.addEventListener('mouseup', end);
   })();
 
   function toggleDrawer(open) {
