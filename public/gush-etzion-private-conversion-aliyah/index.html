@@ -167,7 +167,7 @@
       jBanner.innerHTML = `<div style="font-weight:900;margin-bottom:4px;">${j.flag} Active Document Jurisdiction: ${j.name}</div>
         <div>• <strong>Police:</strong> ${j.police}<br>• <strong>Birth:</strong> ${j.birth}<br>• <strong>Civil/Single:</strong> ${j.single}<br>• <strong>Apostille:</strong> ${j.apostille}</div>`;
     }
-    const badgeMap = { en:'🇺🇸 EN ▾', he:'🇮🇱 עברית ▾', fr:'🇫🇷 FR ▾', es:'🇪🇸 ES ▾', de:'🇩🇪 DE ▾' };
+    const badgeMap = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
     document.querySelectorAll('#lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
       el.textContent = badgeMap[lang] || '🌐 Lang ▾';
     });
@@ -807,7 +807,7 @@
     <div class="header-right">
       <button class="lang-btn" id="globe-lang-btn" class="lang-btn" onclick="window.toggleLang(event)" title="Snap & Translate Hebrew">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span data-i18n="lang_label">עברית</span>
+        <span data-i18n="lang_label">EN</span>
       </button>
       <button class="hamburger-btn" onclick="toggleDrawer(true)" aria-label="Menu">
         <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -1728,11 +1728,7 @@
 
   function cycleStatus(btn) {
     const order = ['not-started', 'waiting', 'complete'];
-    const labels = {
-      'not-started': '⚪ Not Started',
-      'waiting': '⏳ Waiting',
-      'complete': '✅ Complete'
-    };
+    const labels = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
     const curr = btn.getAttribute('data-state');
     const next = order[(order.indexOf(curr) + 1) % order.length];
     btn.setAttribute('data-state', next);
@@ -2260,7 +2256,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=15');
+      const r = await fetch('/i18n/' + lang + '.json?v=18');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
@@ -2280,7 +2276,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
     const langLbl = document.querySelector('#lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span');
     if (langLbl) {
-      langLbl.textContent = (lang === 'he') ? 'English' : 'עברית';
+      langLbl.textContent = (lang || 'en').toUpperCase();
     } else {
       const langBtn = document.querySelector('#lang-toggle, .lang-btn, [onclick*="toggleLang"]');
       if (langBtn && !langBtn.querySelector('svg')) langBtn.textContent = (lang === 'he') ? 'English' : 'עברית';
@@ -2306,7 +2302,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   };
 
   function updateGlobeBadge(lang) {
-    const labels = { en: 'עברית / Lang', he: 'EN / שפה', fr: 'FR ▾', es: 'ES ▾', de: 'DE ▾' };
+    const labels = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
     document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
       el.textContent = labels[lang] || 'עברית';
     });

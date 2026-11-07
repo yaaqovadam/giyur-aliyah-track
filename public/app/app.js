@@ -390,8 +390,8 @@ function setAppLang(lang, btn) {
   });
   document.documentElement.dir = (lang === 'he') ? 'rtl' : 'ltr';
   const gl = document.getElementById('globe-lang-lbl');
-  const badge = {en:'EN ▾', he:'עברית ▾', fr:'FR ▾', es:'ES ▾', de:'DE ▾'};
-  if (gl) gl.textContent = badge[lang] || 'עברית';
+  const badge = {en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE'};
+  if (gl) gl.textContent = badge[lang] || 'EN';
   const activeMod = window.currentMod || 'hebrew-engine';
   renderAll();
   openMod(activeMod);
