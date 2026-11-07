@@ -67,7 +67,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Gush Etzion & Private Orthodox Conversion: Aliyah, Rabbanut & Ishur Giyur | Giyur Aliyah Track</title>
+  <title>Private Orthodox Conversion (Gush Etzion, Bnei Brak & More): Aliyah, Rabbanut & Ishur Giyur | Giyur Aliyah Track</title>
   <meta name="description" content="Why a 100% kosher Gush Etzion conversion is blocked for Aliyah and Rabbanut weddings without Beit HaDin HaGadol validation (Ishur Giyur) and how to protect your 21,700 NIS Sal Klita grant." />
   <link rel="canonical" href="https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah" />
   <meta name="theme-color" content="#ffffff" />
@@ -1972,6 +1972,12 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     });
     window.gatLang = lang;
     applyHtmlBlocks(lang);
+    if (window.location.pathname === '/' || window.location.pathname.endsWith('/index.html') && !window.IS_SPOKE) {
+      document.title = (lang === 'he')
+        ? 'מסלול גיור ועלייה | עליית חירום (שינוי מעמד), גיור ממלכתי ופרטי, רבנות והליך מדורג'
+        : "Giyur Aliyah Track | Emergency Aliyah (Shinui Ma'amad), Conversion (Giyur), Rabbanut & Spousal Visa Playbook";
+    }
+
     const langLbl = document.querySelector('#lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span');
     if (langLbl) {
       langLbl.textContent = (lang === 'he') ? 'English' : 'עברית';

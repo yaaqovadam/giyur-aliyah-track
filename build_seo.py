@@ -11,7 +11,7 @@ spokes = [
    "Need to leave for Israel now? Never board a plane without two Apostilled originals of these 7 Go-Bag documents. How to clear Ben Gurion Airport and file Shinui Ma'amad inside Israel.",
    "go_bag", 1),
   ("gush-etzion-private-conversion-aliyah",
-   "Gush Etzion & Private Orthodox Conversion: Aliyah, Rabbanut & Ishur Giyur",
+   "Private Orthodox Conversion (Gush Etzion, Bnei Brak & More): Aliyah, Rabbanut & Ishur Giyur",
    "Gush Etzion & Independent Orthodox Conversion: The Post-Mikvah & Aliyah Playbook",
    "Why a 100% kosher Gush Etzion conversion is blocked for Aliyah and Rabbanut weddings without Beit HaDin HaGadol validation (Ishur Giyur) and how to protect your 21,700 NIS Sal Klita grant.",
    "ishur_giyur", 2),

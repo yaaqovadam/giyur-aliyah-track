@@ -67,8 +67,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Giyur Aliyah Track | Plain-English App for Israeli Conversion (Giyur), Rabbanut & Aliyah</title>
-  <meta name="description" content="Shave 3–4 years off your Israeli Conversion (Giyur), Aliyah, Rabbanut validation, and Misrad HaPanim spousal visa. Compare Gush Etzion vs. State Giyur, beat the 6-month Apostille breadcrumb loop, and track every deadline." />
+  <title>Giyur Aliyah Track | Emergency Aliyah (Shinui Ma'amad), Conversion (Giyur), Rabbanut & Spousal Visa Playbook</title>
+  <meta name="description" content="Skip the 9-month consulate backlog and shave 2–4 years off Israeli bureaucracy. The step-by-step English & Hebrew playbook for Emergency Aliyah (Shinui Ma\'amad), Private & State Giyur, Rabbanut Validation, and Misrad HaPanim Spousal Visas." />
   <link rel="canonical" href="https://giyuraliyahtrack.com/" />
   <meta name="theme-color" content="#ffffff" />
   <script type="application/ld+json">
@@ -1987,6 +1987,12 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     });
     window.gatLang = lang;
     applyHtmlBlocks(lang);
+    if (window.location.pathname === '/' || window.location.pathname.endsWith('/index.html') && !window.IS_SPOKE) {
+      document.title = (lang === 'he')
+        ? 'מסלול גיור ועלייה | עליית חירום (שינוי מעמד), גיור ממלכתי ופרטי, רבנות והליך מדורג'
+        : "Giyur Aliyah Track | Emergency Aliyah (Shinui Ma'amad), Conversion (Giyur), Rabbanut & Spousal Visa Playbook";
+    }
+
     const langLbl = document.querySelector('#lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span');
     if (langLbl) {
       langLbl.textContent = (lang === 'he') ? 'English' : 'עברית';

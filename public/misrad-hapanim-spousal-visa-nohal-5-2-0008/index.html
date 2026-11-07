@@ -1972,6 +1972,12 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     });
     window.gatLang = lang;
     applyHtmlBlocks(lang);
+    if (window.location.pathname === '/' || window.location.pathname.endsWith('/index.html') && !window.IS_SPOKE) {
+      document.title = (lang === 'he')
+        ? 'מסלול גיור ועלייה | עליית חירום (שינוי מעמד), גיור ממלכתי ופרטי, רבנות והליך מדורג'
+        : "Giyur Aliyah Track | Emergency Aliyah (Shinui Ma'amad), Conversion (Giyur), Rabbanut & Spousal Visa Playbook";
+    }
+
     const langLbl = document.querySelector('#lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span');
     if (langLbl) {
       langLbl.textContent = (lang === 'he') ? 'English' : 'עברית';
