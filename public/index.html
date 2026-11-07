@@ -236,6 +236,12 @@
     /* Slide-Out Hamburger Drawer (Exact Zehut 2026 Screenshot 3 Style) */
     .drawer-backdrop { position: fixed; inset: 0; background: rgba(11, 59, 89, 0.5); z-index: 90; display: none; justify-content: flex-end; }
     .drawer-backdrop.open { display: flex; }
+    .drawer-backdrop.left { justify-content: flex-start; }
+    .drawer-backdrop.left .drawer-panel { box-shadow: 10px 0 30px rgba(0,0,0,0.2); }
+    .header-left { display: flex; align-items: center; gap: 10px; }
+    .left-drawer-btn { background: rgba(2, 136, 232, 0.18); border: 1px solid rgba(25, 148, 245, 0.45); color: #FFFFFF; cursor: pointer; padding: 6px 9px; border-radius: 10px; display: flex; align-items: center; gap: 5px; font-size: 0.72rem; font-weight: 800; }
+    .left-drawer-btn svg { width: 18px; height: 18px; stroke: #1994F5; fill: none; stroke-width: 2.2; }
+
     .drawer-panel { background: #ffffff; width: 320px; max-width: 86vw; height: 100%; padding: 22px 18px; display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; box-shadow: -10px 0 30px rgba(0,0,0,0.2); }
     .drawer-brand-center { text-align: center; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); margin-bottom: 16px; }
     .drawer-dark-stats { background: #091e2c; color: #ffffff; padding: 16px; border-radius: 14px; margin-bottom: 16px; border: 1.5px solid #eab308; }
@@ -585,12 +591,18 @@
 <div class="app-shell">
   <!-- PURE WHITE TOP APP HEADER (ZEHUT STYLE) -->
   <header class="app-header">
-    <a href="/" class="brand" onclick="switchTab(0); return false;">
+    <div class="header-left">
+      <button class="left-drawer-btn" onclick="toggleLeftDrawer(true)" aria-label="Services & Paperwork Menu" title="Paperwork, Survival & Concierge">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        <span>Services</span>
+      </button>
+      <a href="/" class="brand" onclick="switchTab(0); return false;">
       <div class="brand-mark">
         <svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg>
       </div>
       <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
-    </a>
+      </a>
+    </div>
     <div class="header-right">
       <button class="lang-btn" onclick="switchTab(4)" title="Snap & Translate Hebrew">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -1071,6 +1083,37 @@
   </div>
 </div>
 
+<!-- LEFT SLIDE-OUT DRAWER: PAPERWORK, SURVIVAL & CONCIERGE -->
+<div class="drawer-backdrop left" id="left-drawer" onclick="if(event.target===this) toggleLeftDrawer(false)">
+  <aside class="drawer-panel">
+    <div>
+      <div class="drawer-brand-center">
+        <div class="brand-title" style="font-size:1.3rem;">🛠️ Paperwork & <span>Concierge</span></div>
+      </div>
+      <div class="drawer-dark-stats" style="border-color:#38bdf8;">
+        <div class="dds-head" style="color:#38bdf8;"><span>🛡️ 1-Shot Bureaucracy Shield</span><span>✓</span></div>
+        <div class="dds-grid">
+          <div><span class="dds-num">5 Docs</span><span class="dds-lbl">180d Clock</span></div>
+          <div><span class="dds-num">In/Out</span><span class="dds-lbl">Hebrew PDF</span></div>
+          <div><span class="dds-num">5–8+</span><span class="dds-lbl">Shul Letters</span></div>
+        </div>
+      </div>
+      <div class="drawer-list">
+        <button class="drawer-row" onclick="switchTab(4); toggleLeftDrawer(false);">📸 Two-Way Hebrew Translator & PDF Filler</button>
+        <button class="drawer-row" onclick="switchTab(3); toggleLeftDrawer(false);">🕍 Vetted Sponsoring Rabbi & Kallah Team</button>
+        <button class="drawer-row" onclick="openObstacle(8); toggleLeftDrawer(false);">💼 Tourist Survival: Remote Work & Housing</button>
+        <button class="drawer-row" onclick="openTerm('community_letters'); toggleLeftDrawer(false);">✍️ Community Letter & Rabbi Letterhead Builder</button>
+        <button class="drawer-row" onclick="openTerm('five_docs'); toggleLeftDrawer(false);">✈️ 5 Apostilled Docs & 24-Mo Sal Klita Rules</button>
+        <button class="drawer-row" onclick="openTerm('vaadat_charigim'); toggleLeftDrawer(false);">⚖️ Va'adat Charigim (Form Ash/1) Guide</button>
+        <button class="drawer-row" onclick="switchTab(3); toggleLeftDrawer(false);">ℹ️ What We Are — And What We Are NOT</button>
+      </div>
+    </div>
+    <div>
+      <button class="btn-install-navy" onclick="switchTab(2); toggleLeftDrawer(false);">⏱️ Calculate Years & Money Saved →</button>
+    </div>
+  </aside>
+</div>
+
 <!-- SLIDE-OUT HAMBURGER DRAWER (EXACT ZEHUT 2026 STYLE) -->
 <div class="drawer-backdrop" id="app-drawer" onclick="if(event.target===this) toggleDrawer(false)">
   <aside class="drawer-panel">
@@ -1089,12 +1132,10 @@
       </div>
 
       <div class="drawer-list">
+        <a href="/app?module=beit-din-150" class="drawer-row">🕍 150 Beit Din Exam Flashcards & Game</a>
         <a href="/app?module=songs-prayers" class="drawer-row">🎵 12 Shabbat Songs, Prayers & Shema AI</a>
-        <a href="/app?module=beit-din-150" class="drawer-row">🕍 150 Beit Din Exam Questions</a>
         <a href="/app?module=couples-sync" class="drawer-row">📱 80-Question 2-Phone Couples Sync</a>
-        <button class="drawer-row" onclick="switchTab(4); toggleDrawer(false);">📸 Snap Letter & Auto-Fill Hebrew Forms</button>
-        <button class="drawer-row" onclick="switchTab(3); toggleDrawer(false);">🕍 Vetted Rabbi & Madrichat Kallah</button>
-        <button class="drawer-row" onclick="switchTab(3); toggleDrawer(false);">ℹ️ What We Are / Are NOT</button>
+        <button class="drawer-row" onclick="switchTab(4); toggleDrawer(false);">📊 Live 180-Day & 30-Day Deadline Tracker</button>
         <a href="/app" class="drawer-row" style="color:var(--sky);">🔐 Full Member Portal (/app)</a>
       </div>
     </div>
@@ -1244,6 +1285,7 @@
     openObstacle((currentObs + 1) % obstacles.length);
   }
 
+  function toggleLeftDrawer(open) { document.getElementById('left-drawer').classList.toggle('open', open); }
   function toggleDrawer(open) {
     document.getElementById('app-drawer').classList.toggle('open', open);
   }
