@@ -805,7 +805,7 @@
       <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
       </a>
     <div class="header-right">
-      <button class="lang-btn" onclick="toggleLang()" title="Snap & Translate Hebrew">
+      <button class="lang-btn" id="globe-lang-btn" class="lang-btn" onclick="window.toggleLang(event)" title="Snap & Translate Hebrew">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         <span data-i18n="lang_label">עברית</span>
       </button>
@@ -2290,5 +2290,72 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   function _legacyToggleLang(){}
   if (window.gatLang !== 'en') applyLang(window.gatLang);
 </script>
+
+<script id="bulletproof-5lang-globe">
+(function() {
+  window.selectLangDirect = function(l) {
+    localStorage.setItem('gat_lang', l);
+    const m = document.getElementById('lang-pop-menu');
+    if (m) m.style.display = 'none';
+    if (typeof applyLang === 'function') {
+      applyLang(l);
+    }
+    updateGlobeBadge(l);
+  };
+
+  function updateGlobeBadge(lang) {
+    const labels = { en: 'עברית / Lang', he: 'EN / שפה', fr: 'FR ▾', es: 'ES ▾', de: 'DE ▾' };
+    document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
+      el.textContent = labels[lang] || 'עברית';
+    });
+  }
+
+  window.toggleLang = function(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    let m = document.getElementById('lang-pop-menu');
+    if (!m) {
+      m = document.createElement('div');
+      m.id = 'lang-pop-menu';
+      m.style.cssText = 'position:fixed;top:58px;right:12px;background:#0f172a;border:2px solid #38bdf8;border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:6px;z-index:2147483647;box-shadow:0 16px 36px rgba(0,0,0,0.65);direction:ltr;min-width:205px;';
+      const opts = [
+        ['en', '🇺🇸/🇬🇧 English (US/UK)'],
+        ['he', '🇮🇱 עברית (ישראל)'],
+        ['fr', '🇫🇷 Français (FR/BE/CH)'],
+        ['es', '🇪🇸/🇦🇷 Español (ES/LatAm)'],
+        ['de', '🇩🇪/🇦🇹 Deutsch (DACH)']
+      ];
+      m.innerHTML = opts.map(([k, lbl]) =>
+        `<button type="button" onclick="window.selectLangDirect('${k}')" style="background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:10px 12px;font-weight:800;font-size:13.5px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;width:100%;"><span>${lbl}</span><span style="color:#38bdf8;font-size:11px;margin-left:8px;">${k.toUpperCase()}</span></button>`
+      ).join('');
+      document.body.appendChild(m);
+      document.addEventListener('click', function(ev) {
+        if (m && !m.contains(ev.target)) m.style.display = 'none';
+      });
+    } else {
+      m.style.display = (m.style.display === 'none') ? 'flex' : 'none';
+    }
+  };
+
+  // Bind directly in capture phase to any globe/language button in the header
+  document.addEventListener('DOMContentLoaded', function() {
+    const candidates = document.querySelectorAll('#globe-lang-btn, #lang-toggle, .lang-btn, [onclick*="toggleLang"], [data-i18n="lang_label"]');
+    candidates.forEach(el => {
+      const btn = el.closest('button, a, div') || el;
+      btn.style.cursor = 'pointer';
+      btn.style.pointerEvents = 'auto';
+      btn.onclick = function(ev) { window.toggleLang(ev); };
+    });
+    const saved = localStorage.getItem('gat_lang') || 'en';
+    if (saved && saved !== 'en' && typeof applyLang === 'function') {
+      applyLang(saved);
+    }
+    updateGlobeBadge(saved);
+  });
+})();
+</script>
+
 <script>window.IS_SPOKE=true;window.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{if(!location.search.includes('noopen'))openTerm('go_bag');},400));</script></body>
 </html>
