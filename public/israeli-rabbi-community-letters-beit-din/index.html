@@ -748,6 +748,13 @@
   <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
   <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
   <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
+  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din" />
+  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din" />
+  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
+  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
+  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
+  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
+  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Giyur Aliyah Track","item":"https://giyuraliyahtrack.com/"},{"@type":"ListItem","position":2,"name":"How to Get 5\u20138+ Stamped Israeli Rabbi Letters for Beit Din","item":"https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din"}]}</script>  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din/" />
   <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din/" />
   <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/israeli-rabbi-community-letters-beit-din/" />
@@ -1943,67 +1950,49 @@
 
 html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-item, html[dir="rtl"] .radio-row { text-align: right; }</style>
 <script>
-  window.gatLang = localStorage.getItem('gat_lang') || (new URLSearchParams(location.search).get('lang')) || 'en';
+  (function(){
+    var p = location.pathname.split('/').filter(Boolean)[0];
+    var urlLang = (['he','fr','es','de'].indexOf(p) !== -1) ? p : null;
+    window.gatLang = urlLang || localStorage.getItem('gat_lang') || (new URLSearchParams(location.search).get('lang')) || 'en';
+    if (urlLang) localStorage.setItem('gat_lang', urlLang);
+  })();
   window.gatDict = {};
-  
-  const gatPhrases = [];
-  function applyPhraseMap(lang) {
-    const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-    let n;
-    while ((n = walk.nextNode())) {
-      const v = n.nodeValue.trim();
-      if (!v) continue;
-      for (const [enTxt, heTxt] of gatPhrases) {
-        if (lang === 'he' && v === enTxt) n.nodeValue = n.nodeValue.replace(enTxt, heTxt);
-        else if (lang === 'en' && v === heTxt) n.nodeValue = n.nodeValue.replace(heTxt, enTxt);
-      }
-    }
-  }
+  window.enHtmlCache = {};
+  window.OBSTACLE_I18N = window.OBSTACLE_I18N || {};
+  window.TERM_DETAILS_I18N = window.TERM_DETAILS_I18N || {};
+  window.JURISDICTION_DATA = window.JURISDICTION_DATA || {};
 
-  
-  
-    window.htmlSwapSelectors = [
-    '#mesh-title',
-    '#hlth-pill',
-    '#hlth-title',
-    '#hlth-desc',
-    '#hlth-cta-btn',
-    '#fx-h2',
-    '#fx-lead',
-    '#lbl-fx-amt',
-    '#fx-card-lbl',
-    '#fx-cta-btn',
-    '#left-drawer-panel',
-    '#app-drawer .drawer-panel',
-    '#lbl-countries',
-    '#lbl-months',
-    '#view-2 > .btn-sky',
-    '#track-0', '#track-1', '#track-2', '#track-3',
+  window.htmlSwapSelectors = [
+    '#mesh-title', '#hlth-pill', '#hlth-title', '#hlth-desc', '#hlth-cta-btn',
+    '#fx-h2', '#fx-lead', '#lbl-fx-amt', '#fx-card-lbl', '#fx-cta-btn',
+    '#left-drawer-panel', '#app-drawer .drawer-panel', '#lbl-countries', '#lbl-months',
+    '#view-2 > .btn-sky', '#track-0', '#track-1', '#track-2', '#track-3',
     '#view-2 .hero-center p', '#view-2 .zehut-select-label', '#z-track',
     '#view-2 .emerald-label', '#view-2 .emerald-sub',
     '#view-3 .hero-center p', '#rabbi-radios', '#view-3 .vetted-card',
     '#view-4 .shield-banner', '#view-4 .two-way-bar',
     '#mg-0', '#mg-1', '#mg-2', '#mg-3'
   ];
-  window.enHtmlCache = {};
-  window.heHtmlMap = {};
-  window.termDetails_he = {};
+
   function applyHtmlBlocks(lang) {
+    const d = window.gatDict[lang] || {};
+    const blocks = d._blocks || {};
     window.htmlSwapSelectors.forEach(sel => {
       const el = document.querySelector(sel);
       if (!el) return;
       if (!window.enHtmlCache[sel]) window.enHtmlCache[sel] = el.innerHTML;
-      if (lang === 'he' && window.heHtmlMap && window.heHtmlMap[sel]) {
-        el.innerHTML = window.heHtmlMap[sel];
+      if (lang === 'en') {
+        el.innerHTML = window.enHtmlCache[sel];
+      } else if (blocks[sel] && !String(blocks[sel]).startsWith('[EN_DOM_DEFAULT:')) {
+        el.innerHTML = blocks[sel];
       } else if (window.UI_BLOCKS_I18N && window.UI_BLOCKS_I18N[lang] && window.UI_BLOCKS_I18N[lang][sel]) {
         el.innerHTML = window.UI_BLOCKS_I18N[lang][sel];
       } else if (window.TRACKS_I18N && window.TRACKS_I18N[lang] && window.TRACKS_I18N[lang][sel]) {
         el.innerHTML = window.TRACKS_I18N[lang][sel];
-      } else if (lang === 'en' && window.enHtmlCache[sel]) {
-        el.innerHTML = window.enHtmlCache[sel];
       }
     });
-    const j = window.JURISDICTION_DATA && window.JURISDICTION_DATA[lang];
+
+    const j = d._jurisdiction || (window.JURISDICTION_DATA && window.JURISDICTION_DATA[lang]);
     let jBanner = document.getElementById('jurisdiction-doc-bar');
     if (!jBanner) {
       const v0 = document.getElementById('view-0');
@@ -2016,30 +2005,22 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       }
     }
     if (jBanner && j) {
-      const d = (window.gatDict && window.gatDict[lang]) || {};
       jBanner.innerHTML = `<div style="font-weight:900;margin-bottom:4px;">${j.flag} ${d.j_active || 'Active Document Jurisdiction:'} ${j.name}</div>
         <div>• <strong>${d.j_police || 'Police:'}</strong> ${j.police}<br>• <strong>${d.j_birth || 'Birth:'}</strong> ${j.birth}<br>• <strong>${d.j_single || 'Civil/Single:'}</strong> ${j.single}<br>• <strong>${d.j_apostille || 'Apostille:'}</strong> ${j.apostille}</div>`;
     }
-    const spokeArt = document.querySelector('.seo-spoke-article');
-    if (spokeArt) {
-      if (!window.enSpokeCache) window.enSpokeCache = spokeArt.innerHTML;
-      const obsList = (lang === 'he') ? obstacles_he : (window.OBSTACLE_I18N && window.OBSTACLE_I18N[lang]);
-      const idx = (typeof window.SPOKE_OBS_IDX === 'number') ? window.SPOKE_OBS_IDX : 0;
-      if (lang === 'en') spokeArt.innerHTML = window.enSpokeCache;
-      else if (obsList && obsList[idx]) {
-        const ob = obsList[idx];
-        spokeArt.innerHTML = `<h2>${ob.tag} — ${ob.title}</h2><p>${ob.body}</p><h3>${ob.badTitle}</h3><div>${ob.badText}</div><h3>${ob.goodTitle}</h3><div>${ob.goodText}</div>`;
-      }
-    }
-    updateShieldMath();
+    if (typeof updateShieldMath === 'function') updateShieldMath();
   }
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=31');
+      const r = await fetch('/i18n/' + lang + '.json?v=35');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
+    if (d._obstacles) window.OBSTACLE_I18N[lang] = d._obstacles;
+    if (d._terms) window.TERM_DETAILS_I18N[lang] = d._terms;
+    if (d._jurisdiction) window.JURISDICTION_DATA[lang] = d._jurisdiction;
+
     document.documentElement.lang = lang;
     document.documentElement.dir = (lang === 'he') ? 'rtl' : 'ltr';
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -2048,25 +2029,37 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     });
     window.gatLang = lang;
     applyHtmlBlocks(lang);
-    if (window.location.pathname === '/' || window.location.pathname.endsWith('/index.html') && !window.IS_SPOKE) {
-      document.title = (lang === 'he')
-        ? 'מסלול גיור ועלייה | עליית חירום (שינוי מעמד), גיור ממלכתי ופרטי, רבנות והליך מדורג'
-        : "Giyur Aliyah Track | Emergency Aliyah (Shinui Ma'amad), Conversion (Giyur), Rabbanut & Spousal Visa Playbook";
-    }
 
-    const langLbl = document.querySelector('#lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span');
-    if (langLbl) {
-      langLbl.textContent = (lang || 'en').toUpperCase();
-    } else {
-      const langBtn = document.querySelector('#lang-toggle, .lang-btn, [onclick*="toggleLang"]');
-      if (langBtn && !langBtn.querySelector('svg')) langBtn.textContent = (lang === 'he') ? 'English' : 'עברית';
-    }
-
-    applyPhraseMap(lang);
+    const badgeMap = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
+    document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
+      el.textContent = badgeMap[lang] || 'EN';
+    });
     localStorage.setItem('gat_lang', lang);
   }
-  function _legacyToggleLang(){}
+
+  // Override openObstacle so it uses OBSTACLE_I18N[window.gatLang]
+  const _origOpenObstacle = window.openObstacle;
+  window.openObstacle = function(idx) {
+    const lang = window.gatLang || 'en';
+    const list = (window.gatDict[lang] && window.gatDict[lang]._obstacles) || (window.OBSTACLE_I18N && window.OBSTACLE_I18N[lang]);
+    if (lang !== 'en' && list && list[idx]) {
+      const d = list[idx];
+      document.getElementById('sh-tag').innerText = d.tag;
+      document.getElementById('sh-title').innerText = d.title;
+      document.getElementById('sh-body').innerText = d.body;
+      document.getElementById('sh-bad-title').innerText = d.badTitle;
+      document.getElementById('sh-bad-text').innerHTML = d.badText;
+      document.getElementById('sh-good-title').innerText = d.goodTitle;
+      document.getElementById('sh-good-text').innerHTML = d.goodText;
+      document.getElementById('sh-time').innerText = d.time;
+      document.getElementById('obstacle-sheet').classList.add('open');
+      return;
+    }
+    return _origOpenObstacle(idx);
+  };
+
   if (window.gatLang !== 'en') applyLang(window.gatLang);
+  else applyLang('en');
 </script>
 
 <script id="bulletproof-5lang-globe">
