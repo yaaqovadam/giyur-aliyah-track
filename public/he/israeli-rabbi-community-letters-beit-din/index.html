@@ -755,6 +755,13 @@
   <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
   <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
   <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
+  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din" />
+  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din" />
+  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
+  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
+  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
+  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
+  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Giyur Aliyah Track","item":"https://giyuraliyahtrack.com/"},{"@type":"ListItem","position":2,"name":"How to Get 5\u20138+ Stamped Israeli Rabbi Letters for Beit Din","item":"https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din"}]}</script>  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din/" />
   <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din/" />
   <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/israeli-rabbi-community-letters-beit-din/" />
@@ -2099,9 +2106,8 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     const m = document.getElementById('lang-pop-menu');
     if (m) m.style.display = 'none';
     const targetPath = getTargetLangPath(l);
-    if (targetPath && window.location.pathname !== targetPath && window.location.pathname + '/' !== targetPath) {
-      window.location.href = targetPath + window.location.search + window.location.hash;
-      return;
+    if (targetPath && window.history && window.history.pushState) {
+      window.history.pushState({ lang: l }, '', targetPath + window.location.search + window.location.hash);
     }
     if (typeof applyLang === 'function') applyLang(l);
     updateGlobeBadge(l);
