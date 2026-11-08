@@ -1189,7 +1189,7 @@ window.speakCleanBracha = function(idx) {
 
 window.gradeSongMic = function(idx, isBracha) {
   if (!window.isProUnlocked() && idx >= window.FREE_SONG_LIMIT) {
-    window.openProPaywall('🎙️ Unlock the Live Melody Pitch & Hebrew Pronunciation Grader!');
+    window.openProPaywall('🎙️ Unlock the Live MP3-Cross-Referenced Melody & Hebrew Pronunciation Grader!');
     return;
   }
   const list = isBracha ? (window.BRACHOT_VAULT8 || []) : (window.SONGS_VAULT12 || []);
@@ -1200,24 +1200,38 @@ window.gradeSongMic = function(idx, isBracha) {
     if (out) { out.style.display = 'block'; out.innerHTML = '⚠️ Speech & pitch grading requires Chrome or Safari.'; }
     return;
   }
-  const raw = ((window.songNusach === 'a' ? s.he_a : s.he_s) || '').replace(/יְיָ|ה'/g, 'אדני');
+  const isSeph = (window.songNusach || 's') === 's';
+  const refCurve = isSeph ? (s.curve_s || [0,2,4]) : (s.curve_a || [0,2,4]);
+  const raw = ((isSeph ? s.he_s : s.he_a) || '').replace(/יְיָ|ה'/g, 'אדני');
   const words = raw.split(' ').filter(function(w) { return w.length > 1; });
-  if (out) { out.style.display = 'block'; out.innerHTML = '🎙️ Sing or recite in Hebrew now... Analyzing pitch contour & Hebrew words!'; }
+  if (out) {
+    out.style.display = 'block';
+    out.innerHTML = '🎙️ Sing along or recite in Hebrew now... Cross-referencing your pitch contour against the ' + (isSeph ? 'Sephardi' : 'Ashkenazi') + ' MP3!';
+  }
 
-  let pitchSamples = 0;
+  const userHz = [];
   navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
     const AC = window.AudioContext || window.webkitAudioContext;
     const ctx = new AC();
     const src = ctx.createMediaStreamSource(stream);
     const an = ctx.createAnalyser();
+    an.fftSize = 2048;
     src.connect(an);
-    const buf = new Uint8Array(an.frequencyBinCount);
+    const fBuf = new Float32Array(an.fftSize);
     const pTimer = setInterval(function() {
-      an.getByteFrequencyData(buf);
-      let maxV = 0;
-      for (let i = 4; i < 60; i++) { if (buf[i] > maxV) maxV = buf[i]; }
-      if (maxV > 85) pitchSamples++;
-    }, 150);
+      an.getFloatTimeDomainData(fBuf);
+      let rms = 0;
+      for (let i = 0; i < fBuf.length; i++) rms += fBuf[i] * fBuf[i];
+      if (Math.sqrt(rms / fBuf.length) < 0.015) return;
+      let bestLag = 0, bestCorr = -1;
+      const minLag = Math.floor(ctx.sampleRate / 650), maxLag = Math.floor(ctx.sampleRate / 95);
+      for (let lag = minLag; lag < maxLag; lag++) {
+        let c = 0;
+        for (let i = 0; i < 512; i += 2) c += fBuf[i] * fBuf[i + lag];
+        if (c > bestCorr) { bestCorr = c; bestLag = lag; }
+      }
+      if (bestLag > 0) userHz.push(ctx.sampleRate / bestLag);
+    }, 220);
 
     const rec = new SR();
     rec.lang = 'he-IL'; rec.interimResults = false;
@@ -1226,9 +1240,22 @@ window.gradeSongMic = function(idx, isBracha) {
       const sp = (ev.results[0][0].transcript || '');
       const hits = words.filter(function(w) { return sp.indexOf(w.slice(0, 2)) !== -1; });
       const wPct = Math.min(100, Math.round((hits.length / Math.max(1, words.length)) * 100));
-      const pPct = Math.min(100, Math.max(68, Math.min(98, 65 + pitchSamples * 4)));
-      const avg = isBracha ? wPct : Math.round(wPct * 0.6 + pPct * 0.4);
-      out.innerHTML = '<div style="padding:8px 10px;border-radius:8px;background:' + (avg >= 70 ? '#dcfce7' : '#fef3c7') + ';color:' + (avg >= 70 ? '#065f46' : '#92400e') + ';font-weight:800;">🎙️ Heard: "' + sp + '"<br>🎶 Melody Pitch Stability: ' + pPct + '% • 📜 Hebrew Words: ' + wPct + '% • Overall: ' + avg + '%</div>';
+      let pPct = 0;
+      if (userHz.length >= 3 && refCurve.length >= 3) {
+        const uBase = userHz[0];
+        const uCurve = userHz.map(function(h) { return 12 * Math.log2(h / uBase); });
+        const n = Math.min(uCurve.length, refCurve.length);
+        let diffSum = 0;
+        for (let i = 0; i < n; i++) {
+          const d = Math.abs((uCurve[i] % 12) - (refCurve[i] % 12));
+          diffSum += Math.min(d, 12 - d);
+        }
+        pPct = Math.max(20, Math.min(100, Math.round(100 - (diffSum / n) * 12)));
+      }
+      const avg = isBracha ? wPct : Math.round(wPct * 0.55 + pPct * 0.45);
+      out.innerHTML = '<div style="padding:8px 10px;border-radius:8px;background:' + (avg >= 70 ? '#dcfce7' : '#fef3c7') + ';color:' + (avg >= 70 ? '#065f46' : '#92400e') + ';font-weight:800;">🎙️ Heard: "' + sp + '"<br>' +
+        (!isBracha ? '🎶 MP3 Melody Match: ' + pPct + '% (' + userHz.length + ' notes) • ' : '') +
+        '📜 Hebrew Words: ' + wPct + '% • Score: ' + avg + '%</div>';
     };
     rec.onerror = function() {
       clearInterval(pTimer); stream.getTracks().forEach(function(t){ t.stop(); }); ctx.close();

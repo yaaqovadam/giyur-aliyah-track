@@ -3,3 +3,5 @@ node_modules/
 .firebase/
 firebase-debug.log
 *.bak
+
+public/app/audio/*.mp3
