@@ -718,6 +718,13 @@
   <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
   <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
   <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
+  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
+  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
+  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
+  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
+  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
+  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
+  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Giyur Aliyah Track","item":"https://giyuraliyahtrack.com/"},{"@type":"ListItem","position":2,"name":"Va'adat Charigim (Form Ash/1): Tourist State Giyur in Israel","item":"https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel"}]}</script>  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/" />
   <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/" />
   <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/vaadat-charigim-tourist-conversion-israel/" />
@@ -2109,6 +2116,36 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       m.style.display = (m.style.display === 'none') ? 'flex' : 'none';
     }
   };
+
+  
+  // Smooth SPA interceptor for .seo-mesh-link: keeps /{lang}/ in URL bar & opens modal without full reload
+  const SPOKE_MODAL_MAP = {
+    'emergency-aliyah-go-bag-shinui-maamad': () => openTerm('go_bag'),
+    'gush-etzion-private-conversion-aliyah': () => openTerm('ishur_giyur'),
+    'vaadat-charigim-tourist-conversion-israel': () => openTerm('vaadat_charigim'),
+    'apostille-180-day-clock-fbi-police-check-israel': () => openTerm('five_docs'),
+    'israeli-rabbi-community-letters-beit-din': () => openTerm('community_letters'),
+    'misrad-hapanim-spousal-visa-nohal-5-2-0008': () => openObstacle(6),
+    'hebrew-clerk-letter-translator-form-ash1-ash3': () => openObstacle(4),
+    'aliyah-spousal-visa-criminal-record-rehabilitation': () => openObstacle(7),
+    'tourist-visa-israel-remote-work-housing-giyur': () => openObstacle(8)
+  };
+
+  document.addEventListener('click', function(ev) {
+    const a = ev.target.closest('a.seo-mesh-link');
+    if (!a) return;
+    ev.preventDefault();
+    const rawHref = a.getAttribute('href') || '';
+    const slug = rawHref.split('/').filter(Boolean).pop();
+    const lang = window.gatLang || localStorage.getItem('gat_lang') || 'en';
+    const newPath = (lang && lang !== 'en') ? `/${lang}/${slug}/` : `/${slug}/`;
+    if (window.history && window.history.pushState) {
+      window.history.pushState({ slug, lang }, '', newPath);
+    }
+    if (SPOKE_MODAL_MAP[slug]) {
+      SPOKE_MODAL_MAP[slug]();
+    }
+  });
 
   document.addEventListener('DOMContentLoaded', function() {
     const urlLang = detectUrlLang();
