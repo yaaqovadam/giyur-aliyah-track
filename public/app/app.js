@@ -1,3 +1,61 @@
+
+const CLERK_CLAUSES = [
+  { he: ["יושר", "מרשם פלילי", "משטרה"], k: "police", en: "Federal Fingerprint Police Check + Apostille (<180 Days)", fr: "Casier Judiciaire (Bulletin n°3) + Apostille (<180j)", es: "Certificado de Antecedentes Penales + Apostilla (<180d)", de: "Führungszeugnis (BfJ) + BfAA-Apostille (<180T)", he_lbl: "תעודת יושר פדרלית + אפוסטיל (בתוקף 180 יום)" },
+  { he: ["לידה"], k: "birth", en: "Long-Form Vault Birth Certificate (Both Parents Named) + Apostille", fr: "Copie Intégrale d'Acte de Naissance + Apostille", es: "Partida Literal de Nacimiento + Apostilla de La Haya", de: "Beglaubigte Abschrift aus dem Geburtenregister + Apostille", he_lbl: "תעודת לידה מורחבת (כולל שמות הורים) + אפוסטיל" },
+  { he: ["רווקות", "פנויות", "מצב אישי", "תמצית", "גירושין", "נישואין"], k: "single", en: "Single-Status / Marital History Proof + Apostille (<180 Days)", fr: "Certificat de Célibat / Coutume & Livret de Famille + Apostille", es: "Fe de Soltería / Estado Civil + Apostilla (<180d)", de: "Erweiterte Meldebescheinigung (Ledigkeit) + Apostille", he_lbl: "תמצית רישום / תצהיר רווקות ומעמד אישי + אפוסטיל" },
+  { he: ["יהדות", "כתובה", "בית דין", "רב"], k: "rabbi", en: "Orthodox Proof of Judaism (Ishur Yahadut) & Parents' Ketubah / Rabbinic Letters", fr: "Attestation du Consistoire & Ketouba des Parents / Lettres de Rabbin", es: "Certificado de Judaísmo (Ishur Yahadut) y Ketubá de Padres", de: "Ischur Jahadut (ORD/IKG) & Ketubba der Eltern / Rabbinerbriefe", he_lbl: "אישור יהדות מרב אורתודוקסי מוכר וכתובת הורים / מכתבי רב" },
+  { he: ["אפוסטיל", "מאומת"], k: "apostille", en: "Mandatory Hague Apostille Stamp on Original Document", fr: "Apostille Officielle (Notaires de France / Autorité Compétente)", es: "Apostilla de La Haya Obligatoria sobre el Original", de: "Offizielle Haager Apostille (BfAA / Landgericht)", he_lbl: "חותמת אפוסטיל רשמית על גבי המסמך המקורי" }
+];
+
+window.decodeClerkSheet = function() {
+  const lang = window.appLang || 'en';
+  const j = (window.JURISDICTION_DATA && window.JURISDICTION_DATA[lang]) || window.JURISDICTION_DATA.en;
+  const raw = (document.getElementById('in-clerk-txt').value || '').trim();
+  const box = document.getElementById('in-clerk-out');
+  box.style.display = 'block';
+  if (!raw) {
+    box.innerHTML = '⚠️ Paste or type the Hebrew lines from your Misrad HaPanim / Rabbanut sheet above (or click Load Sample).';
+    return;
+  }
+  const hits = CLERK_CLAUSES.filter(c => c.he.some(w => raw.includes(w)));
+  const list = (hits.length ? hits : CLERK_CLAUSES).map(c =>
+    `<div style="padding:8px 10px;background:#fff;border-left:4px solid #0284c7;border-radius:8px;margin-bottom:8px;">
+      <div style="font-weight:900;color:#0c4a6e;">✅ ${c[lang] || c.en}</div>
+      <div style="font-size:0.82rem;color:#334155;margin-top:2px;"><strong>${j.flag} Your Exact Homeland Doc:</strong> ${j[c.k]}</div>
+    </div>`
+  ).join('');
+  box.innerHTML = `<div style="font-weight:900;color:#b91c1c;margin-bottom:8px;">🚨 30-Day Administrative File-Closure Timer Active (Drishat Mismachim)</div>${list}<div style="font-size:0.82rem;color:#0f172a;margin-top:6px;">💡 <strong>Next Step:</strong> If any homeland document above will take >21 days to arrive, generate Option #1 (30/60-Day Extension Request) below immediately!</div>`;
+};
+
+window.loadSampleClerk = function() {
+  document.getElementById('in-clerk-txt').value = 'דרישת מסמכים (נוהל 5.2.0008 / אש/1): נא להמציא תוך 30 יום תעודת לידה מאומתת באפוסטיל, תעודת יושר פדרלית, תמצית רישום רווקות, ואישור יהדות / מכתב רב מלווה. אי השלמת המסמכים במועד תביא לסגירת התיק.';
+  window.decodeClerkSheet();
+};
+
+window.validateHomelandDossier = function() {
+  const days = parseInt(document.getElementById('chk-days').value || '0', 10);
+  const c1 = document.getElementById('chk-birth').checked;
+  const c2 = document.getElementById('chk-police').checked;
+  const c3 = document.getElementById('chk-single').checked;
+  const c4 = document.getElementById('chk-family').checked;
+  const out = document.getElementById('chk-out');
+  out.style.display = 'block';
+  const errs = [];
+  if (!c1) errs.push('❌ Missing Long-Form Vault Birth Certificate (listing both parents) + Apostille.');
+  if (!c2) errs.push('❌ Missing 3-Bucket Federal Fingerprint Police Check (Birth + Citizenship + Lived >1yr since age 14) + Apostille.');
+  if (!c3) errs.push('❌ Missing Single-Status / Marital History Proof + Apostille.');
+  if (!c4) errs.push('❌ Missing Family/Rabbinic Proof (Orthodox Ishur Yahadut / Parents Ketubah or Sponsoring Rabbi Letters).');
+  if (days > 180) errs.push(`🚨 EXPIRED CLOCK (${days} days old): Misrad HaPanim rejects Police Checks & Single-Status docs over 180 days old!`);
+  else if (days > 150) errs.push(`⚠️ DANGER ZONE (${180 - days} days left): File your packet immediately before hitting Day 180!`);
+  if (errs.length === 0) {
+    out.style.background = '#ecfdf5'; out.style.borderColor = '#10b981';
+    out.innerHTML = `<div style="font-weight:900;color:#065f46;">🟢 100% CLERK-PROOF DOSSIER (${180 - days} Days Remaining on 180-Day Clock)</div><div style="font-size:0.84rem;color:#047857;margin-top:4px;">All homeland civil, 3-Bucket police, and family/rabbinic requirements verified. Ready to generate your Hebrew Form Ash/1 or Ash/3 below!</div>`;
+  } else {
+    out.style.background = '#fff1f2'; out.style.borderColor = '#f43f5e';
+    out.innerHTML = `<div style="font-weight:900;color:#9f1239;margin-bottom:6px;">🛑 clerk Rejection Risk Detected (${errs.length} Issue${errs.length>1?'s':''}):</div>` + errs.map(e => `<div style="font-size:0.84rem;color:#881337;margin-bottom:4px;">${e}</div>`).join('');
+  }
+};
+
 const RB_LABELS = {
   en: { lblType: "Letter Type:", opts: ["🕍 Community Synagogue Rabbi (אישור רב קהילה לבית הדין)", "🕯️ Observant Shabbat Host Family (אישור משפחה מארחת / מלווה)", "🚨 Diaspora Beit Din Emergency Transfer & Safety Attestation (אישור העברת תיק בחירום)"], lblRabbi: "Rabbi or Host Family Name & City:", lblMonths: "Months of Attendance & Shabbatot Hosted:" },
   he: { lblType: "סוג מכתב ההמלצה:", opts: ["🕍 רב בית כנסת / קהילה (אישור רב קהילה לבית הדין)", "🕯️ משפחה מלווה / מארחת בשבתות (אישור משפחה מלווה)", "🚨 אישור חירום מבית דין בחו״ל להעברת תיק / קיצור 9 חודשים"], lblRabbi: "שם הרב או המשפחה המארחת והעיר:", lblMonths: "חודשי השתתפות ושבתות אירוח:" },
@@ -248,8 +306,32 @@ function renderAll() {
     </div>
 
     <div class="mod-view active" id="mod-hebrew-engine">
+      <div class="card" style="border:2px solid #0284c7;background:#f0f9ff;">
+        <h2>📥 1. "IN" Translator: Decode Clerk Deficiency Sheet (Drishat Mismachim)</h2>
+        <p>Handed a mystery Hebrew checklist by a clerk? Paste the Hebrew text below (or load a real sample) to see the exact homeland & family documents required and activate your 30-day file-closure shield:</p>
+        <textarea id="in-clerk-txt" rows="3" dir="rtl" placeholder="הדביקו כאן את טקסט דרישת המסמכים בעברית ממשרד הפנים או הרבנות..."></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn" style="margin-top:0;flex:2;" onclick="decodeClerkSheet()">🔍 Translate Hebrew Clerk Sheet →</button>
+          <button class="btn" style="margin-top:0;flex:1;background:#334155;" onclick="loadSampleClerk()">📄 Sample</button>
+        </div>
+        <div id="in-clerk-out" style="display:none;margin-top:12px;padding:12px;background:#fef2f2;border:1.5px solid #ef4444;border-radius:12px;font-size:0.86rem;"></div>
+      </div>
+
+      <div class="card" style="border:2px solid #059669;">
+        <h2>🛡️ 2. Homeland & Family Document Completeness Validator</h2>
+        <p>Verify your <strong>${j.name}</strong> civil & family dossier before stepping up to the clerk's window:</p>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:700;"><input type="checkbox" id="chk-birth" style="width:18px;height:18px;" checked /> ${j.birth}</label>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:700;"><input type="checkbox" id="chk-police" style="width:18px;height:18px;" checked /> ${j.police}</label>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:700;"><input type="checkbox" id="chk-single" style="width:18px;height:18px;" checked /> ${j.single}</label>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:700;"><input type="checkbox" id="chk-family" style="width:18px;height:18px;" checked /> ${j.rabbi}</label>
+        <label>Days Since Police Check & Single-Status Were Issued (Max 180 Days):</label>
+        <input type="number" id="chk-days" value="32" min="0" max="365" />
+        <button class="btn btn-emerald" onclick="validateHomelandDossier()">✅ Audit My Homeland & Family Dossier →</button>
+        <div id="chk-out" style="display:none;margin-top:12px;padding:12px;border:2px solid #10b981;border-radius:12px;"></div>
+      </div>
+
       <div class="card">
-        <h2>${u.m1_h2}</h2>
+        <h2>📤 3. "OUT" Auto-Filler: ${u.m1_h2}</h2>
         <p>${u.m1_p}</p>
         <label>${u.m1_lbl_type}</label>
         <select id="he-doc-type">
@@ -367,9 +449,13 @@ ${n}`;
   } else {
     txt = `לכבוד: רשות האוכלוסין וההגירה - משרד הפנים / הסוכנות היהודית\nתאריך: ${today}\nהנדון: הצהרת גילוי נאות ומכתב הסבר בנוגע לתעודת היושר (שיקום מלא)\nשם המבקש/ת: ${n} | מס' דרכון: ${p}\n\nשלום רב,\nמתוך חובת תום הלב והגילוי הנאות המלא בהגשת תעודת היושר (${f}), ברצוני להבהיר מראש פרט המופיע במרשם. מדובר באירוע יחיד מהעבר הרחוק אשר הסתיים במלואו ללא כל הרשעה חוזרת. מאז ועד היום אני מנהל/ת אורח חיים נורמטיבי ושומר חוק לחלוטין.\n\nבכבוד רב,\n${n}`;
   }
+  const headerForm = (t === 'ash1' || t === 'emerg')
+    ? `[טופס אש/1 מובנה - בקשה למתן אשרה / ועדת חריגים | שם: ${n} | דרכון: ${p} | מסמכי מקור מאומתים: ${f}]\n--------------------------------------------------\n`
+    : `[טופס אש/3 / נוהל 5.2.0008 מובנה - רשות האוכלוסין וההגירה | שם: ${n} | דרכון: ${p} | ארץ מוצא ומסמכים: ${f}]\n--------------------------------------------------\n`;
   const out = document.getElementById('he-output');
   out.style.display = 'block';
-  out.innerText = txt;
+  out.innerText = headerForm + txt;
+  if (navigator.clipboard) navigator.clipboard.writeText(headerForm + txt);
 }
 
 function genRabbiLetter() {

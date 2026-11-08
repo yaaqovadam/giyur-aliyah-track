@@ -146,3 +146,110 @@ fb = json.load(open("firebase.json"))
 fb["hosting"]["cleanUrls"] = True
 json.dump(fb, open("firebase.json", "w"), indent=2)
 print(f"✅ Generated {len(spokes)} unique SEO spoke pages with dedicated <article> blocks, single H1s, and 9-spoke internal link mesh (Robots: {robots_meta})!")
+
+
+# === 5-LANGUAGE STATIC SEO PRE-RENDERER (50 PAGES + HREFLANG + DOMAIN SHIELD) ===
+import json as _json, re as _re
+
+DOMAIN_SHIELD = "<script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\\.0\\.0\\.1|giyuraliyahtrack\\.com|www\\.giyuraliyahtrack\\.com|giyur-aliyah-track\\.(web\\.app|firebaseapp\\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>"
+
+def build_multilang_static():
+    base_html = open("public/index.html", encoding="utf-8").read()
+    langs = ["en", "he", "fr", "es", "de"]
+    dicts = {l: _json.load(open(f"public/i18n/{l}.json", encoding="utf-8")) for l in langs}
+    spokes = [s["slug"] for s in SPOKES] if "SPOKES" in globals() else [
+        "emergency-aliyah-go-bag-shinui-maamad",
+        "gush-etzion-private-conversion-aliyah",
+        "vaadat-charigim-tourist-conversion-israel",
+        "apostille-180-day-clock-fbi-police-check-israel",
+        "israeli-rabbi-community-letters-beit-din",
+        "misrad-hapanim-spousal-visa-nohal-5-2-0008",
+        "hebrew-clerk-letter-translator-form-ash1-ash3",
+        "aliyah-spousal-visa-criminal-record-rehabilitation",
+        "tourist-visa-israel-remote-work-housing-giyur"
+    ]
+    def make_hreflang(subpath):
+        tags = [f'<link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/{subpath}" />']
+        for l in langs:
+            u = f"https://giyuraliyahtrack.com/{subpath}" if l == "en" else f"https://giyuraliyahtrack.com/{l}/{subpath}"
+            tags.append(f'<link rel="alternate" hreflang="{l}" href="{u}" />')
+        return "\n  ".join(tags)
+
+    def localize_html(html_str, lang, subpath, obs_idx=None):
+        d = dicts[lang]
+        out = html_str
+        out = out.replace('<html lang="en">', f'<html lang="{lang}" dir="{"rtl" if lang=="he" else "ltr"}">', 1)
+        # Inject hreflang + domain shield
+        hl = make_hreflang(subpath)
+        out = out.replace("</head>", f"  {hl}\n  {DOMAIN_SHIELD}\n</head>", 1)
+        # Pre-render data-i18n text into static HTML for Googlebot
+        for k, val in d.items():
+            if not k.startswith("_") and isinstance(val, str):
+                out = _re.sub(rf'(data-i18n="{_re.escape(k)}"[^>]*>)[^<]*(</)', lambda m: m.group(1) + val + m.group(2), out)
+        # Pre-render spoke article in target language
+        if obs_idx is not None:
+            obs = d.get("_obstacles", [])
+            if obs_idx < len(obs):
+                ob = obs[obs_idx]
+                art = f'<article class="seo-spoke-article"><h2>{ob["tag"]} — {ob["title"]}</h2><p>{ob["body"]}</p><h3>{ob["badTitle"]}</h3><div>{ob["badText"]}</div><h3>{ob["goodTitle"]}</h3><div>{ob["goodText"]}</div></article>'
+                out = _re.sub(r'<article class="seo-spoke-article">[\\s\\S]*?</article>', lambda _: art, out, count=1)
+                out = _re.sub(r"<title>.*?</title>", lambda _: f"<title>{ob['title']} | Giyur Aliyah Track ({lang.upper()})</title>", out, count=1)
+                # Inject unique spoke-specific FAQPage JSON-LD schema in target language
+                clean_bad = _re.sub(r'<[^>]+>', ' ', ob['badText']).strip()
+                clean_good = _re.sub(r'<[^>]+>', ' ', ob['goodText']).strip()
+                q1_map = {
+                    "en": f"What is the main bureaucratic rule for {ob['title']}?",
+                    "he": f"מהו הכלל הבירוקרטי המרכזי בנושא {ob['title']}?",
+                    "fr": f"Quelle est la règle principale concernant : {ob['title']} ?",
+                    "es": f"¿Cuál es la regla principal sobre: {ob['title']}?",
+                    "de": f"Was ist die wichtigste bürokratische Regel für: {ob['title']}?"
+                }
+                faq_obj = {
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": [
+                        {"@type": "Question", "name": q1_map.get(lang, q1_map["en"]), "acceptedAnswer": {"@type": "Answer", "text": ob["body"]}},
+                        {"@type": "Question", "name": ob["badTitle"], "acceptedAnswer": {"@type": "Answer", "text": clean_bad}},
+                        {"@type": "Question", "name": ob["goodTitle"], "acceptedAnswer": {"@type": "Answer", "text": f"{clean_good} ({ob.get('time','')})"}}
+                    ]
+                }
+                faq_tag = '<script type="application/ld+json">\n' + _json.dumps(faq_obj, ensure_ascii=False) + '\n</script>'
+                out = _re.sub(r'<script type="application/ld\+json">\s*\{"@context":"https://schema\.org","@type":"FAQPage"[\s\S]*?</script>', lambda _: faq_tag, out, count=1)
+
+        else:
+            out = _re.sub(r"<title>.*?</title>", lambda _: f"<title>{d.get('hero_h1','Giyur Aliyah Track')} | Giyur Aliyah Track ({lang.upper()})</title>", out, count=1)
+        if lang != "en":
+            out = out.replace("localStorage.getItem('gat_lang') || (new URLSearchParams(location.search).get('lang')) || 'en'", f"'{lang}'")
+        return out
+
+    # Add hreflang + domain shield to English root & spokes, and generate /he, /fr, /es, /de hubs + spokes
+    open("public/index.html", "w", encoding="utf-8").write(localize_html(base_html, "en", "", None))
+    for idx, slug in enumerate(spokes):
+        sp_path = f"public/{slug}/index.html"
+        if os.path.exists(sp_path):
+            sp_html = open(sp_path, encoding="utf-8").read()
+            open(sp_path, "w", encoding="utf-8").write(localize_html(sp_html, "en", f"{slug}/", idx))
+            for l in ["he", "fr", "es", "de"]:
+                os.makedirs(f"public/{l}/{slug}", exist_ok=True)
+                open(f"public/{l}/{slug}/index.html", "w", encoding="utf-8").write(localize_html(sp_html, l, f"{slug}/", idx))
+    for l in ["he", "fr", "es", "de"]:
+        os.makedirs(f"public/{l}", exist_ok=True)
+        open(f"public/{l}/index.html", "w", encoding="utf-8").write(localize_html(base_html, l, "", None))
+
+    # Generate 50-URL multi-language sitemap.xml with xhtml:link hreflang
+    sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+    all_subpaths = [""] + [f"{s}/" for s in spokes]
+    for sub in all_subpaths:
+        for l in langs:
+            loc = f"https://giyuraliyahtrack.com/{sub}" if l == "en" else f"https://giyuraliyahtrack.com/{l}/{sub}"
+            sm.append(f"  <url>\n    <loc>{loc}</loc>")
+            for alt in langs:
+                aloc = f"https://giyuraliyahtrack.com/{sub}" if alt == "en" else f"https://giyuraliyahtrack.com/{alt}/{sub}"
+                sm.append(f'    <xhtml:link rel="alternate" hreflang="{alt}" href="{aloc}"/>')
+            sm.append("  </url>")
+    sm.append("  <url>\n    <loc>https://giyuraliyahtrack.com/forms/</loc>\n  </url>\n</urlset>")
+    open("public/sitemap.xml", "w", encoding="utf-8").write("\n".join(sm))
+
+    print("✅ Pre-rendered 50 static multi-language SEO pages (EN, HE, FR, ES, DE) with hreflang & Domain-Lock Shield!")
+
+build_multilang_static()

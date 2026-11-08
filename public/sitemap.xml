@@ -1,13 +1,406 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://giyuraliyahtrack.com/</loc></url>
-  <url><loc>https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad</loc></url>
-  <url><loc>https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah</loc></url>
-  <url><loc>https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel</loc></url>
-  <url><loc>https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel</loc></url>
-  <url><loc>https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din</loc></url>
-  <url><loc>https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008</loc></url>
-  <url><loc>https://giyuraliyahtrack.com/hebrew-clerk-letter-translator-form-ash1-ash3</loc></url>
-  <url><loc>https://giyuraliyahtrack.com/aliyah-spousal-visa-criminal-record-rehabilitation</loc></url>
-  <url><loc>https://giyuraliyahtrack.com/tourist-visa-israel-remote-work-housing-giyur</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://giyuraliyahtrack.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/he/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/de/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/emergency-aliyah-go-bag-shinui-maamad/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/he/emergency-aliyah-go-bag-shinui-maamad/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/emergency-aliyah-go-bag-shinui-maamad/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/fr/emergency-aliyah-go-bag-shinui-maamad/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/emergency-aliyah-go-bag-shinui-maamad/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/es/emergency-aliyah-go-bag-shinui-maamad/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/emergency-aliyah-go-bag-shinui-maamad/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/de/emergency-aliyah-go-bag-shinui-maamad/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/emergency-aliyah-go-bag-shinui-maamad/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/emergency-aliyah-go-bag-shinui-maamad/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/gush-etzion-private-conversion-aliyah/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/he/gush-etzion-private-conversion-aliyah/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/gush-etzion-private-conversion-aliyah/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/fr/gush-etzion-private-conversion-aliyah/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/gush-etzion-private-conversion-aliyah/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/es/gush-etzion-private-conversion-aliyah/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/gush-etzion-private-conversion-aliyah/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/de/gush-etzion-private-conversion-aliyah/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/gush-etzion-private-conversion-aliyah/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/gush-etzion-private-conversion-aliyah/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/vaadat-charigim-tourist-conversion-israel/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/he/vaadat-charigim-tourist-conversion-israel/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/vaadat-charigim-tourist-conversion-israel/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/fr/vaadat-charigim-tourist-conversion-israel/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/vaadat-charigim-tourist-conversion-israel/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/es/vaadat-charigim-tourist-conversion-israel/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/vaadat-charigim-tourist-conversion-israel/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/de/vaadat-charigim-tourist-conversion-israel/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/vaadat-charigim-tourist-conversion-israel/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/vaadat-charigim-tourist-conversion-israel/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/apostille-180-day-clock-fbi-police-check-israel/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/he/apostille-180-day-clock-fbi-police-check-israel/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/apostille-180-day-clock-fbi-police-check-israel/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/fr/apostille-180-day-clock-fbi-police-check-israel/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/apostille-180-day-clock-fbi-police-check-israel/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/es/apostille-180-day-clock-fbi-police-check-israel/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/apostille-180-day-clock-fbi-police-check-israel/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/de/apostille-180-day-clock-fbi-police-check-israel/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/apostille-180-day-clock-fbi-police-check-israel/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/apostille-180-day-clock-fbi-police-check-israel/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/israeli-rabbi-community-letters-beit-din/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/he/israeli-rabbi-community-letters-beit-din/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/israeli-rabbi-community-letters-beit-din/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/fr/israeli-rabbi-community-letters-beit-din/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/israeli-rabbi-community-letters-beit-din/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/es/israeli-rabbi-community-letters-beit-din/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/israeli-rabbi-community-letters-beit-din/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/de/israeli-rabbi-community-letters-beit-din/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/israeli-rabbi-community-letters-beit-din/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/israeli-rabbi-community-letters-beit-din/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/he/misrad-hapanim-spousal-visa-nohal-5-2-0008/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/fr/misrad-hapanim-spousal-visa-nohal-5-2-0008/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/es/misrad-hapanim-spousal-visa-nohal-5-2-0008/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/de/misrad-hapanim-spousal-visa-nohal-5-2-0008/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/misrad-hapanim-spousal-visa-nohal-5-2-0008/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/hebrew-clerk-letter-translator-form-ash1-ash3/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/he/hebrew-clerk-letter-translator-form-ash1-ash3/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/fr/hebrew-clerk-letter-translator-form-ash1-ash3/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/es/hebrew-clerk-letter-translator-form-ash1-ash3/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/de/hebrew-clerk-letter-translator-form-ash1-ash3/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/hebrew-clerk-letter-translator-form-ash1-ash3/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/aliyah-spousal-visa-criminal-record-rehabilitation/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/he/aliyah-spousal-visa-criminal-record-rehabilitation/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/fr/aliyah-spousal-visa-criminal-record-rehabilitation/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/es/aliyah-spousal-visa-criminal-record-rehabilitation/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/de/aliyah-spousal-visa-criminal-record-rehabilitation/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/aliyah-spousal-visa-criminal-record-rehabilitation/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/tourist-visa-israel-remote-work-housing-giyur/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/tourist-visa-israel-remote-work-housing-giyur/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/he/tourist-visa-israel-remote-work-housing-giyur/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/tourist-visa-israel-remote-work-housing-giyur/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/fr/tourist-visa-israel-remote-work-housing-giyur/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/tourist-visa-israel-remote-work-housing-giyur/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/es/tourist-visa-israel-remote-work-housing-giyur/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/tourist-visa-israel-remote-work-housing-giyur/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/de/tourist-visa-israel-remote-work-housing-giyur/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/tourist-visa-israel-remote-work-housing-giyur/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/tourist-visa-israel-remote-work-housing-giyur/"/>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/forms/</loc>
+  </url>
 </urlset>
