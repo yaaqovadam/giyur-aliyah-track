@@ -1,17 +1,13 @@
 (function(){
   try {
+    localStorage.removeItem('gat_splash_seen');
+    sessionStorage.removeItem('gat_splash_seen');
+    var isRootHub = (location.pathname === '/' || /^\/(he|fr|es|de)\/?$/.test(location.pathname));
     var isIntroParam = location.search.indexOf('intro=1') !== -1;
-    var alreadySeen = sessionStorage.getItem('gat_splash_seen') === '1' || localStorage.getItem('gat_splash_seen') === '1';
-    var isInternalNav = document.referrer && document.referrer.indexOf(location.host) !== -1;
-    var isSubpage = location.pathname !== '/' && !/^\/(he|fr|es|de)\/?$/.test(location.pathname);
-    if (!isIntroParam && (alreadySeen || isInternalNav || isSubpage)) {
+    if (!isRootHub && !isIntroParam) {
       document.documentElement.classList.remove('gat-pre-curtain');
-      sessionStorage.setItem('gat_splash_seen', '1');
-      localStorage.setItem('gat_splash_seen', '1');
       return;
     }
-    sessionStorage.setItem('gat_splash_seen', '1');
-    localStorage.setItem('gat_splash_seen', '1');
   } catch(e) {}
 (function(){
   if(/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||""))return;
