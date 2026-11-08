@@ -138,13 +138,15 @@
     <div class="card no-print">
       <h1 id="ui-h1">📄 Official Hebrew Forms Download & Auto-Fill Vault (Ash/1, Ash/3, Ash/6)</h1>
       <p id="ui-lead" style="font-size:0.9rem;color:#475569;margin:0 0 10px;">Download blank Gov.il statutory PDFs or enter your details in your language below to auto-generate a complete, clerk-ready 6-Section Israeli Statutory Dossier + Michtav Hesber.</p>
-            <div class="pdf-bar">
-        <span style="width:100%;font-size:0.78rem;font-weight:900;color:#0c4a6e;" id="ui-raw">📥 Official 2026 PIBA Statutory Procedures & Forms Vault (Hosted Locally + Direct Gov.il Portals):</span>
-        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0008_married_2026.pdf" target="_blank" rel="noopener">📄 Nohal 5.2.0008 (July 2026 Ed. 16 + אש/6) ⬇</a>
-        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0009_commonlaw_2026.pdf" target="_blank" rel="noopener">📄 Nohal 5.2.0009 (July 2026 Ed. 17 + אש/1/3) ⬇</a>
-        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0001_aliyah_2026.pdf" target="_blank" rel="noopener">📄 Nohal 5.2.0001 (May 2026 Ed. 10 + אש/456) ⬇</a>
-        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0008_appendix_c_refusal.pdf" target="_blank" rel="noopener">📄 Appendix C (45d Refusal / 21d Appeal) ⬇</a>
-        <a class="pdf-pill" href="https://govforms.gov.il/mw/forms/ApplicationASH4@piba.gov.il?displang=en" target="_blank" rel="noopener">🌐 Gov.il Online אש/456 (ASH4) ↗</a>
+                  <div class="pdf-bar">
+        <span style="width:100%;font-size:0.78rem;font-weight:900;color:#0c4a6e;" id="ui-raw">📥 Official 2026 PIBA Blank Forms & Procedures Vault (Hosted Locally on Our Server — Instant Download):</span>
+        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0001_appendix_a_forms.pdf" target="_blank" rel="noopener">📄 Blank טופס אש/456 (3-Page Oleh Form) ⬇</a>
+        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0009_appendix_a_affidavits.pdf" target="_blank" rel="noopener">📄 Blank נספח א׳ (13-Clause Spousal Affidavit) ⬇</a>
+        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0008_married_2026.pdf" target="_blank" rel="noopener">📘 Nohal 5.2.0008 (Married July 2026) ⬇</a>
+        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0009_commonlaw_2026.pdf" target="_blank" rel="noopener">📘 Nohal 5.2.0009 (Common-Law July 2026) ⬇</a>
+        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0001_aliyah_2026.pdf" target="_blank" rel="noopener">📘 Nohal 5.2.0001 (In-Israel Aliyah May 2026) ⬇</a>
+        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0001_appendix_b_45d_demand.pdf" target="_blank" rel="noopener">⏳ Appendix B (45-Day Demand Slip) ⬇</a>
+        <a class="pdf-pill" href="/forms/gov-pdfs/nohal_5_2_0008_appendix_c_refusal.pdf" target="_blank" rel="noopener">🛡️ Appendix C (21-Day Appeal Notice) ⬇</a>
       </div>
 
       <div class="grid">
@@ -454,7 +456,37 @@
     };
 
     
-    function getPage2BespokeHtml(t, v, chk, branch, bodyStatutory, extraNotes) {
+        function getPage2BespokeHtml(t, v, chk, branch, bodyStatutory, extraNotes) {
+      if (t === 'affidavit' || t === 'ash3') {
+        return `
+        <div class="he-sec-bar">פרק ד׳ — רשימת תיוג מסמכי מקור מאומתים באפוסטיל + אסמכתאות נוהל 5.2.0008 / 5.2.0009 (מהדורות יולי 2026)</div>
+        <table class="he-table">
+          <tr><th>1. תעודת לידה מורחבת (כולל הורים)</th><td>${chk('c-birth')}</td><th>2. תעודת יושר פדרלית (ללא עבר פלילי)</th><td>${chk('c-police')}</td></tr>
+          <tr><th>3. תמצית רישום / רווקות (או תעודת נישואין הכוללת מצב קודם לפי סעיף ד.2.ה)</th><td>${chk('c-single')}</td><th>4. תעודת נישואין (נוהל 2.11.0001) / הוכחות מרכז חיים משותף</th><td>${chk('c-rabbi')}</td></tr>
+        </table>
+        <div class="he-sec-bar">פרק ה׳ — תצהיר בני זוג רשמי (13 הסעיפים המחייבים מנספח א׳ לנוהל) + מכתב הסבר וניהול הליך מקביל</div>
+        <div class="he-michtav-box" style="background:#fff;font-size:0.81rem;line-height:1.48;">
+          ${bodyStatutory}${extraNotes}<br><br>
+          <strong>הצהרת 13 הסעיפים המחייבים (נספח א׳ לנוהל רשות האוכלוסין):</strong><br>
+          1. אנו מצהירים כי הפרטים שנמסרו בבקשתנו נכונים ומהווים יסוד לדיון בבקשתנו. 2. אנו מתחייבים לדווח לרשות האוכלוסין וההגירה על כל שינוי נסיבות שיחול במהלך הטיפול בבקשה ובתקופת ההליך המדורג. 3. בכוונתנו להשתקע בישראל ולנהל בה משק בית משותף. 4–6. המוזמן/ת אינו/ה מכור/ה לסמים קשים או לאלכוהול, אינו/ה חולה במחלת נפש או במחלה העלולה לסכן את בריאות הציבור. 7–10. המוזמן/ת לא עבר/ה עבירה פלילית, אינו/ה מבוקש/ת ע״י רשויות המשטרה והביטחון, לא פעל/ה נגד העם היהודי או ביטחון מדינת ישראל, ומעולם לא הוצא כנגדו/ה צו גירוש/הרחקה מישראל. 11. ידוע לנו כי עובדי הרשות רשאים לערוך ביקור במקום מגורינו המשותף בכתובת <strong>${v('f-addr','רחוב ירושלים 18, צפת')}</strong> לבחינת מהימנות הבקשה. 12–13. ידוע לנו כי מסירת פרט כוזב או העלמת פרטים מהווים עבירה פלילית ועלולים להביא לביטול מעמד לפי סעיפים 11 ו-13 לחוק הכניסה לישראל, תשי״ב-1952.<br>
+          <strong>שמירת זכות ניהול הליך גיור/שבות במקביל (סעיף ג.10 לנוהל 5.2.0008 / סעיף ג.7 לנוהל 5.2.0009):</strong> ככל שקיים או ייפתח הליך גיור או בקשה מכוח חוק השבות (5.2.0001), מובהר כי בהתאם להוראות המפורשות בסעיף ג.10 / ג.7 לנוהל, המבקשים זכאים לנהל את שני ההליכים במקביל ללא סגירת תיק זה.
+        </div>`;
+      }
+      if (t === 'ash6') {
+        return `
+        <div class="he-sec-bar">פרק ד׳ — פרטים אודות ניתוק הקשר עם חו״ל והשתקעות בישראל (סעיפים 3–4 לטופס אש/456 — נוהל 5.2.0001)</div>
+        <table class="he-table">
+          <tr><th>1. תעודת לידה מורחבת + אפוסטיל</th><td>${chk('c-birth')}</td><th>2. תעודת יושר פדרלית (כל מדינות המגורים מגיל 14)</th><td>${chk('c-police')}</td></tr>
+          <tr><th>3. תעודה ציבורית על מצב אישי (או תעודת נישואין לפי סעיף ד.5)</th><td>${chk('c-single')}</td><th>4. אישור יהדות מקורי מרב מוכר / תעודת גיור מוכרת</th><td>${chk('c-rabbi')}</td></tr>
+        </table>
+        <div class="he-sec-bar">פרק ה׳ — הצהרת זכאות שבות (סעיף 4ב׳ / 4א׳ לחוק השבות) ו-9 הצהרות העדר מניעה (עמוד 3 לטופס אש/456)</div>
+        <div class="he-michtav-box" style="background:#fff;font-size:0.82rem;line-height:1.5;">
+          ${bodyStatutory}${extraNotes}<br><br>
+          <strong>הצהרת המבקש/ת לפי עמוד 3 לטופס אש/456 (נוהל 5.2.0001 מהדורה 10, מאי 2026):</strong><br>
+          ☑ הנני "יהודי/ה" בהתאם לסעיף 4ב׳ לחוק השבות, תש״י-1950 (או בן/בת משפחה זכאי/ת שבות לפי סעיף 4א׳), ומבקש/ת להירשם במרשם האוכלוסין בפרטי הדת והלאום כיהודי/ה.<br>
+          ☑ לא עברתי עבירה פלילית, לא קיים נגדי צו מעצר, לא פעלתי נגד העם היהודי או ביטחון מדינת ישראל (לרבות היעדר מניעה לפי סעיף 2(ד) לחוק הכניסה), אינני חולה במחלה המסכנת את בריאות הציבור, וכוונתי הינה להשתקע באופן מיידי בישראל בדרך קבע בכתובת <strong>${v('f-addr','רחוב ירושלים 18, צפת')}</strong> ולנהל בישראל את מרכז חיי. (פטור מאגרה לפי סעיף ג.7 לנוהל 5.2.0001).
+        </div>`;
+      }
       if (t === 'rabbi_let') {
         return `
         <div class="he-sec-bar">מסמך א׳ — מכתב המלצה רשמי מרב קהילה מלווה (למועמד/ת לגיור ולמשרד הפנים)</div>
