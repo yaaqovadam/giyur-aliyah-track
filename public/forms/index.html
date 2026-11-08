@@ -419,6 +419,68 @@
       }
     };
 
+    
+    const FORM_MODE_I18N = {
+      en: {
+        ash1: ["🕍 Mode: Form Ash/1 + Ash/3 (Va'adat Charigim State Conversion) — Requires Sponsoring Rabbi & Non-Work Sustenance.", "Section C • Sponsoring Orthodox Rabbi (Rav Melaveh), Ulpan Giur & Israeli Address", "Sponsoring Rabbi / Ulpan Coordinator:", "Rabbi TZ / Rabbanut License #:", "Weekly Torah Hours & Synagogue:"],
+        ash3: ["💍 Mode: 6-Page Form Ash/6 + Ash/3 (Nohal 5.2.0008 / 5.2.0009 Spousal Status) — Includes 13-Clause & Lease Affidavits.", "Section C • Israeli Citizen Spouse / Partner (Mazmin) & Shared Household Address", "Israeli Spouse / Partner Full Name:", "Israeli Spouse 9-Digit Teudat Zehut:", "Spouse DOB & Date Relationship/Marriage Began:"],
+        ash6: ["✈️ Mode: Nohal 5.2.0001 (3-Page Form Ash/456 + MR/14) — In-Israel Aliyah (Shinui Ma'amad to Oleh, Fee-Exempt).", "Section C • Jewish Lineage / Conversion Proof, Israeli Family & Settlement Address", "Certifying Orthodox Rabbi / Relative Name:", "Sponsor TZ / Jewish Agency File #:", "Law of Return Basis (Sec. 4B Jewish / 4A Family):"],
+        affidavit: ["⚖️ Mode: Official 13-Clause Spousal & Lease Sworn Affidavit (Appendix A — Nohal 5.2.0008 / 5.2.0009).", "Section C • Co-Declarant (Israeli Citizen Partner) & Shared Residence Under Oath", "Israeli Co-Declarant Full Legal Name:", "Israeli Co-Declarant 9-Digit Teudat Zehut:", "Date Cohabitation Began & Monthly Rent (NIS):"],
+        ishur: ["📜 Mode: Beit HaDin HaGadol / Chief Rabbinate Conversion Validation Petition (Ishur Giyur for Rabbanut Marriage).", "Section C • Converting Beit Din Details, Mikvah Date & Fiancé(e) Details", "Head of Converting Beit Din & Fiancé Name:", "Beit Din Certificate # / Fiancé TZ:", "Date of Mikvah Immersion & Wedding Date:"],
+        ext30: ["⏳ Mode: Urgent 45+45 Day Extension Request (Sec. ה.2.8 & Nohal 1.6.0001) — Beats the 30-Day Clerk Closure Game.", "Section C • Clerk's Demand Slip Details (Drishat Mismachim) & Israeli Sponsor", "Israeli Spouse / Sponsor Name on File:", "Misrad HaPanim Aviv File # or Sponsor TZ:", "Date of Clerk's Slip & Missing Apostilled Doc:"],
+        rabbi_let: ["✍️ Mode: Dual Rabbi (Rav Kehilla Melaveh) & Shabbat Host Family (Mishpacha Melavah) Letters.", "Section C • Sponsoring Community Rabbi & Shabbat Host Family Details", "Sponsoring Rabbi + Host Family Name:", "Rabbi / Host Family 9-Digit Teudat Zehut:", "Shabbat Hosting Frequency & Study Topics:"]
+      },
+      he: {
+        ash1: ["🕍 מצב פעיל: טופס אש/1 + אש/3 (ועדת חריגים לגיור ממלכתי) — נדרשים פרטי רב מלווה ואמצעי מחייה.", "פרק ג׳ • פרטי הרב המלווה, אולפן הגיור וכתובת מגורים בישראל", "שם הרב המלווה / רכז אולפן גיור:", "מס׳ ת״ז של הרב / רישיון רבנות:", "שעות לימוד שבועיות ושם בית הכנסת:"],
+        ash3: ["💍 מצב פעיל: טופס אש/6 (עמ׳ 1–6) + אש/3 (הליך מדורג 5.2.0008 / 5.2.0009) — כולל תצהיר 13 הסעיפים ושכ״ד.", "פרק ג׳ • פרטי בן/בת הזוג הישראלי/ת (המזמין) וכתובת משק הבית המשותף", "שם מלא של בן/בת הזוג הישראלי/ת:", "מס׳ תעודת זהות (9 ספרות):", "תאריך לידה ומועד תחילת הקשר / נישואין:"],
+        ash6: ["✈️ מצב פעיל: נוהל 5.2.0001 (טופס אש/456 + מר/14) — שינוי מעמד לעולה בישראל (פטור מאגרה לפי סעיף ג.7).", "פרק ג׳ • הוכחת יהדות/גיור, קרובי משפחה וכתובת השתקעות בישראל", "שם הרב המאשר יהדות / קרוב משפחה בארץ:", "מס׳ ת״ז / תיק סוכנות יהודית:", "עילת זכאות שבות (סעיף 4ב׳ יהודי / 4א׳ בן משפחה):"],
+        affidavit: ["⚖️ מצב פעיל: תצהיר בני זוג רשמי (13 הסעיפים מנספח א׳ + תצהיר שכ״ד — נוהל 5.2.0008 / 5.2.0009).", "פרק ג׳ • פרטי המצהיר הישראלי וכתובת המגורים המשותפת", "שם מלא של בן/בת הזוג הישראלי/ת:", "מס׳ תעודת זהות (9 ספרות):", "מועד תחילת מגורים משותפים ושכ״ד חודשי (₪):"],
+        ishur: ["📜 מצב פעיל: בקשה לאישור גיור ותעודת הכרה לחיתון — בית הדין הרבני הגדול בירושלים.", "פרק ג׳ • פרטי בית הדין המגייר, מועד טבילה במקווה ופרטי בן/בת הזוג", "שם אב בית הדין המגייר ושם בן/בת הזוג:", "מס׳ תעודת גיור / ת״ז בן/בת הזוג:", "תאריך טבילה במקווה ומועד חתונה מבוקש:"],
+        ext30: ["⏳ מצב פעיל: בקשה לראש צוות אשרות להארכת מועד 45+45 יום (סעיף ה.2.8 ונוהל 1.6.0001) ומניעת סגירת תיק.", "פרק ג׳ • פרטי דרישת המסמכים מהפקיד (נספח ב׳) ופרטי המזמין", "שם בן/בת הזוג הישראלי/ת או המזמין בתיק:", "מס׳ תיק במערכת אביב / ת״ז המזמין:", "תאריך דרישת המסמכים והמסמך החסר מחו״ל:"],
+        rabbi_let: ["✍️ מצב פעיל: מחולל כפול — מכתב המלצה מרב קהילה מלווה + הצהרת משפחה מלווה לשבתות.", "פרק ג׳ • פרטי הרב המלווה והמשפחה המארחת בשבתות וחגים", "שם הרב המלווה + שם המשפחה המארחת:", "מס׳ ת״ז (9 ספרות) של הרב / המשפחה:", "תדירות אירוח בשבתות ונושאי הלימוד:"]
+      },
+      fr: {
+        ash1: ["🕍 Mode : Formulaires Ash/1 + Ash/3 (Comité d'Exception Va'adat Charigim — Conversion d'État).", "Section C • Rabbin Orthodoxe Accompagnateur (Rav Melaveh), Oulpan & Adresse en Israël", "Nom du Rabbin accompagnateur / Oulpan :", "N° Teudat Zehut du Rabbin :", "Heures d'étude hebdomadaires & Synagogue :"],
+        ash3: ["💍 Mode : Dossier Ash/6 (p.1–6) + Ash/3 (Statut Conjoint Nohal 5.2.0008 / 5.2.0009 + Déclaration 13 clauses).", "Section C • Conjoint / Partenaire Citoyen Israélien (Mazmin) & Domicile Commun", "Nom complet du conjoint israélien :", "N° Teudat Zehut du conjoint (9 chiffres) :", "Date de naissance & début de vie commune/mariage :"],
+        ash6: ["✈️ Mode : Nohal 5.2.0001 (Formulaire Ash/456 + MR/14) — Aliyah depuis Israël (Shinui Ma'amad, exonéré de frais).", "Section C • Preuve de Judaïsme (Ishur Yahadut), Famille en Israël & Adresse", "Nom du Rabbin certificateur / Parent en Israël :", "N° Teudat Zehut / Dossier Agence Juive :", "Base Loi du Retour (Art. 4B Juif / 4A Famille) :"],
+        affidavit: ["⚖️ Mode : Déclaration Officielle sous Serment en 13 Clauses (Annexe A — Nohal 5.2.0008 / 5.2.0009).", "Section C • Co-déclarant Citoyen Israélien & Domicile Commun", "Nom complet du co-déclarant israélien :", "N° Teudat Zehut israélienne (9 chiffres) :", "Début de cohabitation & loyer mensuel (₪) :"],
+        ishur: ["📜 Mode : Requête de Validation de Conversion (Ishur Giyur — Beit HaDin HaGadol / Grand Rabbinat).", "Section C • Beit Din de Conversion, Date du Mikvé & Conjoint(e)", "Nom du Beit Din & du fiancé(e) :", "N° Certificat de Giyur / TZ du fiancé :", "Date d'immersion au Mikvé & date de mariage :"],
+        ext30: ["⏳ Mode : Demande d'Extension 45+45 Jours (Art. ה.2.8 & Nohal 1.6.0001) — Contre la fermeture à 30 jours.", "Section C • Référence de la Demande de Pièces (Annexe B) & Garant Israélien", "Nom du conjoint / garant israélien :", "N° de dossier Aviv ou TZ du garant :", "Date de la fiche guichetier & document Apostillé attendu :"],
+        rabbi_let: ["✍️ Mode : Double Lettre en Hébreu — Rabbin Accompagnateur (Rav Melaveh) & Famille d'Accueil Chabbat.", "Section C • Coordonnées du Rabbin de Communauté & de la Famille d'Accueil", "Nom du Rabbin + Nom de la famille d'accueil :", "N° Teudat Zehut (9 chiffres) :", "Fréquence des repas de Chabbat & sujets étudiés :"]
+      },
+      es: {
+        ash1: ["🕍 Modo: Formularios Ash/1 + Ash/3 (Comité de Excepciones Va'adat Jariguim — Conversión Estatal).", "Sección C • Rabino Ortodoxo Patrocinador (Rav Melaveh), Ulpán y Dirección en Israel", "Nombre del Rabino patrocinador / Ulpán:", "N° Teudat Zehut del Rabino:", "Horas semanales de Torá y Sinagoga:"],
+        ash3: ["💍 Modo: Dossier Ash/6 (p.1–6) + Ash/3 (Residencia Conyugal Nohal 5.2.0008 / 5.2.0009 + 13 Cláusulas).", "Sección C • Cónyuge / Pareja Ciudadano Israelí (Mazmin) y Hogar Compartido", "Nombre completo del cónyuge israelí:", "N° Teudat Zehut del cónyuge (9 dígitos):", "Fecha de nacimiento e inicio de relación/matrimonio:"],
+        ash6: ["✈️ Modo: Nohal 5.2.0001 (Formulario Ash/456 + MR/14) — Aliyá dentro de Israel (Shinui Ma'amad, exento de tasa).", "Sección C • Prueba de Judaísmo (Ishur Yahadut), Familia en Israel y Dirección", "Nombre del Rabino certificador / Familiar:", "N° Teudat Zehut / Expediente Agencia Judía:", "Base Ley del Retorno (Art. 4B Judío / 4A Familiar):"],
+        affidavit: ["⚖️ Modo: Declaración Jurada Oficial de 13 Cláusulas y Alquiler (Anexo A — Nohal 5.2.0008 / 5.2.0009).", "Sección C • Co-declarante Ciudadano Israelí y Domicilio Compartido", "Nombre completo del co-declarante israelí:", "N° Teudat Zehut israelí (9 dígitos):", "Inicio de convivencia y alquiler mensual (₪):"],
+        ishur: ["📜 Modo: Petición de Validación de Conversión (Ishur Giyur — Beit HaDin HaGadol / Gran Rabinato).", "Sección C • Beit Din de Conversión, Fecha de Mikve y Prometido(a)", "Nombre del Beit Din y del prometido(a):", "N° Certificado de Giyur / TZ del prometido:", "Fecha de inmersión en Mikve y fecha de boda:"],
+        ext30: ["⏳ Modo: Solicitud Urgente de Prórroga 45+45 Días (Art. ה.2.8 y Nohal 1.6.0001) — Evita el cierre a 30 días.", "Sección C • Datos de la Hoja de Faltantes (Anexo B) y Patrocinador Israelí", "Nombre del cónyuge / patrocinador israelí:", "N° de expediente Aviv o TZ del patrocinador:", "Fecha de exigencia y documento Apostillado en trámite:"],
+        rabbi_let: ["✍️ Modo: Doble Carta en Hebreo — Rabino Patrocinador (Rav Melaveh) y Familia Anfitriona de Shabat.", "Sección C • Datos del Rabino Comunitario y de la Familia Anfitriona", "Nombre del Rabino + Familia anfitriona:", "N° Teudat Zehut (9 dígitos):", "Frecuencia de comidas de Shabat y temas de estudio:"]
+      },
+      de: {
+        ash1: ["🕍 Modus: Formular Ash/1 + Ash/3 (Ausnahmeausschuss Va'adat Charigim — Staatlicher Gijur).", "Abschnitt C • Begleitender Orthodoxer Rabbiner (Rav Melaveh), Ulpan & Adresse in Israel", "Name des Begleitrabbiners / Ulpan-Leiters:", "Teudat Zehut-Nr. des Rabbiners:", "Wöchentliche Tora-Stunden & Synagoge:"],
+        ash3: ["💍 Modus: 6-Seiten Dossier Ash/6 + Ash/3 (Ehepartner-Status Nohal 5.2.0008 / 5.2.0009 + 13-Klausel-Eid).", "Abschnitt C • Israelischer Ehepartner / Partner (Mazmin) & Gemeinsamer Haushalt", "Vollständiger Name des israelischen Partners:", "Israelische Teudat Zehut (9 Ziffern):", "Geburtsdatum & Beginn der Beziehung/Ehe:"],
+        ash6: ["✈️ Modus: Nohal 5.2.0001 (Formular Ash/456 + MR/14) — Inlands-Alija (Shinui Ma'amad zum Oleh, gebührenfrei).", "Abschnitt C • Judentumsnachweis (Ishur Yahadut), Familie in Israel & Wohnadresse", "Name des bestätigenden Rabbiners / Verwandten:", "Teudat Zehut / Jewish Agency Akten-Nr.:", "Rückkehrgesetz-Grundlage (§ 4B Jüdisch / § 4A Familie):"],
+        affidavit: ["⚖️ Modus: Offizielle 13-Klausel-Eidesstattliche Erklärung & Mietvertrag-Eid (Anhang A — 5.2.0008 / 5.2.0009).", "Abschnitt C • Mitunterzeichner (Israelischer Staatsbürger) & Gemeinsamer Wohnsitz", "Vollständiger Name des israelischen Partners:", "Israelische Teudat Zehut (9 Ziffern):", "Beginn des Zusammenlebens & Monatsmiete (₪):"],
+        ishur: ["📜 Modus: Antrag auf Gijur-Bestätigung (Ishur Giyur — Beit HaDin HaGadol / Oberrabbinat).", "Abschnitt C • Konvertierendes Beit Din, Mikwe-Datum & Verlobte(r)", "Name des Beit Din & des Verlobten:", "Gijur-Zertifikat-Nr. / TZ des Verlobten:", "Datum des Mikwe-Untertauchens & Hochzeitsdatum:"],
+        ext30: ["⏳ Modus: Dringender 45+45-Tage-Fristverlängerungsantrag (Abs. ה.2.8 & Nohal 1.6.0001) gegen 30-Tage-Schließung.", "Abschnitt C • Angaben zum Nachforderungsschein (Anhang B) & Israelischer Bürge", "Name des israelischen Ehepartners / Bürgen:", "Aviv-Aktenzeichen oder TZ des Bürgen:", "Datum der Nachforderung & bestelltes Apostille-Dokument:"],
+        rabbi_let: ["✍️ Modus: Doppelbrief auf Hebräisch — Begleitrabbiner (Rav Melaveh) & Schabbat-Gastfamilie.", "Abschnitt C • Angaben zum Gemeinderabbiner & zur Schabbat-Gastfamilie", "Name des Rabbiners + Name der Gastfamilie:", "Teudat Zehut-Nr. (9 Ziffern):", "Häufigkeit der Schabbat-Einladungen & Lernthemen:"]
+      }
+    };
+
+    function syncFormModeUI() {
+      const l = localStorage.getItem('gat_lang') || 'en';
+      const t = document.getElementById('f-type') ? document.getElementById('f-type').value : 'ash1';
+      const pack = (FORM_MODE_I18N[l] || FORM_MODE_I18N.en)[t] || FORM_MODE_I18N.en.ash1;
+      const b = document.getElementById('dyn-banner'), sc = document.getElementById('sec-hdr-c');
+      if (b) b.textContent = pack[0];
+      if (sc) sc.textContent = pack[1];
+      const l1 = document.getElementById('lbl-sp'), l2 = document.getElementById('lbl-sptz'), l3 = document.getElementById('lbl-spdob');
+      if (l1) l1.textContent = pack[2];
+      if (l2) l2.textContent = pack[3];
+      if (l3) l3.textContent = pack[4];
+    }
+
     function setFLang(l) {
       localStorage.setItem('gat_lang', l);
       document.documentElement.dir = (l === 'he') ? 'rtl' : 'ltr';
@@ -427,6 +489,7 @@
       const d = FORMS_UI_I18N[l] || FORMS_UI_I18N.en;
       const map = { 'ui-h1':d.h1, 'ui-lead':d.lead, 'lbl-type':d.type, 'lbl-branch':d.branch, 'lbl-surname':d.surname, 'lbl-given':d.given, 'lbl-prevname':d.prevname, 'lbl-dob':d.dob, 'lbl-father':d.father, 'lbl-mother':d.mother, 'lbl-pass':d.pass, 'lbl-passexp':d.passexp, 'lbl-entry':d.entry, 'lbl-marital':d.marital, 'lbl-countries':d.countries, 'lbl-occ':d.occ, 'lbl-sp':d.sp, 'lbl-sptz':d.sptz, 'lbl-spdob':d.spdob, 'lbl-addr':d.addr, 'lbl-tel':d.tel, 'lbl-email':d.email, 'lbl-notes':d.notes, 'btn-prt':d.prt };
       Object.keys(map).forEach(id => { const el = document.getElementById(id); if (el && map[id]) el.textContent = map[id]; });
+      syncFormModeUI();
     }
 
     window.toggleFormsLang = function(e) {
