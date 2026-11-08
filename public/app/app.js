@@ -1,4 +1,3 @@
-
 const CLERK_CLAUSES = [
   { he: ["יושר", "מרשם פלילי", "משטרה"], k: "police", en: "Federal Fingerprint Police Check + Apostille (<180 Days)", fr: "Casier Judiciaire (Bulletin n°3) + Apostille (<180j)", es: "Certificado de Antecedentes Penales + Apostilla (<180d)", de: "Führungszeugnis (BfJ) + BfAA-Apostille (<180T)", he_lbl: "תעודת יושר פדרלית + אפוסטיל (בתוקף 180 יום)" },
   { he: ["לידה"], k: "birth", en: "Long-Form Vault Birth Certificate (Both Parents Named) + Apostille", fr: "Copie Intégrale d'Acte de Naissance + Apostille", es: "Partida Literal de Nacimiento + Apostilla de La Haya", de: "Beglaubigte Abschrift aus dem Geburtenregister + Apostille", he_lbl: "תעודת לידה מורחבת (כולל שמות הורים) + אפוסטיל" },
@@ -411,6 +410,9 @@ function renderAll() {
 }
 
 function openMod(m) {
+  if (m === 'songs-prayers' && typeof window.renderSongs12 === 'function') window.renderSongs12();
+  if (m === 'beit-din-150' && typeof updateBdCard === 'function') updateBdCard();
+  if (m === 'couples-sync' && typeof updateCpCard === 'function') updateCpCard();
   window.currentMod = m;
   document.querySelectorAll('.mod-tab').forEach(b => b.classList.toggle('active', b.dataset.mod === m));
   document.querySelectorAll('.mod-view').forEach(v => v.classList.toggle('active', v.id === 'mod-' + m));
@@ -1145,21 +1147,7 @@ window.handleAppBrand = function(e) {
   return false;
 };
 
-window.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(location.search);
-  const qLang = params.get('lang');
-  const saved = qLang || localStorage.getItem('gat_lang') || 'en';
-  const choiceParam = params.get('choice');
-  if (choiceParam !== null) {
-    window.selectedConciergeChoice = parseInt(choiceParam, 10) || 0;
-  }
-  const mod = params.get('module');
-  const intent = params.get('intent');
-  if (intent === 'vetted-team') window.currentMod = 'vetted-team';
-  else if (mod) window.currentMod = mod;
-  else window.currentMod = 'hebrew-engine';
-  setAppLang(saved);
-});
+
 
 
 window.songNusach = localStorage.getItem('gat_nusach') || 's';
@@ -1275,43 +1263,23 @@ window.play10sSongPreview = function(idx) {
 };
 
 window.renderSongs12 = function() {
-  const sl = document.getElementById('songs-list');
-  if (!sl) return;
-  const l = window.appLang || 'en';
-  const list = window.SONGS_VAULT12 || [];
-  const mCnt = Object.values(window.songMastered).filter(Boolean).length;
-  const n = window.songNusach || 's';
-  const hdr = `<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
-    <button type="button" onclick="setSongNusach('s')" style="flex:1;padding:8px 12px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.8rem;cursor:pointer;background:${n==='s'?'#0284c7':'#fff'};color:${n==='s'?'#fff':'#0284c7'};">🕍 Sephardi / Edot HaMizrach</button>
-    <button type="button" onclick="setSongNusach('a')" style="flex:1;padding:8px 12px;border-radius:8px;border:1.5px solid #0f766e;font-weight:800;font-size:0.8rem;cursor:pointer;background:${n==='a'?'#0f766e':'#fff'};color:${n==='a'?'#fff':'#0f766e'};">🎩 Ashkenazi Nusach</button>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:8px 12px;margin-bottom:12px;font-size:0.8rem;font-weight:800;color:#0c4a6e;flex-wrap:wrap;">
-    <span>🎵 Memorized: ${mCnt}/12 (${n==='s'?'Sephardi':'Ashkenazi'})</span>
-    <button type="button" onclick="window.songMaskMode=!window.songMaskMode;window.renderSongs12();" style="background:${window.songMaskMode?'#d97706':'#0284c7'};color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:0.76rem;font-weight:800;cursor:pointer;">${window.songMaskMode?'👁️ Reveal Text':'🧠 Memory Blur Test'}</button>
-  </div>`;
-  sl.innerHTML = hdr + list.map((s, idx) => {
-    const done = !!window.songMastered[s.id];
-    const heTxt = n === 'a' ? (s.he_a || s.he_s) : (s.he_s || s.he_a);
-    const trTxt = n === 'a' ? (s.tr_a || s.tr_s) : (s.tr_s || s.tr_a);
-    const locked = !window.isProUnlocked() && idx >= window.FREE_SONG_LIMIT;
-    const maskStyle = (window.songMaskMode || locked) ? 'filter:blur(5px);cursor:pointer;' : '';
-    return `<div style="padding:14px;border:1.5px solid ${done?'#10b981':'#e2e8f0'};border-radius:14px;margin-bottom:12px;background:${done?'#f0fdf4':'#f8fafc'};">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
-        <div style="font-weight:900;color:#0c4a6e;font-size:0.95rem;">${s.t}</div>
-        <div style="display:flex;gap:5px;flex-wrap:wrap;">
-          <button type="button" id="song-prev-btn-${idx}" onclick="play10sSongPreview(${idx})" style="background:#0d9488;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">▶️ 10s Preview</button>
-          <button type="button" onclick="speakSongGate(${idx})" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">🔊 Pronounce</button>
-          <button type="button" onclick="openSongMelody(${idx})" style="background:#7c3aed;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">🎵 ${n==='s'?'Sephardi':'Ashkenazi'} Melody</button>
-          <button type="button" onclick="gradeSongMic(${idx})" style="background:#d97706;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">🎙️ Mic Test</button>
-          <button type="button" onclick="toggleSongMaster(${s.id})" style="background:${done?'#059669':'#e2e8f0'};color:${done?'#fff':'#334155'};border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">${done?'✅':'Mark'}</button>
-        </div>
-      </div>
-      <div dir="rtl" onclick="this.style.filter='none'" style="font-size:1.05rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.6;${maskStyle}">${heTxt}</div>
-      <div onclick="this.style.filter='none'" style="font-size:0.86rem;color:#1e293b;font-style:italic;margin-bottom:6px;${maskStyle}">"${trTxt}"</div>
-      <div id="song-prev-bar-${idx}" style="display:none;margin-bottom:6px;"></div>
-      ${locked ? `<div onclick="openProPaywall('🎵 Unlock all 12 Shabbat Songs, Kiddush & Shema with the Pro Pass!')" style="margin-bottom:6px;padding:6px 10px;background:#fffbeb;border:1px solid #f59e0b;border-radius:8px;font-size:0.78rem;font-weight:800;color:#92400e;cursor:pointer;">🔒 Free Sample Limit (Songs 1–3 Free). Tap ▶️ 10s Preview above or click here to unlock all 12 Songs →</div>` : ""}
-      <div id="song-mic-out-${idx}" style="display:none;margin-bottom:6px;font-size:0.8rem;"></div>
-      <div style="font-size:0.81rem;color:#475569;border-top:1px dashed #cbd5e1;padding-top:6px;">💡 ${(s.m && s.m[l]) || s.m.en}</div>
-    </div>`;
-  }).join('');
+  if (typeof window.renderSongs12 === 'function') window.renderSongs12();
 };
+
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(location.search);
+  const qLang = params.get('lang');
+  const saved = qLang || localStorage.getItem('gat_lang') || 'en';
+  const choiceParam = params.get('choice');
+  if (choiceParam !== null) {
+    window.selectedConciergeChoice = parseInt(choiceParam, 10) || 0;
+  }
+  const mod = params.get('module');
+  const intent = params.get('intent');
+  if (intent === 'vetted-team') window.currentMod = 'vetted-team';
+  else if (mod) window.currentMod = mod;
+  else window.currentMod = 'hebrew-engine';
+  setAppLang(saved);
+  if (typeof window.renderSongs12 === 'function') window.renderSongs12();
+  openMod(window.currentMod);
+});
