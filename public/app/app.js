@@ -1162,16 +1162,53 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
+window.songNusach = localStorage.getItem('gat_nusach') || 's';
 window.songMaskMode = false;
 window.songMastered = JSON.parse(localStorage.getItem('gat_songs_m') || '{}');
+
+window.setSongNusach = function(n) {
+  window.songNusach = n;
+  localStorage.setItem('gat_nusach', n);
+  window.renderSongs12();
+};
 
 window.speakSongHe = function(idx) {
   const s = (window.SONGS_VAULT12 || [])[idx];
   if (!s || !('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(s.he);
+  const txt = window.songNusach === 'a' ? (s.he_a || s.he_s) : (s.he_s || s.he_a);
+  const u = new SpeechSynthesisUtterance(txt);
   u.lang = 'he-IL'; u.rate = 0.84;
   window.speechSynthesis.speak(u);
+};
+
+window.openSongMelody = function(idx) {
+  const s = (window.SONGS_VAULT12 || [])[idx];
+  if (!s) return;
+  const q = window.songNusach === 'a' ? s.yt_a : s.yt_s;
+  window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(q), '_blank');
+};
+
+window.gradeSongMic = function(idx) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const out = document.getElementById('song-mic-out-' + idx);
+  if (!SR) {
+    if (out) { out.style.display='block'; out.innerHTML='⚠️ Speech recognition requires Chrome/Safari with mic permissions.'; }
+    return;
+  }
+  const s = (window.SONGS_VAULT12 || [])[idx];
+  const targetRaw = (window.songNusach === 'a' ? s.he_a : s.he_s).replace(/[\u0591-\u05C7.,:;!?'"״׳()-]/g, '').replace(/ה/g,'').split(/\s+/).filter(w => w.length > 1);
+  const rec = new SR();
+  rec.lang = 'he-IL'; rec.interimResults = false;
+  if (out) { out.style.display='block'; out.innerHTML='🎙️ Listening in Hebrew... Recite or sing the text aloud now!'; }
+  rec.onresult = function(ev) {
+    const spoken = (ev.results[0][0].transcript || '').replace(/[\u0591-\u05C7.,:;!?'"״׳()-]/g, '');
+    const hits = targetRaw.filter(w => spoken.includes(w.slice(0, Math.min(3, w.length))));
+    const pct = Math.min(100, Math.round((hits.length / Math.max(1, targetRaw.length)) * 100));
+    out.innerHTML = `<div style="padding:8px;border-radius:8px;background:${pct>=70?'#dcfce7':'#fef3c7'};color:${pct>=70?'#065f46':'#92400e'};font-weight:800;">🎙️ You recited: "${ev.results[0][0].transcript}" — Match Score: ${pct}% ${pct>=70?'✅ Great Beit Din Readiness!':'🔁 Keep Practicing!'}</div>`;
+  };
+  rec.onerror = function() { if (out) out.innerHTML = '⚠️ Could not hear audio clearly. Tap 🎙️ Mic Test again and speak closer to the mic.'; };
+  rec.start();
 };
 
 window.toggleSongMaster = function(id) {
@@ -1186,23 +1223,33 @@ window.renderSongs12 = function() {
   const l = window.appLang || 'en';
   const list = window.SONGS_VAULT12 || [];
   const mCnt = Object.values(window.songMastered).filter(Boolean).length;
-  const hdr = `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:8px 12px;margin-bottom:12px;font-size:0.8rem;font-weight:800;color:#0c4a6e;flex-wrap:wrap;">
-    <span>🎵 Memorized for Beit Din: ${mCnt}/12</span>
-    <button type="button" onclick="window.songMaskMode=!window.songMaskMode;window.renderSongs12();" style="background:${window.songMaskMode?'#d97706':'#0284c7'};color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:0.76rem;font-weight:800;cursor:pointer;">${window.songMaskMode?'👁️ Reveal Text (Study Mode)':'🧠 Memory Test Mode (Hide Words)'}</button>
+  const n = window.songNusach || 's';
+  const hdr = `<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+    <button type="button" onclick="setSongNusach('s')" style="flex:1;padding:8px 12px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.8rem;cursor:pointer;background:${n==='s'?'#0284c7':'#fff'};color:${n==='s'?'#fff':'#0284c7'};">🕍 Sephardi / Edot HaMizrach</button>
+    <button type="button" onclick="setSongNusach('a')" style="flex:1;padding:8px 12px;border-radius:8px;border:1.5px solid #0f766e;font-weight:800;font-size:0.8rem;cursor:pointer;background:${n==='a'?'#0f766e':'#fff'};color:${n==='a'?'#fff':'#0f766e'};">🎩 Ashkenazi Nusach</button>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:8px 12px;margin-bottom:12px;font-size:0.8rem;font-weight:800;color:#0c4a6e;flex-wrap:wrap;">
+    <span>🎵 Memorized: ${mCnt}/12 (${n==='s'?'Sephardi':'Ashkenazi'})</span>
+    <button type="button" onclick="window.songMaskMode=!window.songMaskMode;window.renderSongs12();" style="background:${window.songMaskMode?'#d97706':'#0284c7'};color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:0.76rem;font-weight:800;cursor:pointer;">${window.songMaskMode?'👁️ Reveal Text':'🧠 Memory Blur Test'}</button>
   </div>`;
   sl.innerHTML = hdr + list.map((s, idx) => {
     const done = !!window.songMastered[s.id];
+    const heTxt = n === 'a' ? (s.he_a || s.he_s) : (s.he_s || s.he_a);
+    const trTxt = n === 'a' ? (s.tr_a || s.tr_s) : (s.tr_s || s.tr_a);
     const maskStyle = window.songMaskMode ? 'filter:blur(5px);cursor:pointer;' : '';
     return `<div style="padding:14px;border:1.5px solid ${done?'#10b981':'#e2e8f0'};border-radius:14px;margin-bottom:12px;background:${done?'#f0fdf4':'#f8fafc'};">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
         <div style="font-weight:900;color:#0c4a6e;font-size:0.95rem;">${s.t}</div>
-        <div style="display:flex;gap:6px;">
-          <button type="button" onclick="speakSongHe(${idx})" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:4px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">🔊 Listen (HE)</button>
-          <button type="button" onclick="toggleSongMaster(${s.id})" style="background:${done?'#059669':'#e2e8f0'};color:${done?'#fff':'#334155'};border:none;border-radius:999px;padding:4px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">${done?'✅ Memorized':'Mark Memorized'}</button>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;">
+          <button type="button" onclick="speakSongHe(${idx})" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">🔊 Pronounce</button>
+          <button type="button" onclick="openSongMelody(${idx})" style="background:#7c3aed;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">🎵 ${n==='s'?'Sephardi':'Ashkenazi'} Melody</button>
+          <button type="button" onclick="gradeSongMic(${idx})" style="background:#d97706;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">🎙️ Mic Test</button>
+          <button type="button" onclick="toggleSongMaster(${s.id})" style="background:${done?'#059669':'#e2e8f0'};color:${done?'#fff':'#334155'};border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">${done?'✅':'Mark'}</button>
         </div>
       </div>
-      <div dir="rtl" onclick="this.style.filter='none'" style="font-size:1.05rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.6;${maskStyle}">${s.he}</div>
-      <div onclick="this.style.filter='none'" style="font-size:0.86rem;color:#1e293b;font-style:italic;margin-bottom:6px;${maskStyle}">"${s.tr}"</div>
+      <div dir="rtl" onclick="this.style.filter='none'" style="font-size:1.05rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.6;${maskStyle}">${heTxt}</div>
+      <div onclick="this.style.filter='none'" style="font-size:0.86rem;color:#1e293b;font-style:italic;margin-bottom:6px;${maskStyle}">"${trTxt}"</div>
+      <div id="song-mic-out-${idx}" style="display:none;margin-bottom:6px;font-size:0.8rem;"></div>
       <div style="font-size:0.81rem;color:#475569;border-top:1px dashed #cbd5e1;padding-top:6px;">💡 ${(s.m && s.m[l]) || s.m.en}</div>
     </div>`;
   }).join('');
