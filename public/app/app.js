@@ -378,11 +378,22 @@ function renderAll() {
       <div class="card">
         <h2>${u.m4_h2}</h2>
         <p>${u.m4_p}</p>
+        <div id="cp-room-bar" style="display:flex;justify-content:space-between;align-items:center;gap:8px;background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:0.8rem;font-weight:800;color:#065f46;flex-wrap:wrap;"></div>
+        <div id="cp-cat-bar" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;"></div>
         <div class="flashcard" style="background:linear-gradient(135deg,#0c4a6e,#0369a1);">
           <div class="fc-cat" id="cp-cat"></div>
           <div class="fc-q" id="cp-q"></div>
+          <div id="cp-tip" style="margin-top:12px;padding:8px 10px;background:rgba(255,255,255,0.12);border-left:3px solid #38bdf8;border-radius:6px;font-size:0.8rem;color:#e0f2fe;"></div>
         </div>
-        <button class="btn btn-emerald" onclick="nextCpCard()">${u.m4_btn}</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
+          <input id="cp-ans-a" placeholder="Partner A Answer (Room 1)..." oninput="saveCpAns()" style="margin:0;" />
+          <input id="cp-ans-b" placeholder="Partner B Answer (Room 2)..." oninput="saveCpAns()" style="margin:0;" />
+        </div>
+        <div id="cp-match-out" style="margin-top:8px;padding:8px 12px;border-radius:8px;font-size:0.82rem;font-weight:800;display:none;"></div>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button type="button" class="btn" style="margin-top:0;flex:1;background:#334155;" onclick="prevCpCard()">←</button>
+          <button type="button" class="btn btn-emerald" style="margin-top:0;flex:4;" onclick="nextCpCard()">${u.m4_btn}</button>
+        </div>
       </div>
     </div>
 
@@ -904,13 +915,13 @@ const BD_UI_L = {
 };
 
 window.getFilteredBdList = function() {
-  const raw = (window.bdPack === 2 ? window.BD_PACK2 : window.BD_PACK1) || [];
+  const raw = (window.bdPack === 4 ? window.BD_PACK4 : window.bdPack === 3 ? window.BD_PACK3 : window.bdPack === 2 ? window.BD_PACK2 : window.BD_PACK1) || [];
   if (!raw.length) return BD_CARDS;
   return window.bdCat === 'all' ? raw : raw.filter(x => x.cat === window.bdCat);
 };
 
 window.setBdPack = function(p) {
-  if (p === 2 && !window.isProUnlocked() && localStorage.getItem('gat_pack2_unlocked') !== '1') {
+  if (p > 1 && !window.isProUnlocked() && localStorage.getItem('gat_pack2_unlocked') !== '1') {
     window.openProPaywall('🔥 Unlock the +200 Advanced Dayanim Curveballs & Beit HaDin HaGadol Expansion Pack (Cards 201–400)!');
     return;
   }
@@ -952,7 +963,7 @@ updateBdCard = function() {
   const pro = window.isProUnlocked();
 
   const pb = document.getElementById('bd-pack-bar');
-  if (pb) pb.innerHTML = `<button type="button" onclick="setBdPack(1)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:${window.bdPack===1?'#0284c7':'#fff'};color:${window.bdPack===1?'#fff':'#0284c7'};">${ui.p1}</button><button type="button" onclick="setBdPack(2)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #d97706;font-weight:800;font-size:0.78rem;cursor:pointer;background:${window.bdPack===2?'#d97706':'#fffbeb'};color:${window.bdPack===2?'#fff':'#92400e'};">${ui.p2}</button>`;
+  if (pb) pb.innerHTML = `<button type="button" onclick="setBdPack(1)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:${window.bdPack===1?'#0284c7':'#fff'};color:${window.bdPack===1?'#fff':'#0284c7'};">${ui.p1}</button><button type="button" onclick="setBdPack(2)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #d97706;font-weight:800;font-size:0.78rem;cursor:pointer;background:${window.bdPack===2?'#d97706':'#fffbeb'};color:${window.bdPack===2?'#fff':'#92400e'};">${ui.p2}</button><button type="button" onclick="setBdPack(3)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #0f766e;font-weight:800;font-size:0.76rem;cursor:pointer;background:${window.bdPack===3?'#0f766e':'#f0fdfa'};color:${window.bdPack===3?'#fff':'#0f766e'};">🧔 Men's 150</button><button type="button" onclick="setBdPack(4)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #be185d;font-weight:800;font-size:0.76rem;cursor:pointer;background:${window.bdPack===4?'#be185d':'#fdf2f8'};color:${window.bdPack===4?'#fff':'#be185d'};">👩 Women's 150</button>`;
 
   const cb = document.getElementById('bd-cat-bar');
   if (cb && window.BD_CATS_I18N) {
@@ -985,15 +996,78 @@ nextBdCard = function() {
   updateBdCard();
 };
 
+window.cpCat = 'all';
+window.cpRoom = localStorage.getItem('gat_cp_room') || String(Math.floor(1000 + Math.random() * 9000));
+localStorage.setItem('gat_cp_room', window.cpRoom);
+window.cpAnswers = JSON.parse(localStorage.getItem('gat_cp_ans') || '{}');
+
+window.getFilteredCpList = function() {
+  const raw = window.CP_DECK80 || COUPLE_QS;
+  return (window.cpCat === 'all' || !window.CP_DECK80) ? raw : raw.filter(x => x.cat === window.cpCat);
+};
+
+window.setCpCat = function(c) { window.cpCat = c; cpIdx = 0; updateCpCard(); };
+window.prevCpCard = function() { cpIdx = Math.max(0, cpIdx - 1); updateCpCard(); };
+
+window.saveCpAns = function() {
+  const list = window.getFilteredCpList(), item = list[cpIdx % list.length];
+  if (!item) return;
+  const id = item.id || (cpIdx + 1);
+  const a = (document.getElementById('cp-ans-a')||{}).value || '';
+  const b = (document.getElementById('cp-ans-b')||{}).value || '';
+  window.cpAnswers[id] = { a: a.trim(), b: b.trim() };
+  localStorage.setItem('gat_cp_ans', JSON.stringify(window.cpAnswers));
+  renderCpMatch(id);
+};
+
+window.renderCpMatch = function(id) {
+  const box = document.getElementById('cp-match-out');
+  if (!box) return;
+  const rec = window.cpAnswers[id] || { a:'', b:'' };
+  if (!rec.a && !rec.b) { box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  if (rec.a && rec.b) {
+    const same = rec.a.toLowerCase() === rec.b.toLowerCase() || rec.a.toLowerCase().includes(rec.b.toLowerCase()) || rec.b.toLowerCase().includes(rec.a.toLowerCase());
+    box.style.background = same ? '#dcfce7' : '#fee2e2';
+    box.style.color = same ? '#065f46' : '#991b1b';
+    box.innerHTML = same ? `🟢 SYNC MATCH: "${rec.a}" ↔ "${rec.b}"` : `🚨 CLERK CONTRADICTION DETECTED: Partner A said "${rec.a}" vs. Partner B "${rec.b}"! Align before your interview!`;
+  } else {
+    box.style.background = '#fef3c7'; box.style.color = '#92400e';
+    box.innerHTML = `⏳ Waiting for second partner's answer in Room #${window.cpRoom}...`;
+  }
+};
+
+window.shareCpRoomWA = function() {
+  const list = window.getFilteredCpList(), item = list[cpIdx % list.length];
+  const l = window.appLang || 'en';
+  const qTxt = (item.q && item.q[l]) ? item.q[l] : item.q;
+  const u = `https://giyuraliyahtrack.com/app/?module=couples-sync&room=${window.cpRoom}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent('📱 Misrad HaPanim Couples Sync Room #' + window.cpRoom + '
+' + qTxt + '
+Reply & compare here: ' + u)}`, '_blank');
+};
+
 updateCpCard = function() {
-  const catEl = document.getElementById('cp-cat');
-  const qEl = document.getElementById('cp-q');
+  const catEl = document.getElementById('cp-cat'), qEl = document.getElementById('cp-q'), tipEl = document.getElementById('cp-tip');
   if (!catEl || !qEl) return;
-  const item = COUPLE_QS[cpIdx % COUPLE_QS.length];
-  const pro = window.isProUnlocked();
-  const countBadge = pro ? `Q ${(cpIdx % 80) + 1} of 80 (Pro Unlocked)` : `Free Sample ${(cpIdx % FREE_CARD_LIMIT) + 1} of ${FREE_CARD_LIMIT} (80 Full Deck)`;
-  catEl.innerText = `Nohal 5.2.0008 • ${item.c} • ${countBadge}`;
-  qEl.innerText = item.q;
+  const l = window.appLang || 'en', list = window.getFilteredCpList(), item = list[cpIdx % list.length], pro = window.isProUnlocked();
+  const id = item.id || (cpIdx + 1);
+  const rb = document.getElementById('cp-room-bar');
+  const mCnt = Object.values(window.cpAnswers).filter(x => x.a && x.b && (x.a.toLowerCase()===x.b.toLowerCase())).length;
+  if (rb) rb.innerHTML = `<span>🔐 Room #${window.cpRoom} • ✅ Synced: ${mCnt}/80</span><button type="button" onclick="shareCpRoomWA()" style="background:#059669;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:0.75rem;font-weight:800;cursor:pointer;">📲 Sync Partner via WhatsApp</button>`;
+  const cb = document.getElementById('cp-cat-bar');
+  if (cb && window.CP_CATS_I18N) {
+    cb.innerHTML = Object.keys(window.CP_CATS_I18N).map(k => `<button type="button" onclick="setCpCat('${k}')" style="flex:0 0 auto;padding:5px 10px;border-radius:999px;border:1px solid #cbd5e1;font-size:0.75rem;font-weight:800;cursor:pointer;background:${window.cpCat===k?'#0c4a6e':'#f8fafc'};color:${window.cpCat===k?'#fff':'#334155'};">${window.CP_CATS_I18N[k][l]||window.CP_CATS_I18N[k].en}</button>`).join('');
+  }
+  const badge = pro ? `${(cpIdx % list.length)+1}/${list.length} (Unlocked)` : `Free ${(cpIdx % FREE_CP_LIMIT)+1}/${FREE_CP_LIMIT}`;
+  const catLbl = (window.CP_CATS_I18N && window.CP_CATS_I18N[item.cat]) ? (window.CP_CATS_I18N[item.cat][l] || item.cat) : (item.c || '');
+  catEl.innerText = `Nohal 5.2.0008 / 5.2.0009 • ${catLbl} • ${badge}`;
+  qEl.innerText = (item.q && item.q[l]) ? item.q[l] : (item.q || '');
+  if (tipEl) tipEl.innerHTML = `<strong>🛡️ Clerk Audit Tip:</strong> ${(item.tip && item.tip[l]) ? item.tip[l] : ''}`;
+  const rec = window.cpAnswers[id] || { a:'', b:'' };
+  const ia = document.getElementById('cp-ans-a'), ib = document.getElementById('cp-ans-b');
+  if (ia) ia.value = rec.a; if (ib) ib.value = rec.b;
+  renderCpMatch(id);
 };
 
 nextCpCard = function() {
