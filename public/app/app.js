@@ -285,7 +285,7 @@ function renderAll() {
   const backEl = document.querySelector('.back-btn');
   if (backEl) backEl.innerText = u.back;
 
-  const tabEls = document.querySelectorAll('.mod-tab');
+  const tabEls = document.querySelectorAll('.mod-tab:not(.concierge-pill)');
   u.tabs.forEach((lbl, i) => { if (tabEls[i]) tabEls[i].innerText = lbl; });
 
   const c = document.getElementById('app-container');
@@ -1036,10 +1036,10 @@ window.shareCpRoomWA = function() {
   const list = window.getFilteredCpList(), item = list[cpIdx % list.length];
   const l = window.appLang || 'en';
   const qTxt = (item.q && item.q[l]) ? item.q[l] : item.q;
-  const u = `https://giyuraliyahtrack.com/app/?module=couples-sync&room=${window.cpRoom}`;
-  window.open(`https://wa.me/?text=${encodeURIComponent('📱 Misrad HaPanim Couples Sync Room #' + window.cpRoom + '
-' + qTxt + '
-Reply & compare here: ' + u)}`, '_blank');
+  const u = 'https://giyuraliyahtrack.com/app/?module=couples-sync&room=' + window.cpRoom;
+  const nl = String.fromCharCode(10);
+  const msg = '📱 Misrad HaPanim Couples Sync Room #' + window.cpRoom + nl + qTxt + nl + 'Reply & compare here: ' + u;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 };
 
 updateCpCard = function() {
@@ -1172,6 +1172,13 @@ window.setSongNusach = function(n) {
   window.renderSongs12();
 };
 
+window.speakSongGate = function(idx) {
+  if (!window.isProUnlocked() && idx >= (window.FREE_SONG_LIMIT || 3)) {
+    window.openProPaywall('🎵 Unlock all 12 Shabbat Songs, Audio Pronunciations & Live Mic Grader!');
+    return;
+  }
+  window.speakSongHe(idx);
+};
 window.speakSongHe = function(idx) {
   const s = (window.SONGS_VAULT12 || [])[idx];
   if (!s || !('speechSynthesis' in window)) return;
@@ -1293,7 +1300,7 @@ window.renderSongs12 = function() {
         <div style="font-weight:900;color:#0c4a6e;font-size:0.95rem;">${s.t}</div>
         <div style="display:flex;gap:5px;flex-wrap:wrap;">
           <button type="button" id="song-prev-btn-${idx}" onclick="play10sSongPreview(${idx})" style="background:#0d9488;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">▶️ 10s Preview</button>
-          <button type="button" onclick="${(!window.isProUnlocked() && idx >= window.FREE_SONG_LIMIT) ? `openProPaywall('🎵 Unlock all 12 Shabbat Songs, Audio Pronunciations & Live Mic Grader!')` : `speakSongHe(${idx})`}" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">🔊 Pronounce</button>
+          <button type="button" onclick="speakSongGate(${idx})" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">🔊 Pronounce</button>
           <button type="button" onclick="openSongMelody(${idx})" style="background:#7c3aed;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">🎵 ${n==='s'?'Sephardi':'Ashkenazi'} Melody</button>
           <button type="button" onclick="gradeSongMic(${idx})" style="background:#d97706;color:#fff;border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">🎙️ Mic Test</button>
           <button type="button" onclick="toggleSongMaster(${s.id})" style="background:${done?'#059669':'#e2e8f0'};color:${done?'#fff':'#334155'};border:none;border-radius:999px;padding:4px 9px;font-size:0.73rem;font-weight:800;cursor:pointer;">${done?'✅':'Mark'}</button>
