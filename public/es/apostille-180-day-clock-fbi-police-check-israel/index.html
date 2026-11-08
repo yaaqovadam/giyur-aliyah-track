@@ -689,13 +689,6 @@
 {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Cuál es la regla principal sobre: Cómo Pasar el Comité de Excepciones para Guiur Estatal como Turista?", "acceptedAnswer": {"@type": "Answer", "text": "Los turistas (B/2) tienen bloqueado el Guiur estatal hasta obtener permiso de la Va'adat Jariguim mediante el Formulario Ash/1."}}, {"@type": "Question", "name": "❌ Por Qué Rechazan el 70% de Solicitudes :", "acceptedAnswer": {"@type": "Answer", "text": "• Presentar una carta emocional en español o inglés en vez de un  Mijtav Hesber  legal en hebreo."}}, {"@type": "Question", "name": "✅ Dossier Legal en Hebreo :", "acceptedAnswer": {"@type": "Answer", "text": "• Genere su Formulario Ash/1 y su Mijtav Hesber en hebreo listos para imprimir desde nuestra aplicación. (⏱️ Aprobación: 6 a 10 semanas)"}}]}
 </script>
   <script src="/i18n/jurisdiction.js?v=30"></script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Giyur Aliyah Track","item":"https://giyuraliyahtrack.com/"},{"@type":"ListItem","position":2,"name":"The 5 Apostilled Docs & 180-Day Misrad HaPanim Clock","item":"https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel"}]}</script>  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel/" />
   <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/apostille-180-day-clock-fbi-police-check-israel/" />
   <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/apostille-180-day-clock-fbi-police-check-israel/" />
@@ -2019,6 +2012,29 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
 <script id="bulletproof-5lang-globe">
 (function() {
+  const LANGS = ['en', 'he', 'fr', 'es', 'de'];
+
+  function detectUrlLang() {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    if (parts.length > 0 && LANGS.includes(parts[0]) && parts[0] !== 'en') {
+      return parts[0];
+    }
+    return null;
+  }
+
+  function getTargetLangPath(targetLang) {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    if (parts[0] === 'app' || parts[0] === 'forms') return null;
+    if (parts.length > 0 && LANGS.includes(parts[0])) {
+      parts.shift();
+    }
+    const slug = parts.join('/');
+    if (targetLang === 'en') {
+      return '/' + (slug ? slug + '/' : '');
+    }
+    return '/' + targetLang + '/' + (slug ? slug + '/' : '');
+  }
+
   function updateGlobeBadge(lang) {
     const labels = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
     document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
@@ -2030,6 +2046,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     localStorage.setItem('gat_lang', l);
     const m = document.getElementById('lang-pop-menu');
     if (m) m.style.display = 'none';
+    const targetPath = getTargetLangPath(l);
+    if (targetPath && window.location.pathname !== targetPath && window.location.pathname + '/' !== targetPath) {
+      window.location.href = targetPath + window.location.search + window.location.hash;
+      return;
+    }
     if (typeof applyLang === 'function') applyLang(l);
     updateGlobeBadge(l);
   };
@@ -2061,8 +2082,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   };
 
   document.addEventListener('DOMContentLoaded', function() {
-    const saved = localStorage.getItem('gat_lang') || 'en';
-    updateGlobeBadge(saved);
+    const urlLang = detectUrlLang();
+    const active = urlLang || localStorage.getItem('gat_lang') || 'en';
+    if (urlLang) localStorage.setItem('gat_lang', urlLang);
+    if (active !== 'en' && typeof applyLang === 'function') applyLang(active);
+    updateGlobeBadge(active);
   });
 })();
 </script>

@@ -689,13 +689,6 @@
 {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Was ist die wichtigste bürokratische Regel für: Wie Konversion (Giur), Alija, Rabbinat & Misrad HaPanim Zusammenhängen.?", "acceptedAnswer": {"@type": "Answer", "text": "Nach dem Dahan-Urteil des Obersten Gerichtshofs berechtigen anerkannte private orthodoxe Gerichte (Gush Etzion, Bnei Brak) zur Alija bei regulärem Langzeitvisum — doch B/2-Touristen stoßen beim Misrad HaPanim auf Sicherheitsblockaden, sofern sie nicht über das Partnerverfahren (Nohal 5.2.0008), 9 Monate Auslands-Gemeinde oder die Oberrabbinats-Validierung (Ischur Giur) gehen."}}, {"@type": "Question", "name": "🛡️ Die Wahrheit der Doppelten Sicherheitsprüfung :", "acceptedAnswer": {"@type": "Answer", "text": "• Oberrabbinat und Misrad HaPanim prüfen getrennt. Wer auf dem falschen Weg startet, verliert 3 bis 4 Jahre."}}, {"@type": "Question", "name": "⚡ Wählen Sie ab Tag 1 den Richtigen der 4 Wege :", "acceptedAnswer": {"@type": "Answer", "text": "• Weg 1: Notfall-Alija in Israel (Schinui Ma'amad + Go-Bag-Ordner). • Weg 2: Privates Beit Din (Gush Etzion) + Ischur Giur. • Weg 3: Staatlicher Giur (Nativ) über Va'adat Charigim (Formular Asch/1). • Weg 4: Ehepartner-Visum (Nohal 5.2.0008 / 5.2.0009). (⏱️ Spart 3 bis 4+ Jahre Bürokratie)"}}]}
 </script>
   <script src="/i18n/jurisdiction.js?v=30"></script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Giyur Aliyah Track","item":"https://giyuraliyahtrack.com/"},{"@type":"ListItem","position":2,"name":"Emergency Aliyah From Inside Israel (Shinui Ma'amad) & Go-Bag","item":"https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad"}]}</script>  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad/" />
   <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad/" />
   <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/emergency-aliyah-go-bag-shinui-maamad/" />
@@ -2021,6 +2014,29 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
 <script id="bulletproof-5lang-globe">
 (function() {
+  const LANGS = ['en', 'he', 'fr', 'es', 'de'];
+
+  function detectUrlLang() {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    if (parts.length > 0 && LANGS.includes(parts[0]) && parts[0] !== 'en') {
+      return parts[0];
+    }
+    return null;
+  }
+
+  function getTargetLangPath(targetLang) {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    if (parts[0] === 'app' || parts[0] === 'forms') return null;
+    if (parts.length > 0 && LANGS.includes(parts[0])) {
+      parts.shift();
+    }
+    const slug = parts.join('/');
+    if (targetLang === 'en') {
+      return '/' + (slug ? slug + '/' : '');
+    }
+    return '/' + targetLang + '/' + (slug ? slug + '/' : '');
+  }
+
   function updateGlobeBadge(lang) {
     const labels = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
     document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
@@ -2032,6 +2048,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     localStorage.setItem('gat_lang', l);
     const m = document.getElementById('lang-pop-menu');
     if (m) m.style.display = 'none';
+    const targetPath = getTargetLangPath(l);
+    if (targetPath && window.location.pathname !== targetPath && window.location.pathname + '/' !== targetPath) {
+      window.location.href = targetPath + window.location.search + window.location.hash;
+      return;
+    }
     if (typeof applyLang === 'function') applyLang(l);
     updateGlobeBadge(l);
   };
@@ -2063,8 +2084,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   };
 
   document.addEventListener('DOMContentLoaded', function() {
-    const saved = localStorage.getItem('gat_lang') || 'en';
-    updateGlobeBadge(saved);
+    const urlLang = detectUrlLang();
+    const active = urlLang || localStorage.getItem('gat_lang') || 'en';
+    if (urlLang) localStorage.setItem('gat_lang', urlLang);
+    if (active !== 'en' && typeof applyLang === 'function') applyLang(active);
+    updateGlobeBadge(active);
   });
 })();
 </script>

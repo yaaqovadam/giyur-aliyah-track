@@ -689,13 +689,6 @@
 {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the main bureaucratic rule for Both Partners Must Take the Course! Meet Our Vetted Rabbanut Team & Pass the 150 Questions.?", "acceptedAnswer": {"@type": "Answer", "text": "Even when one spouse is a born-Jewish Israeli citizen, the Beit Din requires BOTH partners to study with a recognized Sponsoring Rabbi AND complete a Family Purity course with a Rabbanut-certified Madrichat Kallah."}}, {"@type": "Question", "name": "😰 Wasted Unrecognized Courses", "acceptedAnswer": {"@type": "Answer", "text": "Studying with a teacher who isn't plugged into the Rabbanut wastes a full year—and freezing on Friday night Kiddush songs at the Beit Din triggers a 6-month deferral."}}, {"@type": "Question", "name": "⚡ Vetted Remote-Friendly Team + Simulator", "acceptedAnswer": {"@type": "Answer", "text": "We introduce you to our vetted Sponsoring Rabbi and Madrichat Kallah (with flexible 1-on-1 & remote-friendly scheduling) and drill you on all 150 questions & 12 Shabbat songs. (⏱️ Saves 6 to 18 Months)"}}]}
 </script>
   <script src="/i18n/jurisdiction.js?v=30"></script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Giyur Aliyah Track","item":"https://giyuraliyahtrack.com/"},{"@type":"ListItem","position":2,"name":"Misrad HaPanim Spousal Visa (Nohal 5.2.0008) & 80 Questions","item":"https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008"}]}</script>  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008/" />
   <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/misrad-hapanim-spousal-visa-nohal-5-2-0008/" />
   <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/misrad-hapanim-spousal-visa-nohal-5-2-0008/" />
@@ -2019,6 +2012,29 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
 <script id="bulletproof-5lang-globe">
 (function() {
+  const LANGS = ['en', 'he', 'fr', 'es', 'de'];
+
+  function detectUrlLang() {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    if (parts.length > 0 && LANGS.includes(parts[0]) && parts[0] !== 'en') {
+      return parts[0];
+    }
+    return null;
+  }
+
+  function getTargetLangPath(targetLang) {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    if (parts[0] === 'app' || parts[0] === 'forms') return null;
+    if (parts.length > 0 && LANGS.includes(parts[0])) {
+      parts.shift();
+    }
+    const slug = parts.join('/');
+    if (targetLang === 'en') {
+      return '/' + (slug ? slug + '/' : '');
+    }
+    return '/' + targetLang + '/' + (slug ? slug + '/' : '');
+  }
+
   function updateGlobeBadge(lang) {
     const labels = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
     document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
@@ -2030,6 +2046,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     localStorage.setItem('gat_lang', l);
     const m = document.getElementById('lang-pop-menu');
     if (m) m.style.display = 'none';
+    const targetPath = getTargetLangPath(l);
+    if (targetPath && window.location.pathname !== targetPath && window.location.pathname + '/' !== targetPath) {
+      window.location.href = targetPath + window.location.search + window.location.hash;
+      return;
+    }
     if (typeof applyLang === 'function') applyLang(l);
     updateGlobeBadge(l);
   };
@@ -2061,8 +2082,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   };
 
   document.addEventListener('DOMContentLoaded', function() {
-    const saved = localStorage.getItem('gat_lang') || 'en';
-    updateGlobeBadge(saved);
+    const urlLang = detectUrlLang();
+    const active = urlLang || localStorage.getItem('gat_lang') || 'en';
+    if (urlLang) localStorage.setItem('gat_lang', urlLang);
+    if (active !== 'en' && typeof applyLang === 'function') applyLang(active);
+    updateGlobeBadge(active);
   });
 })();
 </script>
