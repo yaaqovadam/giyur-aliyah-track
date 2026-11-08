@@ -41,6 +41,29 @@
     });
   }, 50);
 
+
+(function forceSplashBtnWhite(){
+  var st = document.getElementById('gat-splash-white-css');
+  if (!st) {
+    st = document.createElement('style');
+    st.id = 'gat-splash-white-css';
+    st.textContent = 'html, body { color-scheme: light only !important; } body > div button, body > div a, [id*="splash"] button, [class*="splash"] button, button { color-scheme: light only !important; }';
+    (document.head || document.documentElement).appendChild(st);
+  }
+  document.querySelectorAll('button, a, div, span').forEach(function(el){
+    var t = (el.textContent || '').trim().toUpperCase();
+    if (t === 'ENTER SITE' && el.children.length <= 1) {
+      el.style.setProperty('color', '#ffffff', 'important');
+      el.style.setProperty('-webkit-text-fill-color', '#ffffff', 'important');
+      el.style.setProperty('border-color', 'rgba(255,255,255,0.65)', 'important');
+      el.style.setProperty('background-color', 'rgba(15,23,42,0.55)', 'important');
+      el.style.setProperty('color-scheme', 'light only', 'important');
+    }
+  });
+  if (!window._gatSplashDone) requestAnimationFrame(forceSplashBtnWhite);
+  setTimeout(function(){ window._gatSplashDone = true; }, 5000);
+})();
+
 })();
 
 
@@ -53,5 +76,28 @@
       }
     });
   }, 50);
+
+
+(function forceSplashBtnWhite(){
+  var st = document.getElementById('gat-splash-white-css');
+  if (!st) {
+    st = document.createElement('style');
+    st.id = 'gat-splash-white-css';
+    st.textContent = 'html, body { color-scheme: light only !important; } body > div button, body > div a, [id*="splash"] button, [class*="splash"] button, button { color-scheme: light only !important; }';
+    (document.head || document.documentElement).appendChild(st);
+  }
+  document.querySelectorAll('button, a, div, span').forEach(function(el){
+    var t = (el.textContent || '').trim().toUpperCase();
+    if (t === 'ENTER SITE' && el.children.length <= 1) {
+      el.style.setProperty('color', '#ffffff', 'important');
+      el.style.setProperty('-webkit-text-fill-color', '#ffffff', 'important');
+      el.style.setProperty('border-color', 'rgba(255,255,255,0.65)', 'important');
+      el.style.setProperty('background-color', 'rgba(15,23,42,0.55)', 'important');
+      el.style.setProperty('color-scheme', 'light only', 'important');
+    }
+  });
+  if (!window._gatSplashDone) requestAnimationFrame(forceSplashBtnWhite);
+  setTimeout(function(){ window._gatSplashDone = true; }, 5000);
+})();
 
 })();
