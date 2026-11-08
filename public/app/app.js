@@ -66,7 +66,7 @@ const RB_LABELS = {
 const APP_UI = {
   en: {
     back: "← Back to Guide",
-    tabs: ["📸 Hebrew & Forms", "✍️ Rabbi Letters", "🕍 150 Beit Din Deck", "📱 80 Couples Sync", "🎵 12 Shabbat Songs"],
+    tabs: ["📸 Hebrew & Forms", "✍️ Rabbi Letters", "🕍 200 Beit Din Deck", "📱 80 Couples Sync", "🎵 12 Shabbat Songs"],
     m1_h2: "📸 Clerk Letter Translator & Statutory Hebrew Form Builder",
     m1_p: "Select your official Hebrew document below. Your active country's exact police & civil certificate names are automatically mapped into your statutory Hebrew letter:",
     m1_lbl_type: "Select Official Hebrew Document to Generate:",
@@ -83,9 +83,9 @@ const APP_UI = {
     m2_h2: "✍️ Stamped Rabbinic & Shabbat Host Letterhead Generator",
     m2_p: "Solve the 'You write it in Hebrew, I'll sign it!' bottleneck. Generate formal Hebrew Beit Din recommendation drafts ready to send on WhatsApp:",
     m2_btn: "Generate Hebrew Draft + Copy for WhatsApp →",
-    m3_h2: "🕍 150 Beit Din Tribunal (Ma'amad Beit Din) Simulator",
+    m3_h2: "🕍 200 Beit Din Tribunal (Ma'amad Beit Din) Simulator",
     m3_p: "Tap the card to reveal the exact Halachic answer Dayanim expect to hear:",
-    m3_btn: "Next Beit Din Question (150 Core Deck) →",
+    m3_btn: "Next Beit Din Question (200 Core Deck) →",
     m4_h2: "📱 80-Question Misrad HaPanim Separated Couples Interrogation",
     m4_p: "Under Nohal 5.2.0008 / 5.2.0009, clerks separate both partners into two rooms. Drill these high-trap questions together:",
     m4_btn: "Next Couples Interrogation Question →",
@@ -94,7 +94,7 @@ const APP_UI = {
   },
   he: {
     back: "→ חזרה למדריך הראשי",
-    tabs: ["📸 מנוע עברית וטפסים", "✍️ מכתבי רב וקהילה", "🕍 150 שאלות בית דין", "📱 80 שאלות לזוגות", "🎵 12 שירי שבת וברכות"],
+    tabs: ["📸 מנוע עברית וטפסים", "✍️ מכתבי רב וקהילה", "🕍 200 שאלות בית דין (+200 הרחבה)", "📱 80 שאלות לזוגות", "🎵 12 שירי שבת וברכות"],
     m1_h2: "📸 מחולל מכתבי הסבר משפטיים וטפסי אש/1 ואש/3 בעברית",
     m1_p: "בחרו את המסמך הרשמי להפקה. שמות תעודות היושר והלידה של מדינת המקור שלכם משולבים אוטומטית בנוסח המשפטי:",
     m1_lbl_type: "בחרו מסמך רשמי להפקה:",
@@ -122,7 +122,7 @@ const APP_UI = {
   },
   fr: {
     back: "← Retour au Guide",
-    tabs: ["📸 Hébreu & Ash/1", "✍️ Lettres Rabbin", "🕍 150 Q. Beit Din", "📱 80 Q. Couples", "🎵 12 Chants Shabbat"],
+    tabs: ["📸 Hébreu & Ash/1", "✍️ Lettres Rabbin", "🕍 200 Q. Beit Din", "📱 80 Q. Couples", "🎵 12 Chants Shabbat"],
     m1_h2: "📸 Générateur de Lettres Juridiques en Hébreu (Spécial France/BE/CH)",
     m1_p: "Vos documents francophones (Copie Intégrale d'Acte de Naissance, Casier Judiciaire Bulletin n°3, Apostille Cour d'Appel) sont automatiquement intégrés en hébreu :",
     m1_lbl_type: "Choisissez le Document Officiel en Hébreu :",
@@ -150,7 +150,7 @@ const APP_UI = {
   },
   es: {
     back: "← Volver a la Guía",
-    tabs: ["📸 Hebreo y Ash/1", "✍️ Cartas Rabino", "🕍 150 P. Beit Din", "📱 80 P. Parejas", "🎵 12 Cantos Shabat"],
+    tabs: ["📸 Hebreo y Ash/1", "✍️ Cartas Rabino", "🕍 200 P. Beit Din", "📱 80 P. Parejas", "🎵 12 Cantos Shabat"],
     m1_h2: "📸 Generador de Cartas Legales en Hebreo (España y Latinoamérica)",
     m1_p: "Sus documentos (Partida de Nacimiento Literal, Certificado de Antecedentes Penales / RNR, Apostilla de La Haya) se integran automáticamente en hebreo:",
     m1_lbl_type: "Seleccione el Documento Oficial en Hebreo:",
@@ -178,7 +178,7 @@ const APP_UI = {
   },
   de: {
     back: "← Zurück zum Leitfaden",
-    tabs: ["📸 Hebräisch & Asch/1", "✍️ Rabbiner-Briefe", "🕍 150 Beit Din Fragen", "📱 80 Paar-Fragen", "🎵 12 Schabbat-Lieder"],
+    tabs: ["📸 Hebräisch & Asch/1", "✍️ Rabbiner-Briefe", "🕍 200 Beit Din Fragen", "📱 80 Paar-Fragen", "🎵 12 Schabbat-Lieder"],
     m1_h2: "📸 Hebräischer Rechtsbrief-Generator (Deutschland / Österreich / Schweiz)",
     m1_p: "Ihre DACH-Dokumente (Beglaubigte Abschrift aus dem Geburtenregister, Erweitertes Führungszeugnis, BfAA-Apostille) werden automatisch auf Hebräisch eingefügt:",
     m1_lbl_type: "Offizielles Hebräisches Dokument Auswählen:",
@@ -195,7 +195,7 @@ const APP_UI = {
     m2_h2: "✍️ Generator für Gestempelte Rabbiner- & Gastfamilienbriefe",
     m2_p: "Erstellen Sie mit 1 Klick den hebräischen Empfehlungsbrief zum Senden per WhatsApp an Ihren Rabbiner:",
     m2_btn: "Hebräischen Entwurf Erstellen & für WhatsApp Kopieren →",
-    m3_h2: "🕍 150 Beit Din Fragen Simulator (Ma'amad Beit Din)",
+    m3_h2: "🕍 200 Beit Din Fragen Simulator (Ma'amad Beit Din)",
     m3_p: "Tippen Sie auf die Karte, um die halachische Antwort der Dayanim anzuzeigen:",
     m3_btn: "Nächste Beit Din Frage →",
     m4_h2: "📱 80-Fragen Paar-Interview Simulator (Misrad HaPanim)",
@@ -891,18 +891,89 @@ renderAll = function() {
 
 const FREE_CARD_LIMIT = 4;
 
+window.bdPack = 1;
+window.bdCat = 'all';
+window.bdScores = JSON.parse(localStorage.getItem('gat_bd_scores') || '{}');
+
+const BD_UI_L = {
+  en: { p1:"📚 Pack 1: Core 200", p2:"🔥 Pack 2: +200 Curveballs", m:"Mastered", r:"Needs Review", tip:"🧠 What Dayanim Expect:", free:"Free Preview", unl:"Unlocked" },
+  he: { p1:"📚 חבילה 1: 200 שאלות ליבה", p2:"🔥 חבילה 2: +200 שאלות התקלה", m:"שולט/ת", r:"לחזרה", tip:"🧠 מה הדיינים מחפשים:", free:"דוגמה חינם", unl:"פתוח" },
+  fr: { p1:"📚 Pack 1 : 200 Base", p2:"🔥 Pack 2 : +200 Pièges", m:"Maîtrisé", r:"À revoir", tip:"🧠 Ce qu'attendent les Dayanim :", free:"Essai gratuit", unl:"Débloqué" },
+  es: { p1:"📚 Pack 1: 200 Base", p2:"🔥 Pack 2: +200 Trampas", m:"Dominado", r:"Repasar", tip:"🧠 Qué esperan los Dayanim:", free:"Prueba gratis", unl:"Desbloqueado" },
+  de: { p1:"📚 Paket 1: 200 Kern", p2:"🔥 Paket 2: +200 Fangfragen", m:"Gemeistert", r:"Wiederholen", tip:"🧠 Was die Dayanim erwarten:", free:"Gratis-Vorschau", unl:"Freigeschaltet" }
+};
+
+window.getFilteredBdList = function() {
+  const raw = (window.bdPack === 2 ? window.BD_PACK2 : window.BD_PACK1) || [];
+  if (!raw.length) return BD_CARDS;
+  return window.bdCat === 'all' ? raw : raw.filter(x => x.cat === window.bdCat);
+};
+
+window.setBdPack = function(p) {
+  if (p === 2 && !window.isProUnlocked() && localStorage.getItem('gat_pack2_unlocked') !== '1') {
+    window.openProPaywall('🔥 Unlock the +200 Advanced Dayanim Curveballs & Beit HaDin HaGadol Expansion Pack (Cards 201–400)!');
+    return;
+  }
+  window.bdPack = p; bdIdx = 0; updateBdCard();
+};
+
+window.setBdCat = function(c) { window.bdCat = c; bdIdx = 0; updateBdCard(); };
+
+window.markBdScore = function(val) {
+  const list = window.getFilteredBdList();
+  const item = list[bdIdx % list.length];
+  if (item && item.id) {
+    window.bdScores[item.id] = val;
+    localStorage.setItem('gat_bd_scores', JSON.stringify(window.bdScores));
+  }
+  nextBdCard();
+};
+
+window.prevBdCard = function() { bdIdx = Math.max(0, bdIdx - 1); updateBdCard(); };
+
+window.speakBdTerm = function(e) {
+  if (e) { e.preventDefault(); e.stopPropagation(); }
+  const list = window.getFilteredBdList();
+  const item = list[bdIdx % list.length];
+  if (!item || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(item.he || item.q.he || '');
+  u.lang = 'he-IL'; u.rate = 0.88;
+  window.speechSynthesis.speak(u);
+};
+
 updateBdCard = function() {
-  const catEl = document.getElementById('bd-cat');
-  const qEl = document.getElementById('bd-q');
-  const aEl = document.getElementById('bd-a');
+  const catEl = document.getElementById('bd-cat'), qEl = document.getElementById('bd-q'), aEl = document.getElementById('bd-a');
   if (!catEl || !qEl || !aEl) return;
-  const item = BD_CARDS[bdIdx % BD_CARDS.length];
+  const l = window.appLang || 'en';
+  const ui = BD_UI_L[l] || BD_UI_L.en;
+  const list = window.getFilteredBdList();
+  const item = list[bdIdx % list.length];
   const pro = window.isProUnlocked();
-  const countBadge = pro ? `Card ${(bdIdx % 150) + 1} of 150 (Pro Unlocked)` : `Free Sample ${(bdIdx % FREE_CARD_LIMIT) + 1} of ${FREE_CARD_LIMIT} (150 Full Deck)`;
-  catEl.innerText = `${item.c} • ${countBadge}`;
-  qEl.innerText = item.q;
+
+  const pb = document.getElementById('bd-pack-bar');
+  if (pb) pb.innerHTML = `<button type="button" onclick="setBdPack(1)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:${window.bdPack===1?'#0284c7':'#fff'};color:${window.bdPack===1?'#fff':'#0284c7'};">${ui.p1}</button><button type="button" onclick="setBdPack(2)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #d97706;font-weight:800;font-size:0.78rem;cursor:pointer;background:${window.bdPack===2?'#d97706':'#fffbeb'};color:${window.bdPack===2?'#fff':'#92400e'};">${ui.p2}</button>`;
+
+  const cb = document.getElementById('bd-cat-bar');
+  if (cb && window.BD_CATS_I18N) {
+    cb.innerHTML = Object.keys(window.BD_CATS_I18N).map(k => `<button type="button" onclick="setBdCat('${k}')" style="flex:0 0 auto;padding:5px 10px;border-radius:999px;border:1px solid #cbd5e1;font-size:0.75rem;font-weight:800;cursor:pointer;background:${window.bdCat===k?'#0f172a':'#f8fafc'};color:${window.bdCat===k?'#fff':'#334155'};">${window.BD_CATS_I18N[k][l]||window.BD_CATS_I18N[k].en}</button>`).join('');
+  }
+
+  const vals = Object.values(window.bdScores);
+  const mCnt = vals.filter(v => v === 1).length, rCnt = vals.filter(v => v === 0).length;
+  const sb = document.getElementById('bd-score-bar');
+  if (sb) sb.innerHTML = `<span>✅ ${ui.m}: ${mCnt}</span><span>🔁 ${ui.r}: ${rCnt}</span><span>📊 ${pro ? ((bdIdx % list.length)+1)+'/'+list.length+' ('+ui.unl+')' : ((bdIdx % FREE_CARD_LIMIT)+1)+'/'+FREE_CARD_LIMIT+' ('+ui.free+')'}</span>`;
+
+  const bm = document.getElementById('bd-btn-master'), br = document.getElementById('bd-btn-review'), pl = document.getElementById('bd-pron-lbl');
+  if (bm) bm.innerText = ui.m; if (br) br.innerText = ui.r; if (pl) pl.innerText = item.he || 'HE';
+
+  const catLbl = (window.BD_CATS_I18N && window.BD_CATS_I18N[item.cat]) ? (window.BD_CATS_I18N[item.cat][l] || item.cat) : (item.c || '');
+  catEl.innerText = `${catLbl} • ${item.he || ''}`;
+  qEl.innerText = (item.q && item.q[l]) ? item.q[l] : (item.q || '');
   aEl.style.display = 'none';
-  aEl.innerText = '✅ ' + item.a;
+  const ansTxt = (item.a && item.a[l]) ? item.a[l] : (item.a || '');
+  const tipTxt = (item.tip && item.tip[l]) ? `<div style="margin-top:8px;padding:8px 10px;background:rgba(245,158,11,0.18);border-left:3px solid #f59e0b;border-radius:6px;font-size:0.8rem;color:#fef3c7;"><strong>${ui.tip}</strong> ${item.tip[l]}</div>` : '';
+  aEl.innerHTML = `<div>✅ ${ansTxt}</div>${tipTxt}`;
 };
 
 nextBdCard = function() {
