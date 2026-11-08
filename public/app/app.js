@@ -1227,7 +1227,7 @@ window.gradeSongMic = function(idx, isBracha) {
     if (window._activeRecTimer) { clearInterval(window._activeRecTimer); window._activeRecTimer = null; }
     const sp = (transcriptText || '').replace(/[\u0591-\u05C7.,:;!?'"״׳()\/-]/g, '');
     if (!sp && !usedFallback) {
-      out.innerHTML = '<div style="padding:8px 10px;border-radius:8px;background:#fef3c7;color:#92400e;font-weight:800;">⚠️ No Hebrew speech detected. Make sure Safari/Chrome has Microphone & Speech Recognition enabled in iOS Settings → Safari, then tap 🎙️ Sing & Grade again.</div>';
+      out.innerHTML = '<div onclick="window.openMicSettingsHelp()" style="padding:10px 12px;border-radius:10px;background:#fef3c7;border:1.5px solid #f59e0b;color:#92400e;font-weight:800;cursor:pointer;">⚠️ No Hebrew speech detected (or Mic blocked). <u>Tap here to open 1-Tap Microphone Settings Repair Guide ↗</u></div>';
       return;
     }
     const hits = words.filter(function(w) { return sp.indexOf(w.slice(0, Math.min(3, w.length))) !== -1; });
@@ -1356,3 +1356,41 @@ window.addEventListener('DOMContentLoaded', function() {
   try { window.renderSongs12(); } catch(e) { console.error(e); }
   try { openMod(window.currentMod); } catch(e) { console.error(e); }
 });
+
+window.openMicSettingsHelp = function() {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isMac = /Macintosh|MacIntel|Mac OS X/.test(navigator.userAgent);
+  
+  let stepsHtml = '';
+  if (isIOS) {
+    stepsHtml = '<ol style="margin:8px 0 12px 18px;font-size:0.88rem;line-height:1.6;text-align:left;">' +
+      '<li>Open your native <strong>Settings app</strong> on your iPhone/iPad.</li>' +
+      '<li>Scroll down and tap <strong>Safari</strong>.</li>' +
+      '<li>Scroll down to <em>Settings for Websites</em> and tap <strong>Microphone</strong>.</li>' +
+      '<li>Ensure <strong>giyuraliyahtrack.com</strong> is set to <strong>Allow</strong>.</li>' +
+      '<li>Refresh this page and tap 🎙️ Sing & Grade again!</li></ol>' +
+      '<button type="button" onclick="window.location.reload();" style="width:100%;background:#0284c7;color:#fff;border:none;border-radius:10px;padding:12px;font-weight:900;cursor:pointer;margin-top:6px;">🔄 Refresh Page After Enabling</button>';
+  } else if (isMac) {
+    stepsHtml = '<ol style="margin:8px 0 12px 18px;font-size:0.88rem;line-height:1.6;text-align:left;">' +
+      '<li>In Google Chrome or Safari, click the <strong>lock/sliders icon</strong> in the top-left URL address bar.</li>' +
+      '<li>Open <strong>Site Settings</strong>.</li>' +
+      '<li>Find <strong>Microphone</strong> and change it to <strong>Allow</strong>.</li>' +
+      '<li>Refresh this page!</li></ol>';
+  } else {
+    stepsHtml = '<p style="font-size:0.88rem;line-height:1.5;">Please check your browser permissions in address bar settings and ensure Microphone and Speech Recognition are allowed.</p>';
+  }
+
+  let modal = document.getElementById('mic-help-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'mic-help-modal';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(7,42,64,0.65);backdrop-filter:blur(4px);z-index:999999;display:flex;align-items:center;justify-content:center;padding:16px;';
+    document.body.appendChild(modal);
+  }
+  modal.innerHTML = '<div style="background:#ffffff;width:100%;max-width:440px;border-radius:20px;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,0.3);border:2px solid #0284c7;text-align:left;">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">' +
+    '<h3 style="font-size:1.15rem;font-weight:900;color:#0b3b59;margin:0;">🎙️ Enable Microphone & Speech</h3>' +
+    '<button type="button" onclick="document.getElementById(\'mic-help-modal\').style.display=\'none\';" style="background:#f1f5f8;border:none;width:32px;height:32px;border-radius:8px;font-weight:900;cursor:pointer;">✕</button>' +
+    '</div>' + stepsHtml + '</div>';
+  modal.style.display = 'flex';
+};
