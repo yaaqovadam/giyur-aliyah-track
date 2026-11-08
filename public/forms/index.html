@@ -45,6 +45,8 @@
     @media (max-width: 680px) { .grid, .grid-3 { grid-template-columns: 1fr; } }
     label { display: block; font-size: 0.8rem; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
     input, select, textarea { width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 0.9rem; background: #f8fafc; color: #0f172a; font-weight: 600; }
+        input::placeholder, textarea::placeholder { color: #94a3b8 !important; font-weight: 400 !important; opacity: 0.72 !important; }
+    .dyn-type-banner { background: #eff6ff; border-left: 4px solid #0288E8; padding: 10px 14px; border-radius: 8px; margin: 12px 0 4px; font-size: 0.84rem; font-weight: 700; color: #0b3b59; }
     input:focus, select:focus, textarea:focus { outline: none; border-color: #0288E8; background: #fff; }
     .chk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1; }
     @media (max-width: 600px) { .chk-grid { grid-template-columns: 1fr; } }
@@ -171,7 +173,8 @@
         </div>
       </div>
 
-      <div class="form-sec-hdr">Section A • Foreign Applicant Identity & Parents' Names (Must Match Vault Birth Certificate)</div>
+      <div id="dyn-banner" class="dyn-type-banner"></div>
+      <div class="form-sec-hdr" id="sec-hdr-a">Section A • Foreign Applicant Identity & Parents' Names (Must Match Vault Birth Certificate)</div>
       <div class="grid-3">
         <div><label id="lbl-surname" for="f-surname">Surname (Last Name):</label><input id="f-surname" placeholder="Miller (Levi)" oninput="renderSheet()" /></div>
         <div><label id="lbl-given" for="f-given">Given Name(s) (First & Middle):</label><input id="f-given" placeholder="Sarah Ruth" oninput="renderSheet()" /></div>
@@ -181,7 +184,7 @@
         <div><label id="lbl-mother" for="f-mother">Mother's Full Name (on Birth Cert):</label><input id="f-mother" placeholder="Rebecca Anne Miller" oninput="renderSheet()" /></div>
       </div>
 
-      <div class="form-sec-hdr">Section B • Foreign Passport, Citizenships & Border Entry Data</div>
+      <div class="form-sec-hdr" id="sec-hdr-b">Section B • Foreign Passport, Citizenships & Border Entry Data</div>
       <div class="grid-3">
         <div><label id="lbl-pass" for="f-pass">Passport Number & Country of Issue:</label><input id="f-pass" placeholder="USA / France — #A12345678" oninput="renderSheet()" /></div>
         <div><label id="lbl-passexp" for="f-passexp">Passport Issue & Expiry Date (Min 2 Yrs):</label><input id="f-passexp" placeholder="Issued: 2023 • Expires: 10/2031" oninput="renderSheet()" /></div>
@@ -191,7 +194,7 @@
         <div><label id="lbl-occ" for="f-occ">Profession / Source of Sustenance:</label><input id="f-occ" placeholder="UX Designer / Remote Foreign Savings" oninput="renderSheet()" /></div>
       </div>
 
-      <div class="form-sec-hdr">Section C • Israeli Spouse / Partner OR Sponsoring Rabbi (Rav Melaveh) & Israeli Address</div>
+      <div class="form-sec-hdr" id="sec-hdr-c">Section C • Israeli Spouse / Partner OR Sponsoring Rabbi (Rav Melaveh) & Israeli Address</div>
       <div class="grid-3">
         <div><label id="lbl-sp" for="f-sp">Israeli Spouse / Sponsoring Rabbi Full Name:</label><input id="f-sp" placeholder="Avraham Levi" oninput="renderSheet()" /></div>
         <div><label id="lbl-sptz" for="f-sptz">Israeli 9-Digit Teudat Zehut Number:</label><input id="f-sptz" placeholder="012345678" oninput="renderSheet()" /></div>
@@ -201,7 +204,7 @@
         <div><label id="lbl-email" for="f-email">Email Address for Official Notices:</label><input id="f-email" placeholder="avraham.sarah@example.com" oninput="renderSheet()" /></div>
       </div>
 
-      <div class="form-sec-hdr">Section D • Attached Apostilled Originals & Statutory Explanation Letter (Michtav Hesber)</div>
+      <div class="form-sec-hdr" id="sec-hdr-d">Section D • Attached Apostilled Originals & Statutory Explanation Letter (Michtav Hesber)</div>
       <div class="chk-grid">
         <label class="chk-row"><input type="checkbox" id="c-birth" checked onchange="renderSheet()" /> 1. Long-Form Birth Certificate + Apostille (תעודת לידה מורחבת + אפוסטיל)</label>
         <label class="chk-row"><input type="checkbox" id="c-police" checked onchange="renderSheet()" /> 2. Federal Police Check &lt;180d + Apostille (תעודת יושר פדרלית + אפוסטיל)</label>
