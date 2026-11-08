@@ -450,113 +450,45 @@
       }
     };
 
-    function renderSheet() {
-      const t = document.getElementById('f-type').value;
-      const branch = document.getElementById('f-branch').value;
-      const v = (id, defVal) => (document.getElementById(id) && document.getElementById(id).value.trim()) ? document.getElementById(id).value.trim() : (defVal || "______________________");
-      const chk = id => (document.getElementById(id) && document.getElementById(id).checked) ? "☑ מצורף במקור + אפוסטיל" : "☐ טרם צורף";
-      const [h, sub, bodyStatutory] = TITLES[t];
-      const extraNotes = (document.getElementById('f-notes') && document.getElementById('f-notes').value.trim())
-        ? `<br><strong>פירוט נוסף לעניין הבקשה:</strong> ${document.getElementById('f-notes').value.trim()}`
-        : "";
-
-      document.getElementById('he-preview').innerHTML = `
-        <div class="gov-emblem-row">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <svg class="gov-menorah" viewBox="0 0 100 120" fill="none" stroke="#0f172a" stroke-width="4"><rect x="6" y="6" width="88" height="108" rx="10" stroke-width="3.5"/><path d="M50 22v68M26 32c0 18 10 28 24 28s24-10 24-28M34 32c0 12 7 19 16 19s16-7 16-19M42 32c0 6 3.5 10 8 10s8-4 8-10M35 90h30M40 96h20"/><text x="50" y="109" text-anchor="middle" font-size="11" font-weight="900" fill="#0f172a" stroke="none">ישראל</text></svg>
-            <div>
-              <div style="font-size:0.95rem;font-weight:900;color:#0f172a;">מדינת ישראל • רשות האוכלוסין וההגירה</div>
-              <div style="font-size:0.78rem;font-weight:800;color:#334155;">STATE OF ISRAEL • POPULATION AND IMMIGRATION AUTHORITY</div>
-              <div style="font-size:0.78rem;font-weight:800;color:#0284c7;">מנהל מרשם ומעמד — מחלקת אשרות וזרים • לשכת ${branch}</div>
-            </div>
+    
+    function getPage2BespokeHtml(t, v, chk, branch, bodyStatutory, extraNotes) {
+      if (t === 'rabbi_let') {
+        return `
+        <div class="he-sec-bar">מסמך א׳ — מכתב המלצה רשמי מרב קהילה מלווה (למועמד/ת לגיור ולמשרד הפנים)</div>
+        <div class="he-michtav-box" style="background:#fff;">
+          <strong>לכבוד: בית הדין המיוחד לגיור / ועדת החריגים / רשות האוכלוסין וההגירה (${branch})</strong><br><br>
+          הנדון: <strong>אישור לימודי יהדות, השתלבות בקהילה וכנות כוונות — ${v('f-given','Sarah')} ${v('f-surname','Miller')} (דרכון: ${v('f-pass','A12345678')})</strong><br><br>
+          הנני לאשר בזאת כרב קהילה אורתודוקסי מוכר כי המבקש/ת הנ״ל מתגורר/ת בכתובת <strong>${v('f-addr','רחוב ירושלים 18, צפת')}</strong>, לומד/ת תורה, הלכה, שבת וכשרות תחת השגחתי האישית והישירה, ומשתתף/ת באופן קבוע בתפילות בית הכנסת בקהילתנו. מהיכרותי האישית והמעמיקה עמו/ה, כוונותיו/ה להסתפח לעם ישראל הינן כנות וטהורות לשם שמיים, והוא/היא מקיים/ת אורח חיים יהודי דתי מלא.${extraNotes}<br><br>
+          <div style="display:flex;justify-content:space-between;margin-top:18px;border-top:1px solid #334155;padding-top:8px;font-weight:800;">
+            <span>שם הרב המלווה: הרב ${v('f-sp','אברהם לוי')}</span>
+            <span>ת״ז / מס׳ רישיון רבנות: ${v('f-sptz','012345678')}</span>
+            <span>טלפון: ${v('f-tel','054-000-0000')}</span>
+            <span>חתימה וחותמת בית הכנסת: _______________</span>
           </div>
-          <div class="gov-code-box">קוד טופס רשמי<br><span style="font-size:1.1rem;color:#0284c7;">${t.toUpperCase()}</span><br><span style="font-size:0.7rem;">מהדורה מעודכנת 2026</span></div>
         </div>
-        <div class="gov-chk-strip">
-          <span>סוג הבקשה הרשמית:</span>
-          <span>${t==='ash1'?'☑':'☐'} הארכת אשרה / ועדת חריגים (אש/1)</span>
-          <span>${t==='ash3'?'☑':'☐'} הליך מדורג לבן/בת זוג (אש/3)</span>
-          <span>${t==='ash6'?'☑':'☐'} שינוי מעמד לעולה (אש/6)</span>
-          <span>${t==='ext30'?'☑':'☐'} הארכת מועד 30/60 יום</span>
-        </div>
-        <div class="gov-top">
-          <div class="gov-title-block">
-            <div style="font-size:0.78rem;font-weight:900;color:#334155;">מדינת ישראל • רשות האוכלוסין וההגירה / הרבנות הראשית לישראל</div>
-            <h2>${h}</h2>
-            <div style="font-size:0.84rem;font-weight:700;color:#1e293b;">${sub}</div>
-            <div style="font-size:0.8rem;font-weight:800;color:#0284c7;margin-top:4px;">לשכה מטפלת מבוקשת: ${branch} • תאריך הגשה: ${new Date().toLocaleDateString('he-IL')}</div>
+        <div class="he-sec-bar">מסמך ב׳ — הצהרת משפחה מלווה / מארחת בשבתות וחגים (לבית הדין לגיור)</div>
+        <div class="he-michtav-box" style="background:#fff;">
+          אנו החתומים מטה, משפחה שומרת תורה ומצוות המתגוררת ביישוב <strong>${v('f-addr','צפת')}</strong>, מצהירים בזאת כי אנו מלווים באופן אישי ורציף את המועמד/ת <strong>${v('f-given','Sarah')} ${v('f-surname','Miller')}</strong>, מארחים אותו/ה בביתנו לסעודות שבת קודש ומועדי ישראל על בסיס שבועי קבוע, ומעידים כי הוא/היא שומר/ת שבת, כשרות וצניעות כהלכה.<br><br>
+          <div style="display:flex;justify-content:space-between;margin-top:18px;border-top:1px solid #334155;padding-top:8px;font-weight:800;">
+            <span>שם משפחה מארחת: ___________________</span>
+            <span>מס׳ ת״ז: _______________</span>
+            <span>טלפון נייד: _______________</span>
+            <span>חתימת המשפחה המלווה: _______________</span>
           </div>
-          <div class="gov-photo-box">מקום להדבקת<br>תמונת פספורט<br>תקנית (3.5x4.5)<br>של המבקש/ת</div>
-        </div>
-
-        <div class="he-sec-bar">פרק א׳ — פרטי המבקש/ת הזר/ה ופרטי הורים (כפי שמופיעים בתעודת הלידה המורחבת)</div>
-        <table class="he-table">
-          <tr>
-            <th>שם משפחה (כפי שבדרכון)</th><td>${v('f-surname', 'Miller (Levi)')}</td>
-            <th>שם פרטי מלא</th><td>${v('f-given', 'Sarah Ruth')}</td>
-          </tr>
-          <tr>
-            <th>שמות קודמים / שם נעורים</th><td>${v('f-prevname', 'ללא שינוי')}</td>
-            <th>תאריך לידה ומין</th><td>${v('f-dob', '14/05/1996')}</td>
-          </tr>
-          <tr>
-            <th>שם האב המלא (מתעודת לידה)</th><td>${v('f-father', 'Robert Michael Miller')}</td>
-            <th>שם האם המלא (מתעודת לידה)</th><td>${v('f-mother', 'Rebecca Anne Miller')}</td>
-          </tr>
-        </table>
-
-        <div class="he-sec-bar">פרק ב׳ — פרטי דרכון זר, אזרחויות, כניסה לישראל ומעמד אישי</div>
-        <table class="he-table">
-          <tr>
-            <th>מספר דרכון זר ומדינת הנפקה</th><td>${v('f-pass', 'USA — A12345678')}</td>
-            <th>תאריך הנפקה ותוקף דרכון</th><td>${v('f-passexp', '2023 – 10/2031')}</td>
-          </tr>
-          <tr>
-            <th>תאריך כניסה אחרון וסוג אשרה</th><td>${v('f-entry', '01/09/2026 • אשרת ב/2')}</td>
-            <th>מצב אישי נוכחי וקודם</th><td>${v('f-marital', 'נשואה / רווקה (ללא נישואין קודמים)')}</td>
-          </tr>
-          <tr>
-            <th>מדינות מגורים מעל שנה מגיל 14</th><td>${v('f-countries', 'ארה"ב (מלידה ועד 2026)')}</td>
-            <th>משלח יד ומקורות מחייה</th><td>${v('f-occ', 'חסכונות / עבודה מרחוק בחו"ל')}</td>
-          </tr>
-        </table>
-
-        <div class="he-sec-bar">פרק ג׳ — פרטי בן/בת הזוג הישראלי/ת (מזמין הבקשה) או הרב המלווה וכתובת בישראל</div>
-        <table class="he-table">
-          <tr>
-            <th>שם מלא (בן/בת זוג / רב מלווה)</th><td>${v('f-sp', 'Avraham Levi (אברהם לוי)')}</td>
-            <th>מספר תעודת זהות (9 ספרות)</th><td>${v('f-sptz', '012345678')}</td>
-          </tr>
-          <tr>
-            <th>תאריך לידה ומעמד בישראל</th><td>${v('f-spdob', '22/08/1993 • אזרח ישראלי מלידה')}</td>
-            <th>כתובת מגורים מלאה בישראל</th><td>${v('f-addr', 'רחוב ירושלים 18, צפת')}</td>
-          </tr>
-          <tr>
-            <th>טלפון נייד (מבקש/ת ומזמין)</th><td>${v('f-tel', '054-000-0000')}</td>
-            <th>כתובת דוא״ל לקבלת החלטות</th><td>${v('f-email', 'avraham.sarah@example.com')}</td>
-          </tr>
-        </table>
-
-        <div class="page-break-sheet"><div class="gov-emblem-row" style="border-bottom:2px solid #0f172a;padding-bottom:8px;margin-bottom:10px;"><div style="font-weight:900;font-size:0.9rem;">עמוד 2 מתוך 2 • נספח משפטי ומכתב הסבר מנומק (מצורף לטופס הרשמי)</div><div style="font-size:0.8rem;font-weight:800;color:#0284c7;">לשכת ${branch} • ${new Date().toLocaleDateString("he-IL")}</div></div><div class="he-sec-bar">פרק ד׳ — רשימת תיוג מסמכי מקור מאומתים בחותמת אפוסטיל (בתוקף 180 יום)</div>
-        <table class="he-table">
-          <tr>
-            <th>1. תעודת לידה מורחבת (כולל הורים)</th><td>${chk('c-birth')}</td>
-            <th>2. תעודת יושר פדרלית (3 הסלים)</th><td>${chk('c-police')}</td>
-          </tr>
-          <tr>
-            <th>3. תמצית רישום / רווקות ומצב אישי</th><td>${chk('c-single')}</td>
-            <th>4. תעודת נישואין / מכתבי רב וקהילה</th><td>${chk('c-rabbi')}</td>
-          </tr>
-        </table>
-
-        <div class="he-sec-bar">פרק ה׳ — מכתב הסבר משפטי מנומק (מכתב הסבר לפקיד / לוועדת חריגים)</div>
-        <div class="he-michtav-box">
-          ${bodyStatutory}
-          ${extraNotes}
-          <br><br>
-          <strong>בקשה להנפקת אסמכתא ופתיחת תיק:</strong> בהתאם לנהלי רשות האוכלוסין וההגירה, אנו מבקשים לקלוט את מלוא מסמכי המקור המצורפים, לפתוח את התיק במערכת "אביב", להאריך את אשרת השהייה כחוק עד לתום הטיפול בבקשה, ולהנפיק לידינו אסמכתא בכתב על קבלת המסמכים.
-        </div>
-
+        </div>`;
+      }
+      if (t === 'ext30') {
+        return `
+        <div class="he-sec-bar">בקשה מנהלית דחופה להארכת מועד להמצאת מסמכים (נספח ב׳ — 30/45 יום) ומניעת סירוב על הסף</div>
+        <div class="he-michtav-box" style="background:#fff;">
+          <strong>לכבוד: מנהל/ת מחלקת אשרות ומעמד — לשכת רשות האוכלוסין וההגירה (${branch})</strong><br><br>
+          1. בהמשך לדרישת המסמכים שנמסרה לידינו בתיק מס׳ / דרכון מס׳ <strong>${v('f-pass','A12345678')}</strong> בעניינו/ה של <strong>${v('f-given','Sarah')} ${v('f-surname','Miller')}</strong> ומר/גב׳ <strong>${v('f-sp','Avraham Levi')}</strong> (ת״ז <strong>${v('f-sptz','012345678')}</strong>), מוגשת בזאת בקשה רשמית להארכת מועד בת <strong>45/60 ימים</strong> להשלמת מסמכי המקור המאומתים באפוסטיל מחו״ל.<br>
+          2. <strong>הנימוק המשפטי והעובדתי:</strong> כלל המסמכים הנדרשים הוזמנו זה מכבר מהרשויות הפדרליות בארץ המוצא (${v('f-countries','ארה"ב / אירופה')}), אולם בשל זמני הטיפול ברשויות הזרות ובמחלקת האפוסטיל חל עיכוב טכני שאינו בשליטת המבקשים. מצורפת אסמכתא על הזמנת המסמכים.<br>
+          3. <strong>מניעת סירוב על הסף ושמירת זכות ערר (נוהל 1.6.0001):</strong> בהתאם לנספח ב׳/ג׳ לנוהלי רשות האוכלוסין (5.2.0008 / 5.2.0009 / 5.2.0001) ולחובת ההגינות המנהלית, מתבקשת הלשכה הנכבדה <strong>להימנע מסגירת התיק או מסירוב על הסף</strong>, להאריך את אשרת השהייה הזמנית בדרכון, ולהותיר את התיק פתוח במערכת "אביב" עד להגעת המסמכים.${extraNotes}
+        </div>`;
+      }
+      return `
+        ${getPage2BespokeHtml(t, v, chk, branch, bodyStatutory, extraNotes)}
         <div class="he-sec-bar">פרק ו׳ — הצהרת אמת וחתימות המבקש/ת ובן/בת הזוג / המזמין</div>
         <div class="he-michtav-box" style="background:#fff;">
           אנו החתומים מטה מצהירים בזאת כי כל הפרטים שנמסרו בטופס זה ובנספחיו הינם אמת מלאה, כי המסמכים המצורפים הינם מקוריים ומאומתים בחותמת אפוסטיל כדין, וכי לא הסתרנו כל פרט מהותי.
