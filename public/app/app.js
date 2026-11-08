@@ -409,14 +409,19 @@ function renderAll() {
   window.renderSongs12();
 }
 
+window.FREE_CP_LIMIT = window.FREE_CP_LIMIT || window.FREE_CARD_LIMIT || 4;
+window.FREE_SONG_LIMIT = window.FREE_SONG_LIMIT || 3;
 function openMod(m) {
-  if (m === 'songs-prayers' && typeof window.renderSongs12 === 'function') window.renderSongs12();
-  if (m === 'beit-din-150' && typeof updateBdCard === 'function') updateBdCard();
-  if (m === 'couples-sync' && typeof updateCpCard === 'function') updateCpCard();
   window.currentMod = m;
   document.querySelectorAll('.mod-tab').forEach(b => b.classList.toggle('active', b.dataset.mod === m));
   document.querySelectorAll('.mod-view').forEach(v => v.classList.toggle('active', v.id === 'mod-' + m));
+  try {
+    if (m === 'songs-prayers' && typeof window.renderSongs12 === 'function') window.renderSongs12();
+    if (m === 'beit-din-150' && typeof updateBdCard === 'function') updateBdCard();
+    if (m === 'couples-sync' && typeof updateCpCard === 'function') updateCpCard();
+  } catch (err) { console.error('Module render error:', err); }
 }
+window.openMod = openMod;
 
 function genHebrewDoc() {
   const lang = window.appLang || 'en';
@@ -1218,52 +1223,94 @@ window._songTimer = null;
 
 window.play10sSongPreview = function(idx) {
   if (window._songTimer) { clearInterval(window._songTimer); window._songTimer = null; }
-  if (window._songAudioCtx) { try { window._songAudioCtx.close(); } catch(e){} window._songAudioCtx = null; }
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  const s = (window.SONGS_VAULT12 || [])[idx];
+  if (!s) return;
   const btn = document.getElementById('song-prev-btn-' + idx);
   const bar = document.getElementById('song-prev-bar-' + idx);
-  const AC = window.AudioContext || window.webkitAudioContext;
-  if (!AC) return;
-  const ctx = new AC();
-  window._songAudioCtx = ctx;
   const isSeph = (window.songNusach || 's') === 's';
-  // Traditional Sephardi Hijaz/Bayat vs Ashkenazi Shalom Aleichem / Shabbat minor intervals (Hz)
-  const scale = isSeph
-    ? [293.66, 311.13, 369.99, 392.00, 440.00, 466.16, 554.37, 587.33, 554.37, 466.16, 440.00, 392.00, 369.99, 311.13, 293.66]
-    : [293.66, 349.23, 440.00, 440.00, 392.00, 349.23, 329.63, 293.66, 329.63, 349.23, 392.00, 440.00, 466.16, 440.00, 293.66];
-  const now = ctx.currentTime;
-  for (let i = 0; i < 20; i++) {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = isSeph ? 'triangle' : 'sine';
-    osc.frequency.setValueAtTime(scale[(i + idx) % scale.length], now + i * 0.5);
-    gain.gain.setValueAtTime(0.001, now + i * 0.5);
-    gain.gain.exponentialRampToValueAtTime(0.18, now + i * 0.5 + 0.06);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.5 + 0.46);
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.start(now + i * 0.5); osc.stop(now + i * 0.5 + 0.48);
+  const q = isSeph ? s.yt_s : s.yt_a;
+  const heTxt = isSeph ? (s.he_s || s.he_a) : (s.he_a || s.he_s);
+
+  // Speak the opening Hebrew phrase slowly in natural Hebrew voice + show inline Cantor player
+  if ('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(heTxt.slice(0, 95));
+    u.lang = 'he-IL';
+    u.rate = 0.78;
+    u.pitch = isSeph ? 1.05 : 0.95;
+    window.speechSynthesis.speak(u);
   }
+
   let rem = 10;
   if (bar) bar.style.display = 'block';
   if (btn) btn.innerText = '⏸️ 10s...';
+  const renderBar = () => {
+    if (!bar) return;
+    bar.innerHTML = `<div style="background:#f5f3ff;border:1.5px solid #c4b5fd;border-radius:10px;padding:10px 12px;font-size:0.8rem;color:#4c1d95;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+      <span>🎙️ <strong>10s ${isSeph?'Sephardi':'Ashkenazi'} Recitation Preview (${rem}s left)</strong></span>
+      <button type="button" onclick="openSongMelody(${idx})" style="background:#7c3aed;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:0.75rem;font-weight:800;cursor:pointer;">🎵 Hear Sung Cantor Recording (YouTube) ↗</button>
+    </div>`;
+  };
+  renderBar();
   window._songTimer = setInterval(() => {
     rem--;
     if (btn) btn.innerText = rem > 0 ? `⏸️ ${rem}s...` : '▶️ 10s Preview';
-    if (bar) bar.innerHTML = rem > 0
-      ? `<div style="background:#e0f2fe;border-radius:6px;padding:6px 10px;font-size:0.76rem;font-weight:800;color:#0369a1;">🎶 Playing 10s ${isSeph?'Sephardi Maqam':'Ashkenazi Niggun'} Sample (${rem}s left)... <a href="#" onclick="openSongMelody(${idx});return false;" style="color:#7c3aed;margin-left:6px;">Open Full Cantor Audio ↗</a></div>`
-      : '';
-    if (rem <= 0) {
+    if (rem > 0) {
+      renderBar();
+    } else {
       clearInterval(window._songTimer);
       window._songTimer = null;
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       if (bar) bar.style.display = 'none';
       if (!window.isProUnlocked() && idx >= window.FREE_SONG_LIMIT) {
-        window.openProPaywall('🎵 Liked the 10-second Shabbat melody preview? Unlock all 12 full Sephardi & Ashkenazi Shabbat Songs, Pointed Hebrew Texts, and the Live Microphone Recitation Grader!');
+        window.openProPaywall('🎵 Finished the 10-second preview! Unlock all 12 full Sephardi & Ashkenazi Shabbat Songs, Pointed Hebrew Texts, and the Live Microphone Recitation Grader!');
       }
     }
   }, 1000);
 };
 
 window.renderSongs12 = function() {
-  if (typeof window.renderSongs12 === 'function') window.renderSongs12();
+  const box = document.getElementById('songs-list');
+  if (!box) return;
+  const l = window.appLang || 'en';
+  const songs = window.SONGS_VAULT12 || window.SONGS_VAULT || [];
+  window.songMastered = JSON.parse(localStorage.getItem('gat_songs_m') || '{}');
+  const mCount = Object.values(window.songMastered).filter(Boolean).length;
+  const isSeph = (window.songNusach || 's') === 's';
+  const topBar = `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:12px;">
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button type="button" onclick="setSongNusach('s')" style="padding:6px 12px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:${isSeph?'#0284c7':'#fff'};color:${isSeph?'#fff':'#0284c7'};">🕌 Sephardi / Edot HaMizrach</button>
+      <button type="button" onclick="setSongNusach('a')" style="padding:6px 12px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:${!isSeph?'#0284c7':'#fff'};color:${!isSeph?'#fff':'#0284c7'};">🕍 Ashkenazi</button>
+      <button type="button" onclick="toggleSongMask()" style="padding:6px 12px;border-radius:8px;border:1.5px solid #475569;font-weight:800;font-size:0.78rem;cursor:pointer;background:${window.songMaskMode?'#0f172a':'#fff'};color:${window.songMaskMode?'#fff':'#334155'};">🙈 ${window.songMaskMode?'Show Words':'Memory Blur'}</button>
+    </div>
+    <span style="font-size:0.8rem;font-weight:900;color:#0369a1;">✅ Mastered: ${mCount} / ${songs.length}</span>
+  </div>`;
+  box.innerHTML = topBar + songs.map((s, idx) => {
+    const done = !!window.songMastered[s.id];
+    const locked = !window.isProUnlocked() && idx >= (window.FREE_SONG_LIMIT || 3);
+    const maskStyle = (window.songMaskMode || locked) ? 'filter:blur(5px);cursor:pointer;user-select:none;' : '';
+    const heTxt = isSeph ? (s.he_s || s.he_a || '') : (s.he_a || s.he_s || '');
+    const trTxt = isSeph ? (s.tr_s || s.tr_a || '') : (s.tr_a || s.tr_s || '');
+    const meanTxt = (s.m && (s.m[l] || s.m.en)) ? (s.m[l] || s.m.en) : '';
+    return `<div style="padding:14px;border:1.5px solid ${done?'#10b981':'#e2e8f0'};border-radius:14px;margin-bottom:12px;background:${done?'#f0fdf4':'#ffffff'};">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
+        <div style="font-weight:900;color:#0c4a6e;font-size:0.95rem;">${s.t} ${locked?'🔒':'🔓'}</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;">
+          <button type="button" id="song-prev-btn-${idx}" onclick="play10sSongPreview(${idx})" style="background:#0f172a;color:#38bdf8;border:1px solid #38bdf8;border-radius:7px;padding:5px 9px;font-size:0.74rem;font-weight:800;cursor:pointer;">▶️ 10s Preview</button>
+          <button type="button" onclick="speakSongGate(${idx})" style="background:#0284c7;color:#fff;border:none;border-radius:7px;padding:5px 9px;font-size:0.74rem;font-weight:800;cursor:pointer;">🔊 Pronounce</button>
+          <button type="button" onclick="openSongMelody(${idx})" style="background:#7c3aed;color:#fff;border:none;border-radius:7px;padding:5px 9px;font-size:0.74rem;font-weight:800;cursor:pointer;">🎶 Melody</button>
+          <button type="button" onclick="gradeSongMic(${idx})" style="background:#d97706;color:#fff;border:none;border-radius:7px;padding:5px 9px;font-size:0.74rem;font-weight:800;cursor:pointer;">🎙️ Mic Test</button>
+          <button type="button" onclick="toggleSongMaster(${s.id})" style="background:${done?'#059669':'#e2e8f0'};color:${done?'#fff':'#334155'};border:none;border-radius:7px;padding:5px 9px;font-size:0.74rem;font-weight:800;cursor:pointer;">${done?'✅ Mastered':'⚪ Mark Done'}</button>
+        </div>
+      </div>
+      <div dir="rtl" onclick="if(${locked})openProPaywall('🎵 Unlock all 12 Shabbat Songs, Kiddush & Shema with the Pro Pass!');else this.style.filter='none';" style="font-size:1.08rem;font-weight:800;color:#0f172a;background:#f8fafc;padding:10px 12px;border-radius:10px;margin-bottom:6px;line-height:1.65;${maskStyle}">${heTxt}</div>
+      <div onclick="if(${locked})openProPaywall('🎵 Unlock all 12 Shabbat Songs, Kiddush & Shema with the Pro Pass!');else this.style.filter='none';" style="font-size:0.86rem;color:#1e293b;font-style:italic;margin-bottom:6px;line-height:1.45;${maskStyle}">${trTxt}</div>
+      <div id="song-prev-bar-${idx}" style="display:none;margin-bottom:6px;"></div>
+      ${locked ? `<div onclick="openProPaywall('🎵 Unlock all 12 Shabbat Songs, Kiddush & Shema with the Pro Pass!')" style="background:#fffbeb;border:1px solid #f59e0b;color:#92400e;padding:6px 10px;border-radius:8px;font-size:0.76rem;font-weight:800;cursor:pointer;margin-bottom:6px;text-align:center;">🔒 Free Preview (Songs 1–3 Unlocked) — Tap to Unlock Songs 4–12 + Full Audio & Mic Grader →</div>` : ''}
+      <div id="song-mic-out-${idx}" style="display:none;margin-bottom:6px;font-size:0.8rem;"></div>
+      <div style="font-size:0.81rem;color:#475569;border-top:1px dashed #cbd5e1;padding-top:6px;">💡 ${meanTxt}</div>
+    </div>`;
+  }).join('');
 };
 
 window.addEventListener('DOMContentLoaded', () => {

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Interactive Command Center & Vetted Concierge | Giyur Aliyah Track</title>
-  <script src="/i18n/jurisdiction.js?v=150"></script>
+  <script src="/i18n/jurisdiction.js?v=151"></script>
   <style>
     :root, html, body {
       color-scheme: light only !important;
@@ -94,6 +94,26 @@
     .tier-desc { font-size:0.78rem; color:#475569; line-height:1.38; margin-bottom:10px; }
     .tier-btn { width:100%; padding:10px; border:none; border-radius:10px; background:#0b3b59; color:#fff; font-weight:800; font-size:0.84rem; cursor:pointer; text-decoration:none; text-align:center; display:block; }
     .tier-box.featured .tier-btn { background:#0288E8; }
+  
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      font-weight: 700 !important;
+      border: 1.5px solid #cbd5e1 !important;
+      box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+    }
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus, textarea:focus {
+      border-color: #0288E8 !important;
+      box-shadow: 0 0 0 3px rgba(2, 136, 232, 0.16) !important;
+      outline: none !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #94a3b8 !important;
+      font-weight: 400 !important;
+      font-style: italic !important;
+      opacity: 0.65 !important;
+    }
+
   </style>
 </head>
 <body>
@@ -188,9 +208,9 @@
     </div>
   </div>
 
-  <script src="/app/bd_vault.js?v=150"></script>
-  <script src="/app/cp_vault.js?v=150"></script>
-  <script src="/app/songs_vault.js?v=150"></script>
-  <script src="/app/app.js?v=150"></script>
+  <script src="/app/bd_vault.js?v=151"></script>
+  <script src="/app/cp_vault.js?v=151"></script>
+  <script src="/app/songs_vault.js?v=151"></script>
+  <script src="/app/app.js?v=151"></script>
 </body>
 </html>
