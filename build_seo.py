@@ -194,6 +194,8 @@ def build_multilang_static():
                 art = f'<article class="seo-spoke-article"><h2>{ob["tag"]} — {ob["title"]}</h2><p>{ob["body"]}</p><h3>{ob["badTitle"]}</h3><div>{ob["badText"]}</div><h3>{ob["goodTitle"]}</h3><div>{ob["goodText"]}</div></article>'
                 out = _re.sub(r'<article class="seo-spoke-article">[\\s\\S]*?</article>', lambda _: art, out, count=1)
                 out = _re.sub(r"<title>.*?</title>", lambda _: f"<title>{ob['title']} | Giyur Aliyah Track ({lang.upper()})</title>", out, count=1)
+                clean_desc = _re.sub(r'<[^>]+>', ' ', ob['body']).strip().replace('"', '&quot;')
+                out = _re.sub(r'<meta name="description" content="[^"]*"\s*/?>', lambda _: f'<meta name="description" content="{clean_desc}" />', out, count=1)
                 # Inject unique spoke-specific FAQPage JSON-LD schema in target language
                 clean_bad = _re.sub(r'<[^>]+>', ' ', ob['badText']).strip()
                 clean_good = _re.sub(r'<[^>]+>', ' ', ob['goodText']).strip()
@@ -218,6 +220,9 @@ def build_multilang_static():
 
         else:
             out = _re.sub(r"<title>.*?</title>", lambda _: f"<title>{d.get('hero_h1','Giyur Aliyah Track')} | Giyur Aliyah Track ({lang.upper()})</title>", out, count=1)
+            if lang != "en" and d.get("hero_p"):
+                hub_desc = _re.sub(r'<[^>]+>', ' ', d["hero_p"]).strip().replace('"', '&quot;')
+                out = _re.sub(r'<meta name="description" content="[^"]*"\s*/?>', lambda _: f'<meta name="description" content="{hub_desc}" />', out, count=1)
         if lang != "en":
             out = out.replace("localStorage.getItem('gat_lang') || (new URLSearchParams(location.search).get('lang')) || 'en'", f"'{lang}'")
         return out
