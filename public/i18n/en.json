@@ -281,5 +281,6 @@
     "#mg-2": "<div class=\"mg-header\">\n            <span class=\"mg-title\">2. Vetted Rabbanut Course & Beit Din Exam",
     "#mg-3": "<div class=\"mg-header\">\n            <span class=\"mg-title\">3. Chief Rabbinate & Misrad HaPanim Sync"
   },
-  "mesh_forms": "📄 Official Hebrew Forms Vault & Auto-Filler (Form Ash/1, Ash/3, Ash/6)"
+  "mesh_forms": "📄 Official Hebrew Forms Vault & Auto-Filler (Form Ash/1, Ash/3, Ash/6)",
+  "mesh_title": "📚 Official Statutory Playbooks & Bureaucracy Guides"
 }
