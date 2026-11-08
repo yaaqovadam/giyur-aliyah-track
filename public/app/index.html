@@ -4,63 +4,190 @@
   <meta charset="UTF-8" />
   <meta name="color-scheme" content="light only" />
   <meta name="supported-color-schemes" content="light only" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Interactive Command Center | Giyur Aliyah Track</title>
-  <script src="/i18n/jurisdiction.js?v=19"></script>
+  <title>Interactive Command Center & Vetted Concierge | Giyur Aliyah Track</title>
+  <script src="/i18n/jurisdiction.js?v=130"></script>
   <style>
-    :root { --navy:#0f172a; --teal-dark:#0c4a6e; --sky:#0284c7; --emerald:#059669; --surface:#f8fafc; }
-    * { box-sizing:border-box; margin:0; padding:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+    :root, html, body {
+      color-scheme: light only !important;
+      forced-color-adjust: none !important;
+      -webkit-forced-color-adjust: none !important;
+      --navy:#082548; --teal-dark:#0b3b59; --sky:#0288E8; --emerald:#059669; --surface:#f8fafc;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif; -webkit-tap-highlight-color:transparent; }
     body { background:#f1f5f9; color:#0f172a; padding-bottom:80px; overscroll-behavior-x:none; }
-    .topbar { background:#062846; color:#fff; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; box-shadow:0 2px 10px rgba(0,0,0,0.2); }
-    .back-btn { color:#38bdf8; text-decoration:none; font-weight:800; font-size:0.95rem; display:flex; align-items:center; gap:6px; }
+    .topbar { height:62px; background:#082548; border-bottom:1px solid rgba(2,136,232,0.35); color:#fff; padding:0 18px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; box-shadow:0 2px 10px rgba(8,37,72,0.22); }
+    .app-nav-back { display:inline-flex; align-items:center; justify-content:center; width:34px; height:38px; background:transparent !important; border:none !important; color:#fff; text-decoration:none; margin-inline-start:-10px; margin-inline-end:14px; cursor:pointer; flex-shrink:0; transition:transform 0.15s ease, opacity 0.15s ease; }
+    .app-nav-back:hover { opacity:0.85; transform:scale(1.08); }
+    .app-nav-back svg { width:30px; height:30px; stroke:#ffffff; stroke-width:3.2; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    html[dir="rtl"] .app-nav-back svg { transform:scaleX(-1); }
+    .brand { display:flex; align-items:center; gap:10px; text-decoration:none; color:#fff; }
+    .brand-mark { width:38px; height:38px; border-radius:10px; background:#0288E8; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 10px rgba(2,136,232,0.4); }
+    .brand-mark svg { width:26px; height:26px; fill:#fff; }
+    .brand-title { font-size:1.22rem; font-weight:850; letter-spacing:-0.4px; color:#fff; }
+    .brand-title span { color:#1994F5; }
     .globe-btn { background:transparent; border:none; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; cursor:pointer; padding:4px 8px; border-radius:10px; }
-    .globe-btn svg { width:22px; height:22px; stroke:#38bdf8; fill:none; stroke-width:2; }
-    .globe-btn span { font-size:0.72rem; font-weight:800; color:#e2e8f0; line-height:1; }
-    .nav-tabs { display:flex; overflow-x:auto; gap:8px; padding:12px 14px; background:#fff; border-bottom:1px solid #e2e8f0; }
-    .mod-tab { flex:0 0 auto; padding:9px 14px; border-radius:999px; border:1px solid #cbd5e1; background:#f8fafc; color:#334155; font-weight:800; font-size:0.84rem; cursor:pointer; }
-    .mod-tab.active { background:var(--teal-dark); color:#fff; border-color:var(--teal-dark); }
-    .container { max-width:640px; margin:0 auto; padding:16px; }
-    .mod-view { display:none; }
-    .mod-view.active { display:block; }
-    .card { background:#fff; border-radius:16px; padding:18px; border:1px solid #e2e8f0; margin-bottom:16px; box-shadow:0 4px 12px rgba(15,23,42,0.04); }
-    .card h2 { font-size:1.2rem; color:var(--teal-dark); margin-bottom:6px; font-weight:900; }
-    .card p { font-size:0.9rem; color:#475569; line-height:1.5; margin-bottom:12px; }
-    label { display:block; font-size:0.82rem; font-weight:800; color:#334155; margin:10px 0 4px; }
-    input, select, textarea { width:100%; padding:11px 12px; border:1px solid #cbd5e1; border-radius:10px; font-size:0.92rem; background:#f8fafc; }
-    .btn { width:100%; padding:14px; border:none; border-radius:12px; background:var(--sky); color:#fff; font-weight:900; font-size:0.95rem; cursor:pointer; margin-top:12px; }
-    .btn-emerald { background:var(--emerald); }
-    .hebrew-out { background:#fffbeb; border:2px solid #f59e0b; border-radius:12px; padding:16px; margin-top:14px; direction:rtl; text-align:right; font-size:0.95rem; line-height:1.7; white-space:pre-wrap; display:none; }
-    .flashcard { background:linear-gradient(135deg,#0f172a,#1e293b); color:#fff; border-radius:18px; padding:26px 20px; min-height:210px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; cursor:pointer; margin:12px 0; }
-    .fc-cat { font-size:0.75rem; text-transform:uppercase; color:#38bdf8; font-weight:800; margin-bottom:8px; }
-    .fc-q { font-size:1.15rem; font-weight:800; line-height:1.45; }
-    .fc-a { font-size:0.95rem; color:#fde047; margin-top:14px; line-height:1.5; display:none; }
-  
-  :root, html, body {
-    color-scheme: light only !important;
-    forced-color-adjust: none !important;
-    -webkit-forced-color-adjust: none !important;
-  }
+    .globe-btn svg { width:22px; height:22px; stroke:#1994F5; fill:none; stroke-width:2; }
+    .globe-btn span { font-size:0.7rem; font-weight:800; color:#fff; line-height:1; }
 
-</style>
+    .nav-tabs { display:flex; overflow-x:auto; gap:8px; padding:12px 14px; background:#fff; border-bottom:1px solid #e2e8f0; scrollbar-width:none; }
+    .nav-tabs::-webkit-scrollbar { display:none; }
+    .mod-tab { flex:0 0 auto; padding:9px 14px; border-radius:999px; border:1.5px solid #cbd5e1; background:#f8fafc; color:#334155; font-weight:800; font-size:0.83rem; cursor:pointer; transition:0.15s; }
+    .mod-tab.active { background:var(--sky); color:#fff; border-color:var(--sky); box-shadow:0 4px 12px rgba(2,136,232,0.25); }
+    .mod-tab.concierge-pill { border-color:#f59e0b; background:#fffbeb; color:#92400e; }
+    .mod-tab.concierge-pill.active { background:#d97706; color:#fff; border-color:#d97706; }
+
+    .container { max-width:660px; margin:0 auto; padding:16px; }
+    .mod-view { display:none; animation:fadeIn 0.16s ease-out; }
+    .mod-view.active { display:block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+    .card { background:#fff; border-radius:16px; padding:20px 18px; border:1.5px solid #e2e8f0; margin-bottom:16px; box-shadow:0 4px 14px rgba(15,23,42,0.04); }
+    .card h2 { font-size:1.22rem; color:var(--teal-dark); margin-bottom:6px; font-weight:900; line-height:1.28; }
+    .card p { font-size:0.9rem; color:#475569; line-height:1.5; margin-bottom:12px; }
+    label { display:block; font-size:0.83rem; font-weight:800; color:#1e293b; margin:12px 0 5px; }
+    input, select, textarea { width:100%; padding:12px 13px; border:1.5px solid #cbd5e1; border-radius:11px; font-size:0.93rem; background:#f8fafc; color:#0f172a; font-weight:600; }
+    input:focus, select:focus, textarea:focus { outline:none; border-color:var(--sky); background:#fff; }
+    .btn { width:100%; padding:15px 18px; border:none; border-radius:13px; background:var(--sky); color:#fff; font-weight:900; font-size:0.98rem; cursor:pointer; margin-top:14px; box-shadow:0 6px 16px rgba(2,136,232,0.24); transition:0.15s; }
+    .btn:hover { transform:translateY(-1px); }
+    .btn-emerald { background:var(--emerald); box-shadow:0 6px 16px rgba(5,150,105,0.24); }
+    .btn-gold { background:linear-gradient(135deg,#d97706,#b45309); box-shadow:0 6px 18px rgba(217,119,6,0.3); }
+
+    .hebrew-out-wrap { position:relative; margin-top:14px; display:none; }
+    .hebrew-out { background:#fffbeb; border:2px solid #f59e0b; border-radius:12px; padding:18px; direction:rtl; text-align:right; font-size:0.95rem; line-height:1.7; white-space:pre-wrap; position:relative; overflow:hidden; }
+    .hebrew-out.watermarked::after { content:"PREVIEW • GIYURALIYAHTRACK.COM • UNLOCK PRO TO PRINT CLEAN PDF"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:1.15rem; font-weight:900; color:rgba(180,83,9,0.16); transform:rotate(-18deg); pointer-events:none; text-align:center; padding:20px; }
+
+    .flashcard { background:linear-gradient(135deg,#082548,#0f172a); color:#fff; border-radius:18px; padding:28px 22px; min-height:220px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; cursor:pointer; margin:12px 0; position:relative; border:1.5px solid rgba(56,189,248,0.35); box-shadow:0 10px 26px rgba(8,37,72,0.22); }
+    .fc-badge { position:absolute; top:12px; right:14px; font-size:0.72rem; font-weight:800; background:rgba(56,189,248,0.18); color:#7dd3fc; padding:4px 10px; border-radius:999px; }
+    .fc-cat { font-size:0.76rem; text-transform:uppercase; color:#38bdf8; font-weight:800; margin-bottom:8px; letter-spacing:0.04em; }
+    .fc-q { font-size:1.14rem; font-weight:800; line-height:1.45; }
+    .fc-a { font-size:0.95rem; color:#fde047; margin-top:14px; line-height:1.5; display:none; }
+
+    /* Service Radio Cards inside Vetted Intake */
+    .svc-grid { display:flex; flex-direction:column; gap:10px; margin:10px 0 14px; }
+    .svc-row { display:flex; align-items:flex-start; gap:12px; padding:13px 14px; border:2px solid #e2e8f0; border-radius:13px; cursor:pointer; background:#fff; transition:0.15s; }
+    .svc-row.active { border-color:var(--sky); background:#f0f9ff; }
+    .svc-dot { width:20px; height:20px; border-radius:50%; border:2.5px solid #0b3b59; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+    .svc-row.active .svc-dot { border-color:var(--sky); }
+    .svc-dot-in { width:10px; height:10px; border-radius:50%; background:transparent; }
+    .svc-row.active .svc-dot-in { background:var(--sky); }
+    .svc-title { font-size:0.93rem; font-weight:850; color:#0b3b59; line-height:1.3; }
+    .svc-sub { font-size:0.8rem; color:#475569; margin-top:3px; line-height:1.38; display:block; }
+    .svc-price { display:inline-block; margin-top:5px; font-size:0.74rem; font-weight:800; padding:2px 8px; border-radius:6px; background:#e0f2fe; color:#0369a1; }
+
+    /* 4-Tier Pro Paywall Modal */
+    .paywall-backdrop { position:fixed; inset:0; background:rgba(8,37,72,0.72); backdrop-filter:blur(4px); z-index:9999; display:none; align-items:center; justify-content:center; padding:14px; overflow-y:auto; }
+    .paywall-backdrop.open { display:flex; }
+    .paywall-card { background:#fff; width:100%; max-width:580px; border-radius:22px; border:2px solid #0288E8; box-shadow:0 24px 60px rgba(0,0,0,0.4); overflow:hidden; max-height:92dvh; display:flex; flex-direction:column; }
+    .pw-head { background:linear-gradient(135deg,#082548,#0b3b59); color:#fff; padding:18px 20px; display:flex; align-items:center; justify-content:space-between; }
+    .pw-head h3 { font-size:1.15rem; font-weight:900; }
+    .pw-close { background:rgba(255,255,255,0.14); color:#fff; border:none; width:34px; height:34px; border-radius:10px; font-weight:900; cursor:pointer; }
+    .pw-body { padding:18px 20px; overflow-y:auto; }
+    .tier-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0; }
+    @media (max-width:520px) { .tier-grid { grid-template-columns:1fr; } }
+    .tier-box { border:2px solid #cbd5e1; border-radius:14px; padding:14px; display:flex; flex-direction:column; justify-content:space-between; background:#f8fafc; position:relative; }
+    .tier-box.featured { border-color:#0288E8; background:#f0f9ff; box-shadow:0 6px 18px rgba(2,136,232,0.14); }
+    .tier-badge { position:absolute; top:-10px; right:12px; background:#0288E8; color:#fff; font-size:0.68rem; font-weight:900; padding:3px 8px; border-radius:999px; text-transform:uppercase; }
+    .tier-name { font-size:0.9rem; font-weight:850; color:#0b3b59; }
+    .tier-price { font-size:1.45rem; font-weight:900; color:#0288E8; margin:4px 0; }
+    .tier-desc { font-size:0.78rem; color:#475569; line-height:1.38; margin-bottom:10px; }
+    .tier-btn { width:100%; padding:10px; border:none; border-radius:10px; background:#0b3b59; color:#fff; font-weight:800; font-size:0.84rem; cursor:pointer; text-decoration:none; text-align:center; display:block; }
+    .tier-box.featured .tier-btn { background:#0288E8; }
+  </style>
 </head>
 <body>
-  <div class="topbar">
-    <a href="/" class="back-btn">← Back to Guide</a>
+  <header class="topbar">
+    <div style="display:flex;align-items:center;">
+      <a href="https://giyuraliyahtrack.com/" id="app-nav-back" class="app-nav-back" onclick="return window.handleAppBack(event);" aria-label="Back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="/" class="brand" onclick="return window.handleAppBrand(event);">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg>
+        </div>
+        <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
+      </a>
+    </div>
     <button type="button" id="globe-lang-btn" class="globe-btn" onclick="window.toggleLang(event)" aria-label="Change Language">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
       <span id="globe-lang-lbl">EN</span>
     </button>
-  </div>
+  </header>
+
   <div class="nav-tabs">
+    <button class="mod-tab concierge-pill" data-mod="vetted-team" onclick="openMod('vetted-team')">🤝 Vetted Team, Notary & Lawyer</button>
     <button class="mod-tab active" data-mod="hebrew-engine" onclick="openMod('hebrew-engine')">📸 Hebrew & Forms</button>
     <button class="mod-tab" data-mod="rabbi-letters" onclick="openMod('rabbi-letters')">✍️ Rabbi Letters</button>
     <button class="mod-tab" data-mod="beit-din-150" onclick="openMod('beit-din-150')">🕍 150 Beit Din Deck</button>
     <button class="mod-tab" data-mod="couples-sync" onclick="openMod('couples-sync')">📱 80 Couples Sync</button>
     <button class="mod-tab" data-mod="songs-prayers" onclick="openMod('songs-prayers')">🎵 12 Shabbat Songs</button>
   </div>
+
   <div class="container" id="app-container"></div>
-  <script src="/app/app.js?v=19"></script>
+
+  <!-- 4-TIER PRO PAYWALL MODAL -->
+  <div class="paywall-backdrop" id="pro-paywall-modal" onclick="if(event.target===this) closeProPaywall()">
+    <div class="paywall-card" role="dialog" aria-modal="true">
+      <div class="pw-head">
+        <div>
+          <div style="font-size:0.72rem;font-weight:800;color:#38bdf8;text-transform:uppercase;">🛡️ Giyur Aliyah Track Pro Shield</div>
+          <h3 id="pw-title">Unlock Full 150/80 Decks & Clean Hebrew PDFs</h3>
+        </div>
+        <button class="pw-close" onclick="closeProPaywall()">✕</button>
+      </div>
+      <div class="pw-body">
+        <p id="pw-reason" style="font-size:0.88rem;color:#334155;line-height:1.45;margin-bottom:10px;">
+          Save 25,000+ NIS in legal fees. Unlock watermark-free Hebrew PDF printing (Forms Ash/1, Ash/3, Michtav Hesber & Rabbinic Letterheads), all 150 Beit Din flashcards, and the full 80-question 2-Phone Couples Sync:
+        </p>
+        <div class="tier-grid">
+          <div class="tier-box">
+            <div>
+              <div class="tier-name">📄 Single Form Pass</div>
+              <div class="tier-price">$39 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">one-time</span></div>
+              <div class="tier-desc">Print 1 clean, watermark-free Hebrew form (Ash/1, Ash/3, or Michtav Hesber) + Rabbi Letterhead.</div>
+            </div>
+            <button class="tier-btn" onclick="startCheckout('single_39')">Unlock Single Pass ($39) →</button>
+          </div>
+
+          <div class="tier-box">
+            <div>
+              <div class="tier-name">⚡ Monthly Active Shield</div>
+              <div class="tier-price">$29 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">/ month</span></div>
+              <div class="tier-desc">Full access to all 150 Beit Din cards, 80 Couples Sync questions, Hebrew PDFs & 30-day alerts. Cancel anytime.</div>
+            </div>
+            <button class="tier-btn" onclick="startCheckout('monthly_29')">Start Monthly ($29/mo) →</button>
+          </div>
+
+          <div class="tier-box featured">
+            <span class="tier-badge">★ Most Popular</span>
+            <div>
+              <div class="tier-name">🛡️ Lifetime Track Shield</div>
+              <div class="tier-price">$199 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">one-time</span></div>
+              <div class="tier-desc">Unlimited lifetime access for your entire conversion, marriage & Aliyah track until your Teudat Zehut is in hand!</div>
+            </div>
+            <button class="tier-btn" onclick="startCheckout('lifetime_199')">Get Lifetime Shield ($199) →</button>
+          </div>
+
+          <div class="tier-box" style="border-color:#f59e0b;background:#fffbeb;">
+            <div>
+              <div class="tier-name">👑 VIP Couple + Dossier Audit</div>
+              <div class="tier-price" style="color:#b45309;">$449 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">one-time</span></div>
+              <div class="tier-desc">Lifetime Shield for 2 phones + personal 1-on-1 pre-appointment dossier review & priority Rabbi/Notary routing.</div>
+            </div>
+            <button class="tier-btn" style="background:#b45309;" onclick="startCheckout('vip_449')">Get VIP Couple Audit ($449) →</button>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
+          <input id="pro-code-input" placeholder="Have a VIP / Promo Unlock Code? (e.g. PRO2026)" style="margin:0;flex:1;padding:10px 12px;font-size:0.85rem;" />
+          <button class="btn" style="margin:0;width:auto;padding:10px 16px;font-size:0.85rem;background:#0f172a;" onclick="redeemProCode()">Unlock</button>
+        </div>
+        <div id="pro-code-msg" style="font-size:0.8rem;font-weight:800;margin-top:6px;display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app/app.js?v=140"></script>
 </body>
 </html>

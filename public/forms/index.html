@@ -1,136 +1,644 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light only" />
+  <meta name="supported-color-schemes" content="light only" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Official Misrad HaPanim & Rabbanut Hebrew Forms Vault (Ash/1, Ash/3, Ash/6) | Giyur Aliyah Track</title>
+  <link rel="canonical" href="https://giyuraliyahtrack.com/forms/" />
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background: #f8fafc; color: #0f172a; }
-    .top-bar { background: #082548; color: #fff; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .top-bar a { color: #38bdf8; text-decoration: none; font-weight: 800; font-size: 0.9rem; }
-    .lang- strip button { background: #1e293b; color: #fff; border: 1px solid #38bdf8; border-radius: 8px; padding: 5px 9px; font-weight: 800; cursor: pointer; font-size: 0.78rem; margin-left: 4px; }
-    .wrap { max-width: 840px; margin: 20px auto; padding: 0 16px 40px; }
-    .card { background: #fff; border: 2px solid #cbd5e1; border-radius: 16px; padding: 20px; margin-bottom: 18px; }
-    h1 { font-size: 1.4rem; color: #0b3b59; margin: 0 0 8px; }
+    :root, html, body {
+      color-scheme: light only !important;
+      forced-color-adjust: none !important;
+      -webkit-forced-color-adjust: none !important;
+      --navy:#082548; --teal-dark:#0b3b59; --sky:#0288E8; --emerald:#059669;
+    }
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; background: #f1f5f9; color: #0f172a; padding-bottom: 60px; }
+
+    /* Unified Navy Header + Borderless 30px Back Chevron */
+    .topbar { height: 62px; background: #082548; border-bottom: 1px solid rgba(2,136,232,0.35); color: #fff; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 10px rgba(8,37,72,0.22); }
+    .app-nav-back { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 38px; background: transparent !important; border: none !important; color: #fff; text-decoration: none; margin-inline-start: -10px; margin-inline-end: 14px; cursor: pointer; flex-shrink: 0; transition: transform 0.15s ease, opacity 0.15s ease; }
+    .app-nav-back:hover { opacity: 0.85; transform: scale(1.08); }
+    .app-nav-back svg { width: 30px; height: 30px; stroke: #ffffff; stroke-width: 3.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    html[dir="rtl"] .app-nav-back svg { transform: scaleX(-1); }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
+    .brand-mark { width: 38px; height: 38px; border-radius: 10px; background: #0288E8; color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(2,136,232,0.4); }
+    .brand-mark svg { width: 26px; height: 26px; fill: #fff; }
+    .brand-title { font-size: 1.22rem; font-weight: 850; letter-spacing: -0.4px; color: #fff; }
+    .brand-title span { color: #1994F5; }
+    .globe-btn { background: transparent; border: none; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; padding: 4px 8px; border-radius: 10px; }
+    .globe-btn svg { width: 22px; height: 22px; stroke: #1994F5; fill: none; stroke-width: 2; }
+    .globe-btn span { font-size: 0.7rem; font-weight: 800; color: #fff; line-height: 1; }
+
+    .wrap { max-width: 880px; margin: 20px auto; padding: 0 16px 40px; }
+    .card { background: #fff; border: 1.5px solid #cbd5e1; border-radius: 16px; padding: 22px 20px; margin-bottom: 18px; box-shadow: 0 4px 14px rgba(15,23,42,0.04); }
+    h1 { font-size: 1.38rem; color: #0b3b59; margin: 0 0 8px; font-weight: 900; line-height: 1.28; }
     .pdf-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; padding: 12px; background: #f0f9ff; border: 1px solid #7dd3fc; border-radius: 12px; }
-    .pdf-pill { background: #0284c7; color: #fff; text-decoration: none; padding: 7px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
-    @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
-    label { display: block; font-size: 0.82rem; font-weight: 800; color: #334e68; margin-bottom: 4px; }
-    input, select, textarea { width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 0.92rem; box-sizing: border-box; }
-    .btn { background: #0298ec; color: #fff; border: none; padding: 14px 18px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.96rem; width: 100%; margin-top: 12px; }
-    .he-sheet { direction: rtl; text-align: right; border: 2px solid #0f172a; padding: 24px; border-radius: 8px; background: #fff; margin-top: 18px; }
-    .he-sheet h2 { margin: 0 0 6px; font-size: 1.22rem; border-bottom: 2px solid #0f172a; padding-bottom: 8px; }
-    .he-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.9rem; }
-    .he-table th, .he-table td { border: 1px solid #334155; padding: 8px 10px; }
-    .he-table th { background: #f1f5f9; width: 36%; }
-    @media print { .no-print { display: none !important; } body { background: #fff; } .card { border: none; padding: 0; } }
+    .pdf-pill { background: #0284c7; color: #fff; text-decoration: none; padding: 7px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 800; transition: 0.15s; }
+    .pdf-pill:hover { background: #0369a1; }
+    .form-sec-hdr { font-size: 0.86rem; font-weight: 900; color: #0284c7; text-transform: uppercase; letter-spacing: 0.04em; margin: 18px 0 8px; padding-bottom: 4px; border-bottom: 2px solid #e0f2fe; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    @media (max-width: 680px) { .grid, .grid-3 { grid-template-columns: 1fr; } }
+    label { display: block; font-size: 0.8rem; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
+    input, select, textarea { width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 0.9rem; background: #f8fafc; color: #0f172a; font-weight: 600; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #0288E8; background: #fff; }
+    .chk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1; }
+    @media (max-width: 600px) { .chk-grid { grid-template-columns: 1fr; } }
+    .chk-row { display: flex; align-items: center; gap: 8px; font-size: 0.83rem; font-weight: 700; color: #0f172a; cursor: pointer; }
+    .chk-row input { width: 17px; height: 17px; margin: 0; flex-shrink: 0; }
+    .btn { background: #0288E8; color: #fff; border: none; padding: 15px 18px; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 0.98rem; width: 100%; margin-top: 14px; box-shadow: 0 6px 16px rgba(2,136,232,0.24); transition: 0.15s; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-notary { background: #0b3b59; margin-top: 10px; display: block; text-align: center; text-decoration: none; }
+
+    /* Full Official A4 Statutory Israeli Government Form Preview */
+    .he-sheet { direction: rtl; text-align: right; border: 2.5px solid #0f172a; padding: 28px 26px; border-radius: 6px; background: #fff; margin-top: 18px; position: relative; overflow: hidden; user-select: none; -webkit-user-select: none; box-shadow: 0 10px 30px rgba(15,23,42,0.08); }
+    .he-sheet.unlocked { user-select: text; -webkit-user-select: text; }
+    .he-sheet:not(.unlocked)::after {
+      content: "PREVIEW ONLY • GIYURALIYAHTRACK.COM • UNLOCK PRO SHIELD TO PRINT CLEAN PDF";
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 1.45rem; font-weight: 900; color: rgba(180, 83, 9, 0.14);
+      transform: rotate(-22deg); pointer-events: none; text-align: center; padding: 24px;
+    }
+    .gov-top { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2.5px solid #0f172a; padding-bottom: 12px; margin-bottom: 14px; gap: 12px; }
+    .gov-title-block h2 { margin: 4px 0; font-size: 1.18rem; font-weight: 900; color: #0f172a; line-height: 1.3; }
+    .gov-photo-box { width: 88px; height: 110px; border: 1.5px dashed #334155; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.72rem; font-weight: 700; color: #475569; padding: 6px; flex-shrink: 0; background: #f8fafc; }
+    .he-sec-bar { background: #0f172a; color: #fff; font-size: 0.85rem; font-weight: 900; padding: 5px 10px; margin: 14px 0 0; }
+    .he-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+    .he-table th, .he-table td { border: 1px solid #334155; padding: 7px 10px; vertical-align: top; }
+    .he-table th { background: #f1f5f9; width: 28%; font-weight: 800; color: #0f172a; }
+    .he-table td { width: 22%; font-weight: 600; color: #0f172a; }
+    .he-michtav-box { border: 1.5px solid #334155; padding: 12px 14px; font-size: 0.86rem; line-height: 1.6; background: #fafafa; margin-top: -1px; }
+
+    
+    .gov-emblem-row { display:flex; align-items:center; justify-content:space-between; border-bottom:3px double #0f172a; padding-bottom:12px; margin-bottom:12px; }
+    .gov-menorah { width:54px; height:64px; flex-shrink:0; }
+    .gov-code-box { border:2px solid #0f172a; padding:6px 12px; font-weight:900; font-size:0.95rem; background:#f8fafc; text-align:center; }
+    .gov-chk-strip { display:flex; flex-wrap:wrap; gap:14px; border:1.5px solid #0f172a; background:#f8fafc; padding:8px 12px; margin-bottom:12px; font-size:0.82rem; font-weight:800; }
+    .page-break-sheet { margin-top:26px; padding-top:22px; border-top:3px dashed #94a3b8; }
+    @media print { .page-break-sheet { page-break-before: always; border-top: none; margin-top: 0; padding-top: 0; } }
+
+    /* 4-Tier Pro Paywall Modal */
+    .paywall-backdrop { position: fixed; inset: 0; background: rgba(8,37,72,0.75); backdrop-filter: blur(4px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 14px; overflow-y: auto; }
+    .paywall-backdrop.open { display: flex; }
+    .paywall-card { background: #fff; width: 100%; max-width: 580px; border-radius: 22px; border: 2px solid #0288E8; box-shadow: 0 24px 60px rgba(0,0,0,0.4); overflow: hidden; max-height: 92dvh; display: flex; flex-direction: column; }
+    .pw-head { background: linear-gradient(135deg,#082548,#0b3b59); color: #fff; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .pw-head h3 { font-size: 1.15rem; font-weight: 900; margin: 2px 0 0; }
+    .pw-close { background: rgba(255,255,255,0.14); color: #fff; border: none; width: 34px; height: 34px; border-radius: 10px; font-weight: 900; cursor: pointer; }
+    .pw-body { padding: 18px 20px; overflow-y: auto; }
+    .tier-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+    @media (max-width: 520px) { .tier-grid { grid-template-columns: 1fr; } }
+    .tier-box { border: 2px solid #cbd5e1; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; background: #f8fafc; position: relative; }
+    .tier-box.featured { border: 2px solid #0288E8; background: #f0f9ff; box-shadow: 0 6px 18px rgba(2,136,232,0.14); }
+    .tier-badge { position: absolute; top: -10px; right: 12px; background: #0288E8; color: #fff; font-size: 0.68rem; font-weight: 900; padding: 3px 8px; border-radius: 999px; text-transform: uppercase; }
+    .tier-name { font-size: 0.9rem; font-weight: 850; color: #0b3b59; }
+    .tier-price { font-size: 1.45rem; font-weight: 900; color: #0288E8; margin: 4px 0; }
+    .tier-desc { font-size: 0.78rem; color: #475569; line-height: 1.38; margin-bottom: 10px; }
+    .tier-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; background: #0b3b59; color: #fff; font-weight: 800; font-size: 0.84rem; cursor: pointer; text-align: center; }
+    .tier-box.featured .tier-btn { background: #0288E8; }
+
+    @media print {
+      .no-print, .topbar, .paywall-backdrop { display: none !important; }
+      body { background: #fff; padding: 0; }
+      .wrap { margin: 0; max-width: 100%; padding: 0; }
+      .he-sheet { border: 2px solid #000; box-shadow: none; margin: 0; padding: 18px; }
+      body:not(.pro-unlocked) .he-sheet { display: none !important; }
+      body:not(.pro-unlocked)::before {
+        content: "🔒 PRO SHIELD REQUIRED: Please unlock the Single Hebrew Form Pass ($39) or Lifetime Track Shield ($199) at GiyurAliyahTrack.com/forms to print clean official Hebrew PDFs.";
+        display: block; padding: 40px; font-size: 18pt; font-weight: bold; text-align: center; color: #0b3b59; border: 3px solid #0288E8; border-radius: 14px; margin: 40px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="top-bar no-print">
-    <div><strong>Giyur<span style="color:#38bdf8;">Aliyah</span>Track</strong> • <span id="tb-sub">Statutory Hebrew Forms Vault</span></div>
-    <div class="lang-strip">
-      <button onclick="setFLang('en')">EN</button><button onclick="setFLang('he')">HE</button><button onclick="setFLang('fr')">FR</button><button onclick="setFLang('es')">ES</button><button onclick="setFLang('de')">DE</button>
-      <a href="/" id="back-lnk" style="margin-left:10px;">← Tracker</a>
+  <header class="topbar no-print">
+    <div style="display:flex;align-items:center;">
+      <a href="https://giyuraliyahtrack.com/" id="app-nav-back" class="app-nav-back" onclick="return window.handleFormsBack(event);" aria-label="Back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="/" class="brand" onclick="return window.handleFormsBrand(event);">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg>
+        </div>
+        <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
+      </a>
     </div>
-  </div>
+    <button type="button" id="globe-lang-btn" class="globe-btn" onclick="window.toggleFormsLang(event)" aria-label="Change Language">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span id="globe-lang-lbl">EN</span>
+    </button>
+  </header>
+
   <div class="wrap">
     <div class="card no-print">
       <h1 id="ui-h1">📄 Official Hebrew Forms Download & Auto-Fill Vault (Ash/1, Ash/3, Ash/6)</h1>
-      <p id="ui-lead" style="font-size:0.9rem;color:#475569;margin:0 0 10px;">Download blank Gov.il statutory PDFs or enter your details in your language below to auto-generate a clerk-ready Hebrew statutory packet + Michtav Hesber.</p>
+      <p id="ui-lead" style="font-size:0.9rem;color:#475569;margin:0 0 10px;">Download blank Gov.il statutory PDFs or enter your details in your language below to auto-generate a complete, clerk-ready 6-Section Israeli Statutory Dossier + Michtav Hesber.</p>
       <div class="pdf-bar">
-        <span style="width:100%;font-size:0.78rem;font-weight:900;color:#0c4a6e;" id="ui-raw">📥 Official Blank Gov.il Procedures & Forms (Print Blank or Attach to Auto-Filled Sheet Below):</span>
+        <span style="width:100%;font-size:0.78rem;font-weight:900;color:#0c4a6e;" id="ui-raw">📥 Official Blank Gov.il Procedures & Forms (Print Blank or Attach to Auto-Filled Statutory Packet Below):</span>
         <a class="pdf-pill" href="https://www.gov.il/he/service/extension_of_stay_permit" target="_blank" rel="noopener">Gov.il טופס אש/1 (Ash/1) ↗</a>
         <a class="pdf-pill" href="https://www.gov.il/he/service/application-for-granting-status-to-foreign-spouse" target="_blank" rel="noopener">Gov.il טופס אש/3 (Ash/3) ↗</a>
         <a class="pdf-pill" href="https://www.gov.il/he/service/request-for-entry-visa-to-israel" target="_blank" rel="noopener">Gov.il טופס אש/6 (Ash/6) ↗</a>
         <a class="pdf-pill" href="https://www.gov.il/BlobFolder/policy/married_couples_procedure/he/5.2.0008.pdf" target="_blank" rel="noopener">Nohal 5.2.0008 PDF ↗</a>
         <a class="pdf-pill" href="https://www.gov.il/BlobFolder/policy/common_law_couples_procedure/he/5.2.0009.pdf" target="_blank" rel="noopener">Nohal 5.2.0009 PDF ↗</a>
       </div>
-      <label id="lbl-type">Select Statutory Form Packet:</label>
-      <select id="f-type" onchange="renderSheet()">
-        <option value="ash1">טופס אש/1 (Form Ash/1) — Visa Extension / Va'adat Charigim Conversion Application</option>
-        <option value="ash3">טופס אש/3 (Form Ash/3) — Graduated Spousal Residency (Nohal 5.2.0008 / 5.2.0009)</option>
-        <option value="ash6">טופס אש/6 (Form Ash/6) — Entry Visa / In-Israel Aliyah (Shinui Ma'amad)</option>
-        <option value="affidavit">תצהיר מרכז חיים וכנות קשר — Joint Center-of-Life & Sincerity Declaration</option>
-        <option value="ishur">בקשה לאישור גיור (Beit HaDin HaGadol) — Supreme Rabbinical Court Validation Petition</option>
-      </select>
+
       <div class="grid">
-        <div><label id="lbl-name">Applicant Full Name (Passport):</label><input id="f-name" placeholder="Sarah Rachel Miller" oninput="renderSheet()" /></div>
-        <div><label id="lbl-pass">Passport Number & Country:</label><input id="f-pass" placeholder="US /FR / DE — A12345678" oninput="renderSheet()" /></div>
-        <div><label id="lbl-dob">Date of Birth & Entry Date to Israel:</label><input id="f-dob" placeholder="14/05/1996 | Entry: 01/09/2026" oninput="renderSheet()" /></div>
-        <div><label id="lbl-sp">Israeli Spouse / Rabbi Name & 9-Digit Teudat Zehut:</label><input id="f-sp" placeholder="David Cohen — TZ 012345678" oninput="renderSheet()" /></div>
-        <div><label id="lbl-addr">Israeli Address & City:</label><input id="f-addr" placeholder="HaPalmach 18, Jerusalem" oninput="renderSheet()" /></div>
-        <div><label id="lbl-tel">Israeli Mobile Phone & Email:</label><input id="f-tel" placeholder="054-000-0000" oninput="renderSheet()" /></div>
+        <div>
+          <label id="lbl-type" for="f-type">1. Select Statutory Form Packet:</label>
+          <select id="f-type" onchange="renderSheet()">
+            <option value="ash1">טופס אש/1 (Form Ash/1) — Visa Extension / Va'adat Charigim Conversion Application</option>
+            <option value="ash3">טופס אש/3 (Form Ash/3) — Graduated Spousal Residency (Nohal 5.2.0008 / 5.2.0009)</option>
+            <option value="ash6">טופס אש/6 (Form Ash/6) — Entry Visa / In-Israel Aliyah (Shinui Ma'amad)</option>
+            <option value="affidavit">תצהיר מרכז חיים וכנות קשר — Joint Center-of-Life & Sincerity Declaration</option>
+            <option value="ishur">בקשה לאישור גיור (Beit HaDin HaGadol) — Supreme Rabbinical Court Validation Petition</option>
+            <option value="ext30">בקשה להארכת מועד (30/60 יום) — Stop 30-Day File Closure (Drishat Mismachim Extension)</option>
+            <option value="rabbi_let">מכתבי רב מלווה ומשפחה מלווה — Sponsoring Rabbi & Shabbat Host Family Letters</option>
+          </select>
+        </div>
+        <div>
+          <label id="lbl-branch" for="f-branch">2. Target Misrad HaPanim / Beit Din Branch:</label>
+          <select id="f-branch" onchange="renderSheet()">
+            <option value="צפת / טבריה (גליל עליון)">Safed / Tiberias (Upper Galilee — צפת / טבריה)</option>
+            <option value="ירושלים (שלומציון המלכה / הר חוצבים)">Jerusalem (Shlomtzion / Har Hotzvim — ירושלים)</option>
+            <option value="תל אביב / רמת גן / מרכז">Tel Aviv / Ramat Gan / Center (תל אביב והמרכז)</option>
+            <option value="חיפה / כרמיאל / נהריה / עפולה">Haifa / Karmiel / Nahariya / Afula (חיפה והצפון)</option>
+            <option value="נתניה / פתח תקווה / הרצליה / רחובות">Netanya / Petah Tikva / Herzliya / Rehovot</option>
+            <option value="אשדוד / באר שבע / אשקלון">Ashdod / Be'er Sheva / South (דרום)</option>
+          </select>
+        </div>
       </div>
-      <div style="margin-top:10px;"><label id="lbl-notes">Statutory Request / Michtav Hesber Summary:</label>
-        <textarea id="f-notes" rows="2" placeholder="e.g. Complete 5-Apostille dossier attached; requesting file opening & B/1 or B/2 extension" oninput="renderSheet()"></textarea>
+
+      <div class="form-sec-hdr">Section A • Foreign Applicant Identity & Parents' Names (Must Match Vault Birth Certificate)</div>
+      <div class="grid-3">
+        <div><label id="lbl-surname" for="f-surname">Surname (Last Name):</label><input id="f-surname" placeholder="Miller (Levi)" oninput="renderSheet()" /></div>
+        <div><label id="lbl-given" for="f-given">Given Name(s) (First & Middle):</label><input id="f-given" placeholder="Sarah Ruth" oninput="renderSheet()" /></div>
+        <div><label id="lbl-prevname" for="f-prevname">Maiden / Prior Legal Name (if any):</label><input id="f-prevname" placeholder="None / N/A" oninput="renderSheet()" /></div>
+        <div><label id="lbl-dob" for="f-dob">Date of Birth & Gender:</label><input id="f-dob" placeholder="14/05/1996 • Female (נקבה)" oninput="renderSheet()" /></div>
+        <div><label id="lbl-father" for="f-father">Father's Full Name (on Birth Cert):</label><input id="f-father" placeholder="Robert Michael Miller" oninput="renderSheet()" /></div>
+        <div><label id="lbl-mother" for="f-mother">Mother's Full Name (on Birth Cert):</label><input id="f-mother" placeholder="Rebecca Anne Miller" oninput="renderSheet()" /></div>
       </div>
-      <button class="btn" id="btn-prt" onclick="window.print()">🖨️ Print / Save Official Hebrew Form Packet as PDF</button>
+
+      <div class="form-sec-hdr">Section B • Foreign Passport, Citizenships & Border Entry Data</div>
+      <div class="grid-3">
+        <div><label id="lbl-pass" for="f-pass">Passport Number & Country of Issue:</label><input id="f-pass" placeholder="USA / France — #A12345678" oninput="renderSheet()" /></div>
+        <div><label id="lbl-passexp" for="f-passexp">Passport Issue & Expiry Date (Min 2 Yrs):</label><input id="f-passexp" placeholder="Issued: 2023 • Expires: 10/2031" oninput="renderSheet()" /></div>
+        <div><label id="lbl-entry" for="f-entry">Last Entry Date to Israel & Current Visa:</label><input id="f-entry" placeholder="01/09/2026 • B/2 Tourist Visa" oninput="renderSheet()" /></div>
+        <div><label id="lbl-marital" for="f-marital">Current & Prior Marital Status:</label><input id="f-marital" placeholder="Married (נשואה) / Single (רווקה) — 0 Prior Marriages" oninput="renderSheet()" /></div>
+        <div><label id="lbl-countries" for="f-countries">All Countries Lived >1 Yr Since Age 14:</label><input id="f-countries" placeholder="United States (Birth to 2026)" oninput="renderSheet()" /></div>
+        <div><label id="lbl-occ" for="f-occ">Profession / Source of Sustenance:</label><input id="f-occ" placeholder="UX Designer / Remote Foreign Savings" oninput="renderSheet()" /></div>
+      </div>
+
+      <div class="form-sec-hdr">Section C • Israeli Spouse / Partner OR Sponsoring Rabbi (Rav Melaveh) & Israeli Address</div>
+      <div class="grid-3">
+        <div><label id="lbl-sp" for="f-sp">Israeli Spouse / Sponsoring Rabbi Full Name:</label><input id="f-sp" placeholder="Avraham Levi" oninput="renderSheet()" /></div>
+        <div><label id="lbl-sptz" for="f-sptz">Israeli 9-Digit Teudat Zehut Number:</label><input id="f-sptz" placeholder="012345678" oninput="renderSheet()" /></div>
+        <div><label id="lbl-spdob" for="f-spdob">Spouse Date of Birth & Marital Status:</label><input id="f-spdob" placeholder="22/08/1993 • Israeli Citizen (אזרח ישראלי)" oninput="renderSheet()" /></div>
+        <div><label id="lbl-addr" for="f-addr">Full Israeli Residential Address & City:</label><input id="f-addr" placeholder="Rechov Yerushalayim 18, Safed (צפת)" oninput="renderSheet()" /></div>
+        <div><label id="lbl-tel" for="f-tel">Israeli Mobile Phone (Applicant & Spouse):</label><input id="f-tel" placeholder="054-000-0000 / 058-000-0000" oninput="renderSheet()" /></div>
+        <div><label id="lbl-email" for="f-email">Email Address for Official Notices:</label><input id="f-email" placeholder="avraham.sarah@example.com" oninput="renderSheet()" /></div>
+      </div>
+
+      <div class="form-sec-hdr">Section D • Attached Apostilled Originals & Statutory Explanation Letter (Michtav Hesber)</div>
+      <div class="chk-grid">
+        <label class="chk-row"><input type="checkbox" id="c-birth" checked onchange="renderSheet()" /> 1. Long-Form Birth Certificate + Apostille (תעודת לידה מורחבת + אפוסטיל)</label>
+        <label class="chk-row"><input type="checkbox" id="c-police" checked onchange="renderSheet()" /> 2. Federal Police Check &lt;180d + Apostille (תעודת יושר פדרלית + אפוסטיל)</label>
+        <label class="chk-row"><input type="checkbox" id="c-single" checked onchange="renderSheet()" /> 3. Single / Marital Status Extract + Apostille (תמצית רישום / רווקות + אפוסטיל)</label>
+        <label class="chk-row"><input type="checkbox" id="c-rabbi" checked onchange="renderSheet()" /> 4. Marriage Cert / Rabbi & Host Family Letters (תעודת נישואין / מכתבי רב וקהילה)</label>
+      </div>
+      <div style="margin-top:10px;">
+        <label id="lbl-notes" for="f-notes">Additional Facts for Statutory Hebrew Explanation Letter (Michtav Hesber):</label>
+        <textarea id="f-notes" rows="2" placeholder="e.g. All 5 original Apostilled homeland documents (<180 days old), municipal lease/Arnona, and joint affidavits are attached; requesting formal file opening and B/1 or B/2 permit extension." oninput="renderSheet()"></textarea>
+      </div>
+
+      <button class="btn" id="btn-prt" onclick="triggerProPrint()">🖨️ Print / Save Full 6-Section Official Hebrew Dossier as PDF</button>
+      <a href="/app?intent=vetted-team&choice=3" class="btn btn-notary" id="btn-notary-bridge">🎀 Need Red-Ribbon Notary Translation or Lawyer Affidavit Stamp? Book Here →</a>
     </div>
+
+    <!-- LIVE STATUTORY HEBREW GOVERNMENT FORM PREVIEW -->
     <div class="he-sheet" id="he-preview"></div>
   </div>
+
+  <!-- 4-TIER PRO PAYWALL MODAL -->
+  <div class="paywall-backdrop no-print" id="pro-paywall-modal" onclick="if(event.target===this) closeFormsPaywall()">
+    <div class="paywall-card" role="dialog" aria-modal="true">
+      <div class="pw-head">
+        <div>
+          <div style="font-size:0.72rem;font-weight:800;color:#38bdf8;text-transform:uppercase;">🛡️ Giyur Aliyah Track Pro Shield</div>
+          <h3>Unlock Watermark-Free Hebrew PDF Printing</h3>
+        </div>
+        <button class="pw-close" onclick="closeFormsPaywall()">✕</button>
+      </div>
+      <div class="pw-body">
+        <p style="font-size:0.88rem;color:#334155;line-height:1.45;margin-bottom:10px;">
+          Your 6-Section Statutory Hebrew Dossier (Form Ash/1, Ash/3, Ash/6 + Michtav Hesber) is ready below! Choose a pass to remove the preview watermark and print/save clean official Hebrew PDFs:
+        </p>
+        <div class="tier-grid">
+          <div class="tier-box">
+            <div>
+              <div class="tier-name">📄 Single Form Pass</div>
+              <div class="tier-price">$39 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">one-time</span></div>
+              <div class="tier-desc">Print 1 clean, watermark-free Hebrew form packet (Ash/1, Ash/3, Ash/6, or Michtav Hesber) + Rabbi Letterhead.</div>
+            </div>
+            <button class="tier-btn" onclick="startFormsCheckout('single_39')">Unlock Single Pass ($39) →</button>
+          </div>
+
+          <div class="tier-box">
+            <div>
+              <div class="tier-name">⚡ Monthly Active Shield</div>
+              <div class="tier-price">$29 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">/ month</span></div>
+              <div class="tier-desc">Unlimited Hebrew PDFs + all 150 Beit Din flashcards + 80 Couples Sync questions. Cancel anytime.</div>
+            </div>
+            <button class="tier-btn" onclick="startFormsCheckout('monthly_29')">Start Monthly ($29/mo) →</button>
+          </div>
+
+          <div class="tier-box featured">
+            <span class="tier-badge">★ Most Popular</span>
+            <div>
+              <div class="tier-name">🛡️ Lifetime Track Shield</div>
+              <div class="tier-price">$199 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">one-time</span></div>
+              <div class="tier-desc">Unlimited lifetime access to all Hebrew forms, 150 Beit Din deck, 80 Couples Sync & WhatsApp alerts!</div>
+            </div>
+            <button class="tier-btn" onclick="startFormsCheckout('lifetime_199')">Get Lifetime Shield ($199) →</button>
+          </div>
+
+          <div class="tier-box" style="border-color:#f59e0b;background:#fffbeb;">
+            <div>
+              <div class="tier-name">👑 VIP Couple + Dossier Audit</div>
+              <div class="tier-price" style="color:#b45309;">$449 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">one-time</span></div>
+              <div class="tier-desc">Lifetime Shield for 2 phones + 1-on-1 pre-appointment dossier review & priority Rabbi/Notary routing.</div>
+            </div>
+            <button class="tier-btn" style="background:#b45309;" onclick="startFormsCheckout('vip_449')">Get VIP Couple Audit ($449) →</button>
+          </div>
+        </div>
+
+        <a href="/app?intent=vetted-team&choice=3" style="text-decoration:none;border:2px solid #f59e0b;background:#fffbeb;border-radius:12px;padding:11px 14px;color:#0f172a;display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+          <div>
+            <strong style="font-size:0.88rem;">🎀 Need Red-Ribbon Notary Translation or 1-Hr Lawyer Escort?</strong>
+            <div style="font-size:0.76rem;color:#b45309;">Book remote Hebrew notarial translation ($149–$249) or Misrad HaPanim escort</div>
+          </div>
+          <strong style="color:#b45309;font-size:0.88rem;white-space:nowrap;margin-left:8px;">Book →</strong>
+        </a>
+
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
+          <input id="pro-code-in" placeholder="Have a VIP / Promo Unlock Code? (e.g. PRO2026)" style="margin:0;flex:1;padding:10px 12px;font-size:0.85rem;" />
+          <button onclick="unlockWithCode()" style="background:#0b3b59;color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;">Unlock</button>
+        </div>
+        <div id="pro-code-msg" style="font-size:0.8rem;font-weight:800;margin-top:6px;display:none;"></div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const UI_I18N = {
-      en: { h1:"📄 Official Hebrew Forms Download & Auto-Fill Vault (Ash/1, Ash/3, Ash/6)", lead:"Download blank Gov.il statutory PDFs or enter your details below to print a clerk-ready Hebrew statutory packet + Michtav Hesber.", type:"Select Statutory Form Packet:", name:"Applicant Full Name (Passport):", pass:"Passport Number & Country:", dob:"Date of Birth & Entry Date:", sp:"Israeli Spouse / Rabbi Name & 9-Digit TZ:", addr:"Israeli Address & City:", tel:"Israeli Mobile & Email:", notes:"Statutory Request / Michtav Hesber Notes:", prt:"🖨️ Print / Save Official Hebrew Form Packet as PDF" },
-      he: { h1:"📄 כספת טפסים רשמיים בעברית ומילוי אוטומטי (אש/1, אש/3, אש/6)", lead:"הורידו את טפסי Gov.il הרשמיים או הזינו פרטים למטה להדפסת טופס הגשה תקני בעברית + מכתב הסבר לפקיד.", type:"בחרו טופס הגשה רשמי:", name:"שם המבקש/ת המלא (כפי שבדרכון):", pass:"מספר דרכון ומדינת הנפקה:", dob:"תאריך לידה ותאריך כניסה לישראל:", sp:"שם בן/בת הזוג או הרב המלווה ומס׳ ת״ז (9 ספרות):", addr:"כתובת מגורים מלאה בישראל:", tel:"טלפון נייד ודוא״ל:", notes:"תמצית הבקשה / הערות למכתב הסבר:", prt:"🖨️ הדפסה / שמירה כ-PDF רשמי בעברית" },
-      fr: { h1:"📄 Formulaires Officiels en Hébreu & Remplissage Auto (Ash/1, Ash/3, Ash/6)", lead:"Téléchargez les PDF officiels Gov.il ou saisissez vos informations en français pour imprimer votre dossier officiel en hébreu + Michtav Hesber.", type:"Choisir le Formulaire Officiel :", name:"Nom Complet du Demandeur (Passeport) :", pass:"N° de Passeport & Pays :", dob:"Date de Naissance & Date d'Entrée :", sp:"Conjoint Israélien / Rabbin & N° Teudat Zehut (9 chiffres) :", addr:"Adresse Complète en Israël :", tel:"Téléphone Israélien & E-mail :", notes:"Résumé de la Demande (Michtav Hesber) :", prt:"🖨️ Imprimer / Enregistrer le Formulaire Hébreu en PDF" },
-      es: { h1:"📄 Formularios Oficiales en Hebreo y Autocompletado (Ash/1, Ash/3, Ash/6)", lead:"Descargue los PDF oficiales de Gov.il o ingrese sus datos para imprimir su formulario legal en hebreo + Mijtav Hesber.", type:"Seleccione el Formulario Oficial:", name:"Nombre Completo del Solicitante (Pasaporte):", pass:"N° de Pasaporte y País:", dob:"Fecha de Nacimiento y Entrada a Israel:", sp:"Pareja Israelí / Rabino y N° Teudat Zehut (9 dígitos):", addr:"Dirección Completa en Israel:", tel:"Teléfono Móvil Israelí y Email:", notes:"Resumen de Solicitud (Mijtav Hesber):", prt:"🖨️ Imprimir / Guardar Formulario en Hebreo como PDF" },
-      de: { h1:"📄 Offizielle Hebräische Formulare & Auto-Ausfüller (Asch/1, Asch/3, Asch/6)", lead:"Laden Sie die offiziellen Gov.il-PDFs herunter oder geben Sie Ihre Daten ein, um Ihr druckfertiges hebräisches Antragsformular + Michtav Hesber zu erstellen.", type:"Offizielles Formular Wählen:", name:"Vollständiger Name (Reisepass):", pass:"Passnummer & Ausstellungsland:", dob:"Geburtsdatum & Einreisedatum:", sp:"Israelischer Partner / Rabbiner & 9-stellige Teudat Zehut:", addr:"Vollständige Adresse in Israel:", tel:"Israelische Handynummer & E-Mail:", notes:"Antragsbegründung (Michtav Hesber):", prt:"🖨️ Hebräisches Formularpaket Drucken / Als PDF Speichern" }
+    window.LEMON_CHECKOUT_URLS = {
+      single_39: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=single_39",
+      monthly_29: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=monthly_29",
+      lifetime_199: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=lifetime_199",
+      vip_449: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=vip_449"
     };
+
     const TITLES = {
-      ash1: ["טופס אש/1 — בקשה להארכת רישיון ישיבה / שינוי סוג רישיון (ועדת חריגים)", "לכבוד: רשות האוכלוסין וההגירה (משרד הפנים) / הוועדה לחריגים — מערך הגיור"],
-      ash3: ["טופס אש/3 — בקשה למתן מעמד לבן/בת זוג זר הנשוי/ידוע בציבור לאזרח ישראלי (נוהל 5.2.0008 / 5.2.0009)", "לכבוד: רשות האוכלוסין וההגירה — מחלקת אשרות ומעמד (הליך מדורג)"],
-      ash6: ["טופס אש/6 — בקשה לאשרת כניסה ושינוי מעמד לעולה מתוך ישראל (שינוי מעמד)", "לכבוד: רשות האוכלוסין וההגירה / משרד העלייה והקליטה"],
-      affidavit: ["תצהיר משותף בדבר כנות הקשר ומרכז חיים משותף בישראל (נוהל 5.2.0008 / 5.2.0009)", "לכבוד: רשות האוכלוסין וההגירה — לשכת מרשם ומעמד"],
-      ishur: ["בקשה למתן אישור גיור ותעודת הכרה לחיתון — בית הדין הרבני הגדול בירושלים", "לכבוד: מזכירות בית הדין הרבני הגדול / מחלקת גיור ונישואין"]
+      ash1: [
+        "טופס אש/1 — בקשה להארכת רישיון ישיבה / שינוי סוג רישיון / פנייה לוועדת חריגים (גיור ממלכתי)",
+        "לכבוד: רשות האוכלוסין וההגירה (משרד הפנים) והוועדה לחריגים — מערך הגיור הממלכתי במשרד ראש הממשלה",
+        "הריני מתכבד/ת להגיש בזאת בקשה מנומקת להארכת רישיון ישיבה (ב/2) ו/או מתן היתר הצטרפות להליך גיור ממלכתי בישראל מוועדת החריגים. מצורפים בזאת כל 5 מסמכי המקור מארץ המוצא מאומתים בחותמת אפוסטיל כדין (ובתוקף של פחות מ-180 יום ממועד הנפקתם), לצד מכתבי המלצה מרב מלווה מוכר ומשפחה מלווה בישראל."
+      ],
+      ash3: [
+        "טופס אש/3 — בקשה למתן מעמד לבן/בת זוג זר של אזרח/ית ישראלי/ת (הליך מדורג — נוהל 5.2.0008 / 5.2.0009)",
+        "לכבוד: רשות האוכלוסין וההגירה — מחלקת אשרות ומעמד (לשכת משרד הפנים)",
+        "אנו החתומים מטה, אזרח/ית ישראלי/ת ובן/בת זוגו/ה, מתכבדים להגיש בקשה לפתיחת תיק מאוחד למתן מעמד בהליך מדורג (אשרת עבודה ב/1 / רישיון א/5) מכוח נוהל 5.2.0008 / 5.2.0009. מצורפים בזאת כל מסמכי הסף המקוריים מאומתים בחותמת אפוסטיל (תעודת לידה מורחבת, תעודת יושר פדרלית מכל מדינות המגורים, ותמצית רישום מצב אישי/רווקות בתוקף 180 יום), וכן הוכחות מרכז חיים משותף וכנות הקשר בישראל."
+      ],
+      ash6: [
+        "טופס אש/6 — בקשה לאשרת עולה / שינוי מעמד לעולה מתוך ישראל (שינוי מעמד מכוח חוק השבות)",
+        "לכבוד: רשות האוכלוסין וההגירה (משרד הפנים) / משרד העלייה והקליטה / הסוכנות היהודית",
+        "הריני מתכבד/ת להגיש בקשה לשינוי מעמד מתייר (ב/2) למעמד עולה (תעודת עולה ותעודת זהות) מתוך ישראל מכוח חוק השבות, תש"י-1950. מצורפים בזאת תעודת לידה מקורית מורחבת באפוסטיל, תעודת יושר באפוסטיל, אישור מצב אישי באפוסטיל, ואישור יהדות מקורי מרב קהילה אורתודוקסי מוכר / תעודת גיור מוכרת."
+      ],
+      affidavit: [
+        "תצהיר משותף בדבר כנות הקשר, ניהול משק בית משותף ומרכז חיים בישראל (נוהל 5.2.0008 / 5.2.0009)",
+        "לכבוד: רשות האוכלוסין וההגירה — מחלקת אשרות ומעמד",
+        "אנו החתומים מטה מצהירים בזאת, לאחר שהוזהרנו כי עלינו להצהיר את האמת וכי נהיה צפויים לעונשים הקבועים בחוק אם לא נעשה כן, כי הקשר הזוגי בינינו הינו קשר אמת כן ומונוגמי, כי אנו מנהלים משק בית משותף ומרכז חיים מלא בכתובתנו הרשומה בישראל, וכי אין כל מניעה חוקית או ביטחונית לאישור בקשתנו."
+      ],
+            ishur: [
+        "בקשה למתן אישור גיור ותעודת הכרה לחיתון — בית הדין הרבני הגדול בירושלים / הרבנות הראשית לישראל",
+        "לכבוד: מזכירות בית הדין הרבני הגדול בירושלים — מחלקת אישורי גיור ונישואין",
+        "הריני מתכבד/ת להגיש בקשה לאימות ואישור תעודת הגיור האורתודוקסי (אישור גיור) לצורך רישום נישואין כדת משה וישראל ברבנות הראשית לישראל. מצורפים בזאת תעודת הגיור המקורית מבית הדין, מכתב הרב המלווה המוכר, אישור הדרכת כלה, וכלל מסמכי המעמד האישי."
+      ],
+      ext30: [
+        "בקשה דחופה להארכת מועד להמצאת מסמכים (30/60 יום) ומניעת סגירת תיק מנהלית",
+        "לכבוד: רשות האוכלוסין וההגירה — מחלקת אשרות ומעמד (מענה לדרישת מסמכים)",
+        "בהמשך לדרישת המסמכים שנמסרה לידינו, הרינו להגיש בקשה מנומקת להארכת מועד בת 60 יום להשלמת מסמכי המקור מחו״ל (תעודת יושר פדרלית / תמצית רישום / חותמת אפוסטיל). המסמכים הוזמנו מהרשויות המוסמכות בארץ המוצא (מצורפת אסמכתא על הזמנתם), ועל כן מתבקשת הלשכה שלא לסגור את התיק ולהאריך את האשרה הזמנית."
+      ],
+      rabbi_let: [
+        "מכתב המלצה רשמי מרב קהילה מלווה ומשפחה מארחת — לאישור כנות לימודי גיור ומרכז חיים",
+        "לכבוד: בית הדין המיוחד לגיור / ועדת החריגים / הפיקוח ההלכתי",
+        "הריני לאשר ולהמליץ בחום כי המבקש/ת משתתף/ת באופן קבוע ורציף בתפילות בית הכנסת, בשיעורי תורה והלכה, ובסעודות שבת וחג אצל משפחה מלווה שומרת תורה ומצוות בקהילתנו, ומפגין/ה כנות מלאה ומחויבות לאורח חיים יהודי אורתודוקסי."
+      ]
     };
+
+    function syncProUnlockState() {
+      const unlocked = localStorage.getItem('gat_pro_unlocked') === '1';
+      window.GAT_PRO = unlocked;
+      document.body.classList.toggle('pro-unlocked', unlocked);
+      const sheet = document.getElementById('he-preview');
+      if (sheet) sheet.classList.toggle('unlocked', unlocked);
+    }
+
+    
+    const FORMS_UI_I18N = {
+      en: {
+        h1: "📄 Official Hebrew Forms Download & Auto-Fill Vault (Ash/1, Ash/3, Ash/6)",
+        lead: "Enter your details in your language below to auto-generate a clerk-ready Page 1 Official Misrad HaPanim Form + Page 2 Statutory Hebrew Michtav Hesber.",
+        type: "1. Select Statutory Form Packet:", branch: "2. Target Misrad HaPanim / Beit Din Branch:",
+        surname: "Surname (Last Name):", given: "Given Name(s) (First & Middle):", prevname: "Maiden / Prior Legal Name:",
+        dob: "Date of Birth & Gender:", father: "Father's Full Name (on Birth Cert):", mother: "Mother's Full Name (on Birth Cert):",
+        pass: "Passport Number & Country:", passexp: "Passport Issue & Expiry Date:", entry: "Last Entry Date & Current Visa:",
+        marital: "Current & Prior Marital Status:", countries: "Countries Lived >1 Yr Since Age 14:", occ: "Profession / Sustenance:",
+        sp: "Israeli Spouse / Sponsoring Rabbi Name:", sptz: "Israeli 9-Digit Teudat Zehut:", spdob: "Spouse DOB & Status:",
+        addr: "Full Israeli Residential Address:", tel: "Israeli Mobile Phone:", email: "Email for Official Notices:",
+        notes: "Additional Facts for Statutory Hebrew Explanation Letter (Michtav Hesber):",
+        prt: "🖨️ Print / Save Official 2-Page Hebrew Form & Michtav Hesber as PDF"
+      },
+      he: {
+        h1: "📄 מאגר טפסים רשמיים ומחולל מכתבי הסבר למשרד הפנים ולרבנות (אש/1, אש/3, אש/6)",
+        lead: "הזינו את הפרטים למטה להפקה אוטומטית של עמוד 1 (טופס רשמי של רשות האוכלוסין) + עמוד 2 (מכתב הסבר משפטי מנומק ותצהיר).",
+        type: "1. בחרו סוג טופס ובקשה רשמית:", branch: "2. לשכת משרד הפנים / בית דין מטפל:",
+        surname: "שם משפחה (כפי שבדרכון):", given: "שם פרטי מלא:", prevname: "שם נעורים / שמות קודמים:",
+        dob: "תאריך לידה ומין:", father: "שם האב המלא (מתעודת הלידה):", mother: "שם האם המלא (מתעודת הלידה):",
+        pass: "מספר דרכון ומדינת הנפקה:", passexp: "תאריך הנפקה ותוקף דרכון:", entry: "תאריך כניסה אחרון וסוג אשרה:",
+        marital: "מצב אישי נוכחי וקודם:", countries: "מדינות מגורים מעל שנה מגיל 14:", occ: "משלח יד ומקורות מחייה:",
+        sp: "שם מלא של בן/בת הזוג הישראלי/ת או הרב המלווה:", sptz: "מספר תעודת זהות (9 ספרות):", spdob: "תאריך לידה ומעמד בישראל:",
+        addr: "כתובת מגורים מלאה בישראל:", tel: "טלפון נייד בישראל:", email: "כתובת דוא״ל לקבלת החלטות:",
+        notes: "נימוקים ועובדות נוספות למכתב ההסבר המשפטי (מכתב הסבר לפקיד / לוועדת חריגים):",
+        prt: "🖨️ הדפסה / שמירה כ-PDF רשמי (2 עמודים: טופס רשמי + מכתב הסבר)"
+      },
+      fr: {
+        h1: "📄 Coffre des Formulaires Officiels en Hébreu (Ash/1, Ash/3, Ash/6 + Michtav Hesber)",
+        lead: "Saisissez vos informations en français ci-dessous pour générer automatiquement le Formulaire Officiel Misrad HaPanim (Page 1) + la Lettre Explicative Statutaire en hébreu (Page 2).",
+        type: "1. Choisir le formulaire officiel :", branch: "2. Bureau Misrad HaPanim / Beit Din :",
+        surname: "Nom de famille (Passeport) :", given: "Prénom(s) :", prevname: "Nom de jeune fille / ancien nom :",
+        dob: "Date de naissance et sexe :", father: "Nom complet du père (Acte intégral) :", mother: "Nom complet de la mère (Acte intégral) :",
+        pass: "N° de passeport et pays :", passexp: "Date d'émission et d'expiration :", entry: "Dernière entrée en Israël et visa :",
+        marital: "Statut matrimonial actuel et antérieur :", countries: "Pays habités >1 an depuis 14 ans :", occ: "Profession / Ressources :",
+        sp: "Nom du conjoint israélien / Rabbin accompagnateur :", sptz: "N° Teudat Zehut israélienne (9 chiffres) :", spdob: "Date de naissance et statut du conjoint :",
+        addr: "Adresse complète en Israël :", tel: "Téléphone mobile israélien :", email: "E-mail officiel :",
+        notes: "Faits supplémentaires pour la lettre explicative en hébreu (Michtav Hesber) :",
+        prt: "🖨️ Imprimer / Enregistrer le Dossier Officiel Hébreu (2 Pages PDF)"
+      },
+      es: {
+        h1: "📄 Bóveda de Formularios Oficiales en Hebreo (Ash/1, Ash/3, Ash/6 + Michtav Hesber)",
+        lead: "Ingrese sus datos en español para generar automáticamente el Formulario Oficial de Misrad HaPanim (Página 1) + la Carta Explicativa Legal en hebreo (Página 2).",
+        type: "1. Seleccionar paquete de formulario oficial:", branch: "2. Sucursal de Misrad HaPanim / Beit Din:",
+        surname: "Apellido(s) (Pasaporte):", given: "Nombre(s) de pila:", prevname: "Apellido de soltera / anterior:",
+        dob: "Fecha de nacimiento y sexo:", father: "Nombre completo del padre (Partida Literal):", mother: "Nombre completo de la madre (Partida Literal):",
+        pass: "N° de pasaporte y país:", passexp: "Emisión y vencimiento de pasaporte:", entry: "Última entrada a Israel y visa:",
+        marital: "Estado civil actual y anterior:", countries: "Países resididos >1 año desde los 14 años:", occ: "Profesión / Medios de vida:",
+        sp: "Nombre del cónyuge israelí / Rabino patrocinador:", sptz: "N° Teudat Zehut israelí (9 dígitos):", spdob: "Fecha de nacimiento y estatus del cónyuge:",
+        addr: "Dirección completa en Israel:", tel: "Teléfono móvil en Israel:", email: "Correo electrónico oficial:",
+        notes: "Detalles adicionales para la carta explicativa legal en hebreo (Michtav Hesber):",
+        prt: "🖨️ Imprimir / Guardar Dossier Oficial en Hebreo (2 Páginas PDF)"
+      },
+      de: {
+        h1: "📄 Tresor für Offizielle Hebräische Formulare (Ash/1, Ash/3, Ash/6 + Michtav Hesber)",
+        lead: "Geben Sie Ihre Daten auf Deutsch ein, um das offizielle Misrad HaPanim Formular (Seite 1) + das gesetzliche hebräische Begleitschreiben (Michtav Hesber, Seite 2) zu erstellen.",
+        type: "1. Offizielles Formularpaket wählen:", branch: "2. Zuständige Misrad HaPanim / Beit Din Stelle:",
+        surname: "Nachname (laut Reisepass):", given: "Vorname(n):", prevname: "Geburtsname / früherer Name:",
+        dob: "Geburtsdatum & Geschlecht:", father: "Vollständiger Name des Vaters:", mother: "Vollständiger Name der Mutter:",
+        pass: "Reisepassnummer & Ausstellungsland:", passexp: "Ausstellungs- & Ablaufdatum:", entry: "Letzte Einreise nach Israel & Visum:",
+        marital: "Aktueller & früherer Familienstand:", countries: "Länder >1 Jahr seit dem 14. Lebensjahr:", occ: "Beruf / Lebensunterhalt:",
+        sp: "Name des israelischen Ehepartners / Begleitrabbiners:", sptz: "Israelische Teudat Zehut (9 Ziffern):", spdob: "Geburtsdatum & Status des Partners:",
+        addr: "Vollständige Wohnadresse in Israel:", tel: "Israelische Mobilnummer:", email: "E-Mail für Behördenpost:",
+        notes: "Zusätzliche Angaben für das hebräische Begleitschreiben (Michtav Hesber):",
+        prt: "🖨️ Offizielles 2-Seiten Hebräisch-Dossier als PDF drucken / speichern"
+      }
+    };
+
     function setFLang(l) {
       localStorage.setItem('gat_lang', l);
-      const u = UI_I18N[l] || UI_I18N.en;
       document.documentElement.dir = (l === 'he') ? 'rtl' : 'ltr';
-      document.getElementById('ui-h1').innerText = u.h1;
-      document.getElementById('ui-lead').innerText = u.lead;
-      document.getElementById('lbl-type').innerText = u.type;
-      document.getElementById('lbl-name').innerText = u.name;
-      document.getElementById('lbl-pass').innerText = u.pass;
-      document.getElementById('lbl-dob').innerText = u.dob;
-      document.getElementById('lbl-sp').innerText = u.sp;
-      document.getElementById('lbl-addr').innerText = u.addr;
-      document.getElementById('lbl-tel').innerText = u.tel;
-      document.getElementById('lbl-notes').innerText = u.notes;
-      document.getElementById('btn-prt').innerText = u.prt;
+      const gl = document.getElementById('globe-lang-lbl');
+      if (gl) gl.textContent = (l || 'en').toUpperCase();
+      const d = FORMS_UI_I18N[l] || FORMS_UI_I18N.en;
+      const map = { 'ui-h1':d.h1, 'ui-lead':d.lead, 'lbl-type':d.type, 'lbl-branch':d.branch, 'lbl-surname':d.surname, 'lbl-given':d.given, 'lbl-prevname':d.prevname, 'lbl-dob':d.dob, 'lbl-father':d.father, 'lbl-mother':d.mother, 'lbl-pass':d.pass, 'lbl-passexp':d.passexp, 'lbl-entry':d.entry, 'lbl-marital':d.marital, 'lbl-countries':d.countries, 'lbl-occ':d.occ, 'lbl-sp':d.sp, 'lbl-sptz':d.sptz, 'lbl-spdob':d.spdob, 'lbl-addr':d.addr, 'lbl-tel':d.tel, 'lbl-email':d.email, 'lbl-notes':d.notes, 'btn-prt':d.prt };
+      Object.keys(map).forEach(id => { const el = document.getElementById(id); if (el && map[id]) el.textContent = map[id]; });
     }
+
+    window.toggleFormsLang = function(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      let m = document.getElementById('lang-pop-menu');
+      if (!m) {
+        m = document.createElement('div');
+        m.id = 'lang-pop-menu';
+        m.style.cssText = 'position:fixed;top:56px;right:12px;background:#0f172a;border:2px solid #38bdf8;border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:6px;z-index:2147483647;box-shadow:0 16px 36px rgba(0,0,0,0.65);direction:ltr;min-width:205px;';
+        const opts = [
+          ['en', '🇺🇸/🇬🇧 English (US/UK)'],
+          ['he', '🇮🇱 עברית (ישראל)'],
+          ['fr', '🇫🇷 Français (FR/BE/CH)'],
+          ['es', '🇪🇸/🇦🇷 Español (ES/LatAm)'],
+          ['de', '🇩🇪/🇦🇹 Deutsch (DACH)']
+        ];
+        m.innerHTML = opts.map(([k, lbl]) =>
+          `<button type="button" onclick="setFLang('${k}'); document.getElementById('lang-pop-menu').style.display='none';" style="background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:10px 12px;font-weight:800;font-size:13.5px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;width:100%;"><span>${lbl}</span><span style="color:#38bdf8;font-size:11px;margin-left:8px;">${k.toUpperCase()}</span></button>`
+        ).join('');
+        document.body.appendChild(m);
+        document.addEventListener('click', function(ev) {
+          if (m && !m.contains(ev.target)) m.style.display = 'none';
+        });
+      } else {
+        m.style.display = (m.style.display === 'none') ? 'flex' : 'none';
+      }
+    };
+
     function renderSheet() {
       const t = document.getElementById('f-type').value;
-      const v = id => document.getElementById(id).value || "____________________________";
-      const [h, sub] = TITLES[t];
+      const branch = document.getElementById('f-branch').value;
+      const v = (id, defVal) => (document.getElementById(id) && document.getElementById(id).value.trim()) ? document.getElementById(id).value.trim() : (defVal || "______________________");
+      const chk = id => (document.getElementById(id) && document.getElementById(id).checked) ? "☑ מצורף במקור + אפוסטיל" : "☐ טרם צורף";
+      const [h, sub, bodyStatutory] = TITLES[t];
+      const extraNotes = (document.getElementById('f-notes') && document.getElementById('f-notes').value.trim())
+        ? `<br><strong>פירוט נוסף לעניין הבקשה:</strong> ${document.getElementById('f-notes').value.trim()}`
+        : "";
+
       document.getElementById('he-preview').innerHTML = `
-        <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#334155;margin-bottom:8px;">
-          <span>מדינת ישראל • נוסח הגשה רשמי ומכתב הסבר</span>
-          <span>תאריך הגשה: ${new Date().toLocaleDateString('he-IL')}</span>
+        <div class="gov-emblem-row">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg class="gov-menorah" viewBox="0 0 100 120" fill="none" stroke="#0f172a" stroke-width="4"><rect x="6" y="6" width="88" height="108" rx="10" stroke-width="3.5"/><path d="M50 22v68M26 32c0 18 10 28 24 28s24-10 24-28M34 32c0 12 7 19 16 19s16-7 16-19M42 32c0 6 3.5 10 8 10s8-4 8-10M35 90h30M40 96h20"/><text x="50" y="109" text-anchor="middle" font-size="11" font-weight="900" fill="#0f172a" stroke="none">ישראל</text></svg>
+            <div>
+              <div style="font-size:0.95rem;font-weight:900;color:#0f172a;">מדינת ישראל • רשות האוכלוסין וההגירה</div>
+              <div style="font-size:0.78rem;font-weight:800;color:#334155;">STATE OF ISRAEL • POPULATION AND IMMIGRATION AUTHORITY</div>
+              <div style="font-size:0.78rem;font-weight:800;color:#0284c7;">מנהל מרשם ומעמד — מחלקת אשרות וזרים • לשכת ${branch}</div>
+            </div>
+          </div>
+          <div class="gov-code-box">קוד טופס רשמי<br><span style="font-size:1.1rem;color:#0284c7;">${t.toUpperCase()}</span><br><span style="font-size:0.7rem;">מהדורה מעודכנת 2026</span></div>
         </div>
-        <h2>${h}</h2>
-        <div style="font-weight:700;margin-bottom:10px;">${sub}</div>
+        <div class="gov-chk-strip">
+          <span>סוג הבקשה הרשמית:</span>
+          <span>${t==='ash1'?'☑':'☐'} הארכת אשרה / ועדת חריגים (אש/1)</span>
+          <span>${t==='ash3'?'☑':'☐'} הליך מדורג לבן/בת זוג (אש/3)</span>
+          <span>${t==='ash6'?'☑':'☐'} שינוי מעמד לעולה (אש/6)</span>
+          <span>${t==='ext30'?'☑':'☐'} הארכת מועד 30/60 יום</span>
+        </div>
+        <div class="gov-top">
+          <div class="gov-title-block">
+            <div style="font-size:0.78rem;font-weight:900;color:#334155;">מדינת ישראל • רשות האוכלוסין וההגירה / הרבנות הראשית לישראל</div>
+            <h2>${h}</h2>
+            <div style="font-size:0.84rem;font-weight:700;color:#1e293b;">${sub}</div>
+            <div style="font-size:0.8rem;font-weight:800;color:#0284c7;margin-top:4px;">לשכה מטפלת מבוקשת: ${branch} • תאריך הגשה: ${new Date().toLocaleDateString('he-IL')}</div>
+          </div>
+          <div class="gov-photo-box">מקום להדבקת<br>תמונת פספורט<br>תקנית (3.5x4.5)<br>של המבקש/ת</div>
+        </div>
+
+        <div class="he-sec-bar">פרק א׳ — פרטי המבקש/ת הזר/ה ופרטי הורים (כפי שמופיעים בתעודת הלידה המורחבת)</div>
         <table class="he-table">
-          <tr><th>שם המבקש/ת המלא (כפי שמופיע בדרכון)</th><td>${v('f-name')}</td></tr>
-          <tr><th>מספר דרכון זר ומדינת הנפקה</th><td>${v('f-pass')}</td></tr>
-          <tr><th>תאריך לידה ותאריך כניסה אחרון לישראל</th><td>${v('f-dob')}</td></tr>
-          <tr><th>שם בן/בת הזוג הישראלי / רב מלווה ומס׳ ת״ז (9 ספרות)</th><td>${v('f-sp')}</td></tr>
-          <tr><th>כתובת מגורים מלאה בישראל</th><td>${v('f-addr')}</td></tr>
-          <tr><th>טלפון נייד ודוא״ל ליצירת קשר</th><td>${v('f-tel')}</td></tr>
-          <tr><th>פירוט הבקשה והמסמכים המצורפים (5 מסמכי אפוסטיל + מכתב הסבר)</th><td>מצורפים בזאת מסמכי המקור המאומתים בחותמת אפוסטיל (תעודת לידה מורחבת, תעודת יושר בתוקף 180 יום, אישור מצב אישי) ומכתב הסבר. הערות נוספות: ${v('f-notes')}</td></tr>
+          <tr>
+            <th>שם משפחה (כפי שבדרכון)</th><td>${v('f-surname', 'Miller (Levi)')}</td>
+            <th>שם פרטי מלא</th><td>${v('f-given', 'Sarah Ruth')}</td>
+          </tr>
+          <tr>
+            <th>שמות קודמים / שם נעורים</th><td>${v('f-prevname', 'ללא שינוי')}</td>
+            <th>תאריך לידה ומין</th><td>${v('f-dob', '14/05/1996')}</td>
+          </tr>
+          <tr>
+            <th>שם האב המלא (מתעודת לידה)</th><td>${v('f-father', 'Robert Michael Miller')}</td>
+            <th>שם האם המלא (מתעודת לידה)</th><td>${v('f-mother', 'Rebecca Anne Miller')}</td>
+          </tr>
         </table>
-        <div style="margin-top:20px;font-size:0.86rem;line-height:1.5;">
-          <strong>הצהרת המבקש/ת ובן/בת הזוג:</strong> אנו מצהירים בזאת כי כל הפרטים שנמסרו לעיל הינם אמת, כי המסמכים המצורפים הינם מקוריים ומאומתים כדין, וכי מרכז חיינו בישראל. אנו מבקשים לפתוח את התיק ולהנפיק אסמכתא רשמית על קבלת המסמכים.
+
+        <div class="he-sec-bar">פרק ב׳ — פרטי דרכון זר, אזרחויות, כניסה לישראל ומעמד אישי</div>
+        <table class="he-table">
+          <tr>
+            <th>מספר דרכון זר ומדינת הנפקה</th><td>${v('f-pass', 'USA — A12345678')}</td>
+            <th>תאריך הנפקה ותוקף דרכון</th><td>${v('f-passexp', '2023 – 10/2031')}</td>
+          </tr>
+          <tr>
+            <th>תאריך כניסה אחרון וסוג אשרה</th><td>${v('f-entry', '01/09/2026 • אשרת ב/2')}</td>
+            <th>מצב אישי נוכחי וקודם</th><td>${v('f-marital', 'נשואה / רווקה (ללא נישואין קודמים)')}</td>
+          </tr>
+          <tr>
+            <th>מדינות מגורים מעל שנה מגיל 14</th><td>${v('f-countries', 'ארה"ב (מלידה ועד 2026)')}</td>
+            <th>משלח יד ומקורות מחייה</th><td>${v('f-occ', 'חסכונות / עבודה מרחוק בחו"ל')}</td>
+          </tr>
+        </table>
+
+        <div class="he-sec-bar">פרק ג׳ — פרטי בן/בת הזוג הישראלי/ת (מזמין הבקשה) או הרב המלווה וכתובת בישראל</div>
+        <table class="he-table">
+          <tr>
+            <th>שם מלא (בן/בת זוג / רב מלווה)</th><td>${v('f-sp', 'Avraham Levi (אברהם לוי)')}</td>
+            <th>מספר תעודת זהות (9 ספרות)</th><td>${v('f-sptz', '012345678')}</td>
+          </tr>
+          <tr>
+            <th>תאריך לידה ומעמד בישראל</th><td>${v('f-spdob', '22/08/1993 • אזרח ישראלי מלידה')}</td>
+            <th>כתובת מגורים מלאה בישראל</th><td>${v('f-addr', 'רחוב ירושלים 18, צפת')}</td>
+          </tr>
+          <tr>
+            <th>טלפון נייד (מבקש/ת ומזמין)</th><td>${v('f-tel', '054-000-0000')}</td>
+            <th>כתובת דוא״ל לקבלת החלטות</th><td>${v('f-email', 'avraham.sarah@example.com')}</td>
+          </tr>
+        </table>
+
+        <div class="page-break-sheet"><div class="gov-emblem-row" style="border-bottom:2px solid #0f172a;padding-bottom:8px;margin-bottom:10px;"><div style="font-weight:900;font-size:0.9rem;">עמוד 2 מתוך 2 • נספח משפטי ומכתב הסבר מנומק (מצורף לטופס הרשמי)</div><div style="font-size:0.8rem;font-weight:800;color:#0284c7;">לשכת ${branch} • ${new Date().toLocaleDateString("he-IL")}</div></div><div class="he-sec-bar">פרק ד׳ — רשימת תיוג מסמכי מקור מאומתים בחותמת אפוסטיל (בתוקף 180 יום)</div>
+        <table class="he-table">
+          <tr>
+            <th>1. תעודת לידה מורחבת (כולל הורים)</th><td>${chk('c-birth')}</td>
+            <th>2. תעודת יושר פדרלית (3 הסלים)</th><td>${chk('c-police')}</td>
+          </tr>
+          <tr>
+            <th>3. תמצית רישום / רווקות ומצב אישי</th><td>${chk('c-single')}</td>
+            <th>4. תעודת נישואין / מכתבי רב וקהילה</th><td>${chk('c-rabbi')}</td>
+          </tr>
+        </table>
+
+        <div class="he-sec-bar">פרק ה׳ — מכתב הסבר משפטי מנומק (מכתב הסבר לפקיד / לוועדת חריגים)</div>
+        <div class="he-michtav-box">
+          ${bodyStatutory}
+          ${extraNotes}
+          <br><br>
+          <strong>בקשה להנפקת אסמכתא ופתיחת תיק:</strong> בהתאם לנהלי רשות האוכלוסין וההגירה, אנו מבקשים לקלוט את מלוא מסמכי המקור המצורפים, לפתוח את התיק במערכת "אביב", להאריך את אשרת השהייה כחוק עד לתום הטיפול בבקשה, ולהנפיק לידינו אסמכתא בכתב על קבלת המסמכים.
         </div>
-        <div style="display:flex;justify-content:space-between;margin-top:34px;padding-top:12px;">
-          <div>חתימת המבקש/ת: ______________________</div>
-          <div>חתימת בן/בת הזוג / המזמין (ת״ז): ______________________</div>
-        </div>`;
+
+        <div class="he-sec-bar">פרק ו׳ — הצהרת אמת וחתימות המבקש/ת ובן/בת הזוג / המזמין</div>
+        <div class="he-michtav-box" style="background:#fff;">
+          אנו החתומים מטה מצהירים בזאת כי כל הפרטים שנמסרו בטופס זה ובנספחיו הינם אמת מלאה, כי המסמכים המצורפים הינם מקוריים ומאומתים בחותמת אפוסטיל כדין, וכי לא הסתרנו כל פרט מהותי.
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:28px;padding-top:10px;text-align:center;">
+            <div style="border-top:1.5px solid #0f172a;padding-top:6px;font-weight:800;">חתימת המבקש/ת הזר/ה<br><span style="font-size:0.76rem;font-weight:500;">(${v('f-given', 'Sarah')} ${v('f-surname', 'Miller')})</span></div>
+            <div style="border-top:1.5px solid #0f172a;padding-top:6px;font-weight:800;">חתימת בן/בת הזוג / המזמין<br><span style="font-size:0.76rem;font-weight:500;">(${v('f-sp', 'Avraham Levi')} • ת"ז ${v('f-sptz', '012345678')})</span></div>
+            <div style="border-top:1.5px solid #0f172a;padding-top:6px;font-weight:800;">חותמת קבלת מסמכים / עו״ד<br><span style="font-size:0.76rem;font-weight:500;">(תאריך ומספר תיק באביב)</span></div>
+          </div>
+        </div></div>`;
+      syncProUnlockState();
     }
-    setFLang(localStorage.getItem('gat_lang') || new URLSearchParams(location.search).get('lang') || 'en');
+
+    window.triggerProPrint = function() {
+      syncProUnlockState();
+      if (window.GAT_PRO) { window.print(); return; }
+      document.getElementById('pro-paywall-modal').classList.add('open');
+    };
+
+    window.closeFormsPaywall = function() {
+      document.getElementById('pro-paywall-modal').classList.remove('open');
+    };
+
+    window.startFormsCheckout = function(tierKey) {
+      const url = window.LEMON_CHECKOUT_URLS[tierKey];
+      try { localStorage.setItem('gat_pending_tier', tierKey); } catch(e){}
+      window.open(url, '_blank', 'noopener,noreferrer');
+    };
+
+    window.unlockWithCode = function() {
+      const c = (document.getElementById('pro-code-in').value || '').trim().toUpperCase();
+      const msg = document.getElementById('pro-code-msg');
+      if (msg) msg.style.display = 'block';
+      if (['SHALIACH770', 'PRO2026', 'SAFED2026', 'VIP2026'].includes(c)) {
+        localStorage.setItem('gat_pro_unlocked', '1');
+        syncProUnlockState();
+        if (msg) {
+          msg.style.color = '#059669';
+          msg.innerText = '✅ Pro Shield Unlocked! Opening print dialog...';
+        }
+        setTimeout(() => {
+          window.closeFormsPaywall();
+          window.print();
+        }, 500);
+      } else {
+        if (msg) {
+          msg.style.color = '#e11d48';
+          msg.innerText = '❌ Invalid code. Choose a pass above or enter a valid VIP code.';
+        }
+      }
+    };
+
+    window.handleFormsBack = function(e) {
+      if (e) e.preventDefault();
+      try { sessionStorage.setItem('gat_skip_intro_once', '1'); } catch(err){}
+      try {
+        const st = JSON.parse(sessionStorage.getItem('gat_nav_stack_v2') || '[]');
+        if (st.length > 0) {
+          const prev = st.pop();
+          sessionStorage.setItem('gat_nav_stack_v2', JSON.stringify(st));
+          sessionStorage.setItem('gat_pending_restore', JSON.stringify(prev));
+          location.href = prev.path === '/' ? '/' : (prev.path + '/');
+          return false;
+        }
+      } catch(err){}
+      if (document.referrer && document.referrer.indexOf(location.host) !== -1 && history.length > 1) {
+        history.back();
+        return false;
+      }
+      const l = localStorage.getItem('gat_lang') || 'en';
+      location.href = (l === 'en' ? '/' : '/' + l + '/');
+      return false;
+    };
+
+    window.handleFormsBrand = function(e) {
+      if (e) e.preventDefault();
+      try { sessionStorage.setItem('gat_skip_intro_once', '1'); sessionStorage.removeItem('gat_pending_restore'); sessionStorage.removeItem('gat_nav_stack_v2'); } catch(err){}
+      const l = localStorage.getItem('gat_lang') || 'en';
+      location.href = (l === 'en' ? '/' : '/' + l + '/');
+      return false;
+    };
+
+    setFLang(new URLSearchParams(location.search).get('lang') || localStorage.getItem('gat_lang') || 'en');
     renderSheet();
   </script>
 </body>

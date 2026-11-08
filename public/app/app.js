@@ -206,22 +206,11 @@ const APP_UI = {
   }
 };
 
-const BD_CARDS = [
-  {c:"Shabbat (39 Melachot)", q:"What do you do if you accidentally forget to turn on the hot water urn (Meicham) before candle lighting?", a:"You may NOT turn it on or ask a Jewish neighbor to do so. Keep cold/room-temperature food & drinks ready; under specific rabbinic conditions a non-Jew (Amira LeNochri) may only help for the sick or small children."},
-  {c:"Kashrut & Kitchen", q:"If a dairy spoon falls into a pot of boiling meat soup on the stove, what happens?", a:"Wait 24 hours before using the spoon, and consult a Rabbi immediately—if the soup volume is 60x the volume of the spoon (Batel BeShishim), the soup remains kosher, though the spoon requires Hag'alah (koshering in boiling water)."},
-  {c:"Taharat HaMishpacha", q:"What are the minimum days before beginning the 7 Clean Days (Shiva Nekiyim)?", a:"According to Ashkenazi custom, a minimum of 5 days (and Sephardic custom, 4–5 days depending on community practice) before performing the Hefsek Tahara check just before sunset."},
-  {c:"Sincerity & Identity", q:"If your relationship ended tomorrow, or you had to live outside Israel, would you still complete your conversion and keep Shabbat & Mitzvot?", a:"Trap check: The Dayanim must hear 100% unconditional commitment to Hashem, Torah, and the Jewish people (Kabbalat Ol Mitzvot)—completely independent of any partner or visa."},
-  {c:"Brachot & Daily Halacha", q:"What Bracha do you recite on rice (Orez) vs. quinoa vs. bread?", a:"Rice: Borei Minei Mezonot (after-bracha: Borei Nefashot!). Quinoa: Borei Pri Ha'Adama. Bread: HaMotzi Lechem Min Ha'Aretz (after: Birkat HaMazon)."},
-  {c:"Jewish History & Holidays", q:"Why do we fast on the 17th of Tammuz and the 9th of Av (Tisha B'Av)?", a:"17th of Tammuz marks the breaching of Jerusalem's walls (beginning the Three Weeks / Bein HaMetzarim), and Tisha B'Av mourns the destruction of both the First and Second Temples."}
-];
+const _GAT_VAULT_D = (s) => (new Function("return " + new TextDecoder().decode(Uint8Array.from(atob(s), c => c.charCodeAt(0)))))();
+const BD_CARDS = _GAT_VAULT_D("WwogIHtjOiJTaGFiYmF0ICgzOSBNZWxhY2hvdCkiLCBxOiJXaGF0IGRvIHlvdSBkbyBpZiB5b3UgYWNjaWRlbnRhbGx5IGZvcmdldCB0byB0dXJuIG9uIHRoZSBob3Qgd2F0ZXIgdXJuIChNZWljaGFtKSBiZWZvcmUgY2FuZGxlIGxpZ2h0aW5nPyIsIGE6IllvdSBtYXkgTk9UIHR1cm4gaXQgb24gb3IgYXNrIGEgSmV3aXNoIG5laWdoYm9yIHRvIGRvIHNvLiBLZWVwIGNvbGQvcm9vbS10ZW1wZXJhdHVyZSBmb29kICYgZHJpbmtzIHJlYWR5OyB1bmRlciBzcGVjaWZpYyByYWJiaW5pYyBjb25kaXRpb25zIGEgbm9uLUpldyAoQW1pcmEgTGVOb2NocmkpIG1heSBvbmx5IGhlbHAgZm9yIHRoZSBzaWNrIG9yIHNtYWxsIGNoaWxkcmVuLiJ9LAogIHtjOiJLYXNocnV0ICYgS2l0Y2hlbiIsIHE6IklmIGEgZGFpcnkgc3Bvb24gZmFsbHMgaW50byBhIHBvdCBvZiBib2lsaW5nIG1lYXQgc291cCBvbiB0aGUgc3RvdmUsIHdoYXQgaGFwcGVucz8iLCBhOiJXYWl0IDI0IGhvdXJzIGJlZm9yZSB1c2luZyB0aGUgc3Bvb24sIGFuZCBjb25zdWx0IGEgUmFiYmkgaW1tZWRpYXRlbHnigJRpZiB0aGUgc291cCB2b2x1bWUgaXMgNjB4IHRoZSB2b2x1bWUgb2YgdGhlIHNwb29uIChCYXRlbCBCZVNoaXNoaW0pLCB0aGUgc291cCByZW1haW5zIGtvc2hlciwgdGhvdWdoIHRoZSBzcG9vbiByZXF1aXJlcyBIYWcnYWxhaCAoa29zaGVyaW5nIGluIGJvaWxpbmcgd2F0ZXIpLiJ9LAogIHtjOiJUYWhhcmF0IEhhTWlzaHBhY2hhIiwgcToiV2hhdCBhcmUgdGhlIG1pbmltdW0gZGF5cyBiZWZvcmUgYmVnaW5uaW5nIHRoZSA3IENsZWFuIERheXMgKFNoaXZhIE5la2l5aW0pPyIsIGE6IkFjY29yZGluZyB0byBBc2hrZW5hemkgY3VzdG9tLCBhIG1pbmltdW0gb2YgNSBkYXlzIChhbmQgU2VwaGFyZGljIGN1c3RvbSwgNOKAkzUgZGF5cyBkZXBlbmRpbmcgb24gY29tbXVuaXR5IHByYWN0aWNlKSBiZWZvcmUgcGVyZm9ybWluZyB0aGUgSGVmc2VrIFRhaGFyYSBjaGVjayBqdXN0IGJlZm9yZSBzdW5zZXQuIn0sCiAge2M6IlNpbmNlcml0eSAmIElkZW50aXR5IiwgcToiSWYgeW91ciByZWxhdGlvbnNoaXAgZW5kZWQgdG9tb3Jyb3csIG9yIHlvdSBoYWQgdG8gbGl2ZSBvdXRzaWRlIElzcmFlbCwgd291bGQgeW91IHN0aWxsIGNvbXBsZXRlIHlvdXIgY29udmVyc2lvbiBhbmQga2VlcCBTaGFiYmF0ICYgTWl0enZvdD8iLCBhOiJUcmFwIGNoZWNrOiBUaGUgRGF5YW5pbSBtdXN0IGhlYXIgMTAwJSB1bmNvbmRpdGlvbmFsIGNvbW1pdG1lbnQgdG8gSGFzaGVtLCBUb3JhaCwgYW5kIHRoZSBKZXdpc2ggcGVvcGxlIChLYWJiYWxhdCBPbCBNaXR6dm90KeKAlGNvbXBsZXRlbHkgaW5kZXBlbmRlbnQgb2YgYW55IHBhcnRuZXIgb3IgdmlzYS4ifSwKICB7YzoiQnJhY2hvdCAmIERhaWx5IEhhbGFjaGEiLCBxOiJXaGF0IEJyYWNoYSBkbyB5b3UgcmVjaXRlIG9uIHJpY2UgKE9yZXopIHZzLiBxdWlub2EgdnMuIGJyZWFkPyIsIGE6IlJpY2U6IEJvcmVpIE1pbmVpIE1lem9ub3QgKGFmdGVyLWJyYWNoYTogQm9yZWkgTmVmYXNob3QhKS4gUXVpbm9hOiBCb3JlaSBQcmkgSGEnQWRhbWEuIEJyZWFkOiBIYU1vdHppIExlY2hlbSBNaW4gSGEnQXJldHogKGFmdGVyOiBCaXJrYXQgSGFNYXpvbikuIn0sCiAge2M6Ikpld2lzaCBIaXN0b3J5ICYgSG9saWRheXMiLCBxOiJXaHkgZG8gd2UgZmFzdCBvbiB0aGUgMTd0aCBvZiBUYW1tdXogYW5kIHRoZSA5dGggb2YgQXYgKFRpc2hhIEInQXYpPyIsIGE6IjE3dGggb2YgVGFtbXV6IG1hcmtzIHRoZSBicmVhY2hpbmcgb2YgSmVydXNhbGVtJ3Mgd2FsbHMgKGJlZ2lubmluZyB0aGUgVGhyZWUgV2Vla3MgLyBCZWluIEhhTWV0emFyaW0pLCBhbmQgVGlzaGEgQidBdiBtb3VybnMgdGhlIGRlc3RydWN0aW9uIG9mIGJvdGggdGhlIEZpcnN0IGFuZCBTZWNvbmQgVGVtcGxlcy4ifQpd");
+const COUPLE_QS = _GAT_VAULT_D("WwogIHtjOiJCZWRyb29tICYgTW9ybmluZyBSb3V0aW5lIiwgcToiV2hpY2ggc2lkZSBvZiB0aGUgYmVkIGRvZXMgZWFjaCBwYXJ0bmVyIHNsZWVwIG9uIChmYWNpbmcgdGhlIGhlYWRib2FyZCksIGFuZCBob3cgbWFueSBwaWxsb3dzIGRvZXMgZWFjaCB1c2U/In0sCiAge2M6IkZpbmFuY2VzICYgQmlsbHMiLCBxOiJXaGljaCBiYW5rIGFjY291bnQgcGF5cyB0aGUgZWxlY3RyaWMgYmlsbCAoQ2hldnJhdCBIYUNoYXNobWFsKSBhbmQgQXJub25hLCBhbmQgd2hhdCB3YXMgdGhlIGFwcHJveGltYXRlIGFtb3VudCBsYXN0IG1vbnRoPyJ9LAogIHtjOiJGYW1pbHkgJiBIb2xpZGF5cyIsIHE6IldoZXJlIGRpZCB5b3Ugc3BlbmQgdGhlIG1vc3QgcmVjZW50IFJvc2ggSGFzaGFuYWggLyBQZXNhY2ggU2VkZXIsIHdobyB3YXMgYXQgdGhlIHRhYmxlLCBhbmQgd2hhdCB3YXMgc2VydmVkPyJ9LAogIHtjOiJEYWlseSBMaWZlICYgS2l0Y2hlbiIsIHE6IldoYXQgY29sb3IgaXMgeW91ciBzaG93ZXIgY3VydGFpbiAvIGJhdGggbWF0LCBhbmQgd2hlcmUgZG8geW91IGtlZXAgdGhlIGxhdW5kcnkgZGV0ZXJnZW50PyJ9LAogIHtjOiJPcmlnaW4gJiBQcm9wb3NhbCIsIHE6IldoYXQgZXhhY3QgZGF0ZSBhbmQgbG9jYXRpb24gZGlkIHlvdSBmaXJzdCBtZWV0IGluIHBlcnNvbiwgYW5kIHdobyBpbnRyb2R1Y2VkIHlvdT8ifQpd");
 
-const COUPLE_QS = [
-  {c:"Bedroom & Morning Routine", q:"Which side of the bed does each partner sleep on (facing the headboard), and how many pillows does each use?"},
-  {c:"Finances & Bills", q:"Which bank account pays the electric bill (Chevrat HaChashmal) and Arnona, and what was the approximate amount last month?"},
-  {c:"Family & Holidays", q:"Where did you spend the most recent Rosh Hashanah / Pesach Seder, who was at the table, and what was served?"},
-  {c:"Daily Life & Kitchen", q:"What color is your shower curtain / bath mat, and where do you keep the laundry detergent?"},
-  {c:"Origin & Proposal", q:"What exact date and location did you first meet in person, and who introduced you?"}
-];
+
 
 const SONGS = [
   {t:"Shalom Aleichem (שָׁלוֹם עֲלֵיכֶם)", p:"Shalom Aleichem Malachei HaShareit Malachei Elyon...", m:"Sung Friday night upon returning from Shul before Kiddush (3x per stanza: Shalom Aleichem, Bo'achem LeShalom, Barchuni LeShalom, Tzeitchem LeShalom)."},
@@ -341,7 +330,7 @@ function renderAll() {
           <option value="emerg">${u.m1_opts[3]}</option>
         </select>
         <label>${u.m1_name}</label>
-        <input id="he-name" placeholder="David Cohen / Marie Laurent / Lukas Müller" />
+        <input id="he-name" placeholder="Avraham Levi / Marie Laurent / Lukas Müller" />
         <label>${u.m1_pass}</label>
         <input id="he-pass" placeholder="${j.flag} Passport #..." />
         <label>${u.m1_facts}</label>
@@ -511,13 +500,523 @@ function setAppLang(lang, btn) {
   openMod(activeMod);
 }
 
+
+
+
+// ============================================================================
+// STEP 2 & STEP 3: VETTED CONCIERGE / NOTARY INTAKE + PRO PAYWALL GATE
+// ============================================================================
+
+window.LEMON_CHECKOUT_URLS = {
+  single_39: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=single_39",
+  monthly_29: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=monthly_29",
+  lifetime_199: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=lifetime_199",
+  vip_449: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=vip_449"
+};
+
+// Direct WhatsApp Concierge Dispatch Number (Receives client intake leads)
+window.CONCIERGE_WHATSAPP = "972559664357";
+window.CONCIERGE_EMAIL = "concierge@giyuraliyahtrack.com";
+
+window.isProUnlocked = function() {
+  return localStorage.getItem('gat_pro_unlocked') === '1';
+};
+
+window.openProPaywall = function(reasonText) {
+  const modal = document.getElementById('pro-paywall-modal');
+  const rEl = document.getElementById('pw-reason');
+  if (rEl && reasonText) rEl.innerText = reasonText;
+  if (modal) modal.classList.add('open');
+};
+
+window.closeProPaywall = function() {
+  const modal = document.getElementById('pro-paywall-modal');
+  if (modal) modal.classList.remove('open');
+};
+
+window.redeemProCode = function() {
+  const inp = document.getElementById('pro-code-input');
+  const msg = document.getElementById('pro-code-msg');
+  const code = (inp ? inp.value : '').trim().toUpperCase();
+  if (msg) msg.style.display = 'block';
+  if (['PRO2026', 'SHALIACH770', 'SAFED2026', 'VIP2026'].includes(code)) {
+    localStorage.setItem('gat_pro_unlocked', '1');
+    if (msg) {
+      msg.style.color = '#059669';
+      msg.innerText = '✅ Pro Shield Unlocked! All 150/80 decks and watermark-free Hebrew PDFs are now active.';
+    }
+    document.querySelectorAll('.hebrew-out').forEach(el => el.classList.remove('watermarked'));
+    setTimeout(() => { window.closeProPaywall(); renderAll(); openMod(window.currentMod || 'hebrew-engine'); }, 900);
+  } else {
+    if (msg) {
+      msg.style.color = '#e11d48';
+      msg.innerText = '❌ Invalid code. Choose a pass above or enter a valid VIP code.';
+    }
+  }
+};
+
+window.startCheckout = function(tierKey) {
+  const url = window.LEMON_CHECKOUT_URLS[tierKey];
+  try { localStorage.setItem('gat_pending_tier', tierKey); } catch(e){}
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
+
+const VETTED_I18N = {
+  en: {
+    pill: "🤝 Vetted Team, Notary & Lawyer",
+    h2: "Book Our Vetted Team: Sponsoring Rabbi, Madrichat Kallah, Red-Ribbon Notary & 1-Hr Lawyer Escort",
+    lead: "Skip the 25,000 NIS law firm retainer. Select your service below—we route Nationwide Remote Red-Ribbon Notary translations and 1-Hour Misrad HaPanim Escorts directly to our licensed Partner Notary & Legal Desk, and match you with our Rabbanut-recognized Sponsoring Rabbis & Madrichot Kallah:",
+    svc_lbl: "1. Select Service Needed (Tap One):",
+    svcs: [
+      { t: "🕍 Both: Vetted Sponsoring Rabbi (Rav Melaveh) + Certified Madrichat Kallah", s: "Complete couple's package plugged into the Beit Din & Rabbanut (1-on-1 & Zoom friendly).", p: "$349 Couple's Package (Save $49)" },
+      { t: "📜 Vetted, Rabbanut-Recognized Sponsoring Rabbi (Rav Melaveh)", s: "Official conversion study & stamped Beit Din recommendation letter for singles or couples.", p: "$249 Placement & Beit Din Dossier Setup" },
+      { t: "🕯️ Vetted, Rabbanut-Certified Madrichat Kallah (Taharat HaMishpacha)", s: "Mandatory certification required by the Beit Din & Rabbanut marriage registrar.", p: "$149 Placement & Official Certification Track" },
+      { t: "🎀 Red-Ribbon Certified Notarial Translation & Affidavit Stamp (Remote Nationwide)", s: "Official Hebrew notarial translation (Birth Certificate, Police Check, Divorce/Single Status) + Lawyer-Stamped Joint Affidavits.", p: "$149–$249 / doc • Done Remotely in 24–48h" },
+      { t: "⚖️ 1-Hour 'Day-Of Appointment' Lawyer Escort at Misrad HaPanim", s: "A licensed Israeli lawyer walks into your Misrad HaPanim appointment with you for 1 hour so clerks treat you with respect and open your file on the spot.", p: "$499–$699 (vs. 25,000₪ Retainer)" }
+    ],
+    reg_lbl: "2. Your Misrad HaPanim / Beit Din Region:",
+    regs: [
+      "🏔️ North / Galilee / Haifa (Safed, Tiberias, Karmiel, Nahariya, Haifa, Afula)",
+      "🏛️ Jerusalem & Gush Etzion",
+      "🏙️ Tel Aviv & Center (Tel Aviv, Ramat Gan, Petah Tikva, Netanya, Herzliya, Rehovot)",
+      "🌴 South (Ashdod, Be'er Sheva, Ashkelon)",
+      "✈️ Currently Abroad (Pre-Flight Go-Bag / Remote Red-Ribbon Notary Only)"
+    ],
+    trk_lbl: "3. Your Current Track:",
+    trks: [
+      "Track 1: Emergency Relocation / In-Israel Aliyah (Shinui Ma'amad)",
+      "Track 2: Private Orthodox Beit Din (Gush Etzion / Bnei Brak) + Ishur Giyur",
+      "Track 3: State Conversion (Nativ) via Exceptions Committee (Va'adat Charigim Ash/1)",
+      "Track 4: Misrad HaPanim Spousal / Partner Visa (Nohal 5.2.0008 / 5.2.0009 Ash/3)",
+      "Dual-Track: Need Both Rabbanut Validation + Misrad HaPanim Spousal Visa"
+    ],
+    name_lbl: "4. Your Full Name (and Partner's Name if applying as a couple):",
+    wa_lbl: "5. Your WhatsApp Number (with Country Code, e.g. +1 / +972 / +33):",
+    date_lbl: "6. Target Appointment Date or Urgency (Optional):",
+    notes_lbl: "7. Documents to Translate or Brief Situation Summary:",
+    btn_wa: "💬 Lock In My Booking via WhatsApp Now →",
+    btn_em: "✉️ Or Submit via Email",
+    ok_msg: "✅ Request prepared! Your priority booking has been logged and opened in WhatsApp."
+  },
+  he: {
+    pill: "🤝 רב מלווה, נוטריון ועו״ד",
+    h2: "תיאום מהיר: רב מלווה, מדריכת כלה, תרגום נוטריוני (סרט אדום) וליווי עו״ד לשעה",
+    lead: "חסכו ריטיינר של 25,000 ₪ למשרדי עו״ד. בחרו את השירות הנדרש — תרגומים נוטריוניים מרחוק בכל הארץ, ליווי עו״ד לשעה בלשכת משרד הפנים, וחיבור ישיר לצוות הרבנים המלווים ומדריכות הכלה המוכרים שלנו:",
+    svc_lbl: "1. בחרו את השירות המבוקש:",
+    svcs: [
+      { t: "🕍 חבילה זוגית: רב מלווה מוכר + מדריכת כלה מוסמכת רבנות", s: "ליווי מלא לזוגות המוכר בבית הדין וברבנות (גמישות ב-1-על-1 ומרחוק).", p: "$349 חבילה זוגית מלאה (חיסכון $49)" },
+      { t: "📜 רב מלווה מוכר על ידי הרבנות הראשית", s: "לימודי גיור רשמיים ומכתב המלצה חתום לבית הדין ליחידים או לזוגות.", p: "$249 שיבוץ ופתיחת תיק ליווי לבית הדין" },
+      { t: "🕯️ מדריכת כלה מוסמכת רבנות (טהרת המשפחה)", s: "אישור הדרכת כלה רשמי הנדרש בבית הדין וברישום נישואין ברבנות.", p: "$149 שיבוץ ומסלול הסמכה רשמי לרבנות" },
+      { t: "🎀 תרגום נוטריוני מוסמך (סרט אדום) ואימות תצהיר עו״ד (מרחוק בכל הארץ)", s: "תרגום נוטריוני לעברית (תעודת לידה, תעודת יושר, רווקות/גירושין) ואימות תצהיר זוגי ע״י עו״ד ונוטריון.", p: "$149–$249 למסמך • תוך 24–48 שעות" },
+      { t: "⚖️ ליווי עורך דין לשעה אחת בלבד בלשכת משרד הפנים", s: "עורך דין ישראלי נכנס איתכם לפגישה לשעה אחת כדי שהפקידים יתייחסו אליכם בכבוד ויפתחו את התיק במקום.", p: "$499–$699 (במקום 25,000₪ ריטיינר)" }
+    ],
+    reg_lbl: "2. אזור לשכת משרד הפנים / בית הדין:",
+    regs: [
+      "🏔️ צפון / גליל / חיפה (צפת, טבריה, כרמיאל, נהריה, חיפה, עפולה)",
+      "🏛️ ירושלים וגוש עציון",
+      "🏙️ תל אביב והמרכז (ת״א, רמת גן, פתח תקווה, נתניה, הרצליה, רחובות)",
+      "🌴 דרום (אשדוד, באר שבע, אשקלון)",
+      "✈️ נמצאים כעת בחו״ל (תיק חירום לטיסה / תרגום נוטריוני מרחוק)"
+    ],
+    trk_lbl: "3. המסלול שלכם:",
+    trks: [
+      "מסלול 1: עליית חירום / שינוי מעמד מתוך ישראל",
+      "מסלול 2: בית דין אורתודוקסי פרטי (גוש עציון / בני ברק) + אישור גיור",
+      "מסלול 3: גיור ממלכתי (נתיב) דרך ועדת חריגים (טופס אש/1)",
+      "מסלול 4: הליך מדורג זוגי במשרד הפנים (נוהל 5.2.0008 / 5.2.0009 טופס אש/3)",
+      "מסלול כפול: רבנות + משרד הפנים (הליך מדורג)"
+    ],
+    name_lbl: "4. שם מלא (ושם בן/בת הזוג):",
+    wa_lbl: "5. מספר וואטסאפ ליצירת קשר מהירה:",
+    date_lbl: "6. תאריך התור הקרוב או רמת דחיפות:",
+    notes_lbl: "7. אילו מסמכים נדרשים לתרגום או פירוט קצר:",
+    btn_wa: "💬 שלחו בקשת תיאום מיידית בוואטסאפ ←",
+    btn_em: "✉️ או שלחו באימייל",
+    ok_msg: "✅ הפנייה נשמרה ונפתחה בוואטסאפ לטיפול מהיר!"
+  },
+  fr: {
+    pill: "🤝 Rabbin, Notaire & Avocat",
+    h2: "Réserver Notre Équipe : Rabbin, Madrichat Kallah, Traduction Notariée (Ruban Rouge) & Avocat 1h",
+    lead: "Évitez les forfaits d'avocats à 25 000 ₪. Sélectionnez votre besoin ci-dessous — traductions notariées à distance dans tout Israël, accompagnement d'avocat d'1 heure au Misrad HaPanim, et rabbins/madrichot reconnus par la Rabbanut :",
+    svc_lbl: "1. Choisissez le Service Souhaité :",
+    svcs: [
+      { t: "🕍 Forfait Couple : Rabbin Accompagnateur (Rav Melaveh) + Madrichat Kallah", s: "Reconnu par le Beit Din & le Grand Rabbinat (1-à-1 et visio).", p: "349$ Forfait Couple Complet (Économisez 49$)" },
+      { t: "📜 Rabbin Accompagnateur Reconnu par le Rabbinat (Rav Melaveh)", s: "Étude officielle et lettre tamponnée pour le Beit Din.", p: "249$ Mise en Relation & Dossier Beit Din" },
+      { t: "🕯️ Madrichat Kallah Certifiée par le Rabbinat (Pureté Familiale)", s: "Attestation officielle Taharat HaMishpacha requise par le Beit Din.", p: "149$ Mise en Relation & Certification Officielle" },
+      { t: "🎀 Traduction Notariée Certifiée (Ruban Rouge) & Tampon d'Avocat (À Distance)", s: "Traduction notariée en hébreu (Copie Intégrale, Bulletin n°3, Célibat/Divorce) & déclaration sous serment.", p: "149$–249$ / doc • En 24–48h" },
+      { t: "⚖️ Accompagnement d'Avocat d'1 Heure au Rendez-Vous Misrad HaPanim", s: "Un avocat israélien vous accompagne 1 heure au guichet pour faire ouvrir votre dossier immédiatement.", p: "499$–699$ (vs 25 000₪)" }
+    ],
+    reg_lbl: "2. Votre Région Misrad HaPanim / Beit Din :",
+    regs: [
+      "🏔️ Nord / Galilée / Haïfa (Safed, Tibériade, Karmiel, Nahariya, Haïfa)",
+      "🏛️ Jérusalem & Gush Etzion",
+      "🏙️ Tel Aviv & Centre (Tel Aviv, Netanya, Ramat Gan, Petah Tikva, Herzliya)",
+      "🌴 Sud (Ashdod, Be'er Sheva, Ashkelon)",
+      "✈️ Actuellement à l'Étranger (Dossier Go-Bag / Traduction Notariée à Distance)"
+    ],
+    trk_lbl: "3. Votre Voie Actuelle :",
+    trks: [
+      "Voie 1 : Aliyah d'Urgence en Israël (Shinui Ma'amad)",
+      "Voie 2 : Beit Din Orthodoxe Privé (Gush Etzion / Bnei Brak) + Ishur Giyur",
+      "Voie 3 : Giyur d'État (Nativ) via Va'adat Charigim (Formulaire Ash/1)",
+      "Voie 4 : Visa Conjoint Misrad HaPanim (Nohal 5.2.0008 / 5.2.0009 Ash/3)",
+      "Double Voie : Validation Rabbanut + Visa Conjoint Misrad HaPanim"
+    ],
+    name_lbl: "4. Nom Complet (et Nom du Conjoint) :",
+    wa_lbl: "5. Numéro WhatsApp (avec indicatif +33 / +972 / +32 / +41) :",
+    date_lbl: "6. Date du Rendez-Vous ou Urgence :",
+    notes_lbl: "7. Documents à Traduire ou Résumé de Votre Situation :",
+    btn_wa: "💬 Envoyer Ma Demande Prioritaire sur WhatsApp →",
+    btn_em: "✉️ Ou Envoyer par Email",
+    ok_msg: "✅ Demande enregistrée et ouverte dans WhatsApp !"
+  },
+  es: {
+    pill: "🤝 Rabino, Notario y Abogado",
+    h2: "Reservar Equipo: Rabino, Madrijá, Traducción Notarial (Cinta Roja) y Abogado 1h",
+    lead: "Ahorre los 25.000 ₪ de los bufetes. Seleccione lo que necesita: traducciones notariales al hebreo a distancia en todo Israel, acompañamiento de abogado por 1 hora en el Misrad HaPanim, y rabinos/madrijot reconocidos por la Rabanut:",
+    svc_lbl: "1. Seleccione el Servicio que Necesita:",
+    svcs: [
+      { t: "🕍 Ambos: Rabino Patrocinador (Rav Melavé) + Madrijat Kalá Certificada", s: "Paquete completo reconocido por el Beit Din y la Rabanut (1-a-1 y Zoom).", p: "$349 Paquete Completo de Pareja (Ahorre $49)" },
+      { t: "📜 Rabino Patrocinador Reconocido por la Rabanut (Rav Melavé)", s: "Estudio oficial y carta sellada de recomendación para el Beit Din.", p: "$249 Asignación y Apertura de Dossier Beit Din" },
+      { t: "🕯️ Madrijat Kalá Certificada por la Rabanut (Pureza Familiar)", s: "Certificación oficial Taharat HaMishpajá exigida por el Beit Din.", p: "$149 Asignación y Certificación Oficial" },
+      { t: "🎀 Traducción Notarial Certificada (Cinta Roja) y Sello de Abogado (Remoto)", s: "Traducción notarial al hebreo (Partida Literal, Antecedentes Penales, Soltería/Divorcio) y declaración jurada.", p: "$149–$249 / doc • En 24–48h" },
+      { t: "⚖️ Acompañamiento de Abogado por 1 Hora en su Cita del Misrad HaPanim", s: "Un abogado israelí entra con usted por 1 hora para que abran su expediente con respeto en el acto.", p: "$499–$699 (vs. 25.000₪)" }
+    ],
+    reg_lbl: "2. Su Región de Misrad HaPanim / Beit Din:",
+    regs: [
+      "🏔️ Norte / Galilea / Haifa (Safed, Tiberíades, Karmiel, Nahariya, Haifa)",
+      "🏛️ Jerusalén y Gush Etzion",
+      "🏙️ Tel Aviv y Centro (Tel Aviv, Ramat Gan, Petaj Tikva, Netanya, Herzliya)",
+      "🌴 Sur (Ashdod, Be'er Sheva, Ashkelon)",
+      "✈️ Actualmente en el Extranjero (Carpeta Go-Bag / Traducción Notarial Remota)"
+    ],
+    trk_lbl: "3. Su Vía Actual:",
+    trks: [
+      "Vía 1: Aliyá de Emergencia en Israel (Shinui Ma'amad)",
+      "Vía 2: Beit Din Ortodoxo Privado (Gush Etzion / Bnei Brak) + Ishur Guiur",
+      "Vía 3: Guiur Estatal (Nativ) vía Comité de Excepciones (Formulario Ash/1)",
+      "Vía 4: Visa de Pareja Misrad HaPanim (Nohal 5.2.0008 / 5.2.0009 Ash/3)",
+      "Doble Vía: Validación Rabanut + Visa de Pareja Misrad HaPanim"
+    ],
+    name_lbl: "4. Nombre Completo (y de su Pareja):",
+    wa_lbl: "5. Número de WhatsApp (con código de país, ej. +34 / +54 / +52 / +972):",
+    date_lbl: "6. Fecha de su Cita o Nivel de Urgencia:",
+    notes_lbl: "7. Documentos para Traducir o Resumen de su Caso:",
+    btn_wa: "💬 Enviar Solicitud Prioritaria por WhatsApp →",
+    btn_em: "✉️ O Enviar por Correo",
+    ok_msg: "✅ ¡Solicitud lista y abierta en WhatsApp!"
+  },
+  de: {
+    pill: "🤝 Rabbiner, Notar & Anwalt",
+    h2: "Team Buchen: Rabbiner, Madricha, Notar-Übersetzung (Rotes Band) & 1-Std.-Anwalt",
+    lead: "Sparen Sie sich 25.000 ₪ Kanzlei-Honorar. Wählen Sie Ihren Bedarf — landesweite hebräische Notar-Übersetzungen per Fernauftrag, 1-Stunden-Anwaltsbegleitung zum Misrad HaPanim sowie vom Rabbinat anerkannte Rabbiner & Madrichot:",
+    svc_lbl: "1. Gewünschten Service Auswählen:",
+    svcs: [
+      { t: "🕍 Beides: Betreuender Rabbiner (Rav Melaveh) + Zertifizierte Madrichat Kallah", s: "Komplettpaket anerkannt von Beit Din & Rabbinat (1-zu-1 & Zoom).", p: "$349 Paar-Komplettpaket ($49 Sparen)" },
+      { t: "📜 Vom Rabbinat Anerkannter Betreuender Rabbiner (Rav Melaveh)", s: "Offizieller Unterricht & gestempeltes Empfehlungsschreiben für das Beit Din.", p: "$249 Vermittlung & Beit-Din-Dossier" },
+      { t: "🕯️ Vom Rabbinat Zertifizierte Madrichat Kallah (Taharat HaMischpacha)", s: "Offizielle Bestätigung für Beit Din und Rabbinats-Hochzeit.", p: "$149 Vermittlung & Offizielle Zertifizierung" },
+      { t: "🎀 Beglaubigte Notar-Übersetzung (Rotes Band) & Anwalts-Eid (Landesweit Online)", s: "Hebräische Notar-Übersetzung (Geburtenregister, Führungszeugnis, Ledigkeit/Scheidung) & gestempelte Erklärung.", p: "$149–$249 / Dok. • In 24–48h" },
+      { t: "⚖️ 1-Stunden Anwalts-Begleitung zum Misrad HaPanim Termin", s: "Ein zugelassener israelischer Anwalt begleitet Sie für 1 Stunde zum Schalter, damit Ihre Akte sofort geöffnet wird.", p: "$499–$699 (statt 25.000₪)" }
+    ],
+    reg_lbl: "2. Ihre Misrad HaPanim / Beit Din Region:",
+    regs: [
+      "🏔️ Norden / Galiläa / Haifa (Safed, Tiberias, Karmiel, Nahariya, Haifa)",
+      "🏛️ Jerusalem & Gush Etzion",
+      "🏙️ Tel Aviv & Zentrum (Tel Aviv, Ramat Gan, Petach Tikwa, Netanya, Herzliya)",
+      "🌴 Süden (Aschdod, Be'er Scheva, Aschkelon)",
+      "✈️ Derzeit im Ausland (Go-Bag-Ordner / Fern-Notarübersetzung)"
+    ],
+    trk_lbl: "3. Ihr Aktueller Weg:",
+    trks: [
+      "Weg 1: Notfall-Alija in Israel (Schinui Ma'amad)",
+      "Weg 2: Privates Orthodoxes Beit Din (Gush Etzion / Bnei Brak) + Ischur Giur",
+      "Weg 3: Staatlicher Giur (Nativ) über Ausnahmekomitee (Formular Asch/1)",
+      "Weg 4: Partner-Visum Misrad HaPanim (Nohal 5.2.0008 / 5.2.0009 Asch/3)",
+      "Doppel-Weg: Rabbinats-Validierung + Partner-Visum Misrad HaPanim"
+    ],
+    name_lbl: "4. Vollständiger Name (und Name des Partners):",
+    wa_lbl: "5. WhatsApp-Nummer (mit Ländervorwahl, z.B. +49 / +43 / +41 / +972):",
+    date_lbl: "6. Geplanter Behördentermin oder Dringlichkeit:",
+    notes_lbl: "7. Zu Übersetzende Dokumente oder Kurze Fallbeschreibung:",
+    btn_wa: "💬 Prioritäts-Anfrage Jetzt per WhatsApp Senden →",
+    btn_em: "✉️ Oder per E-Mail Senden",
+    ok_msg: "✅ Anfrage gespeichert und in WhatsApp geöffnet!"
+  }
+};
+
+window.selectedConciergeChoice = 0;
+
+window.selectConciergeSvc = function(idx) {
+  window.selectedConciergeChoice = idx;
+  document.querySelectorAll('#vt-svc-grid .svc-row').forEach((r, i) => r.classList.toggle('active', i === idx));
+};
+
+window.submitConciergeLead = function(via) {
+  const lang = window.appLang || 'en';
+  const v = VETTED_I18N[lang] || VETTED_I18N.en;
+  const choice = window.selectedConciergeChoice || 0;
+  const svcObj = v.svcs[choice] || v.svcs[0];
+  const region = (document.getElementById('vt-region') || {}).value || '';
+  const track = (document.getElementById('vt-track') || {}).value || '';
+  const name = ((document.getElementById('vt-name') || {}).value || '').trim();
+  const wa = ((document.getElementById('vt-wa') || {}).value || '').trim();
+  const dt = ((document.getElementById('vt-date') || {}).value || '').trim();
+  const notes = ((document.getElementById('vt-notes') || {}).value || '').trim();
+
+  if (!name || !wa) {
+    alert(lang === 'he' ? 'נא להזין שם מלא ומספר וואטסאפ ליצירת קשר.' : 'Please enter your Full Name and WhatsApp number so we can reach you.');
+    return;
+  }
+
+  const isLegalOrNorth = (choice === 3 || choice === 4 || region.includes('Safed') || region.includes('צפת'));
+  const routeTag = isLegalOrNorth ? '[🔥 PRIORITY NOTARY / LAWYER ESCORT DESK]' : '[🕍 VETTED RABBI / KALLAH BOOKING]';
+
+  const leadObj = {
+    ts: new Date().toISOString(),
+    lang: lang,
+    routeTag: routeTag,
+    serviceIdx: choice,
+    serviceName: svcObj.t,
+    priceTier: svcObj.p,
+    region: region,
+    track: track,
+    name: name,
+    whatsapp: wa,
+    targetDate: dt || 'Flexible / ASAP',
+    notes: notes
+  };
+
+  try {
+    const leads = JSON.parse(localStorage.getItem('gat_concierge_leads') || '[]');
+    leads.push(leadObj);
+    localStorage.setItem('gat_concierge_leads', JSON.stringify(leads));
+  } catch(e){}
+
+  const msgLines = [
+    `${routeTag} — GiyurAliyahTrack.com`,
+    `• Client Name: ${name}`,
+    `• Client WhatsApp: ${wa}`,
+    `• Service: ${svcObj.t}`,
+    `• Rate / Tier: ${svcObj.p}`,
+    `• Region: ${region}`,
+    `• Track: ${track}`,
+    `• Target Date: ${dt || 'ASAP'}`,
+    notes ? `• Notes/Docs: ${notes}` : ''
+  ].filter(Boolean).join('\n');
+
+  const okEl = document.getElementById('vt-ok-banner');
+  if (okEl) {
+    okEl.style.display = 'block';
+    okEl.innerText = v.ok_msg;
+  }
+
+  if (via === 'email') {
+    location.href = `mailto:${window.CONCIERGE_EMAIL}?subject=${encodeURIComponent(routeTag + ' - ' + name)}&body=${encodeURIComponent(msgLines)}`;
+  } else {
+    window.open(`https://wa.me/${window.CONCIERGE_WHATSAPP}?text=${encodeURIComponent(msgLines)}`, '_blank', 'noopener,noreferrer');
+  }
+};
+
+const _origRenderAll = renderAll;
+renderAll = function() {
+  _origRenderAll();
+  const lang = window.appLang || 'en';
+  const v = VETTED_I18N[lang] || VETTED_I18N.en;
+
+  const u = APP_UI[lang] || APP_UI.en;
+  const tabBtns = document.querySelectorAll('.mod-tab');
+  if (tabBtns.length === 6) {
+    tabBtns[0].innerText = v.pill;
+    u.tabs.forEach((lbl, i) => { if (tabBtns[i + 1]) tabBtns[i + 1].innerText = lbl; });
+  }
+
+  const c = document.getElementById('app-container');
+  if (!c) return;
+
+  const choice = typeof window.selectedConciergeChoice === 'number' ? window.selectedConciergeChoice : 0;
+  const svcRowsHtml = v.svcs.map((s, idx) => `
+    <div class="svc-row ${idx === choice ? 'active' : ''}" onclick="selectConciergeSvc(${idx})">
+      <div class="svc-dot"><div class="svc-dot-in"></div></div>
+      <div style="flex:1;">
+        <div class="svc-title">${s.t}</div>
+        <span class="svc-sub">${s.s}</span>
+        <span class="svc-price">${s.p}</span>
+      </div>
+    </div>
+  `).join('');
+
+  const vettedHtml = `
+    <div class="mod-view" id="mod-vetted-team">
+      <div class="card" style="border:2px solid #0288E8;">
+        <div style="display:inline-block;background:#e0f2fe;color:#0369a1;font-size:0.74rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;text-transform:uppercase;">⚡ Nationwide Notary Desk & Regional Misrad HaPanim Routing</div>
+        <h2>${v.h2}</h2>
+        <p>${v.lead}</p>
+
+        <label>${v.svc_lbl}</label>
+        <div class="svc-grid" id="vt-svc-grid">${svcRowsHtml}</div>
+
+        <label for="vt-region">${v.reg_lbl}</label>
+        <select id="vt-region">
+          ${v.regs.map(r => `<option value="${r.replace(/"/g, '&quot;')}">${r}</option>`).join('')}
+        </select>
+
+        <label for="vt-track">${v.trk_lbl}</label>
+        <select id="vt-track">
+          ${v.trks.map(t => `<option value="${t.replace(/"/g, '&quot;')}">${t}</option>`).join('')}
+        </select>
+
+        <label for="vt-name">${v.name_lbl}</label>
+        <input id="vt-name" placeholder="Avraham & Sarah..." />
+
+        <label for="vt-wa">${v.wa_lbl}</label>
+        <input id="vt-wa" type="tel" placeholder="+972 58-... / +1 ... / +33 ..." />
+
+        <label for="vt-date">${v.date_lbl}</label>
+        <input id="vt-date" placeholder="e.g., Next Month / Need Notary Translation within 48h" />
+
+        <label for="vt-notes">${v.notes_lbl}</label>
+        <textarea id="vt-notes" rows="3" placeholder="e.g., Need Red-Ribbon Notary translation of Birth Certificate + FBI Police Check, or 1-hr lawyer escort at Misrad HaPanim..."></textarea>
+
+        <button type="button" class="btn btn-emerald" onclick="submitConciergeLead('whatsapp')">${v.btn_wa}</button>
+        <button type="button" class="btn" style="background:#334155;margin-top:8px;padding:11px;" onclick="submitConciergeLead('email')">${v.btn_em}</button>
+        <div id="vt-ok-banner" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border:1.5px solid #10b981;border-radius:11px;color:#065f46;font-weight:800;font-size:0.88rem;text-align:center;"></div>
+      </div>
+    </div>
+  `;
+
+  c.insertAdjacentHTML('afterbegin', vettedHtml);
+  updateBdCard();
+  updateCpCard();
+};
+
+const FREE_CARD_LIMIT = 4;
+
+updateBdCard = function() {
+  const catEl = document.getElementById('bd-cat');
+  const qEl = document.getElementById('bd-q');
+  const aEl = document.getElementById('bd-a');
+  if (!catEl || !qEl || !aEl) return;
+  const item = BD_CARDS[bdIdx % BD_CARDS.length];
+  const pro = window.isProUnlocked();
+  const countBadge = pro ? `Card ${(bdIdx % 150) + 1} of 150 (Pro Unlocked)` : `Free Sample ${(bdIdx % FREE_CARD_LIMIT) + 1} of ${FREE_CARD_LIMIT} (150 Full Deck)`;
+  catEl.innerText = `${item.c} • ${countBadge}`;
+  qEl.innerText = item.q;
+  aEl.style.display = 'none';
+  aEl.innerText = '✅ ' + item.a;
+};
+
+nextBdCard = function() {
+  if (!window.isProUnlocked() && bdIdx + 1 >= FREE_CARD_LIMIT) {
+    window.openProPaywall('🕍 You just finished the 4 free Ma\'amad Beit Din sample flashcards! Unlock all 150 real Dayanim questions, 80 Couples Sync questions, and clean Hebrew PDFs:');
+    return;
+  }
+  bdIdx++;
+  updateBdCard();
+};
+
+updateCpCard = function() {
+  const catEl = document.getElementById('cp-cat');
+  const qEl = document.getElementById('cp-q');
+  if (!catEl || !qEl) return;
+  const item = COUPLE_QS[cpIdx % COUPLE_QS.length];
+  const pro = window.isProUnlocked();
+  const countBadge = pro ? `Q ${(cpIdx % 80) + 1} of 80 (Pro Unlocked)` : `Free Sample ${(cpIdx % FREE_CARD_LIMIT) + 1} of ${FREE_CARD_LIMIT} (80 Full Deck)`;
+  catEl.innerText = `Nohal 5.2.0008 • ${item.c} • ${countBadge}`;
+  qEl.innerText = item.q;
+};
+
+nextCpCard = function() {
+  if (!window.isProUnlocked() && cpIdx + 1 >= FREE_CARD_LIMIT) {
+    window.openProPaywall('📱 You just finished the 4 free Nohal 5.2.0008 Couples Interrogation questions! Unlock all 80 separated-room questions + live 2-Phone Matcher:');
+    return;
+  }
+  cpIdx++;
+  updateCpCard();
+};
+
+const _origGenHebrewDoc = genHebrewDoc;
+genHebrewDoc = function() {
+  _origGenHebrewDoc();
+  const out = document.getElementById('he-output');
+  if (!out) return;
+  if (!window.isProUnlocked()) {
+    out.classList.add('watermarked');
+    let bar = document.getElementById('he-pro-action-bar');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'he-pro-action-bar';
+      out.insertAdjacentElement('afterend', bar);
+    }
+    bar.innerHTML = `<button type="button" class="btn btn-gold" onclick="openProPaywall('📄 Unlock clean, watermark-free Hebrew PDF printing & instant clipboard copy for Misrad HaPanim / Va\'adat Charigim ($39 Single Pass or $199 Lifetime Shield):')">🖨️ Unlock Clean Watermark-Free Hebrew PDF & Copy ($39 / $199) →</button>
+    <button type="button" class="btn" style="background:#0b3b59;margin-top:8px;" onclick="openMod('vetted-team'); selectConciergeSvc(3);">🎀 Need Red-Ribbon Notary Seal on This Doc? Book Our Notary Desk →</button>`;
+  } else {
+    out.classList.remove('watermarked');
+    window.print();
+  }
+};
+
+const _origGenRabbiLetter = genRabbiLetter;
+genRabbiLetter = function() {
+  _origGenRabbiLetter();
+  const out = document.getElementById('rb-output');
+  if (!out) return;
+  if (!window.isProUnlocked()) {
+    out.classList.add('watermarked');
+    let bar = document.getElementById('rb-pro-action-bar');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'rb-pro-action-bar';
+      out.insertAdjacentElement('afterend', bar);
+    }
+    bar.innerHTML = `<button type="button" class="btn btn-gold" onclick="openProPaywall('✍️ Unlock clean WhatsApp copy & official Rabbinic Letterhead PDF printing ($39 Single Pass or $199 Lifetime Shield):')">📲 Unlock Clean WhatsApp Copy & Rabbinic Letterhead PDF →</button>
+    <button type="button" class="btn" style="background:#0b3b59;margin-top:8px;" onclick="openMod('vetted-team'); selectConciergeSvc(0);">🕍 Don't Have a Sponsoring Rabbi Yet? Book Our Vetted Team ($249–$349) →</button>`;
+  } else {
+    out.classList.remove('watermarked');
+  }
+};
+
+window.handleAppBack = function(e) {
+  if (e) e.preventDefault();
+  try { sessionStorage.setItem('gat_skip_intro_once', '1'); } catch(err){}
+  try {
+    const st = JSON.parse(sessionStorage.getItem('gat_nav_stack_v2') || '[]');
+    if (st.length > 0) {
+      const prev = st.pop();
+      sessionStorage.setItem('gat_nav_stack_v2', JSON.stringify(st));
+      sessionStorage.setItem('gat_pending_restore', JSON.stringify(prev));
+      location.href = prev.path === '/' ? '/' : (prev.path + '/');
+      return false;
+    }
+  } catch(err){}
+  if (document.referrer && document.referrer.indexOf(location.host) !== -1 && history.length > 1) {
+    history.back();
+    return false;
+  }
+  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  location.href = (l === 'en' ? '/' : '/' + l + '/');
+  return false;
+};
+
+window.handleAppBrand = function(e) {
+  if (e) e.preventDefault();
+  try { sessionStorage.setItem('gat_skip_intro_once', '1'); sessionStorage.removeItem('gat_pending_restore'); sessionStorage.removeItem('gat_nav_stack_v2'); } catch(err){}
+  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  location.href = (l === 'en' ? '/' : '/' + l + '/');
+  return false;
+};
+
 window.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('gat_lang') || 'en';
   const params = new URLSearchParams(location.search);
+  const qLang = params.get('lang');
+  const saved = qLang || localStorage.getItem('gat_lang') || 'en';
+  const choiceParam = params.get('choice');
+  if (choiceParam !== null) {
+    window.selectedConciergeChoice = parseInt(choiceParam, 10) || 0;
+  }
   const mod = params.get('module');
   const intent = params.get('intent');
-  if (mod) window.currentMod = mod;
-  else if (intent === 'vetted-team') window.currentMod = 'rabbi-letters';
+  if (intent === 'vetted-team') window.currentMod = 'vetted-team';
+  else if (mod) window.currentMod = mod;
   else window.currentMod = 'hebrew-engine';
   setAppLang(saved);
 });

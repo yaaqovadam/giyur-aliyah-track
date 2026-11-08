@@ -102,7 +102,11 @@
     .seo-mesh-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; }
     .seo-mesh-link { display: block; padding: 10px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; color: var(--teal-dark); font-size: 0.85rem; font-weight: 700; text-decoration: none; line-height: 1.35; }
     .seo-mesh-link:hover { border-color: #38bdf8; background: #f0f9ff; }
-
+    .app-nav-back { display: none; align-items: center; justify-content: center; width: 34px; height: 38px; background: transparent !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; color: #ffffff; text-decoration: none; margin-inline-start: -10px !important; margin-inline-end: 14px !important; padding: 0 !important; cursor: pointer; flex-shrink: 0; transition: transform 0.15s ease, opacity 0.15s ease; }
+    .app-nav-back.visible { display: inline-flex !important; }
+    .app-nav-back:hover { background: transparent !important; opacity: 0.85; transform: scale(1.08); }
+    .app-nav-back svg { width: 30px !important; height: 30px !important; stroke: #ffffff !important; stroke-width: 3.2 !important; fill: none !important; stroke-linecap: round !important; stroke-linejoin: round !important; }
+    html[dir="rtl"] .app-nav-back svg { transform: scaleX(-1); }
   </style>
 <script>(function(){var isRoot=(location.pathname==="/"||/^\/(he|fr|es|de)\/?$/.test(location.pathname));if(isRoot&&!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();
 
@@ -111,7 +115,21 @@
 
   
 </script>
-<script src="/splash.js?v=1700"></script>
+<script>(function(){
+  try { localStorage.removeItem('gat_intro_seen'); sessionStorage.removeItem('gat_intro_seen'); } catch(e){}
+  var navType = '';
+  try { var navEntries = performance.getEntriesByType && performance.getEntriesByType('navigation'); if (navEntries && navEntries[0]) navType = navEntries[0].type; } catch(e){}
+  var skipOnce = sessionStorage.getItem('gat_skip_intro_once') === '1';
+  if (skipOnce) { try { sessionStorage.removeItem('gat_skip_intro_once'); } catch(e){} }
+  if (skipOnce || navType === 'back_forward') {
+    window.SKIP_GAT_INTRO = true;
+    document.documentElement.classList.remove('gat-pre-curtain');
+    var st = document.createElement('style');
+    st.textContent = '#gat-splash, .gat-splash, #splash-overlay, #intro-overlay, video[src*="intro"] { display: none !important; opacity: 0 !important; pointer-events: none !important; } html.gat-pre-curtain .app-shell { opacity: 1 !important; }';
+    document.head.appendChild(st);
+  }
+})();</script>
+<script>if(!window.SKIP_GAT_INTRO){document.write('<scr'+'ipt src="/splash.js?v=1700"></scr'+'ipt>');}</script>
 <!-- GAT ANTI-FLASH END -->
   <meta charset="UTF-8" />
   <meta name="color-scheme" content="light only" />
@@ -119,9 +137,9 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Why Stopping After the Mikvah Blocks Weddings Until Someone Finishes What You Left Behind. | Giyur Aliyah Track (EN)</title>
-  <meta name="description" content="When you've found your person and want to marry, waiting even one day is hell. Stopping after an independent Mikvah without Supreme Rabbinical Court validation ('Ishur Giyur') blocks your wedding—or your future kids' weddings—for years." />
-  <link rel="canonical" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
+  <title>How to Study for Conversion or Apply With Your Partner Without Overstaying Your Visa. | Giyur Aliyah Track (EN)</title>
+  <meta name="description" content="Skip the 9-month consulate backlog and shave 2–4 years off Israeli bureaucracy. The step-by-step English & Hebrew playbook for Emergency Aliyah (Shinui Ma\'amad), Private & State Giyur, Rabbanut Validation, and Misrad HaPanim Spousal Visas." />
+  <link rel="canonical" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/" />
   <meta name="theme-color" content="#ffffff" />
   <script type="application/ld+json">
   {
@@ -689,87 +707,46 @@
   </script>
 <!-- GAT VIDEO SEO SCHEMA END -->
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the main bureaucratic rule for Why Stopping After the Mikvah Blocks Weddings Until Someone Finishes What You Left Behind.?", "acceptedAnswer": {"@type": "Answer", "text": "When you've found your person and want to marry, waiting even one day is hell. Stopping after an independent Mikvah without Supreme Rabbinical Court validation ('Ishur Giyur') blocks your wedding—or your future kids' weddings—for years."}}, {"@type": "Question", "name": "💣 The 9-Month Israeli Community Rule", "acceptedAnswer": {"@type": "Answer", "text": "To go through the Rabbanut here, you must start, fly home briefly for your 5 docs, COME BACK HERE to Israel, and join in an Orthodox community here for 9+ months (nobody asks a new convert for homeland Jewish letters!)."}}, {"@type": "Question", "name": "⚡ 1-Tap Israeli Community Letter Builder", "acceptedAnswer": {"@type": "Answer", "text": "Our Tracker guides you through Chief Rabbinate validation and sends pre-written Hebrew reference drafts to your Israeli Rabbi & host family via WhatsApp. (⏱️ Protects Your Wedding & Future Kids)"}}]}
+{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Giyur Aliyah Track", "item": "https://giyuraliyahtrack.com/"}, {"@type": "ListItem", "position": 2, "name": "How to Study for Conversion or Apply With Your Partner Without Overstaying Your Visa.", "item": "https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How to Study for Conversion or Apply With Your Partner Without Overstaying Your Visa.", "acceptedAnswer": {"@type": "Answer", "text": "Tourists on a B/2 visa are legally blocked from entering State Conversion for Aliyah without first passing the Exceptions Committee (Va'adat Charigim)."}}, {"@type": "Question", "name": "🚨 The Overstay & File-Closure Trap", "acceptedAnswer": {"@type": "Answer", "text": "Waiting too long to file Form Ash/1 or Ash/3—or missing a 30-day clerk deficiency deadline—causes your file to be silently closed."}}, {"@type": "Question", "name": "⚡ Legal Clock Freeze + WhatsApp Shield", "acceptedAnswer": {"@type": "Answer", "text": "We generate your statutory Hebrew Explanation Letter (Michtav Hesber) and send automated WhatsApp alerts before any clerk deadline expires. (⏱️ Saves 6 to 18 Months)"}}]}]}
 </script>
-  <script src="/i18n/jurisdiction.js?v=30"></script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
-  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Giyur Aliyah Track","item":"https://giyuraliyahtrack.com/"},{"@type":"ListItem","position":2,"name":"Va'adat Charigim (Form Ash/1): Tourist State Giyur in Israel","item":"https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel"}]}</script>  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/" />
+  <script src="/i18n/jurisdiction.js?v=130"></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/" />
   <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/vaadat-charigim-tourist-conversion-israel/" />
   <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/vaadat-charigim-tourist-conversion-israel/" />
   <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/vaadat-charigim-tourist-conversion-israel/" />
@@ -811,12 +788,17 @@
 <div class="app-shell">
   <!-- PURE WHITE TOP APP HEADER (ZEHUT STYLE) -->
   <header class="app-header">
-    <a href="/" class="brand" onclick="switchTab(0); return false;">
+    <div style="display:flex;align-items:center;">
+      <a href="https://giyuraliyahtrack.com/" id="app-nav-back" href="https://giyuraliyahtrack.com/" class="app-nav-back visible" onclick="return window.handleSmartBack(event);" aria-label="Back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="/" class="brand" onclick="switchTab(0); return false;">
       <div class="brand-mark">
         <svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg>
       </div>
       <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
       </a>
+    </div>
     <div class="header-right">
       <button class="lang-btn" id="globe-lang-btn" class="lang-btn" onclick="window.toggleLang(event)" title="Snap & Translate Hebrew">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -840,7 +822,7 @@
           <div class="hero-emblem">
             <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4.5l2.1 3.6h4.1l-2.1 3.6 2.1 3.6h-4.1L12 19.9l-2.1-3.6H5.8l2.1-3.6-2.1-3.6h4.1L12 5.5z"/></svg>
           </div>
-          <h1 id="spoke-h1">How to Pass Va'adat Charigim (Exceptions Committee Form Ash/1) for State Conversion in Israel</h1>
+          <h1 data-i18n="hero_h1">Conversion, Rabbanut & Aliyah Without Losing 5 Years</h1>
           <p data-i18n="hero_p">Tap any box below to see the hidden trap in plain English—or jump straight to your Track & Deadline Tracker.</p>
         </div>
 
@@ -854,6 +836,7 @@
           <div class="ea-desc" data-i18n="ea_desc">Fleeing rising global antisemitism, embassy backlogs, or sudden flight disruptions? If it becomes unsafe to fly back, whatever is in your carry-on is all you will ever have. Pull these double-Apostilled originals in 7–10 days and file Emergency Aliyah or Giyur Transfer from inside Israel (Shinui Ma'amad).</div>
           <div class="ea-cta" data-i18n="ea_cta">Open Pre-Flight Go-Bag Checklist & Border Survival Guide →</div>
         </div>
+        <article class="seo-spoke-article"><h2>BOX 4 OF 9 • THE 90-DAY TOURIST VISA CLOCK — How to Study for Conversion or Apply With Your Partner Without Overstaying Your Visa.</h2><p>Tourists on a B/2 visa are legally blocked from entering State Conversion for Aliyah without first passing the Exceptions Committee (Va'adat Charigim).</p><h3>🚨 The Overstay & File-Closure Trap</h3><div>Waiting too long to file Form Ash/1 or Ash/3—or missing a 30-day clerk deficiency deadline—causes your file to be silently closed.</div><h3>⚡ Legal Clock Freeze + WhatsApp Shield</h3><div>We generate your statutory Hebrew Explanation Letter (Michtav Hesber) and send automated WhatsApp alerts before any clerk deadline expires.</div></article>
         <div class="section-kicker">
           <h2 data-i18n="kicker_h2">Where Are You Stuck? (Tap Any Box)</h2>
           <span data-i18n="kicker_span">9 Core Guides</span>
@@ -907,7 +890,12 @@
             <div class="ec-title" data-i18n="b7_t">Aliyah / Visa With a Criminal Record</div>
             <div class="ec-desc" data-i18n="b7_d">Universal Police Checks (US/UK/EU/CA) & Rehabilitation Dossier.</div>
           </button>
-                  <button class="enemy-card" onclick="openObstacle(8)" style="grid-column: 1 / -1;">
+                                      <a class="enemy-card" id="dahan-gold-card" href="/dahan-ruling-non-orthodox-conversion-aliyah-truth/" style="grid-column: 1 / -1; border-color: #f59e0b; background: #fffbeb; text-decoration: none;">
+            <div class="ec-top" style="color:#b45309;"><span data-i18n="bd_top">⚠️ Reform / Conservative (Dahan Ruling) vs. Orthodox Track</span><span>Open Page →</span></div>
+            <div class="ec-title" data-i18n="bd_t">Thinking About a Non-Orthodox 'Dahan' Conversion for Aliyah? Read This First.</div>
+            <div class="ec-desc" data-i18n="bd_d">Why lawyers won't warn you that the Chief Rabbinate blocks you and your future kids from marrying in Israel—and how to do a 100% Halachic conversion in the same timeframe.</div>
+          </a>
+          <button class="enemy-card" onclick="openObstacle(8)" style="grid-column: 1 / -1;">
             <div class="ec-top"><span data-i18n="b8_top">Box 9 • Tourist Survival</span><span data-i18n="tap_lbl">Tap →</span></div>
             <div class="ec-title" data-i18n="b8_t">Sustaining Yourself Without a Work Permit (Remote Work & Housing)</div>
             <div class="ec-desc" data-i18n="b8_d">100% legal foreign remote work (ESL, translation) + zero-rent live-in nanny, caretaker & dorm exchanges.</div>
@@ -941,25 +929,20 @@
           </article></details>
         </div>
       
-        
-        <article class="seo-spoke-article" id="seo-spoke-article">
-          <h2>Breaking Through the Tourist Wall: Israel's Va'adat Charigim (Exceptions Committee)</h2>
-   <p>By statute, Israel's State Conversion Authority (Ma'arach HaGiyur / Nativ) only accepts Israeli citizens and permanent residents. Tourists on a B/2 visa or students on an A/2 visa are legally barred from opening a state conversion file until they receive formal clearance from the inter-ministerial <strong>Exceptions Committee (Va'adat Charigim)</strong> via <strong>Form Ash/1</strong>.</p>
-   <h3>Why 70% of Unprepared Tourist Applications Are Rejected</h3>
-   <p>Applicants who submit an emotional English biography or mention wanting to stay with an Israeli partner without following the statutory Hebrew format are routinely rejected for suspected immigration circumvention. A winning Va'adat Charigim dossier requires a statutory Hebrew <em>Michtav Hesber</em> (Legal Explanation Letter), stamped Orthodox sponsoring rabbi letters, proof of independent foreign financial support, and passing the 2-stage security and sincerity interview.</p>
-        </article>
         <nav class="seo-spoke-mesh" id="seo-spoke-mesh" aria-label="Statutory Playbooks & Official Guides">
           <h2 id="mesh-title" data-i18n="mesh_title">📚 Official Statutory Playbooks & Bureaucracy Guides</h2>
           <div class="seo-mesh-grid">
-            <a class="seo-mesh-link" data-i18n="mesh_0" href="/emergency-aliyah-go-bag-shinui-maamad">🚨 Pre-Flight Go-Bag & In-Israel Emergency Aliyah (Shinui Ma'amad)</a>
-            <a class="seo-mesh-link" data-i18n="mesh_1" href="/gush-etzion-private-conversion-aliyah">🕍 Private Orthodox Conversion (Gush Etzion, Bnei Brak) & Ishur Giyur</a>
-            <a class="seo-mesh-link" data-i18n="mesh_2" href="/vaadat-charigim-tourist-conversion-israel">⚖️ Va'adat Charigim (Form Ash/1): Tourist & Student State Giyur</a>
-            <a class="seo-mesh-link" data-i18n="mesh_3" href="/apostille-180-day-clock-fbi-police-check-israel">⏱️ The 5 Mandatory Apostilled Docs & 180-Day Misrad HaPanim Clock</a>
-            <a class="seo-mesh-link" data-i18n="mesh_4" href="/israeli-rabbi-community-letters-beit-din">✍️ How to Get 5–8+ Stamped Israeli Rabbi & Host Family Letters</a>
-            <a class="seo-mesh-link" data-i18n="mesh_5" href="/misrad-hapanim-spousal-visa-nohal-5-2-0008">💍 Misrad HaPanim Spousal Visa (Nohal 5.2.0008) & 80-Question Interview</a>
-            <a class="seo-mesh-link" data-i18n="mesh_6" href="/hebrew-clerk-letter-translator-form-ash1-ash3">📸 Two-Way Hebrew Clerk Translator & Form Ash/1 + Ash/3 PDF Filler</a>
-            <a class="seo-mesh-link" data-i18n="mesh_7" href="/aliyah-spousal-visa-criminal-record-rehabilitation">🛡️ Making Aliyah or Spousal Visa With a Past Arrest (Teudat Yosher)</a>
-            <a class="seo-mesh-link" data-i18n="mesh_8" href="/tourist-visa-israel-remote-work-housing-giyur">💼 B/2 Tourist Survival: Legal Foreign Remote Work & Housing in Israel</a>
+            <a class="seo-mesh-link" data-i18n="mesh_0" href="/emergency-aliyah-go-bag-shinui-maamad/">🚨 Pre-Flight Go-Bag & In-Israel Emergency Aliyah (Shinui Ma'amad)</a>
+            <a class="seo-mesh-link" data-i18n="mesh_1" href="/gush-etzion-private-conversion-aliyah/">🕍 Private Orthodox Conversion (Gush Etzion, Bnei Brak) & Ishur Giyur</a>
+            <a class="seo-mesh-link" data-i18n="mesh_2" href="/vaadat-charigim-tourist-conversion-israel/">⚖️ Va'adat Charigim (Form Ash/1): Tourist & Student State Giyur</a>
+            <a class="seo-mesh-link" data-i18n="mesh_3" href="/apostille-180-day-clock-fbi-police-check-israel/">⏱️ The 5 Mandatory Apostilled Docs & 180-Day Misrad HaPanim Clock</a>
+            <a class="seo-mesh-link" data-i18n="mesh_4" href="/israeli-rabbi-community-letters-beit-din/">✍️ How to Get 5–8+ Stamped Israeli Rabbi & Host Family Letters</a>
+            <a class="seo-mesh-link" data-i18n="mesh_5" href="/misrad-hapanim-spousal-visa-nohal-5-2-0008/">💍 Misrad HaPanim Spousal Visa (Nohal 5.2.0008) & 80-Question Interview</a>
+            <a class="seo-mesh-link" data-i18n="mesh_6" href="/hebrew-clerk-letter-translator-form-ash1-ash3/">📸 Two-Way Hebrew Clerk Translator & Form Ash/1 + Ash/3 PDF Filler</a>
+            <a class="seo-mesh-link" data-i18n="mesh_7" href="/aliyah-spousal-visa-criminal-record-rehabilitation/">🛡️ Making Aliyah or Spousal Visa With a Past Arrest (Teudat Yosher)</a>
+            <a class="seo-mesh-link" data-i18n="mesh_8" href="/tourist-visa-israel-remote-work-housing-giyur/">💼 B/2 Tourist Survival: Legal Foreign Remote Work & Housing in Israel</a>
+            <a class="seo-mesh-link" data-i18n="mesh_dahan" href="/dahan-ruling-non-orthodox-conversion-aliyah-truth/">💔 Supreme Court Dahan (Non-Orthodox) vs. Rogachova (Orthodox) Giyur: The Unfiltered Truth</a>
+            <a class="seo-mesh-link" data-i18n="mesh_forms" href="/forms/">📄 Official Hebrew Forms Vault & Auto-Filler (Form Ash/1, Ash/3, Ash/6)</a>
           </div>
         </nav>
       </section>
@@ -981,7 +964,7 @@
         </div>
 
         <article class="track-card active" id="track-0">
-          <span class="tc-pill">Track 1 • Emergency Exit for Born Jews, Mixed Couples & Mid-Conversion Candidates</span>
+<span class="tc-pill">Track 1 • Emergency Exit for Born Jews, Mixed Couples & Mid-Conversion Candidates</span>
           <h2>Emergency Relocation, Mid-Conversion Escape Hatch & In-Israel Aliyah (Shinui Ma'amad)</h2>
           <p class="tc-lead"><strong>Whether you are Jewish by birth, a mixed couple, or stuck mid-conversion abroad when crisis hits—do NOT wait 9 months for an overseas consulate!</strong> You can fly directly to Ben Gurion Airport on a B/2 tourist visa and file for status or transfer your conversion inside Israel—<strong>IF</strong> you board the plane with your Point-of-No-Return Go-Bag.</p>
           <ul class="tc-list">
@@ -994,12 +977,12 @@
         </article>
 
         <article class="track-card" id="track-1">
-          <span class="tc-pill">Track 2 • Become 100% Halachically Jewish Faster (For Diaspora or Israel Stepping-Stone)</span>
+<span class="tc-pill">Track 2 • Become 100% Halachically Jewish Faster (For Diaspora or Israel Stepping-Stone)</span>
           <h2>Private Orthodox Beit Din (Gush Etzion, Bnei Brak & More)</h2>
           <p class="tc-lead"><strong>If you want to become 100% Halachically Jewish without waiting years for government clerks, this is a fantastic path!</strong> Israel has 5+ respected private Orthodox courts (from Modern Orthodox <em>Giyur K'Halacha</em> in Gush Etzion to Haredi courts like R' Karelitz's Beit Din in Bnei Brak). Great for students returning home Jewish or couples who want a kosher Chuppah <em>now</em> and bridge to Rabbanut validation later.</p>
           <ul class="tc-list">
             <li><strong>💸 The 24-Month Sal Klita Cash Cliff (~21,700 NIS at Stake!):</strong> Spending more than <strong>24 cumulative months inside Israel</strong> (in the 3 years before getting your Teudat Oleh) cancels your Sal Klita cash grant!</li>
-            <li><strong>🛡️ The Supreme Court <em>Dahan</em> Ruling vs. The Tourist Wall:</strong> While the Supreme Court <em>Dahan</em> ruling recognizes established private Orthodox courts (<em>Gush Etzion</em> / <em>Bnei Brak</em>) for Law of Return when converting on a valid long-term visa, B/2 tourists face strict Misrad HaPanim security blocks—and the Chief Rabbinate still requires <em>Ishur Giyur</em> for marriage registration.</li>
+            <li><strong>🛡️ The Supreme Court <em>Rogachova</em> Ruling (HCJ 7625/06) vs. The Tourist Wall:</strong> While the 2016 Supreme Court <em>Rogachova</em> ruling recognizes established private Orthodox courts (<em>Gush Etzion</em> / <em>Bnei Brak</em>) for Law of Return when converting on a valid long-term visa, B/2 tourists face strict Misrad HaPanim security blocks—and the Chief Rabbinate still requires <em>Ishur Giyur</em> for marriage registration. <a href="/dahan-ruling-non-orthodox-conversion-aliyah-truth/" style="color:var(--sky);font-weight:800;text-decoration:underline;">Considering the Non-Orthodox Dahan Ruling Track? Read This Truth Guide First →</a></li>
             <li><strong>⚡ Zero Government Apostille Red Tape Upfront:</strong> Opening a private Beit Din file requires no FBI checks or Apostilles upfront! You only need the <span class="term-link" onclick="openTerm('five_docs')">5 Mandatory Apostilled Docs ⓘ</span> when bridging to the Rabbanut or Misrad HaPanim.</li>
             <li><strong>💣 Never Leave Validation Half-Finished:</strong> Stopping after the Mikvah without <span class="term-link" onclick="openTerm('ishur_giyur')">Chief Rabbinate Validation (Ishur Giyur) ⓘ</span> blocks Rabbanut weddings for you and your future kids.</li>
           </ul>
@@ -1007,7 +990,7 @@
         </article>
 
         <article class="track-card" id="track-2">
-          <span class="tc-pill">Track 3 • Official State Conversion & Law of Return Aliyah</span>
+<span class="tc-pill">Track 3 • Official State Conversion & Law of Return Aliyah</span>
           <h2>State Giyur (Nativ / Ma'arach HaGiyur) & Chief Rabbinate</h2>
           <p class="tc-lead">The official government conversion pathway that grants Law of Return citizenship (Aliyah) immediately upon completion.</p>
           <ul class="tc-list">
@@ -1020,7 +1003,7 @@
         </article>
 
         <article class="track-card" id="track-3">
-          <span class="tc-pill">Track 4 • Spousal Residency (Tahalich Medurag) & Change of Status</span>
+<span class="tc-pill">Track 4 • Spousal Residency (Tahalich Medurag) & Change of Status</span>
           <h2>Misrad HaPanim Civil Visa, A/5 Teudat Zehut & Citizenship</h2>
           <p class="tc-lead">Run by the Ministry of Interior for spouses/partners of Israelis (Form Ash/3) and post-conversion residency.</p>
           <ul class="tc-list">
@@ -1121,33 +1104,49 @@
           <p>Both partners (even a born-Jewish Israeli spouse!) must complete the course. Select what you need below for a warm introduction:</p>
         </div>
 
-        <div class="radio-group" id="rabbi-radios">
+                <div class="radio-group" id="rabbi-radios">
           <div class="radio-row active" onclick="selectRabbiOption(0, this)">
             <div class="radio-dot"><div class="radio-dot-inner"></div></div>
             <div>
-              <div class="radio-text">Both: Vetted Sponsoring Rabbi + Certified Madrichat Kallah</div>
-              <span class="radio-sub">Complete couple's package plugged into the Beit Din & Rabbanut (Flexible 1-on-1 & remote-friendly scheduling).</span>
+              <div class="radio-text" data-i18n="rabbi_r0_t">Both: Vetted Sponsoring Rabbi + Certified Madrichat Kallah</div>
+              <span class="radio-sub" data-i18n="rabbi_r0_s">Complete couple's package plugged into the Beit Din & Rabbanut (Flexible 1-on-1 & remote-friendly scheduling).</span>
             </div>
           </div>
 
           <div class="radio-row" onclick="selectRabbiOption(1, this)">
             <div class="radio-dot"><div class="radio-dot-inner"></div></div>
             <div>
-              <div class="radio-text">Vetted, Rabbanut-Recognized Sponsoring Rabbi (Rav Melaveh)</div>
-              <span class="radio-sub">Official conversion study & Beit Din recommendation letter for singles or couples.</span>
+              <div class="radio-text" data-i18n="rabbi_r1_t">Vetted, Rabbanut-Recognized Sponsoring Rabbi (Rav Melaveh)</div>
+              <span class="radio-sub" data-i18n="rabbi_r1_s">Official conversion study & Beit Din recommendation letter for singles or couples.</span>
             </div>
           </div>
 
           <div class="radio-row" onclick="selectRabbiOption(2, this)">
             <div class="radio-dot"><div class="radio-dot-inner"></div></div>
             <div>
-              <div class="radio-text">Vetted, Rabbanut-Certified Madrichat Kallah (Marital Relations)</div>
-              <span class="radio-sub">Official Taharat HaMishpacha certification required by the Beit Din & Rabbanut marriage registrar.</span>
+              <div class="radio-text" data-i18n="rabbi_r2_t">Vetted, Rabbanut-Certified Madrichat Kallah (Marital Relations)</div>
+              <span class="radio-sub" data-i18n="rabbi_r2_s">Official Taharat HaMishpacha certification required by the Beit Din & Rabbanut marriage registrar.</span>
+            </div>
+          </div>
+
+          <div class="radio-row" onclick="selectRabbiOption(3, this)" style="border-color:#bae6fd;background:#f0f9ff;">
+            <div class="radio-dot"><div class="radio-dot-inner"></div></div>
+            <div>
+              <div class="radio-text" data-i18n="notary_r1_t">🎀 Red-Ribbon Certified Notarial Translation & Affidavit Stamp (Nationwide)</div>
+              <span class="radio-sub" data-i18n="notary_r1_s">Fast Hebrew notarial translation (Ishur Tirgum Notarioni) & lawyer-stamped Joint Affidavits—done remotely without a 25,000 NIS retainer.</span>
+            </div>
+          </div>
+
+          <div class="radio-row" onclick="selectRabbiOption(4, this)" style="border-color:#fde68a;background:#fffbeb;">
+            <div class="radio-dot"><div class="radio-dot-inner"></div></div>
+            <div>
+              <div class="radio-text" data-i18n="notary_r2_t">⚖️ 1-Hour 'Day-Of Appointment' Lawyer Escort at Misrad HaPanim</div>
+              <span class="radio-sub" data-i18n="notary_r2_s">Walk into your appointment with a licensed Israeli lawyer for 1 hour so clerks treat you with respect and open your file on the spot.</span>
             </div>
           </div>
         </div>
 
-        <a href="/app?intent=vetted-team" class="btn-sky" data-i18n="t4_cta" data-i18n="t4_cta">Request Warm Introduction Now →</a>
+        <a id="vetted-cta-link" href="/app?intent=vetted-team&choice=0" class="btn-sky" data-i18n="t4_cta" data-i18n="t4_cta">Request Warm Introduction Now →</a>
 
         <div class="vetted-card" style="margin-top:18px; background:var(--surface);">
           <h3>🛡️ What We Are — And What We Are NOT</h3>
@@ -1548,15 +1547,15 @@
 
   const obstacles_he = [];
 
-  function switchTab(idx) {
+        function switchTab(idx) {
+    if (window.gatSwitchTab) return window.gatSwitchTab(idx);
     document.querySelectorAll('.app-view').forEach((v, i) => v.classList.toggle('active', i === idx));
     document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
-    document.getElementById('viewport').scrollTop = 0;
   }
 
   function switchTrack(idx, btn) {
-    document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    if (window.gatSwitchTrack) return window.gatSwitchTrack(idx, btn);
+    document.querySelectorAll('.seg-btn').forEach((b, i) => b.classList.toggle('active', btn ? b === btn : i === idx));
     document.querySelectorAll('.track-card').forEach((c, i) => c.classList.toggle('active', i === idx));
   }
 
@@ -1741,6 +1740,9 @@
   function selectRabbiOption(idx, row) {
     document.querySelectorAll('#rabbi-radios .radio-row').forEach(r => r.classList.remove('active'));
     row.classList.add('active');
+    window.selectedRabbiOption = idx;
+    const cta = document.getElementById('vetted-cta-link') || document.querySelector('a[href*="/app?intent=vetted-team"]');
+    if (cta) cta.setAttribute('href', '/app?intent=vetted-team&choice=' + idx + '&lang=' + (window.gatLang || 'en'));
   }
 
   function cycleStatus(btn) {
@@ -1770,6 +1772,7 @@
 </script>
 <script>
   window.termDetails = {
+    dahan_truth: {"tag": "REALITY CHECK • HCJ 11013/05 (DAHAN) VS. HCJ 7625/06 (ROGACHOVA)", "title": "Thinking About the Non-Orthodox 'Dahan' Track for Aliyah? Read This With an Open Heart First.", "body": "In 2021, the Supreme Court's Dahan ruling (HCJ 11013/05) stated that non-Orthodox (Reform/Conservative) conversions performed inside Israel qualify for civil Law of Return citizenship—just as the 2016 Rogachova ruling (HCJ 7625/06) recognized private Orthodox courts (Gush Etzion / Bnei Brak). Lawyers charge 25,000+ NIS to push applicants down the Dahan track without warning them about the lifelong spiritual, marital, and generational walls waiting on the other side:", "badTitle": "💔 The 4 Unfiltered Realities Lawyers Won't Tell You About the Dahan Track", "badText": "<ul><li><strong>1. Before Heaven & The Torah Covenant (Sinai vs. A Civil Shortcut):</strong> Joining the Jewish people (<em>Am Yisrael</em>) is not merely acquiring an Israeli ID card—it is standing at Mount Sinai and entering an eternal covenant with God (<em>Hashem</em>) through His Torah and <em>Halacha</em>, just as Ruth declared: <em>'Your people shall be my people, and your God my God.'</em> Choosing a track that rejects binding Torah observance shortchanges your soul when the real, undisputed crown is within your reach.</li><li><strong>2. The Generational Time-Bomb (Marriage & Your Future Children):</strong> The Supreme Court only rules on civil citizenship—the Chief Rabbinate (<em>Rabbanut HaRashit</em>) holds exclusive legal authority over Jewish marriage in Israel. Under a Dahan conversion, <strong>you remain listed as non-Jewish in the Rabbanut registry</strong>. Worse: if a woman converts via a non-Orthodox court, her children grow up in Israel speaking Hebrew and serving in the IDF, only to be told at age 24 when applying to get married: <em>'Your mother's conversion is not Halachic; you are not Jewish and cannot marry here.'</em></li><li><strong>3. Social & Synagogue Reality in Israel:</strong> Unlike North America, in Israel (even among secular Israelis!) the universal baseline for a synagogue, wedding, <em>Brit Milah</em>, or <em>Bar Mitzvah</em> is Orthodox. Holding a conversion that every neighborhood shul and half the country does not recognize as Jewish creates painful lifelong imposter syndrome.</li><li><strong>4. The 'Faster Visa' Myth:</strong> Misrad HaPanim subjects Dahan files to the exact same B/2 tourist security blocks and multi-year graduated residency scrutiny—so you don't even save time!</li></ul>", "goodTitle": "⚡ The Good-Samaritan Solution: Do It 100% Kosher in the Exact Same Timeframe", "goodText": "<ul><li><strong>1. Want Fast, Warm, Undisputed Halachic Status?</strong> Use <strong>Track 2 (Private Orthodox Beit Din — Gush Etzion / Bnei Brak under the 2016 Rogachova ruling) + Beit HaDin HaGadol Validation (<em>Ishur Giyur</em>)</strong> or <strong>Track 3 (State Nativ via <em>Va'adat Charigim</em>)</strong>. In 9–12 months of genuine study with our vetted Rabbanut-recognized Sponsoring Rabbi & Madrichat Kallah, every Beit Din, shul, and in-law on earth will recognize you and your children forever!</li><li><strong>2. Already Did a Non-Orthodox Conversion or Married to an Israeli?</strong> You can immediately secure your legal Israeli work permit and residency via <strong>Track 4 (<em>Nohal 5.2.0008 / 5.2.0009</em> Spousal Visa)</strong> while we connect you with a warm, non-judgmental Rabbanut-recognized Sponsoring Rabbi to complete your full Halachic Orthodox conversion!</li></ul><br><button class='btn-sky' onclick='closeObstacle(); switchTab(3);'>Meet Our Warm, Vetted Orthodox Rabbi & Kallah Team →</button>", "time": "⏱️ Protect Your Soul, Your Wedding & Your Future Children Forever"},
     fx_shield: {
       tag: "💸 Aliyah Currency & Rent Escrow Bridge • Zero Bank Freeze",
       title: "Paying Israeli Landlords in ₪ & Moving Funds Without a Teudat Zehut",
@@ -1966,9 +1969,9 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 <script>
   (function(){
     var p = location.pathname.split('/').filter(Boolean)[0];
-    var urlLang = (['he','fr','es','de'].indexOf(p) !== -1) ? p : null;
-    window.gatLang = urlLang || localStorage.getItem('gat_lang') || (new URLSearchParams(location.search).get('lang')) || 'en';
-    if (urlLang) localStorage.setItem('gat_lang', urlLang);
+    var urlLang = (['he','fr','es','de'].indexOf(p) !== -1) ? p : 'en';
+    window.gatLang = (new URLSearchParams(location.search).get('lang')) || urlLang;
+    localStorage.setItem('gat_lang', window.gatLang);
   })();
   window.gatDict = {};
   window.enHtmlCache = {};
@@ -1983,10 +1986,29 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     '#view-2 > .btn-sky', '#track-0', '#track-1', '#track-2', '#track-3',
     '#view-2 .hero-center p', '#view-2 .zehut-select-label', '#z-track',
     '#view-2 .emerald-label', '#view-2 .emerald-sub',
-    '#view-3 .hero-center p', '#rabbi-radios', '#view-3 .vetted-card',
+    '#view-3 .hero-center p', '#view-3 .vetted-card',
     '#view-4 .shield-banner', '#view-4 .two-way-bar',
     '#mg-0', '#mg-1', '#mg-2', '#mg-3'
   ];
+
+    window.rewriteLinksForLang = function(lang) {
+    const prefix = (lang && lang !== 'en') ? ('/' + lang) : '';
+    document.querySelectorAll('#dahan-gold-card, .seo-mesh-link, .track-card a[href*="dahan-ruling"]').forEach(a => {
+      let href = a.getAttribute('href') || '';
+      if (!href.startsWith('/')) return;
+      let clean = href.replace(/^\/(he|fr|es|de)(\/|$)/, '/');
+      if (!clean.endsWith('/')) clean += '/';
+      if (clean.startsWith('/forms')) {
+        a.setAttribute('href', '/forms/');
+      } else {
+        a.setAttribute('href', prefix + clean);
+      }
+    });
+    const backBtn = document.getElementById('app-nav-back');
+    if (backBtn) {
+      backBtn.setAttribute('href', (lang && lang !== 'en') ? ('https://giyuraliyahtrack.com/' + lang + '/') : 'https://giyuraliyahtrack.com/');
+    }
+  };
 
   function applyHtmlBlocks(lang) {
     const d = window.gatDict[lang] || {};
@@ -1994,8 +2016,10 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     window.htmlSwapSelectors.forEach(sel => {
       const el = document.querySelector(sel);
       if (!el) return;
-      if (!window.enHtmlCache[sel]) window.enHtmlCache[sel] = el.innerHTML;
-      if (lang === 'en') {
+      if (!window.enHtmlCache[sel] && document.documentElement.lang === 'en') window.enHtmlCache[sel] = el.innerHTML;
+      if (blocks[sel] && !String(blocks[sel]).startsWith('[EN_DOM_DEFAULT:')) {
+        el.innerHTML = blocks[sel];
+      } else if (lang === 'en' && window.enHtmlCache[sel]) {
         el.innerHTML = window.enHtmlCache[sel];
       } else if (blocks[sel] && !String(blocks[sel]).startsWith('[EN_DOM_DEFAULT:')) {
         el.innerHTML = blocks[sel];
@@ -2023,11 +2047,20 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
         <div>• <strong>${d.j_police || 'Police:'}</strong> ${j.police}<br>• <strong>${d.j_birth || 'Birth:'}</strong> ${j.birth}<br>• <strong>${d.j_single || 'Civil/Single:'}</strong> ${j.single}<br>• <strong>${d.j_apostille || 'Apostille:'}</strong> ${j.apostille}</div>`;
     }
     if (typeof updateShieldMath === 'function') updateShieldMath();
+    if (typeof window.rewriteLinksForLang === 'function') window.rewriteLinksForLang(lang);
+    if (typeof window.gatActiveTrack === 'number') {
+      document.querySelectorAll('.seg-bar .seg-btn').forEach((b, i) => b.classList.toggle('active', i === window.gatActiveTrack));
+      document.querySelectorAll('.track-card').forEach((c, i) => c.classList.toggle('active', i === window.gatActiveTrack));
+    }
+    if (typeof window.gatActiveTab === 'number') {
+      document.querySelectorAll('.app-view').forEach((v, i) => v.classList.toggle('active', i === window.gatActiveTab));
+      document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', i === window.gatActiveTab));
+    }
   }
 
   async function applyLang(lang) {
     if (!window.gatDict[lang]) {
-      const r = await fetch('/i18n/' + lang + '.json?v=35');
+      const r = await fetch('/i18n/' + lang + '.json?v=130');
       window.gatDict[lang] = await r.json();
     }
     const d = window.gatDict[lang];
@@ -2043,6 +2076,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     });
     window.gatLang = lang;
     applyHtmlBlocks(lang);
+    if (typeof window.syncActiveTabAndTrackUI === 'function') window.syncActiveTabAndTrackUI(true);
 
     const badgeMap = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
     document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
@@ -2085,7 +2119,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     if (parts.length > 0 && LANGS.includes(parts[0]) && parts[0] !== 'en') {
       return parts[0];
     }
-    return null;
+    return 'en';
   }
 
   function getTargetLangPath(targetLang) {
@@ -2162,5 +2196,205 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 })();
 </script>
 
-<script>window.IS_SPOKE=true;window.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{if(!location.search.includes('noopen'))openTerm('vaadat_charigim');},400));</script></body>
+
+
+<script id="gat-nav-engine">
+(function(){
+  window.getUrlLang = function(){
+    const m = location.pathname.match(/^\/(he|fr|es|de)(\/|$)/);
+    return m ? m[1] : 'en';
+  };
+  window.gatLang = window.getUrlLang();
+  localStorage.setItem('gat_lang', window.gatLang);
+  window.gatActiveTab = 0;
+  window.gatActiveTrack = 0;
+
+  window.normPath = function(p){
+    if (!p) return '/';
+    const clean = p.split('?')[0].split('#')[0].replace(/\/+$/, '');
+    return clean || '/';
+  };
+
+  window.isSpokePage = function(){
+    const p = window.normPath(location.pathname).replace(/^\/(he|fr|es|de)(\/|$)/, '/');
+    return p !== '/' && p !== '/index.html';
+  };
+
+  window.getStack = function(){
+    try { return JSON.parse(sessionStorage.getItem('gat_nav_stack_v2') || '[]'); } catch(e){ return []; }
+  };
+
+  window.setStack = function(arr){
+    try {
+      if (arr.length > 25) arr = arr.slice(arr.length - 25);
+      sessionStorage.setItem('gat_nav_stack_v2', JSON.stringify(arr));
+    } catch(e){}
+  };
+
+  window.pushGatStack = function(){
+    const vp = document.getElementById('viewport');
+    const snap = {
+      path: window.normPath(location.pathname),
+      lang: window.gatLang || window.getUrlLang(),
+      tab: typeof window.gatActiveTab === 'number' ? window.gatActiveTab : 0,
+      track: typeof window.gatActiveTrack === 'number' ? window.gatActiveTrack : 0,
+      scroll: vp ? vp.scrollTop : 0
+    };
+    const st = window.getStack();
+    const last = st.length ? st[st.length - 1] : null;
+    if (!last || last.path !== snap.path || last.tab !== snap.tab || last.track !== snap.track) {
+      st.push(snap);
+      window.setStack(st);
+    }
+  };
+
+  window.updateBackBarUI = function(){
+    const b = document.getElementById('app-nav-back');
+    if (!b) return;
+    const l = window.gatLang || window.getUrlLang();
+    b.setAttribute('href', l === 'en' ? 'https://giyuraliyahtrack.com/' : 'https://giyuraliyahtrack.com/' + l + '/');
+    const st = window.getStack();
+    const show = (st.length > 0) || (window.gatActiveTab > 0) || (window.gatActiveTrack > 0) || window.isSpokePage();
+    b.classList.toggle('visible', show);
+  };
+
+  window.syncActiveTabAndTrackUI = function(keepScroll){
+    const tIdx = typeof window.gatActiveTab === 'number' ? window.gatActiveTab : 0;
+    const trIdx = typeof window.gatActiveTrack === 'number' ? window.gatActiveTrack : 0;
+    document.querySelectorAll('.app-view').forEach((v, i) => v.classList.toggle('active', i === tIdx));
+    document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', i === tIdx));
+    document.querySelectorAll('.seg-bar .seg-btn').forEach((b, i) => b.classList.toggle('active', i === trIdx));
+    document.querySelectorAll('.track-card').forEach((c, i) => c.classList.toggle('active', i === trIdx));
+    const vp = document.getElementById('viewport');
+    if (vp && !keepScroll) vp.scrollTop = 0;
+    window.updateBackBarUI();
+  };
+
+  window.gatSwitchTab = window.switchTab = function(idx, skipStack, keepScroll){
+    if (!skipStack && window.gatActiveTab !== idx) {
+      window.pushGatStack();
+    }
+    window.gatActiveTab = idx;
+    if (idx !== 1) window.gatActiveTrack = 0;
+    window.syncActiveTabAndTrackUI(keepScroll);
+  };
+
+  window.gatSwitchTrack = window.switchTrack = function(idx, btn, skipStack){
+    if (!skipStack && (window.gatActiveTab !== 1 || window.gatActiveTrack !== idx)) {
+      window.pushGatStack();
+    }
+    window.gatActiveTab = 1;
+    window.gatActiveTrack = idx;
+    window.syncActiveTabAndTrackUI(true);
+  };
+
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a[href]');
+    if (!a || a.classList.contains('brand') || a.id === 'app-nav-back') return;
+    const rawHref = a.getAttribute('href') || '';
+    if (!rawHref.startsWith('/')) return;
+
+    window.pushGatStack();
+    try { sessionStorage.setItem('gat_skip_intro_once', '1'); } catch(err){}
+
+    const targetPath = window.normPath(rawHref);
+    const curPath = window.normPath(location.pathname);
+    if (targetPath === curPath && !rawHref.startsWith('/app') && !rawHref.startsWith('/forms')) {
+      e.preventDefault();
+      window.gatActiveTab = 0;
+      window.gatActiveTrack = 0;
+      window.syncActiveTabAndTrackUI(false);
+      return false;
+    }
+  }, true);
+
+  window.handleBrandClick = function(e){
+    if (e) e.preventDefault();
+    window.setStack([]);
+    try { sessionStorage.removeItem('gat_pending_restore'); sessionStorage.setItem('gat_skip_intro_once', '1'); } catch(err){}
+    const l = window.gatLang || window.getUrlLang();
+    if (window.isSpokePage()) {
+      location.href = (l === 'en' ? '/' : '/' + l + '/');
+    } else {
+      window.gatActiveTab = 0;
+      window.gatActiveTrack = 0;
+      window.syncActiveTabAndTrackUI(false);
+    }
+    return false;
+  };
+
+  window.handleSmartBack = function(e){
+    if (e) e.preventDefault();
+    try { sessionStorage.setItem('gat_skip_intro_once', '1'); } catch(err){}
+
+    const st = window.getStack();
+    if (st.length > 0) {
+      const prev = st.pop();
+      window.setStack(st);
+      const curPath = window.normPath(location.pathname);
+      if (prev.path === curPath) {
+        window.gatActiveTab = prev.tab || 0;
+        window.gatActiveTrack = prev.track || 0;
+        window.syncActiveTabAndTrackUI(true);
+        if (typeof prev.scroll === 'number') {
+          const vp = document.getElementById('viewport');
+          if (vp) setTimeout(function(){ vp.scrollTop = prev.scroll; }, 20);
+        }
+        return false;
+      } else {
+        try { sessionStorage.setItem('gat_pending_restore', JSON.stringify(prev)); } catch(err){}
+        location.href = prev.path === '/' ? '/' : (prev.path + '/');
+        return false;
+      }
+    }
+
+    if (window.gatActiveTab > 0 || window.gatActiveTrack > 0) {
+      window.gatActiveTab = 0;
+      window.gatActiveTrack = 0;
+      window.syncActiveTabAndTrackUI(false);
+      return false;
+    }
+
+    if (window.isSpokePage()) {
+      const l = window.gatLang || window.getUrlLang();
+      location.href = (l === 'en' ? '/' : '/' + l + '/');
+      return false;
+    }
+
+    return false;
+  };
+
+  function restoreOnLoad(){
+    if (typeof window.rewriteLinksForLang === 'function') window.rewriteLinksForLang(window.gatLang);
+    try {
+      const raw = sessionStorage.getItem('gat_pending_restore');
+      if (raw) {
+        sessionStorage.removeItem('gat_pending_restore');
+        const target = JSON.parse(raw);
+        window.gatActiveTab = target.tab || 0;
+        window.gatActiveTrack = target.track || 0;
+        window.syncActiveTabAndTrackUI(true);
+        if (typeof target.scroll === 'number') {
+          const vp = document.getElementById('viewport');
+          if (vp) setTimeout(function(){ vp.scrollTop = target.scroll; }, 50);
+        }
+        return;
+      }
+    } catch(e){}
+
+    const qTab = new URLSearchParams(location.search).get('tab');
+    if (qTab !== null) {
+      window.gatActiveTab = parseInt(qTab, 10) || 0;
+      window.gatActiveTrack = 0;
+      window.syncActiveTabAndTrackUI(false);
+      return;
+    }
+    window.syncActiveTabAndTrackUI(false);
+  }
+
+  window.addEventListener('DOMContentLoaded', restoreOnLoad);
+  window.addEventListener('pageshow', restoreOnLoad);
+})();
+</script>
+</body>
 </html>
