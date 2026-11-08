@@ -407,12 +407,7 @@ function renderAll() {
   `;
   updateBdCard();
   updateCpCard();
-  const sl = document.getElementById('songs-list');
-  sl.innerHTML = (SONGS_I18N[lang] || SONGS).map(s => `<div style="padding:12px;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:10px;background:#f8fafc;">
-    <div style="font-weight:900;color:#0c4a6e;margin-bottom:4px;">${s.t}</div>
-    <div style="font-size:0.88rem;color:#0f172a;font-style:italic;margin-bottom:6px;">"${s.p}"</div>
-    <div style="font-size:0.82rem;color:#475569;">${s.m}</div>
-  </div>`).join('');
+  window.renderSongs12();
 }
 
 function openMod(m) {
@@ -1165,3 +1160,50 @@ window.addEventListener('DOMContentLoaded', () => {
   else window.currentMod = 'hebrew-engine';
   setAppLang(saved);
 });
+
+
+window.songMaskMode = false;
+window.songMastered = JSON.parse(localStorage.getItem('gat_songs_m') || '{}');
+
+window.speakSongHe = function(idx) {
+  const s = (window.SONGS_VAULT12 || [])[idx];
+  if (!s || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(s.he);
+  u.lang = 'he-IL'; u.rate = 0.84;
+  window.speechSynthesis.speak(u);
+};
+
+window.toggleSongMaster = function(id) {
+  window.songMastered[id] = !window.songMastered[id];
+  localStorage.setItem('gat_songs_m', JSON.stringify(window.songMastered));
+  window.renderSongs12();
+};
+
+window.renderSongs12 = function() {
+  const sl = document.getElementById('songs-list');
+  if (!sl) return;
+  const l = window.appLang || 'en';
+  const list = window.SONGS_VAULT12 || [];
+  const mCnt = Object.values(window.songMastered).filter(Boolean).length;
+  const hdr = `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:8px 12px;margin-bottom:12px;font-size:0.8rem;font-weight:800;color:#0c4a6e;flex-wrap:wrap;">
+    <span>🎵 Memorized for Beit Din: ${mCnt}/12</span>
+    <button type="button" onclick="window.songMaskMode=!window.songMaskMode;window.renderSongs12();" style="background:${window.songMaskMode?'#d97706':'#0284c7'};color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:0.76rem;font-weight:800;cursor:pointer;">${window.songMaskMode?'👁️ Reveal Text (Study Mode)':'🧠 Memory Test Mode (Hide Words)'}</button>
+  </div>`;
+  sl.innerHTML = hdr + list.map((s, idx) => {
+    const done = !!window.songMastered[s.id];
+    const maskStyle = window.songMaskMode ? 'filter:blur(5px);cursor:pointer;' : '';
+    return `<div style="padding:14px;border:1.5px solid ${done?'#10b981':'#e2e8f0'};border-radius:14px;margin-bottom:12px;background:${done?'#f0fdf4':'#f8fafc'};">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+        <div style="font-weight:900;color:#0c4a6e;font-size:0.95rem;">${s.t}</div>
+        <div style="display:flex;gap:6px;">
+          <button type="button" onclick="speakSongHe(${idx})" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:4px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">🔊 Listen (HE)</button>
+          <button type="button" onclick="toggleSongMaster(${s.id})" style="background:${done?'#059669':'#e2e8f0'};color:${done?'#fff':'#334155'};border:none;border-radius:999px;padding:4px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">${done?'✅ Memorized':'Mark Memorized'}</button>
+        </div>
+      </div>
+      <div dir="rtl" onclick="this.style.filter='none'" style="font-size:1.05rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.6;${maskStyle}">${s.he}</div>
+      <div onclick="this.style.filter='none'" style="font-size:0.86rem;color:#1e293b;font-style:italic;margin-bottom:6px;${maskStyle}">"${s.tr}"</div>
+      <div style="font-size:0.81rem;color:#475569;border-top:1px dashed #cbd5e1;padding-top:6px;">💡 ${(s.m && s.m[l]) || s.m.en}</div>
+    </div>`;
+  }).join('');
+};
