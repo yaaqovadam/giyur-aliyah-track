@@ -762,6 +762,13 @@
   <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
   <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
   <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
+  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah" />
+  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah" />
+  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/" />
+  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/" />
+  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/" />
+  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/" />
+  <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Giyur Aliyah Track","item":"https://giyuraliyahtrack.com/"},{"@type":"ListItem","position":2,"name":"Private Orthodox Conversion (Gush Etzion, Bnei Brak) & Aliyah","item":"https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah"}]}</script>  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah/" />
   <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/gush-etzion-private-conversion-aliyah/" />
   <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/gush-etzion-private-conversion-aliyah/" />
@@ -2098,21 +2105,28 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   function updateGlobeBadge(lang) {
     const labels = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
-    document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
+    document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span').forEach(el => {
       el.textContent = labels[lang] || 'EN';
     });
   }
 
-  window.selectLangDirect = function(l) {
+  window.selectLangDirect = async function(l, ev) {
+    if (ev) { ev.preventDefault(); ev.stopPropagation(); }
     localStorage.setItem('gat_lang', l);
     const m = document.getElementById('lang-pop-menu');
     if (m) m.style.display = 'none';
+
+    // Update URL bar in-place via history.replaceState (ZERO page reload, ZERO tab reset!)
     const targetPath = getTargetLangPath(l);
-    if (targetPath && window.history && window.history.pushState) {
-      window.history.pushState({ lang: l }, '', targetPath + window.location.search + window.location.hash);
+    if (targetPath && window.history && window.history.replaceState) {
+      window.history.replaceState({ lang: l }, '', targetPath + window.location.search + window.location.hash);
     }
-    if (typeof applyLang === 'function') applyLang(l);
+
+    if (typeof applyLang === 'function') {
+      await applyLang(l);
+    }
     updateGlobeBadge(l);
+    return false;
   };
 
   window.toggleLang = function(e) {
@@ -2130,7 +2144,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
         ['de', '🇩🇪/🇦🇹 Deutsch (DACH)']
       ];
       m.innerHTML = opts.map(([k, lbl]) =>
-        `<button type="button" onclick="window.selectLangDirect('${k}')" style="background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:10px 12px;font-weight:800;font-size:13.5px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;width:100%;"><span>${lbl}</span><span style="color:#38bdf8;font-size:11px;margin-left:8px;">${k.toUpperCase()}</span></button>`
+        `<button type="button" onclick="return window.selectLangDirect('${k}', event)" style="background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:10px 12px;font-weight:800;font-size:13.5px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;width:100%;"><span>${lbl}</span><span style="color:#38bdf8;font-size:11px;margin-left:8px;">${k.toUpperCase()}</span></button>`
       ).join('');
       document.body.appendChild(m);
       document.addEventListener('click', function(ev) {
@@ -2141,41 +2155,10 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     }
   };
 
-  
-  // Smooth SPA interceptor for .seo-mesh-link: keeps /{lang}/ in URL bar & opens modal without full reload
-  const SPOKE_MODAL_MAP = {
-    'emergency-aliyah-go-bag-shinui-maamad': () => openTerm('go_bag'),
-    'gush-etzion-private-conversion-aliyah': () => openTerm('ishur_giyur'),
-    'vaadat-charigim-tourist-conversion-israel': () => openTerm('vaadat_charigim'),
-    'apostille-180-day-clock-fbi-police-check-israel': () => openTerm('five_docs'),
-    'israeli-rabbi-community-letters-beit-din': () => openTerm('community_letters'),
-    'misrad-hapanim-spousal-visa-nohal-5-2-0008': () => openObstacle(6),
-    'hebrew-clerk-letter-translator-form-ash1-ash3': () => openObstacle(4),
-    'aliyah-spousal-visa-criminal-record-rehabilitation': () => openObstacle(7),
-    'tourist-visa-israel-remote-work-housing-giyur': () => openObstacle(8)
-  };
-
-  document.addEventListener('click', function(ev) {
-    const a = ev.target.closest('a.seo-mesh-link');
-    if (!a) return;
-    ev.preventDefault();
-    const rawHref = a.getAttribute('href') || '';
-    const slug = rawHref.split('/').filter(Boolean).pop();
-    const lang = window.gatLang || localStorage.getItem('gat_lang') || 'en';
-    const newPath = (lang && lang !== 'en') ? `/${lang}/${slug}/` : `/${slug}/`;
-    if (window.history && window.history.pushState) {
-      window.history.pushState({ slug, lang }, '', newPath);
-    }
-    if (SPOKE_MODAL_MAP[slug]) {
-      SPOKE_MODAL_MAP[slug]();
-    }
-  });
-
   document.addEventListener('DOMContentLoaded', function() {
     const urlLang = detectUrlLang();
     const active = urlLang || localStorage.getItem('gat_lang') || 'en';
     if (urlLang) localStorage.setItem('gat_lang', urlLang);
-    if (active !== 'en' && typeof applyLang === 'function') applyLang(active);
     updateGlobeBadge(active);
   });
 })();
