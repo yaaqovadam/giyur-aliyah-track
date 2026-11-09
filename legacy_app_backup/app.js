@@ -521,3 +521,193 @@ window.addEventListener('DOMContentLoaded', () => {
   else window.currentMod = 'hebrew-engine';
   setAppLang(saved);
 });
+// ============================================================================
+// AI VISION DOCUMENT & CLERK SHEET SCANNER (GEMINI 2.5 FLASH VISION)
+// ============================================================================
+window.VISION_UI_I18N = {
+  en: {
+    btn_clerk: "📸 Snap Photo / Upload Clerk Hebrew Sheet (AI Vision Decoder)",
+    btn_doc: "📸 Snap Photo / Upload Certificate or Apostille (AI Forensic Check)",
+    scanning: "🔍 Gemini 3.8 Flash Vision analyzing document...",
+    err: "⚠️ Could not analyze file: ",
+    done_clerk: "✅ Hebrew Clerk Sheet Transcribed & Decoded Below:",
+    done_doc: "🔬 AI Forensic Document Inspection Complete:"
+  },
+  he: {
+    btn_clerk: "📸 צלמו או העלו דף דרישת מסמכים מהפקיד (פענוח AI מיידי)",
+    btn_doc: "📸 צלמו או העלו תעודה / אפוסטיל / דרכון (בדיקת AI לפני התור)",
+    scanning: "🔍 מנוע ה-AI סורק ובודק את המסמך...",
+    err: "⚠️ שגיאה בסריקת הקובץ: ",
+    done_clerk: "✅ דף הפקיד פוענח בהצלחה:",
+    done_doc: "🔬 ממצאי בדיקת ה-AI למסמך:"
+  },
+  fr: {
+    btn_clerk: "📸 Prendre en Photo / Téléverser la Feuille du Guichet (IA Vision)",
+    btn_doc: "📸 Scanner un Acte / Apostille / Passeport (Inspection IA)",
+    scanning: "🔍 Analyse du document par Gemini 3.8 Flash Vision...",
+    err: "⚠️ Erreur d'analyse : ",
+    done_clerk: "✅ Feuille du guichet transcrite et décodée :",
+    done_doc: "🔬 Résultat de l'inspection IA du document :"
+  },
+  es: {
+    btn_clerk: "📸 Tomar Foto / Subir Hoja Hebrea del Funcionario (IA Visión)",
+    btn_doc: "📸 Escanear Partida / Apostilla / Pasaporte (Auditoría IA)",
+    scanning: "🔍 Analizando documento con Gemini 3.8 Flash Vision...",
+    err: "⚠️ Error al analizar: ",
+    done_clerk: "✅ Hoja del funcionario transcrita y decodificada:",
+    done_doc: "🔬 Inspección forense IA completada:"
+  },
+  de: {
+    btn_clerk: "📸 Foto / Upload des Hebräischen Schalterblatts (KI-Scanner)",
+    btn_doc: "📸 Urkunde / Apostille / Reisepass Scannen (KI-Prüfung)",
+    scanning: "🔍 Dokument wird mit Gemini 3.8 Flash Vision geprüft...",
+    err: "⚠️ Fehler bei der Analyse: ",
+    done_clerk: "✅ Schalterblatt erfolgreich erkannt und übersetzt:",
+    done_doc: "🔬 KI-Dokumentenprüfung abgeschlossen:"
+  }
+};
+
+window.fileToCompressedBase64 = function(file) {
+  return new Promise(function(resolve, reject) {
+    if (file.type === 'application/pdf') {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const b64 = String(reader.result).split(',')[1] || '';
+        resolve({ mimeType: 'application/pdf', base64Data: b64 });
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+      return;
+    }
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = function() {
+      URL.revokeObjectURL(url);
+      const maxDim = 1600;
+      let w = img.width, h = img.height;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) { h = Math.round(h * (maxDim / w)); w = maxDim; }
+        else { w = Math.round(w * (maxDim / h)); h = maxDim; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+      resolve({ mimeType: 'image/jpeg', base64Data: dataUrl.split(',')[1] });
+    };
+    img.onerror = function(e) { URL.revokeObjectURL(url); reject(e); };
+    img.src = url;
+  });
+};
+
+window.runVisionAudit = async function(inputEl, mode) {
+  const file = inputEl && inputEl.files && inputEl.files[0];
+  if (!file) return;
+  const lang = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  const vt = window.VISION_UI_I18N[lang] || window.VISION_UI_I18N.en;
+  const statusBox = document.getElementById(mode === 'clerk_sheet' ? 'in-clerk-out' : 'vision-doc-out');
+  if (statusBox) {
+    statusBox.style.display = 'block';
+    statusBox.innerHTML = `<div style="font-weight:800;color:#0284c7;">${vt.scanning}</div>`;
+  }
+
+  try {
+    const payload = await window.fileToCompressedBase64(file);
+    const res = await fetch('https://us-central1-giyur-aliyah-track-b34bb.cloudfunctions.net/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mimeType: payload.mimeType,
+        base64Data: payload.base64Data,
+        mode: mode,
+        lang: lang
+      })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok || !data.result) {
+      throw new Error(data.error || 'Server error');
+    }
+    const r = data.result;
+
+    if (mode === 'clerk_sheet') {
+      const txtEl = document.getElementById('in-clerk-txt');
+      if (txtEl && r.hebrew_raw_text) txtEl.value = r.hebrew_raw_text;
+      window.decodeClerkSheet();
+      if (statusBox && r.summary_in_user_lang) {
+        statusBox.insertAdjacentHTML('afterbegin',
+          `<div style="padding:10px 12px;background:#e0f2fe;border:1.5px solid #0284c7;border-radius:10px;margin-bottom:10px;color:#0c4a6e;">
+            <div style="font-weight:900;margin-bottom:4px;">${vt.done_clerk}</div>
+            <div style="white-space:pre-wrap;line-height:1.45;">${r.summary_in_user_lang}</div>
+          </div>`
+        );
+      }
+    } else {
+      if (typeof r.days_since_issued === 'number' && r.days_since_issued > 0) {
+        const dEl = document.getElementById('chk-days');
+        if (dEl) dEl.value = r.days_since_issued;
+      }
+      if (r.doc_type === 'passport' && typeof r.passport_months_remaining === 'number') {
+        const pEl = document.getElementById('chk-pass-months');
+        if (pEl) pEl.value = r.passport_months_remaining;
+      }
+      if (r.doc_type === 'birth_cert' && r.is_long_form_both_parents === false) {
+        const bEl = document.getElementById('chk-birth');
+        if (bEl) bEl.checked = false;
+      }
+      if (r.apostille_authority_correct === false) {
+        const aEl = document.getElementById('chk-apostille-auth');
+        if (aEl) aEl.checked = false;
+      }
+      if (r.document_language === 'english' && !r.has_israeli_red_ribbon_notary) {
+        const tEl = document.getElementById('chk-hebrew-trans');
+        if (tEl) tEl.value = 'english_raw';
+      } else if (r.document_language === 'foreign' && !r.has_israeli_red_ribbon_notary) {
+        const tEl = document.getElementById('chk-hebrew-trans');
+        if (tEl) tEl.value = 'foreign_lang';
+      }
+      if (statusBox) {
+        const findings = Array.isArray(r.forensic_findings) ? r.forensic_findings : [];
+        statusBox.innerHTML = `<div style="font-weight:900;color:#065f46;margin-bottom:6px;">${vt.done_doc} ${r.doc_title_detected || ''}</div>` +
+          findings.map(f => `<div style="font-size:0.83rem;color:#0f172a;margin-bottom:4px;">• ${f}</div>`).join('');
+      }
+      window.validateHomelandDossier();
+    }
+  } catch (err) {
+    if (statusBox) {
+      statusBox.innerHTML = `<div style="color:#b91c1c;font-weight:800;">${vt.err}${err.message || err}</div>`;
+    }
+  } finally {
+    inputEl.value = '';
+  }
+};
+
+const _preVisionRenderAll = renderAll;
+renderAll = function() {
+  _preVisionRenderAll();
+  const lang = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  const vt = window.VISION_UI_I18N[lang] || window.VISION_UI_I18N.en;
+
+  const clerkTxt = document.getElementById('in-clerk-txt');
+  if (clerkTxt && !document.getElementById('vision-clerk-btn')) {
+    clerkTxt.insertAdjacentHTML('beforebegin', `
+      <input type="file" id="vision-clerk-input" accept="image/*,application/pdf" capture="environment" style="display:none;" onchange="window.runVisionAudit(this, 'clerk_sheet')" />
+      <button type="button" id="vision-clerk-btn" class="btn" style="margin:0 0 10px 0;background:#0f172a;border:1.5px dashed #38bdf8;color:#38bdf8;" onclick="document.getElementById('vision-clerk-input').click()">${vt.btn_clerk}</button>
+    `);
+  }
+
+  const chkBirth = document.getElementById('chk-birth');
+  if (chkBirth && !document.getElementById('vision-doc-btn')) {
+    const labelParent = chkBirth.closest('label');
+    if (labelParent) {
+      labelParent.insertAdjacentHTML('beforebegin', `
+        <input type="file" id="vision-doc-input" accept="image/*,application/pdf" capture="environment" style="display:none;" onchange="window.runVisionAudit(this, 'dossier_doc')" />
+        <button type="button" id="vision-doc-btn" class="btn" style="margin:0 0 10px 0;background:#065f46;border:1.5px dashed #34d399;color:#ecfdf5;" onclick="document.getElementById('vision-doc-input').click()">${vt.btn_doc}</button>
+        <div id="vision-doc-out" style="display:none;margin-bottom:10px;padding:10px 12px;background:#ecfdf5;border:1.5px solid #10b981;border-radius:10px;"></div>
+      `);
+    }
+  }
+};
+if (typeof renderAll === 'function' && document.getElementById('app-container')) {
+  try { renderAll(); if (typeof openMod === 'function') openMod(window.currentMod || 'hebrew-engine'); } catch(e) {}
+}

@@ -10,7 +10,8 @@
       "ignore": [
         "node_modules",
         ".git"
-      ]
+      ],
+      "runtime": "nodejs22"
     }
   ],
   "hosting": {
@@ -25,7 +26,17 @@
     "rewrites": [
       {
         "source": "/api/auditDoc",
-        "function": "auditDoc"
+        "function": {
+          "functionId": "auditDoc",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/paymentWebhook",
+        "function": {
+          "functionId": "paymentWebhook",
+          "region": "us-central1"
+        }
       },
       {
         "source": "/app/**",
