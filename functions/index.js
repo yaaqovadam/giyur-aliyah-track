@@ -44,7 +44,17 @@ exports.auditDoc = onRequest(
       const todayStr = new Date().toISOString().slice(0, 10);
       const targetLang = { en: "English", he: "Hebrew", fr: "French", es: "Spanish", de: "German" }[lang || "en"] || "English";
 
-      const systemPrompt = mode === "clerk_sheet"
+      const systemPrompt = mode === "align_audio"
+        ? `You are a precision Hebrew liturgical audio-to-karaoke forced alignment engine.
+Listen carefully to this Hebrew Shabbat song recording (${lang || "Song"}).
+Transcribe the exact Hebrew words sung in chronological order (including any repeated chorus/stanzas actually sung in the audio), provide the matching 1:1 Latin phonetic transliteration (must have the EXACT same number of space-separated words as the Hebrew text), and provide the start timestamp in seconds (e.g. 4.2) for each word.
+Return ONLY valid JSON with this exact schema:
+{
+  "hebrew_lyrics": "word1 word2 word3 ...",
+  "transliteration": "word1 word2 word3 ...",
+  "timestamps_sec": [4.2, 5.1, 6.0]
+}`
+        : mode === "clerk_sheet" 
         ? `You are a senior Israeli Misrad HaPanim & Rabbanut legal clerk decoder. Today is ${todayStr}.
 Examine the uploaded Israeli Hebrew clerk deficiency sheet (Drishat Mismachim) or letter.
 Return ONLY valid JSON with this exact schema:

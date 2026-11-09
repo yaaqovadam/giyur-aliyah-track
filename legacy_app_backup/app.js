@@ -711,3 +711,340 @@ renderAll = function() {
 if (typeof renderAll === 'function' && document.getElementById('app-container')) {
   try { renderAll(); if (typeof openMod === 'function') openMod(window.currentMod || 'hebrew-engine'); } catch(e) {}
 }
+
+// ============================================================================
+// UPGRADED 60FPS SYLLABLE-WEIGHTED KARAOKE ENGINE + 0.25x–2x SPEED CONTROL
+// + STRICT SINGLE-TRACK MUTUAL EXCLUSION LOCK (BUTTONS, NATIVE AUDIO & TTS)
+// ============================================================================
+window.songSpeed = parseFloat(localStorage.getItem('gat_song_speed') || '1') || 1;
+window.SONG_SPEED_OPTS = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+window._activePlayingCardId = null;
+
+// Stop all other <audio> elements, cancel SpeechSynthesis, and clear their highlights
+window.stopAllOtherSongs = function(exceptAudioEl, activeCardId) {
+  if (window._activeKaraokeRaf) {
+    cancelAnimationFrame(window._activeKaraokeRaf);
+    window._activeKaraokeRaf = null;
+  }
+  if (window._brachaStreamTimer) {
+    clearInterval(window._brachaStreamTimer);
+    window._brachaStreamTimer = null;
+  }
+  if (exceptAudioEl && 'speechSynthesis' in window) {
+    try { window.speechSynthesis.cancel(); } catch(e){}
+  }
+
+  document.querySelectorAll('audio').forEach(function(a) {
+    if (a !== exceptAudioEl) {
+      try {
+        if (!a.paused) a.pause();
+        a.currentTime = 0;
+      } catch(e){}
+      const otherId = (a.id || '').replace(/^aud-/, '');
+      if (otherId && otherId !== String(activeCardId)) {
+        window.clearKaraokeHighlights(otherId);
+      }
+    }
+  });
+
+  if (window._activePlayingCardId && String(window._activePlayingCardId) !== String(activeCardId)) {
+    window.clearKaraokeHighlights(window._activePlayingCardId);
+  }
+  window._activePlayingCardId = activeCardId || null;
+};
+
+// Global capture-phase 'play' listener: catches ANY native <audio> play button or JS .play()
+if (!window._gatGlobalPlayLockBound) {
+  window._gatGlobalPlayLockBound = true;
+  document.addEventListener('play', function(ev) {
+    const target = ev.target;
+    if (target && target.tagName === 'AUDIO') {
+      const cardId = (target.id || '').replace(/^aud-/, '');
+      const idx = parseInt(target.getAttribute('data-song-idx') || '0', 10);
+      window.stopAllOtherSongs(target, cardId);
+      window.start60FpsKaraokeLoop(target, idx, cardId);
+    }
+  }, true);
+}
+
+window.setSongSpeed = function(rate) {
+  const r = parseFloat(rate) || 1;
+  window.songSpeed = r;
+  try { localStorage.setItem('gat_song_speed', String(r)); } catch(e){}
+
+  document.querySelectorAll('audio').forEach(function(a) {
+    try {
+      a.preservesPitch = true;
+      a.mozPreservesPitch = true;
+      a.webkitPreservesPitch = true;
+      a.playbackRate = r;
+    } catch(e){}
+  });
+
+  document.querySelectorAll('.gat-spd-btn').forEach(function(btn) {
+    const bRate = parseFloat(btn.getAttribute('data-rate'));
+    const active = Math.abs(bRate - r) < 0.01;
+    btn.style.background = active ? '#0284c7' : '#ffffff';
+    btn.style.color = active ? '#ffffff' : '#334155';
+    btn.style.borderColor = active ? '#0284c7' : '#cbd5e1';
+  });
+};
+
+window.getCardWordWeights = function(cardId) {
+  const heBox = document.getElementById('he-box-' + cardId);
+  if (!heBox) return [1];
+  const spans = heBox.querySelectorAll('.kw-word');
+  if (!spans.length) return [1];
+  const weights = [];
+  let total = 0;
+  spans.forEach(function(sp) {
+    const clean = (sp.textContent || '').replace(/[\u0591-\u05C7.,:;!?'"״׳()\/-]/g, '');
+    let w = Math.max(2, clean.length);
+    if (/[,.;:!]/.test(sp.textContent || '')) w += 1.8;
+    total += w;
+    weights.push(total);
+  });
+  return weights.map(function(cum) { return cum / (total || 1); });
+};
+
+window.seekKaraokeWord = function(cardId, wordIdx, totalWords, ev) {
+  if (ev) ev.stopPropagation();
+  const aud = document.getElementById('aud-' + cardId);
+  const cumWeights = window.getCardWordWeights(cardId);
+  const prevRatio = wordIdx <= 0 ? 0 : (cumWeights[wordIdx - 1] || (wordIdx / Math.max(1, totalWords)));
+
+  if (aud) {
+    window.stopAllOtherSongs(aud, cardId);
+    if (aud.duration && isFinite(aud.duration)) {
+      const introOffset = Math.min(1.2, aud.duration * 0.03);
+      const activeSingWindow = Math.max(4, aud.duration * 0.86);
+      aud.currentTime = Math.min(aud.duration - 0.2, introOffset + prevRatio * activeSingWindow);
+    }
+    aud.playbackRate = window.songSpeed || 1;
+    if (aud.paused) aud.play().catch(function(){});
+  }
+  window.highlightKaraokeByWordIndex(cardId, wordIdx);
+};
+
+window.tokenizeKaraokeWords = function(text, prefix, cardId) {
+  const raw = String(text || '').trim();
+  if (!raw) return '';
+  const tokens = raw.split(/\s+/);
+  const total = tokens.length;
+  return tokens.map(function(w, i) {
+    return '<span class="kw-word" id="kw-' + prefix + '-' + cardId + '-' + i + '" data-idx="' + i + '" onclick="window.seekKaraokeWord(\'' + cardId + '\',' + i + ',' + total + ',event)" style="cursor:pointer;" title="Tap to sync here">' + w + '</span>';
+  }).join(' ');
+};
+
+window.highlightKaraokeByWordIndex = function(cardId, activeHeIdx) {
+  const heBox = document.getElementById('he-box-' + cardId);
+  const trBox = document.getElementById('tr-box-' + cardId);
+  if (heBox) {
+    const heSpans = heBox.querySelectorAll('.kw-word');
+    const hLen = heSpans.length || 1;
+    heSpans.forEach(function(sp, i) {
+      sp.classList.toggle('kw-active', i === activeHeIdx);
+      sp.classList.toggle('kw-passed', i < activeHeIdx);
+    });
+    if (trBox) {
+      const trSpans = trBox.querySelectorAll('.kw-word');
+      const tLen = trSpans.length || 1;
+      const activeTrIdx = Math.min(tLen - 1, Math.max(0, Math.round((activeHeIdx / Math.max(1, hLen - 1)) * (tLen - 1))));
+      trSpans.forEach(function(sp, i) {
+        sp.classList.toggle('kw-active', i === activeTrIdx && activeHeIdx < hLen);
+        sp.classList.toggle('kw-passed', i < activeTrIdx || activeHeIdx >= hLen);
+      });
+    }
+  }
+};
+
+window.highlightKaraokeProgress = function(cardId, progressRatio) {
+  const cumWeights = window.getCardWordWeights(cardId);
+  const clamped = Math.min(1, Math.max(0, progressRatio));
+  if (clamped >= 0.998) {
+    window.highlightKaraokeByWordIndex(cardId, cumWeights.length);
+    return;
+  }
+  let activeIdx = 0;
+  for (let i = 0; i < cumWeights.length; i++) {
+    if (clamped <= cumWeights[i]) {
+      activeIdx = i;
+      break;
+    }
+  }
+  window.highlightKaraokeByWordIndex(cardId, activeIdx);
+};
+
+window.start60FpsKaraokeLoop = function(aud, idx, cardId) {
+  if (window._activeKaraokeRaf) {
+    cancelAnimationFrame(window._activeKaraokeRaf);
+    window._activeKaraokeRaf = null;
+  }
+  aud.preservesPitch = true;
+  aud.mozPreservesPitch = true;
+  aud.webkitPreservesPitch = true;
+  aud.playbackRate = window.songSpeed || 1;
+
+  const tick = function() {
+    if (!aud || aud.paused || aud.ended) return;
+    const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
+    if (!unlocked && idx >= window.FREE_SONG_LIMIT && aud.currentTime >= 10) {
+      aud.pause();
+      aud.currentTime = 0;
+      window.clearKaraokeHighlights(cardId);
+      window.openProPaywall(window.getSongsUI().pw_10s, true);
+      return;
+    }
+    const dur = (aud.duration && isFinite(aud.duration) && aud.duration > 0) ? aud.duration : 38;
+    const introOffset = Math.min(0.85, dur * 0.025);
+    const vocalWindow = Math.max(4, dur * 0.85);
+    const vocalElapsed = Math.max(0, aud.currentTime - introOffset);
+    const ratio = Math.min(1, vocalElapsed / vocalWindow);
+    window.highlightKaraokeProgress(cardId, ratio);
+    window._activeKaraokeRaf = requestAnimationFrame(tick);
+  };
+  window._activeKaraokeRaf = requestAnimationFrame(tick);
+};
+
+window.onSongTimeUpdate = function(el, idx, cardId) {
+  const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
+  if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= 10) {
+    el.pause(); el.currentTime = 0;
+    window.clearKaraokeHighlights(cardId);
+    window.openProPaywall(window.getSongsUI().pw_10s, true);
+    return;
+  }
+  if (!window._activeKaraokeRaf && !el.paused) {
+    window.start60FpsKaraokeLoop(el, idx, cardId);
+  }
+};
+
+window.play10sNative = function(id, idx) {
+  const aud = document.getElementById('aud-' + id);
+  if (!aud) return;
+  const resolvedIdx = typeof idx === 'number' ? idx : parseInt(aud.getAttribute('data-song-idx') || '0', 10);
+  // Toggle pause if user clicks green button on a song that is already playing
+  if (!aud.paused) {
+    aud.pause();
+    return;
+  }
+  window.stopAllOtherSongs(aud, id);
+  aud.preservesPitch = true;
+  aud.playbackRate = window.songSpeed || 1;
+  if (aud.currentTime >= (aud.duration || 999) - 0.5) aud.currentTime = 0;
+  aud.play().then(function() {
+    window.start60FpsKaraokeLoop(aud, resolvedIdx, id);
+  }).catch(function(){});
+};
+
+window.speakCleanBracha = function(idx) {
+  const b = (window.BRACHOT_VAULT8 || [])[idx];
+  if (!b || !('speechSynthesis' in window)) return;
+  const cardId = b.id || ('b' + idx);
+  // Stop any playing MP3s or prior Bracha speech before starting this Bracha
+  window.stopAllOtherSongs(null, cardId);
+  window.speechSynthesis.cancel();
+
+  let txt = window.songNusach === 'a' ? (b.he_a || b.he_s) : (b.he_s || b.he_a);
+  txt = txt.replace(/יְיָ|ה'/g, 'אֲדֹנָי').replace(/[.…,:;!?'"״׳()\/-]/g, ' ');
+  const u = new SpeechSynthesisUtterance(txt);
+  u.lang = 'he-IL';
+  const spd = window.songSpeed || 1;
+  u.rate = Math.max(0.25, Math.min(2.0, 0.85 * spd));
+  const words = txt.trim().split(/\s+/);
+  let step = 0;
+  window.highlightKaraokeByWordIndex(cardId, 0);
+
+  let boundaryFired = false;
+  u.onboundary = function(ev) {
+    if (ev.name === 'word') {
+      boundaryFired = true;
+      step++;
+      window.highlightKaraokeByWordIndex(cardId, Math.min(words.length - 1, step));
+    }
+  };
+
+  clearInterval(window._brachaStreamTimer);
+  const intervalMs = Math.round(360 / Math.max(0.25, spd));
+  window._brachaStreamTimer = setInterval(function() {
+    if (boundaryFired) return;
+    step++;
+    window.highlightKaraokeByWordIndex(cardId, Math.min(words.length - 1, step));
+    if (step >= words.length) clearInterval(window._brachaStreamTimer);
+  }, intervalMs);
+
+  u.onend = function() {
+    clearInterval(window._brachaStreamTimer);
+    window.highlightKaraokeProgress(cardId, 1);
+  };
+  window.speechSynthesis.speak(u);
+};
+
+const _origRenderSongs12 = window.renderSongs12;
+window.renderSongs12 = function() {
+  window.stopAllOtherSongs(null, null);
+  _origRenderSongs12();
+  const sl = document.getElementById('songs-list');
+  if (!sl) return;
+
+  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  const spdLbl = {
+    en: '🐢/🐇 Playback Speed (Tap any Hebrew word to sync):',
+    he: '🐢/🐇 מהירות השמעה (לחצו על כל מילה לסנכרון):',
+    fr: '🐢/🐇 Vitesse de lecture (Touchez un mot pour synchroniser) :',
+    es: '🐢/🐇 Velocidad de reproducción (Toque una palabra para sincronizar):',
+    de: '🐢/🐇 Geschwindigkeit (Wort antippen zum Synchronisieren):'
+  }[l] || '🐢/🐇 Playback Speed:';
+
+  const curSpd = window.songSpeed || 1;
+  const barHtml = '<div id="gat-speed-bar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:11px;padding:8px 11px;margin-bottom:12px;">' +
+    '<span style="font-size:0.76rem;font-weight:800;color:#0c4a6e;">' + spdLbl + '</span>' +
+    '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+    window.SONG_SPEED_OPTS.map(function(r) {
+      const act = Math.abs(r - curSpd) < 0.01;
+      return '<button type="button" class="gat-spd-btn" data-rate="' + r + '" onclick="window.setSongSpeed(' + r + ')" style="padding:4px 8px;border-radius:7px;border:1.5px solid ' + (act ? '#0284c7' : '#cbd5e1') + ';background:' + (act ? '#0284c7' : '#ffffff') + ';color:' + (act ? '#ffffff' : '#334155') + ';font-size:0.74rem;font-weight:900;cursor:pointer;">' + r + 'x</button>';
+    }).join('') +
+    '</div></div>';
+
+  const nusachBar = sl.children[1];
+  if (nusachBar && !document.getElementById('gat-speed-bar')) {
+    nusachBar.insertAdjacentHTML('afterend', barHtml);
+  }
+
+  sl.querySelectorAll('audio').forEach(function(aud, idx) {
+    aud.setAttribute('data-song-idx', String(idx));
+    aud.preservesPitch = true;
+    aud.playbackRate = curSpd;
+  });
+};
+
+// Auto-scroll active gold word into the center of its scrollable lyric box
+window._lastScrolledWordKey = '';
+const _baseHighlightByIdx = window.highlightKaraokeByWordIndex;
+window.highlightKaraokeByWordIndex = function(cardId, activeHeIdx) {
+  _baseHighlightByIdx(cardId, activeHeIdx);
+  const key = cardId + ':' + activeHeIdx;
+  if (window._lastScrolledWordKey === key) return;
+  window._lastScrolledWordKey = key;
+
+  ['he', 'tr'].forEach(function(prefix) {
+    const box = document.getElementById(prefix + '-box-' + cardId);
+    if (!box) return;
+    const activeEl = box.querySelector('.kw-word.kw-active');
+    if (activeEl && box.scrollHeight > box.clientHeight + 10) {
+      const targetTop = activeEl.offsetTop - box.offsetTop - (box.clientHeight / 2) + (activeEl.offsetHeight / 2);
+      box.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+    }
+  });
+};
+
+const _preScrollRenderSongs12 = window.renderSongs12;
+window.renderSongs12 = function() {
+  _preScrollRenderSongs12();
+  document.querySelectorAll('[id^="he-box-"], [id^="tr-box-"]').forEach(function(box) {
+    box.style.maxHeight = '195px';
+    box.style.overflowY = 'auto';
+    box.style.scrollBehavior = 'smooth';
+    box.style.position = 'relative';
+  });
+};

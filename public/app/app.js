@@ -3242,10 +3242,9 @@ window.onSongTimeUpdate = function(el, idx, cardId) {
     window.openProPaywall(window.getSongsUI().pw_10s, true);
     return;
   }
-  const dur = (el.duration && isFinite(el.duration) && el.duration > 0) ? el.duration : 45;
-  const effectiveDur = (!unlocked && idx >= window.FREE_SONG_LIMIT) ? Math.min(dur, 10) : dur;
-  const ratio = Math.min(1, Math.max(0, el.currentTime / effectiveDur));
-  window.highlightKaraokeProgress(cardId, ratio);
+  if (!el.paused) {
+    window.syncKaraokeFrame(el, cardId);
+  }
 };
 
 window.play10sNative = function(id) {
@@ -3417,7 +3416,15 @@ window.renderSongs12 = function() {
   const list = isBracha ? (window.BRACHOT_VAULT8 || []) : (window.SONGS_VAULT12 || []);
   const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
 
-  let html = '<div style="display:flex;gap:6px;margin-bottom:8px;">' +
+  const curSpd = window.songSpeed || 1;
+  const spdBar = '<div id="gat-speed-bar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;background:#f0f9ff;border:2px solid #0284c7;border-radius:11px;padding:8px 12px;margin-bottom:12px;">' +
+    '<span style="font-size:0.78rem;font-weight:900;color:#0c4a6e;">🐢/🐇 Speed (Tap any word to sync):</span>' +
+    '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+    [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2].map(function(r) {
+      const act = Math.abs(r - curSpd) < 0.01;
+      return '<button type="button" class="gat-spd-btn" data-rate="' + r + '" onclick="window.setSongSpeed(' + r + ')" style="padding:5px 9px;border-radius:7px;border:1.5px solid ' + (act ? '#0284c7' : '#cbd5e1') + ';background:' + (act ? '#0284c7' : '#ffffff') + ';color:' + (act ? '#ffffff' : '#0f172a') + ';font-size:0.76rem;font-weight:900;cursor:pointer;">' + r + 'x</button>';
+    }).join('') + '</div></div>';
+  let html = spdBar + '<div style="display:flex;gap:6px;margin-bottom:8px;">' +
     '<button type="button" onclick="setSongSubTab(\'songs\')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0c4a6e;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (!isBracha?'#0c4a6e':'#fff') + ';color:' + (!isBracha?'#fff':'#0c4a6e') + ';">' + ui.sub_songs + '</button>' +
     '<button type="button" onclick="setSongSubTab(\'brachot\')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0369a1;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (isBracha?'#0369a1':'#fff') + ';color:' + (isBracha?'#fff':'#0369a1') + ';">' + ui.sub_brachot + '</button></div>' +
     '<div style="display:flex;gap:8px;margin-bottom:10px;">' +
@@ -3451,8 +3458,8 @@ window.renderSongs12 = function() {
         : '<button type="button" onclick="speakCleanBracha(' + idx + ')" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + ui.btn_pronounce + '</button>') +
       '<button type="button" onclick="toggleSongMaster(\'' + cardId + '\')" style="background:' + (done?'#059669':'#e2e8f0') + ';color:' + (done?'#fff':'#334155') + ';border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (done?'✅':ui.btn_mark) + '</button></div></div>' +
       (hasMp3 ? '<audio id="aud-' + cardId + '" src="' + mp3 + '" controls preload="none" ontimeupdate="onSongTimeUpdate(this,' + idx + ',\'' + cardId + '\')" style="width:100%;height:36px;margin-bottom:8px;"></audio>' : '') +
-      '<div id="he-box-' + cardId + '" dir="rtl" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:1.06rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.75;' + maskStyle + '">' + heTokensHtml + '</div>' +
-      '<div id="tr-box-' + cardId + '" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:0.88rem;color:#1e293b;font-style:italic;background:#ffffff;padding:8px 11px;border-radius:8px;border:1px dashed #cbd5e1;margin-bottom:10px;line-height:1.6;' + maskStyle + '">' + trTokensHtml + '</div>' +
+      '<div id="he-box-' + cardId + '" dir="rtl" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:1.06rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.85;max-height:190px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + heTokensHtml + '</div>' +
+      '<div id="tr-box-' + cardId + '" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:0.88rem;color:#1e293b;font-style:italic;background:#ffffff;padding:8px 11px;border-radius:8px;border:1px dashed #cbd5e1;margin-bottom:10px;line-height:1.65;max-height:150px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + trTokensHtml + '</div>' +
       '<button type="button" onclick="gradeSongMic(' + idx + ',' + (isBracha?'true':'false') + ')" style="width:100%;background:#d97706;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-size:0.84rem;font-weight:900;cursor:pointer;margin-bottom:8px;">' + ui.btn_sing + '</button>' +
       '<div id="song-mic-out-' + cardId + '" style="display:none;margin-bottom:6px;font-size:0.8rem;"></div>' +
       '<div style="font-size:0.81rem;color:#475569;border-top:1px dashed #cbd5e1;padding-top:6px;">💡 ' + note + '</div></div>';
@@ -3663,3 +3670,250 @@ renderAll = function() {
 if (typeof renderAll === 'function' && document.getElementById('app-container')) {
   try { renderAll(); if (typeof openMod === 'function') openMod(window.currentMod || 'hebrew-engine'); } catch(e) {}
 }
+
+// ============================================================================
+// DEFINITIVE KARAOKE + SPEED BAR + SINGLE-AUDIO LOCK + IMMEDIATE RE-RENDER
+// ============================================================================
+window.songSpeed = parseFloat(localStorage.getItem('gat_song_speed') || '1') || 1;
+window.SONG_SPEED_OPTS = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+window._activePlayingCardId = null;
+
+window.stopAllOtherSongs = function(exceptAudioEl, activeCardId) {
+  if (window._activeKaraokeRaf) { cancelAnimationFrame(window._activeKaraokeRaf); window._activeKaraokeRaf = null; }
+  if (window._brachaStreamTimer) { clearInterval(window._brachaStreamTimer); window._brachaStreamTimer = null; }
+  if (exceptAudioEl && 'speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch(e){} }
+  document.querySelectorAll('audio').forEach(function(a) {
+    if (a !== exceptAudioEl) {
+      try {
+        a.pause();
+        a.currentTime = 0;
+      } catch(e){}
+      const otherId = (a.id || '').replace(/^aud-/, '');
+      if (otherId && otherId !== String(activeCardId)) window.clearKaraokeHighlights(otherId);
+    }
+  });
+  if (window._activePlayingCardId && String(window._activePlayingCardId) !== String(activeCardId)) {
+    window.clearKaraokeHighlights(window._activePlayingCardId);
+  }
+  window._activePlayingCardId = activeCardId || null;
+};
+
+window.setSongSpeed = function(rate) {
+  const r = parseFloat(rate) || 1;
+  window.songSpeed = r;
+  try { localStorage.setItem('gat_song_speed', String(r)); } catch(e){}
+  document.querySelectorAll('audio').forEach(function(a) {
+    try { a.preservesPitch = true; a.mozPreservesPitch = true; a.webkitPreservesPitch = true; a.playbackRate = r; } catch(e){}
+  });
+  document.querySelectorAll('.gat-spd-btn').forEach(function(btn) {
+    const bRate = parseFloat(btn.getAttribute('data-rate'));
+    const active = Math.abs(bRate - r) < 0.01;
+    btn.style.background = active ? '#0284c7' : '#ffffff';
+    btn.style.color = active ? '#ffffff' : '#0f172a';
+    btn.style.borderColor = active ? '#0284c7' : '#cbd5e1';
+  });
+};
+
+window._lastScrolledWordKey = '';
+window.highlightKaraokeByWordIndex = function(cardId, activeHeIdx) {
+  const heBox = document.getElementById('he-box-' + cardId);
+  const trBox = document.getElementById('tr-box-' + cardId);
+  if (!heBox) return;
+  const heSpans = heBox.querySelectorAll('.kw-word');
+  const hLen = heSpans.length || 1;
+  heSpans.forEach(function(sp, i) {
+    sp.classList.toggle('kw-active', i === activeHeIdx);
+    sp.classList.toggle('kw-passed', i < activeHeIdx);
+  });
+  if (trBox) {
+    const trSpans = trBox.querySelectorAll('.kw-word');
+    const tLen = trSpans.length || 1;
+    const activeTrIdx = Math.min(tLen - 1, Math.max(0, Math.round((activeHeIdx / Math.max(1, hLen - 1)) * (tLen - 1))));
+    trSpans.forEach(function(sp, i) {
+      sp.classList.toggle('kw-active', i === activeTrIdx && activeHeIdx < hLen);
+      sp.classList.toggle('kw-passed', i < activeTrIdx || activeHeIdx >= hLen);
+    });
+  }
+  const key = cardId + ':' + activeHeIdx;
+  if (window._lastScrolledWordKey !== key) {
+    window._lastScrolledWordKey = key;
+    ['he', 'tr'].forEach(function(prefix) {
+      const box = document.getElementById(prefix + '-box-' + cardId);
+      if (!box) return;
+      const activeEl = box.querySelector('.kw-word.kw-active');
+      if (activeEl && box.scrollHeight > box.clientHeight + 8) {
+        const targetTop = activeEl.offsetTop - (box.clientHeight / 2) + (activeEl.offsetHeight / 2);
+        box.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+      }
+    });
+  }
+};
+
+window.syncKaraokeFrame = function(aud, cardId) {
+  if (!aud || aud.paused || aud.ended) return;
+  const n = window.songNusach || 's';
+  const stampKey = n + '_' + cardId;
+  const stampList = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[stampKey];
+  const heBox = document.getElementById('he-box-' + cardId);
+  const totalWords = heBox ? heBox.querySelectorAll('.kw-word').length : 25;
+
+  if (stampList && stampList.length) {
+    const t = aud.currentTime;
+    let wIdx = 0;
+    for (let i = 0; i < stampList.length; i++) {
+      if (t >= stampList[i]) wIdx = i;
+      else break;
+    }
+    window.highlightKaraokeByWordIndex(cardId, Math.min(totalWords - 1, wIdx));
+  } else {
+    const fallbackDur = (window.SONG_DURATIONS && window.SONG_DURATIONS[n] && window.SONG_DURATIONS[n][String(cardId)]) || 60;
+    const dur = (aud.duration && isFinite(aud.duration) && aud.duration > 0) ? aud.duration : fallbackDur;
+    const ratio = Math.min(1, Math.max(0, aud.currentTime / Math.max(1, dur * 0.9)));
+    window.highlightKaraokeByWordIndex(cardId, Math.min(totalWords - 1, Math.floor(ratio * totalWords)));
+  }
+};
+
+window.start60FpsKaraokeLoop = function(aud, idx, cardId) {
+  if (window._activeKaraokeRaf) { cancelAnimationFrame(window._activeKaraokeRaf); window._activeKaraokeRaf = null; }
+  const tick = function() {
+    if (!aud || aud.paused || aud.ended) return;
+    const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
+    if (!unlocked && idx >= window.FREE_SONG_LIMIT && aud.currentTime >= 10) {
+      aud.pause(); aud.currentTime = 0;
+      window.clearKaraokeHighlights(cardId);
+      window.openProPaywall(window.getSongsUI().pw_10s, true);
+      return;
+    }
+    window.syncKaraokeFrame(aud, cardId);
+    window._activeKaraokeRaf = requestAnimationFrame(tick);
+  };
+  window._activeKaraokeRaf = requestAnimationFrame(tick);
+};
+
+window.seekKaraokeWord = function(cardId, wordIdx, totalWords, ev) {
+  if (ev) ev.stopPropagation();
+  const aud = document.getElementById('aud-' + cardId);
+  const n = window.songNusach || 's';
+  const stampList = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[n + '_' + cardId];
+  if (aud) {
+    window.stopAllOtherSongs(aud, cardId);
+    if (stampList && stampList[wordIdx] !== undefined) {
+      aud.currentTime = stampList[wordIdx];
+    } else if (aud.duration && isFinite(aud.duration)) {
+      aud.currentTime = (wordIdx / Math.max(1, totalWords)) * aud.duration * 0.9;
+    }
+    aud.preservesPitch = true;
+    aud.playbackRate = window.songSpeed || 1;
+    if (aud.paused) aud.play().catch(function(){});
+  }
+  window.highlightKaraokeByWordIndex(cardId, wordIdx);
+};
+
+window.tokenizeKaraokeWords = function(text, prefix, cardId) {
+  const raw = String(text || '').trim();
+  if (!raw) return '';
+  const tokens = raw.split(/\s+/);
+  const total = tokens.length;
+  return tokens.map(function(w, i) {
+    return '<span class="kw-word" id="kw-' + prefix + '-' + cardId + '-' + i + '" data-idx="' + i + '" onclick="window.seekKaraokeWord(\'' + cardId + '\',' + i + ',' + total + ',event)" style="cursor:pointer;" title="Tap word to jump here">' + w + '</span>';
+  }).join(' ');
+};
+
+window.play10sNative = function(id, idx) {
+  const aud = document.getElementById('aud-' + id);
+  if (!aud) return;
+  if (!aud.paused) { aud.pause(); return; }
+  window.stopAllOtherSongs(aud, id);
+  aud.preservesPitch = true;
+  aud.playbackRate = window.songSpeed || 1;
+  aud.play().then(function() {
+    const resolvedIdx = typeof idx === 'number' ? idx : parseInt(aud.getAttribute('data-song-idx') || '0', 10);
+    window.start60FpsKaraokeLoop(aud, resolvedIdx, id);
+  }).catch(function(){});
+};
+
+// Complete replacement of window.renderSongs12 so no old version in the 3,825-line file can overwrite it
+window.renderSongs12 = function() {
+  window.stopAllOtherSongs(null, null);
+  const sl = document.getElementById('songs-list');
+  if (!sl) return;
+  const ui = window.getSongsUI();
+  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  const n = window.songNusach || 's', isBracha = window.songSubTab === 'brachot';
+  const list = isBracha ? (window.BRACHOT_VAULT8 || []) : (window.SONGS_VAULT12 || []);
+  const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
+  const curSpd = window.songSpeed || 1;
+
+  const spdLbl = {
+    en: '🐢/🐇 Speed (Tap any word to jump):',
+    he: '🐢/🐇 מהירות (לחצו על מילה לקפיצה):',
+    fr: '🐢/🐇 Vitesse (Touchez un mot) :',
+    es: '🐢/🐇 Velocidad (Toque una palabra):',
+    de: '🐢/🐇 Tempo (Wort antippen):'
+  }[l] || '🐢/🐇 Speed:';
+
+  let html = '<div style="display:flex;gap:6px;margin-bottom:8px;">' +
+    '<button type="button" onclick="setSongSubTab(\'songs\')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0c4a6e;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (!isBracha?'#0c4a6e':'#fff') + ';color:' + (!isBracha?'#fff':'#0c4a6e') + ';">' + ui.sub_songs + '</button>' +
+    '<button type="button" onclick="setSongSubTab(\'brachot\')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0369a1;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (isBracha?'#0369a1':'#fff') + ';color:' + (isBracha?'#fff':'#0369a1') + ';">' + ui.sub_brachot + '</button></div>' +
+    '<div style="display:flex;gap:8px;margin-bottom:8px;">' +
+    '<button type="button" onclick="setSongNusach(\'s\')" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='s'?'#0284c7':'#fff') + ';color:' + (n==='s'?'#fff':'#0284c7') + ';">' + ui.nusach_s + '</button>' +
+    '<button type="button" onclick="setSongNusach(\'a\')" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid #0f766e;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='a'?'#0f766e':'#fff') + ';color:' + (n==='a'?'#fff':'#0f766e') + ';">' + ui.nusach_a + '</button></div>' +
+    '<div id="gat-speed-bar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;background:#f0f9ff;border:2px solid #0284c7;border-radius:11px;padding:8px 12px;margin-bottom:12px;">' +
+    '<span style="font-size:0.78rem;font-weight:900;color:#0c4a6e;">' + spdLbl + '</span>' +
+    '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+    window.SONG_SPEED_OPTS.map(function(r) {
+      const act = Math.abs(r - curSpd) < 0.01;
+      return '<button type="button" class="gat-spd-btn" data-rate="' + r + '" onclick="window.setSongSpeed(' + r + ')" style="padding:5px 9px;border-radius:7px;border:1.5px solid ' + (act ? '#0284c7' : '#cbd5e1') + ';background:' + (act ? '#0284c7' : '#ffffff') + ';color:' + (act ? '#ffffff' : '#0f172a') + ';font-size:0.76rem;font-weight:900;cursor:pointer;">' + r + 'x</button>';
+    }).join('') + '</div></div>';
+
+  for (let idx = 0; idx < list.length; idx++) {
+    const s = list[idx];
+    const cardId = s.id || (isBracha ? ('b' + idx) : idx);
+    const done = !!window.songMastered[cardId];
+    const heTxt = n === 'a' ? (s.he_a || s.he_s) : (s.he_s || s.he_a);
+    const trObj = n === 'a' ? (s.tr_a || s.tr_s) : (s.tr_s || s.tr_a);
+    const trTxt = (trObj && typeof trObj === 'object') ? (trObj[l] || trObj.en || '') : (trObj || '');
+    const locked = !unlocked && idx >= window.FREE_SONG_LIMIT;
+    const maskStyle = locked ? 'filter:blur(4px);cursor:pointer;' : '';
+    const whenTxt = (s.when && typeof s.when === 'object') ? (s.when[l] || s.when.en || '') : (s.when || '');
+    const note = (s.m && s.m[l]) ? s.m[l] : (s.m ? (s.m.en || s.m) : '');
+    const hasMp3 = !isBracha && s.id <= 13;
+    const mp3 = '/app/audio/' + n + '_' + s.id + '.mp3';
+
+    const heTokensHtml = window.tokenizeKaraokeWords(heTxt, 'he', cardId);
+    const trTokensHtml = window.tokenizeKaraokeWords(trTxt, 'tr', cardId);
+
+    html += '<div style="padding:14px;border:1.5px solid ' + (done?'#10b981':'#cbd5e1') + ';border-radius:14px;margin-bottom:12px;background:' + (done?'#f0fdf4':'#f8fafc') + ';">' +
+      (whenTxt ? '<div style="font-size:0.72rem;font-weight:800;color:#0284c7;text-transform:uppercase;margin-bottom:3px;">' + whenTxt + '</div>' : '') +
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">' +
+      '<div style="font-weight:900;color:#0c4a6e;font-size:0.95rem;">' + s.t + (locked ? ui.locked_badge : ui.free_badge) + '</div>' +
+      '<div style="display:flex;gap:5px;flex-wrap:wrap;">' +
+      (hasMp3
+        ? '<button type="button" onclick="play10sNative(\'' + cardId + '\',' + idx + ')" style="background:#0d9488;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (locked ? ui.btn_prev10 : ui.btn_play_full) + '</button>'
+        : '<button type="button" onclick="speakCleanBracha(' + idx + ')" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + ui.btn_pronounce + '</button>') +
+      '<button type="button" onclick="toggleSongMaster(\'' + cardId + '\')" style="background:' + (done?'#059669':'#e2e8f0') + ';color:' + (done?'#fff':'#334155') + ';border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (done?'✅':ui.btn_mark) + '</button></div></div>' +
+      (hasMp3 ? '<audio id="aud-' + cardId + '" data-song-idx="' + idx + '" src="' + mp3 + '" controls preload="none" onplay="window.stopAllOtherSongs(this,\'' + cardId + '\');window.start60FpsKaraokeLoop(this,' + idx + ',\'' + cardId + '\');" ontimeupdate="onSongTimeUpdate(this,' + idx + ',\'' + cardId + '\')" style="width:100%;height:36px;margin-bottom:8px;"></audio>' : '') +
+      '<div id="he-box-' + cardId + '" dir="rtl" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:1.06rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.85;max-height:195px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + heTokensHtml + '</div>' +
+      '<div id="tr-box-' + cardId + '" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:0.88rem;color:#1e293b;font-style:italic;background:#ffffff;padding:8px 11px;border-radius:8px;border:1px dashed #cbd5e1;margin-bottom:10px;line-height:1.65;max-height:150px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + trTokensHtml + '</div>' +
+      '<button type="button" onclick="gradeSongMic(' + idx + ',' + (isBracha?'true':'false') + ')" style="width:100%;background:#d97706;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-size:0.84rem;font-weight:900;cursor:pointer;margin-bottom:8px;">' + ui.btn_sing + '</button>' +
+      '<div id="song-mic-out-' + cardId + '" style="display:none;margin-bottom:6px;font-size:0.8rem;"></div>' +
+      '<div style="font-size:0.81rem;color:#475569;border-top:1px dashed #cbd5e1;padding-top:6px;">💡 ' + note + '</div></div>';
+  }
+  sl.innerHTML = html;
+  sl.querySelectorAll('audio').forEach(function(a) {
+    a.preservesPitch = true;
+    a.playbackRate = curSpd;
+  });
+};
+
+// Immediately re-render songs list right now & after DOMContentLoaded so the new UI is guaranteed to appear
+if (document.getElementById('songs-list')) {
+  try { window.renderSongs12(); } catch(e) {}
+}
+window.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    if (document.getElementById('songs-list')) {
+      try { window.renderSongs12(); } catch(e) {}
+    }
+  }, 60);
+});
