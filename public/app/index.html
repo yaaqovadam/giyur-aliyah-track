@@ -114,6 +114,11 @@
       opacity: 0.65 !important;
     }
 
+
+    .kw-word { display:inline-block; padding:1px 4px; margin:0 1px; border-radius:6px; transition:background 0.14s ease, color 0.14s ease, transform 0.14s ease; }
+    .kw-word.kw-active { background:#fde047 !important; color:#082548 !important; font-weight:900 !important; transform:scale(1.07); box-shadow:0 2px 8px rgba(250,204,21,0.45); }
+    .kw-word.kw-passed { background:rgba(16,185,129,0.16); color:#065f46; }
+
   </style>
 </head>
 <body>
@@ -148,59 +153,129 @@
 
   <!-- 4-TIER PRO PAYWALL MODAL -->
   <div class="paywall-backdrop" id="pro-paywall-modal" onclick="if(event.target===this) closeProPaywall()">
-    <div class="paywall-card" role="dialog" aria-modal="true">
+    <div class="paywall-card" role="dialog" aria-modal="true" style="max-width:640px;">
       <div class="pw-head">
         <div>
-          <div style="font-size:0.72rem;font-weight:800;color:#38bdf8;text-transform:uppercase;">🛡️ Giyur Aliyah Track Pro Shield</div>
-          <h3 id="pw-title">Unlock Full 150/80 Decks & Clean Hebrew PDFs</h3>
+          <div style="font-size:0.72rem;font-weight:800;color:#38bdf8;text-transform:uppercase;">🛡️ Giyur Aliyah Track Command Shield</div>
+          <h3 id="pw-title">Select Your 90-Day Sprint or Lifetime Track Pass</h3>
         </div>
         <button class="pw-close" onclick="closeProPaywall()">✕</button>
       </div>
       <div class="pw-body">
-        <p id="pw-reason" style="font-size:0.88rem;color:#334155;line-height:1.45;margin-bottom:10px;">
-          Save 25,000+ NIS in legal fees. Unlock watermark-free Hebrew PDF printing (Forms Ash/1, Ash/3, Michtav Hesber & Rabbinic Letterheads), all 200 Beit Din flashcards, and the full 80-question 2-Phone Couples Sync:
+        <p id="pw-reason" style="font-size:0.86rem;color:#334155;line-height:1.45;margin-bottom:10px;">
+          Skip the 25,000₪ law firm retainer. Unlock your specific module below or get the Complete Track Shield:
         </p>
-        <div class="tier-grid">
+
+        <div style="display:flex;gap:6px;margin-bottom:12px;">
+          <button type="button" id="pw-tab-btn-suites" onclick="switchPaywallTab('suites')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0288E8;background:#0288E8;color:#fff;font-weight:900;font-size:0.8rem;cursor:pointer;">🛡️ Complete Suites & Bundles</button>
+          <button type="button" id="pw-tab-btn-modular" onclick="switchPaywallTab('modular')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #cbd5e1;background:#f8fafc;color:#0f172a;font-weight:900;font-size:0.8rem;cursor:pointer;">🎯 Individual Engines & Decks</button>
+        </div>
+
+        <!-- TAB 1: FULL SUITES & CORE ENGINE PASSES -->
+        <div id="pw-view-suites" class="tier-grid">
           <div class="tier-box">
             <div>
-              <div class="tier-name">📄 Single Form Pass</div>
-              <div class="tier-price">$39 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">one-time</span></div>
-              <div class="tier-desc">Print 1 clean, watermark-free Hebrew form (Ash/1, Ash/3, or Michtav Hesber) + Rabbi Letterhead.</div>
+              <div class="tier-name">📄 Statutory Hebrew Forms Engine</div>
+              <div class="tier-price">$89 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">90-Day Sprint</span></div>
+              <div class="tier-desc">Unlimited edits & clean PDF prints for Ash/1, Ash/3, Michtav Hesber, 30-Day Extension, Rabbi Letterheads & Clerk Decoder. (Or <strong>$149 Lifetime</strong>).</div>
             </div>
-            <button class="tier-btn" onclick="startCheckout('single_39')">Unlock Single Pass ($39) →</button>
+            <div style="display:flex;gap:6px;">
+              <button class="tier-btn" style="flex:1;" onclick="startCheckout('forms_90d_89')">90-Day ($89)</button>
+              <button class="tier-btn" style="flex:1;background:#0288E8;" onclick="startCheckout('forms_life_149')">Lifetime ($149)</button>
+            </div>
           </div>
 
           <div class="tier-box">
             <div>
-              <div class="tier-name">⚡ Monthly Active Shield</div>
-              <div class="tier-price">$29 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">/ month</span></div>
-              <div class="tier-desc">Full access to all 200 Beit Din cards, 80 Couples Sync questions, Hebrew PDFs & 30-day alerts. Cancel anytime.</div>
+              <div class="tier-name">🕍 Beit Din 700-Q & Shabbat Suite</div>
+              <div class="tier-price">$149 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">90-Day Cram</span></div>
+              <div class="tier-desc">All 700 Beit Din Questions (Core 200 + 200 Curveballs + Men's 150 + Women's 150) + 13 Shabbat Songs + 8 Brachot + Pronunciation Grader.</div>
             </div>
-            <button class="tier-btn" onclick="startCheckout('monthly_29')">Start Monthly ($29/mo) →</button>
+            <div style="display:flex;gap:6px;">
+              <button class="tier-btn" style="flex:1;" onclick="startCheckout('bd_suite_90d_149')">90-Day ($149)</button>
+              <button class="tier-btn" style="flex:1;background:#0288E8;" onclick="startCheckout('bd_suite_life_249')">Lifetime ($249)</button>
+            </div>
           </div>
 
-          <div class="tier-box featured">
-            <span class="tier-badge">★ Most Popular</span>
+          <div class="tier-box">
             <div>
-              <div class="tier-name">🛡️ Lifetime Track Shield</div>
-              <div class="tier-price">$199 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">one-time</span></div>
-              <div class="tier-desc">Unlimited lifetime access for your entire conversion, marriage & Aliyah track until your Teudat Zehut is in hand!</div>
+              <div class="tier-name">📱 Spousal Visa 2-Phone Sync + Audit</div>
+              <div class="tier-price">$129 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">90-Day (2 Phones)</span></div>
+              <div class="tier-desc">80-Question Nohal 5.2.0008 Separated Room 2-Phone E2EE Matcher + Pre-Flight Document & Apostille Inspector. (Or <strong>$229 5-Yr Residency</strong>).</div>
             </div>
-            <button class="tier-btn" onclick="startCheckout('lifetime_199')">Get Lifetime Shield ($199) →</button>
+            <div style="display:flex;gap:6px;">
+              <button class="tier-btn" style="flex:1;" onclick="startCheckout('couples_90d_129')">90-Day ($129)</button>
+              <button class="tier-btn" style="flex:1;background:#0288E8;" onclick="startCheckout('couples_life_229')">5-Yr Pass ($229)</button>
+            </div>
           </div>
 
-          <div class="tier-box" style="border-color:#f59e0b;background:#fffbeb;">
+          <div class="tier-box featured" style="border-color:#d97706;background:#fffbeb;">
+            <span class="tier-badge" style="background:#d97706;">★ Complete Track</span>
             <div>
-              <div class="tier-name">👑 VIP Couple + Dossier Audit</div>
-              <div class="tier-price" style="color:#b45309;">$449 <span style="font-size:0.75rem;color:#64748b;font-weight:700;">one-time</span></div>
-              <div class="tier-desc">Lifetime Shield for 2 phones + personal 1-on-1 pre-appointment dossier review & priority Rabbi/Notary routing.</div>
+              <div class="tier-name">👑 Full Dual-Track Suite + Packet Audit</div>
+              <div class="tier-price" style="color:#b45309;">$249–$649</div>
+              <div class="tier-desc">All 3 Engines Unlocked (Forms + 700 Beit Din + Songs + 80 Couples Sync + Pre-Flight Dossier & Apostille Audit):</div>
             </div>
-            <button class="tier-btn" style="background:#b45309;" onclick="startCheckout('vip_449')">Get VIP Couple Audit ($449) →</button>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;gap:6px;">
+                <button class="tier-btn" style="flex:1;padding:8px;font-size:0.76rem;" onclick="startCheckout('suite_solo_90d_249')">90d Solo ($249)</button>
+                <button class="tier-btn" style="flex:1;padding:8px;font-size:0.76rem;background:#0288E8;" onclick="startCheckout('suite_solo_life_399')">Life Solo ($399)</button>
+              </div>
+              <button class="tier-btn" style="background:#b45309;padding:9px;font-size:0.8rem;" onclick="startCheckout('vip_couple_649')">👑 VIP Couple 2-Phone Lifetime + Packet Audit ($649) →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: INDIVIDUAL SUB-PACKS (A LA CARTE) -->
+        <div id="pw-view-modular" class="tier-grid" style="display:none;">
+          <div class="tier-box">
+            <div>
+              <div class="tier-name">📚 Core 200 OR +200 Curveballs</div>
+              <div class="tier-price">$65 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">per 200-card deck</span></div>
+              <div class="tier-desc">Unlock Pack 1 (Core 200 Dayanim Questions) or Pack 2 (+200 Advanced Curveballs) individually:</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button class="tier-btn" style="flex:1;" onclick="startCheckout('bd_pack1_65')">Pack 1 ($65)</button>
+              <button class="tier-btn" style="flex:1;" onclick="startCheckout('bd_pack2_65')">Pack 2 ($65)</button>
+            </div>
+          </div>
+
+          <div class="tier-box">
+            <div>
+              <div class="tier-name">🧔 Men's 150 OR 👩 Women's 150</div>
+              <div class="tier-price">$49 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">per 150-card deck</span></div>
+              <div class="tier-desc">Unlock Pack 3 (Men's 150 Halacha Deck) or Pack 4 (Women's 150 Halacha Deck) individually:</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button class="tier-btn" style="flex:1;" onclick="startCheckout('bd_pack3_49')">Men's 150 ($49)</button>
+              <button class="tier-btn" style="flex:1;" onclick="startCheckout('bd_pack4_49')">Women's 150 ($49)</button>
+            </div>
+          </div>
+
+          <div class="tier-box">
+            <div>
+              <div class="tier-name">🕍 All 700 Beit Din Questions Only</div>
+              <div class="tier-price">$179 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">all 4 card packs</span></div>
+              <div class="tier-desc">Unlocks all 700 Beit Din flashcards (Core 200 + 200 Curveballs + Men's 150 + Women's 150).</div>
+            </div>
+            <button class="tier-btn" onclick="startCheckout('bd_all700_179')">Unlock All 700 Cards ($179) →</button>
+          </div>
+
+          <div class="tier-box">
+            <div>
+              <div class="tier-name">🎵 Songs Grader OR 📱 80-Q Sync Only</div>
+              <div class="tier-price">$65 / $75 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">standalone</span></div>
+              <div class="tier-desc">Unlock the 13 Shabbat Songs + 8 Brachot Grader ($65) or standalone 80-Q 2-Phone Sync ($75):</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button class="tier-btn" style="flex:1;" onclick="startCheckout('songs_65')">Songs ($65)</button>
+              <button class="tier-btn" style="flex:1;" onclick="startCheckout('couples_sync_75')">80-Q Sync ($75)</button>
+            </div>
           </div>
         </div>
 
         <div style="margin-top:14px;padding-top:12px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
-          <input id="pro-code-input" placeholder="Have a VIP / Promo Unlock Code? (e.g. PRO2026)" style="margin:0;flex:1;padding:10px 12px;font-size:0.85rem;" />
+          <input id="pro-code-input" placeholder="Have a VIP / Promo Unlock Code? Enter here..." style="margin:0;flex:1;padding:10px 12px;font-size:0.85rem;" />
           <button class="btn" style="margin:0;width:auto;padding:10px 16px;font-size:0.85rem;background:#0f172a;" onclick="redeemProCode()">Unlock</button>
         </div>
         <div id="pro-code-msg" style="font-size:0.8rem;font-weight:800;margin-top:6px;display:none;"></div>
@@ -208,9 +283,12 @@
     </div>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="/app/bd_vault.js?v=182"></script>
   <script src="/app/cp_vault.js?v=182"></script>
   <script src="/app/songs_vault.js?v=182"></script>
-  <script src="/app/app.js?v=182"></script>
+  <script src="/app/app.js?v=1794205910023"></script>
 </body>
 </html>

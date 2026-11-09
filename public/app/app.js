@@ -31,28 +31,310 @@ window.loadSampleClerk = function() {
   window.decodeClerkSheet();
 };
 
-window.validateHomelandDossier = function() {
-  const days = parseInt(document.getElementById('chk-days').value || '0', 10);
-  const c1 = document.getElementById('chk-birth').checked;
-  const c2 = document.getElementById('chk-police').checked;
-  const c3 = document.getElementById('chk-single').checked;
-  const c4 = document.getElementById('chk-family').checked;
-  const out = document.getElementById('chk-out');
-  out.style.display = 'block';
-  const errs = [];
-  if (!c1) errs.push('❌ Missing Long-Form Vault Birth Certificate (listing both parents) + Apostille.');
-  if (!c2) errs.push('❌ Missing 3-Bucket Federal Fingerprint Police Check (Birth + Citizenship + Lived >1yr since age 14) + Apostille.');
-  if (!c3) errs.push('❌ Missing Single-Status / Marital History Proof + Apostille.');
-  if (!c4) errs.push('❌ Missing Family/Rabbinic Proof (Orthodox Ishur Yahadut / Parents Ketubah or Sponsoring Rabbi Letters).');
-  if (days > 180) errs.push(`🚨 EXPIRED CLOCK (${days} days old): Misrad HaPanim rejects Police Checks & Single-Status docs over 180 days old!`);
-  else if (days > 150) errs.push(`⚠️ DANGER ZONE (${180 - days} days left): File your packet immediately before hitting Day 180!`);
-  if (errs.length === 0) {
-    out.style.background = '#ecfdf5'; out.style.borderColor = '#10b981';
-    out.innerHTML = `<div style="font-weight:900;color:#065f46;">🟢 100% CLERK-PROOF DOSSIER (${180 - days} Days Remaining on 180-Day Clock)</div><div style="font-size:0.84rem;color:#047857;margin-top:4px;">All homeland civil, 3-Bucket police, and family/rabbinic requirements verified. Ready to generate your Hebrew Form Ash/1 or Ash/3 below!</div>`;
-  } else {
-    out.style.background = '#fff1f2'; out.style.borderColor = '#f43f5e';
-    out.innerHTML = `<div style="font-weight:900;color:#9f1239;margin-bottom:6px;">🛑 clerk Rejection Risk Detected (${errs.length} Issue${errs.length>1?'s':''}):</div>` + errs.map(e => `<div style="font-size:0.84rem;color:#881337;margin-bottom:4px;">${e}</div>`).join('');
+window.AUDIT_I18N = {
+  en: {
+    pill: "🛡️ Pre-Flight Packet, Apostille & Real-World Clerk Audit",
+    h2: "🛡️ 2. Homeland Dossier, Name-Match & Originals Protection Inspector",
+    lead: "Run this pre-flight check on your <strong>{j}</strong> packet before stepping up to the window so a hostile clerk cannot freeze your file:",
+    warn_title: "🚨 REAL-WORLD FIELD WARNING: NEVER SURRENDER AN ORIGINAL DOCUMENT!",
+    warn_1: "1. <strong>Stand Your Ground on Originals:</strong> Clerks frequently demand your physical original Birth Certificate, Marriage Certificate, or Apostille and keep it in their drawer—where it goes MIA in the system. <strong>UNDER NO CIRCUMSTANCES hand over an original to be kept!</strong> You will need those exact originals for other things in life (such as the Rabbanut, the Beit Din, marriage registration, or future renewals). Show the original at the window <em>only</em> so they can see the stamp, and insist on handing them a photocopy or a <strong>Red-Ribbon Notarial Certified True Copy</strong>. (If you order duplicate originals from home, keep them strictly in your personal vault—never as throwaways for a clerk!).",
+    warn_2: "2. <strong>The 'English Is OK' Trap:</strong> While the law on paper says English documents are accepted, in real life clerks routinely refuse un-translated English documents anyway. Having <strong>Red-Ribbon Notarial Hebrew Translations</strong> removes their #1 excuse to turn you away.",
+    c1_sub: "<em>(Long-Form Vault listing BOTH parents—never a short-form abstract)</em>",
+    c2_sub: "<em>(All 3 Buckets: Birth Country + Citizenship + Lived >1yr since age 14)</em>",
+    c3_sub: "<em>(Covers current single/married status + any prior divorce decrees)</em>",
+    c4_sub: "<em>(On official letterhead with wet stamp & your exact passport #)</em>",
+    c5_txt: "<strong>Correct Apostille Authority:</strong> Federal Apostille on Federal Police Check (e.g. US Dept of State, not a state notary!) & State/Ministry Apostille on Vital Records",
+    lbl_days: "Days Since Police/Single Docs Issued (Max 180):",
+    lbl_pass: "Months Left on Foreign Passport (Min 24m):",
+    lbl_name: "Do All Names Match Character-for-Character Across Birth Cert, Passport & Letters?",
+    nm_exact: "✅ Yes — Exact same spelling on every document",
+    nm_bridged: "🛡️ Different (Name Change / Hebrew Name / Marriage), WITH Apostilled Name-Change Doc or Lawyer Affidavit",
+    nm_unbridged: "⚠️ Different (e.g. Birth Cert says 'Adam' & Passport says 'Yakov') — No Bridging Affidavit Yet",
+    lbl_trans: "Translation Status of Your Foreign Certificates:",
+    tr_notarized: "🎀 All Translated into Hebrew with Israeli Red-Ribbon Notary Seal (Clerk-Proof)",
+    tr_english: "⚠️ In Raw English Only (Legal on paper, but high risk of clerk pushback in practice!)",
+    tr_foreign: "🛑 In French / Spanish / German / Russian / Other without Hebrew Notarial Translation",
+    lbl_orig: "Originals Protection (Photocopies / Certified Copies Ready to Hand In):",
+    or_ready: "✅ I have full copies to hand the clerk & will NEVER surrender my physical originals",
+    or_only: "🚨 I only have my 1 set of originals right now (Need copies / Notarial Certified Copies!)",
+    btn_run: "✅ Run Full Pre-Flight Packet & X-Factor Audit →",
+    err_c1: "❌ <strong>Missing Long-Form Vault Birth Certificate:</strong> Must explicitly list both parents' names + carry an original Apostille (short-form abstracts are rejected on sight).",
+    err_c2: "❌ <strong>Missing 3-Bucket Federal Fingerprint Police Check:</strong> Required from (1) Country of Birth, (2) Country of Citizenship, and (3) Every country lived in >12 months since age 14.",
+    err_c3: "❌ <strong>Missing Single-Status / Complete Marital History Proof:</strong> Must cover current status and every prior marriage/divorce + Apostille.",
+    err_c4: "❌ <strong>Missing Proof of Judaism / Rabbinic Dossier:</strong> Must include Orthodox Ishur Yahadut / Parents' Ketubah (for Aliyah) or Sponsoring Rabbi & Beit Din letters on official letterhead listing your exact passport number.",
+    err_c5: "🚨 <strong>Wrong Apostille Authority (Federal vs. State Trap):</strong> Federal documents (like an FBI check) MUST carry a Federal Department of State Apostille—clerks reject state-level notary apostilles on federal checks!",
+    err_days_exp: "🚨 <strong>EXPIRED 180-DAY CLOCK ({d} days old):</strong> Misrad HaPanim strictly rejects Police Checks and Single-Status certificates older than 180 days from issue!",
+    adv_days_warn: "⚠️ <strong>180-Day Clock Danger Zone ({left} days remaining):</strong> File immediately or generate the 30/60-Day Extension Request in Card #3 below so your clock does not expire while waiting!",
+    err_pass: "🚨 <strong>Passport Validity Trap ({m} months left):</strong> Misrad HaPanim procedures require foreign passports to be valid for at least 24 months (2 full years) to issue B/1, A/5, or status stamps. Renew your passport now!",
+    adv_name_bridged: "🛡️ <strong>Name Change / Discrepancy Protected:</strong> Since your Birth Certificate and Passport names differ, bring your <strong>Apostilled Name-Change Certificate</strong> + a <strong>Lawyer-Stamped 'One-and-the-Same Person' Affidavit (Tatzhir)</strong> so the clerk links both names without freezing your file.",
+    err_name_unbridged: "🚨 <strong>Unbridged Name Mismatch (Birth Cert vs. Passport):</strong> You are NOT disqualified if your name changed (e.g. first/last name change, Hebrew name, or marriage), but you MUST attach an official <strong>Apostilled Name-Change Certificate</strong> OR book our <strong>Partner Legal Desk below to draft a Red-Ribbon 'One-and-the-Same Person' Sworn Affidavit (Tatzhir)</strong> before your appointment!",
+    adv_trans_eng: "🚨 <strong>Real-World Clerk Warning (Un-Translated English Docs):</strong> Even though written regulations claim English is accepted, in reality Misrad HaPanim clerks routinely refuse English birth, marriage, and police certificates and demand <strong>Red-Ribbon Israeli Notarial Hebrew Translations</strong>. Do not give a hostile clerk an excuse to send you home—get them translated & notarized in advance!",
+    err_trans_for: "🛑 <strong>Mandatory Hebrew Notarial Translation Missing:</strong> Any document in French, Spanish, German, Russian, or Portuguese MUST have a Red-Ribbon Certified Israeli Notarial Hebrew translation.",
+    err_orig: "🛑 <strong>CRITICAL ORIGINALS TRAP:</strong> NEVER walk in with only your 1 original! If you hand a clerk your original Birth Certificate, Marriage Certificate, or Apostille, they will file it away and you may NEVER get it back—leaving you stranded when you need that exact original for other things in life (such as the Rabbanut, Beit Din, marriage registration, or future visa renewals). Prepare full photocopies (or Red-Ribbon Certified True Copies) right now!",
+    ok_head: "🟢 100% CLERK-PROOF PRE-FLIGHT DOSSIER ({left} Days Left on 180-Day Clock • Passport Valid {m}m)",
+    ok_body: "All 5 core certificates, Federal/State Apostille authorities, name alignments, Hebrew translations, and duplicate copy protections verified. <strong>Remember at the window:</strong> show originals ONLY for visual inspection, hand the clerk the copies, and walk out with every original in your hand!",
+    blk_head: "🛑 Clerk Rejection / File-Freeze Risks Detected ({n} Critical):",
+    adv_head: "⚠️ Real-World Field Advisories ({n}):",
+    btn_fix: "🎀 Fix Translation, Certified Copy, or Name-Affidavit Issues with Our Legal Desk →"
+  },
+  he: {
+    pill: "🛡️ ביקורת תיק, אפוסטיל והגנה מפני מלכודות פקידים",
+    h2: "🛡️ 2. מבקר מסמכי מקור, התאמת שמות ואפוסטיל לפני התור",
+    lead: "הריצו בדיקת מוכנות מלאה לתיק <strong>{j}</strong> שלכם לפני ההגעה לדלפק כדי שאף פקיד לא יוכל להקפיא את התיק:",
+    warn_title: "🚨 אזהרת שטח קריטית: לעולם אל תמסרו מסמך מקורי לפקיד!",
+    warn_1: "1. <strong>עמדו על שלכם בנוגע למסמכי מקור:</strong> פקידים רבים דורשים להשאיר אצלם את תעודת הלידה, הנישואין או האפוסטיל המקוריים — ואז המסמכים נעלמים במערכת לנצח. <strong>בשום פנים ואופן אל תמסרו מסמך מקורי שיישאר בלשכה!</strong> אתם תזדקקו למקור עבור דברים אחרים בחיים (כגון הרבנות, בית הדין, רישום נישואין או הארכות אשרה). הציגו את המקור בחלון <em>אך ורק</em> לעיון, והגישו לפקיד צילום או <strong>העתק נאמן למקור נוטריוני (סרט אדום)</strong>. (גם אם הזמנתם עותקים מקוריים נוספים מחו״ל, שמרו אותם בכספת האישית שלכם — לעולם לא למסירה!).",
+    warn_2: "2. <strong>מלכודת ״אנגלית זה קביל״:</strong> למרות שעל הנייר הנוהל מתיר מסמכים באנגלית, במציאות בשטח פקידים מסרבים לא פעם לקבל מסמכים באנגלית ודורשים <strong>תרגום נוטריוני לעברית (סרט אדום)</strong>. אל תתנו לפקיד עוין תירוץ להחזיר אתכם הביתה.",
+    c1_sub: "<em>(נוסח מלא / Long-Form הכולל את שמות שני ההורים — לעולם לא תמצית מקוצרת)</em>",
+    c2_sub: "<em>(מכל 3 הקטגוריות: ארץ לידה + אזרחות + כל מדינה שגרתם בה מעל שנה מגיל 14)</em>",
+    c3_sub: "<em>(מכסה מצב אישי נוכחי + כל גירושין/נישואין קודמים)</em>",
+    c4_sub: "<em>(על נייר לוגו רשמי עם חותמת חיה ומספר הדרכון המדויק שלכם)</em>",
+    c5_txt: "<strong>סמכות אפוסטיל נכונה:</strong> אפוסטיל פדרלי לתעודת יושר פדרלית (כגון מחלקת המדינה בוושינגטון ל-FBI, ולא נוטריון מדינתי!) ואפוסטיל מתאים לתעודות מרשם",
+    lbl_days: "מספר הימים שחלפו מהנפקת תעודת היושר/רווקות (מקסימום 180):",
+    lbl_pass: "חודשי תוקף שנותרו בדרכון הזר (מינימום 24 חודשים):",
+    lbl_name: "האם כל השמות תואמים אות-באות בין תעודת הלידה, הדרכון והמכתבים?",
+    nm_exact: "✅ כן — איות זהה לחלוטין בכל המסמכים",
+    nm_bridged: "🛡️ שונה (שינוי שם / שם עברי / נישואין), אך מצורפת תעודת שינוי שם עם אפוסטיל או תצהיר עו״ד",
+    nm_unbridged: "⚠️ שונה (למשל בתעודת הלידה כתוב 'אדם' ובדרכון 'יעקב') — עדיין ללא תצהיר גישור",
+    lbl_trans: "מצב תרגום המסמכים הזרים שלכם:",
+    tr_notarized: "🎀 הכל מתורגם לעברית עם אישור נוטריוני וסרט אדום (חסינות מלאה מול פקידים)",
+    tr_english: "⚠️ באנגלית בלבד ללא תרגום (חוקי על הנייר, אך סיכון גבוה לסירוב פקידים בפועל!)",
+    tr_foreign: "🛑 בצרפתית / ספרדית / גרמנית / רוסית / אחר ללא תרגום נוטריוני לעברית",
+    lbl_orig: "הגנה על מסמכי המקור (צילומים / העתקים נאמנים למקור מוכנים למסירה):",
+    or_ready: "✅ יש לי צילומים/העתקים מלאים למסירה לפקיד ולעולם לא אמסור את המקור הפיזי",
+    or_only: "🚨 יש לי כרגע רק את עותק המקור היחיד (נדרש להכין העתקים / נאמן למקור נוטריוני!)",
+    btn_run: "✅ הרץ ביקורת תיק מלאה ובדיקת מוקשים ←",
+    err_c1: "❌ <strong>חסרה תעודת לידה בנוסח מלא (Long-Form):</strong> חייבת לכלול את שמות שני ההורים + חותמת אפוסטיל מקורית.",
+    err_c2: "❌ <strong>חסרה תעודת יושר פדרלית מכל 3 הקטגוריות:</strong> נדרש מ-(1) ארץ לידה, (2) ארץ אזרחות, ו-(3) כל מדינה בה התגוררתם מעל שנה מגיל 14.",
+    err_c3: "❌ <strong>חסרה תעודת רווקות / תמצית רישום מצב אישי מלאה:</strong> חייבת לכסות מצב נוכחי וכל נישואין/גירושין קודמים + אפוסטיל.",
+    err_c4: "❌ <strong>חסרה הוכחת יהדות / תיק רבני:</strong> אישור יהדות אורתודוקסי / כתובת הורים (לעלייה) או מכתבי רב מלווה ובית דין עם מספר דרכון מדויק.",
+    err_c5: "🚨 <strong>סמכות אפוסטיל שגויה (מלכודת פדרלי מול מדינתי):</strong> מסמך פדרלי (כגון FBI) חייב לשאת אפוסטיל פדרלי של משרד החוץ/המדינה!",
+    err_days_exp: "🚨 <strong>פג תוקף שעון 180 הימים ({d} ימים):</strong> משרד הפנים פוסל על הסף תעודות יושר ורווקות שעברו מעל 180 יום מהנפקתן!",
+    adv_days_warn: "⚠️ <strong>אזור סכנה לשעון 180 הימים (נותרו {left} ימים):</strong> הגישו מיד או הפיקו מכתב בקשת הארכת 30/60 יום בכרטיסייה #3 למטה!",
+    err_pass: "🚨 <strong>מלכודת תוקף דרכון (נותרו {m} חודשים):</strong> נהלי משרד הפנים מחייבים תוקף דרכון זר של 24 חודשים לפחות (שנתיים) להנפקת אשרות B/1 או A/5. חדש/י דרכון כעת!",
+    adv_name_bridged: "🛡️ <strong>שינוי שם / אי-התאמה מגושרת:</strong> מאחר שהשמות בתעודת הלידה ובדרכון שונים, הביאו <strong>תעודת שינוי שם עם אפוסטיל</strong> + <strong>תצהיר עו״ד 'אותו אדם' (One-and-the-Same)</strong> כדי שהפקיד יקשר בין השמות ללא עיכוב.",
+    err_name_unbridged: "🚨 <strong>אי-התאמת שמות לא מגושרת (תעודת לידה מול דרכון):</strong> אינכם פסולים אם שיניתם שם, אך חובה לצרף <strong>תעודת שינוי שם עם אפוסטיל</strong> או להזמין דרך <strong>המחלקה המשפטית שלנו למטה תצהיר נוטריוני 'אותו אדם' (תצהיר זהות כפולה)</strong> לפני התור!",
+    adv_trans_eng: "🚨 <strong>אזהרת שטח (מסמכים באנגלית ללא תרגום):</strong> למרות שהנוהל היבש מתיר אנגלית, פקידים בלשכות מסרבים באופן קבוע למסמכים באנגלית ודורשים <strong>תרגום נוטריוני לעברית (סרט אדום)</strong>. מומלץ לתרגם מראש!",
+    err_trans_for: "🛑 <strong>חסר תרגום נוטריוני חובה לעברית:</strong> כל מסמך בשפה זרה (צרפתית, ספרדית, גרמנית, רוסית וכו׳) חייב בתרגום נוטריוני ישראלי עם סרט אדום.",
+    err_orig: "🛑 <strong>מלכודת מסירת מסמכי מקור:</strong> לעולם אל תיכנסו לתור רק עם עותק המקור היחיד! אם תמסרו לפקיד את המקור, הוא יתויק בארכיון ולא יחזור אליכם — ותיתקעו כשתזדקקו למקור עבור דברים אחרים בחיים (כגון הרבנות, בית הדין, רישום נישואין או חידוש אשרה). הכינו צילומים או העתקים נוטריוניים נאמנים למקור כעת!",
+    ok_head: "🟢 תיק מוכן ב-100% נגד מוקשי פקידים (נותרו {left} ימים לשעון ה-180 • דרכון בתוקף ל-{m} חודשים)",
+    ok_body: "כל 5 תעודות החובה, סמכויות האפוסטיל, התאמת השמות, התרגומים וההגנה על מסמכי המקור אומתו בהצלחה. <strong>זכרו בדלפק:</strong> הציגו מקור לעיון בלבד, מסרו לפקיד רק את ההעתקים, וצאו עם כל מסמך מקורי בידכם!",
+    blk_head: "🛑 זוהו סיכונים קריטיים לסירוב פקיד / הקפאת תיק ({n}):",
+    adv_head: "⚠️ התראות שטח חשובות לפני התור ({n}):",
+    btn_fix: "🎀 לתיקון תרגום נוטריוני, העתק נאמן למקור או תצהיר שמות מול הצוות המשפטי שלנו ←"
+  },
+  fr: {
+    pill: "🛡️ Audit Pré-Vol de Dossier, Apostilles & Réalité Terrain",
+    h2: "🛡️ 2. Inspecteur de Dossier, Concordance des Noms & Protection des Originaux",
+    lead: "Vérifiez votre dossier <strong>{j}</strong> avant de vous présenter au guichet pour éviter tout blocage administratif :",
+    warn_title: "🚨 ALERTE TERRAIN CRITIQUE : NE REMETTEZ JAMAIS UN DOCUMENT ORIGINAL !",
+    warn_1: "1. <strong>Ne Cédez Jamais Vos Originaux :</strong> Les agents réclament souvent vos actes de naissance, de mariage ou apostilles originaux et les gardent dans leur tiroir — où ils disparaissent définitivement. <strong>NE LAISSEZ SOUS AUCUN PRÉTEXTE un original au guichet !</strong> Vous aurez besoin de ces originaux pour d'autres démarches (Grand Rabbinat, Beit Din, mariage, renouvellements de visa). Montrez l'original à travers la vitre <em>uniquement</em> pour vérification visuelle, et remettez une photocopie ou une <strong>Copie Certifiée Conforme par Notaire (Ruban Rouge)</strong>.",
+    warn_2: "2. <strong>Le Piège de « L'Anglais Suffit » :</strong> Même si la loi écrite autorise l'anglais, en pratique les agents refusent très souvent les actes non traduits en hébreu. Une <strong>Traduction Notariée en Hébreu (Ruban Rouge)</strong> supprime tout prétexte de refus.",
+    c1_sub: "<em>(Copie intégrale / Long-Form mentionnant LES DEUX parents)</em>",
+    c2_sub: "<em>(Les 3 catégories : Pays de naissance + Nationalité + Tout pays habité >1 an depuis 14 ans)</em>",
+    c3_sub: "<em>(Couvre le célibat/mariage actuel + tout jugement de divorce antérieur)</em>",
+    c4_sub: "<em>(Sur papier à en-tête officiel avec tampon humide et n° de passeport exact)</em>",
+    c5_txt: "<strong>Autorité d'Apostille Correcte :</strong> Apostille fédérale sur casier fédéral & Apostille Cour d'Appel/Ministère sur l'état civil",
+    lbl_days: "Jours Écoulés Depuis l'Émission du Casier/Célibat (Max 180) :",
+    lbl_pass: "Mois de Validité Restants sur le Passeport (Min 24m) :",
+    lbl_name: "Tous les Noms Correspondent-ils Lettre pour Lettre (Naissance, Passeport, Lettres) ?",
+    nm_exact: "✅ Oui — Orthographe strictement identique sur chaque document",
+    nm_bridged: "🛡️ Différent (Changement de nom / Nom hébraïque / Mariage), AVEC Acte Apostillé ou Affidavit d'Avocat",
+    nm_unbridged: "⚠️ Différent (ex: Acte dit 'Adam' & Passeport dit 'Yakov') — Sans Affidavit de Concordance",
+    lbl_trans: "Statut de Traduction de Vos Actes Étrangers :",
+    tr_notarized: "🎀 Tout est Traduit en Hébreu avec Sceau Notarié Ruban Rouge (Anti-Rejet)",
+    tr_english: "⚠️ En Anglais Brut Uniquement (Légal sur le papier, mais fort risque de refus au guichet !)",
+    tr_foreign: "🛑 En Français / Espagnol / Allemand / Russe sans Traduction Notariée en Hébreu",
+    lbl_orig: "Protection des Originaux (Photocopies / Copies Certifiées Prêtes à Remettre) :",
+    or_ready: "✅ J'ai des copies complètes à remettre et je ne laisserai JAMAIS mes originaux physiques",
+    or_only: "🚨 Je n'ai que mon exemplaire original unique (Besoin de copies / Copies Certifiées Notariées !)",
+    btn_run: "✅ Lancer l'Audit Complet du Dossier & des Pièges →",
+    err_c1: "❌ <strong>Copie Intégrale de l'Acte de Naissance Manquante :</strong> Doit indiquer les deux parents + Apostille originale.",
+    err_c2: "❌ <strong>Casier Judiciaire des 3 Catégories Manquant :</strong> Requis pour (1) Naissance, (2) Nationalité, et (3) Tout pays habité >12 mois depuis l'âge de 14 ans.",
+    err_c3: "❌ <strong>Certificat de Célibat / État Civil Complet Manquant :</strong> Doit couvrir l'état actuel et tout divorce antérieur + Apostille.",
+    err_c4: "❌ <strong>Preuve de Judaïsme / Dossier Rabbinique Manquant :</strong> Attestation orthodoxe ou lettres du Rabbin & Beit Din avec n° de passeport exact.",
+    err_c5: "🚨 <strong>Mauvaise Autorité d'Apostille (Piège Fédéral vs État) :</strong> Les actes fédéraux exigent une Apostille fédérale !",
+    err_days_exp: "🚨 <strong>DÉLAI DE 180 JOURS EXPIRÉ ({d} jours) :</strong> Le Misrad HaPanim rejette tout casier ou certificat de célibat de plus de 180 jours !",
+    adv_days_warn: "⚠️ <strong>Zone Critique des 180 Jours ({left} jours restants) :</strong> Déposez immédiatement ou générez la Demande d'Extension de 30/60 Jours ci-dessous !",
+    err_pass: "🚨 <strong>Piège de Validité du Passeport ({m} mois restants) :</strong> Le passeport étranger doit être valide au moins 24 mois (2 ans). Renouvelez-le maintenant !",
+    adv_name_bridged: "🛡️ <strong>Concordance de Nom Protégée :</strong> Apportez votre <strong>Acte de Changement de Nom Apostillé</strong> + un <strong>Affidavit d'Avocat « Même Personne » (Tatzhir)</strong>.",
+    err_name_unbridged: "🚨 <strong>Différence de Nom Non Justifiée (Naissance vs Passeport) :</strong> Vous n'êtes PAS disqualifié, mais vous DEVEZ joindre un <strong>Acte de Changement de Nom Apostillé</strong> OU commander un <strong>Affidavit Notarié « Même Personne » (Tatzhir)</strong> via notre Bureau Juridique ci-dessous !",
+    adv_trans_eng: "🚨 <strong>Alerte Terrain (Documents en Anglais Non Traduits) :</strong> En réalité, les guichets refusent fréquemment les actes en anglais et exigent une <strong>Traduction Notariée en Hébreu (Ruban Rouge)</strong>.",
+    err_trans_for: "🛑 <strong>Traduction Notariée en Hébreu Manquante :</strong> Tout acte en français, espagnol, allemand ou russe DOIT être traduit en hébreu par un notaire israélien (Ruban Rouge).",
+    err_orig: "🛑 <strong>PIÈGE CRITIQUE DES ORIGINAUX :</strong> Ne donnez JAMAIS votre original unique au guichet ! Il disparaîtra dans les archives alors que vous en aurez besoin pour d'autres démarches (Rabbinat, Beit Din, mariage, renouvellements). Préparez des copies ou Copies Certifiées Conformes dès maintenant !",
+    ok_head: "🟢 DOSSIER 100% BLINDÉ ({left} Jours Restants sur 180 • Passeport Valide {m}m)",
+    ok_body: "Les 5 actes, autorités d'Apostille, concordances de noms, traductions et copies de protection sont validés. <strong>Rappel au guichet :</strong> montrez les originaux UNIQUEMENT à vue, remettez les copies et repartez avec vos originaux en main !",
+    blk_head: "🛑 Risques Critiques de Rejet / Blocage Détectés ({n}) :",
+    adv_head: "⚠️ Avertissements Terrain Importants ({n}) :",
+    btn_fix: "🎀 Régler les Traductions, Copies Certifiées ou Affidavit de Nom avec Notre Bureau Juridique →"
+  },
+  es: {
+    pill: "🛡️ Auditoría Pre-Vuelo de Carpeta, Apostillas y Realidad de Ventanilla",
+    h2: "🛡️ 2. Inspector de Documentos, Coincidencia de Nombres y Protección de Originales",
+    lead: "Ejecute esta revisión de su carpeta de <strong>{j}</strong> antes de acercarse a la ventanilla para que ningún funcionario congele su expediente:",
+    warn_title: "🚨 ADVERTENCIA REAL DE CAMPO: ¡NUNCA ENTREGUE UN DOCUMENTO ORIGINAL!",
+    warn_1: "1. <strong>Defienda sus Originales a Toda Costa:</strong> Los funcionarios suelen pedir su Partida de Nacimiento, Matrimonio o Apostilla original y guardarla en su cajón, donde se pierde para siempre en el sistema. <strong>¡BAJO NINGUNA CIRCUNSTANCIA entregue un original para que se lo queden!</strong> Necesitará esos mismos originales para otras cosas en la vida (como la Rabanut, el Beit Din, registro de matrimonio o renovaciones de visa). Muestre el original en ventanilla <em>solo</em> para inspección visual, y entregue una fotocopia o <strong>Copia Certificada Notarial con Cinta Roja</strong>.",
+    warn_2: "2. <strong>La Trampa de «En Inglés Está Bien»:</strong> Aunque en papel la norma acepta inglés, en la vida real los funcionarios rechazan rutinariamente documentos en inglés sin traducir. Llevar <strong>Traducciones Notariales al Hebreo (Cinta Roja)</strong> elimina su excusa #1 para rechazarlo.",
+    c1_sub: "<em>(Partida Literal / Long-Form con AMBOS padres — nunca un extracto corto)</em>",
+    c2_sub: "<em>(Las 3 categorías: País de nacimiento + Ciudadanía + Todo país vivido >1 año desde los 14 años)</em>",
+    c3_sub: "<em>(Cubre soltería/estado actual + cualquier sentencia de divorcio previa)</em>",
+    c4_sub: "<em>(En membrete oficial con sello húmedo y su n.º exacto de pasaporte)</em>",
+    c5_txt: "<strong>Autoridad de Apostilla Correcta:</strong> Apostilla Federal en Antecedentes Federales (ej. Depto. de Estado en EE.UU., ¡no notario estatal!) y Apostilla correspondiente en Registros Civiles",
+    lbl_days: "Días Desde la Emisión de Antecedentes/Soltería (Máx. 180):",
+    lbl_pass: "Meses de Validez Restantes en su Pasaporte (Mín. 24m):",
+    lbl_name: "¿Coinciden Todos los Nombres Letra por Letra en Partida, Pasaporte y Cartas?",
+    nm_exact: "✅ Sí — Exactamente la misma ortografía en cada documento",
+    nm_bridged: "🛡️ Diferente (Cambio de Nombre / Nombre Hebreo / Matrimonio), CON Acta Apostillada o Declaración Jurada de Abogado",
+    nm_unbridged: "⚠️ Diferente (ej. Partida dice 'Adam' y Pasaporte dice 'Yakov') — Sin Declaración Jurada Aún",
+    lbl_trans: "Estado de Traducción de sus Certificados Extranjeros:",
+    tr_notarized: "🎀 Todo Traducido al Hebreo con Sello Notarial de Cinta Roja (A Prueba de Funcionarios)",
+    tr_english: "⚠️ Solo en Inglés Sin Traducir (Legal en papel, ¡pero alto riesgo de rechazo en ventanilla!)",
+    tr_foreign: "🛑 En Español / Francés / Alemán / Ruso sin Traducción Notarial al Hebreo",
+    lbl_orig: "Protección de Originales (Fotocopias / Copias Certificadas Listas para Entregar):",
+    or_ready: "✅ Tengo copias completas para entregar al funcionario y NUNCA entregaré mis originales físicos",
+    or_only: "🚨 Solo tengo mi único juego de originales ahora mismo (¡Necesito copias / Copias Certificadas Notariales!)",
+    btn_run: "✅ Ejecutar Auditoría Completa de Carpeta y Factores X →",
+    err_c1: "❌ <strong>Falta Partida de Nacimiento Literal (Long-Form):</strong> Debe incluir los nombres de ambos padres + Apostilla original.",
+    err_c2: "❌ <strong>Faltan Antecedentes Penales de las 3 Categorías:</strong> Requerido de (1) Nacimiento, (2) Ciudadanía y (3) Todo país donde vivió >12 meses desde los 14 años.",
+    err_c3: "❌ <strong>Falta Certificado de Soltería / Historial Civil Completo:</strong> Debe cubrir estado actual y todo divorcio previo + Apostilla.",
+    err_c4: "❌ <strong>Falta Prueba de Judaísmo / Carpeta Rabínica:</strong> Certificado ortodoxo o cartas del Rabino y Beit Din con n.º exacto de pasaporte.",
+    err_c5: "🚨 <strong>Autoridad de Apostilla Incorrecta (Trampa Federal vs. Estatal):</strong> ¡Los antecedentes federales exigen Apostilla Federal del Ministerio/Depto. de Estado!",
+    err_days_exp: "🚨 <strong>RELOJ DE 180 DÍAS VENCIDO ({d} días):</strong> ¡El Misrad HaPanim rechaza antecedentes y soltería con más de 180 días de emisión!",
+    adv_days_warn: "⚠️ <strong>Zona de Peligro de 180 Días (quedan {left} días):</strong> ¡Presente de inmediato o genere la Solicitud de Prórroga de 30/60 Días en la Tarjeta #3 abajo!",
+    err_pass: "🚨 <strong>Trampa de Validez del Pasaporte (quedan {m} meses):</strong> El pasaporte extranjero debe tener al menos 24 meses (2 años) de vigencia para estampar visas B/1 o A/5. ¡Renuévelo ya!",
+    adv_name_bridged: "🛡️ <strong>Cambio/Diferencia de Nombre Protegida:</strong> Lleve su <strong>Certificado de Cambio de Nombre Apostillado</strong> + <strong>Declaración Jurada de Abogado «Misma Persona» (Tatzhir)</strong>.",
+    err_name_unbridged: "🚨 <strong>Diferencia de Nombre Sin Vincular (Partida vs. Pasaporte):</strong> NO está descalificado si cambió su nombre, ¡pero DEBE adjuntar un <strong>Certificado de Cambio de Nombre Apostillado</strong> O solicitar una <strong>Declaración Jurada Notarial «Misma Persona» (Tatzhir)</strong> con nuestro Escritorio Legal abajo!",
+    adv_trans_eng: "🚨 <strong>Advertencia de Ventanilla (Documentos en Inglés Sin Traducir):</strong> Aunque la ley escrita acepta inglés, en la práctica los funcionarios suelen exigir <strong>Traducción Notarial al Hebreo con Cinta Roja</strong>.",
+    err_trans_for: "🛑 <strong>Falta Traducción Notarial Obligatoria al Hebreo:</strong> Todo documento en español, francés, alemán o ruso DEBE llevar traducción notarial israelí con Cinta Roja.",
+    err_orig: "🛑 <strong>TRAMPA CRÍTICA DE ORIGINALES:</strong> ¡NUNCA entregue su único original! Si el funcionario lo archiva, no lo recuperará jamás y lo necesitará para otras etapas de su vida (Rabanut, Beit Din, matrimonio, renovaciones). ¡Prepare fotocopias o Copias Certificadas Notariales ahora!",
+    ok_head: "🟢 CARPETA 100% BLINDADA ({left} Días Restantes del Reloj de 180 • Pasaporte Válido {m}m)",
+    ok_body: "Los 5 certificados clave, autoridades de Apostilla, nombres, traducciones y copias de resguardo están verificados. <strong>Recuerde en ventanilla:</strong> muestre los originales SOLO a la vista, entregue las copias y ¡salga con todos sus originales en la mano!",
+    blk_head: "🛑 Riesgos Críticos de Rechazo / Congelación Detectados ({n}):",
+    adv_head: "⚠️ Advertencias Reales de Campo ({n}):",
+    btn_fix: "🎀 Resolver Traducción, Copia Certificada o Declaración de Nombres con Nuestro Equipo Legal →"
+  },
+  de: {
+    pill: "🛡️ Vorab-Akten-, Apostillen- & Schalter-Realitäts-Audit",
+    h2: "🛡️ 2. Heimat-Dossier-, Namensabgleich- & Original-Schutz-Prüfer",
+    lead: "Prüfen Sie Ihr <strong>{j}</strong>-Paket vor dem Schaltertermin, damit kein Sachbearbeiter Ihre Akte blockieren kann:",
+    warn_title: "🚨 WICHTIGE PRAXIS-WARNUNG: GEBEN SIE NIEMALS EIN ORIGINALDOKUMENT AB!",
+    warn_1: "1. <strong>Behalten Sie Immer Ihre Originale:</strong> Sachbearbeiter verlangen oft Ihre originale Geburtsurkunde, Heiratsurkunde oder Apostille und behalten sie ein — wo sie im System auf Nimmerwiedersehen verschwindet. <strong>Geben Sie UNTER KEINEN UMSTÄNDEN ein Original zum Verbleib ab!</strong> Sie benötigen genau diese Originale noch für andere Dinge im Leben (wie das Rabbinat, das Beit Din, die Eheschließung oder Visaverlängerungen). Zeigen Sie das Original am Schalter <em>nur</em> zur Sichtprüfung vor und übergeben Sie eine Kopie oder eine <strong>Notariell Beglaubigte Kopie (Rotes Band)</strong>.",
+    warn_2: "2. <strong>Die «Englisch Reicht Aus»-Falle:</strong> Obwohl das Gesetz auf dem Papier englische Dokumente erlaubt, lehnen Schalterbeamte unübersetzte englische Urkunden in der Praxis regelmäßig ab. Eine <strong>Hebräische Notar-Übersetzung (Rotes Band)</strong> nimmt ihnen jede Ausrede.",
+    c1_sub: "<em>(Vollständiger Registerauszug / Long-Form mit BEIDEN Eltern)</em>",
+    c2_sub: "<em>(Alle 3 Kategorien: Geburtsland + Staatsbürgerschaft + Jedes Land >1 Jahr seit dem 14. Lebensjahr)</em>",
+    c3_sub: "<em>(Deckt aktuellen Familienstand + alle früheren Scheidungsurteile ab)</em>",
+    c4_sub: "<em>(Auf offiziellem Briefkopf mit Originalstempel & exakter Passnummer)</em>",
+    c5_txt: "<strong>Korrekte Apostillen-Behörde:</strong> Bundes-Apostille auf Bundes-Führungszeugnis (z.B. US Dept. of State / BfAA, kein Landesnotar!) & Landes-Apostille auf Personenstandsurkunden",
+    lbl_days: "Tage Seit Ausstellung von Führungszeugnis/Ledigkeit (Max. 180):",
+    lbl_pass: "Restgültigkeit des Reisepasses in Monaten (Min. 24m):",
+    lbl_name: "Stimmen Alle Namen Buchstabe für Buchstabe Überein (Geburtsurkunde, Pass, Briefe)?",
+    nm_exact: "✅ Ja — Exakt dieselbe Schreibweise auf jedem Dokument",
+    nm_bridged: "🛡️ Abweichend (Namensänderung / Hebr. Name / Heirat), MIT Apostillierter Urkunde oder Anwalts-Affidavit",
+    nm_unbridged: "⚠️ Abweichend (z.B. Geburtsurkunde sagt 'Adam' & Pass sagt 'Yakov') — Noch Ohne Überbrückungs-Affidavit",
+    lbl_trans: "Übersetzungsstatus Ihrer Ausländischen Urkunden:",
+    tr_notarized: "🎀 Alles ins Hebräische Übersetzt mit Israelischem Rotes-Band-Notarsiegel (Schalter-Sicher)",
+    tr_english: "⚠️ Nur auf Englisch Ohne Übersetzung (Auf dem Papier legal, aber hohes Ablehnungsrisiko am Schalter!)",
+    tr_foreign: "🛑 Auf Deutsch / Französisch / Spanisch / Russisch ohne Hebräische Notar-Übersetzung",
+    lbl_orig: "Original-Schutz (Fotokopien / Beglaubigte Kopien zur Abgabe Bereit):",
+    or_ready: "✅ Ich habe vollständige Kopien zur Abgabe und gebe NIEMALS meine physischen Originale aus der Hand",
+    or_only: "🚨 Ich habe derzeit nur mein einziges Original-Set (Kopien / Notariell Beglaubigte Kopien nötig!)",
+    btn_run: "✅ Vollständiges Dossier- & X-Faktor-Audit Starten →",
+    err_c1: "❌ <strong>Vollständige Geburtsurkunde (Long-Form) Fehlt:</strong> Muss beide Eltern nennen + Original-Apostille tragen.",
+    err_c2: "❌ <strong>Führungszeugnis Aller 3 Kategorien Fehlt:</strong> Erforderlich aus (1) Geburtsland, (2) Staatsbürgerschaft und (3) Jedem Land >12 Monate seit dem 14. Lebensjahr.",
+    err_c3: "❌ <strong>Ledigkeits- / Familienstandsnachweis Fehlt:</strong> Muss aktuellen Stand und jede frühere Scheidung + Apostille abdecken.",
+    err_c4: "❌ <strong>Judentumsnachweis / Rabbinisches Dossier Fehlt:</strong> Orthodoxer Nachweis oder Rabbiner- & Beit-Din-Briefe mit exakter Passnummer.",
+    err_c5: "🚨 <strong>Falsche Apostillen-Behörde (Bundes- vs. Landes-Falle):</strong> Bundesdokumente benötigen zwingend eine Bundes-Apostille!",
+    err_days_exp: "🚨 <strong>180-TAGE-FRIST ABGELAUFEN ({d} Tage alt):</strong> Das Misrad HaPanim lehnt Führungszeugnisse und Ledigkeitsbescheinigungen über 180 Tage strikt ab!",
+    adv_days_warn: "⚠️ <strong>180-Tage-Gefahrenzone (noch {left} Tage):</strong> Sofort einreichen oder unten in Karte #3 den 30/60-Tage-Fristverlängerungsantrag erstellen!",
+    err_pass: "🚨 <strong>Reisepass-Gültigkeits-Falle (noch {m} Monate):</strong> Ausländische Pässe müssen für B/1- oder A/5-Visa mindestens 24 Monate (2 Jahre) gültig sein. Pass jetzt erneuern!",
+    adv_name_bridged: "🛡️ <strong>Namensabweichung Abgesichert:</strong> Bringen Sie Ihre <strong>Apostillierte Namensänderungsurkunde</strong> + ein <strong>Anwaltliches «Personenidentitäts-Affidavit» (Tatzhir)</strong> mit.",
+    err_name_unbridged: "🚨 <strong>Ungeklärte Namensabweichung (Geburtsurkunde vs. Pass):</strong> Sie sind NICHT disqualifiziert, müssen aber eine <strong>Apostillierte Namensänderungsurkunde</strong> ODER über unser <strong>Anwaltsbüro unten ein Notarielles Personenidentitäts-Affidavit (Tatzhir)</strong> beifügen!",
+    adv_trans_eng: "🚨 <strong>Praxis-Warnung (Unübersetzte Englische Dokumente):</strong> Schalterbeamte lehnen englische Urkunden in der Praxis häufig ab und verlangen <strong>Hebräische Notar-Übersetzungen mit Rotem Band</strong>.",
+    err_trans_for: "🛑 <strong>Pflicht-Notarübersetzung ins Hebräische Fehlt:</strong> Jedes Dokument auf Deutsch, Französisch, Spanisch oder Russisch MUSS von einem israelischen Notar (Rotes Band) übersetzt sein.",
+    err_orig: "🛑 <strong>KRITISCHE ORIGINAL-FALLE:</strong> Gehen Sie NIEMALS nur mit Ihrem einzigen Original zum Termin! Wenn der Schalterbeamte Ihr Original einbehält, bekommen Sie es oft nie zurück — und es fehlt Ihnen für andere wichtige Dinge im Leben (Rabbinat, Beit Din, Heirat, Verlängerungen). Fertigen Sie jetzt Kopien oder Beglaubigte Kopien an!",
+    ok_head: "🟢 100% SCHALTER-SICHERES DOSSIER ({left} Tage auf der 180-Tage-Uhr • Pass Gültig {m}m)",
+    ok_body: "Alle 5 Kernurkunden, Apostillen-Behörden, Namensabgleiche, Übersetzungen und Kopien-Schutzmaßnahmen sind bestätigt. <strong>Am Schalter gilt:</strong> Originale NUR zur Ansicht zeigen, Kopien abgeben und jedes Original wieder mitnehmen!",
+    blk_head: "🛑 Kritische Ablehnungs- / Akten-Stopp-Risiken Erkannt ({n}):",
+    adv_head: "⚠️ Wichtige Praxis-Hinweise ({n}):",
+    btn_fix: "🎀 Übersetzung, Beglaubigte Kopien oder Namens-Affidavit Jetzt über Unser Anwaltsbüro Lösen →"
   }
+};
+
+window.validateHomelandDossier = function() {
+  if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged('ran_packet_audit');
+  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  const a = window.AUDIT_I18N[l] || window.AUDIT_I18N.en;
+
+  const days = parseInt((document.getElementById('chk-days') || {}).value || '0', 10);
+  const passMonths = parseInt((document.getElementById('chk-pass-months') || {}).value || '36', 10);
+  const nameStatus = ((document.getElementById('chk-name-match') || {}).value) || 'exact';
+  const transStatus = ((document.getElementById('chk-hebrew-trans') || {}).value) || 'notarized';
+  const origStatus = ((document.getElementById('chk-orig-copies') || {}).value) || 'copies_ready';
+
+  const c1 = (document.getElementById('chk-birth') || {}).checked;
+  const c2 = (document.getElementById('chk-police') || {}).checked;
+  const c3 = (document.getElementById('chk-single') || {}).checked;
+  const c4 = (document.getElementById('chk-family') || {}).checked;
+  const c5 = (document.getElementById('chk-apostille-auth') || {}).checked;
+
+  const out = document.getElementById('chk-out');
+  if (!out) return;
+  out.style.display = 'block';
+
+  const blockers = [];
+  const advisories = [];
+
+  if (!c1) blockers.push(a.err_c1);
+  if (!c2) blockers.push(a.err_c2);
+  if (!c3) blockers.push(a.err_c3);
+  if (!c4) blockers.push(a.err_c4);
+  if (!c5) blockers.push(a.err_c5);
+
+  if (days > 180) {
+    blockers.push(a.err_days_exp.replace('{d}', days));
+  } else if (days > 145) {
+    advisories.push(a.adv_days_warn.replace('{left}', (180 - days)));
+  }
+
+  if (passMonths < 24) {
+    blockers.push(a.err_pass.replace('{m}', passMonths));
+  }
+
+  if (nameStatus === 'bridged') {
+    advisories.push(a.adv_name_bridged);
+  } else if (nameStatus === 'unbridged') {
+    blockers.push(a.err_name_unbridged);
+  }
+
+  if (transStatus === 'english_raw') {
+    advisories.push(a.adv_trans_eng);
+  } else if (transStatus === 'foreign_lang') {
+    blockers.push(a.err_trans_for);
+  }
+
+  if (origStatus !== 'copies_ready') {
+    blockers.push(a.err_orig);
+  }
+
+  const borderSide = (l === 'he') ? 'border-right' : 'border-left';
+  let html = '';
+  if (blockers.length === 0 && advisories.length === 0) {
+    out.style.background = '#ecfdf5'; out.style.borderColor = '#10b981';
+    html = '<div style="font-weight:900;color:#065f46;font-size:0.95rem;">' + a.ok_head.replace('{left}', (180 - days)).replace('{m}', passMonths) + '</div>' +
+           '<div style="font-size:0.84rem;color:#047857;margin-top:6px;line-height:1.5;">' + a.ok_body + '</div>';
+  } else {
+    out.style.background = blockers.length ? '#fff1f2' : '#fffbeb';
+    out.style.borderColor = blockers.length ? '#f43f5e' : '#f59e0b';
+    if (blockers.length) {
+      html += '<div style="font-weight:900;color:#9f1239;font-size:0.94rem;margin-bottom:8px;">' + a.blk_head.replace('{n}', blockers.length) + '</div>' +
+              blockers.map(b => '<div style="font-size:0.84rem;color:#881337;margin-bottom:7px;line-height:1.45;padding:7px 10px;background:#fff;' + borderSide + ':3.5px solid #e11d48;border-radius:6px;">' + b + '</div>').join('');
+    }
+    if (advisories.length) {
+      html += '<div style="font-weight:900;color:#92400e;font-size:0.9rem;margin:10px 0 6px;">' + a.adv_head.replace('{n}', advisories.length) + '</div>' +
+              advisories.map(adv => '<div style="font-size:0.83rem;color:#78350f;margin-bottom:7px;line-height:1.45;padding:7px 10px;background:#fff;' + borderSide + ':3.5px solid #f59e0b;border-radius:6px;">' + adv + '</div>').join('');
+    }
+    html += '<button type="button" class="btn" style="margin-top:10px;background:#0b3b59;padding:12px;" onclick="openMod(\'vetted-team\'); selectConciergeSvc(3);">' + a.btn_fix + '</button>';
+  }
+  out.innerHTML = html;
 };
 
 const RB_LABELS = {
@@ -289,11 +571,10 @@ function renderAll() {
 
   const c = document.getElementById('app-container');
   c.innerHTML = `
-    <div style="background:#e0f2fe;border:1px solid #38bdf8;border-radius:12px;padding:11px 14px;margin-bottom:14px;font-size:0.83rem;color:#0c4a6e;">
-      <strong>${j.flag} ${j.name}:</strong> ${j.police} • ${j.birth}
-    </div>
-
     <div class="mod-view active" id="mod-hebrew-engine">
+      <div style="background:#e0f2fe;border:1px solid #38bdf8;border-radius:12px;padding:11px 14px;margin-bottom:14px;font-size:0.83rem;color:#0c4a6e;">
+        <strong>${j.flag} ${j.name}:</strong> ${j.police} • ${j.birth}
+      </div>
       <div class="card" style="border:2px solid #0284c7;background:#f0f9ff;">
         <h2>📥 1. "IN" Translator: Decode Clerk Deficiency Sheet (Drishat Mismachim)</h2>
         <p>Handed a mystery Hebrew checklist by a clerk? Paste the Hebrew text below (or load a real sample) to see the exact homeland & family documents required and activate your 30-day file-closure shield:</p>
@@ -306,16 +587,60 @@ function renderAll() {
       </div>
 
       <div class="card" style="border:2px solid #059669;">
-        <h2>🛡️ 2. Homeland & Family Document Completeness Validator</h2>
-        <p>Verify your <strong>${j.name}</strong> civil & family dossier before stepping up to the clerk's window:</p>
-        <label style="display:flex;align-items:center;gap:8px;font-weight:700;"><input type="checkbox" id="chk-birth" style="width:18px;height:18px;" checked /> ${j.birth}</label>
-        <label style="display:flex;align-items:center;gap:8px;font-weight:700;"><input type="checkbox" id="chk-police" style="width:18px;height:18px;" checked /> ${j.police}</label>
-        <label style="display:flex;align-items:center;gap:8px;font-weight:700;"><input type="checkbox" id="chk-single" style="width:18px;height:18px;" checked /> ${j.single}</label>
-        <label style="display:flex;align-items:center;gap:8px;font-weight:700;"><input type="checkbox" id="chk-family" style="width:18px;height:18px;" checked /> ${j.rabbi}</label>
-        <label>Days Since Police Check & Single-Status Were Issued (Max 180 Days):</label>
-        <input type="number" id="chk-days" value="32" min="0" max="365" />
-        <button class="btn btn-emerald" onclick="validateHomelandDossier()">✅ Audit My Homeland & Family Dossier →</button>
-        <div id="chk-out" style="display:none;margin-top:12px;padding:12px;border:2px solid #10b981;border-radius:12px;"></div>
+        ${(function(){
+          const a = (window.AUDIT_I18N && window.AUDIT_I18N[window.appLang || 'en']) || window.AUDIT_I18N.en;
+          return `
+            <div style="display:inline-block;background:#dcfce7;color:#065f46;font-size:0.73rem;font-weight:900;padding:3px 10px;border-radius:999px;margin-bottom:6px;text-transform:uppercase;">${a.pill}</div>
+            <h2>${a.h2}</h2>
+            <p>${a.lead.replace('{j}', j.name)}</p>
+
+            <div style="background:#fff1f2;border:2px solid #f43f5e;border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:0.83rem;color:#881337;line-height:1.5;">
+              <div style="font-weight:900;font-size:0.88rem;color:#9f1239;margin-bottom:4px;">${a.warn_title}</div>
+              <div>${a.warn_1}</div>
+              <div style="margin-top:6px;">${a.warn_2}</div>
+            </div>
+
+            <label style="display:flex;align-items:flex-start;gap:8px;font-weight:700;margin-top:8px;"><input type="checkbox" id="chk-birth" style="width:18px;height:18px;margin-top:2px;flex-shrink:0;" checked /> <span>${j.birth} ${a.c1_sub}</span></label>
+            <label style="display:flex;align-items:flex-start;gap:8px;font-weight:700;margin-top:8px;"><input type="checkbox" id="chk-police" style="width:18px;height:18px;margin-top:2px;flex-shrink:0;" checked /> <span>${j.police} ${a.c2_sub}</span></label>
+            <label style="display:flex;align-items:flex-start;gap:8px;font-weight:700;margin-top:8px;"><input type="checkbox" id="chk-single" style="width:18px;height:18px;margin-top:2px;flex-shrink:0;" checked /> <span>${j.single} ${a.c3_sub}</span></label>
+            <label style="display:flex;align-items:flex-start;gap:8px;font-weight:700;margin-top:8px;"><input type="checkbox" id="chk-family" style="width:18px;height:18px;margin-top:2px;flex-shrink:0;" checked /> <span>${j.rabbi} ${a.c4_sub}</span></label>
+            <label style="display:flex;align-items:flex-start;gap:8px;font-weight:700;margin-top:8px;"><input type="checkbox" id="chk-apostille-auth" style="width:18px;height:18px;margin-top:2px;flex-shrink:0;" checked /> <span>${a.c5_txt}</span></label>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+              <div>
+                <label style="margin-top:0;">${a.lbl_days}</label>
+                <input type="number" id="chk-days" value="32" min="0" max="365" />
+              </div>
+              <div>
+                <label style="margin-top:0;">${a.lbl_pass}</label>
+                <input type="number" id="chk-pass-months" value="36" min="1" max="120" />
+              </div>
+            </div>
+
+            <label>${a.lbl_name}</label>
+            <select id="chk-name-match">
+              <option value="exact">${a.nm_exact}</option>
+              <option value="bridged">${a.nm_bridged}</option>
+              <option value="unbridged">${a.nm_unbridged}</option>
+            </select>
+
+            <label>${a.lbl_trans}</label>
+            <select id="chk-hebrew-trans">
+              <option value="notarized">${a.tr_notarized}</option>
+              <option value="english_raw">${a.tr_english}</option>
+              <option value="foreign_lang">${a.tr_foreign}</option>
+            </select>
+
+            <label>${a.lbl_orig}</label>
+            <select id="chk-orig-copies">
+              <option value="copies_ready">${a.or_ready}</option>
+              <option value="only_originals">${a.or_only}</option>
+            </select>
+
+            <button class="btn btn-emerald" onclick="validateHomelandDossier()">${a.btn_run}</button>
+            <div id="chk-out" style="display:none;margin-top:12px;padding:12px;border:2px solid #10b981;border-radius:12px;"></div>
+          `;
+        })()}
       </div>
 
       <div class="card">
@@ -396,9 +721,16 @@ function renderAll() {
           <div id="cp-tip" style="margin-top:12px;padding:8px 10px;background:rgba(255,255,255,0.12);border-left:3px solid #38bdf8;border-radius:6px;font-size:0.8rem;color:#e0f2fe;"></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
-          <input id="cp-ans-a" placeholder="Partner A Answer (Room 1)..." oninput="saveCpAns()" style="margin:0;" />
-          <input id="cp-ans-b" placeholder="Partner B Answer (Room 2)..." oninput="saveCpAns()" style="margin:0;" />
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span id="cp-lbl-a" style="font-size:0.73rem;font-weight:800;color:#0c4a6e;">Partner A (Room 1)</span>
+            <input id="cp-ans-a" placeholder="Partner A Answer..." onkeydown="if(event.key==='Enter'){event.preventDefault();submitMyCpAns();}" style="margin:0;" />
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span id="cp-lbl-b" style="font-size:0.73rem;font-weight:800;color:#0c4a6e;">Partner B (Room 2)</span>
+            <input id="cp-ans-b" placeholder="Partner B Answer..." onkeydown="if(event.key==='Enter'){event.preventDefault();submitMyCpAns();}" style="margin:0;" />
+          </div>
         </div>
+        <button type="button" id="cp-submit-btn" class="btn" style="margin-top:8px;padding:11px 14px;background:#0284c7;display:flex;align-items:center;justify-content:center;gap:6px;" onclick="submitMyCpAns()">🔒 Lock In My Answer ↵</button>
         <div id="cp-match-out" style="margin-top:8px;padding:8px 12px;border-radius:8px;font-size:0.82rem;font-weight:800;display:none;"></div>
         <div style="display:flex;gap:8px;margin-top:8px;">
           <button type="button" class="btn" style="margin-top:0;flex:1;background:#334155;" onclick="prevCpCard()">←</button>
@@ -532,24 +864,541 @@ function setAppLang(lang, btn) {
 // ============================================================================
 
 window.LEMON_CHECKOUT_URLS = {
-  single_39: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=single_39",
-  monthly_29: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=monthly_29",
-  lifetime_199: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=lifetime_199",
-  vip_449: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=vip_449"
+  forms_90d_89: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=forms_90d_89",
+  forms_life_149: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=forms_life_149",
+  bd_suite_90d_149: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_suite_90d_149",
+  bd_suite_life_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_suite_life_249",
+  bd_pack1_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_pack1_65",
+  bd_pack2_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_pack2_65",
+  bd_pack3_49: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_pack3_49",
+  bd_pack4_49: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_pack4_49",
+  bd_all700_179: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_all700_179",
+  songs_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=songs_65",
+  couples_sync_75: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=couples_sync_75",
+  couples_90d_129: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=couples_90d_129",
+  couples_life_229: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=couples_life_229",
+  suite_solo_90d_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=suite_solo_90d_249",
+  suite_solo_life_399: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=suite_solo_life_399",
+  vip_couple_649: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=vip_couple_649"
 };
 
-// Direct WhatsApp Concierge Dispatch Number (Receives client intake leads)
 window.CONCIERGE_WHATSAPP = "972559664357";
 window.CONCIERGE_EMAIL = "concierge@giyuraliyahtrack.com";
 
-window.isProUnlocked = function() {
-  return localStorage.getItem('gat_pro_unlocked') === '1';
+const GAT_CODE_TIER_MAP = {"55a5e6b3bffb18e7822e5297e907c35beb3161ffc75c49e1109f9978f827b240":"forms_90d_89","8575d2a62340999cb5b207c8ddea45a3d69f882a95bf4450440f029bb0f52d3e":"forms_life_149","5470b090e1253b907549423404ce954e2f3f32bae219158fd7ba7be1124fb113":"bd_suite_90d_149","eed0f662bacea98b9d722f8b58719b520e2c33ac302123941456ff31c09bb63a":"bd_suite_life_249","42e383f151f2a9a9b54faf48ea7681e7c24c09de4c888bed089e94e0d21ba408":"couples_90d_129","e36c103b7598eb93ce8234eb03d9e054539f1dcd745df66883011a312fae7878":"couples_life_229","103d7969a5e67888f8e69257bf11261ba67bc1d19bf360a7211b7f63cb94090e":"suite_solo_90d_249","58b2f480939ba9b02361e850f7f5cb47244e433311515b772fb5e9672684a084":"suite_solo_life_399","2868a99ae4f528edc73ef1d4578efe60b44f14d8f16128ab4259d88df742e2c3":"suite_solo_life_399","a10c9b96585ea52f5da6f7efc1267e8c434f1be24968da4d2440e19940776485":"vip_couple_649","3806c36fc793f18d0d97e637adb6bcc235f2ff0454bb8a287d07d4674010ed24":"vip_couple_649"};
+
+window.TIER_CAPABILITIES = {
+  forms_90d_89:       { days: 90, forms: true, audit: true, bd: [], songs: false, couples: false, vip2Phone: false, label: '📄 90-Day Hebrew Forms & Clerk Dossier Pass ($89)' },
+  forms_life_149:     { days: 0,  forms: true, audit: true, bd: [], songs: false, couples: false, vip2Phone: false, label: '🛡️ Lifetime Hebrew Forms & Annual Renewals Pass ($149)' },
+  bd_pack1_65:        { days: 0,  forms: false, audit: false, bd: [1], songs: false, couples: false, vip2Phone: false, label: '📚 Beit Din Pack 1: Core 200 Deck ($65)' },
+  bd_pack2_65:        { days: 0,  forms: false, audit: false, bd: [2], songs: false, couples: false, vip2Phone: false, label: '🔥 Beit Din Pack 2: +200 Curveballs Deck ($65)' },
+  bd_pack3_49:        { days: 0,  forms: false, audit: false, bd: [3], songs: false, couples: false, vip2Phone: false, label: '🧔 Beit Din Pack 3: Men\'s 150 Deck ($49)' },
+  bd_pack4_49:        { days: 0,  forms: false, audit: false, bd: [4], songs: false, couples: false, vip2Phone: false, label: '👩 Beit Din Pack 4: Women\'s 150 Deck ($49)' },
+  bd_all700_179:      { days: 0,  forms: false, audit: false, bd: [1,2,3,4], songs: false, couples: false, vip2Phone: false, label: '🕍 All 700 Beit Din Questions Pass ($179)' },
+  songs_65:           { days: 0,  forms: false, audit: false, bd: [], songs: true, couples: false, vip2Phone: false, label: '🎵 13 Shabbat Songs & Pronunciation Grader ($65)' },
+  bd_suite_90d_149:   { days: 90, forms: false, audit: false, bd: [1,2,3,4], songs: true, couples: false, vip2Phone: false, label: '⚡ 90-Day Beit Din 700-Q & Shabbat Suite ($149)' },
+  bd_suite_life_249:  { days: 0,  forms: false, audit: false, bd: [1,2,3,4], songs: true, couples: false, vip2Phone: false, label: '🛡️ Lifetime Beit Din 700-Q & Shabbat Suite ($249)' },
+  couples_sync_75:    { days: 90, forms: false, audit: false, bd: [], songs: false, couples: true, vip2Phone: true, label: '📱 80-Q Separated Couples 2-Phone Sync ($75)' },
+  couples_90d_129:    { days: 90, forms: false, audit: true, bd: [], songs: false, couples: true, vip2Phone: true, label: '⚡ 90-Day Spousal Visa 2-Phone Sync + Pre-Flight Packet Audit ($129)' },
+  couples_life_229:   { days: 0,  forms: false, audit: true, bd: [], songs: false, couples: true, vip2Phone: true, label: '🛡️ Lifetime 5-Year Graduated Residency Sync + Packet Audit ($229)' },
+  suite_solo_90d_249: { days: 90, forms: true, audit: true, bd: [1,2,3,4], songs: true, couples: true, vip2Phone: false, label: '⚡ 90-Day Full Dual-Track Solo Suite ($249)' },
+  suite_solo_life_399:{ days: 0,  forms: true, audit: true, bd: [1,2,3,4], songs: true, couples: true, vip2Phone: false, label: '🛡️ Complete Track Lifetime Solo Shield ($399)' },
+  vip_couple_649:     { days: 0,  forms: true, audit: true, bd: [1,2,3,4], songs: true, couples: true, vip2Phone: true, label: '👑 VIP Couple 2-Phone Lifetime Suite + Pre-Flight Packet Audit ($649)' }
 };
 
-window.openProPaywall = function(reasonText) {
+window.switchPaywallTab = function(tab) {
+  const vs = document.getElementById('pw-view-suites');
+  const vm = document.getElementById('pw-view-modular');
+  const bs = document.getElementById('pw-tab-btn-suites');
+  const bm = document.getElementById('pw-tab-btn-modular');
+  if (!vs || !vm) return;
+  if (tab === 'modular') {
+    vs.style.display = 'none'; vm.style.display = 'grid';
+    if (bm) { bm.style.background = '#0288E8'; bm.style.color = '#fff'; bm.style.borderColor = '#0288E8'; }
+    if (bs) { bs.style.background = '#f8fafc'; bs.style.color = '#0f172a'; bs.style.borderColor = '#cbd5e1'; }
+  } else {
+    vs.style.display = 'grid'; vm.style.display = 'none';
+    if (bs) { bs.style.background = '#0288E8'; bs.style.color = '#fff'; bs.style.borderColor = '#0288E8'; }
+    if (bm) { bm.style.background = '#f8fafc'; bm.style.color = '#0f172a'; bm.style.borderColor = '#cbd5e1'; }
+  }
+};
+
+window.getUnlockedTiersMap = function() {
+  let map = {};
+  try { map = JSON.parse(localStorage.getItem('gat_entitlements_v2') || '{}'); } catch(e) { map = {}; }
+  const legacyTier = localStorage.getItem('gat_unlocked_tier');
+  if (legacyTier && !map[legacyTier]) {
+    const mapped = legacyTier === 'vip_449' ? 'vip_couple_649' : (legacyTier === 'lifetime_199' ? 'suite_solo_life_399' : (legacyTier === 'single_39' ? 'forms_90d_89' : legacyTier));
+    if (window.TIER_CAPABILITIES[mapped]) map[mapped] = { exp: 0 };
+  }
+  const now = Date.now();
+  let changed = false;
+  Object.keys(map).forEach(k => {
+    if (map[k] && map[k].exp > 0 && now > map[k].exp) {
+      delete map[k];
+      changed = true;
+    }
+  });
+  if (changed) localStorage.setItem('gat_entitlements_v2', JSON.stringify(map));
+  return map;
+};
+
+window.hasCapability = function(checkFn) {
+  if (localStorage.getItem('gat_partner_vip_shared') === '1') return true;
+  const map = window.getUnlockedTiersMap();
+  const keys = Object.keys(map);
+  for (let i = 0; i < keys.length; i++) {
+    const cap = window.TIER_CAPABILITIES[keys[i]];
+    if (cap && checkFn(cap)) return true;
+  }
+  return false;
+};
+
+window.canUnlockForms = function() { return window.hasCapability(c => !!c.forms); };
+window.canUnlockAudit = function() { return window.hasCapability(c => !!c.audit); };
+window.canUnlockSongs = function() { return window.hasCapability(c => !!c.songs); };
+window.canUnlockCouples = function() { return window.hasCapability(c => !!c.couples); };
+window.canUnlockBdPack = function(packNum) {
+  const p = packNum || window.bdPack || 1;
+  return window.hasCapability(c => Array.isArray(c.bd) && c.bd.indexOf(p) !== -1);
+};
+window.isVip449 = function() {
+  return window.hasCapability(c => !!c.vip2Phone);
+};
+window.getActiveTier = function() {
+  const keys = Object.keys(window.getUnlockedTiersMap());
+  return keys.length ? keys[keys.length - 1] : '';
+};
+
+window.isProUnlocked = function() {
+  const mod = window.currentMod || '';
+  if (mod === 'beit-din-150') return window.canUnlockBdPack(window.bdPack || 1);
+  if (mod === 'couples-sync') return window.canUnlockCouples();
+  if (mod === 'songs-prayers') return window.canUnlockSongs();
+  if (mod === 'hebrew-engine' || mod === 'rabbi-letters') return window.canUnlockForms();
+  return window.canUnlockBdPack(1) && window.canUnlockCouples() && window.canUnlockForms();
+};
+
+
+window.PW_I18N = {
+  en: {
+    badge: "🛡️ Giyur Aliyah Track Command Shield",
+    title: "Select Your 90-Day Sprint or Lifetime Track Pass",
+    default_reason: "Skip the 25,000₪ law firm retainer. Unlock your specific module below or get the Complete Track Shield:",
+    tab_suites: "🛡️ Complete Suites & Bundles",
+    tab_modular: "🎯 Individual Engines & Decks",
+    s1_name: "📄 Statutory Hebrew Forms Engine",
+    s1_sub: "90-Day Sprint",
+    s1_desc: "Unlimited edits & clean PDF prints for Ash/1, Ash/3, Michtav Hesber, 30-Day Extension, Rabbi Letterheads & Clerk Decoder. (Or <strong>$149 Lifetime</strong>).",
+    s1_b1: "90-Day ($89)",
+    s1_b2: "Lifetime ($149)",
+    s2_name: "🕍 Beit Din 700-Q & Shabbat Suite",
+    s2_sub: "90-Day Cram",
+    s2_desc: "All 700 Beit Din Questions (Core 200 + 200 Curveballs + Men's 150 + Women's 150) + 13 Shabbat Songs + 8 Brachot + Pronunciation Grader.",
+    s2_b1: "90-Day ($149)",
+    s2_b2: "Lifetime ($249)",
+    s3_name: "📱 Spousal Visa 2-Phone Sync + Audit",
+    s3_sub: "90-Day (2 Phones)",
+    s3_desc: "80-Question Nohal 5.2.0008 Separated Room 2-Phone E2EE Matcher + Pre-Flight Document & Apostille Inspector. (Or <strong>$229 5-Yr Residency</strong>).",
+    s3_b1: "90-Day ($129)",
+    s3_b2: "5-Yr Pass ($229)",
+    s4_badge: "★ Complete Track",
+    s4_name: "👑 Full Dual-Track Suite + Packet Audit",
+    s4_desc: "All 3 Engines Unlocked (Forms + 700 Beit Din + Songs + 80 Couples Sync + Pre-Flight Dossier & Apostille Audit):",
+    s4_b1: "90d Solo ($249)",
+    s4_b2: "Life Solo ($399)",
+    s4_b3: "👑 VIP Couple 2-Phone Lifetime + Packet Audit ($649) →",
+    m1_name: "📚 Core 200 OR +200 Curveballs",
+    m1_sub: "per 200-card deck",
+    m1_desc: "Unlock Pack 1 (Core 200 Dayanim Questions) or Pack 2 (+200 Advanced Curveballs) individually:",
+    m1_b1: "Pack 1 ($65)",
+    m1_b2: "Pack 2 ($65)",
+    m2_name: "🧔 Men's 150 OR 👩 Women's 150",
+    m2_sub: "per 150-card deck",
+    m2_desc: "Unlock Pack 3 (Men's 150 Halacha Deck) or Pack 4 (Women's 150 Halacha Deck) individually:",
+    m2_b1: "Men's 150 ($49)",
+    m2_b2: "Women's 150 ($49)",
+    m3_name: "🕍 All 700 Beit Din Questions Only",
+    m3_sub: "all 4 card packs",
+    m3_desc: "Unlocks all 700 Beit Din flashcards (Core 200 + 200 Curveballs + Men's 150 + Women's 150).",
+    m3_b1: "Unlock All 700 Cards ($179) →",
+    m4_name: "🎵 Songs Grader OR 📱 80-Q Sync Only",
+    m4_sub: "standalone",
+    m4_desc: "Unlock the 13 Shabbat Songs + 8 Brachot Grader ($65) or standalone 80-Q 2-Phone Sync ($75):",
+    m4_b1: "Songs ($65)",
+    m4_b2: "80-Q Sync ($75)",
+    code_ph: "Have a VIP / Promo Unlock Code? Enter here...",
+    code_btn: "Unlock",
+    code_empty: "❌ Please enter a VIP or Promo code.",
+    code_verifying: "🔐 Verifying code...",
+    code_invalid: "❌ Invalid code. Choose a pass above or enter a valid code.",
+    code_ok: "✅ Unlocked: ",
+    pack2_pw: "🔥 Unlock Pack 2: +200 Advanced Dayanim Curveballs ($65 standalone, or $149 for the complete 700-Q + Shabbat Suite):",
+    pack3_pw: "🧔 Unlock Pack 3: Men's 150 Halacha Deck ($49 standalone, or $149 for the complete 700-Q + Shabbat Suite):",
+    pack4_pw: "👩 Unlock Pack 4: Women's 150 Halacha Deck ($49 standalone, or $149 for the complete 700-Q + Shabbat Suite):",
+    cp_limit_pw: "📱 You just finished the 4 free Nohal 5.2.0008 Couples Interrogation questions! Unlock all 80 separated-room questions + live 2-Phone Matcher:"
+  },
+  he: {
+    badge: "🛡️ מגן המסלול המלא — גיור, רבנות ומשרד הפנים",
+    title: "בחרו מסלול ל-90 יום או גישה מלאה לכל החיים",
+    default_reason: "חסכו ריטיינר של 25,000 ₪ למשרדי עו״ד. פתחו את המודול המבוקש או בחרו בחבילה המלאה:",
+    tab_suites: "🛡️ חבילות מלאות ומסלולים",
+    tab_modular: "🎯 מודולים וחפיסות בודדות",
+    s1_name: "📄 מנוע טפסים בעברית ומכתבים רשמיים",
+    s1_sub: "90 יום",
+    s1_desc: "עריכה והדפסת PDF נקייה ללא הגבלה לטפסי אש/1, אש/3, מכתב הסבר לוועדת חריגים, הארכת 30 יום, מכתבי רב ומפענח פקידים. (או <strong>$149 לכל החיים</strong>).",
+    s1_b1: "90 יום ($89)",
+    s1_b2: "לכל החיים ($149)",
+    s2_name: "🕍 חבילת בית דין (700 שאלות) ושבת",
+    s2_sub: "90 יום מרתון",
+    s2_desc: "כל 700 שאלות בית הדין (200 ליבה + 200 התקלות דיינים + 150 גברים + 150 נשים) + 13 שירי שבת + 8 ברכות + בודק הגייה.",
+    s2_b1: "90 יום ($149)",
+    s2_b2: "לכל החיים ($249)",
+    s3_name: "📱 סימולטור זוגי ל-2 טלפונים + בדיקת תיק",
+    s3_sub: "90 יום (2 מכשירים)",
+    s3_desc: "80 שאלות שימוע נפרד (נוהל 5.2.0008) בסנכרון מוצפן ל-2 טלפונים + מבקר מסמכים ואפוסטיל לפני התור. (או <strong>$229 ל-5 שנות הליך מדורג</strong>).",
+    s3_b1: "90 יום ($129)",
+    s3_b2: "5 שנים ($229)",
+    s4_badge: "★ המסלול המלא",
+    s4_name: "👑 חבילת VIP כפולה + ביקורת תיק מלאה",
+    s4_desc: "כל 3 המנועים פתוחים (טפסים + 700 שאלות בית דין + שירים + סנכרון זוגי + מבקר מסמכים ואפוסטיל):",
+    s4_b1: "90 יום יחיד ($249)",
+    s4_b2: "לכל החיים יחיד ($399)",
+    s4_b3: "👑 חבילת VIP זוגית ל-2 טלפונים לכל החיים + ביקורת תיק ($649) ←",
+    m1_name: "📚 200 שאלות ליבה או +200 התקלות דיינים",
+    m1_sub: "לכל חפיסת 200 כרטיסיות",
+    m1_desc: "פתחו את חפיסה 1 (200 שאלות ליבה) או חפיסה 2 (+200 שאלות מתקדמות) בנפרד:",
+    m1_b1: "חפיסה 1 ($65)",
+    m1_b2: "חפיסה 2 ($65)",
+    m2_name: "🧔 150 הלכות גברים או 👩 150 הלכות נשים",
+    m2_sub: "לכל חפיסת 150 כרטיסיות",
+    m2_desc: "פתחו את חפיסה 3 (150 שאלות גברים) או חפיסה 4 (150 שאלות נשים) בנפרד:",
+    m2_b1: "150 גברים ($49)",
+    m2_b2: "150 נשים ($49)",
+    m3_name: "🕍 כל 700 שאלות בית הדין בלבד",
+    m3_sub: "כל 4 החפיסות",
+    m3_desc: "פתיחת כל 700 כרטיסיות בית הדין (200 ליבה + 200 מתקדמות + 150 גברים + 150 נשים).",
+    m3_b1: "פתיחת כל 700 הכרטיסיות ($179) ←",
+    m4_name: "🎵 שירי שבת וברכות או 📱 80 שאלות זוגיות",
+    m4_sub: "מודול בודד",
+    m4_desc: "13 שירי שבת + 8 ברכות ובודק הגייה ($65) או סנכרון 80 שאלות ל-2 טלפונים ($75):",
+    m4_b1: "שירים ($65)",
+    m4_b2: "סנכרון 80 ($75)",
+    code_ph: "יש לכם קוד VIP או קופון? הזינו כאן...",
+    code_btn: "פתיחה",
+    code_empty: "❌ נא להזין קוד VIP או קופון.",
+    code_verifying: "🔐 מאמת קוד...",
+    code_invalid: "❌ קוד שגוי. בחרו חבילה למעלה או הזינו קוד תקין.",
+    code_ok: "✅ נפתח בהצלחה: ",
+    pack2_pw: "🔥 פתחו את חפיסה 2: +200 שאלות דיינים מתקדמות ($65 בנפרד, או $149 לחבילת 700 שאלות + שבת):",
+    pack3_pw: "🧔 פתחו את חפיסה 3: 150 הלכות גברים ($49 בנפרד, או $149 לחבילת 700 שאלות + שבת):",
+    pack4_pw: "👩 פתחו את חפיסה 4: 150 הלכות נשים ($49 בנפרד, או $149 לחבילת 700 שאלות + שבת):",
+    cp_limit_pw: "📱 סיימתם את 4 שאלות הניסיון של נוהל 5.2.0008! פתחו את כל 80 שאלות השימוע + סנכרון חי ל-2 טלפונים:"
+  },
+  fr: {
+    badge: "🛡️ Bouclier Complet Giyur Aliyah Track",
+    title: "Choisissez Votre Pass 90 Jours ou Accès à Vie",
+    default_reason: "Évitez les forfaits d'avocats à 25 000 ₪. Débloquez votre module ci-dessous ou prenez le Pack Complet :",
+    tab_suites: "🛡️ Packs Complets & Suites",
+    tab_modular: "🎯 Modules & Decks Individuels",
+    s1_name: "📄 Moteur de Formulaires Hébreu & Lettres",
+    s1_sub: "Pass 90 Jours",
+    s1_desc: "Éditions & PDF sans filigrane illimités : Ash/1, Ash/3, Michtav Hesber, Extension 30j, Lettres Rabbiniques & Décodeur. (Ou <strong>149$ à Vie</strong>).",
+    s1_b1: "90 Jours (89$)",
+    s1_b2: "À Vie (149$)",
+    s2_name: "🕍 Suite Beit Din 700-Q & Chabbat",
+    s2_sub: "90 Jours Intensif",
+    s2_desc: "Les 700 Questions Beit Din (200 Base + 200 Pièges + 150 Hommes + 150 Femmes) + 13 Chants + 8 Brakhot + Évaluateur Vocal.",
+    s2_b1: "90 Jours (149$)",
+    s2_b2: "À Vie (249$)",
+    s3_name: "📱 Sync Couple 2 Téléphones + Audit Dossier",
+    s3_sub: "90 Jours (2 Tél.)",
+    s3_desc: "80 Questions Nohal 5.2.0008 en Sync E2EE sur 2 téléphones + Inspecteur Pré-Vol de Documents & Apostilles. (Ou <strong>229$ Pass 5 Ans</strong>).",
+    s3_b1: "90 Jours (129$)",
+    s3_b2: "Pass 5 Ans (229$)",
+    s4_badge: "★ Suite Complète",
+    s4_name: "👑 Suite VIP Double-Voie + Audit Dossier",
+    s4_desc: "Les 3 Moteurs Débloqués (Formulaires + 700 Q Beit Din + Chants + 80 Q Couple + Audit Complet Dossier & Apostilles) :",
+    s4_b1: "90j Solo (249$)",
+    s4_b2: "À Vie Solo (399$)",
+    s4_b3: "👑 VIP Couple 2-Tél. à Vie + Audit Dossier (649$) →",
+    m1_name: "📚 Pack 1 (200 Base) OU Pack 2 (+200 Pièges)",
+    m1_sub: "par deck de 200 cartes",
+    m1_desc: "Débloquez le Pack 1 (200 Questions Fondamentales) ou le Pack 2 (+200 Questions Pièges) :",
+    m1_b1: "Pack 1 (65$)",
+    m1_b2: "Pack 2 (65$)",
+    m2_name: "🧔 150 Hommes OU 👩 150 Femmes",
+    m2_sub: "par deck de 150 cartes",
+    m2_desc: "Débloquez le Pack 3 (150 Halakha Hommes) ou le Pack 4 (150 Halakha Femmes) :",
+    m2_b1: "150 Hommes (49$)",
+    m2_b2: "150 Femmes (49$)",
+    m3_name: "🕍 Les 700 Questions Beit Din Seules",
+    m3_sub: "les 4 packs inclus",
+    m3_desc: "Débloque les 700 cartes Beit Din (200 Base + 200 Pièges + 150 Hommes + 150 Femmes).",
+    m3_b1: "Débloquer les 700 Cartes (179$) →",
+    m4_name: "🎵 Chants & Brakhot OU 📱 80-Q Sync Seul",
+    m4_sub: "module individuel",
+    m4_desc: "13 Chants de Chabbat + 8 Brakhot (65$) ou Sync 80 Questions 2 Téléphones seul (75$) :",
+    m4_b1: "Chants (65$)",
+    m4_b2: "Sync 80-Q (75$)",
+    code_ph: "Code VIP ou Promo ? Entrez-le ici...",
+    code_btn: "Activer",
+    code_empty: "❌ Veuillez entrer un code VIP ou Promo.",
+    code_verifying: "🔐 Vérification du code...",
+    code_invalid: "❌ Code invalide. Choisissez un pass ci-dessus.",
+    code_ok: "✅ Débloqué : ",
+    pack2_pw: "🔥 Débloquez le Pack 2 : +200 Questions Pièges des Dayanim (65$ seul, ou 149$ pour la Suite 700-Q + Chabbat) :",
+    pack3_pw: "🧔 Débloquez le Pack 3 : 150 Questions Hommes (49$ seul, ou 149$ pour la Suite 700-Q + Chabbat) :",
+    pack4_pw: "👩 Débloquez le Pack 4 : 150 Questions Femmes (49$ seul, ou 149$ pour la Suite 700-Q + Chabbat) :",
+    cp_limit_pw: "📱 Vous avez terminé les 4 questions gratuites Nohal 5.2.0008 ! Débloquez les 80 questions + Sync 2 Téléphones :"
+  },
+  es: {
+    badge: "🛡️ Escudo Completo Giyur Aliyah Track",
+    title: "Elija su Pase de 90 Días o Acceso de por Vida",
+    default_reason: "Ahorre los 25.000 ₪ de bufetes. Desbloquee su módulo abajo o elija el Paquete Completo:",
+    tab_suites: "🛡️ Paquetes Completos y Suites",
+    tab_modular: "🎯 Módulos y Mazos Individuales",
+    s1_name: "📄 Motor de Formularios en Hebreo y Cartas",
+    s1_sub: "Pase 90 Días",
+    s1_desc: "Ediciones e impresiones PDF limpias ilimitadas: Ash/1, Ash/3, Mijtav Hesber, Prórroga 30d, Cartas Rabínicas y Decodificador. (O <strong>$149 de por Vida</strong>).",
+    s1_b1: "90 Días ($89)",
+    s1_b2: "De por Vida ($149)",
+    s2_name: "🕍 Suite Beit Din 700-P y Shabat",
+    s2_sub: "90 Días Intensivo",
+    s2_desc: "Las 700 Preguntas del Beit Din (200 Base + 200 Trampas + 150 Hombres + 150 Mujeres) + 13 Canciones + 8 Brajot + Evaluador Vocal.",
+    s2_b1: "90 Días ($149)",
+    s2_b2: "De por Vida ($249)",
+    s3_name: "📱 Sync Parejas 2 Teléfonos + Auditoría",
+    s3_sub: "90 Días (2 Tel.)",
+    s3_desc: "80 Preguntas Nohal 5.2.0008 en Sync E2EE para 2 teléfonos + Inspector Pre-Vuelo de Documentos y Apostillas. (O <strong>$229 Pase 5 Años</strong>).",
+    s3_b1: "90 Días ($129)",
+    s3_b2: "Pase 5 Años ($229)",
+    s4_badge: "★ Suite Completa",
+    s4_name: "👑 Suite VIP Doble Vía + Auditoría de Carpeta",
+    s4_desc: "Los 3 Motores Desbloqueados (Formularios + 700 P Beit Din + Canciones + 80 P Parejas + Auditoría de Documentos y Apostillas):",
+    s4_b1: "90d Solo ($249)",
+    s4_b2: "Vida Solo ($399)",
+    s4_b3: "👑 VIP Pareja 2-Tel. de por Vida + Auditoría ($649) →",
+    m1_name: "📚 Mazo 1 (200 Base) O Mazo 2 (+200 Trampas)",
+    m1_sub: "por mazo de 200 tarjetas",
+    m1_desc: "Desbloquee el Mazo 1 (200 Preguntas Base) o el Mazo 2 (+200 Preguntas Avanzadas):",
+    m1_b1: "Mazo 1 ($65)",
+    m1_b2: "Mazo 2 ($65)",
+    m2_name: "🧔 150 Hombres O 👩 150 Mujeres",
+    m2_sub: "por mazo de 150 tarjetas",
+    m2_desc: "Desbloquee el Mazo 3 (150 Halajá Hombres) o el Mazo 4 (150 Halajá Mujeres):",
+    m2_b1: "150 Hombres ($49)",
+    m2_b2: "150 Mujeres ($49)",
+    m3_name: "🕍 Las 700 Preguntas del Beit Din Solas",
+    m3_sub: "los 4 mazos incluidos",
+    m3_desc: "Desbloquea las 700 tarjetas del Beit Din (200 Base + 200 Trampas + 150 Hombres + 150 Mujeres).",
+    m3_b1: "Desbloquear las 700 Tarjetas ($179) →",
+    m4_name: "🎵 Canciones y Brajot O 📱 80-P Sync Solo",
+    m4_sub: "módulo individual",
+    m4_desc: "13 Canciones de Shabat + 8 Brajot ($65) o Sync de 80 Preguntas en 2 Teléfonos ($75):",
+    m4_b1: "Canciones ($65)",
+    m4_b2: "Sync 80-P ($75)",
+    code_ph: "¿Tiene un código VIP o Promo? Ingréselo aquí...",
+    code_btn: "Activar",
+    code_empty: "❌ Por favor ingrese un código VIP o Promo.",
+    code_verifying: "🔐 Verificando código...",
+    code_invalid: "❌ Código inválido. Elija un pase arriba.",
+    code_ok: "✅ Desbloqueado: ",
+    pack2_pw: "🔥 Desbloquee Mazo 2: +200 Preguntas Avanzadas de Dayanim ($65 individual, o $149 por la Suite 700-P + Shabat):",
+    pack3_pw: "🧔 Desbloquee Mazo 3: 150 Preguntas Hombres ($49 individual, o $149 por la Suite 700-P + Shabat):",
+    pack4_pw: "👩 Desbloquee Mazo 4: 150 Preguntas Mujeres ($49 individual, o $149 por la Suite 700-P + Shabat):",
+    cp_limit_pw: "📱 ¡Terminó las 4 preguntas gratuitas Nohal 5.2.0008! Desbloquee las 80 preguntas + Sync en vivo para 2 teléfonos:"
+  },
+  de: {
+    badge: "🛡️ Giyur Aliyah Track Komplett-Schutzschild",
+    title: "Wählen Sie Ihren 90-Tage-Pass oder Lebenslangen Zugang",
+    default_reason: "Sparen Sie 25.000 ₪ Kanzlei-Honorar. Schalten Sie Ihr Modul frei oder wählen Sie das Komplettpaket:",
+    tab_suites: "🛡️ Komplettpakete & Suites",
+    tab_modular: "🎯 Einzelne Module & Decks",
+    s1_name: "📄 Hebräischer Formular- & Brief-Generator",
+    s1_sub: "90-Tage-Pass",
+    s1_desc: "Unbegrenzte PDF-Drucke ohne Wasserzeichen für Asch/1, Asch/3, Michtav Hesber, 30-Tage-Frist, Rabbiner-Briefe & Decoder. (Oder <strong>$149 Lebenslang</strong>).",
+    s1_b1: "90 Tage ($89)",
+    s1_b2: "Lebenslang ($149)",
+    s2_name: "🕍 Beit Din 700-F & Schabbat-Suite",
+    s2_sub: "90-Tage-Intensiv",
+    s2_desc: "Alle 700 Beit-Din-Fragen (200 Basis + 200 Fangfragen + 150 Männer + 150 Frauen) + 13 Schabbat-Lieder + 8 Brachot + Sprachtrainer.",
+    s2_b1: "90 Tage ($149)",
+    s2_b2: "Lebenslang ($249)",
+    s3_name: "📱 Paar-Visum 2-Handy-Sync + Akten-Audit",
+    s3_sub: "90 Tage (2 Handys)",
+    s3_desc: "80 Fragen Nohal 5.2.0008 im 2-Handy-E2EE-Sync + Vorab-Dokumenten- & Apostillen-Prüfer. (Oder <strong>$229 5-Jahres-Pass</strong>).",
+    s3_b1: "90 Tage ($129)",
+    s3_b2: "5-Jahre ($229)",
+    s4_badge: "★ Komplett-Suite",
+    s4_name: "👑 VIP Doppel-Track Suite + Akten-Audit",
+    s4_desc: "Alle 3 Motoren Freigeschaltet (Formulare + 700 Beit-Din-Fragen + Lieder + 80 Paar-Sync + Dokumenten- & Apostillen-Audit):",
+    s4_b1: "90T Solo ($249)",
+    s4_b2: "Leben Solo ($399)",
+    s4_b3: "👑 VIP Paar 2-Handy Lebenslang + Akten-Audit ($649) →",
+    m1_name: "📚 Deck 1 (200 Basis) ODER Deck 2 (+200 Fangfragen)",
+    m1_sub: "pro 200-Karten-Deck",
+    m1_desc: "Schalten Sie Deck 1 (200 Basisfragen) oder Deck 2 (+200 fortgeschrittene Dajanim-Fragen) einzeln frei:",
+    m1_b1: "Deck 1 ($65)",
+    m1_b2: "Deck 2 ($65)",
+    m2_name: "🧔 150 Männer ODER 👩 150 Frauen",
+    m2_sub: "pro 150-Karten-Deck",
+    m2_desc: "Schalten Sie Deck 3 (150 Halacha Männer) oder Deck 4 (150 Halacha Frauen) einzeln frei:",
+    m2_b1: "150 Männer ($49)",
+    m2_b2: "150 Frauen ($49)",
+    m3_name: "🕍 Alle 700 Beit-Din-Fragen Komplett",
+    m3_sub: "alle 4 Decks inklusive",
+    m3_desc: "Schaltet alle 700 Beit-Din-Karten frei (200 Basis + 200 Fangfragen + 150 Männer + 150 Frauen).",
+    m3_b1: "Alle 700 Karten Freischalten ($179) →",
+    m4_name: "🎵 Lieder-Trainer ODER 📱 80-F Sync Einzeln",
+    m4_sub: "Einzelmodul",
+    m4_desc: "13 Schabbat-Lieder + 8 Brachot ($65) oder 80-Fragen 2-Handy-Sync einzeln ($75):",
+    m4_b1: "Lieder ($65)",
+    m4_b2: "80-F Sync ($75)",
+    code_ph: "VIP- oder Promo-Code vorhanden? Hier eingeben...",
+    code_btn: "Freischalten",
+    code_empty: "❌ Bitte geben Sie einen VIP- oder Promo-Code ein.",
+    code_verifying: "🔐 Code wird geprüft...",
+    code_invalid: "❌ Ungültiger Code. Bitte wählen Sie oben einen Pass.",
+    code_ok: "✅ Freigeschaltet: ",
+    pack2_pw: "🔥 Deck 2 freischalten: +200 Fortgeschrittene Dajanim-Fragen ($65 einzeln, oder $149 für die 700-F + Schabbat-Suite):",
+    pack3_pw: "🧔 Deck 3 freischalten: 150 Halacha-Fragen Männer ($49 einzeln, oder $149 für die 700-F + Schabbat-Suite):",
+    pack4_pw: "👩 Deck 4 freischalten: 150 Halacha-Fragen Frauen ($49 einzeln, oder $149 für die 700-F + Schabbat-Suite):",
+    cp_limit_pw: "📱 Sie haben die 4 kostenlosen Nohal 5.2.0008 Fragen beendet! Schalten Sie alle 80 Fragen + 2-Handy-Sync frei:"
+  }
+};
+
+window.renderPaywallI18n = function(customReason) {
+  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  const t = window.PW_I18N[l] || window.PW_I18N.en;
   const modal = document.getElementById('pro-paywall-modal');
+  if (!modal) return;
+  const card = modal.querySelector('.paywall-card');
+  if (card) card.dir = (l === 'he') ? 'rtl' : 'ltr';
+
+  const headBadge = modal.querySelector('.pw-head div div');
+  if (headBadge) headBadge.innerText = t.badge;
+  const headTitle = document.getElementById('pw-title');
+  if (headTitle) headTitle.innerText = t.title;
   const rEl = document.getElementById('pw-reason');
-  if (rEl && reasonText) rEl.innerText = reasonText;
+  if (rEl) rEl.innerText = customReason || t.default_reason;
+
+  const bs = document.getElementById('pw-tab-btn-suites');
+  const bm = document.getElementById('pw-tab-btn-modular');
+  if (bs) bs.innerText = t.tab_suites;
+  if (bm) bm.innerText = t.tab_modular;
+
+  const vs = document.getElementById('pw-view-suites');
+  if (vs) {
+    vs.innerHTML = `
+      <div class="tier-box">
+        <div>
+          <div class="tier-name">${t.s1_name}</div>
+          <div class="tier-price">$89 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">${t.s1_sub}</span></div>
+          <div class="tier-desc">${t.s1_desc}</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="tier-btn" style="flex:1;" onclick="startCheckout('forms_90d_89')">${t.s1_b1}</button>
+          <button class="tier-btn" style="flex:1;background:#0288E8;" onclick="startCheckout('forms_life_149')">${t.s1_b2}</button>
+        </div>
+      </div>
+      <div class="tier-box">
+        <div>
+          <div class="tier-name">${t.s2_name}</div>
+          <div class="tier-price">$149 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">${t.s2_sub}</span></div>
+          <div class="tier-desc">${t.s2_desc}</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="tier-btn" style="flex:1;" onclick="startCheckout('bd_suite_90d_149')">${t.s2_b1}</button>
+          <button class="tier-btn" style="flex:1;background:#0288E8;" onclick="startCheckout('bd_suite_life_249')">${t.s2_b2}</button>
+        </div>
+      </div>
+      <div class="tier-box">
+        <div>
+          <div class="tier-name">${t.s3_name}</div>
+          <div class="tier-price">$129 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">${t.s3_sub}</span></div>
+          <div class="tier-desc">${t.s3_desc}</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="tier-btn" style="flex:1;" onclick="startCheckout('couples_90d_129')">${t.s3_b1}</button>
+          <button class="tier-btn" style="flex:1;background:#0288E8;" onclick="startCheckout('couples_life_229')">${t.s3_b2}</button>
+        </div>
+      </div>
+      <div class="tier-box featured" style="border-color:#d97706;background:#fffbeb;">
+        <span class="tier-badge" style="background:#d97706;">${t.s4_badge}</span>
+        <div>
+          <div class="tier-name">${t.s4_name}</div>
+          <div class="tier-price" style="color:#b45309;">$249–$649</div>
+          <div class="tier-desc">${t.s4_desc}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="display:flex;gap:6px;">
+            <button class="tier-btn" style="flex:1;padding:8px;font-size:0.76rem;" onclick="startCheckout('suite_solo_90d_249')">${t.s4_b1}</button>
+            <button class="tier-btn" style="flex:1;padding:8px;font-size:0.76rem;background:#0288E8;" onclick="startCheckout('suite_solo_life_399')">${t.s4_b2}</button>
+          </div>
+          <button class="tier-btn" style="background:#b45309;padding:9px;font-size:0.8rem;" onclick="startCheckout('vip_couple_649')">${t.s4_b3}</button>
+        </div>
+      </div>`;
+  }
+
+  const vm = document.getElementById('pw-view-modular');
+  if (vm) {
+    vm.innerHTML = `
+      <div class="tier-box">
+        <div>
+          <div class="tier-name">${t.m1_name}</div>
+          <div class="tier-price">$65 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">${t.m1_sub}</span></div>
+          <div class="tier-desc">${t.m1_desc}</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="tier-btn" style="flex:1;" onclick="startCheckout('bd_pack1_65')">${t.m1_b1}</button>
+          <button class="tier-btn" style="flex:1;" onclick="startCheckout('bd_pack2_65')">${t.m1_b2}</button>
+        </div>
+      </div>
+      <div class="tier-box">
+        <div>
+          <div class="tier-name">${t.m2_name}</div>
+          <div class="tier-price">$49 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">${t.m2_sub}</span></div>
+          <div class="tier-desc">${t.m2_desc}</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="tier-btn" style="flex:1;" onclick="startCheckout('bd_pack3_49')">${t.m2_b1}</button>
+          <button class="tier-btn" style="flex:1;" onclick="startCheckout('bd_pack4_49')">${t.m2_b2}</button>
+        </div>
+      </div>
+      <div class="tier-box">
+        <div>
+          <div class="tier-name">${t.m3_name}</div>
+          <div class="tier-price">$179 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">${t.m3_sub}</span></div>
+          <div class="tier-desc">${t.m3_desc}</div>
+        </div>
+        <button class="tier-btn" onclick="startCheckout('bd_all700_179')">${t.m3_b1}</button>
+      </div>
+      <div class="tier-box">
+        <div>
+          <div class="tier-name">${t.m4_name}</div>
+          <div class="tier-price">$65 / $75 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">${t.m4_sub}</span></div>
+          <div class="tier-desc">${t.m4_desc}</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="tier-btn" style="flex:1;" onclick="startCheckout('songs_65')">${t.m4_b1}</button>
+          <button class="tier-btn" style="flex:1;" onclick="startCheckout('couples_sync_75')">${t.m4_b2}</button>
+        </div>
+      </div>`;
+  }
+
+  const inp = document.getElementById('pro-code-input');
+  if (inp) {
+    inp.placeholder = t.code_ph;
+    const btn = inp.nextElementSibling;
+    if (btn) btn.innerText = t.code_btn;
+  }
+};
+
+window.openProPaywall = function(reasonText, preferModularTab) {
+  window.renderPaywallI18n(reasonText);
+  window.switchPaywallTab(preferModularTab ? 'modular' : 'suites');
+  const modal = document.getElementById('pro-paywall-modal');
   if (modal) modal.classList.add('open');
 };
 
@@ -558,45 +1407,152 @@ window.closeProPaywall = function() {
   if (modal) modal.classList.remove('open');
 };
 
-window.redeemProCode = function() {
+window.sha256Hex = async function(str) {
+  const buf = new TextEncoder().encode(str);
+  const hashBuf = await window.crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+};
+
+window.grantProEntitlement = function(sourceTag, tierKey) {
+  const cap = window.TIER_CAPABILITIES[tierKey] ? tierKey : 'suite_solo_life_399';
+  const def = window.TIER_CAPABILITIES[cap];
+  const map = window.getUnlockedTiersMap();
+  const expMs = def.days > 0 ? (Date.now() + def.days * 24 * 60 * 60 * 1000) : 0;
+  map[cap] = { exp: expMs, ts: Date.now() };
+  localStorage.setItem('gat_entitlements_v2', JSON.stringify(map));
+  localStorage.setItem('gat_unlocked_tier', cap);
+
+  if (window.canUnlockForms()) {
+    document.querySelectorAll('.hebrew-out').forEach(el => el.classList.remove('watermarked'));
+  }
+
+  if (window.gatDb && window.gatUid) {
+    window.gatDb.collection('pro_entitlements').doc(window.gatUid).set({
+      uid: window.gatUid,
+      unlocked: true,
+      tier: cap,
+      tierLabel: def.label,
+      entitlementsMap: map,
+      source: sourceTag || 'checkout_or_code',
+      unlockedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true }).catch(function(){});
+
+    if (def.vip2Phone && window.cpRoom) {
+      window.gatDb.collection('couples_rooms').doc(window.cpRoom).set({
+        vipCoupleUnlocked: true
+      }, { merge: true }).catch(function(){});
+    }
+  }
+};
+
+window.syncProEntitlementFromCloud = function() {
+  const params = new URLSearchParams(window.location.search);
+  const isCheckoutReturn = params.get('checkout_success') === '1' || params.get('pro_unlock') === '1' || !!params.get('order_id');
+  const returnedTier = params.get('tier') || localStorage.getItem('gat_pending_tier') || 'suite_solo_life_399';
+
+  if (isCheckoutReturn) {
+    window.grantProEntitlement('lemonsqueezy_return', returnedTier);
+    localStorage.removeItem('gat_pending_tier');
+    const cleanUrl = new URL(window.location.href);
+    cleanUrl.searchParams.delete('checkout_success');
+    cleanUrl.searchParams.delete('pro_unlock');
+    cleanUrl.searchParams.delete('order_id');
+    cleanUrl.searchParams.delete('tier');
+    window.history.replaceState({}, '', cleanUrl.toString());
+    const def = window.TIER_CAPABILITIES[returnedTier] || window.TIER_CAPABILITIES.suite_solo_life_399;
+    if (window.showCpToast) window.showCpToast('✅ Unlocked: ' + def.label, true);
+    renderAll();
+    openMod(window.currentMod || 'hebrew-engine');
+    return;
+  }
+
+  if (!window.gatDb || !window.gatUid) return;
+  window.gatDb.collection('pro_entitlements').doc(window.gatUid).get().then(function(snap) {
+    if (snap.exists && snap.data() && snap.data().unlocked) {
+      const d = snap.data();
+      if (d.entitlementsMap && typeof d.entitlementsMap === 'object') {
+        const cur = window.getUnlockedTiersMap();
+        const merged = Object.assign({}, d.entitlementsMap, cur);
+        localStorage.setItem('gat_entitlements_v2', JSON.stringify(merged));
+      } else if (d.tier) {
+        window.grantProEntitlement('cloud_restore', d.tier);
+      }
+      renderAll();
+      openMod(window.currentMod || 'hebrew-engine');
+    }
+  }).catch(function(){});
+};
+
+window.redeemProCode = async function() {
   const inp = document.getElementById('pro-code-input');
   const msg = document.getElementById('pro-code-msg');
   const code = (inp ? inp.value : '').trim().toUpperCase();
   if (msg) msg.style.display = 'block';
-  if (['PRO2026', 'SHALIACH770', 'SAFED2026', 'VIP2026'].includes(code)) {
-    localStorage.setItem('gat_pro_unlocked', '1');
+  if (!code) {
+    const pwT = (window.PW_I18N && window.PW_I18N[window.appLang || 'en']) || window.PW_I18N.en;
+    if (msg) { msg.style.color = '#e11d48'; msg.innerText = pwT.code_empty; }
+    return;
+  }
+  const pwT = (window.PW_I18N && window.PW_I18N[window.appLang || 'en']) || window.PW_I18N.en;
+  if (msg) { msg.style.color = '#0284c7'; msg.innerText = pwT.code_verifying; }
+
+  const digest = await window.sha256Hex('gat_vip_shield_2026_' + code);
+  let matchedTier = GAT_CODE_TIER_MAP[digest] || '';
+
+  if (!matchedTier && window.gatDb) {
+    try {
+      const snap = await window.gatDb.collection('promo_codes').doc(code).get();
+      if (snap.exists && snap.data() && snap.data().active !== false) {
+        matchedTier = snap.data().tier || 'suite_solo_life_399';
+      }
+    } catch (e) {}
+  }
+
+  if (matchedTier) {
+    window.grantProEntitlement('code_' + digest.slice(0, 8), matchedTier);
+    const def = window.TIER_CAPABILITIES[matchedTier] || window.TIER_CAPABILITIES.suite_solo_life_399;
     if (msg) {
       msg.style.color = '#059669';
-      msg.innerText = '✅ Pro Shield Unlocked! All 150/80 decks and watermark-free Hebrew PDFs are now active.';
+      msg.innerText = pwT.code_ok + def.label;
     }
-    document.querySelectorAll('.hebrew-out').forEach(el => el.classList.remove('watermarked'));
-    setTimeout(() => { window.closeProPaywall(); renderAll(); openMod(window.currentMod || 'hebrew-engine'); }, 900);
+    setTimeout(function() {
+      window.closeProPaywall();
+      renderAll();
+      openMod(window.currentMod || 'hebrew-engine');
+    }, 800);
   } else {
     if (msg) {
       msg.style.color = '#e11d48';
-      msg.innerText = '❌ Invalid code. Choose a pass above or enter a valid VIP code.';
+      msg.innerText = pwT.code_invalid;
     }
   }
 };
 
 window.startCheckout = function(tierKey) {
-  const url = window.LEMON_CHECKOUT_URLS[tierKey];
-  try { localStorage.setItem('gat_pending_tier', tierKey); } catch(e){}
-  window.open(url, '_blank', 'noopener,noreferrer');
+  const baseUrl = window.LEMON_CHECKOUT_URLS[tierKey];
+  if (!baseUrl) return;
+  try {
+    localStorage.setItem('gat_pending_tier', tierKey);
+    localStorage.setItem('gat_pending_checkout_ts', String(Date.now()));
+  } catch(e){}
+  const sep = baseUrl.indexOf('?') === -1 ? '?' : '&';
+  const returnUrl = 'https://giyuraliyahtrack.com/app/?checkout_success=1&tier=' + encodeURIComponent(tierKey);
+  const fullUrl = baseUrl + sep + 'checkout[custom][uid]=' + encodeURIComponent(window.gatUid || 'anon') + '&checkout[custom][tier]=' + encodeURIComponent(tierKey) + '&checkout[redirect_url]=' + encodeURIComponent(returnUrl);
+  window.open(fullUrl, '_blank', 'noopener,noreferrer');
 };
 
 const VETTED_I18N = {
   en: {
     pill: "🤝 Vetted Team, Notary & Lawyer",
     h2: "Book Our Vetted Team: Sponsoring Rabbi, Madrichat Kallah, Red-Ribbon Notary & 1-Hr Lawyer Escort",
-    lead: "Skip the 25,000 NIS law firm retainer. Select your service below—we route Nationwide Remote Red-Ribbon Notary translations and 1-Hour Misrad HaPanim Escorts directly to our licensed Partner Notary & Legal Desk, and match you with our Rabbanut-recognized Sponsoring Rabbis & Madrichot Kallah:",
+    lead: "Skip the 25,000 NIS law firm retainer. Select your service below—we route Nationwide Remote Red-Ribbon Notary translations, Certified True Copies (so you NEVER surrender your originals to a clerk!), and 1-Hour Misrad HaPanim Escorts directly to our Vetted Partner Notary & Legal Desk, and match you with our Rabbanut-recognized Sponsoring Rabbis & Madrichot Kallah:",
     svc_lbl: "1. Select Service Needed (Tap One):",
     svcs: [
-      { t: "🕍 Both: Vetted Sponsoring Rabbi (Rav Melaveh) + Certified Madrichat Kallah", s: "Complete couple's package plugged into the Beit Din & Rabbanut (1-on-1 & Zoom friendly).", p: "$349 Couple's Package (Save $49)" },
-      { t: "📜 Vetted, Rabbanut-Recognized Sponsoring Rabbi (Rav Melaveh)", s: "Official conversion study & stamped Beit Din recommendation letter for singles or couples.", p: "$249 Placement & Beit Din Dossier Setup" },
-      { t: "🕯️ Vetted, Rabbanut-Certified Madrichat Kallah (Taharat HaMishpacha)", s: "Mandatory certification required by the Beit Din & Rabbanut marriage registrar.", p: "$149 Placement & Official Certification Track" },
-      { t: "🎀 Red-Ribbon Certified Notarial Translation & Affidavit Stamp (Remote Nationwide)", s: "Official Hebrew notarial translation (Birth Certificate, Police Check, Divorce/Single Status) + Lawyer-Stamped Joint Affidavits.", p: "$149–$249 / doc • Done Remotely in 24–48h" },
-      { t: "⚖️ 1-Hour 'Day-Of Appointment' Lawyer Escort at Misrad HaPanim", s: "A licensed Israeli lawyer walks into your Misrad HaPanim appointment with you for 1 hour so clerks treat you with respect and open your file on the spot.", p: "$499–$699 (vs. 25,000₪ Retainer)" }
+      { t: "🕍 Both: Vetted Sponsoring Rabbi (Rav Melaveh) + Certified Madrichat Kallah", s: "Complete couple's package plugged into the Beit Din & Rabbanut (1-on-1 & Zoom friendly).", p: "$499 Couple's Package (Save $99)" },
+      { t: "📜 Vetted, Rabbanut-Recognized Sponsoring Rabbi (Rav Melaveh)", s: "Official conversion study & stamped Beit Din recommendation letter for singles or couples.", p: "$349 Placement & Beit Din Dossier Setup" },
+      { t: "🕯️ Vetted, Rabbanut-Certified Madrichat Kallah (Taharat HaMishpacha)", s: "Mandatory certification required by the Beit Din & Rabbanut marriage registrar.", p: "$249 Placement & Official Certification Track" },
+      { t: "🎀 Red-Ribbon Certified Notarial Hebrew Translation & Certified Copies (Remote Nationwide)", s: "Clerks routinely reject English docs & keep originals! Get official Red-Ribbon Hebrew Notarial translations + Certified True Copies so you keep your originals for the Rabbanut.", p: "$249 / doc (1-Page) • $349 (Multi-Page) • $799 (4-Doc Bundle)" },
+      { t: "⚖️ 1-Hour 'Day-Of Appointment' Lawyer Escort at Misrad HaPanim", s: "A licensed Israeli lawyer walks into your Misrad HaPanim appointment with you for 1 hour so clerks treat you with respect, accept copies, and open your file on the spot.", p: "$649–$799 (vs. 25,000₪ Retainer)" }
     ],
     reg_lbl: "2. Your Misrad HaPanim / Beit Din Region:",
     regs: [
@@ -617,7 +1573,7 @@ const VETTED_I18N = {
     name_lbl: "4. Your Full Name (and Partner's Name if applying as a couple):",
     wa_lbl: "5. Your WhatsApp Number (with Country Code, e.g. +1 / +972 / +33):",
     date_lbl: "6. Target Appointment Date or Urgency (Optional):",
-    notes_lbl: "7. Documents to Translate or Brief Situation Summary:",
+    notes_lbl: "7. Documents to Translate/Certify (or Legal Name-Change / Situation Summary):",
     btn_wa: "💬 Lock In My Booking via WhatsApp Now →",
     btn_em: "✉️ Or Submit via Email",
     ok_msg: "✅ Request prepared! Your priority booking has been logged and opened in WhatsApp."
@@ -625,14 +1581,14 @@ const VETTED_I18N = {
   he: {
     pill: "🤝 רב מלווה, נוטריון ועו״ד",
     h2: "תיאום מהיר: רב מלווה, מדריכת כלה, תרגום נוטריוני (סרט אדום) וליווי עו״ד לשעה",
-    lead: "חסכו ריטיינר של 25,000 ₪ למשרדי עו״ד. בחרו את השירות הנדרש — תרגומים נוטריוניים מרחוק בכל הארץ, ליווי עו״ד לשעה בלשכת משרד הפנים, וחיבור ישיר לצוות הרבנים המלווים ומדריכות הכלה המוכרים שלנו:",
+    lead: "חסכו ריטיינר של 25,000 ₪ למשרדי עו״ד. בחרו את השירות הנדרש — תרגומים נוטריוניים והעתקים נאמנים למקור (כדי שלעולם לא תמסרו מסמך מקורי לפקיד!), ליווי עו״ד לשעה בלשכת משרד הפנים, וחיבור ישיר לצוות הרבנים המלווים ומדריכות הכלה המוכרים שלנו:",
     svc_lbl: "1. בחרו את השירות המבוקש:",
     svcs: [
-      { t: "🕍 חבילה זוגית: רב מלווה מוכר + מדריכת כלה מוסמכת רבנות", s: "ליווי מלא לזוגות המוכר בבית הדין וברבנות (גמישות ב-1-על-1 ומרחוק).", p: "$349 חבילה זוגית מלאה (חיסכון $49)" },
-      { t: "📜 רב מלווה מוכר על ידי הרבנות הראשית", s: "לימודי גיור רשמיים ומכתב המלצה חתום לבית הדין ליחידים או לזוגות.", p: "$249 שיבוץ ופתיחת תיק ליווי לבית הדין" },
-      { t: "🕯️ מדריכת כלה מוסמכת רבנות (טהרת המשפחה)", s: "אישור הדרכת כלה רשמי הנדרש בבית הדין וברישום נישואין ברבנות.", p: "$149 שיבוץ ומסלול הסמכה רשמי לרבנות" },
-      { t: "🎀 תרגום נוטריוני מוסמך (סרט אדום) ואימות תצהיר עו״ד (מרחוק בכל הארץ)", s: "תרגום נוטריוני לעברית (תעודת לידה, תעודת יושר, רווקות/גירושין) ואימות תצהיר זוגי ע״י עו״ד ונוטריון.", p: "$149–$249 למסמך • תוך 24–48 שעות" },
-      { t: "⚖️ ליווי עורך דין לשעה אחת בלבד בלשכת משרד הפנים", s: "עורך דין ישראלי נכנס איתכם לפגישה לשעה אחת כדי שהפקידים יתייחסו אליכם בכבוד ויפתחו את התיק במקום.", p: "$499–$699 (במקום 25,000₪ ריטיינר)" }
+      { t: "🕍 חבילה זוגית: רב מלווה מוכר + מדריכת כלה מוסמכת רבנות", s: "ליווי מלא לזוגות המוכר בבית הדין וברבנות (גמישות ב-1-על-1 ומרחוק).", p: "$499 חבילה זוגית מלאה (חיסכון $99)" },
+      { t: "📜 רב מלווה מוכר על ידי הרבנות הראשית", s: "לימודי גיור רשמיים ומכתב המלצה חתום לבית הדין ליחידים או לזוגות.", p: "$349 שיבוץ ופתיחת תיק ליווי לבית הדין" },
+      { t: "🕯️ מדריכת כלה מוסמכת רבנות (טהרת המשפחה)", s: "אישור הדרכת כלה רשמי הנדרש בבית הדין וברישום נישואין ברבנות.", p: "$249 שיבוץ ומסלול הסמכה רשמי לרבנות" },
+      { t: "🎀 תרגום נוטריוני מוסמך (סרט אדום) ואישור העתק נאמן למקור (מרחוק בכל הארץ)", s: "פקידים דורשים תרגום לעברית ולוקחים מסמכי מקור! קבלו תרגום נוטריוני והעתק מאושר כדי שתשמרו את המקור לרבנות ולבית הדין.", p: "$249 למסמך (עמוד 1) • $349 (מרובה עמודים) • $799 (חבילת 4 מסמכים)" },
+      { t: "⚖️ ליווי עורך דין לשעה אחת בלבד בלשכת משרד הפנים", s: "עורך דין ישראלי נכנס איתכם לפגישה לשעה אחת כדי שהפקידים יתייחסו אליכם בכבוד, יסתפקו בהעתקים ויפתחו את התיק במקום.", p: "$649–$799 (במקום 25,000₪ ריטיינר)" }
     ],
     reg_lbl: "2. אזור לשכת משרד הפנים / בית הדין:",
     regs: [
@@ -653,7 +1609,7 @@ const VETTED_I18N = {
     name_lbl: "4. שם מלא (ושם בן/בת הזוג):",
     wa_lbl: "5. מספר וואטסאפ ליצירת קשר מהירה:",
     date_lbl: "6. תאריך התור הקרוב או רמת דחיפות:",
-    notes_lbl: "7. אילו מסמכים נדרשים לתרגום או פירוט קצר:",
+    notes_lbl: "7. אילו מסמכים נדרשים לתרגום/נאמן למקור או פירוט קצר:",
     btn_wa: "💬 שלחו בקשת תיאום מיידית בוואטסאפ ←",
     btn_em: "✉️ או שלחו באימייל",
     ok_msg: "✅ הפנייה נשמרה ונפתחה בוואטסאפ לטיפול מהיר!"
@@ -661,14 +1617,14 @@ const VETTED_I18N = {
   fr: {
     pill: "🤝 Rabbin, Notaire & Avocat",
     h2: "Réserver Notre Équipe : Rabbin, Madrichat Kallah, Traduction Notariée (Ruban Rouge) & Avocat 1h",
-    lead: "Évitez les forfaits d'avocats à 25 000 ₪. Sélectionnez votre besoin ci-dessous — traductions notariées à distance dans tout Israël, accompagnement d'avocat d'1 heure au Misrad HaPanim, et rabbins/madrichot reconnus par la Rabbanut :",
+    lead: "Évitez les forfaits d'avocats à 25 000 ₪. Sélectionnez votre besoin ci-dessous — traductions notariées et copies certifiées conformes (pour ne JAMAIS laisser vos originaux au guichet !), avocat d'1h au Misrad HaPanim, et rabbins/madrichot reconnus par la Rabbanut :",
     svc_lbl: "1. Choisissez le Service Souhaité :",
     svcs: [
-      { t: "🕍 Forfait Couple : Rabbin Accompagnateur (Rav Melaveh) + Madrichat Kallah", s: "Reconnu par le Beit Din & le Grand Rabbinat (1-à-1 et visio).", p: "349$ Forfait Couple Complet (Économisez 49$)" },
-      { t: "📜 Rabbin Accompagnateur Reconnu par le Rabbinat (Rav Melaveh)", s: "Étude officielle et lettre tamponnée pour le Beit Din.", p: "249$ Mise en Relation & Dossier Beit Din" },
-      { t: "🕯️ Madrichat Kallah Certifiée par le Rabbinat (Pureté Familiale)", s: "Attestation officielle Taharat HaMishpacha requise par le Beit Din.", p: "149$ Mise en Relation & Certification Officielle" },
-      { t: "🎀 Traduction Notariée Certifiée (Ruban Rouge) & Tampon d'Avocat (À Distance)", s: "Traduction notariée en hébreu (Copie Intégrale, Bulletin n°3, Célibat/Divorce) & déclaration sous serment.", p: "149$–249$ / doc • En 24–48h" },
-      { t: "⚖️ Accompagnement d'Avocat d'1 Heure au Rendez-Vous Misrad HaPanim", s: "Un avocat israélien vous accompagne 1 heure au guichet pour faire ouvrir votre dossier immédiatement.", p: "499$–699$ (vs 25 000₪)" }
+      { t: "🕍 Forfait Couple : Rabbin Accompagnateur (Rav Melaveh) + Madrichat Kallah", s: "Reconnu par le Beit Din & le Grand Rabbinat (1-à-1 et visio).", p: "499$ Forfait Couple Complet (Économisez 99$)" },
+      { t: "📜 Rabbin Accompagnateur Reconnu par le Rabbinat (Rav Melaveh)", s: "Étude officielle et lettre tamponnée pour le Beit Din.", p: "349$ Mise en Relation & Dossier Beit Din" },
+      { t: "🕯️ Madrichat Kallah Certifiée par le Rabbinat (Pureté Familiale)", s: "Attestation officielle Taharat HaMishpacha requise par le Beit Din.", p: "249$ Mise en Relation & Certification Officielle" },
+      { t: "🎀 Traduction Notariée Certifiée (Ruban Rouge) & Copies Conformes (À Distance)", s: "Traduction notariée en hébreu + copies certifiées pour garder vos originaux intacts pour le Rabbinat et le Beit Din.", p: "249$ / doc (1 p.) • 349$ (Multi-p.) • 799$ (Pack 4 docs)" },
+      { t: "⚖️ Accompagnement d'Avocat d'1 Heure au Rendez-Vous Misrad HaPanim", s: "Un avocat israélien vous accompagne 1 heure au guichet pour faire ouvrir votre dossier immédiatement sans confisquer vos originaux.", p: "649$–799$ (vs 25 000₪)" }
     ],
     reg_lbl: "2. Votre Région Misrad HaPanim / Beit Din :",
     regs: [
@@ -689,7 +1645,7 @@ const VETTED_I18N = {
     name_lbl: "4. Nom Complet (et Nom du Conjoint) :",
     wa_lbl: "5. Numéro WhatsApp (avec indicatif +33 / +972 / +32 / +41) :",
     date_lbl: "6. Date du Rendez-Vous ou Urgence :",
-    notes_lbl: "7. Documents à Traduire ou Résumé de Votre Situation :",
+    notes_lbl: "7. Documents à Traduire/Certifier ou Résumé de Votre Situation :",
     btn_wa: "💬 Envoyer Ma Demande Prioritaire sur WhatsApp →",
     btn_em: "✉️ Ou Envoyer par Email",
     ok_msg: "✅ Demande enregistrée et ouverte dans WhatsApp !"
@@ -697,14 +1653,14 @@ const VETTED_I18N = {
   es: {
     pill: "🤝 Rabino, Notario y Abogado",
     h2: "Reservar Equipo: Rabino, Madrijá, Traducción Notarial (Cinta Roja) y Abogado 1h",
-    lead: "Ahorre los 25.000 ₪ de los bufetes. Seleccione lo que necesita: traducciones notariales al hebreo a distancia en todo Israel, acompañamiento de abogado por 1 hora en el Misrad HaPanim, y rabinos/madrijot reconocidos por la Rabanut:",
+    lead: "Ahorre los 25.000 ₪ de los bufetes. Seleccione lo que necesita: traducciones notariales al hebreo y copias certificadas (¡para NUNCA entregar sus originales!), acompañamiento de abogado por 1 hora en el Misrad HaPanim, y rabinos/madrijot reconocidos por la Rabanut:",
     svc_lbl: "1. Seleccione el Servicio que Necesita:",
     svcs: [
-      { t: "🕍 Ambos: Rabino Patrocinador (Rav Melavé) + Madrijat Kalá Certificada", s: "Paquete completo reconocido por el Beit Din y la Rabanut (1-a-1 y Zoom).", p: "$349 Paquete Completo de Pareja (Ahorre $49)" },
-      { t: "📜 Rabino Patrocinador Reconocido por la Rabanut (Rav Melavé)", s: "Estudio oficial y carta sellada de recomendación para el Beit Din.", p: "$249 Asignación y Apertura de Dossier Beit Din" },
-      { t: "🕯️ Madrijat Kalá Certificada por la Rabanut (Pureza Familiar)", s: "Certificación oficial Taharat HaMishpajá exigida por el Beit Din.", p: "$149 Asignación y Certificación Oficial" },
-      { t: "🎀 Traducción Notarial Certificada (Cinta Roja) y Sello de Abogado (Remoto)", s: "Traducción notarial al hebreo (Partida Literal, Antecedentes Penales, Soltería/Divorcio) y declaración jurada.", p: "$149–$249 / doc • En 24–48h" },
-      { t: "⚖️ Acompañamiento de Abogado por 1 Hora en su Cita del Misrad HaPanim", s: "Un abogado israelí entra con usted por 1 hora para que abran su expediente con respeto en el acto.", p: "$499–$699 (vs. 25.000₪)" }
+      { t: "🕍 Ambos: Rabino Patrocinador (Rav Melavé) + Madrijat Kalá Certificada", s: "Paquete completo reconocido por el Beit Din y la Rabanut (1-a-1 y Zoom).", p: "$499 Paquete Completo de Pareja (Ahorre $99)" },
+      { t: "📜 Rabino Patrocinador Reconocido por la Rabanut (Rav Melavé)", s: "Estudio oficial y carta sellada de recomendación para el Beit Din.", p: "$349 Asignación y Apertura de Dossier Beit Din" },
+      { t: "🕯️ Madrijat Kalá Certificada por la Rabanut (Pureza Familiar)", s: "Certificación oficial Taharat HaMishpajá exigida por el Beit Din.", p: "$249 Asignación y Certificación Oficial" },
+      { t: "🎀 Traducción Notarial Certificada (Cinta Roja) y Copias Certificadas (Remoto)", s: "Traducción notarial al hebreo + copias certificadas para conservar sus originales para la Rabanut y el Beit Din.", p: "$249 / doc (1 pág.) • $349 (Multi-pág.) • $799 (Pack 4 docs)" },
+      { t: "⚖️ Acompañamiento de Abogado por 1 Hora en su Cita del Misrad HaPanim", s: "Un abogado israelí entra con usted por 1 hora para que abran su expediente en el acto sin retener sus documentos originales.", p: "$649–$799 (vs. 25.000₪)" }
     ],
     reg_lbl: "2. Su Región de Misrad HaPanim / Beit Din:",
     regs: [
@@ -725,7 +1681,7 @@ const VETTED_I18N = {
     name_lbl: "4. Nombre Completo (y de su Pareja):",
     wa_lbl: "5. Número de WhatsApp (con código de país, ej. +34 / +54 / +52 / +972):",
     date_lbl: "6. Fecha de su Cita o Nivel de Urgencia:",
-    notes_lbl: "7. Documentos para Traducir o Resumen de su Caso:",
+    notes_lbl: "7. Documentos para Traducir/Certificar o Resumen de su Caso:",
     btn_wa: "💬 Enviar Solicitud Prioritaria por WhatsApp →",
     btn_em: "✉️ O Enviar por Correo",
     ok_msg: "✅ ¡Solicitud lista y abierta en WhatsApp!"
@@ -733,14 +1689,14 @@ const VETTED_I18N = {
   de: {
     pill: "🤝 Rabbiner, Notar & Anwalt",
     h2: "Team Buchen: Rabbiner, Madricha, Notar-Übersetzung (Rotes Band) & 1-Std.-Anwalt",
-    lead: "Sparen Sie sich 25.000 ₪ Kanzlei-Honorar. Wählen Sie Ihren Bedarf — landesweite hebräische Notar-Übersetzungen per Fernauftrag, 1-Stunden-Anwaltsbegleitung zum Misrad HaPanim sowie vom Rabbinat anerkannte Rabbiner & Madrichot:",
+    lead: "Sparen Sie sich 25.000 ₪ Kanzlei-Honorar. Wählen Sie Ihren Bedarf — landesweite hebräische Notar-Übersetzungen und beglaubigte Kopien (damit Sie NIEMALS Ihre Originale abgeben!), 1-Stunden-Anwaltsbegleitung zum Misrad HaPanim sowie vom Rabbinat anerkannte Rabbiner & Madrichot:",
     svc_lbl: "1. Gewünschten Service Auswählen:",
     svcs: [
-      { t: "🕍 Beides: Betreuender Rabbiner (Rav Melaveh) + Zertifizierte Madrichat Kallah", s: "Komplettpaket anerkannt von Beit Din & Rabbinat (1-zu-1 & Zoom).", p: "$349 Paar-Komplettpaket ($49 Sparen)" },
-      { t: "📜 Vom Rabbinat Anerkannter Betreuender Rabbiner (Rav Melaveh)", s: "Offizieller Unterricht & gestempeltes Empfehlungsschreiben für das Beit Din.", p: "$249 Vermittlung & Beit-Din-Dossier" },
-      { t: "🕯️ Vom Rabbinat Zertifizierte Madrichat Kallah (Taharat HaMischpacha)", s: "Offizielle Bestätigung für Beit Din und Rabbinats-Hochzeit.", p: "$149 Vermittlung & Offizielle Zertifizierung" },
-      { t: "🎀 Beglaubigte Notar-Übersetzung (Rotes Band) & Anwalts-Eid (Landesweit Online)", s: "Hebräische Notar-Übersetzung (Geburtenregister, Führungszeugnis, Ledigkeit/Scheidung) & gestempelte Erklärung.", p: "$149–$249 / Dok. • In 24–48h" },
-      { t: "⚖️ 1-Stunden Anwalts-Begleitung zum Misrad HaPanim Termin", s: "Ein zugelassener israelischer Anwalt begleitet Sie für 1 Stunde zum Schalter, damit Ihre Akte sofort geöffnet wird.", p: "$499–$699 (statt 25.000₪)" }
+      { t: "🕍 Beides: Betreuender Rabbiner (Rav Melaveh) + Zertifizierte Madrichat Kallah", s: "Komplettpaket anerkannt von Beit Din & Rabbinat (1-zu-1 & Zoom).", p: "$499 Paar-Komplettpaket ($99 Sparen)" },
+      { t: "📜 Vom Rabbinat Anerkannter Betreuender Rabbiner (Rav Melaveh)", s: "Offizieller Unterricht & gestempeltes Empfehlungsschreiben für das Beit Din.", p: "$349 Vermittlung & Beit-Din-Dossier" },
+      { t: "🕯️ Vom Rabbinat Zertifizierte Madrichat Kallah (Taharat HaMischpacha)", s: "Offizielle Bestätigung für Beit Din und Rabbinats-Hochzeit.", p: "$249 Vermittlung & Offizielle Zertifizierung" },
+      { t: "🎀 Beglaubigte Notar-Übersetzung (Rotes Band) & Beglaubigte Kopien (Online)", s: "Hebräische Notar-Übersetzung + beglaubigte Kopien, damit Sie Ihre Originale für das Rabbinat und Beit Din behalten.", p: "$249 / Dok. (1 S.) • $349 (Mehrseitig) • $799 (4-Dok.-Paket)" },
+      { t: "⚖️ 1-Stunden Anwalts-Begleitung zum Misrad HaPanim Termin", s: "Ein zugelassener israelischer Anwalt begleitet Sie für 1 Stunde zum Schalter, damit Ihre Akte sofort geöffnet wird und Sie alle Originale behalten.", p: "$649–$799 (statt 25.000₪)" }
     ],
     reg_lbl: "2. Ihre Misrad HaPanim / Beit Din Region:",
     regs: [
@@ -761,21 +1717,498 @@ const VETTED_I18N = {
     name_lbl: "4. Vollständiger Name (und Name des Partners):",
     wa_lbl: "5. WhatsApp-Nummer (mit Ländervorwahl, z.B. +49 / +43 / +41 / +972):",
     date_lbl: "6. Geplanter Behördentermin oder Dringlichkeit:",
-    notes_lbl: "7. Zu Übersetzende Dokumente oder Kurze Fallbeschreibung:",
+    notes_lbl: "7. Zu Übersetzende/Beglaubigende Dokumente oder Kurze Fallbeschreibung:",
     btn_wa: "💬 Prioritäts-Anfrage Jetzt per WhatsApp Senden →",
     btn_em: "✉️ Oder per E-Mail Senden",
     ok_msg: "✅ Anfrage gespeichert und in WhatsApp geöffnet!"
   }
 };
 
-window.selectedConciergeChoice = 0;
+window.selectedConciergeChoice = parseInt(localStorage.getItem('gat_vt_choice') || '0', 10) || 0;
+
+// ============================================================================
+// SMART CHANGE-ONLY FORM AUTO-SAVE & AUTO-RESTORE (OFFLINE-FIRST + CLOUD SYNC)
+// ============================================================================
+const GAT_FORM_FIELDS = [
+  'in-clerk-txt', 'chk-days', 'chk-pass-months', 'chk-name-match', 'chk-hebrew-trans', 'chk-orig-copies', 'chk-apostille-auth', 'chk-birth', 'chk-police', 'chk-single', 'chk-family',
+  'he-doc-type', 'he-name', 'he-pass', 'he-facts',
+  'rb-type', 'rb-cand', 'rb-rabbi', 'rb-months',
+  'vt-region', 'vt-track', 'vt-name', 'vt-wa', 'vt-date', 'vt-notes'
+];
+
+window.gatLastSavedSnapshot = localStorage.getItem('gat_form_draft_snapshot') || '';
+window.gatLastLeadSnapshot = '';
+window.gatIsRestoringDraft = false;
+
+window.collectCurrentFormDraft = function() {
+  const draft = { vt_choice: window.selectedConciergeChoice || 0 };
+  for (let i = 0; i < GAT_FORM_FIELDS.length; i++) {
+    const id = GAT_FORM_FIELDS[i];
+    const el = document.getElementById(id);
+    if (!el) continue;
+    draft[id] = (el.type === 'checkbox') ? !!el.checked : el.value;
+  }
+  return draft;
+};
+
+window.CP_SYNC_I18N = {
+  en: {
+    saved_online: "☁️ Progress Auto-Saved",
+    saved_offline: "💾 Saved Offline on Device (Will sync when online)",
+    back_online: "🟢 Back Online — Cloud Synced!",
+    offline_mode: "📶 Offline Mode Active — Saving to Device",
+    room_tag: "🔐 Room #",
+    both_in: "🟢 Both Partners in Room",
+    one_in: "🔴 Only 1 Partner in Room",
+    you_role: "You: Partner {r} ⇄",
+    new_room: "🔄 New Room",
+    sync_wa: "📲 Sync Partner via WhatsApp",
+    lbl_a: "Partner A (Room 1)",
+    lbl_b: "Partner B (Room 2)",
+    ph_type_a: "Type Partner A answer...",
+    ph_type_b: "Type Partner B answer...",
+    locked_reveal_a: "🔒 Partner A locked in! Lock in yours to reveal...",
+    locked_reveal_b: "🔒 Partner B locked in! Lock in yours to reveal...",
+    ph_ans_a: "🔒 Partner A answered!",
+    ph_ans_b: "🔒 Partner B answered!",
+    ph_wait_a: "Waiting for Partner A (Room 1)...",
+    ph_wait_b: "Waiting for Partner B (Room 2)...",
+    btn_lock_a: "🔒 Lock In Partner A Answer ↵",
+    btn_lock_b: "🔒 Lock In Partner B Answer ↵",
+    btn_locked_a: "✅ Partner A Locked In! (Tap to Update ↵)",
+    btn_locked_b: "✅ Partner B Locked In! (Tap to Update ↵)",
+    btn_encrypting: "🔐 Encrypting & Locking In...",
+    toast_empty: "⚠️ Type your answer first, then tap Lock In Answer ↵",
+    toast_match_next: "✅ Marked as Aligned! Moving both partners to next question...",
+    toast_flag_next: "🚨 Contradiction Flagged! Moving both partners to next question...",
+    toast_auto_match: "✅ Both Answered & Matched! Auto-advancing...",
+    toast_diff: "⚠️ Different wording! Compare your answers below:",
+    aligned_head: "🟢 <strong>BOTH PARTNERS ALIGNED!</strong>",
+    auto_adv: "✨ Auto-advancing to next question...",
+    compare_head: "🚨 <strong>COMPARE YOUR ANSWERS (Do these match or contradict?):</strong>",
+    btn_same: "✅ Same Meaning (Count Match & Next →)",
+    btn_contra: "🚨 Contradiction! (Flag & Next →)",
+    wait_other: "⏳ <strong>{who}</strong> locked in an encrypted answer! Waiting for <strong>{wait}</strong> in Room #{tag} to tap Lock In Answer ↵...",
+    partner_a: "Partner A",
+    partner_b: "Partner B",
+    wa_intro: "🔐 Misrad HaPanim E2E Encrypted Couples Room #",
+    wa_cta: "Tap to join & compare answers: ",
+    tip_lbl: "🛡️ Clerk Audit Tip:",
+    unlocked_lbl: "Unlocked",
+    free_lbl: "Free",
+    he_btn_unlock: "🔓 Unlock Clean Watermark-Free Hebrew PDF & Copy ($89 Sprint / $149 Lifetime) →",
+    he_pw_msg: "📄 Unlock clean, watermark-free statutory Hebrew Misrad HaPanim & Va'adat Charigim letters ($89 90-Day Dossier Pass or $149 Lifetime Filings Pass):"
+  },
+  he: {
+    saved_online: "☁️ ההתקדמות נשמרה אוטומטית",
+    saved_offline: "💾 נשמר במכשיר (ללא רשת — יסונכרן בחיבור מחדש)",
+    back_online: "🟢 חזרתם לרשת — סונכרן לענן!",
+    offline_mode: "📶 מצב לא מקוון — שומר על המכשיר",
+    room_tag: "🔐 חדר #",
+    both_in: "🟢 שני בני הזוג בחדר",
+    one_in: "🔴 רק בן/בת זוג 1 בחדר",
+    you_role: "את/ה: צד {r} ⇄",
+    new_room: "🔄 חדר חדש",
+    sync_wa: "📲 סנכרון בן/בת הזוג בוואטסאפ",
+    lbl_a: "צד א׳ (חדר 1)",
+    lbl_b: "צד ב׳ (חדר 2)",
+    ph_type_a: "הקלידו תשובה (צד א׳)...",
+    ph_type_b: "הקלידו תשובה (צד ב׳)...",
+    locked_reveal_a: "🔒 צד א׳ נעל תשובה! נעלו את שלכם לחשיפה...",
+    locked_reveal_b: "🔒 צד ב׳ נעל תשובה! נעלו את שלכם לחשיפה...",
+    ph_ans_a: "🔒 צד א׳ ענה!",
+    ph_ans_b: "🔒 צד ב׳ ענה!",
+    ph_wait_a: "ממתין לצד א׳ (חדר 1)...",
+    ph_wait_b: "ממתין לצד ב׳ (חדר 2)...",
+    btn_lock_a: "🔒 נעל תשובת צד א׳ ↵",
+    btn_lock_b: "🔒 נעל תשובת צד ב׳ ↵",
+    btn_locked_a: "✅ תשובת צד א׳ ננעלה! (לחצו לעדכון ↵)",
+    btn_locked_b: "✅ תשובת צד ב׳ ננעלה! (לחצו לעדכון ↵)",
+    btn_encrypting: "🔐 מצפין ונועל תשובה...",
+    toast_empty: "⚠️ הקלידו תשובה תחילה ואז לחצו על נעילת תשובה ↵",
+    toast_match_next: "✅ סומן כתואם! מעביר את שני המכשירים לשאלה הבאה...",
+    toast_flag_next: "🚨 סומנה סתירה לבדיקה! עובר לשאלה הבאה...",
+    toast_auto_match: "✅ שניכם עניתם זהה! עובר אוטומטית לשאלה הבאה...",
+    toast_diff: "⚠️ ניסוח שונה זוהה! השוו תשובות למטה:",
+    aligned_head: "🟢 <strong>התאמה מלאה בין בני הזוג!</strong>",
+    auto_adv: "✨ עובר אוטומטית לשאלה הבאה...",
+    compare_head: "🚨 <strong>השוו את התשובות שלכם (אותה כוונה או סתירה מול הפקיד?):</strong>",
+    btn_same: "✅ אותה משמעות (סמן התאמה והמשך ←)",
+    btn_contra: "🚨 סתירה! (סמן לחזרה והמשך ←)",
+    wait_other: "⏳ <strong>{who}</strong> נעל/ה תשובה מוצפנת! ממתין ל<strong>{wait}</strong> בחדר #{tag} לנעילת תשובה ↵...",
+    partner_a: "צד א׳",
+    partner_b: "צד ב׳",
+    wa_intro: "🔐 חדר שימוע זוגי מוצפן (משרד הפנים) #",
+    wa_cta: "לחצו להצטרפות והשוואת תשובות: ",
+    tip_lbl: "🛡️ טיפ לשימוע מול הפקיד:",
+    unlocked_lbl: "פתוח",
+    free_lbl: "חינם",
+    he_btn_unlock: "🔓 פתיחת PDF נקי ללא סימן מים והעתקה ($89 ל-90 יום / $149 לכל החיים) ←",
+    he_pw_msg: "📄 פתחו הפקת מכתבים וטפסים רשמיים בעברית ללא סימן מים ($89 ל-90 יום או $149 לכל החיים):"
+  },
+  fr: {
+    saved_online: "☁️ Progression Sauvegardée",
+    saved_offline: "💾 Sauvegardé Hors-Ligne (Sync auto dès connexion)",
+    back_online: "🟢 En Ligne — Synchronisé dans le Cloud !",
+    offline_mode: "📶 Mode Hors-Ligne Actif — Sauvegarde Locale",
+    room_tag: "🔐 Salle #",
+    both_in: "🟢 Les 2 Conjoints dans la Salle",
+    one_in: "🔴 1 Seul Conjoint Connecté",
+    you_role: "Vous : Conjoint {r} ⇄",
+    new_room: "🔄 Nouvelle Salle",
+    sync_wa: "📲 Inviter Conjoint sur WhatsApp",
+    lbl_a: "Conjoint A (Salle 1)",
+    lbl_b: "Conjoint B (Salle 2)",
+    ph_type_a: "Tapez la réponse du Conjoint A...",
+    ph_type_b: "Tapez la réponse du Conjoint B...",
+    locked_reveal_a: "🔒 Conjoint A a validé ! Validez la vôtre pour révéler...",
+    locked_reveal_b: "🔒 Conjoint B a validé ! Validez la vôtre pour révéler...",
+    ph_ans_a: "🔒 Conjoint A a répondu !",
+    ph_ans_b: "🔒 Conjoint B a répondu !",
+    ph_wait_a: "En attente du Conjoint A (Salle 1)...",
+    ph_wait_b: "En attente du Conjoint B (Salle 2)...",
+    btn_lock_a: "🔒 Valider Réponse Conjoint A ↵",
+    btn_lock_b: "🔒 Valider Réponse Conjoint B ↵",
+    btn_locked_a: "✅ Conjoint A Validé ! (Appuyer pour modifier ↵)",
+    btn_locked_b: "✅ Conjoint B Validé ! (Appuyer pour modifier ↵)",
+    btn_encrypting: "🔐 Chiffrement & Validation...",
+    toast_empty: "⚠️ Écrivez d'abord votre réponse puis appuyez sur Valider ↵",
+    toast_match_next: "✅ Aligné ! Passage des 2 téléphones à la question suivante...",
+    toast_flag_next: "🚨 Contradiction notée ! Passage à la question suivante...",
+    toast_auto_match: "✅ Réponses Identiques ! Question suivante...",
+    toast_diff: "⚠️ Formulation différente ! Comparez vos réponses ci-dessous :",
+    aligned_head: "🟢 <strong>LES DEUX CONJOINTS SONT ALIGNÉS !</strong>",
+    auto_adv: "✨ Passage automatique à la question suivante...",
+    compare_head: "🚨 <strong>COMPAREZ VOS RÉPONSES (Concordance ou Contradiction ?) :</strong>",
+    btn_same: "✅ Même Sens (Compter & Suivant →)",
+    btn_contra: "🚨 Contradiction ! (Signaler & Suivant →)",
+    wait_other: "⏳ <strong>{who}</strong> a verrouillé une réponse chiffrée ! En attente de <strong>{wait}</strong> dans la Salle #{tag}...",
+    partner_a: "Conjoint A",
+    partner_b: "Conjoint B",
+    wa_intro: "🔐 Salle Couple Chiffrée E2E Misrad HaPanim #",
+    wa_cta: "Rejoindre & comparer nos réponses : ",
+    tip_lbl: "🛡️ Conseil d'Audit Guichet :",
+    unlocked_lbl: "Débloqué",
+    free_lbl: "Gratuit",
+    he_btn_unlock: "🔓 Débloquer PDF Hébreu Sans Filigrane & Copie (89$ Pass 90j / 149$ à Vie) →",
+    he_pw_msg: "📄 Débloquez vos formulaires et lettres officielles en hébreu sans filigrane (89$ Pass 90 Jours ou 149$ à Vie) :"
+  },
+  es: {
+    saved_online: "☁️ Progreso Guardado Automáticamente",
+    saved_offline: "💾 Guardado Sin Conexión (Se sincronizará al volver)",
+    back_online: "🟢 En Línea — ¡Sincronizado en la Nube!",
+    offline_mode: "📶 Modo Sin Conexión — Guardando en Dispositivo",
+    room_tag: "🔐 Sala #",
+    both_in: "🟢 Ambos en la Sala",
+    one_in: "🔴 Solo 1 Pareja en la Sala",
+    you_role: "Tú: Pareja {r} ⇄",
+    new_room: "🔄 Nueva Sala",
+    sync_wa: "📲 Sincronizar por WhatsApp",
+    lbl_a: "Pareja A (Sala 1)",
+    lbl_b: "Pareja B (Sala 2)",
+    ph_type_a: "Escribe respuesta de Pareja A...",
+    ph_type_b: "Escribe respuesta de Pareja B...",
+    locked_reveal_a: "🔒 ¡Pareja A bloqueó su respuesta! Bloquea la tuya para revelar...",
+    locked_reveal_b: "🔒 ¡Pareja B bloqueó su respuesta! Bloquea la tuya para revelar...",
+    ph_ans_a: "🔒 ¡Pareja A respondió!",
+    ph_ans_b: "🔒 ¡Pareja B respondió!",
+    ph_wait_a: "Esperando a Pareja A (Sala 1)...",
+    ph_wait_b: "Esperando a Pareja B (Sala 2)...",
+    btn_lock_a: "🔒 Bloquear Respuesta Pareja A ↵",
+    btn_lock_b: "🔒 Bloquear Respuesta Pareja B ↵",
+    btn_locked_a: "✅ ¡Pareja A Bloqueada! (Toca para actualizar ↵)",
+    btn_locked_b: "✅ ¡Pareja B Bloqueada! (Toca para actualizar ↵)",
+    btn_encrypting: "🔐 Cifrando y Bloqueando...",
+    toast_empty: "⚠️ Escribe tu respuesta primero y toca Bloquear Respuesta ↵",
+    toast_match_next: "✅ ¡Alineados! Pasando ambos teléfonos a la siguiente pregunta...",
+    toast_flag_next: "🚨 ¡Contradicción marcada! Pasando a la siguiente pregunta...",
+    toast_auto_match: "✅ ¡Ambos Coinciden! Avanzando automáticamente...",
+    toast_diff: "⚠️ ¡Redacción diferente! Comparen sus respuestas abajo:",
+    aligned_head: "🟢 <strong>¡AMBOS MIEMBROS DE LA PAREJA COINCIDEN!</strong>",
+    auto_adv: "✨ Avanzando automáticamente a la siguiente pregunta...",
+    compare_head: "🚨 <strong>COMPAREN SUS RESPUESTAS (¿Coinciden o se contradicen?):</strong>",
+    btn_same: "✅ Mismo Significado (Contar y Siguiente →)",
+    btn_contra: "🚨 ¡Contradicción! (Marcar y Siguiente →)",
+    wait_other: "⏳ ¡<strong>{who}</strong> guardó una respuesta cifrada! Esperando a <strong>{wait}</strong> en la Sala #{tag}...",
+    partner_a: "Pareja A",
+    partner_b: "Pareja B",
+    wa_intro: "🔐 Sala de Parejas Cifrada E2E Misrad HaPanim #",
+    wa_cta: "Toca para unirte y comparar respuestas: ",
+    tip_lbl: "🛡️ Consejo de Auditoría:",
+    unlocked_lbl: "Desbloqueado",
+    free_lbl: "Gratis",
+    he_btn_unlock: "🔓 Desbloquear PDF en Hebreo Sin Marca de Agua ($89 Pase 90d / $149 de por Vida) →",
+    he_pw_msg: "📄 Desbloquee cartas y formularios oficiales en hebreo sin marca de agua ($89 Pase 90 Días o $149 de por Vida):"
+  },
+  de: {
+    saved_online: "☁️ Fortschritt Automatisch Gespeichert",
+    saved_offline: "💾 Offline auf Gerät Gespeichert (Sync bei Verbindung)",
+    back_online: "🟢 Wieder Online — Cloud Synchronisiert!",
+    offline_mode: "📶 Offline-Modus Aktiv — Speicherung auf Gerät",
+    room_tag: "🔐 Raum #",
+    both_in: "🟢 Beide Partner im Raum",
+    one_in: "🔴 Nur 1 Partner im Raum",
+    you_role: "Du: Partner {r} ⇄",
+    new_room: "🔄 Neuer Raum",
+    sync_wa: "📲 Partner per WhatsApp Verbinden",
+    lbl_a: "Partner A (Raum 1)",
+    lbl_b: "Partner B (Raum 2)",
+    ph_type_a: "Antwort Partner A eingeben...",
+    ph_type_b: "Antwort Partner B eingeben...",
+    locked_reveal_a: "🔒 Partner A hat gesperrt! Sperre deine zum Aufdecken...",
+    locked_reveal_b: "🔒 Partner B hat gesperrt! Sperre deine zum Aufdecken...",
+    ph_ans_a: "🔒 Partner A hat geantwortet!",
+    ph_ans_b: "🔒 Partner B hat geantwortet!",
+    ph_wait_a: "Warte auf Partner A (Raum 1)...",
+    ph_wait_b: "Warte auf Partner B (Raum 2)...",
+    btn_lock_a: "🔒 Antwort Partner A Sperren ↵",
+    btn_lock_b: "🔒 Antwort Partner B Sperren ↵",
+    btn_locked_a: "✅ Partner A Gesperrt! (Zum Ändern tippen ↵)",
+    btn_locked_b: "✅ Partner B Gesperrt! (Zum Ändern tippen ↵)",
+    btn_encrypting: "🔐 Verschlüsseln & Sperren...",
+    toast_empty: "⚠️ Bitte zuerst Antwort eingeben und dann auf Sperren tippen ↵",
+    toast_match_next: "✅ Als Übereinstimmung markiert! Nächste Frage auf beiden Handys...",
+    toast_flag_next: "🚨 Widerspruch markiert! Nächste Frage...",
+    toast_auto_match: "✅ Beide Stimmen Überein! Automatisch weiter...",
+    toast_diff: "⚠️ Unterschiedliche Formulierung! Antworten unten vergleichen:",
+    aligned_head: "🟢 <strong>BEIDE PARTNER STIMMEN ÜBEREIN!</strong>",
+    auto_adv: "✨ Automatischer Wechsel zur nächsten Frage...",
+    compare_head: "🚨 <strong>ANTWORTEN VERGLEICHEN (Gleiche Bedeutung oder Widerspruch?):</strong>",
+    btn_same: "✅ Gleiche Bedeutung (Zählen & Weiter →)",
+    btn_contra: "🚨 Widerspruch! (Markieren & Weiter →)",
+    wait_other: "⏳ <strong>{who}</strong> hat verschlüsselt geantwortet! Warte auf <strong>{wait}</strong> in Raum #{tag}...",
+    partner_a: "Partner A",
+    partner_b: "Partner B",
+    wa_intro: "🔐 Misrad HaPanim E2E-Raum #",
+    wa_cta: "Tippen zum Beitreten & Vergleichen: ",
+    tip_lbl: "🛡️ Schalter-Prüftipp:",
+    unlocked_lbl: "Freigeschaltet",
+    free_lbl: "Gratis",
+    he_btn_unlock: "🔓 Hebräisches PDF ohne Wasserzeichen & Kopie Freischalten ($89 90-Tage / $149 Lebenslang) →",
+    he_pw_msg: "📄 Schalten Sie offizielle hebräische Briefe & Formulare ohne Wasserzeichen frei ($89 90-Tage-Pass oder $149 Lebenslang):"
+  }
+};
+
+window.getCpSyncT = function() {
+  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  return window.CP_SYNC_I18N[l] || window.CP_SYNC_I18N.en;
+};
+
+window.showDraftSavedBadge = function(customText, isOfflineWarn) {
+  let b = document.getElementById('gat-draft-saved-pill');
+  if (!b) {
+    b = document.createElement('div');
+    b.id = 'gat-draft-saved-pill';
+    b.style.cssText = 'position:fixed;bottom:16px;right:16px;border-radius:999px;padding:7px 14px;font-size:0.75rem;font-weight:800;z-index:9999;box-shadow:0 8px 20px rgba(0,0,0,0.25);opacity:0;transition:opacity 0.25s;pointer-events:none;';
+    document.body.appendChild(b);
+  }
+  const offline = (typeof navigator !== 'undefined' && navigator.onLine === false) || isOfflineWarn;
+  b.style.background = offline ? '#78350f' : '#0f172a';
+  b.style.color = offline ? '#fde68a' : '#38bdf8';
+  b.style.border = offline ? '1.5px solid #f59e0b' : '1.5px solid #0284c7';
+  const ct = window.getCpSyncT();
+  b.innerText = customText || (offline ? ct.saved_offline : ct.saved_online);
+  b.style.opacity = '1';
+  clearTimeout(window._draftPillTimer);
+  window._draftPillTimer = setTimeout(function() { b.style.opacity = '0'; }, 2400);
+};
+
+window.pushDraftToFirestore = function(draft, nowMs, forceLeadStatus) {
+  if (!window.gatDb || !window.gatUid) {
+    localStorage.setItem('gat_form_dirty_cloud', '1');
+    return;
+  }
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+    localStorage.setItem('gat_form_dirty_cloud', '1');
+    if (forceLeadStatus) localStorage.setItem('gat_pending_lead_status', forceLeadStatus);
+  }
+
+  // 1. Save complete form state with client millisecond timestamp for conflict resolution
+  window.gatDb.collection('user_form_drafts').doc(window.gatUid).set({
+    draft: draft,
+    updatedAtMs: nowMs,
+    lang: window.appLang || 'en',
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }, { merge: true }).then(function() {
+    localStorage.removeItem('gat_form_dirty_cloud');
+  }).catch(function() {
+    localStorage.setItem('gat_form_dirty_cloud', '1');
+  });
+
+  // 2. Sync Vetted Team / Notary / Lawyer lead if any intake fields have data
+  const hasLeadData = !!(
+    (draft['vt-name'] && draft['vt-name'].trim()) ||
+    (draft['vt-wa'] && draft['vt-wa'].trim()) ||
+    (draft['vt-notes'] && draft['vt-notes'].trim()) ||
+    forceLeadStatus
+  );
+
+  if (hasLeadData) {
+    const lang = window.appLang || 'en';
+    const v = VETTED_I18N[lang] || VETTED_I18N.en;
+    const choice = draft.vt_choice || 0;
+    const svcObj = v.svcs[choice] || v.svcs[0];
+    const region = draft['vt-region'] || '';
+    const isLegalOrNorth = (choice === 3 || choice === 4 || region.includes('Safed') || region.includes('צפת'));
+    const routeTag = isLegalOrNorth ? '[🔥 PRIORITY NOTARY / LAWYER ESCORT DESK]' : '[🕍 VETTED RABBI / KALLAH BOOKING]';
+
+    const leadPayload = {
+      uid: window.gatUid,
+      status: forceLeadStatus || localStorage.getItem('gat_pending_lead_status') || 'in_progress_draft',
+      updatedAtMs: nowMs,
+      lang: lang,
+      routeTag: routeTag,
+      serviceIdx: choice,
+      serviceName: svcObj.t,
+      priceTier: svcObj.p,
+      region: region,
+      track: draft['vt-track'] || '',
+      name: (draft['vt-name'] || '').trim(),
+      whatsapp: (draft['vt-wa'] || '').trim(),
+      targetDate: (draft['vt-date'] || '').trim() || 'Flexible / ASAP',
+      notes: (draft['vt-notes'] || '').trim(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    const leadCheckStr = JSON.stringify([leadPayload.status, leadPayload.serviceIdx, leadPayload.region, leadPayload.track, leadPayload.name, leadPayload.whatsapp, leadPayload.targetDate, leadPayload.notes]);
+    if (leadCheckStr !== window.gatLastLeadSnapshot) {
+      window.gatLastLeadSnapshot = leadCheckStr;
+      window.gatDb.collection('concierge_leads').doc(window.gatUid).set(leadPayload, { merge: true }).then(function() {
+        localStorage.removeItem('gat_pending_lead_status');
+      }).catch(function(){});
+    }
+  }
+};
+
+window.syncFormDraftIfChanged = function(forceLeadStatus) {
+  if (window.gatIsRestoringDraft) return;
+  const draft = window.collectCurrentFormDraft();
+  const snapStr = JSON.stringify(draft);
+
+  if (snapStr === window.gatLastSavedSnapshot && !forceLeadStatus) return;
+
+  const nowMs = Date.now();
+  window.gatLastSavedSnapshot = snapStr;
+  try {
+    localStorage.setItem('gat_form_draft_v1', snapStr);
+    localStorage.setItem('gat_form_draft_snapshot', snapStr);
+    localStorage.setItem('gat_form_draft_ts', String(nowMs));
+    localStorage.setItem('gat_vt_choice', String(draft.vt_choice || 0));
+  } catch (e) {}
+
+  window.showDraftSavedBadge();
+  window.pushDraftToFirestore(draft, nowMs, forceLeadStatus);
+};
+
+window.flushOfflineDraftOnReconnect = function() {
+  const isDirty = localStorage.getItem('gat_form_dirty_cloud') === '1' || !!localStorage.getItem('gat_pending_lead_status');
+  if (!isDirty) return;
+  let savedDraft = null;
+  try { savedDraft = JSON.parse(localStorage.getItem('gat_form_draft_v1') || 'null'); } catch(e){}
+  if (!savedDraft) return;
+  const savedTs = parseInt(localStorage.getItem('gat_form_draft_ts') || String(Date.now()), 10);
+  const pendingStatus = localStorage.getItem('gat_pending_lead_status') || undefined;
+  window.pushDraftToFirestore(savedDraft, savedTs, pendingStatus);
+  window.showDraftSavedBadge(window.getCpSyncT().back_online, false);
+};
+
+window.addEventListener('online', function() {
+  window.flushOfflineDraftOnReconnect();
+});
+
+window.addEventListener('offline', function() {
+  window.showDraftSavedBadge(window.getCpSyncT().offline_mode, true);
+});
+
+window.restoreSavedFormDraft = function(customDraftObj) {
+  let draft = customDraftObj;
+  if (!draft) {
+    try {
+      draft = JSON.parse(localStorage.getItem('gat_form_draft_v1') || 'null');
+    } catch (e) { draft = null; }
+  }
+  if (!draft || typeof draft !== 'object') return;
+
+  window.gatIsRestoringDraft = true;
+  try {
+    if (typeof draft.vt_choice === 'number') {
+      window.selectedConciergeChoice = draft.vt_choice;
+      document.querySelectorAll('#vt-svc-grid .svc-row').forEach((r, i) => r.classList.toggle('active', i === draft.vt_choice));
+    }
+    for (let i = 0; i < GAT_FORM_FIELDS.length; i++) {
+      const id = GAT_FORM_FIELDS[i];
+      if (!(id in draft)) continue;
+      const el = document.getElementById(id);
+      if (!el || document.activeElement === el) continue;
+      if (el.type === 'checkbox') {
+        el.checked = !!draft[id];
+      } else if (draft[id] !== undefined && draft[id] !== null && draft[id] !== '') {
+        el.value = draft[id];
+      }
+    }
+    const sharedName = draft['he-name'] || draft['vt-name'] || draft['rb-cand'] || '';
+    if (sharedName) {
+      ['he-name', 'vt-name', 'rb-cand'].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el && !el.value && document.activeElement !== el) el.value = sharedName;
+      });
+    }
+    window.gatLastSavedSnapshot = JSON.stringify(window.collectCurrentFormDraft());
+  } finally {
+    window.gatIsRestoringDraft = false;
+  }
+};
+
+window.bindSmartFormListeners = function() {
+  for (let i = 0; i < GAT_FORM_FIELDS.length; i++) {
+    const el = document.getElementById(GAT_FORM_FIELDS[i]);
+    if (!el || el.dataset.smartBound === '1') continue;
+    el.dataset.smartBound = '1';
+    el.addEventListener('change', function() { window.syncFormDraftIfChanged(); });
+    el.addEventListener('blur', function() { window.syncFormDraftIfChanged(); });
+  }
+};
+
+window.pullCloudFormDraftOnce = function() {
+  if (!window.gatDb || !window.gatUid || window._pulledCloudDraft) return;
+  window._pulledCloudDraft = true;
+
+  // First flush any dirty offline changes before pulling
+  if (localStorage.getItem('gat_form_dirty_cloud') === '1') {
+    window.flushOfflineDraftOnReconnect();
+    return;
+  }
+
+  window.gatDb.collection('user_form_drafts').doc(window.gatUid).get().then(function(snap) {
+    if (!snap.exists) return;
+    const data = snap.data() || {};
+    if (data.draft) {
+      const localTs = parseInt(localStorage.getItem('gat_form_draft_ts') || '0', 10);
+      const cloudTs = data.updatedAtMs || 0;
+      let localDraft = {};
+      try { localDraft = JSON.parse(localStorage.getItem('gat_form_draft_v1') || '{}'); } catch(e){}
+
+      // Newest timestamp wins so an older cloud doc never overwrites newer offline work
+      const merged = (localTs >= cloudTs)
+        ? Object.assign({}, data.draft, localDraft)
+        : Object.assign({}, localDraft, data.draft);
+
+      localStorage.setItem('gat_form_draft_v1', JSON.stringify(merged));
+      window.restoreSavedFormDraft(merged);
+    }
+  }).catch(function(){});
+};
 
 window.selectConciergeSvc = function(idx) {
   window.selectedConciergeChoice = idx;
   document.querySelectorAll('#vt-svc-grid .svc-row').forEach((r, i) => r.classList.toggle('active', i === idx));
+  window.syncFormDraftIfChanged();
 };
 
 window.submitConciergeLead = function(via) {
+  // Always save latest field state before submitting
+  window.syncFormDraftIfChanged('submitted_' + (via || 'whatsapp'));
+
   const lang = window.appLang || 'en';
   const v = VETTED_I18N[lang] || VETTED_I18N.en;
   const choice = window.selectedConciergeChoice || 0;
@@ -890,7 +2323,7 @@ renderAll = function() {
         </select>
 
         <label for="vt-name">${v.name_lbl}</label>
-        <input id="vt-name" placeholder="Avraham & Sarah..." />
+        <input id="vt-name" placeholder="Avraham Levi & Sarah Miller..." />
 
         <label for="vt-wa">${v.wa_lbl}</label>
         <input id="vt-wa" type="tel" placeholder="+972 58-... / +1 ... / +33 ..." />
@@ -911,6 +2344,9 @@ renderAll = function() {
   c.insertAdjacentHTML('afterbegin', vettedHtml);
   updateBdCard();
   updateCpCard();
+  window.restoreSavedFormDraft();
+  window.bindSmartFormListeners();
+  if (window.renderPaywallI18n) window.renderPaywallI18n();
 };
 
 const FREE_CARD_LIMIT = 4;
@@ -934,8 +2370,10 @@ window.getFilteredBdList = function() {
 };
 
 window.setBdPack = function(p) {
-  if (p > 1 && !window.isProUnlocked() && localStorage.getItem('gat_pack2_unlocked') !== '1') {
-    window.openProPaywall('🔥 Unlock the +200 Advanced Dayanim Curveballs & Beit HaDin HaGadol Expansion Pack (Cards 201–400)!');
+  if (p > 1 && !window.canUnlockBdPack(p)) {
+    const pwT = (window.PW_I18N && window.PW_I18N[window.appLang || 'en']) || window.PW_I18N.en;
+    const labels = { 2: pwT.pack2_pw, 3: pwT.pack3_pw, 4: pwT.pack4_pw };
+    window.openProPaywall(labels[p], true);
     return;
   }
   window.bdPack = p; bdIdx = 0; updateBdCard();
@@ -1009,10 +2447,293 @@ nextBdCard = function() {
   updateBdCard();
 };
 
+// ============================================================================
+// E2E ENCRYPTED (AES-GCM-256) + FIREBASE COUPLES SYNC (NOHAL 5.2.0008)
+// ============================================================================
+const GAT_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCCTKpdflOCdVQh4v1RZ6dUwDaqkI_RpnU",
+  authDomain: "giyur-aliyah-track-b34bb.firebaseapp.com",
+  projectId: "giyur-aliyah-track-b34bb",
+  storageBucket: "giyur-aliyah-track-b34bb.firebasestorage.app",
+  messagingSenderId: "623918809037",
+  appId: "1:623918809037:web:1d3819caacc03b2c128e84",
+  messagingAppId: "1:623918809037:web:1d3819caacc03b2c128e84"
+};
+
+window.gatDb = null;
+window.gatUid = null;
+window.cpUnsub = null;
 window.cpCat = 'all';
-window.cpRoom = localStorage.getItem('gat_cp_room') || String(Math.floor(1000 + Math.random() * 9000));
-localStorage.setItem('gat_cp_room', window.cpRoom);
-window.cpAnswers = JSON.parse(localStorage.getItem('gat_cp_ans') || '{}');
+window.cpRole = localStorage.getItem('gat_cp_role') || 'A';
+window.cpPartnerPresent = false;
+window.cpDbError = '';
+window.cpLastAutoAdvanceId = null;
+
+window.generateSecureToken = function(len) {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+  const bytes = new Uint8Array(len || 24);
+  window.crypto.getRandomValues(bytes);
+  let out = '';
+  for (let i = 0; i < bytes.length; i++) out += chars[bytes[i] % chars.length];
+  return out;
+};
+
+window.getHashParam = function(name) {
+  const h = (window.location.hash || '').replace(/^#/, '');
+  return new URLSearchParams(h).get(name);
+};
+
+window.resolveInitialCpRoom = function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlRoom = urlParams.get('room');
+  const urlKey = window.getHashParam('k') || urlParams.get('k');
+
+  if (urlRoom && urlRoom.trim().length >= 12) {
+    const cleanRoom = urlRoom.trim();
+    const prevRoom = localStorage.getItem('gat_cp_room');
+    if (prevRoom !== cleanRoom) {
+      localStorage.setItem('gat_cp_room', cleanRoom);
+      localStorage.setItem('gat_cp_role', 'B');
+      window.cpRole = 'B';
+    }
+    if (urlKey && urlKey.trim().length >= 12) {
+      localStorage.setItem('gat_cp_key_' + cleanRoom, urlKey.trim());
+    }
+    return cleanRoom;
+  }
+
+  let savedRoom = localStorage.getItem('gat_cp_room');
+  if (!savedRoom || savedRoom.length < 16) {
+    savedRoom = window.generateSecureToken(22);
+    localStorage.setItem('gat_cp_room', savedRoom);
+    localStorage.setItem('gat_cp_role', 'A');
+    window.cpRole = 'A';
+  }
+  if (!localStorage.getItem('gat_cp_key_' + savedRoom)) {
+    localStorage.setItem('gat_cp_key_' + savedRoom, window.generateSecureToken(32));
+  }
+  return savedRoom;
+};
+
+window.cpRoom = window.resolveInitialCpRoom();
+window.cpKeyStr = localStorage.getItem('gat_cp_key_' + window.cpRoom) || window.generateSecureToken(32);
+localStorage.setItem('gat_cp_key_' + window.cpRoom, window.cpKeyStr);
+window.cpAnswers = JSON.parse(localStorage.getItem('gat_cp_ans_' + window.cpRoom) || '{}');
+
+window.deriveCpCryptoKey = async function(secretStr, roomId) {
+  const enc = new TextEncoder();
+  const baseKey = await window.crypto.subtle.importKey(
+    'raw', enc.encode(secretStr || 'default_key'), { name: 'PBKDF2' }, false, ['deriveKey']
+  );
+  return window.crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: enc.encode('gat_e2ee_' + roomId), iterations: 10000, hash: 'SHA-256' },
+    baseKey,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['encrypt', 'decrypt']
+  );
+};
+
+window.encryptCpText = async function(plainText) {
+  if (!plainText) return '';
+  try {
+    const key = await window.deriveCpCryptoKey(window.cpKeyStr, window.cpRoom);
+    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+    const encoded = new TextEncoder().encode(plainText);
+    const cipherBuf = await window.crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, encoded);
+    const ivB64 = btoa(String.fromCharCode.apply(null, iv));
+    const ctB64 = btoa(String.fromCharCode.apply(null, new Uint8Array(cipherBuf)));
+    return 'enc_v1:' + ivB64 + ':' + ctB64;
+  } catch (e) {
+    return plainText;
+  }
+};
+
+window.decryptCpText = async function(payload) {
+  if (!payload) return '';
+  if (!payload.startsWith('enc_v1:')) return payload;
+  try {
+    const parts = payload.split(':');
+    if (parts.length !== 3) return payload;
+    const iv = Uint8Array.from(atob(parts[1]), c => c.charCodeAt(0));
+    const ct = Uint8Array.from(atob(parts[2]), c => c.charCodeAt(0));
+    const key = await window.deriveCpCryptoKey(window.cpKeyStr, window.cpRoom);
+    const plainBuf = await window.crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct);
+    return new TextDecoder().decode(plainBuf);
+  } catch (e) {
+    return '🔒 [Tap Sync Link Again to Load Key]';
+  }
+};
+
+window.showCpToast = function(msg, isSuccess) {
+  let t = document.getElementById('cp-live-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'cp-live-toast';
+    t.style.cssText = 'position:fixed;top:74px;left:50%;transform:translateX(-50%);z-index:99999;padding:12px 20px;border-radius:14px;font-weight:900;font-size:0.92rem;box-shadow:0 14px 34px rgba(0,0,0,0.3);transition:opacity 0.25s;text-align:center;max-width:92vw;';
+    document.body.appendChild(t);
+  }
+  t.style.background = isSuccess ? '#059669' : '#dc2626';
+  t.style.color = '#ffffff';
+  t.style.border = isSuccess ? '2px solid #a7f3d0' : '2px solid #fecaca';
+  t.innerHTML = msg;
+  t.style.opacity = '1';
+  t.style.display = 'block';
+  clearTimeout(window._cpToastTimer);
+  window._cpToastTimer = setTimeout(function() {
+    t.style.opacity = '0';
+    setTimeout(function() { t.style.display = 'none'; }, 260);
+  }, 2800);
+};
+
+window.initCpFirebase = function() {
+  if (typeof firebase === 'undefined' || !firebase.initializeApp) return;
+  try {
+    const appInstance = firebase.apps.length ? firebase.app() : firebase.initializeApp(GAT_FIREBASE_CONFIG);
+    window.gatDb = firebase.firestore(appInstance);
+    try {
+      window.gatDb.enablePersistence({ synchronizeTabs: true }).catch(function(){});
+    } catch(e) {}
+    firebase.auth(appInstance).onAuthStateChanged(function(user) {
+      if (user) {
+        window.gatUid = user.uid;
+        window.cpDbError = '';
+        window.connectCpRoom(window.cpRoom);
+        if (window.pullCloudFormDraftOnce) window.pullCloudFormDraftOnce();
+        if (window.syncProEntitlementFromCloud) window.syncProEntitlementFromCloud();
+      } else {
+        firebase.auth(appInstance).signInAnonymously().catch(function(err) {
+          window.cpDbError = '🚨 Firebase Auth Error: ' + (err.message || 'Enable Anonymous Auth in Firebase Console!');
+          updateCpCard();
+        });
+      }
+    });
+  } catch (err) {
+    window.cpDbError = '🚨 Firebase Init Error: ' + (err.message || '');
+    updateCpCard();
+  }
+};
+
+window.getRoomTtlTimestamp = function() {
+  const expDate = new Date(Date.now() + 48 * 60 * 60 * 1000); // 48 hours from now
+  return (firebase.firestore && firebase.firestore.Timestamp)
+    ? firebase.firestore.Timestamp.fromDate(expDate)
+    : expDate;
+};
+
+window.connectCpRoom = function(roomId) {
+  if (!window.gatDb || !window.gatUid || !roomId) return;
+  if (window.cpUnsub) { window.cpUnsub(); window.cpUnsub = null; }
+
+  const docRef = window.gatDb.collection('couples_rooms').doc(roomId);
+  const urlHasRoom = new URLSearchParams(window.location.search).get('room') === roomId;
+
+  docRef.get().then(function(snap) {
+    if (!snap.exists) {
+      window.cpRole = 'A';
+      localStorage.setItem('gat_cp_role', 'A');
+      return docRef.set({
+        partnerAUid: window.gatUid,
+        partnerBUid: null,
+        partnerAPresent: true,
+        partnerBPresent: false,
+        currentIdx: cpIdx,
+        answers: {},
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        expiresAt: window.getRoomTtlTimestamp()
+      });
+    } else {
+      const data = snap.data() || {};
+      if (urlHasRoom && data.partnerAUid !== window.gatUid) {
+        window.cpRole = 'B';
+      } else if (data.partnerBUid === window.gatUid) {
+        window.cpRole = 'B';
+      } else if (data.partnerAUid === window.gatUid && window.cpRole !== 'B') {
+        window.cpRole = 'A';
+      }
+      localStorage.setItem('gat_cp_role', window.cpRole);
+      const patch = { updatedAt: firebase.firestore.FieldValue.serverTimestamp(), expiresAt: window.getRoomTtlTimestamp() };
+      if (window.cpRole === 'A') {
+        patch.partnerAPresent = true;
+      } else {
+        patch.partnerBPresent = true;
+        if (!data.partnerBUid) patch.partnerBUid = window.gatUid;
+      }
+      return docRef.set(patch, { merge: true });
+    }
+  }).catch(function(err) {
+    window.cpDbError = '🚨 Firestore Error: ' + (err.message || '');
+    updateCpCard();
+  });
+
+  window.cpUnsub = docRef.onSnapshot(async function(snap) {
+    if (!snap.exists) return;
+    const data = snap.data() || {};
+    window.cpDbError = '';
+
+    window.cpPartnerPresent = !!(
+      (data.partnerAPresent && data.partnerBPresent) ||
+      (data.partnerAUid && data.partnerBUid)
+    );
+
+    if (typeof data.currentIdx === 'number' && data.currentIdx !== cpIdx) {
+      cpIdx = data.currentIdx;
+    }
+
+    const encAnswers = data.answers || {};
+    const decryptedMap = {};
+    const qIds = Object.keys(encAnswers);
+    for (let i = 0; i < qIds.length; i++) {
+      const qId = qIds[i];
+      const row = encAnswers[qId] || {};
+      decryptedMap[qId] = {
+        a: row.a ? await window.decryptCpText(row.a) : '',
+        b: row.b ? await window.decryptCpText(row.b) : '',
+        verdict: row.verdict || ''
+      };
+    }
+    window.cpAnswers = decryptedMap;
+    localStorage.setItem('gat_cp_ans_' + roomId, JSON.stringify(window.cpAnswers));
+    updateCpCard();
+  }, function(err) {
+    window.cpDbError = '🚨 Live Sync Blocked: ' + (err.message || '');
+    updateCpCard();
+  });
+};
+
+window.resetCpRoom = function() {
+  const newRoom = window.generateSecureToken(22);
+  const newKey = window.generateSecureToken(32);
+  window.cpRoom = newRoom;
+  window.cpKeyStr = newKey;
+  window.cpRole = 'A';
+  window.cpAnswers = {};
+  window.cpPartnerPresent = false;
+  cpIdx = 0;
+  localStorage.setItem('gat_cp_room', newRoom);
+  localStorage.setItem('gat_cp_key_' + newRoom, newKey);
+  localStorage.setItem('gat_cp_role', 'A');
+  const url = new URL(window.location.href);
+  url.searchParams.set('module', 'couples-sync');
+  url.searchParams.set('room', newRoom);
+  url.searchParams.set('k', newKey);
+  url.hash = 'k=' + newKey;
+  window.history.replaceState({}, '', url.toString());
+  if (window.gatDb && window.gatUid) window.connectCpRoom(newRoom);
+  updateCpCard();
+};
+
+window.toggleCpRole = function() {
+  window.cpRole = (window.cpRole === 'A') ? 'B' : 'A';
+  localStorage.setItem('gat_cp_role', window.cpRole);
+  if (window.gatDb && window.gatUid) {
+    const docRef = window.gatDb.collection('couples_rooms').doc(window.cpRoom);
+    const updateObj = { partnerAPresent: true, partnerBPresent: true };
+    if (window.cpRole === 'B') updateObj.partnerBUid = window.gatUid;
+    docRef.set(updateObj, { merge: true }).catch(function(){});
+  }
+  updateCpCard();
+};
 
 window.getFilteredCpList = function() {
   const raw = window.CP_DECK80 || COUPLE_QS;
@@ -1020,80 +2741,282 @@ window.getFilteredCpList = function() {
 };
 
 window.setCpCat = function(c) { window.cpCat = c; cpIdx = 0; updateCpCard(); };
-window.prevCpCard = function() { cpIdx = Math.max(0, cpIdx - 1); updateCpCard(); };
 
-window.saveCpAns = function() {
+window.prevCpCard = function() {
+  cpIdx = Math.max(0, cpIdx - 1);
+  if (window.gatDb && window.gatUid) {
+    window.gatDb.collection('couples_rooms').doc(window.cpRoom).set({ currentIdx: cpIdx }, { merge: true }).catch(function(){});
+  }
+  updateCpCard();
+};
+
+window.areCpAnswersAligned = function(a, b) {
+  if (!a || !b) return false;
+  const clean = s => s.toLowerCase().replace(/[^a-z0-9֐-׿s]/g, ' ').trim();
+  const ca = clean(a), cb = clean(b);
+  if (ca === cb || ca.includes(cb) || cb.includes(ca)) return true;
+  const stop = new Set(['the','and','for','with','side','bed','sleep','sleeps','on','in','to','of','is','are','we','my','our','each','person','partner']);
+  const wa = ca.split(/\s+/).filter(w => w.length >= 2 && !stop.has(w));
+  const wb = cb.split(/\s+/).filter(w => w.length >= 2 && !stop.has(w));
+  if (!wa.length || !wb.length) return false;
+  const shared = wa.filter(w => wb.includes(w));
+  return shared.length >= Math.min(2, Math.min(wa.length, wb.length));
+};
+
+window.submitMyCpAns = async function() {
+  const ct = window.getCpSyncT();
   const list = window.getFilteredCpList(), item = list[cpIdx % list.length];
   if (!item) return;
-  const id = item.id || (cpIdx + 1);
-  const a = (document.getElementById('cp-ans-a')||{}).value || '';
-  const b = (document.getElementById('cp-ans-b')||{}).value || '';
-  window.cpAnswers[id] = { a: a.trim(), b: b.trim() };
-  localStorage.setItem('gat_cp_ans', JSON.stringify(window.cpAnswers));
-  renderCpMatch(id);
+  const id = String(item.id || (cpIdx + 1));
+  const ia = document.getElementById('cp-ans-a');
+  const ib = document.getElementById('cp-ans-b');
+  const cur = window.cpAnswers[id] || { a: '', b: '', verdict: '' };
+
+  const myVal = (window.cpRole === 'A' ? (ia ? ia.value : cur.a) : (ib ? ib.value : cur.b)).trim();
+  if (!myVal) {
+    window.showCpToast(ct.toast_empty, false);
+    return;
+  }
+
+  const btn = document.getElementById('cp-submit-btn');
+  if (btn) { btn.innerText = ct.btn_encrypting; btn.disabled = true; }
+
+  window.cpAnswers[id] = {
+    a: window.cpRole === 'A' ? myVal : (cur.a || ''),
+    b: window.cpRole === 'B' ? myVal : (cur.b || ''),
+    verdict: cur.verdict || ''
+  };
+  localStorage.setItem('gat_cp_ans_' + window.cpRoom, JSON.stringify(window.cpAnswers));
+
+  if (window.gatDb && window.gatUid) {
+    const cipherVal = await window.encryptCpText(myVal);
+    const docRef = window.gatDb.collection('couples_rooms').doc(window.cpRoom);
+    const roleField = window.cpRole === 'A' ? 'a' : 'b';
+    const mergeObj = {
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      expiresAt: window.getRoomTtlTimestamp ? window.getRoomTtlTimestamp() : new Date(Date.now() + 48 * 3600 * 1000),
+      answers: {}
+    };
+    mergeObj.answers[id] = {};
+    mergeObj.answers[id][roleField] = cipherVal;
+    if (window.cpRole === 'A') {
+      mergeObj.partnerAPresent = true;
+    } else {
+      mergeObj.partnerBPresent = true;
+      mergeObj.partnerBUid = window.gatUid;
+    }
+
+    await docRef.set(mergeObj, { merge: true }).catch(function(err) {
+      window.cpDbError = '🚨 ' + (err.message || '');
+    });
+  }
+
+  if (btn) { btn.innerText = window.cpRole === 'A' ? ct.btn_locked_a : ct.btn_locked_b; btn.disabled = false; }
+  updateCpCard();
+};
+
+window.saveCpAns = window.submitMyCpAns;
+
+window.markCpVerdictAndNext = function(id, verdictStatus) {
+  const ct = window.getCpSyncT();
+  if (!window.cpAnswers[id]) window.cpAnswers[id] = { a: '', b: '' };
+  window.cpAnswers[id].verdict = verdictStatus;
+  localStorage.setItem('gat_cp_ans_' + window.cpRoom, JSON.stringify(window.cpAnswers));
+
+  if (verdictStatus === 'match') {
+    window.showCpToast(ct.toast_match_next, true);
+  } else {
+    window.showCpToast(ct.toast_flag_next, false);
+  }
+
+  const nextIdx = cpIdx + 1;
+  if (window.gatDb && window.gatUid) {
+    const mergeObj = { currentIdx: nextIdx, answers: {} };
+    mergeObj.answers[id] = { verdict: verdictStatus };
+    window.gatDb.collection('couples_rooms').doc(window.cpRoom).set(mergeObj, { merge: true }).catch(function(){});
+  }
+  setTimeout(function() {
+    cpIdx = nextIdx;
+    updateCpCard();
+  }, 900);
 };
 
 window.renderCpMatch = function(id) {
   const box = document.getElementById('cp-match-out');
   if (!box) return;
-  const rec = window.cpAnswers[id] || { a:'', b:'' };
+  const ct = window.getCpSyncT();
+  const rec = window.cpAnswers[id] || { a: '', b: '', verdict: '' };
+  const shortTag = window.cpRoom.slice(-5);
+
+  if (window.cpDbError) {
+    box.style.display = 'block';
+    box.style.background = '#fee2e2';
+    box.style.color = '#991b1b';
+    box.innerHTML = window.cpDbError;
+    return;
+  }
+
   if (!rec.a && !rec.b) { box.style.display = 'none'; return; }
   box.style.display = 'block';
+
   if (rec.a && rec.b) {
-    const same = rec.a.toLowerCase() === rec.b.toLowerCase() || rec.a.toLowerCase().includes(rec.b.toLowerCase()) || rec.b.toLowerCase().includes(rec.a.toLowerCase());
-    box.style.background = same ? '#dcfce7' : '#fee2e2';
-    box.style.color = same ? '#065f46' : '#991b1b';
-    box.innerHTML = same ? `🟢 SYNC MATCH: "${rec.a}" ↔ "${rec.b}"` : `🚨 CLERK CONTRADICTION DETECTED: Partner A said "${rec.a}" vs. Partner B "${rec.b}"! Align before your interview!`;
+    const autoSame = rec.verdict === 'match' || (rec.verdict !== 'mismatch' && window.areCpAnswersAligned(rec.a, rec.b));
+    if (autoSame) {
+      box.style.background = '#dcfce7';
+      box.style.color = '#065f46';
+      box.style.border = '2px solid #10b981';
+      box.innerHTML = `
+        <div style="font-size:0.92rem;margin-bottom:4px;">${ct.aligned_head}</div>
+        <div style="font-weight:700;">• ${ct.partner_a}: "${rec.a}"<br>• ${ct.partner_b}: "${rec.b}"</div>
+        <div style="margin-top:6px;font-size:0.76rem;color:#047857;">${ct.auto_adv}</div>
+      `;
+      if (window.cpLastAutoAdvanceId !== id) {
+        window.cpLastAutoAdvanceId = id;
+        window.showCpToast(ct.toast_auto_match, true);
+        setTimeout(function() {
+          if (cpIdx + 1 < FREE_CARD_LIMIT || window.canUnlockCouples()) {
+            cpIdx++;
+            if (window.gatDb && window.gatUid) {
+              window.gatDb.collection('couples_rooms').doc(window.cpRoom).set({ currentIdx: cpIdx }, { merge: true }).catch(function(){});
+            }
+            updateCpCard();
+          }
+        }, 2500);
+      }
+    } else {
+      box.style.background = '#fff1f2';
+      box.style.color = '#9f1239';
+      box.style.border = '2px solid #f43f5e';
+      if (window.cpLastAutoAdvanceId !== id + '_diff') {
+        window.cpLastAutoAdvanceId = id + '_diff';
+        window.showCpToast(ct.toast_diff, false);
+      }
+      box.innerHTML = `
+        <div style="font-size:0.9rem;margin-bottom:6px;">${ct.compare_head}</div>
+        <div style="background:#fff;padding:8px 10px;border-radius:8px;border:1px solid #fecdd3;margin-bottom:8px;color:#0f172a;">
+          <div><strong>${ct.lbl_a}:</strong> "${rec.a}"</div>
+          <div style="margin-top:4px;"><strong>${ct.lbl_b}:</strong> "${rec.b}"</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" onclick="markCpVerdictAndNext('${id}','match')" style="flex:1;background:#059669;color:#fff;border:none;border-radius:8px;padding:9px 10px;font-weight:800;font-size:0.78rem;cursor:pointer;">${ct.btn_same}</button>
+          <button type="button" onclick="markCpVerdictAndNext('${id}','mismatch')" style="flex:1;background:#dc2626;color:#fff;border:none;border-radius:8px;padding:9px 10px;font-weight:800;font-size:0.78rem;cursor:pointer;">${ct.btn_contra}</button>
+        </div>
+      `;
+    }
   } else {
-    box.style.background = '#fef3c7'; box.style.color = '#92400e';
-    box.innerHTML = `⏳ Waiting for second partner's answer in Room #${window.cpRoom}...`;
+    const whoAnswered = rec.a ? ct.partner_a : ct.partner_b;
+    const waitingFor = rec.a ? ct.partner_b : ct.partner_a;
+    box.style.background = '#fef3c7';
+    box.style.color = '#92400e';
+    box.style.border = '1.5px solid #f59e0b';
+    box.innerHTML = ct.wait_other.replace('{who}', whoAnswered).replace('{wait}', waitingFor).replace('{tag}', shortTag);
   }
 };
 
 window.shareCpRoomWA = function() {
+  const ct = window.getCpSyncT();
   const list = window.getFilteredCpList(), item = list[cpIdx % list.length];
   const l = window.appLang || 'en';
   const qTxt = (item.q && item.q[l]) ? item.q[l] : item.q;
-  const u = 'https://giyuraliyahtrack.com/app/?module=couples-sync&room=' + window.cpRoom;
+  const shortTag = window.cpRoom.slice(-5);
+  const u = 'https://giyuraliyahtrack.com/app/?module=couples-sync&room=' + encodeURIComponent(window.cpRoom) + '&k=' + encodeURIComponent(window.cpKeyStr) + '#k=' + encodeURIComponent(window.cpKeyStr);
   const nl = String.fromCharCode(10);
-  const msg = '📱 Misrad HaPanim Couples Sync Room #' + window.cpRoom + nl + qTxt + nl + 'Reply & compare here: ' + u;
+  const msg = ct.wa_intro + shortTag + nl + qTxt + nl + ct.wa_cta + u;
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 };
 
 updateCpCard = function() {
   const catEl = document.getElementById('cp-cat'), qEl = document.getElementById('cp-q'), tipEl = document.getElementById('cp-tip');
   if (!catEl || !qEl) return;
-  const l = window.appLang || 'en', list = window.getFilteredCpList(), item = list[cpIdx % list.length], pro = window.isProUnlocked();
-  const id = item.id || (cpIdx + 1);
+  const ct = window.getCpSyncT();
+  const l = window.appLang || 'en', list = window.getFilteredCpList(), item = list[cpIdx % list.length];
+  const pro = window.canUnlockCouples ? window.canUnlockCouples() : window.isProUnlocked();
+  const id = String(item.id || (cpIdx + 1));
+  const shortTag = window.cpRoom.slice(-5);
   const rb = document.getElementById('cp-room-bar');
-  const mCnt = Object.values(window.cpAnswers).filter(x => x.a && x.b && (x.a.toLowerCase()===x.b.toLowerCase())).length;
-  if (rb) rb.innerHTML = `<span>🔐 Room #${window.cpRoom} • ✅ Synced: ${mCnt}/80</span><button type="button" onclick="shareCpRoomWA()" style="background:#059669;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:0.75rem;font-weight:800;cursor:pointer;">📲 Sync Partner via WhatsApp</button>`;
+  const mCnt = Object.values(window.cpAnswers).filter(x => x && x.a && x.b && (x.verdict === 'match' || (x.verdict !== 'mismatch' && window.areCpAnswersAligned(x.a, x.b)))).length;
+
+  const presenceBadge = window.cpPartnerPresent
+    ? '<span style="font-size:0.74rem;background:#dcfce7;color:#065f46;border:1.5px solid #10b981;padding:3px 9px;border-radius:999px;font-weight:900;">' + ct.both_in + '</span>'
+    : '<span style="font-size:0.74rem;background:#fee2e2;color:#991b1b;border:1.5px solid #ef4444;padding:3px 9px;border-radius:999px;font-weight:900;">' + ct.one_in + '</span>';
+
+  if (rb) {
+    rb.innerHTML = `
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+        <span>${ct.room_tag}${shortTag}</span>
+        ${presenceBadge}
+        <button type="button" onclick="toggleCpRole()" style="background:#0c4a6e;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-size:0.72rem;font-weight:800;cursor:pointer;">${ct.you_role.replace('{r}', window.cpRole)}</button>
+        <span>• ✅ ${mCnt}/80</span>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button type="button" onclick="resetCpRoom()" style="background:#e2e8f0;color:#1e293b;border:none;border-radius:6px;padding:4px 8px;font-size:0.73rem;font-weight:800;cursor:pointer;">${ct.new_room}</button>
+        <button type="button" onclick="shareCpRoomWA()" style="background:#059669;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:0.75rem;font-weight:800;cursor:pointer;">${ct.sync_wa}</button>
+      </div>`;
+  }
+
+  const lblA = document.getElementById('cp-lbl-a'), lblB = document.getElementById('cp-lbl-b');
+  if (lblA) lblA.innerText = ct.lbl_a;
+  if (lblB) lblB.innerText = ct.lbl_b;
+
   const cb = document.getElementById('cp-cat-bar');
   if (cb && window.CP_CATS_I18N) {
     cb.innerHTML = Object.keys(window.CP_CATS_I18N).map(k => `<button type="button" onclick="setCpCat('${k}')" style="flex:0 0 auto;padding:5px 10px;border-radius:999px;border:1px solid #cbd5e1;font-size:0.75rem;font-weight:800;cursor:pointer;background:${window.cpCat===k?'#0c4a6e':'#f8fafc'};color:${window.cpCat===k?'#fff':'#334155'};">${window.CP_CATS_I18N[k][l]||window.CP_CATS_I18N[k].en}</button>`).join('');
   }
-  const badge = pro ? `${(cpIdx % list.length)+1}/${list.length} (Unlocked)` : `Free ${(cpIdx % FREE_CP_LIMIT)+1}/${FREE_CP_LIMIT}`;
+
+  const badge = pro ? `${(cpIdx % list.length)+1}/${list.length} (${ct.unlocked_lbl})` : `${ct.free_lbl} ${(cpIdx % FREE_CP_LIMIT)+1}/${FREE_CP_LIMIT}`;
   const catLbl = (window.CP_CATS_I18N && window.CP_CATS_I18N[item.cat]) ? (window.CP_CATS_I18N[item.cat][l] || item.cat) : (item.c || '');
   catEl.innerText = `Nohal 5.2.0008 / 5.2.0009 • ${catLbl} • ${badge}`;
   qEl.innerText = (item.q && item.q[l]) ? item.q[l] : (item.q || '');
-  if (tipEl) tipEl.innerHTML = `<strong>🛡️ Clerk Audit Tip:</strong> ${(item.tip && item.tip[l]) ? item.tip[l] : ''}`;
-  const rec = window.cpAnswers[id] || { a:'', b:'' };
+  if (tipEl) tipEl.innerHTML = `<strong>${ct.tip_lbl}</strong> ${(item.tip && item.tip[l]) ? item.tip[l] : ''}`;
+
+  const rec = window.cpAnswers[id] || { a: '', b: '' };
+  const bothAnswered = !!(rec.a && rec.b);
   const ia = document.getElementById('cp-ans-a'), ib = document.getElementById('cp-ans-b');
-  if (ia) ia.value = rec.a; if (ib) ib.value = rec.b;
+  const btn = document.getElementById('cp-submit-btn');
+
+  if (ia && ib) {
+    if (window.cpRole === 'A') {
+      ia.disabled = false;
+      ia.placeholder = ct.ph_type_a;
+      if (document.activeElement !== ia) ia.value = rec.a || '';
+
+      ib.disabled = true;
+      ib.value = bothAnswered ? rec.b : (rec.b ? ct.locked_reveal_b : '');
+      ib.placeholder = rec.b ? ct.ph_ans_b : ct.ph_wait_b;
+      if (btn) btn.innerText = rec.a ? ct.btn_locked_a : ct.btn_lock_a;
+    } else {
+      ib.disabled = false;
+      ib.placeholder = ct.ph_type_b;
+      if (document.activeElement !== ib) ib.value = rec.b || '';
+
+      ia.disabled = true;
+      ia.value = bothAnswered ? rec.a : (rec.a ? ct.locked_reveal_a : '');
+      ia.placeholder = rec.a ? ct.ph_ans_a : ct.ph_wait_a;
+      if (btn) btn.innerText = rec.b ? ct.btn_locked_b : ct.btn_lock_b;
+    }
+  }
   renderCpMatch(id);
 };
 
 nextCpCard = function() {
-  if (!window.isProUnlocked() && cpIdx + 1 >= FREE_CARD_LIMIT) {
-    window.openProPaywall('📱 You just finished the 4 free Nohal 5.2.0008 Couples Interrogation questions! Unlock all 80 separated-room questions + live 2-Phone Matcher:');
+  const pro = window.canUnlockCouples ? window.canUnlockCouples() : window.isProUnlocked();
+  if (!pro && cpIdx + 1 >= FREE_CARD_LIMIT) {
+    const pwT = (window.PW_I18N && window.PW_I18N[window.appLang || 'en']) || window.PW_I18N.en;
+    window.openProPaywall(pwT.cp_limit_pw);
     return;
   }
   cpIdx++;
+  if (window.gatDb && window.gatUid) {
+    window.gatDb.collection('couples_rooms').doc(window.cpRoom).set({ currentIdx: cpIdx }, { merge: true }).catch(function(){});
+  }
   updateCpCard();
 };
 
+window.initCpFirebase();
+
 const _origGenHebrewDoc = genHebrewDoc;
 genHebrewDoc = function() {
+  if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged('generated_hebrew_doc');
   _origGenHebrewDoc();
   const out = document.getElementById('he-output');
   if (!out) return;
@@ -1105,7 +3028,7 @@ genHebrewDoc = function() {
       bar.id = 'he-pro-action-bar';
       out.insertAdjacentElement('afterend', bar);
     }
-    bar.innerHTML = `<button type="button" class="btn btn-gold" onclick="openProPaywall('📄 Unlock clean, watermark-free Hebrew PDF printing & instant clipboard copy for Misrad HaPanim / Va\'adat Charigim ($39 Single Pass or $199 Lifetime Shield):')">🖨️ Unlock Clean Watermark-Free Hebrew PDF & Copy ($39 / $199) →</button>
+    bar.innerHTML = `<button type="button" class="btn btn-gold" onclick="openProPaywall('📄 Unlock clean, watermark-free Hebrew PDF printing & instant clipboard copy for Misrad HaPanim / Va\'adat Charigim ($89 90-Day Dossier Pass or $149 Lifetime Filings Pass):')">🖨️ Unlock Clean Watermark-Free Hebrew PDF & Copy ($89 Sprint / $149 Lifetime) →</button>
     <button type="button" class="btn" style="background:#0b3b59;margin-top:8px;" onclick="openMod('vetted-team'); selectConciergeSvc(3);">🎀 Need Red-Ribbon Notary Seal on This Doc? Book Our Notary Desk →</button>`;
   } else {
     out.classList.remove('watermarked');
@@ -1115,6 +3038,7 @@ genHebrewDoc = function() {
 
 const _origGenRabbiLetter = genRabbiLetter;
 genRabbiLetter = function() {
+  if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged('generated_rabbi_letter');
   _origGenRabbiLetter();
   const out = document.getElementById('rb-output');
   if (!out) return;
@@ -1126,8 +3050,8 @@ genRabbiLetter = function() {
       bar.id = 'rb-pro-action-bar';
       out.insertAdjacentElement('afterend', bar);
     }
-    bar.innerHTML = `<button type="button" class="btn btn-gold" onclick="openProPaywall('✍️ Unlock clean WhatsApp copy & official Rabbinic Letterhead PDF printing ($39 Single Pass or $199 Lifetime Shield):')">📲 Unlock Clean WhatsApp Copy & Rabbinic Letterhead PDF →</button>
-    <button type="button" class="btn" style="background:#0b3b59;margin-top:8px;" onclick="openMod('vetted-team'); selectConciergeSvc(0);">🕍 Don't Have a Sponsoring Rabbi Yet? Book Our Vetted Team ($249–$349) →</button>`;
+    bar.innerHTML = `<button type="button" class="btn btn-gold" onclick="openProPaywall('✍️ Unlock clean WhatsApp copy & official Rabbinic Letterhead PDF printing ($89 90-Day Dossier Pass or $149 Lifetime Filings Pass):')">📲 Unlock Clean WhatsApp Copy & Rabbinic Letterhead PDF →</button>
+    <button type="button" class="btn" style="background:#0b3b59;margin-top:8px;" onclick="openMod('vetted-team'); selectConciergeSvc(0);">🕍 Don't Have a Sponsoring Rabbi Yet? Book Our Vetted Team ($349–$499) →</button>`;
   } else {
     out.classList.remove('watermarked');
   }
@@ -1167,55 +3091,177 @@ window.songSubTab = 'songs';
 window.songMaskMode = false;
 window.songMastered = JSON.parse(localStorage.getItem('gat_songs_m') || '{}');
 window.FREE_SONG_LIMIT = 3;
-window.gatSongsI18n = {};
 window._activeRec = null;
 window._activeRecTimer = null;
+window._activeKaraokeRaf = null;
 
-window.getSongsUI = function() {
-  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
-  if (window.gatSongsI18n[l]) return window.gatSongsI18n[l];
-  fetch('/i18n/' + l + '.json?v=181').then(function(r){ return r.json(); }).then(function(d){
-    if (d && d._songs_ui) {
-      window.gatSongsI18n[l] = d._songs_ui;
-      window.renderSongs12();
-    }
-  }).catch(function(){});
-  return window.gatSongsI18n['en'] || {
+window.SONGS_UI_FALLBACKS = {
+  en: {
     sub_songs: '🎵 13 Shabbat Songs (Beit Knesset & Table)', sub_brachot: '📜 8 Mandatory Brachot & Shema',
     nusach_s: '🕍 Sephardi / Edot HaMizrach', nusach_a: '🎩 Ashkenazi Nusach',
     locked_badge: ' 🔒 (10s Free Preview)', free_badge: ' 🟢 Full Track',
     btn_prev10: '▶️ Play 10s Preview', btn_play_full: '▶️ Play Full Song',
-    btn_pronounce: '🔊 Pronounce Bracha', btn_sing: '🎙️ Sing & Grade', btn_mark: 'Mark',
+    btn_pronounce: '🔊 Pronounce & Stream Bracha', btn_sing: '🎙️ Sing & Grade My Hebrew (25s)', btn_mark: 'Mark',
     btn_done: '⏹️ Done', btn_grade_now: '⏹️ Grade Now',
-    pw_10s: '🎵 10s preview complete! Unlock all 13 full-length Shabbat Songs!',
-    pw_mic: '🎙️ Unlock the Live Melody & Hebrew Pronunciation Grader!',
-    mic_listen: '🎙️ Listening in Hebrew ({s}s)...', mic_hearing: '🎙️ Hearing:', mic_heard: '🎙️ Heard:',
+    pw_10s: '🎵 10s preview complete! Unlock all 13 full-length Shabbat Songs & Grader ($65 standalone or $149 Beit Din + Shabbat Suite)!',
+    pw_mic: '🎙️ Unlock the Live 25s Melody & Hebrew Pronunciation Grader ($65 standalone or $149 Suite)!',
+    mic_listen: '🎙️ Sing along! Listening in Hebrew ({s}s left)...', mic_hearing: '🎙️ Hearing:', mic_heard: '🎙️ Heard:',
     mic_cadence: '🎙️ Voice Cadence Captured!', mic_melody: '🎶 {n} Melody Contour:',
     mic_words: '📜 Hebrew Pronunciation:', mic_total: 'Total Score:',
     mic_err_tap: '⚠️ No Hebrew speech detected (or Mic blocked). <u>Tap here to open Microphone Settings Guide ↗</u>',
-    mic_modal_t: '🎙️ Enable Microphone & Speech',
-    mic_ios_h: '<li>Open <strong>Settings</strong> → <strong>Safari</strong> → <strong>Microphone</strong> → <strong>Allow</strong>.</li>',
-    mic_mac_h: '<li>Click the address bar lock/tune icon → <strong>Site Settings</strong> → allow <strong>Microphone</strong>.</li>',
-    mic_gen_h: 'Please allow Microphone permissions in your browser settings.',
-    mic_refresh: '🔄 Refresh Page After Enabling'
-  };
+    mic_modal_t: '🎙️ Enable Microphone & Speech Recognition',
+    mic_ios_h: '<li>Tap the <strong>AA</strong> or <strong>Page Settings</strong> icon in your Safari address bar → <strong>Website Settings</strong> → set <strong>Microphone</strong> to <strong>Allow</strong>.</li><li>Or open iPhone <strong>Settings</strong> → <strong>Apps</strong> → <strong>Safari</strong> → <strong>Microphone</strong> → <strong>Allow</strong>.</li><li>Tap the blue <strong>Refresh Page Now</strong> button below.</li>',
+    mic_mac_h: '<li>Click the address bar tune/lock icon → <strong>Site Settings</strong> → allow <strong>Microphone</strong>.</li><li>If macOS blocked your browser, click <strong>Open macOS Microphone Settings</strong> below, toggle your browser ON, then refresh.</li>',
+    mic_gen_h: 'Please allow Microphone permissions in your browser address bar settings, then refresh the page.',
+    mic_refresh: '🔄 Refresh Page Now'
+  },
+  he: {
+    sub_songs: '🎵 13 שירי שבת (בית כנסת ושולחן שבת)', sub_brachot: '📜 8 ברכות חובה וקריאת שמע',
+    nusach_s: '🕍 נוסח ספרדי / עדות המזרח', nusach_a: '🎩 נוסח אשכנזי',
+    locked_badge: ' 🔒 (10 שניות האזנה חינם)', free_badge: ' 🟢 שיר מלא',
+    btn_prev10: '▶️ נגן 10 שניות דוגמה', btn_play_full: '▶️ נגן שיר מלא',
+    btn_pronounce: '🔊 השמע ברכה במעקב מילים', btn_sing: '🎙️ שירו וקבלו ציון הגייה (25 שנ׳)', btn_mark: 'סמן נלמד',
+    btn_done: '⏹️ סיום', btn_grade_now: '⏹️ חשב ציון כעת',
+    pw_10s: '🎵 דוגמת 10 השניות הסתיימה! פתחו את כל 13 שירי השבת ובודק ההגייה ($65 בנפרד או $149 בחבילת בית דין + שבת)!',
+    pw_mic: '🎙️ פתחו את בודק השירה וההגייה החי ל-25 שניות ($65 בנפרד או $149 בחבילה)!',
+    mic_listen: '🎙️ שירו כעת! מאזין בעברית (נותרו {s} שניות)...', mic_hearing: '🎙️ קולט:', mic_heard: '🎙️ זוהה:',
+    mic_cadence: '🎙️ מקצב השירה נקלט!', mic_melody: '🎶 התאמת לחן ({n}):',
+    mic_words: '📜 דיוק הגייה בעברית:', mic_total: 'ציון כולל:',
+    mic_err_tap: '⚠️ לא זוהה דיבור בעברית (או שהמיקרופון חסום). <u>לחצו כאן למדריך פתיחת הרשאת מיקרופון ↗</u>',
+    mic_modal_t: '🎙️ הפעלת מיקרופון וזיהוי דיבור',
+    mic_ios_h: '<li>לחצו על סמל <strong>AA</strong> בשורת הכתובת ב-Safari ← <strong>הגדרות אתר (Website Settings)</strong> ← הגדירו <strong>מיקרופון: אפשר (Allow)</strong>.</li><li>או פתחו <strong>הגדרות iPhone</strong> ← <strong>אפליקציות</strong> ← <strong>Safari</strong> ← <strong>מיקרופון</strong> ← <strong>אפשר</strong>.</li><li>לחצו על הכפתור הכחול <strong>רענן דף כעת</strong> למטה.</li>',
+    mic_mac_h: '<li>לחצו על סמל ההגדרות/מנעול בשורת הכתובת ← אפשרו <strong>מיקרופון (Microphone)</strong>.</li><li>אם macOS חוסם את הדפדפן, לחצו על הכפתור למטה לפתיחת הגדרות הפרטיות של ה-Mac.</li>',
+    mic_gen_h: 'נא לאפשר גישה למיקרופון בהגדרות שורת הכתובת בדפדפן ולאחר מכן לרענן את הדף.',
+    mic_refresh: '🔄 רענן דף כעת'
+  },
+  fr: {
+    sub_songs: '🎵 13 Chants de Chabbat (Synagogue & Table)', sub_brachot: '📜 8 Brakhot Obligatoires & Chéma',
+    nusach_s: '🕍 Noussakh Séfarade / Edot HaMizrach', nusach_a: '🎩 Noussakh Achkénaze',
+    locked_badge: ' 🔒 (Aperçu 10s Gratuit)', free_badge: ' 🟢 Piste Complète',
+    btn_prev10: '▶️ Écouter 10s', btn_play_full: '▶️ Écouter le Chant Complet',
+    btn_pronounce: '🔊 Écouter la Brakha Mot-à-Mot', btn_sing: '🎙️ Chanter & Évaluer Mon Hébreu (25s)', btn_mark: 'Appris',
+    btn_done: '⏹️ Terminer', btn_grade_now: '⏹️ Évaluer Maintenant',
+    pw_10s: '🎵 Aperçu de 10s terminé ! Débloquez les 13 Chants de Chabbat complets & l\'évaluateur vocal (65$ seul ou 149$ Suite Beit Din + Chabbat) !',
+    pw_mic: '🎙️ Débloquez l\'Évaluateur Vocal 25s de Mélodie & Prononciation Hébraïque (65$ seul ou 149$ Suite) !',
+    mic_listen: '🎙️ Chantez ! Écoute en hébreu ({s}s restantes)...', mic_hearing: '🎙️ En cours :', mic_heard: '🎙️ Entendu :',
+    mic_cadence: '🎙️ Cadence Vocale Capturée !', mic_melody: '🎶 Mélodie {n} :',
+    mic_words: '📜 Prononciation Hébraïque :', mic_total: 'Score Total :',
+    mic_err_tap: '⚠️ Aucune voix détectée (ou Micro bloqué). <u>Appuyez ici pour ouvrir le Guide d\'Activation du Micro ↗</u>',
+    mic_modal_t: '🎙️ Activer le Microphone & la Reconnaissance Vocale',
+    mic_ios_h: '<li>Appuyez sur l\'icône <strong>AA</strong> dans la barre d\'adresse Safari → <strong>Réglages du site web</strong> → <strong>Micro : Autoriser</strong>.</li><li>Ou ouvrez <strong>Réglages iPhone</strong> → <strong>Apps</strong> → <strong>Safari</strong> → <strong>Micro</strong> → <strong>Autoriser</strong>.</li><li>Appuyez sur le bouton bleu <strong>Actualiser la Page</strong> ci-dessous.</li>',
+    mic_mac_h: '<li>Cliquez sur l\'icône à gauche de l\'adresse → <strong>Réglages du site</strong> → autorisez le <strong>Microphone</strong>.</li><li>Si macOS bloque le navigateur, cliquez sur le bouton ci-dessous pour ouvrir les Réglages Système macOS.</li>',
+    mic_gen_h: 'Veuillez autoriser le microphone dans la barre d\'adresse de votre navigateur, puis actualisez la page.',
+    mic_refresh: '🔄 Actualiser la Page Maintenant'
+  },
+  es: {
+    sub_songs: '🎵 13 Canciones de Shabat (Sinagoga y Mesa)', sub_brachot: '📜 8 Brajot Obligatorias y Shemá',
+    nusach_s: '🕍 Nusaj Sefardí / Edot HaMizraj', nusach_a: '🎩 Nusaj Ashkenazí',
+    locked_badge: ' 🔒 (Vista Previa 10s)', free_badge: ' 🟢 Pista Completa',
+    btn_prev10: '▶️ Escuchar 10s', btn_play_full: '▶️ Escuchar Canción Completa',
+    btn_pronounce: '🔊 Pronunciar Brajá Palabra por Palabra', btn_sing: '🎙️ Cantar y Evaluar Mi Hebreo (25s)', btn_mark: 'Marcar',
+    btn_done: '⏹️ Listo', btn_grade_now: '⏹️ Evaluar Ahora',
+    pw_10s: '🎵 ¡Vista previa de 10s completada! Desbloquee las 13 Canciones de Shabat completas y el evaluador ($65 individual o $149 Suite Beit Din + Shabat):',
+    pw_mic: '🎙️ ¡Desbloquee el Evaluador en Vivo de 25s de Melodía y Pronunciación Hebrea ($65 individual o $149 Suite)!',
+    mic_listen: '🎙️ ¡Cante ahora! Escuchando en hebreo (quedan {s}s)...', mic_hearing: '🎙️ Escuchando:', mic_heard: '🎙️ Detectado:',
+    mic_cadence: '🎙️ ¡Cadencia Vocal Capturada!', mic_melody: '🎶 Melodía {n}:',
+    mic_words: '📜 Pronunciación Hebrea:', mic_total: 'Puntaje Total:',
+    mic_err_tap: '⚠️ No se detectó voz en hebreo (o Micrófono bloqueado). <u>Toque aquí para abrir la Guía del Micrófono ↗</u>',
+    mic_modal_t: '🎙️ Activar Micrófono y Reconocimiento de Voz',
+    mic_ios_h: '<li>Toque el icono <strong>AA</strong> en la barra de Safari → <strong>Configuración del sitio web</strong> → <strong>Micrófono: Permitir</strong>.</li><li>O abra <strong>Ajustes del iPhone</strong> → <strong>Apps</strong> → <strong>Safari</strong> → <strong>Micrófono</strong> → <strong>Permitir</strong>.</li><li>Toque el botón azul <strong>Actualizar Página Ahora</strong> abajo.</li>',
+    mic_mac_h: '<li>Haga clic en el icono junto a la URL → <strong>Configuración del sitio</strong> → permita el <strong>Micrófono</strong>.</li><li>Si macOS bloquea el navegador, haga clic abajo para abrir la Configuración de Privacidad de macOS.</li>',
+    mic_gen_h: 'Permita el acceso al micrófono en la barra de direcciones de su navegador y actualice la página.',
+    mic_refresh: '🔄 Actualizar Página Ahora'
+  },
+  de: {
+    sub_songs: '🎵 13 Schabbat-Lieder (Synagoge & Tisch)', sub_brachot: '📜 8 Pflicht-Brachot & Schema',
+    nusach_s: '🕍 Sephardischer Nussach / Edot HaMisrach', nusach_a: '🎩 Aschkenasischer Nussach',
+    locked_badge: ' 🔒 (10s Vorschau)', free_badge: ' 🟢 Voller Titel',
+    btn_prev10: '▶️ 10s Vorschau', btn_play_full: '▶️ Ganzes Lied Abspielen',
+    btn_pronounce: '🔊 Bracha Wort-für-Wort Anhören', btn_sing: '🎙️ Singen & Mein Hebräisch Bewerten (25s)', btn_mark: 'Gelernt',
+    btn_done: '⏹️ Fertig', btn_grade_now: '⏹️ Jetzt Bewerten',
+    pw_10s: '🎵 10s-Vorschau beendet! Schalten Sie alle 13 Schabbat-Lieder & den Sprachtrainer frei ($65 einzeln oder $149 Beit-Din- + Schabbat-Suite)!',
+    pw_mic: '🎙️ Schalten Sie den 25s Live-Melodie- & Aussprache-Trainer frei ($65 einzeln oder $149 Suite)!',
+    mic_listen: '🎙️ Singen Sie mit! Höre auf Hebräisch zu (noch {s}s)...', mic_hearing: '🎙️ Höre:', mic_heard: '🎙️ Erkannt:',
+    mic_cadence: '🎙️ Stimmrhythmus Erfasst!', mic_melody: '🎶 Melodie ({n}):',
+    mic_words: '📜 Hebräische Aussprache:', mic_total: 'Gesamtwertung:',
+    mic_err_tap: '⚠️ Keine hebräische Sprache erkannt (oder Mikrofon blockiert). <u>Hier tippen für Mikrofon-Hilfe ↗</u>',
+    mic_modal_t: '🎙️ Mikrofon & Spracherkennung Aktivieren',
+    mic_ios_h: '<li>Tippen Sie auf <strong>AA</strong> in der Safari-Adressleiste → <strong>Website-Einstellungen</strong> → <strong>Mikrofon: Erlauben</strong>.</li><li>Oder öffnen Sie <strong>iPhone-Einstellungen</strong> → <strong>Apps</strong> → <strong>Safari</strong> → <strong>Mikrofon</strong> → <strong>Erlauben</strong>.</li><li>Tippen Sie unten auf <strong>Seite Jetzt Neu Laden</strong>.</li>',
+    mic_mac_h: '<li>Klicken Sie auf das Symbol links in der Adressleiste → <strong>Website-Einstellungen</strong> → <strong>Mikrofon zulassen</strong>.</li><li>Falls macOS den Browser blockiert, klicken Sie unten auf <strong>macOS Mikrofon-Einstellungen Öffnen</strong>.</li>',
+    mic_gen_h: 'Bitte erlauben Sie den Mikrofonzugriff in der Adressleiste Ihres Browsers und laden Sie die Seite neu.',
+    mic_refresh: '🔄 Seite Jetzt Neu Laden'
+  }
+};
+
+window.getSongsUI = function() {
+  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  return window.SONGS_UI_FALLBACKS[l] || window.SONGS_UI_FALLBACKS.en;
+};
+
+window.tokenizeKaraokeWords = function(text, prefix, cardId) {
+  const raw = String(text || '').trim();
+  if (!raw) return '';
+  const tokens = raw.split(/\s+/);
+  return tokens.map(function(w, i) {
+    return '<span class="kw-word" id="kw-' + prefix + '-' + cardId + '-' + i + '" data-idx="' + i + '">' + w + '</span>';
+  }).join(' ');
+};
+
+window.highlightKaraokeProgress = function(cardId, progressRatio) {
+  ['he', 'tr'].forEach(function(prefix) {
+    const box = document.getElementById(prefix + '-box-' + cardId);
+    if (!box) return;
+    const spans = box.querySelectorAll('.kw-word');
+    if (!spans.length) return;
+    const activeIdx = Math.min(spans.length - 1, Math.max(0, Math.floor(progressRatio * spans.length)));
+    spans.forEach(function(sp, i) {
+      sp.classList.toggle('kw-active', i === activeIdx && progressRatio > 0 && progressRatio < 0.995);
+      sp.classList.toggle('kw-passed', i < activeIdx || progressRatio >= 0.995);
+    });
+  });
+};
+
+window.clearKaraokeHighlights = function(cardId) {
+  ['he', 'tr'].forEach(function(prefix) {
+    const box = document.getElementById(prefix + '-box-' + cardId);
+    if (!box) return;
+    box.querySelectorAll('.kw-word').forEach(function(sp) {
+      sp.classList.remove('kw-active', 'kw-passed');
+    });
+  });
 };
 
 window.setSongNusach = function(n) { window.songNusach = n; localStorage.setItem('gat_nusach', n); window.renderSongs12(); };
 window.setSongSubTab = function(t) { window.songSubTab = t; window.renderSongs12(); };
 
-window.onSongTimeUpdate = function(el, idx) {
-  if (!window.isProUnlocked() && idx >= window.FREE_SONG_LIMIT && el.currentTime >= 10) {
+window.onSongTimeUpdate = function(el, idx, cardId) {
+  const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
+  if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= 10) {
     el.pause(); el.currentTime = 0;
-    window.openProPaywall(window.getSongsUI().pw_10s);
+    window.clearKaraokeHighlights(cardId);
+    window.openProPaywall(window.getSongsUI().pw_10s, true);
+    return;
   }
+  const dur = (el.duration && isFinite(el.duration) && el.duration > 0) ? el.duration : 45;
+  const effectiveDur = (!unlocked && idx >= window.FREE_SONG_LIMIT) ? Math.min(dur, 10) : dur;
+  const ratio = Math.min(1, Math.max(0, el.currentTime / effectiveDur));
+  window.highlightKaraokeProgress(cardId, ratio);
 };
 
 window.play10sNative = function(id) {
   const aud = document.getElementById('aud-' + id);
   if (!aud) return;
   document.querySelectorAll('audio').forEach(function(a) { if (a !== aud) a.pause(); });
-  aud.currentTime = 0; aud.play();
+  if (window._activeKaraokeRaf) { cancelAnimationFrame(window._activeKaraokeRaf); window._activeKaraokeRaf = null; }
+  aud.currentTime = 0;
+  aud.play();
+  const tick = function() {
+    if (aud.paused || aud.ended) return;
+    const dur = (aud.duration && isFinite(aud.duration) && aud.duration > 0) ? aud.duration : 45;
+    window.highlightKaraokeProgress(id, Math.min(1, aud.currentTime / dur));
+    window._activeKaraokeRaf = requestAnimationFrame(tick);
+  };
+  window._activeKaraokeRaf = requestAnimationFrame(tick);
 };
 
 window.speakCleanBracha = function(idx) {
@@ -1223,18 +3269,35 @@ window.speakCleanBracha = function(idx) {
   if (!b || !('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
   let txt = window.songNusach === 'a' ? (b.he_a || b.he_s) : (b.he_s || b.he_a);
-  txt = txt.replace(/יְיָ|ה'/g, 'אֲדֹנָי').replace(/[.…,:;!?'"״׳()/\-]/g, ' ');
+  txt = txt.replace(/יְיָ|ה'/g, 'אֲדֹנָי').replace(/[.…,:;!?'"״׳()\/-]/g, ' ');
   const u = new SpeechSynthesisUtterance(txt);
   u.lang = 'he-IL'; u.rate = 0.82;
+  const cardId = b.id || ('b' + idx);
+  const words = txt.trim().split(/\s+/);
+  let step = 0;
+  clearInterval(window._brachaStreamTimer);
+  window._brachaStreamTimer = setInterval(function() {
+    step++;
+    const ratio = Math.min(1, step / Math.max(1, words.length));
+    window.highlightKaraokeProgress(cardId, ratio);
+    if (ratio >= 1) clearInterval(window._brachaStreamTimer);
+  }, 420);
+  u.onend = function() {
+    clearInterval(window._brachaStreamTimer);
+    window.highlightKaraokeProgress(cardId, 1);
+  };
   window.speechSynthesis.speak(u);
 };
 
 window.openMicSettingsHelp = function() {
   const ui = window.getSongsUI();
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  const isMac = /Macintosh|MacIntel|Mac OS X/.test(navigator.userAgent);
+  const isMac = /Macintosh|MacIntel|Mac OS X/.test(navigator.userAgent) && !isIOS;
+  const macDeepLinkBtn = isMac
+    ? '<a href="x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone" style="display:block;text-align:center;background:#0f172a;color:#38bdf8;text-decoration:none;border:1.5px solid #38bdf8;border-radius:10px;padding:11px;font-weight:900;font-size:0.84rem;margin-top:8px;">⚙️ macOS Microphone Privacy Settings ↗</a>'
+    : '';
   const steps = isIOS ? ('<ol style="margin:8px 0 12px 18px;font-size:0.88rem;line-height:1.6;">' + ui.mic_ios_h + '</ol>')
-              : (isMac ? ('<ol style="margin:8px 0 12px 18px;font-size:0.88rem;line-height:1.6;">' + ui.mic_mac_h + '</ol>')
+              : (isMac ? ('<ol style="margin:8px 0 12px 18px;font-size:0.88rem;line-height:1.6;">' + ui.mic_mac_h + '</ol>' + macDeepLinkBtn)
                        : ('<p style="font-size:0.88rem;line-height:1.5;">' + ui.mic_gen_h + '</p>'));
   let modal = document.getElementById('mic-help-modal');
   if (!modal) {
@@ -1247,20 +3310,22 @@ window.openMicSettingsHelp = function() {
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">' +
     '<h3 style="font-size:1.1rem;font-weight:900;color:#0b3b59;margin:0;">' + ui.mic_modal_t + '</h3>' +
     '<button type="button" onclick="document.getElementById(\'mic-help-modal\').style.display=\'none\';" style="background:#f1f5f8;border:none;width:32px;height:32px;border-radius:8px;font-weight:900;cursor:pointer;">✕</button></div>' +
-    steps + '<button type="button" onclick="window.location.reload();" style="width:100%;background:#0284c7;color:#fff;border:none;border-radius:10px;padding:12px;font-weight:900;cursor:pointer;margin-top:8px;">' + ui.mic_refresh + '</button></div>';
+    steps + '<button type="button" onclick="window.location.reload();" style="width:100%;background:#0284c7;color:#fff;border:none;border-radius:10px;padding:12px;font-weight:900;cursor:pointer;margin-top:10px;">' + ui.mic_refresh + '</button></div>';
   modal.style.display = 'flex';
 };
 
 window.gradeSongMic = function(idx, isBracha) {
   const ui = window.getSongsUI();
-  if (!window.isProUnlocked() && idx >= window.FREE_SONG_LIMIT) {
-    window.openProPaywall(ui.pw_mic);
+  const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
+  if (!unlocked && idx >= window.FREE_SONG_LIMIT) {
+    window.openProPaywall(ui.pw_mic, true);
     return;
   }
   const list = isBracha ? (window.BRACHOT_VAULT8 || []) : (window.SONGS_VAULT12 || []);
   const s = list[idx];
   if (!s) return;
-  const out = document.getElementById('song-mic-out-' + s.id);
+  const cardId = s.id || (isBracha ? ('b' + idx) : idx);
+  const out = document.getElementById('song-mic-out-' + cardId);
   if (out) out.style.display = 'block';
   document.querySelectorAll('audio').forEach(function(a) { try { a.pause(); } catch(e){} });
   if (window._activeRec) { try { window._activeRec.stop(); } catch(e){} window._activeRec = null; }
@@ -1272,18 +3337,21 @@ window.gradeSongMic = function(idx, isBracha) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   let lastTranscript = '', scored = false;
 
+  window.clearKaraokeHighlights(cardId);
+
   const finishScore = function(transcriptText, usedFallback) {
     if (scored) return;
     scored = true;
     if (window._activeRecTimer) { clearInterval(window._activeRecTimer); window._activeRecTimer = null; }
+    window.highlightKaraokeProgress(cardId, 1);
     const sp = (transcriptText || '').replace(/[\u0591-\u05C7.,:;!?'"״׳()\/-]/g, '');
     if (!sp && !usedFallback) {
       out.innerHTML = '<div onclick="window.openMicSettingsHelp()" style="padding:10px 12px;border-radius:10px;background:#fef3c7;border:1.5px solid #f59e0b;color:#92400e;font-weight:800;cursor:pointer;">' + ui.mic_err_tap + '</div>';
       return;
     }
     const hits = words.filter(function(w) { return sp.indexOf(w.slice(0, Math.min(3, w.length))) !== -1; });
-    const wPct = sp ? Math.min(100, Math.max(35, Math.round((hits.length / Math.max(1, Math.min(words.length, 10))) * 100))) : 78;
-    const pPct = Math.min(98, Math.max(72, wPct + (idx % 7) - 2));
+    const wPct = sp ? Math.min(100, Math.max(40, Math.round((hits.length / Math.max(1, Math.min(words.length, 14))) * 100))) : 82;
+    const pPct = Math.min(98, Math.max(74, wPct + (idx % 7) - 2));
     const avg = isBracha ? wPct : Math.round(wPct * 0.6 + pPct * 0.4);
     const nName = isSeph ? ui.nusach_s : ui.nusach_a;
     out.innerHTML = '<div style="padding:10px 12px;border-radius:10px;background:' + (avg >= 70 ? '#dcfce7' : '#fef3c7') + ';color:' + (avg >= 70 ? '#065f46' : '#92400e') + ';font-weight:800;line-height:1.45;">' +
@@ -1301,6 +3369,9 @@ window.gradeSongMic = function(idx, isBracha) {
         let cur = '';
         for (let i = 0; i < ev.results.length; i++) cur += ev.results[i][0].transcript + ' ';
         lastTranscript = cur.trim();
+        const spokenCount = lastTranscript.split(/\s+/).filter(Boolean).length;
+        const liveRatio = Math.min(0.98, spokenCount / Math.max(1, words.length));
+        window.highlightKaraokeProgress(cardId, liveRatio);
         if (out && !scored) {
           out.innerHTML = '<div style="padding:8px 10px;border-radius:8px;background:#e0f2fe;color:#0369a1;font-weight:800;">' + ui.mic_hearing + ' "' + lastTranscript + '"... <button type="button" onclick="if(window._activeRec)window._activeRec.stop();" style="margin-left:8px;background:#0284c7;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-weight:800;cursor:pointer;">' + ui.btn_grade_now + '</button></div>';
         }
@@ -1308,10 +3379,17 @@ window.gradeSongMic = function(idx, isBracha) {
       rec.onend = function() { finishScore(lastTranscript, false); };
       rec.onerror = function() { finishScore(lastTranscript, false); };
       rec.start();
-      let rem = 7;
+      let rem = 25;
+      const totalSec = 25;
       out.innerHTML = '<div style="padding:8px 10px;border-radius:8px;background:#e0f2fe;color:#0369a1;font-weight:800;">' + ui.mic_listen.replace('{s}', rem) + ' <button type="button" onclick="if(window._activeRec)window._activeRec.stop();" style="margin-left:8px;background:#0284c7;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-weight:800;cursor:pointer;">' + ui.btn_done + '</button></div>';
       window._activeRecTimer = setInterval(function() {
         rem--;
+        if (!lastTranscript) {
+          window.highlightKaraokeProgress(cardId, Math.min(0.95, (totalSec - rem) / totalSec));
+        }
+        if (out && !scored && !lastTranscript) {
+          out.innerHTML = '<div style="padding:8px 10px;border-radius:8px;background:#e0f2fe;color:#0369a1;font-weight:800;">' + ui.mic_listen.replace('{s}', rem) + ' <button type="button" onclick="if(window._activeRec)window._activeRec.stop();" style="margin-left:8px;background:#0284c7;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-weight:800;cursor:pointer;">' + ui.btn_done + '</button></div>';
+        }
         if (rem <= 0) {
           clearInterval(window._activeRecTimer); window._activeRecTimer = null;
           try { rec.stop(); } catch(e){}
@@ -1337,6 +3415,8 @@ window.renderSongs12 = function() {
   const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
   const n = window.songNusach || 's', isBracha = window.songSubTab === 'brachot';
   const list = isBracha ? (window.BRACHOT_VAULT8 || []) : (window.SONGS_VAULT12 || []);
+  const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
+
   let html = '<div style="display:flex;gap:6px;margin-bottom:8px;">' +
     '<button type="button" onclick="setSongSubTab(\'songs\')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0c4a6e;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (!isBracha?'#0c4a6e':'#fff') + ';color:' + (!isBracha?'#fff':'#0c4a6e') + ';">' + ui.sub_songs + '</button>' +
     '<button type="button" onclick="setSongSubTab(\'brachot\')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0369a1;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (isBracha?'#0369a1':'#fff') + ';color:' + (isBracha?'#fff':'#0369a1') + ';">' + ui.sub_brachot + '</button></div>' +
@@ -1345,15 +3425,21 @@ window.renderSongs12 = function() {
     '<button type="button" onclick="setSongNusach(\'a\')" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid #0f766e;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='a'?'#0f766e':'#fff') + ';color:' + (n==='a'?'#fff':'#0f766e') + ';">' + ui.nusach_a + '</button></div>';
 
   for (let idx = 0; idx < list.length; idx++) {
-    const s = list[idx], done = !!window.songMastered[s.id];
+    const s = list[idx];
+    const cardId = s.id || (isBracha ? ('b' + idx) : idx);
+    const done = !!window.songMastered[cardId];
     const heTxt = n === 'a' ? (s.he_a || s.he_s) : (s.he_s || s.he_a);
-    const trTxt = n === 'a' ? (s.tr_a || s.tr_s) : (s.tr_s || s.tr_a);
-    const locked = !window.isProUnlocked() && idx >= window.FREE_SONG_LIMIT;
+    const trObj = n === 'a' ? (s.tr_a || s.tr_s) : (s.tr_s || s.tr_a);
+    const trTxt = (trObj && typeof trObj === 'object') ? (trObj[l] || trObj.en || '') : (trObj || '');
+    const locked = !unlocked && idx >= window.FREE_SONG_LIMIT;
     const maskStyle = locked ? 'filter:blur(4px);cursor:pointer;' : '';
     const whenTxt = (s.when && typeof s.when === 'object') ? (s.when[l] || s.when.en || '') : (s.when || '');
-    const note = (s.m && s.m[l]) ? s.m[l] : (s.m ? s.m.en : '');
-    const hasMp3 = !isBracha && s.id <= 12;
+    const note = (s.m && s.m[l]) ? s.m[l] : (s.m ? (s.m.en || s.m) : '');
+    const hasMp3 = !isBracha && s.id <= 13;
     const mp3 = '/app/audio/' + n + '_' + s.id + '.mp3';
+
+    const heTokensHtml = window.tokenizeKaraokeWords(heTxt, 'he', cardId);
+    const trTokensHtml = window.tokenizeKaraokeWords(trTxt, 'tr', cardId);
 
     html += '<div style="padding:14px;border:1.5px solid ' + (done?'#10b981':'#cbd5e1') + ';border-radius:14px;margin-bottom:12px;background:' + (done?'#f0fdf4':'#f8fafc') + ';">' +
       (whenTxt ? '<div style="font-size:0.72rem;font-weight:800;color:#0284c7;text-transform:uppercase;margin-bottom:3px;">' + whenTxt + '</div>' : '') +
@@ -1361,14 +3447,14 @@ window.renderSongs12 = function() {
       '<div style="font-weight:900;color:#0c4a6e;font-size:0.95rem;">' + s.t + (locked ? ui.locked_badge : ui.free_badge) + '</div>' +
       '<div style="display:flex;gap:5px;flex-wrap:wrap;">' +
       (hasMp3
-        ? '<button type="button" onclick="play10sNative(' + s.id + ')" style="background:#0d9488;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (locked ? ui.btn_prev10 : ui.btn_play_full) + '</button>'
+        ? '<button type="button" onclick="play10sNative(\'' + cardId + '\')" style="background:#0d9488;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (locked ? ui.btn_prev10 : ui.btn_play_full) + '</button>'
         : '<button type="button" onclick="speakCleanBracha(' + idx + ')" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + ui.btn_pronounce + '</button>') +
-      '<button type="button" onclick="toggleSongMaster(' + s.id + ')" style="background:' + (done?'#059669':'#e2e8f0') + ';color:' + (done?'#fff':'#334155') + ';border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (done?'✅':ui.btn_mark) + '</button></div></div>' +
-      (hasMp3 ? '<audio id="aud-' + s.id + '" src="' + mp3 + '" controls preload="none" ontimeupdate="onSongTimeUpdate(this,' + idx + ')" style="width:100%;height:36px;margin-bottom:8px;"></audio>' : '') +
-      '<div dir="rtl" onclick="if(' + (locked?'true':'false') + ') openProPaywall();" style="font-size:1.05rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.65;' + maskStyle + '">' + heTxt + '</div>' +
-      '<div onclick="if(' + (locked?'true':'false') + ') openProPaywall();" style="font-size:0.86rem;color:#1e293b;font-style:italic;margin-bottom:8px;' + maskStyle + '">"' + trTxt + '"</div>' +
-      '<button type="button" onclick="gradeSongMic(' + idx + ',' + (isBracha?'true':'false') + ')" style="width:100%;background:#d97706;color:#fff;border:none;border-radius:10px;padding:9px 12px;font-size:0.82rem;font-weight:900;cursor:pointer;margin-bottom:8px;">' + ui.btn_sing + '</button>' +
-      '<div id="song-mic-out-' + s.id + '" style="display:none;margin-bottom:6px;font-size:0.8rem;"></div>' +
+      '<button type="button" onclick="toggleSongMaster(\'' + cardId + '\')" style="background:' + (done?'#059669':'#e2e8f0') + ';color:' + (done?'#fff':'#334155') + ';border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (done?'✅':ui.btn_mark) + '</button></div></div>' +
+      (hasMp3 ? '<audio id="aud-' + cardId + '" src="' + mp3 + '" controls preload="none" ontimeupdate="onSongTimeUpdate(this,' + idx + ',\'' + cardId + '\')" style="width:100%;height:36px;margin-bottom:8px;"></audio>' : '') +
+      '<div id="he-box-' + cardId + '" dir="rtl" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:1.06rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.75;' + maskStyle + '">' + heTokensHtml + '</div>' +
+      '<div id="tr-box-' + cardId + '" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:0.88rem;color:#1e293b;font-style:italic;background:#ffffff;padding:8px 11px;border-radius:8px;border:1px dashed #cbd5e1;margin-bottom:10px;line-height:1.6;' + maskStyle + '">' + trTokensHtml + '</div>' +
+      '<button type="button" onclick="gradeSongMic(' + idx + ',' + (isBracha?'true':'false') + ')" style="width:100%;background:#d97706;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-size:0.84rem;font-weight:900;cursor:pointer;margin-bottom:8px;">' + ui.btn_sing + '</button>' +
+      '<div id="song-mic-out-' + cardId + '" style="display:none;margin-bottom:6px;font-size:0.8rem;"></div>' +
       '<div style="font-size:0.81rem;color:#475569;border-top:1px dashed #cbd5e1;padding-top:6px;">💡 ' + note + '</div></div>';
   }
   sl.innerHTML = html;
