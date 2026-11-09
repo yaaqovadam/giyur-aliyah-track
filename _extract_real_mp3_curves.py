@@ -1,6 +1,9 @@
 import json, math, os, re, struct, subprocess
 
 sv = open("public/app/songs_vault.js", encoding="utf-8").read()
+ts_match = re.search(r"window\.SONG_TIMESTAMPS\s*=\s*(\{.*?\});", sv, re.S)
+dur_match = re.search(r"window\.SONG_DURATIONS\s*=\s*(\{.*?\});", sv, re.S)
+tl_match = re.search(r"window\.SONG_TIMELINES\s*=\s*(\{.*?\});", sv, re.S)
 s_match = re.search(r"window\.SONGS_VAULT12\s*=\s*(\[.*?\]);", sv, re.S)
 b_match = re.search(r"window\.BRACHOT_VAULT8\s*=\s*(\[.*?\]);", sv, re.S)
 songs = json.loads(s_match.group(1))
@@ -48,6 +51,9 @@ for s in songs:
     print(f"🎼 Extracted MP3 pitch curves for Song #{sid}: Sephardi={s['curve_s'][:6]}... | Ashkenazi={s['curve_a'][:6]}...")
 
 open("public/app/songs_vault.js", "w", encoding="utf-8").write(
+    ("window.SONG_TIMESTAMPS = " + ts_match.group(1) + ";\n" if ts_match else "") +
+    ("window.SONG_DURATIONS = " + dur_match.group(1) + ";\n" if dur_match else "") +
+    ("window.SONG_TIMELINES = " + tl_match.group(1) + ";\n" if tl_match else "") +
     "window.SONGS_VAULT12 = " + json.dumps(songs, ensure_ascii=False) + ";\n" +
     "window.BRACHOT_VAULT8 = " + json.dumps(brachot, ensure_ascii=False) + ";\n"
 )

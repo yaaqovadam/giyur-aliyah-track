@@ -2451,13 +2451,13 @@ nextBdCard = function() {
 // E2E ENCRYPTED (AES-GCM-256) + FIREBASE COUPLES SYNC (NOHAL 5.2.0008)
 // ============================================================================
 const GAT_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCCTKpdflOCdVQh4v1RZ6dUwDaqkI_RpnU",
-  authDomain: "giyur-aliyah-track-b34bb.firebaseapp.com",
-  projectId: "giyur-aliyah-track-b34bb",
-  storageBucket: "giyur-aliyah-track-b34bb.firebasestorage.app",
-  messagingSenderId: "623918809037",
-  appId: "1:623918809037:web:1d3819caacc03b2c128e84",
-  messagingAppId: "1:623918809037:web:1d3819caacc03b2c128e84"
+  apiKey: "AIzaSyA_fCVlj3cXXkyW5TT83Qpe07mAQWQFTiA",
+  authDomain: "giyur-aliyah-track.firebaseapp.com",
+  projectId: "giyur-aliyah-track",
+  storageBucket: "giyur-aliyah-track.firebasestorage.app",
+  messagingSenderId: "709763456541",
+  appId: "1:709763456541:web:ed1acfac549a580b51b0f4",
+  measurementId: "G-EY82CZX1J6"
 };
 
 window.gatDb = null;
@@ -3236,7 +3236,7 @@ window.setSongSubTab = function(t) { window.songSubTab = t; window.renderSongs12
 
 window.onSongTimeUpdate = function(el, idx, cardId) {
   const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
-  if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= 10) {
+  const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[(window.songNusach||'s')+'_'+cardId]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= _lim) {
     el.pause(); el.currentTime = 0;
     window.clearKaraokeHighlights(cardId);
     window.openProPaywall(window.getSongsUI().pw_10s, true);
@@ -3573,7 +3573,7 @@ window.runVisionAudit = async function(inputEl, mode) {
 
   try {
     const payload = await window.fileToCompressedBase64(file);
-    const res = await fetch('https://us-central1-giyur-aliyah-track-b34bb.cloudfunctions.net/auditDoc', {
+    const res = await fetch('/api/auditDoc', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -3672,11 +3672,13 @@ if (typeof renderAll === 'function' && document.getElementById('app-container'))
 }
 
 // ============================================================================
-// DEFINITIVE KARAOKE + SPEED BAR + SINGLE-AUDIO LOCK + SEEK & TAB-RESUME FIX
+// CONSOLIDATED CLOUDFLARE R2 + LOCAL FALLBACK + GEMINI 3.8 FLASH KARAOKE ENGINE
 // ============================================================================
+window.GAT_AUDIO_CDN = "https://audio.giyuraliyahtrack.com";
 window.songSpeed = parseFloat(localStorage.getItem('gat_song_speed') || '1') || 1;
 window.SONG_SPEED_OPTS = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
 window._activePlayingCardId = null;
+window._lastScrolledWordKey = '';
 
 window.stopAllOtherSongs = function(exceptAudioEl, activeCardId) {
   if (window._activeKaraokeRaf) { cancelAnimationFrame(window._activeKaraokeRaf); window._activeKaraokeRaf = null; }
@@ -3723,27 +3725,29 @@ window.setSongSpeed = function(rate) {
   });
 };
 
-window._lastScrolledWordKey = '';
 window.highlightKaraokeByWordIndex = function(cardId, activeHeIdx, forceScroll) {
   const heBox = document.getElementById('he-box-' + cardId);
   const trBox = document.getElementById('tr-box-' + cardId);
   if (!heBox) return;
   const heSpans = heBox.querySelectorAll('.kw-word');
   const hLen = heSpans.length || 1;
+  const idx = Math.min(hLen - 1, Math.max(0, activeHeIdx));
   heSpans.forEach(function(sp, i) {
-    sp.classList.toggle('kw-active', i === activeHeIdx);
-    sp.classList.toggle('kw-passed', i < activeHeIdx);
+    sp.classList.toggle('kw-active', i === idx);
+    sp.classList.toggle('kw-passed', i < idx);
   });
   if (trBox) {
     const trSpans = trBox.querySelectorAll('.kw-word');
     const tLen = trSpans.length || 1;
-    const activeTrIdx = Math.min(tLen - 1, Math.max(0, Math.round((activeHeIdx / Math.max(1, hLen - 1)) * (tLen - 1))));
+    const activeTrIdx = (tLen === hLen)
+      ? idx
+      : Math.min(tLen - 1, Math.max(0, Math.round((idx / Math.max(1, hLen - 1)) * (tLen - 1))));
     trSpans.forEach(function(sp, i) {
-      sp.classList.toggle('kw-active', i === activeTrIdx && activeHeIdx < hLen);
-      sp.classList.toggle('kw-passed', i < activeTrIdx || activeHeIdx >= hLen);
+      sp.classList.toggle('kw-active', i === activeTrIdx && idx < hLen);
+      sp.classList.toggle('kw-passed', i < activeTrIdx || idx >= hLen);
     });
   }
-  const key = cardId + ':' + activeHeIdx;
+  const key = cardId + ':' + idx;
   if (forceScroll || window._lastScrolledWordKey !== key) {
     window._lastScrolledWordKey = key;
     ['he', 'tr'].forEach(function(prefix) {
@@ -3761,14 +3765,22 @@ window.highlightKaraokeByWordIndex = function(cardId, activeHeIdx, forceScroll) 
 window.syncKaraokeFrame = function(aud, cardId, forceScroll) {
   if (!aud) return;
   const n = window.songNusach || 's';
-  const stampKey = n + '_' + cardId;
+  const cleanId = String(cardId).trim();
+  const stampKey = n + '_' + cleanId;
   const stampList = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[stampKey];
-  const heBox = document.getElementById('he-box-' + cardId);
-  const totalWords = heBox ? heBox.querySelectorAll('.kw-word').length : 25;
+  const heBox = document.getElementById('he-box-' + cleanId);
+  if (!heBox) return;
+  const heSpans = heBox.querySelectorAll('.kw-word');
+  const totalWords = heSpans.length || 1;
   const t = aud.currentTime || 0;
+  const hud = document.getElementById('gat-sync-hud');
 
   if (stampList && stampList.length) {
-    // Binary search for exact active word at current audio timestamp t
+    if (t < Math.max(0, stampList[0] - 0.15)) {
+      window.clearKaraokeHighlights(cleanId);
+      if (hud) hud.innerText = '🎻 Instrumental Intro [' + stampKey + '] — Singing begins in ' + Math.max(0, stampList[0] - t).toFixed(1) + 's...';
+      return;
+    }
     let lo = 0, hi = stampList.length - 1, wIdx = 0;
     while (lo <= hi) {
       const mid = (lo + hi) >> 1;
@@ -3779,12 +3791,31 @@ window.syncKaraokeFrame = function(aud, cardId, forceScroll) {
         hi = mid - 1;
       }
     }
-    window.highlightKaraokeByWordIndex(cardId, Math.min(totalWords - 1, wIdx), forceScroll);
-  } else {
-    const fallbackDur = (window.SONG_DURATIONS && window.SONG_DURATIONS[n] && window.SONG_DURATIONS[n][String(cardId)]) || 60;
-    const dur = (aud.duration && isFinite(aud.duration) && aud.duration > 0) ? aud.duration : fallbackDur;
-    const ratio = Math.min(1, Math.max(0, t / Math.max(1, dur * 0.92)));
-    window.highlightKaraokeByWordIndex(cardId, Math.min(totalWords - 1, Math.floor(ratio * totalWords)), forceScroll);
+    const mappedIdx = (stampList.length === totalWords)
+      ? wIdx
+      : Math.min(totalWords - 1, Math.round((wIdx / Math.max(1, stampList.length - 1)) * (totalWords - 1)));
+
+    // Check if we are in an instrumental/niggun interlude between stanzas (gap >= 4.5s and > 2.2s after word onset)
+    if (wIdx + 1 < stampList.length) {
+      const curStamp = stampList[wIdx];
+      const nextStamp = stampList[wIdx + 1];
+      if ((nextStamp - curStamp) >= 4.5 && (t - curStamp) >= 2.2) {
+        const nextWordTxt = heSpans[mappedIdx + 1] ? heSpans[mappedIdx + 1].textContent : '';
+        const waitRem = Math.max(0, nextStamp - t).toFixed(1);
+        if (hud) {
+          hud.innerText = '🎻 Instrumental / Niggun Interlude [' + stampKey + '] — Next verse ("' + nextWordTxt + '") in ' + waitRem + 's...';
+        }
+        window.highlightKaraokeByWordIndex(cleanId, mappedIdx, false);
+        return;
+      }
+    }
+
+    const activeWordTxt = heSpans[mappedIdx] ? heSpans[mappedIdx].textContent : '';
+    if (hud) {
+      hud.innerText = '🎯 Sync [' + stampKey + ']: Word ' + (mappedIdx + 1) + '/' + totalWords +
+        ' ("' + activeWordTxt + '") @ ' + t.toFixed(2) + 's';
+    }
+    window.highlightKaraokeByWordIndex(cleanId, Math.min(totalWords - 1, mappedIdx), forceScroll);
   }
 };
 
@@ -3793,7 +3824,7 @@ window.start60FpsKaraokeLoop = function(aud, idx, cardId) {
   const tick = function() {
     if (!aud || aud.paused || aud.ended) return;
     const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
-    if (!unlocked && idx >= window.FREE_SONG_LIMIT && aud.currentTime >= 10) {
+    const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[(window.songNusach||'s')+'_'+cardId]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && aud.currentTime >= _lim) {
       aud.pause(); aud.currentTime = 0;
       window.clearKaraokeHighlights(cardId);
       window.openProPaywall(window.getSongsUI().pw_10s, true);
@@ -3805,7 +3836,19 @@ window.start60FpsKaraokeLoop = function(aud, idx, cardId) {
   window._activeKaraokeRaf = requestAnimationFrame(tick);
 };
 
-// When user leaves tab and comes back, immediately resync active song & restart 60fps loop!
+window.onSongTimeUpdate = function(el, idx, cardId) {
+  const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
+  const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[(window.songNusach||'s')+'_'+cardId]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= _lim) {
+    el.pause(); el.currentTime = 0;
+    window.clearKaraokeHighlights(cardId);
+    window.openProPaywall(window.getSongsUI().pw_10s, true);
+    return;
+  }
+  if (!el.paused) {
+    window.syncKaraokeFrame(el, cardId, false);
+  }
+};
+
 if (!window._gatVisListenerBound) {
   window._gatVisListenerBound = true;
   document.addEventListener('visibilitychange', function() {
@@ -3822,7 +3865,6 @@ if (!window._gatVisListenerBound) {
   });
 }
 
-// Tap any word to seek cleanly to that exact timestamp (even if audio wasn't preloaded yet!)
 window.seekKaraokeWord = function(cardId, wordIdx, totalWords, ev) {
   if (ev) { ev.preventDefault(); ev.stopPropagation(); }
   const aud = document.getElementById('aud-' + cardId);
@@ -3831,8 +3873,11 @@ window.seekKaraokeWord = function(cardId, wordIdx, totalWords, ev) {
   const fallbackDur = (window.SONG_DURATIONS && window.SONG_DURATIONS[n] && window.SONG_DURATIONS[n][String(cardId)]) || 60;
 
   let targetSec = 0;
-  if (stampList && stampList[wordIdx] !== undefined) {
-    targetSec = parseFloat(stampList[wordIdx]) || 0;
+  if (stampList && stampList.length) {
+    const sIdx = (stampList.length === totalWords)
+      ? wordIdx
+      : Math.min(stampList.length - 1, Math.max(0, Math.round((wordIdx / Math.max(1, totalWords - 1)) * (stampList.length - 1))));
+    targetSec = parseFloat(stampList[sIdx]) || 0;
   } else {
     const dur = (aud && aud.duration && isFinite(aud.duration) && aud.duration > 0) ? aud.duration : fallbackDur;
     targetSec = (wordIdx / Math.max(1, totalWords)) * dur * 0.92;
@@ -3841,7 +3886,6 @@ window.seekKaraokeWord = function(cardId, wordIdx, totalWords, ev) {
   window.highlightKaraokeByWordIndex(cardId, wordIdx, true);
   if (!aud) return;
 
-  // Stop OTHER songs, but do NOT reset this song's audio element
   window.stopAllOtherSongs(aud, cardId);
   aud.preservesPitch = true;
   aud.mozPreservesPitch = true;
@@ -3876,9 +3920,14 @@ window.seekKaraokeWord = function(cardId, wordIdx, totalWords, ev) {
 };
 
 window.tokenizeKaraokeWords = function(text, prefix, cardId) {
-  const raw = String(text || '').trim();
+  const raw = String(text || '')
+    .replace(/&nbsp;|&thinsp;/gi, ' ')
+    .replace(/\b(?:and\s+nbsp|and\s+thinsp|ve-thinsp|v'thinsp|v'enbiespi)\b/gi, ' ')
+    .replace(/אֶנְד\s+תִּינְסְפּ|וְתִּינְסְפּ|וְאֶנְבִּיאֶסְפִּי/g, ' ')
+    .replace(/\{[פס]\}/g, ' ')
+    .trim();
   if (!raw) return '';
-  const tokens = raw.split(/\s+/);
+  const tokens = raw.split(/\s+/).filter(Boolean);
   const total = tokens.length;
   return tokens.map(function(w, i) {
     return '<span class="kw-word" id="kw-' + prefix + '-' + cardId + '-' + i + '" data-idx="' + i + '" onclick="window.seekKaraokeWord(\'' + cardId + '\',' + i + ',' + total + ',event)" style="cursor:pointer;" title="Tap word to jump here">' + w + '</span>';
@@ -3891,9 +3940,21 @@ window.play10sNative = function(id, idx) {
   if (!aud.paused) { aud.pause(); return; }
   window.stopAllOtherSongs(aud, id);
   aud.preservesPitch = true;
+  aud.mozPreservesPitch = true;
+  aud.webkitPreservesPitch = true;
   aud.playbackRate = window.songSpeed || 1;
+  const n = window.songNusach || 's';
+  const stamps = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[n + '_' + id];
+  const firstWordSec = (stamps && stamps.length) ? (parseFloat(stamps[0]) || 0) : 0;
+  if (aud.currentTime < 0.5 && firstWordSec > 3.0) {
+    try { aud.currentTime = Math.max(0, firstWordSec - 1.0); } catch(e) {}
+  }
   aud.play().then(function() {
+    if (aud.currentTime < 0.5 && firstWordSec > 3.0) {
+      try { aud.currentTime = Math.max(0, firstWordSec - 1.0); } catch(e) {}
+    }
     const resolvedIdx = typeof idx === 'number' ? idx : parseInt(aud.getAttribute('data-song-idx') || '0', 10);
+    window.syncKaraokeFrame(aud, id, true);
     window.start60FpsKaraokeLoop(aud, resolvedIdx, id);
   }).catch(function(){});
 };
@@ -3923,13 +3984,14 @@ window.renderSongs12 = function() {
     '<div style="display:flex;gap:8px;margin-bottom:8px;">' +
     '<button type="button" onclick="setSongNusach(\'s\')" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='s'?'#0284c7':'#fff') + ';color:' + (n==='s'?'#fff':'#0284c7') + ';">' + ui.nusach_s + '</button>' +
     '<button type="button" onclick="setSongNusach(\'a\')" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid #0f766e;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='a'?'#0f766e':'#fff') + ';color:' + (n==='a'?'#fff':'#0f766e') + ';">' + ui.nusach_a + '</button></div>' +
-    '<div id="gat-speed-bar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;background:#f0f9ff;border:2px solid #0284c7;border-radius:11px;padding:8px 12px;margin-bottom:12px;">' +
+    '<div id="gat-speed-bar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;background:#f0f9ff;border:2px solid #0284c7;border-radius:11px;padding:8px 12px;margin-bottom:6px;">' +
     '<span style="font-size:0.78rem;font-weight:900;color:#0c4a6e;">' + spdLbl + '</span>' +
     '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
     window.SONG_SPEED_OPTS.map(function(r) {
       const act = Math.abs(r - curSpd) < 0.01;
       return '<button type="button" class="gat-spd-btn" data-rate="' + r + '" onclick="window.setSongSpeed(' + r + ')" style="padding:5px 9px;border-radius:7px;border:1.5px solid ' + (act ? '#0284c7' : '#cbd5e1') + ';background:' + (act ? '#0284c7' : '#ffffff') + ';color:' + (act ? '#ffffff' : '#0f172a') + ';font-size:0.76rem;font-weight:900;cursor:pointer;">' + r + 'x</button>';
-    }).join('') + '</div></div>';
+    }).join('') + '</div></div>' +
+    '<div id="gat-sync-hud" style="font-size:0.73rem;font-weight:800;color:#0369a1;background:#e0f2fe;padding:5px 10px;border-radius:8px;margin-bottom:12px;">🎯 Gemini 3.8 Flash 1:1 Timestamp Sync Active — Tap Play or Tap Any Word</div>';
 
   for (let idx = 0; idx < list.length; idx++) {
     const s = list[idx];
@@ -3943,7 +4005,9 @@ window.renderSongs12 = function() {
     const whenTxt = (s.when && typeof s.when === 'object') ? (s.when[l] || s.when.en || '') : (s.when || '');
     const note = (s.m && s.m[l]) ? s.m[l] : (s.m ? (s.m.en || s.m) : '');
     const hasMp3 = !isBracha && s.id <= 13;
-    const mp3 = '/app/audio/' + n + '_' + s.id + '.mp3';
+    const cfBase = (window.GAT_AUDIO_CDN || 'https://audio.giyuraliyahtrack.com').replace(/\/+$/, '');
+    const mp3 = cfBase + '/' + n + '_' + s.id + '.mp3';
+    const localFallback = '/app/audio/' + n + '_' + s.id + '.mp3';
 
     const heTokensHtml = window.tokenizeKaraokeWords(heTxt, 'he', cardId);
     const trTokensHtml = window.tokenizeKaraokeWords(trTxt, 'tr', cardId);
@@ -3957,7 +4021,7 @@ window.renderSongs12 = function() {
         ? '<button type="button" onclick="play10sNative(\'' + cardId + '\',' + idx + ')" style="background:#0d9488;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (locked ? ui.btn_prev10 : ui.btn_play_full) + '</button>'
         : '<button type="button" onclick="speakCleanBracha(' + idx + ')" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + ui.btn_pronounce + '</button>') +
       '<button type="button" onclick="toggleSongMaster(\'' + cardId + '\')" style="background:' + (done?'#059669':'#e2e8f0') + ';color:' + (done?'#fff':'#334155') + ';border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (done?'✅':ui.btn_mark) + '</button></div></div>' +
-      (hasMp3 ? '<audio id="aud-' + cardId + '" data-song-idx="' + idx + '" src="' + mp3 + '" controls preload="metadata" onplay="window.stopAllOtherSongs(this,\'' + cardId + '\');window.start60FpsKaraokeLoop(this,' + idx + ',\'' + cardId + '\');" onseeked="window.syncKaraokeFrame(this,\'' + cardId + '\',true);" onratechange="window.syncKaraokeFrame(this,\'' + cardId + '\',false);" ontimeupdate="onSongTimeUpdate(this,' + idx + ',\'' + cardId + '\')" style="width:100%;height:36px;margin-bottom:8px;"></audio>' : '') +
+      (hasMp3 ? '<audio id="aud-' + cardId + '" data-song-idx="' + idx + '" src="' + mp3 + '" onerror="if(this.src.indexOf(\'/app/audio/\')===-1){this.src=\'' + localFallback + '\';}" controls preload="metadata" onplay="window.stopAllOtherSongs(this,\'' + cardId + '\');window.start60FpsKaraokeLoop(this,' + idx + ',\'' + cardId + '\');" onseeked="window.syncKaraokeFrame(this,\'' + cardId + '\',true);" onratechange="window.syncKaraokeFrame(this,\'' + cardId + '\',false);" ontimeupdate="onSongTimeUpdate(this,' + idx + ',\'' + cardId + '\')" style="width:100%;height:36px;margin-bottom:8px;"></audio>' : '') +
       '<div id="he-box-' + cardId + '" dir="rtl" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:1.06rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.85;max-height:195px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + heTokensHtml + '</div>' +
       '<div id="tr-box-' + cardId + '" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:0.88rem;color:#1e293b;font-style:italic;background:#ffffff;padding:8px 11px;border-radius:8px;border:1px dashed #cbd5e1;margin-bottom:10px;line-height:1.65;max-height:150px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + trTokensHtml + '</div>' +
       '<button type="button" onclick="gradeSongMic(' + idx + ',' + (isBracha?'true':'false') + ')" style="width:100%;background:#d97706;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-size:0.84rem;font-weight:900;cursor:pointer;margin-bottom:8px;">' + ui.btn_sing + '</button>' +
@@ -3971,13 +4035,175 @@ window.renderSongs12 = function() {
   });
 };
 
-if (document.getElementById('songs-list')) {
-  try { window.renderSongs12(); } catch(e) {}
-}
 window.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
     if (document.getElementById('songs-list')) {
       try { window.renderSongs12(); } catch(e) {}
     }
-  }, 60);
+  }, 50);
 });
+
+// ============================================================================
+// UNIFIED users/{uid} AUTO-CREATION & CHANGE-ONLY CLOUD SYNC
+// ============================================================================
+window.ensureUserDoc = function(user) {
+  if (!window.gatDb || !user || !user.uid) return;
+  const userRef = window.gatDb.collection('users').doc(user.uid);
+  userRef.get().then(function(snap) {
+    const basePayload = {
+      uid: user.uid,
+      isAnonymous: !!user.isAnonymous,
+      lang: window.appLang || localStorage.getItem('gat_lang') || 'en',
+      nusach: window.songNusach || localStorage.getItem('gat_nusach') || 's',
+      songSpeed: window.songSpeed || 1,
+      lastSeenAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    if (!snap.exists) {
+      basePayload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      basePayload.draft = window.collectCurrentFormDraft ? window.collectCurrentFormDraft() : {};
+      basePayload.bdScores = window.bdScores || {};
+      basePayload.songMastered = window.songMastered || {};
+      basePayload.entitlementsMap = window.getUnlockedTiersMap ? window.getUnlockedTiersMap() : {};
+      userRef.set(basePayload, { merge: true }).catch(function(){});
+    } else {
+      const data = snap.data() || {};
+      if (data.bdScores && typeof data.bdScores === 'object') {
+        window.bdScores = Object.assign({}, data.bdScores, window.bdScores || {});
+        localStorage.setItem('gat_bd_scores', JSON.stringify(window.bdScores));
+      }
+      if (data.songMastered && typeof data.songMastered === 'object') {
+        window.songMastered = Object.assign({}, data.songMastered, window.songMastered || {});
+        localStorage.setItem('gat_songs_m', JSON.stringify(window.songMastered));
+      }
+      userRef.set(basePayload, { merge: true }).catch(function(){});
+    }
+  }).catch(function(){});
+};
+
+window.pushDraftToFirestore = function(draft, nowMs, forceLeadStatus) {
+  if (!window.gatDb || !window.gatUid) {
+    localStorage.setItem('gat_form_dirty_cloud', '1');
+    return;
+  }
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+    localStorage.setItem('gat_form_dirty_cloud', '1');
+    if (forceLeadStatus) localStorage.setItem('gat_pending_lead_status', forceLeadStatus);
+  }
+
+  const syncPayload = {
+    uid: window.gatUid,
+    draft: draft,
+    bdScores: window.bdScores || {},
+    songMastered: window.songMastered || {},
+    cpRoom: window.cpRoom || '',
+    updatedAtMs: nowMs,
+    lang: window.appLang || 'en',
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  window.gatDb.collection('users').doc(window.gatUid).set(syncPayload, { merge: true }).then(function() {
+    localStorage.removeItem('gat_form_dirty_cloud');
+  }).catch(function() {
+    localStorage.setItem('gat_form_dirty_cloud', '1');
+  });
+
+  window.gatDb.collection('user_form_drafts').doc(window.gatUid).set({
+    draft: draft,
+    updatedAtMs: nowMs,
+    lang: window.appLang || 'en',
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }, { merge: true }).catch(function(){});
+
+  const hasLeadData = !!(
+    (draft['vt-name'] && draft['vt-name'].trim()) ||
+    (draft['vt-wa'] && draft['vt-wa'].trim()) ||
+    (draft['vt-notes'] && draft['vt-notes'].trim()) ||
+    forceLeadStatus
+  );
+
+  if (hasLeadData) {
+    const lang = window.appLang || 'en';
+    const v = VETTED_I18N[lang] || VETTED_I18N.en;
+    const choice = draft.vt_choice || 0;
+    const svcObj = v.svcs[choice] || v.svcs[0];
+    const region = draft['vt-region'] || '';
+    const isLegalOrNorth = (choice === 3 || choice === 4 || region.includes('Safed') || region.includes('צפת'));
+    const routeTag = isLegalOrNorth ? '[🔥 PRIORITY NOTARY / LAWYER ESCORT DESK]' : '[🕍 VETTED RABBI / KALLAH BOOKING]';
+
+    const leadPayload = {
+      uid: window.gatUid,
+      status: forceLeadStatus || localStorage.getItem('gat_pending_lead_status') || 'in_progress_draft',
+      updatedAtMs: nowMs,
+      lang: lang,
+      routeTag: routeTag,
+      serviceIdx: choice,
+      serviceName: svcObj.t,
+      priceTier: svcObj.p,
+      region: region,
+      track: draft['vt-track'] || '',
+      name: (draft['vt-name'] || '').trim(),
+      whatsapp: (draft['vt-wa'] || '').trim(),
+      targetDate: (draft['vt-date'] || '').trim() || 'Flexible / ASAP',
+      notes: (draft['vt-notes'] || '').trim(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    const leadCheckStr = JSON.stringify([leadPayload.status, leadPayload.serviceIdx, leadPayload.region, leadPayload.track, leadPayload.name, leadPayload.whatsapp, leadPayload.targetDate, leadPayload.notes]);
+    if (leadCheckStr !== window.gatLastLeadSnapshot) {
+      window.gatLastLeadSnapshot = leadCheckStr;
+      window.gatDb.collection('concierge_leads').doc(window.gatUid).set(leadPayload, { merge: true }).then(function() {
+        localStorage.removeItem('gat_pending_lead_status');
+      }).catch(function(){});
+      window.gatDb.collection('users').doc(window.gatUid).set({ latestLead: leadPayload }, { merge: true }).catch(function(){});
+    }
+  }
+};
+
+window.pullCloudFormDraftOnce = function() {
+  if (!window.gatDb || !window.gatUid || window._pulledCloudDraft) return;
+  window._pulledCloudDraft = true;
+
+  if (localStorage.getItem('gat_form_dirty_cloud') === '1') {
+    window.flushOfflineDraftOnReconnect();
+    return;
+  }
+
+  window.gatDb.collection('users').doc(window.gatUid).get().then(function(snap) {
+    if (snap.exists && snap.data() && snap.data().draft) {
+      const data = snap.data();
+      const localTs = parseInt(localStorage.getItem('gat_form_draft_ts') || '0', 10);
+      const cloudTs = data.updatedAtMs || 0;
+      let localDraft = {};
+      try { localDraft = JSON.parse(localStorage.getItem('gat_form_draft_v1') || '{}'); } catch(e){}
+
+      const merged = (localTs >= cloudTs)
+        ? Object.assign({}, data.draft, localDraft)
+        : Object.assign({}, localDraft, data.draft);
+
+      localStorage.setItem('gat_form_draft_v1', JSON.stringify(merged));
+      window.restoreSavedFormDraft(merged);
+      return;
+    }
+    return window.gatDb.collection('user_form_drafts').doc(window.gatUid).get().then(function(legacySnap) {
+      if (!legacySnap.exists) return;
+      const d = legacySnap.data() || {};
+      if (d.draft) {
+        const localTs = parseInt(localStorage.getItem('gat_form_draft_ts') || '0', 10);
+        const cloudTs = d.updatedAtMs || 0;
+        let localDraft = {};
+        try { localDraft = JSON.parse(localStorage.getItem('gat_form_draft_v1') || '{}'); } catch(e){}
+        const merged = (localTs >= cloudTs)
+          ? Object.assign({}, d.draft, localDraft)
+          : Object.assign({}, localDraft, d.draft);
+        localStorage.setItem('gat_form_draft_v1', JSON.stringify(merged));
+        window.restoreSavedFormDraft(merged);
+      }
+    });
+  }).catch(function(){});
+};
+
+if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user && window.ensureUserDoc) window.ensureUserDoc(user);
+  });
+}
