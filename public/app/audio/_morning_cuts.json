@@ -1,0 +1,42 @@
+{
+  "b1_netilat": {
+    "prev_end": 52.45,
+    "next_start": 53.63,
+    "cut": 53.04
+  },
+  "b2_asher": {
+    "prev_end": 64.38,
+    "next_start": 68.94,
+    "cut": 66.66
+  },
+  "b3_neshama": {
+    "prev_end": 101.56,
+    "next_start": 104.13,
+    "cut": 102.84
+  },
+  "b4_shachar": {
+    "prev_end": 146.36,
+    "next_start": 149.74,
+    "cut": 148.05
+  },
+  "b5_torah": {
+    "prev_end": 278.71,
+    "next_start": 279.07,
+    "cut": 278.89
+  },
+  "b6_adon": {
+    "prev_end": 388.85,
+    "next_start": 390.65,
+    "cut": 389.75
+  },
+  "b7_shema": {
+    "prev_end": 563.25,
+    "next_start": 568.63,
+    "cut": 565.94
+  },
+  "b8_vehaya": {
+    "prev_end": 618.3,
+    "next_start": 618.9,
+    "cut": 618.6
+  }
+}

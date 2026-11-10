@@ -1,0 +1,13 @@
+name = "gat-audio-gate"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+workers_dev = false
+preview_urls = false
+
+[[r2_buckets]]
+binding = "AUDIO_BUCKET"
+bucket_name = "gat-audio"
+
+[[routes]]
+pattern = "audio.giyuraliyahtrack.com"
+custom_domain = true

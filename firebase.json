@@ -19,17 +19,21 @@
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "**/app/audio/*.mp3",
+      "**/*.py",
+      "**/*.md",
+      "app/audio/**",
+      "**/audio/**",
+      "**/_backup*",
+      "**/*.bak"
     ],
     "cleanUrls": true,
     "trailingSlash": false,
     "rewrites": [
       {
         "source": "/api/auditDoc",
-        "function": {
-          "functionId": "auditDoc",
-          "region": "us-central1"
-        }
+        "function": "auditDoc"
       },
       {
         "source": "/api/paymentWebhook",

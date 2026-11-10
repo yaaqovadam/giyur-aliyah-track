@@ -5,3 +5,18 @@ firebase-debug.log
 *.bak
 
 public/app/audio/*.mp3
+.env
+.env.*
+functions/.env*
+public/app/.env*
+**/node_modules/
+.wrangler/
+cloudflare-audio-gate/.wrangler/
+r2_all_current/
+r2_gated_build/
+r2_drop*/
+public/app/audio/_raw_yt/
+public/app/audio/_backup*/
+public/app/_backup*
+**/*.bak
+_*.py

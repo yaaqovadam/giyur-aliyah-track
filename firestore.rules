@@ -1,8 +1,46 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/{userId}/{document=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+    // Master User Document & Subcollections (Strictly locked to the user's own UID)
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+      match /{allSubcollections=**} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+    }
+
+    // 1. E2EE 2-Phone Couples Sync Rooms (Direct doc lookup only; no collection listing)
+    match /couples_rooms/{roomId} {
+      allow get, create, update, delete: if request.auth != null && roomId.size() >= 16;
+      allow list: if false;
+    }
+
+    // 2. Smart Form Auto-Save Drafts (Strictly locked to the authenticated user's own UID)
+    match /user_form_drafts/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // 3. Vetted Team, Notary & Lawyer Intake Leads (Strictly locked to the user's own UID)
+    match /concierge_leads/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // 4. Pro Entitlements (Read-only for owner; only Admin SDK webhook/Cloud Functions can write)
+    match /pro_entitlements/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list, write: if false;
+    }
+
+    // 5. Dynamic Promo Codes (Single-code lookup only; no listing or client writes)
+    match /promo_codes/{code} {
+      allow get: if request.auth != null;
+      allow list, write: if false;
+    }
+
+    // Default deny everything else
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

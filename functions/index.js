@@ -15,6 +15,7 @@ exports.auditDoc = onRequest(
   {
     secrets: [GEMINI_API_KEY],
     cors: true,
+    invoker: "public",
     maxInstances: 10,
     timeoutSeconds: 60,
     memory: "512MiB"
@@ -146,6 +147,7 @@ exports.paymentWebhook = onRequest(
   {
     
     cors: true,
+    invoker: "public",
     maxInstances: 10
   },
   async (req, res) => {

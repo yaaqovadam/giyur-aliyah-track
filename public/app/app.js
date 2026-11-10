@@ -347,7 +347,7 @@ const RB_LABELS = {
 const APP_UI = {
   en: {
     back: "← Back to Guide",
-    tabs: ["📸 Hebrew & Forms", "✍️ Rabbi Letters", "🕍 200 Beit Din Deck", "📱 80 Couples Sync", "🎵 12 Shabbat Songs"],
+    tabs: ["📸 Hebrew & Forms", "✍️ Rabbi Letters", "🕍 200 Beit Din Deck", "📱 80 Couples Sync", "🎵 Songs & Prayers"],
     m1_h2: "📸 Clerk Letter Translator & Statutory Hebrew Form Builder",
     m1_p: "Select your official Hebrew document below. Your active country's exact police & civil certificate names are automatically mapped into your statutory Hebrew letter:",
     m1_lbl_type: "Select Official Hebrew Document to Generate:",
@@ -370,7 +370,7 @@ const APP_UI = {
     m4_h2: "📱 80-Question Misrad HaPanim Separated Couples Interrogation",
     m4_p: "Under Nohal 5.2.0008 / 5.2.0009, clerks separate both partners into two rooms. Drill these high-trap questions together:",
     m4_btn: "Next Couples Interrogation Question →",
-    m5_h2: "🎵 12 Mandatory Shabbat Songs, Kiddush & Shema Trainer",
+    m5_h2: "🎵 Songs & Prayers Trainer — Shabbat, Shacharit & Essential Brachot",
     m5_p: "Every conversion candidate is asked to recite or sing from this core list at the Beit Din table:"
   },
   he: {
@@ -398,7 +398,7 @@ const APP_UI = {
     m4_h2: "📱 סימולטור 80 שאלות שימוע זוגי נפרד במשרד הפנים",
     m4_p: "לפי נוהל 5.2.0008 / 5.2.0009, בני הזוג נחקרים בנפרד. תרגלו יחד כדי למנוע סתירות:",
     m4_btn: "לשאלת השימוע הבאה ←",
-    m5_h2: "🎵 12 שירי שבת, קידוש וקריאת שמע לבית הדין",
+    m5_h2: "🎵 מאמן שירים ותפילות — שבת, שחרית וברכות יסוד",
     m5_p: "כל מועמד לגיור מתבקש לדקלם או לשיר מתוך רשימת החובה הזו במעמד בית הדין:"
   },
   fr: {
@@ -454,12 +454,12 @@ const APP_UI = {
     m4_h2: "📱 Simulador de 80 Preguntas en Salas Separadas (Misrad HaPanim)",
     m4_p: "Bajo el Nohal 5.2.0008, los funcionarios interrogan a cada miembro de la pareja por separado:",
     m4_btn: "Siguiente Pregunta de Pareja →",
-    m5_h2: "🎵 Los 12 Cantos de Shabat, Kidush y Shemá",
+    m5_h2: "🎵 Entrenador de Cantos y Rezos — Shabat, Shajarit y Berajot",
     m5_p: "Cantos y bendiciones requeridos en la entrevista final del Beit Din:"
   },
   de: {
     back: "← Zurück zum Leitfaden",
-    tabs: ["📸 Hebräisch & Asch/1", "✍️ Rabbiner-Briefe", "🕍 200 Beit Din Fragen", "📱 80 Paar-Fragen", "🎵 12 Schabbat-Lieder"],
+    tabs: ["📸 Hebräisch & Asch/1", "✍️ Rabbiner-Briefe", "🕍 200 Beit Din Fragen", "📱 80 Paar-Fragen", "🎵 Lieder & Gebete"],
     m1_h2: "📸 Hebräischer Rechtsbrief-Generator (Deutschland / Österreich / Schweiz)",
     m1_p: "Ihre DACH-Dokumente (Beglaubigte Abschrift aus dem Geburtenregister, Erweitertes Führungszeugnis, BfAA-Apostille) werden automatisch auf Hebräisch eingefügt:",
     m1_lbl_type: "Offizielles Hebräisches Dokument Auswählen:",
@@ -753,7 +753,7 @@ function renderAll() {
 }
 
 window.FREE_CP_LIMIT = window.FREE_CP_LIMIT || window.FREE_CARD_LIMIT || 4;
-window.FREE_SONG_LIMIT = window.FREE_SONG_LIMIT || 3;
+window.FREE_SONG_LIMIT = 999; /* GAT_QA_OPEN_MODE */
 function openMod(m) {
   window.currentMod = m;
   document.querySelectorAll('.mod-tab').forEach(b => b.classList.toggle('active', b.dataset.mod === m));
@@ -926,11 +926,7 @@ window.switchPaywallTab = function(tab) {
 window.getUnlockedTiersMap = function() {
   let map = {};
   try { map = JSON.parse(localStorage.getItem('gat_entitlements_v2') || '{}'); } catch(e) { map = {}; }
-  const legacyTier = localStorage.getItem('gat_unlocked_tier');
-  if (legacyTier && !map[legacyTier]) {
-    const mapped = legacyTier === 'vip_449' ? 'vip_couple_649' : (legacyTier === 'lifetime_199' ? 'suite_solo_life_399' : (legacyTier === 'single_39' ? 'forms_90d_89' : legacyTier));
-    if (window.TIER_CAPABILITIES[mapped]) map[mapped] = { exp: 0 };
-  }
+  localStorage.removeItem('gat_unlocked_tier');
   const now = Date.now();
   let changed = false;
   Object.keys(map).forEach(k => {
@@ -994,7 +990,7 @@ window.PW_I18N = {
     s1_b2: "Lifetime ($149)",
     s2_name: "🕍 Beit Din 700-Q & Shabbat Suite",
     s2_sub: "90-Day Cram",
-    s2_desc: "All 700 Beit Din Questions (Core 200 + 200 Curveballs + Men's 150 + Women's 150) + 13 Shabbat Songs + 8 Brachot + Pronunciation Grader.",
+    s2_desc: "All 700 Beit Din Questions (Core 200 + 200 Curveballs + Men's 150 + Women's 150) + Songs, Morning Prayers & Essential Brachot + Pronunciation Grader.",
     s2_b1: "90-Day ($149)",
     s2_b2: "Lifetime ($249)",
     s3_name: "📱 Spousal Visa 2-Phone Sync + Audit",
@@ -1024,7 +1020,7 @@ window.PW_I18N = {
     m3_b1: "Unlock All 700 Cards ($179) →",
     m4_name: "🎵 Songs Grader OR 📱 80-Q Sync Only",
     m4_sub: "standalone",
-    m4_desc: "Unlock the 13 Shabbat Songs + 8 Brachot Grader ($65) or standalone 80-Q 2-Phone Sync ($75):",
+    m4_desc: "Unlock the Songs, Morning Prayers & Essential Brachot Grader ($65) or standalone 80-Q 2-Phone Sync ($75):",
     m4_b1: "Songs ($65)",
     m4_b2: "80-Q Sync ($75)",
     code_ph: "Have a VIP / Promo Unlock Code? Enter here...",
@@ -1477,8 +1473,10 @@ window.syncProEntitlementFromCloud = function() {
       } else if (d.tier) {
         window.grantProEntitlement('cloud_restore', d.tier);
       }
-      renderAll();
-      openMod(window.currentMod || 'hebrew-engine');
+      if (!Array.from(document.querySelectorAll('audio')).some(function(a){ return !a.paused; })) {
+        renderAll();
+        openMod(window.currentMod || 'hebrew-engine');
+      }
     }
   }).catch(function(){});
 };
@@ -1517,8 +1515,10 @@ window.redeemProCode = async function() {
     }
     setTimeout(function() {
       window.closeProPaywall();
-      renderAll();
-      openMod(window.currentMod || 'hebrew-engine');
+      if (!Array.from(document.querySelectorAll('audio')).some(function(a){ return !a.paused; })) {
+        renderAll();
+        openMod(window.currentMod || 'hebrew-engine');
+      }
     }, 800);
   } else {
     if (msg) {
@@ -3088,17 +3088,132 @@ window.handleAppBrand = function(e) {
 };
 window.songNusach = localStorage.getItem('gat_nusach') || 's';
 window.songSubTab = 'songs';
+window.activeSongIdxByTab = window.activeSongIdxByTab || { songs: 0, morning: 0, brachot: 0 };
+window.speedPopupOpen = false;
+(function initSeoTrackParams() {
+  try {
+    const sp = new URLSearchParams(window.location.search);
+    const qTab = sp.get('tab');
+    const qTrack = sp.get('track');
+    if (qTab && (qTab === 'songs' || qTab === 'morning' || qTab === 'brachot')) {
+      window.songSubTab = qTab;
+      if (qTrack) {
+        const arr = qTab === 'brachot' ? (window.BRACHOT_VAULT8 || []) : (qTab === 'morning' ? (window.MORNING_VAULT7 || []) : (window.SONGS_VAULT12 || []));
+        const found = arr.findIndex(function(x) { return String(x.id) === String(qTrack); });
+        if (found >= 0) window.activeSongIdxByTab[qTab] = found;
+      }
+    }
+  } catch (e) {}
+})();
+window.getActiveSongIdx = function() {
+  const tab = window.songSubTab || 'songs';
+  const list = window.getActiveSongList();
+  const raw = (window.activeSongIdxByTab && typeof window.activeSongIdxByTab[tab] === 'number') ? window.activeSongIdxByTab[tab] : 0;
+  return Math.max(0, Math.min(Math.max(0, list.length - 1), raw));
+};
+window.formatTrackDur = function(sec) {
+  if (!sec || !isFinite(sec) || sec <= 0) return '';
+  const m = Math.floor(sec / 60), s = Math.round(sec % 60);
+  return m + ':' + (s < 10 ? '0' : '') + s;
+};
+window.toggleSpeedPopup = function(ev) {
+  if (ev) ev.stopPropagation();
+  const menu = document.getElementById('gat-spd-popup');
+  if (!menu) return;
+  window.speedPopupOpen = !window.speedPopupOpen;
+  menu.style.display = window.speedPopupOpen ? 'flex' : 'none';
+};
+window.chooseSongSpeed = function(r, ev) {
+  if (ev) ev.stopPropagation();
+  window.speedPopupOpen = false;
+  if (typeof window.setSongSpeed === 'function') window.setSongSpeed(r);
+  const lbl = document.getElementById('gat-spd-trigger-lbl');
+  if (lbl) lbl.textContent = '🐢/🐇 ' + r + 'x ▾';
+  document.querySelectorAll('#gat-spd-popup .gat-spd-opt').forEach(function(b) {
+    const act = Math.abs(parseFloat(b.getAttribute('data-rate')) - r) < 0.01;
+    b.style.background = act ? '#0284c7' : '#ffffff';
+    b.style.color = act ? '#ffffff' : '#0f172a';
+  });
+  const menu = document.getElementById('gat-spd-popup');
+  if (menu) menu.style.display = 'none';
+};
+if (!window._gatSpdOutsideBound) {
+  window._gatSpdOutsideBound = true;
+  document.addEventListener('click', function() {
+    window.speedPopupOpen = false;
+    const menu = document.getElementById('gat-spd-popup');
+    if (menu) menu.style.display = 'none';
+  });
+}
+window.selectAndPlayTrack = function(idx, autoPlay, targetTab) {
+  if (targetTab && targetTab !== window.songSubTab) {
+    window.songSubTab = targetTab;
+  }
+  const list = window.getActiveSongList();
+  if (!list.length) return;
+  const clamped = Math.max(0, Math.min(list.length - 1, idx));
+  window.activeSongIdxByTab[window.songSubTab || 'songs'] = clamped;
+  document.querySelectorAll('audio').forEach(function(a) { try { a.pause(); } catch(e){} });
+  if ('speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch(e){} }
+  if (window._activeRec) { try { window._activeRec.stop(); } catch(e){} window._activeRec = null; }
+  if (window._activeRecTimer) { clearInterval(window._activeRecTimer); window._activeRecTimer = null; }
+  window.speedPopupOpen = false;
+  window.renderSongs12();
+  const s = list[clamped];
+  if (!s) return;
+  const isBracha = window.songSubTab === 'brachot';
+  const cardId = s.id || (isBracha ? ('b' + clamped) : clamped);
+  const aud = document.getElementById('aud-' + cardId);
+  if (aud && window.songSpeed) {
+    try { aud.playbackRate = window.songSpeed; } catch(e){}
+  }
+  if (autoPlay) {
+    const stage = document.getElementById('gat-master-player-card');
+    if (stage) {
+      const rect = stage.getBoundingClientRect();
+      if (rect.top < 10 || rect.top > window.innerHeight * 0.58) {
+        stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+    if (aud) {
+      aud.currentTime = 0;
+      const p = aud.play();
+      if (p && typeof p.catch === 'function') p.catch(function(){});
+    } else {
+      const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
+      if (!unlocked && clamped >= window.FREE_SONG_LIMIT) {
+        window.openProPaywall(window.getSongsUI().pw_10s, true);
+      } else {
+        window.speakCleanBracha(clamped);
+      }
+    }
+  }
+};
+window.getActiveSongList = function() {
+  if (window.songSubTab === 'brachot') return window.BRACHOT_VAULT8 || [];
+  if (window.songSubTab === 'morning') return window.MORNING_VAULT7 || [];
+  return window.SONGS_VAULT12 || [];
+};
+window.resolveStampKey = function(cardId) {
+  const n = window.songNusach || 's';
+  const cleanId = String(cardId).trim();
+  const pref = n + '_' + cleanId;
+  if (window.songSubTab === 'brachot') return pref;
+  if (window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[pref]) return pref;
+  if (window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS['s_' + cleanId]) return 's_' + cleanId;
+  return pref;
+};
 window.songMaskMode = false;
 window.songMastered = JSON.parse(localStorage.getItem('gat_songs_m') || '{}');
-window.FREE_SONG_LIMIT = 3;
+window.FREE_SONG_LIMIT = 999; /* GAT_QA_OPEN_MODE */
 window._activeRec = null;
 window._activeRecTimer = null;
 window._activeKaraokeRaf = null;
 
 window.SONGS_UI_FALLBACKS = {
   en: {
-    sub_songs: '🎵 13 Shabbat Songs (Beit Knesset & Table)', sub_brachot: '📜 8 Mandatory Brachot & Shema',
-    nusach_s: '🕍 Sephardi / Edot HaMizrach', nusach_a: '🎩 Ashkenazi Nusach',
+    sub_morning: '☀️ Morning Prayers (Shacharit)', sub_songs: '🎵 Shabbat Songs', sub_brachot: '📜 Essential Brachot',
+    nusach_s: '🕍 Sephardi / Edot HaMizrach', nusach_a: '🎩 Ashkenazi (Classic & Carlebach)',
     locked_badge: ' 🔒 (10s Free Preview)', free_badge: ' 🟢 Full Track',
     btn_prev10: '▶️ Play 10s Preview', btn_play_full: '▶️ Play Full Song',
     btn_pronounce: '🔊 Pronounce & Stream Bracha', btn_sing: '🎙️ Sing & Grade My Hebrew (25s)', btn_mark: 'Mark',
@@ -3116,8 +3231,8 @@ window.SONGS_UI_FALLBACKS = {
     mic_refresh: '🔄 Refresh Page Now'
   },
   he: {
-    sub_songs: '🎵 13 שירי שבת (בית כנסת ושולחן שבת)', sub_brachot: '📜 8 ברכות חובה וקריאת שמע',
-    nusach_s: '🕍 נוסח ספרדי / עדות המזרח', nusach_a: '🎩 נוסח אשכנזי',
+    sub_morning: '☀️ תפילות השחר (שחרית)', sub_songs: '🎵 שירי שבת', sub_brachot: '📜 ברכות יסוד',
+    nusach_s: '🕍 נוסח ספרדי / עדות המזרח', nusach_a: '🎩 נוסח אשכנז (קלאסי וקרליבך)',
     locked_badge: ' 🔒 (10 שניות האזנה חינם)', free_badge: ' 🟢 שיר מלא',
     btn_prev10: '▶️ נגן 10 שניות דוגמה', btn_play_full: '▶️ נגן שיר מלא',
     btn_pronounce: '🔊 השמע ברכה במעקב מילים', btn_sing: '🎙️ שירו וקבלו ציון הגייה (25 שנ׳)', btn_mark: 'סמן נלמד',
@@ -3135,8 +3250,8 @@ window.SONGS_UI_FALLBACKS = {
     mic_refresh: '🔄 רענן דף כעת'
   },
   fr: {
-    sub_songs: '🎵 13 Chants de Chabbat (Synagogue & Table)', sub_brachot: '📜 8 Brakhot Obligatoires & Chéma',
-    nusach_s: '🕍 Noussakh Séfarade / Edot HaMizrach', nusach_a: '🎩 Noussakh Achkénaze',
+    sub_morning: '☀️ Prières du Matin (Chakharit)', sub_songs: '🎵 Chants de Chabbat', sub_brachot: '📜 Brakhot Essentielles',
+    nusach_s: '🕍 Noussakh Séfarade / Edot HaMizrach', nusach_a: '🎩 Achkénaze (Classique & Carlebach)',
     locked_badge: ' 🔒 (Aperçu 10s Gratuit)', free_badge: ' 🟢 Piste Complète',
     btn_prev10: '▶️ Écouter 10s', btn_play_full: '▶️ Écouter le Chant Complet',
     btn_pronounce: '🔊 Écouter la Brakha Mot-à-Mot', btn_sing: '🎙️ Chanter & Évaluer Mon Hébreu (25s)', btn_mark: 'Appris',
@@ -3173,7 +3288,7 @@ window.SONGS_UI_FALLBACKS = {
     mic_refresh: '🔄 Actualizar Página Ahora'
   },
   de: {
-    sub_songs: '🎵 13 Schabbat-Lieder (Synagoge & Tisch)', sub_brachot: '📜 8 Pflicht-Brachot & Schema',
+    sub_morning: '☀️ Morgengebete (Schacharit)', sub_songs: '🎵 Schabbat-Lieder', sub_brachot: '📜 Grundlegende Brachot',
     nusach_s: '🕍 Sephardischer Nussach / Edot HaMisrach', nusach_a: '🎩 Aschkenasischer Nussach',
     locked_badge: ' 🔒 (10s Vorschau)', free_badge: ' 🟢 Voller Titel',
     btn_prev10: '▶️ 10s Vorschau', btn_play_full: '▶️ Ganzes Lied Abspielen',
@@ -3231,12 +3346,12 @@ window.clearKaraokeHighlights = function(cardId) {
   });
 };
 
-window.setSongNusach = function(n) { window.songNusach = n; localStorage.setItem('gat_nusach', n); window.renderSongs12(); };
-window.setSongSubTab = function(t) { window.songSubTab = t; window.renderSongs12(); };
+window.setSongNusach = function(n) { document.querySelectorAll('audio').forEach(function(a){try{a.pause();}catch(e){}}); if('speechSynthesis' in window){try{window.speechSynthesis.cancel();}catch(e){}} window.songNusach = n; localStorage.setItem('gat_nusach', n); window.renderSongs12(); };
+window.setSongSubTab = function(t) { document.querySelectorAll('audio').forEach(function(a){try{a.pause();}catch(e){}}); if('speechSynthesis' in window){try{window.speechSynthesis.cancel();}catch(e){}} window.songSubTab = t; window.renderSongs12(); };
 
 window.onSongTimeUpdate = function(el, idx, cardId) {
   const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
-  const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[(window.songNusach||'s')+'_'+cardId]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= _lim) {
+  const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[window.resolveStampKey(cardId)]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= _lim) {
     el.pause(); el.currentTime = 0;
     window.clearKaraokeHighlights(cardId);
     window.openProPaywall(window.getSongsUI().pw_10s, true);
@@ -3251,20 +3366,12 @@ window.play10sNative = function(id) {
   const aud = document.getElementById('aud-' + id);
   if (!aud) return;
   document.querySelectorAll('audio').forEach(function(a) { if (a !== aud) a.pause(); });
-  if (window._activeKaraokeRaf) { cancelAnimationFrame(window._activeKaraokeRaf); window._activeKaraokeRaf = null; }
   aud.currentTime = 0;
   aud.play();
-  const tick = function() {
-    if (aud.paused || aud.ended) return;
-    const dur = (aud.duration && isFinite(aud.duration) && aud.duration > 0) ? aud.duration : 45;
-    window.highlightKaraokeProgress(id, Math.min(1, aud.currentTime / dur));
-    window._activeKaraokeRaf = requestAnimationFrame(tick);
-  };
-  window._activeKaraokeRaf = requestAnimationFrame(tick);
 };
 
 window.speakCleanBracha = function(idx) {
-  const b = (window.BRACHOT_VAULT8 || [])[idx];
+  const b = window.getActiveSongList()[idx];
   if (!b || !('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
   let txt = window.songNusach === 'a' ? (b.he_a || b.he_s) : (b.he_s || b.he_a);
@@ -3320,7 +3427,7 @@ window.gradeSongMic = function(idx, isBracha) {
     window.openProPaywall(ui.pw_mic, true);
     return;
   }
-  const list = isBracha ? (window.BRACHOT_VAULT8 || []) : (window.SONGS_VAULT12 || []);
+  const list = window.getActiveSongList();
   const s = list[idx];
   if (!s) return;
   const cardId = s.id || (isBracha ? ('b' + idx) : idx);
@@ -3407,65 +3514,7 @@ window.toggleSongMaster = function(id) {
   window.renderSongs12();
 };
 
-window.renderSongs12 = function() {
-  const sl = document.getElementById('songs-list');
-  if (!sl) return;
-  const ui = window.getSongsUI();
-  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
-  const n = window.songNusach || 's', isBracha = window.songSubTab === 'brachot';
-  const list = isBracha ? (window.BRACHOT_VAULT8 || []) : (window.SONGS_VAULT12 || []);
-  const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
-
-  const curSpd = window.songSpeed || 1;
-  const spdBar = '<div id="gat-speed-bar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;background:#f0f9ff;border:2px solid #0284c7;border-radius:11px;padding:8px 12px;margin-bottom:12px;">' +
-    '<span style="font-size:0.78rem;font-weight:900;color:#0c4a6e;">🐢/🐇 Speed (Tap any word to sync):</span>' +
-    '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
-    [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2].map(function(r) {
-      const act = Math.abs(r - curSpd) < 0.01;
-      return '<button type="button" class="gat-spd-btn" data-rate="' + r + '" onclick="window.setSongSpeed(' + r + ')" style="padding:5px 9px;border-radius:7px;border:1.5px solid ' + (act ? '#0284c7' : '#cbd5e1') + ';background:' + (act ? '#0284c7' : '#ffffff') + ';color:' + (act ? '#ffffff' : '#0f172a') + ';font-size:0.76rem;font-weight:900;cursor:pointer;">' + r + 'x</button>';
-    }).join('') + '</div></div>';
-  let html = spdBar + '<div style="display:flex;gap:6px;margin-bottom:8px;">' +
-    '<button type="button" onclick="setSongSubTab(\'songs\')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0c4a6e;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (!isBracha?'#0c4a6e':'#fff') + ';color:' + (!isBracha?'#fff':'#0c4a6e') + ';">' + ui.sub_songs + '</button>' +
-    '<button type="button" onclick="setSongSubTab(\'brachot\')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0369a1;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (isBracha?'#0369a1':'#fff') + ';color:' + (isBracha?'#fff':'#0369a1') + ';">' + ui.sub_brachot + '</button></div>' +
-    '<div style="display:flex;gap:8px;margin-bottom:10px;">' +
-    '<button type="button" onclick="setSongNusach(\'s\')" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='s'?'#0284c7':'#fff') + ';color:' + (n==='s'?'#fff':'#0284c7') + ';">' + ui.nusach_s + '</button>' +
-    '<button type="button" onclick="setSongNusach(\'a\')" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid #0f766e;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='a'?'#0f766e':'#fff') + ';color:' + (n==='a'?'#fff':'#0f766e') + ';">' + ui.nusach_a + '</button></div>';
-
-  for (let idx = 0; idx < list.length; idx++) {
-    const s = list[idx];
-    const cardId = s.id || (isBracha ? ('b' + idx) : idx);
-    const done = !!window.songMastered[cardId];
-    const heTxt = n === 'a' ? (s.he_a || s.he_s) : (s.he_s || s.he_a);
-    const trObj = n === 'a' ? (s.tr_a || s.tr_s) : (s.tr_s || s.tr_a);
-    const trTxt = (trObj && typeof trObj === 'object') ? (trObj[l] || trObj.en || '') : (trObj || '');
-    const locked = !unlocked && idx >= window.FREE_SONG_LIMIT;
-    const maskStyle = locked ? 'filter:blur(4px);cursor:pointer;' : '';
-    const whenTxt = (s.when && typeof s.when === 'object') ? (s.when[l] || s.when.en || '') : (s.when || '');
-    const note = (s.m && s.m[l]) ? s.m[l] : (s.m ? (s.m.en || s.m) : '');
-    const hasMp3 = !isBracha && s.id <= 13;
-    const mp3 = '/app/audio/' + n + '_' + s.id + '.mp3';
-
-    const heTokensHtml = window.tokenizeKaraokeWords(heTxt, 'he', cardId);
-    const trTokensHtml = window.tokenizeKaraokeWords(trTxt, 'tr', cardId);
-
-    html += '<div style="padding:14px;border:1.5px solid ' + (done?'#10b981':'#cbd5e1') + ';border-radius:14px;margin-bottom:12px;background:' + (done?'#f0fdf4':'#f8fafc') + ';">' +
-      (whenTxt ? '<div style="font-size:0.72rem;font-weight:800;color:#0284c7;text-transform:uppercase;margin-bottom:3px;">' + whenTxt + '</div>' : '') +
-      '<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">' +
-      '<div style="font-weight:900;color:#0c4a6e;font-size:0.95rem;">' + s.t + (locked ? ui.locked_badge : ui.free_badge) + '</div>' +
-      '<div style="display:flex;gap:5px;flex-wrap:wrap;">' +
-      (hasMp3
-        ? '<button type="button" onclick="play10sNative(\'' + cardId + '\')" style="background:#0d9488;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (locked ? ui.btn_prev10 : ui.btn_play_full) + '</button>'
-        : '<button type="button" onclick="speakCleanBracha(' + idx + ')" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + ui.btn_pronounce + '</button>') +
-      '<button type="button" onclick="toggleSongMaster(\'' + cardId + '\')" style="background:' + (done?'#059669':'#e2e8f0') + ';color:' + (done?'#fff':'#334155') + ';border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (done?'✅':ui.btn_mark) + '</button></div></div>' +
-      (hasMp3 ? '<audio id="aud-' + cardId + '" src="' + mp3 + '" controls preload="none" ontimeupdate="onSongTimeUpdate(this,' + idx + ',\'' + cardId + '\')" style="width:100%;height:36px;margin-bottom:8px;"></audio>' : '') +
-      '<div id="he-box-' + cardId + '" dir="rtl" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:1.06rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.85;max-height:190px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + heTokensHtml + '</div>' +
-      '<div id="tr-box-' + cardId + '" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:0.88rem;color:#1e293b;font-style:italic;background:#ffffff;padding:8px 11px;border-radius:8px;border:1px dashed #cbd5e1;margin-bottom:10px;line-height:1.65;max-height:150px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + trTokensHtml + '</div>' +
-      '<button type="button" onclick="gradeSongMic(' + idx + ',' + (isBracha?'true':'false') + ')" style="width:100%;background:#d97706;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-size:0.84rem;font-weight:900;cursor:pointer;margin-bottom:8px;">' + ui.btn_sing + '</button>' +
-      '<div id="song-mic-out-' + cardId + '" style="display:none;margin-bottom:6px;font-size:0.8rem;"></div>' +
-      '<div style="font-size:0.81rem;color:#475569;border-top:1px dashed #cbd5e1;padding-top:6px;">💡 ' + note + '</div></div>';
-  }
-  sl.innerHTML = html;
-};
+/* removed shadowed legacy renderSongs12 */
 
 window.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(location.search);
@@ -3766,7 +3815,7 @@ window.syncKaraokeFrame = function(aud, cardId, forceScroll) {
   if (!aud) return;
   const n = window.songNusach || 's';
   const cleanId = String(cardId).trim();
-  const stampKey = n + '_' + cleanId;
+  const stampKey = window.resolveStampKey(cleanId);
   const stampList = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[stampKey];
   const heBox = document.getElementById('he-box-' + cleanId);
   if (!heBox) return;
@@ -3824,7 +3873,7 @@ window.start60FpsKaraokeLoop = function(aud, idx, cardId) {
   const tick = function() {
     if (!aud || aud.paused || aud.ended) return;
     const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
-    const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[(window.songNusach||'s')+'_'+cardId]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && aud.currentTime >= _lim) {
+    const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[window.resolveStampKey(cardId)]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && aud.currentTime >= _lim) {
       aud.pause(); aud.currentTime = 0;
       window.clearKaraokeHighlights(cardId);
       window.openProPaywall(window.getSongsUI().pw_10s, true);
@@ -3838,7 +3887,7 @@ window.start60FpsKaraokeLoop = function(aud, idx, cardId) {
 
 window.onSongTimeUpdate = function(el, idx, cardId) {
   const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
-  const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[(window.songNusach||'s')+'_'+cardId]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= _lim) {
+  const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[window.resolveStampKey(cardId)]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= _lim) {
     el.pause(); el.currentTime = 0;
     window.clearKaraokeHighlights(cardId);
     window.openProPaywall(window.getSongsUI().pw_10s, true);
@@ -3869,7 +3918,7 @@ window.seekKaraokeWord = function(cardId, wordIdx, totalWords, ev) {
   if (ev) { ev.preventDefault(); ev.stopPropagation(); }
   const aud = document.getElementById('aud-' + cardId);
   const n = window.songNusach || 's';
-  const stampList = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[n + '_' + cardId];
+  const stampList = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[window.resolveStampKey(cardId)];
   const fallbackDur = (window.SONG_DURATIONS && window.SONG_DURATIONS[n] && window.SONG_DURATIONS[n][String(cardId)]) || 60;
 
   let targetSec = 0;
@@ -3944,7 +3993,7 @@ window.play10sNative = function(id, idx) {
   aud.webkitPreservesPitch = true;
   aud.playbackRate = window.songSpeed || 1;
   const n = window.songNusach || 's';
-  const stamps = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[n + '_' + id];
+  const stamps = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[window.resolveStampKey(id)];
   const firstWordSec = (stamps && stamps.length) ? (parseFloat(stamps[0]) || 0) : 0;
   if (aud.currentTime < 0.5 && firstWordSec > 3.0) {
     try { aud.currentTime = Math.max(0, firstWordSec - 1.0); } catch(e) {}
@@ -3960,40 +4009,68 @@ window.play10sNative = function(id, idx) {
 };
 
 window.renderSongs12 = function() {
-  window.stopAllOtherSongs(null, null);
   const sl = document.getElementById('songs-list');
   if (!sl) return;
   const ui = window.getSongsUI();
   const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
-  const n = window.songNusach || 's', isBracha = window.songSubTab === 'brachot';
-  const list = isBracha ? (window.BRACHOT_VAULT8 || []) : (window.SONGS_VAULT12 || []);
+  const n = window.songNusach || 's';
+  const curSub = window.songSubTab || 'songs';
+  const isBracha = curSub === 'brachot';
+  const list = window.getActiveSongList();
   const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
   const curSpd = window.songSpeed || 1;
+  const idx = window.getActiveSongIdx();
 
-  const spdLbl = {
-    en: '🐢/🐇 Speed (Tap any word to jump):',
-    he: '🐢/🐇 מהירות (לחצו על מילה לקפיצה):',
-    fr: '🐢/🐇 Vitesse (Touchez un mot) :',
-    es: '🐢/🐇 Velocidad (Toque una palabra):',
-    de: '🐢/🐇 Tempo (Wort antippen):'
-  }[l] || '🐢/🐇 Speed:';
+  const pickLbl = {
+    en: '👇 Tap any title to load & auto-play:',
+    he: '👇 לחצו על שיר או תפילה להשמעה מיידית:',
+    fr: '👇 Touchez un titre pour écouter :',
+    es: '👇 Toque cualquier título para escuchar:',
+    de: '👇 Titel antippen zum Sofort-Abspielen:'
+  }[l] || '👇 Tap any title to load & auto-play:';
 
-  let html = '<div style="display:flex;gap:6px;margin-bottom:8px;">' +
-    '<button type="button" onclick="setSongSubTab(\'songs\')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0c4a6e;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (!isBracha?'#0c4a6e':'#fff') + ';color:' + (!isBracha?'#fff':'#0c4a6e') + ';">' + ui.sub_songs + '</button>' +
-    '<button type="button" onclick="setSongSubTab(\'brachot\')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0369a1;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (isBracha?'#0369a1':'#fff') + ';color:' + (isBracha?'#fff':'#0369a1') + ';">' + ui.sub_brachot + '</button></div>' +
-    '<div style="display:flex;gap:8px;margin-bottom:8px;">' +
-    '<button type="button" onclick="setSongNusach(\'s\')" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='s'?'#0284c7':'#fff') + ';color:' + (n==='s'?'#fff':'#0284c7') + ';">' + ui.nusach_s + '</button>' +
-    '<button type="button" onclick="setSongNusach(\'a\')" style="flex:1;padding:7px;border-radius:8px;border:1.5px solid #0f766e;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='a'?'#0f766e':'#fff') + ';color:' + (n==='a'?'#fff':'#0f766e') + ';">' + ui.nusach_a + '</button></div>' +
-    '<div id="gat-speed-bar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;background:#f0f9ff;border:2px solid #0284c7;border-radius:11px;padding:8px 12px;margin-bottom:6px;">' +
-    '<span style="font-size:0.78rem;font-weight:900;color:#0c4a6e;">' + spdLbl + '</span>' +
-    '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
-    window.SONG_SPEED_OPTS.map(function(r) {
-      const act = Math.abs(r - curSpd) < 0.01;
-      return '<button type="button" class="gat-spd-btn" data-rate="' + r + '" onclick="window.setSongSpeed(' + r + ')" style="padding:5px 9px;border-radius:7px;border:1.5px solid ' + (act ? '#0284c7' : '#cbd5e1') + ';background:' + (act ? '#0284c7' : '#ffffff') + ';color:' + (act ? '#ffffff' : '#0f172a') + ';font-size:0.76rem;font-weight:900;cursor:pointer;">' + r + 'x</button>';
-    }).join('') + '</div></div>' +
-    '<div id="gat-sync-hud" style="font-size:0.73rem;font-weight:800;color:#0369a1;background:#e0f2fe;padding:5px 10px;border-radius:8px;margin-bottom:12px;">🎯 Gemini 3.8 Flash 1:1 Timestamp Sync Active — Tap Play or Tap Any Word</div>';
+  const wordTapLbl = {
+    en: 'Tap any word in the text to jump right to it',
+    he: 'לחצו על כל מילה בטקסט לקפיצה אליה בשיר',
+    fr: 'Touchez un mot du texte pour y accéder',
+    es: 'Toque cualquier palabra para saltar a ella',
+    de: 'Tippen Sie auf ein Wort, um dorthin zu springen'
+  }[l] || 'Tap any word to jump';
 
-  for (let idx = 0; idx < list.length; idx++) {
+  const morningLbl = ui.sub_morning || '☀️ Morning Prayers (Shacharit)';
+  let html = '<div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">' +
+    '<button type="button" onclick="setSongSubTab(\'songs\')" style="flex:1 1 135px;padding:9px 8px;border-radius:10px;border:2px solid #0c4a6e;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (curSub==='songs'?'#0c4a6e':'#fff') + ';color:' + (curSub==='songs'?'#fff':'#0c4a6e') + ';">' + ui.sub_songs + '</button>' +
+    '<button type="button" onclick="setSongSubTab(\'morning\')" style="flex:1 1 155px;padding:9px 8px;border-radius:10px;border:2px solid #d97706;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (curSub==='morning'?'#d97706':'#fffbeb') + ';color:' + (curSub==='morning'?'#fff':'#92400e') + ';">' + morningLbl + '</button>' +
+    '<button type="button" onclick="setSongSubTab(\'brachot\')" style="flex:1 1 135px;padding:9px 8px;border-radius:10px;border:2px solid #0369a1;font-weight:900;font-size:0.8rem;cursor:pointer;background:' + (curSub==='brachot'?'#0369a1':'#fff') + ';color:' + (curSub==='brachot'?'#fff':'#0369a1') + ';">' + ui.sub_brachot + '</button></div>' +
+    '<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">' +
+    '<button type="button" onclick="setSongNusach(\'s\')" style="flex:1 1 160px;padding:7px 8px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='s'?'#0284c7':'#fff') + ';color:' + (n==='s'?'#fff':'#0284c7') + ';">' + ui.nusach_s + '</button>' +
+    '<button type="button" onclick="setSongNusach(\'a\')" style="flex:1 1 160px;padding:7px 8px;border-radius:8px;border:1.5px solid #0f766e;font-weight:800;font-size:0.78rem;cursor:pointer;background:' + (n==='a'?'#0f766e':'#fff') + ';color:' + (n==='a'?'#fff':'#0f766e') + ';">' + ui.nusach_a + '</button></div>';
+
+  html += '<div style="background:#f1f5f9;border:1.5px solid #cbd5e1;border-radius:12px;padding:9px 10px;margin-bottom:12px;">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:0.74rem;font-weight:900;color:#0c4a6e;">' +
+    '<span>' + pickLbl + '</span><span style="color:#64748b;font-weight:800;">' + (idx + 1) + ' / ' + list.length + '</span></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:5px;max-height:205px;overflow-y:auto;padding-right:2px;">';
+
+  for (let i = 0; i < list.length; i++) {
+    const item = list[i];
+    const cId = item.id || (isBracha ? ('b' + i) : i);
+    const isAct = (i === idx);
+    const isDone = !!window.songMastered[cId];
+    const isLck = !unlocked && i >= window.FREE_SONG_LIMIT;
+    const rKey = window.resolveStampKey(item.id);
+    const rParts = rKey.split('_');
+    const durSec = window.SONG_DURATIONS && window.SONG_DURATIONS[rParts[0]] && window.SONG_DURATIONS[rParts[0]][rParts[1]];
+    const durStr = window.formatTrackDur(durSec);
+    const bg = isAct ? '#0c4a6e' : (isDone ? '#ecfdf5' : '#ffffff');
+    const fg = isAct ? '#ffffff' : '#0f172a';
+    const bd = isAct ? '2px solid #0284c7' : ('1px solid ' + (isDone ? '#10b981' : '#cbd5e1'));
+    html += '<button type="button" onclick="window.selectAndPlayTrack(' + i + ', true)" style="display:flex;align-items:center;justify-content:space-between;gap:6px;text-align:left;padding:7px 9px;border-radius:8px;border:' + bd + ';background:' + bg + ';color:' + fg + ';font-size:0.77rem;font-weight:' + (isAct?'900':'700') + ';cursor:pointer;width:100%;">' +
+      '<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (isAct ? '🔊 ' : '') + item.t + '</span>' +
+      '<span style="flex-shrink:0;font-size:0.7rem;opacity:0.88;">' + (isDone ? '✅ ' : (isLck ? '🔒 ' : '')) + (durStr || '') + '</span></button>';
+  }
+  html += '</div></div>';
+
+  if (list.length > 0) {
     const s = list[idx];
     const cardId = s.id || (isBracha ? ('b' + idx) : idx);
     const done = !!window.songMastered[cardId];
@@ -4004,31 +4081,51 @@ window.renderSongs12 = function() {
     const maskStyle = locked ? 'filter:blur(4px);cursor:pointer;' : '';
     const whenTxt = (s.when && typeof s.when === 'object') ? (s.when[l] || s.when.en || '') : (s.when || '');
     const note = (s.m && s.m[l]) ? s.m[l] : (s.m ? (s.m.en || s.m) : '');
-    const hasMp3 = !isBracha && s.id <= 13;
+    const resolvedKey = window.resolveStampKey(s.id);
+    const hasMp3 = !!(window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[resolvedKey]);
+    const verHash = (window.SONG_AUDIO_VER && window.SONG_AUDIO_VER[resolvedKey]) ? window.SONG_AUDIO_VER[resolvedKey] : '2';
     const cfBase = (window.GAT_AUDIO_CDN || 'https://audio.giyuraliyahtrack.com').replace(/\/+$/, '');
-    const mp3 = cfBase + '/' + n + '_' + s.id + '.mp3';
-    const localFallback = '/app/audio/' + n + '_' + s.id + '.mp3';
+    const mp3 = cfBase + '/' + resolvedKey + '.mp3?v=' + verHash + (window.__gatIdToken ? '&token=' + encodeURIComponent(window.__gatIdToken) : '');
+    const localFallback = '/app/audio/' + resolvedKey + '.mp3?v=' + verHash;
 
     const heTokensHtml = window.tokenizeKaraokeWords(heTxt, 'he', cardId);
     const trTokensHtml = window.tokenizeKaraokeWords(trTxt, 'tr', cardId);
 
-    html += '<div style="padding:14px;border:1.5px solid ' + (done?'#10b981':'#cbd5e1') + ';border-radius:14px;margin-bottom:12px;background:' + (done?'#f0fdf4':'#f8fafc') + ';">' +
+    const spdPopupHtml = '<div id="gat-spd-wrap" style="position:relative;display:inline-block;">' +
+      '<button type="button" onclick="window.toggleSpeedPopup(event)" style="background:#f0f9ff;color:#0c4a6e;border:1.5px solid #0284c7;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:900;cursor:pointer;" id="gat-spd-trigger-lbl">🐢/🐇 ' + curSpd + 'x ▾</button>' +
+      '<div id="gat-spd-popup" onclick="event.stopPropagation()" style="display:none;position:absolute;right:0;top:calc(100% + 5px);background:#ffffff;border:2px solid #0284c7;border-radius:11px;padding:6px;box-shadow:0 12px 28px rgba(15,23,42,0.22);z-index:9999;flex-direction:column;gap:3px;min-width:96px;">' +
+      (window.SONG_SPEED_OPTS || [0.5, 0.75, 1, 1.25, 1.5]).map(function(r) {
+        const act = Math.abs(r - curSpd) < 0.01;
+        return '<button type="button" class="gat-spd-btn gat-spd-opt" data-rate="' + r + '" onclick="window.chooseSongSpeed(' + r + ', event)" style="padding:6px 10px;border-radius:7px;border:1px solid ' + (act ? '#0284c7' : '#e2e8f0') + ';background:' + (act ? '#0284c7' : '#ffffff') + ';color:' + (act ? '#ffffff' : '#0f172a') + ';font-size:0.76rem;font-weight:900;cursor:pointer;text-align:center;">' + r + 'x</button>';
+      }).join('') + '</div></div>';
+
+    const prevIdx = (idx - 1 + list.length) % list.length;
+    const nextIdx = (idx + 1) % list.length;
+
+    html += '<div id="gat-master-player-card" style="padding:15px;border:2px solid ' + (done?'#10b981':'#0284c7') + ';border-radius:15px;margin-bottom:8px;background:' + (done?'#f0fdf4':'#f8fafc') + ';box-shadow:0 6px 18px rgba(12,74,110,0.07);">' +
       (whenTxt ? '<div style="font-size:0.72rem;font-weight:800;color:#0284c7;text-transform:uppercase;margin-bottom:3px;">' + whenTxt + '</div>' : '') +
       '<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">' +
-      '<div style="font-weight:900;color:#0c4a6e;font-size:0.95rem;">' + s.t + (locked ? ui.locked_badge : ui.free_badge) + '</div>' +
-      '<div style="display:flex;gap:5px;flex-wrap:wrap;">' +
+      '<div style="font-weight:900;color:#0c4a6e;font-size:0.98rem;">' + s.t + (locked ? ui.locked_badge : ui.free_badge) + '</div>' +
+      '<div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;">' +
+      '<button type="button" title="Previous" onclick="window.selectAndPlayTrack(' + prevIdx + ', true)" style="background:#e2e8f0;color:#0f172a;border:none;border-radius:999px;padding:5px 9px;font-size:0.74rem;font-weight:900;cursor:pointer;">⏮</button>' +
       (hasMp3
-        ? '<button type="button" onclick="play10sNative(\'' + cardId + '\',' + idx + ')" style="background:#0d9488;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (locked ? ui.btn_prev10 : ui.btn_play_full) + '</button>'
-        : '<button type="button" onclick="speakCleanBracha(' + idx + ')" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + ui.btn_pronounce + '</button>') +
+        ? '<button type="button" onclick="play10sNative(\'' + cardId + '\',' + idx + ')" style="background:#0d9488;color:#fff;border:none;border-radius:999px;padding:5px 11px;font-size:0.75rem;font-weight:800;cursor:pointer;">' + (locked ? ui.btn_prev10 : ui.btn_play_full) + '</button>'
+        : '<button type="button" onclick="speakCleanBracha(' + idx + ')" style="background:#0284c7;color:#fff;border:none;border-radius:999px;padding:5px 11px;font-size:0.75rem;font-weight:800;cursor:pointer;">' + ui.btn_pronounce + '</button>') +
+      '<button type="button" title="Next" onclick="window.selectAndPlayTrack(' + nextIdx + ', true)" style="background:#e2e8f0;color:#0f172a;border:none;border-radius:999px;padding:5px 9px;font-size:0.74rem;font-weight:900;cursor:pointer;">⏭</button>' +
+      spdPopupHtml +
       '<button type="button" onclick="toggleSongMaster(\'' + cardId + '\')" style="background:' + (done?'#059669':'#e2e8f0') + ';color:' + (done?'#fff':'#334155') + ';border:none;border-radius:999px;padding:5px 10px;font-size:0.74rem;font-weight:800;cursor:pointer;">' + (done?'✅':ui.btn_mark) + '</button></div></div>' +
-      (hasMp3 ? '<audio id="aud-' + cardId + '" data-song-idx="' + idx + '" src="' + mp3 + '" onerror="if(this.src.indexOf(\'/app/audio/\')===-1){this.src=\'' + localFallback + '\';}" controls preload="metadata" onplay="window.stopAllOtherSongs(this,\'' + cardId + '\');window.start60FpsKaraokeLoop(this,' + idx + ',\'' + cardId + '\');" onseeked="window.syncKaraokeFrame(this,\'' + cardId + '\',true);" onratechange="window.syncKaraokeFrame(this,\'' + cardId + '\',false);" ontimeupdate="onSongTimeUpdate(this,' + idx + ',\'' + cardId + '\')" style="width:100%;height:36px;margin-bottom:8px;"></audio>' : '') +
-      '<div id="he-box-' + cardId + '" dir="rtl" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:1.06rem;font-weight:800;color:#0f172a;background:#fff;padding:10px 12px;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;line-height:1.85;max-height:195px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + heTokensHtml + '</div>' +
-      '<div id="tr-box-' + cardId + '" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:0.88rem;color:#1e293b;font-style:italic;background:#ffffff;padding:8px 11px;border-radius:8px;border:1px dashed #cbd5e1;margin-bottom:10px;line-height:1.65;max-height:150px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + trTokensHtml + '</div>' +
+      '<div id="gat-sync-hud" style="font-size:0.73rem;font-weight:800;color:#0369a1;background:#e0f2fe;padding:5px 10px;border-radius:8px;margin-bottom:8px;">🎯 ' + wordTapLbl + '</div>' +
+      (hasMp3 ? '<audio id="aud-' + cardId + '" data-song-idx="' + idx + '" src="' + mp3 + '" onloadedmetadata="if(window.songSpeed)this.playbackRate=window.songSpeed;" onerror="if(this.src.indexOf(\'/app/audio/\')===-1){this.src=\'' + localFallback + '\';}" controls preload="metadata" onplay="if(window.songSpeed)this.playbackRate=window.songSpeed;window.stopAllOtherSongs(this,\'' + cardId + '\');window.start60FpsKaraokeLoop(this,' + idx + ',\'' + cardId + '\');" onseeked="window.syncKaraokeFrame(this,\'' + cardId + '\',true);" onratechange="window.syncKaraokeFrame(this,\'' + cardId + '\',false);" onended="if(!(window.canUnlockSongs?window.canUnlockSongs():window.isProUnlocked())&&' + idx + '>=window.FREE_SONG_LIMIT){this.currentTime=0;window.clearKaraokeHighlights(\'' + cardId + '\');window.openProPaywall(window.getSongsUI().pw_10s,true);}" ontimeupdate="onSongTimeUpdate(this,' + idx + ',\'' + cardId + '\')" style="width:100%;height:38px;margin-bottom:8px;"></audio>' : '') +
+      '<div id="he-box-' + cardId + '" dir="rtl" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:1.1rem;font-weight:800;color:#0f172a;background:#fff;padding:12px 14px;border-radius:9px;border:1px solid #cbd5e1;margin-bottom:7px;line-height:1.9;max-height:230px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + heTokensHtml + '</div>' +
+      '<div id="tr-box-' + cardId + '" onclick="if(' + (locked?'true':'false') + ') openProPaywall(null,true);" style="font-size:0.9rem;color:#1e293b;font-style:italic;background:#ffffff;padding:9px 12px;border-radius:9px;border:1px dashed #cbd5e1;margin-bottom:10px;line-height:1.68;max-height:165px;overflow-y:auto;scroll-behavior:smooth;position:relative;' + maskStyle + '">' + trTokensHtml + '</div>' +
       '<button type="button" onclick="gradeSongMic(' + idx + ',' + (isBracha?'true':'false') + ')" style="width:100%;background:#d97706;color:#fff;border:none;border-radius:10px;padding:10px 12px;font-size:0.84rem;font-weight:900;cursor:pointer;margin-bottom:8px;">' + ui.btn_sing + '</button>' +
       '<div id="song-mic-out-' + cardId + '" style="display:none;margin-bottom:6px;font-size:0.8rem;"></div>' +
       '<div style="font-size:0.81rem;color:#475569;border-top:1px dashed #cbd5e1;padding-top:6px;">💡 ' + note + '</div></div>';
   }
+
   sl.innerHTML = html;
+  const _seoDir = document.getElementById('gat-seo-liturgy-directory');
+  if (_seoDir && sl.parentNode && _seoDir.parentNode !== sl.parentNode) { sl.parentNode.appendChild(_seoDir); }
   sl.querySelectorAll('audio').forEach(function(a) {
     a.preservesPitch = true;
     a.playbackRate = curSpd;
@@ -4207,3 +4304,69 @@ if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) {
     if (user && window.ensureUserDoc) window.ensureUserDoc(user);
   });
 }
+
+/* GAT_WORKER_TOKEN_BRIDGE */
+(function() {
+  window.__gatIdToken = window.__gatIdToken || "";
+  function refreshAudioUrlsWithToken(tok) {
+    document.querySelectorAll('audio[id^="aud-"]').forEach(function(el) {
+      if (el.paused && el.src && el.src.indexOf("audio.giyuraliyahtrack.com") !== -1) {
+        try {
+          var u = new URL(el.src);
+          if (tok) u.searchParams.set("token", tok);
+          else u.searchParams.delete("token");
+          if (el.src !== u.toString()) el.src = u.toString();
+        } catch (e) {}
+      }
+    });
+  }
+  function reconcileServerEntitlements(user) {
+    localStorage.removeItem("gat_unlocked_tier");
+    if (!user) return;
+    if (typeof firebase !== "undefined" && firebase.firestore) {
+      firebase.firestore().collection("pro_entitlements").doc(user.uid).get().then(function(snap) {
+        if (!snap.exists) return;
+        var d = snap.data() || {};
+        var serverMap = d.entitlementsMap || {};
+        if (!Object.keys(serverMap).length && d.tier) {
+          serverMap[d.tier] = { exp: d.exp || 0, ts: Date.now() };
+        }
+        if (Object.keys(serverMap).length) {
+          localStorage.setItem("gat_entitlements_v2", JSON.stringify(serverMap));
+          var anyPlaying = Array.from(document.querySelectorAll("audio")).some(function(a){ return !a.paused; });
+          if (!anyPlaying && typeof window.renderSongs12 === "function" && window.currentMod === "songs-prayers") {
+            window.renderSongs12();
+          }
+        }
+      }).catch(function() {});
+    }
+  }
+  function attachAudioTokenSync() {
+    if (typeof firebase === "undefined" || !firebase.auth) {
+      setTimeout(attachAudioTokenSync, 400);
+      return;
+    }
+    try {
+      var authObj = firebase.auth();
+      var handler = function(user) {
+        reconcileServerEntitlements(user);
+        if (!user) {
+          window.__gatIdToken = "";
+          return;
+        }
+        user.getIdToken().then(function(tok) {
+          var prev = window.__gatIdToken;
+          window.__gatIdToken = tok || "";
+          if (tok && tok !== prev) refreshAudioUrlsWithToken(tok);
+        }).catch(function() {});
+      };
+      if (authObj.onIdTokenChanged) authObj.onIdTokenChanged(handler);
+      else authObj.onAuthStateChanged(handler);
+      setInterval(function() {
+        var u = firebase.auth().currentUser;
+        if (u) u.getIdToken(true).then(function(t) { window.__gatIdToken = t || ""; }).catch(function() {});
+      }, 45 * 60 * 1000);
+    } catch (e) {}
+  }
+  attachAudioTokenSync();
+})();
