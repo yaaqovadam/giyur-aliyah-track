@@ -1,0 +1,12 @@
+name: Check Gov.il PIBA Form Updates
+on:
+  schedule:
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+jobs:
+  check-piba:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check gov.il PDF headers against baseline manifest
+        run: python3 scripts/check_gov_il_updates.py

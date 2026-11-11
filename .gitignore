@@ -20,3 +20,10 @@ public/app/audio/_backup*/
 public/app/_backup*
 **/*.bak
 _*.py
+
+# Audio binaries (served from Cloudflare R2)
+r2_drop_batch2/
+# Local calibration & scratch files
+_pdf_calibration/
+_exact_6forms_geometry.txt
+_run_seg1_test.js

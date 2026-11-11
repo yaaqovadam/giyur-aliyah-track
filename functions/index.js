@@ -16,8 +16,9 @@ exports.auditDoc = onRequest(
     secrets: [GEMINI_API_KEY],
     cors: true,
     invoker: "public",
-    maxInstances: 10,
-    timeoutSeconds: 60,
+    maxInstances: 20,
+    concurrency: 6,
+    timeoutSeconds: 120,
     memory: "512MiB"
   },
   async (req, res) => {
@@ -27,6 +28,10 @@ exports.auditDoc = onRequest(
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });
     }
+    if (req.body && (req.body.mode === "translate_form_hebrew" || req.body.mode === "scan_worksheet")) {
+      return require("./forms_ai_helper").handleFormsAi(req, res, typeof GEMINI_API_KEY !== "undefined" ? GEMINI_API_KEY : null, "gemini-3.8-flash");
+    }
+
 
     try {
       const { mimeType, base64Data, mode, lang } = req.body || {};
@@ -43,7 +48,7 @@ exports.auditDoc = onRequest(
       const cleanBase64 = String(base64Data).replace(/^data:[^;]+;base64,/, "");
 
       const todayStr = new Date().toISOString().slice(0, 10);
-      const targetLang = { en: "English", he: "Hebrew", fr: "French", es: "Spanish", de: "German" }[lang || "en"] || "English";
+      const targetLang = { en: "English", he: "Hebrew", fr: "French", es: "Spanish", de: "German", ru: "Russian" }[lang || "en"] || "English";
 
       const systemPrompt = mode === "align_audio"
         ? `You are a precision Hebrew liturgical audio-to-karaoke forced alignment engine.
@@ -68,7 +73,7 @@ Examine the uploaded certificate, passport, rabbinic letter, or Apostille image/
 Return ONLY valid JSON with this exact schema:
 {
   "doc_type": "birth_cert | police_check | single_status | rabbinic_letter | passport | apostille | other",
-  "doc_title_detected": "Short title in ${targetLang}",
+  "person_full_name": "exact full name on document", "prior_or_maiden_names": "any maiden or prior names", "date_of_birth": "YYYY-MM-DD", "passport_number": "passport number", "father_full_name": "father full name", "mother_full_name": "mother full name", "doc_title_detected": "Short title in ${targetLang}",
   "issue_date_iso": "YYYY-MM-DD or null if not visible",
   "days_since_issued": 0,
   "passport_months_remaining": 36,

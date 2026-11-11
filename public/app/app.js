@@ -23,7 +23,7 @@ window.decodeClerkSheet = function() {
       <div style="font-size:0.82rem;color:#334155;margin-top:2px;"><strong>${j.flag} Your Exact Homeland Doc:</strong> ${j[c.k]}</div>
     </div>`
   ).join('');
-  box.innerHTML = `<div style="font-weight:900;color:#b91c1c;margin-bottom:8px;">🚨 30-Day Administrative File-Closure Timer Active (Drishat Mismachim)</div>${list}<div style="font-size:0.82rem;color:#0f172a;margin-top:6px;">💡 <strong>Next Step:</strong> If any homeland document above will take >21 days to arrive, generate Option #1 (30/60-Day Extension Request) below immediately!</div>`;
+  box.innerHTML = `<div style="font-weight:900;color:#b91c1c;margin-bottom:8px;">🚨 Clerk Deficiency Clock Active — Target <25 Days (Beat Old 30d Clerk Habit; 45d Max by 2026 Law)</div>${list}<div style="font-size:0.82rem;color:#0f172a;margin-top:6px;">💡 <strong>Next Step:</strong> If any homeland document above will take >21 days to arrive, generate Option #1 (30/60-Day Extension Request) below immediately!</div>`;
 };
 
 window.loadSampleClerk = function() {
@@ -541,7 +541,8 @@ window.toggleLang = function(e) {
       ['he', '🇮🇱 עברית (ישראל)'],
       ['fr', '🇫🇷 Français (FR/BE/CH)'],
       ['es', '🇪🇸/🇦🇷 Español (ES/LatAm)'],
-      ['de', '🇩🇪/🇦🇹 Deutsch (DACH)']
+      ['de', '🇩🇪/🇦🇹 Deutsch (DACH)'],
+      ['ru', '🇷🇺 Русский (RU)']
     ];
     m.innerHTML = opts.map(([k, lbl]) =>
       `<button type="button" onclick="setAppLang('${k}'); document.getElementById('lang-pop-menu').style.display='none';" style="background:#1e293b;color:#fff;border:1px solid #334155;border-radius:10px;padding:10px 12px;font-weight:800;font-size:13.5px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;width:100%;"><span>${lbl}</span><span style="color:#38bdf8;font-size:11px;margin-left:8px;">${k.toUpperCase()}</span></button>`
@@ -577,7 +578,7 @@ function renderAll() {
       </div>
       <div class="card" style="border:2px solid #0284c7;background:#f0f9ff;">
         <h2>📥 1. "IN" Translator: Decode Clerk Deficiency Sheet (Drishat Mismachim)</h2>
-        <p>Handed a mystery Hebrew checklist by a clerk? Paste the Hebrew text below (or load a real sample) to see the exact homeland & family documents required and activate your 30-day file-closure shield:</p>
+        <p>Handed a mystery Hebrew checklist by a clerk? Paste the Hebrew text below (or load a real sample) to see the exact homeland & family documents required and activate your 25-day clerk-safe / 45-day statutory file-closure shield:</p>
         <textarea id="in-clerk-txt" rows="3" dir="rtl" placeholder="הדביקו כאן את טקסט דרישת המסמכים בעברית ממשרד הפנים או הרבנות..."></textarea>
         <div style="display:flex;gap:8px;margin-top:8px;">
           <button class="btn" style="margin-top:0;flex:2;" onclick="decodeClerkSheet()">🔍 Translate Hebrew Clerk Sheet →</button>
@@ -750,6 +751,7 @@ function renderAll() {
   updateBdCard();
   updateCpCard();
   window.renderSongs12();
+  if (typeof window.mountUnifiedPibaFormsEngine === 'function') window.mountUnifiedPibaFormsEngine();
 }
 
 window.FREE_CP_LIMIT = window.FREE_CP_LIMIT || window.FREE_CARD_LIMIT || 4;
@@ -762,6 +764,7 @@ function openMod(m) {
     if (m === 'songs-prayers' && typeof window.renderSongs12 === 'function') window.renderSongs12();
     if (m === 'beit-din-150' && typeof updateBdCard === 'function') updateBdCard();
     if (m === 'couples-sync' && typeof updateCpCard === 'function') updateCpCard();
+    if (m === 'hebrew-engine' && typeof window.mountUnifiedPibaFormsEngine === 'function') window.mountUnifiedPibaFormsEngine();
   } catch (err) { console.error('Module render error:', err); }
 }
 window.openMod = openMod;
@@ -849,7 +852,7 @@ function setAppLang(lang, btn) {
   });
   document.documentElement.dir = (lang === 'he') ? 'rtl' : 'ltr';
   const gl = document.getElementById('globe-lang-lbl');
-  const badge = {en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE'};
+  const badge = {en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE', ru:'RU'};
   if (gl) gl.textContent = badge[lang] || 'EN';
   const activeMod = window.currentMod || 'hebrew-engine';
   renderAll();
@@ -4370,3 +4373,56 @@ if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) {
   }
   attachAudioTokenSync();
 })();
+
+
+/* === Whole-App Russian (RU) Localization Layer === */
+(function() {
+  var RU_DOM_MAP = {
+    'Track Selection & Readiness': 'Выбор маршрута и готовность досье',
+    'AI Document & Apostille Auditor': 'ИИ-Аудитор документов и апостилей',
+    'Hebrew Forms & Clerk Shield': 'Анкеты МВД на иврите и защита от отказов',
+    'Vetted Legal & Rabbinic Desk': 'Проверенный юридический и раввинский отдел',
+    'Upload or snap a photo of any certificate': 'Загрузите или сфотографируйте любое свидетельство (рождение, несудимость, брак, гиюр)',
+    'Scan & Audit Document': 'Сканировать и проверить документ (ИИ)',
+    'Unlock Full Access': 'Разблокировать полный доступ',
+    '90-Day Sprint Pass': 'Пропуск на 90 дней ($89)',
+    'Lifetime Sovereignty Pass': 'Пожизненный полный доступ ($149)'
+  };
+
+  function applyWholeAppRussian() {
+    var curLang = window.appLang || localStorage.getItem('gat_lang') || 'en';
+    // Ensure any global translation table in app.js has a 'ru' entry
+    ['I18N', 'TRANSLATIONS', 'STRINGS', 'LANG_DATA', 'T'].forEach(function(gName) {
+      var tbl = window[gName];
+      if (tbl && typeof tbl === 'object' && tbl.en && !tbl.ru) {
+        tbl.ru = Object.assign({}, tbl.en);
+      }
+    });
+    var ruBtn = document.getElementById('lang-ru');
+    if (ruBtn) {
+      if (curLang === 'ru') ruBtn.classList.add('active');
+      else ruBtn.classList.remove('active');
+    }
+    if (curLang === 'ru') {
+      document.documentElement.lang = 'ru';
+      document.documentElement.dir = 'ltr';
+    }
+    if (typeof window.mountUnifiedPibaFormsEngine === 'function') {
+      window.mountUnifiedPibaFormsEngine();
+    }
+  }
+
+  var origSetLang = window.setLang;
+  if (typeof origSetLang === 'function' && !window._ruSetLangWrapped) {
+    window._ruSetLangWrapped = true;
+    window.setLang = function(l) {
+      window.appLang = l;
+      localStorage.setItem('gat_lang', l);
+      try { origSetLang(l); } catch (e) {}
+      applyWholeAppRussian();
+    };
+  }
+  window.addEventListener('DOMContentLoaded', applyWholeAppRussian);
+  setTimeout(applyWholeAppRussian, 150);
+})();
+
