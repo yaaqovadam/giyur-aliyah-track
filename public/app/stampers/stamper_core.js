@@ -36,7 +36,7 @@ function buildRandomStressPersona() {
     'בנימין אלעזר נחמיה'
   ];
   var spouseSur = [
-    'כהן-צדק ירושלמי',
+    'לוי-צדק ירושלמי',
     'לוי-אפשטיין אשכנזי',
     'מזרחי-טולידאנו'
   ];
@@ -74,8 +74,8 @@ function buildRandomStressPersona() {
     pf_father_dob: '1962-04-19',
     pf_mother_he: mo[0] + ' ' + s2[0],
     pf_mother_en: mo[1] + ' ' + s2[1],
-    pf_mother_maiden: 'רוטשילד-כהן הלפרין',
-    pf_mother_maiden_en: 'ROTHSCHILD-COHEN HALPERIN',
+    pf_mother_maiden: 'רוטשילד-לוי הלפרין',
+    pf_mother_maiden_en: 'ROTHSCHILD-LEVY HALPERIN',
     pf_mother_dob: '1965-09-08',
     pf_foreign_grandfather: 'אליעזר מנחם מונטפיורי',
     pf_pass_num: 'FR9876543',
@@ -91,10 +91,10 @@ function buildRandomStressPersona() {
     pf_il_street_en: '42 HERZL ST, APT 9',
     pf_phone_il: '058-765-4321',
     pf_email: 'chanah.montefiore@example.com',
-    pf_inst_details: 'מכון גיור חיפה • 580998877 • הרב דוד כהן • 054-111-2233',
+    pf_inst_details: 'מכון גיור חיפה • 580998877 • הרב דוד אלעזר • 054-111-2233',
     pf_inst_name_en: 'UNIVERSITY OF MASSACHUSETTS',
     pf_inst_addr_en: '42 HERZL ST, HAIFA',
-    pf_inst_contact_en: 'RABBI DAVID COHEN',
+    pf_inst_contact_en: 'RABBI DAVID LEVY',
     pf_sp_name_he: spG + ' ' + spS,
     pf_sp_surname_he: spS,
     pf_sp_given_he: spG,
@@ -102,20 +102,40 @@ function buildRandomStressPersona() {
     pf_sp_citizenship_he: 'ישראלית',
     pf_sp_birth_country_he: 'ישראל',
     pf_sp_prior_he: 'ללא',
-    pf_sp_parents_grand: '15/07/1991 • אב: אברהם משה • אם: שרה רבקה • סב: יעקב שלמה',
+    pf_sp_parents_grand: '15/07/1991 • אב: אברהם משה • אם: לאה רבקה • סב: יעקב שלמה',
     pf_marriage_details: '14/06/2026 ליון, צרפת • מהנדס מערכות מידע',
-    pf_ash6_refs: 'דוד אלעזר כהן | 023456782 | חבר קהילה | רח׳ האר״י 10 חיפה | 052-765-4321\nרחל הדסה מזרחי | 034567891 | שכנה ומכרה | רח׳ הרצל 44 חיפה | 050-987-6543',
+    pf_ash6_refs: 'דוד אלעזר לוי | 023456782 | חבר קהילה | רח׳ האר״י 10 חיפה | 052-765-4321\nנועה אביגיל מזרחי | 034567891 | שכנה ומכרה | רח׳ הרצל 44 חיפה | 050-987-6543',
     pf_ll_affidavit: 'משה אהרן אלון | 045678909 | רח׳ הרצל 42 חיפה | 84 | 2 | 3.5 | העברה בנקאית חודשית',
     pf_456_shvut: 'סעיף 4ב לחוק השבות — יהודי מלידה או גיור מוכר',
     pf_456_settlement: 'שהות 2025–2026 באשרת ב/2 • אדריכלית נוף בכירה • סיימתי עבודה בחו״ל • דירה שכורה בחיפה • חשבון בנק לאומי פעיל • קהילת חיפה • 16 שנות לימוד',
     pf_ash1_consulate: 'איחוד משפחות ולימודי גיור • פריז',
     pf_children_table: 'ללא',
     pf_children_rows: [
-      { given: 'ARIEL ALEXANDER BENJAMIN', given_he: 'אריאל אלכסנדר בנימין', country: 'ליון, צרפת', country_en: 'LYON, FRANCE', dob: '14/05/2018' },
-      { given: 'NOA GABRIELLA ESTHER', given_he: 'נועה גבריאלה אסתר', country: 'פריז, צרפת', country_en: 'PARIS, FRANCE', dob: '22/09/2020' },
-      { given: 'DANIEL MATITYAHU SHLOMO', given_he: 'דניאל מתתיהו שלמה', country: 'ז׳נבה, שווייץ', country_en: 'GENEVA, SWITZERLAND', dob: '03/11/2023' }
+      { id_num: "FR1122334", surname_he: "גולדשמיט", given: "ARIEL ALEXANDER BENJAMIN", given_he: "אריאל אלכסנדר בנימין", other_parent_he: "עמנואל אברהם לוי", country: "ליון, צרפת", country_en: "LYON, FRANCE", dob: "14/05/2018", gender: "זכר", entry_date: "01/09/2026" },
+      { id_num: "FR2233445", surname_he: "גולדשמיט", given: "NOA GABRIELLA ESTHER", given_he: "נועה גבריאלה אסתר", other_parent_he: "עמנואל אברהם לוי", country: "פריז, צרפת", country_en: "PARIS, FRANCE", dob: "22/09/2020", gender: "נקבה", entry_date: "01/09/2026" },
+      { id_num: "FR3344556", surname_he: "גולדשמיט", given: "DANIEL MATITYAHU SHLOMO", given_he: "דניאל מתתיהו שלמה", other_parent_he: "עמנואל אברהם לוי", country: "ז׳נבה, שווייץ", country_en: "GENEVA, SWITZERLAND", dob: "03/11/2023", gender: "זכר", entry_date: "01/09/2026" }
+    ],
+    pf_ash6_minor_consent_reason: "אפוטרופסות משותפת של שני ההורים המבקשים",
+    pf_ash6_decl_exception_he: "ללא הסתייגויות — כל סעיפי ההצהרה לעיל מתקיימים במלואם וללא יוצא מן הכלל.",
+    pf_ll_marital: "נשוי",
+    pf_ll_children_count: "3",
+    pf_ll_occupation: "מהנדס אזרחי ובעל נכסים",
+    pf_ll_floor_a_rows: [
+      { name: "עמנואל ואביגיל לוי-גולדשמיט", father: "מתתיהו", id: "012345674", rel: "שוכרים ראשיים", date: "01/09/2026", paid_by: "העברה בנקאית" }
+    ],
+    pf_ll_floor_b_rows: [
+      { name: "ללא דיירים נוספים", father: "—", id: "—", rel: "—", date: "—", paid_by: "—" }
     ],
     pf_target_branch: 'חיפה והצפון',
+    pf_phone_abroad: "+33-4-7890-1234",
+    pf_sp_phone_home: "04-812-3456",
+    pf_sp_prior_given_he: "עמנואל",
+    pf_sp_entry_date: "15/07/1991",
+    pf_sp_status_date: "15/07/1991",
+    pf_sp_pass_num: "IL9988776",
+    pf_sp_pass_exp: "14/07/2031",
+    pf_sp_area_id: "3321400",
+    pf_ash6_refs: "דוד אלעזר לוי | 023456782 | חבר קהילה | רח׳ האר״י 10 חיפה | 052-765-4321\nנועה אביגיל מזרחי | 034567891 | שכנה ומכרה | רח׳ הרצל 44 חיפה | 050-987-6543\nשמואל בנימין שפירא | 045678912 | עמית לעבודה | רח׳ החלוץ 18 חיפה | 054-321-9876\nמרים אסתר הורוביץ | 056789123 | קרובת משפחה | רח׳ הנשיא 55 חיפה | 053-246-8135",
     pf_decl_clean_record: true,
     pf_police_covers_prior: true,
     pf_has_name_change_cert: true
@@ -394,9 +414,9 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
     var pg = pages[pageIdx];
     var bw = boxW || 7.1;
     var bh = boxH || 7.1;
-    var cx = xLeft + (bw / 2);
+    var cx = xLeft + (bw / 2) + 1.2;
     var cy = yBase + (bh / 2);
-    var c = PDFLib.rgb(0.0, 0.42, 0.12); // Default ALL checked boxes to Dark Green
+    var c = PDFLib.rgb(0.0, 0.28, 0.76); // Default ALL checked boxes to Dark Green
     if (colorMode === 'red' || colorMode === false) c = PDFLib.rgb(0.62, 0.04, 0.04); // Red for NO / לא or Laisser Passer
     pg.drawLine({ start: { x: cx - 5.1, y: cy + 0.6 }, end: { x: cx - 0.9, y: cy - 4.0 }, thickness: 3.2, color: c });
     pg.drawLine({ start: { x: cx - 0.9, y: cy - 4.0 }, end: { x: cx + 6.6, y: cy + 5.7 }, thickness: 3.2, color: c });

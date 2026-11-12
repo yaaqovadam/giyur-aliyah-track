@@ -27,3 +27,17 @@ r2_drop_batch2/
 _pdf_calibration/
 _exact_6forms_geometry.txt
 _run_seg1_test.js
+
+functions/.secret.local
+tools/
+
+# Private calibration tools, scripts & backups (never commit)
+scripts/
+legacy_app_backup/
+public/app/stampers/_locked_baselines/
+public/app/stampers/_backups/
+public/app/stampers/auto_*.js
+*.bak*
+*_RULER.pdf
+*_AUTO_FILLED.pdf
+*_STUDIO_PROOF.pdf

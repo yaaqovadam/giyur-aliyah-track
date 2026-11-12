@@ -26,7 +26,12 @@
       "app/audio/**",
       "**/audio/**",
       "**/_backup*",
-      "**/*.bak"
+      "**/*.bak",
+      "**/*.bak*",
+      "**/_locked_baselines/**",
+      "**/_backups/**",
+      "**/auto_*.js",
+      "**/*copy*"
     ],
     "cleanUrls": true,
     "trailingSlash": false,
