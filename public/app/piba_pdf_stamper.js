@@ -979,3 +979,4 @@
     };
   }
 })(typeof window !== 'undefined' ? window : globalThis);
+module.exports = { generateStampedPdfBytes };

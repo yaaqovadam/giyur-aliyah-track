@@ -1,0 +1,44 @@
+{
+  "ink_color_text": [
+    0.0,
+    0.28,
+    0.76
+  ],
+  "checkbox_color_option_or_yes": [
+    0.0,
+    0.42,
+    0.12
+  ],
+  "checkbox_color_no": [
+    0.62,
+    0.04,
+    0.04
+  ],
+  "checkbox_stroke_thickness": 3.2,
+  "checkbox_vectors": [
+    [
+      -5.1,
+      0.6,
+      -0.9,
+      -4.0
+    ],
+    [
+      -0.9,
+      -4.0,
+      6.6,
+      5.7
+    ]
+  ],
+  "bold_all_answers": true,
+  "default_text_size": 7.6,
+  "two_line_wrap_size": 7.4,
+  "two_line_vshift": 4.0,
+  "date_font_size": 9.4,
+  "passport_font_size": 8.8,
+  "email_font_size": 8.2,
+  "header_category_font_size": 9.8,
+  "language_rule": "Foreign national legal names/parents/addresses without Israeli TZ use Passport Latin/English; Israeli sponsors/spouses/branches use Hebrew.",
+  "shared_two_row_date_font_size": 11.4,
+  "min_wrapped_bold_font_size": 7.0,
+  "three_line_fallback_for_narrow_cells": true
+}
