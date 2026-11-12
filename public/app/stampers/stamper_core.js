@@ -92,6 +92,9 @@ function buildRandomStressPersona() {
     pf_phone_il: '058-765-4321',
     pf_email: 'chanah.montefiore@example.com',
     pf_inst_details: 'מכון גיור חיפה • 580998877 • הרב דוד כהן • 054-111-2233',
+    pf_inst_name_en: 'UNIVERSITY OF MASSACHUSETTS',
+    pf_inst_addr_en: '42 HERZL ST, HAIFA',
+    pf_inst_contact_en: 'RABBI DAVID COHEN',
     pf_sp_name_he: spG + ' ' + spS,
     pf_sp_surname_he: spS,
     pf_sp_given_he: spG,
@@ -107,6 +110,11 @@ function buildRandomStressPersona() {
     pf_456_settlement: 'שהות 2025–2026 באשרת ב/2 • אדריכלית נוף בכירה • סיימתי עבודה בחו״ל • דירה שכורה בחיפה • חשבון בנק לאומי פעיל • קהילת חיפה • 16 שנות לימוד',
     pf_ash1_consulate: 'איחוד משפחות ולימודי גיור • פריז',
     pf_children_table: 'ללא',
+    pf_children_rows: [
+      { given: 'ARIEL ALEXANDER BENJAMIN', given_he: 'אריאל אלכסנדר בנימין', country: 'ליון, צרפת', country_en: 'LYON, FRANCE', dob: '14/05/2018' },
+      { given: 'NOA GABRIELLA ESTHER', given_he: 'נועה גבריאלה אסתר', country: 'פריז, צרפת', country_en: 'PARIS, FRANCE', dob: '22/09/2020' },
+      { given: 'DANIEL MATITYAHU SHLOMO', given_he: 'דניאל מתתיהו שלמה', country: 'ז׳נבה, שווייץ', country_en: 'GENEVA, SWITZERLAND', dob: '03/11/2023' }
+    ],
     pf_target_branch: 'חיפה והצפון',
     pf_decl_clean_record: true,
     pf_police_covers_prior: true,
@@ -188,14 +196,53 @@ function splitTextIntoTwoBalancedLines(str) {
   return [words.slice(0, bestIdx).join(' '), words.slice(bestIdx).join(' ')];
 }
 
-function splitIsoDate(val) {
-  var m = String(val || '').trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (m) return { d: m[3], m: m[2], y: m[1], full: m[3] + '/' + m[2] + '/' + m[1] };
-  var m2 = String(val || '').trim().match(/^(\d{1,2})[\/\.\-](\d{1,2})[\/\.\-](\d{4})$/);
-  if (m2) return { d: m2[1].padStart(2, '0'), m: m2[2].padStart(2, '0'), y: m2[3], full: m2[1].padStart(2, '0') + '/' + m2[2].padStart(2, '0') + '/' + m2[3] };
+function numToGematria(n) {
+  n = parseInt(n, 10);
+  if (!n || n <= 0) return "";
+  if (n >= 5000) n -= 5000;
+  var ones = ["","א","ב","ג","ד","ה","ו","ז","ח","ט"];
+  var tens = ["","י","כ","ל","מ","נ","ס","ע","פ","צ"];
+  var hundreds = ["","ק","ר","ש","ת","תק","תר","תש","תת","תתק"];
+  var out = "";
+  if (n >= 100) { out += hundreds[Math.floor(n / 100)] || ""; n %= 100; }
+  if (n === 15) out += "טו";
+  else if (n === 16) out += "טז";
+  else {
+    if (n >= 10) { out += tens[Math.floor(n / 10)] || ""; n %= 10; }
+    if (n > 0) out += ones[n] || "";
+  }
+  if (out.length === 1) return out + "׳";
+  return out.slice(0, -1) + "״" + out.slice(-1);
+}
+
+function toHebrewDateStr(y, m, d) {
+  try {
+    var dt = new Date(Date.UTC(parseInt(y, 10), parseInt(m, 10) - 1, parseInt(d, 10), 12, 0, 0));
+    if (isNaN(dt.getTime())) return "";
+    var parts = new Intl.DateTimeFormat("he-IL-u-ca-hebrew", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).formatToParts(dt);
+    var hd = "", hm = "", hy = "";
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i].type === "day") hd = parts[i].value;
+      if (parts[i].type === "month") hm = parts[i].value;
+      if (parts[i].type === "year") hy = parts[i].value;
+    }
+    if (!hd || !hm || !hy) return "";
+    var prefixM = /^ב/.test(hm) ? hm : ("ב" + hm);
+    return numToGematria(hd) + " " + prefixM + " " + numToGematria(hy);
+  } catch (e) { return ""; }
+}
+
+function splitIsoDate(val, explicitHeb) {
+  var m = String(val || "").trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (m) return { d: m[3], m: m[2], y: m[1], full: m[3] + "/" + m[2] + "/" + m[1], heb: explicitHeb || toHebrewDateStr(m[1], m[2], m[3]) };
+  var m2 = String(val || "").trim().match(/^(\d{1,2})[\/\.\-](\d{1,2})[\/\.\-](\d{4})$/);
+  if (m2) {
+    var dd = m2[1].padStart(2, "0"), mm = m2[2].padStart(2, "0"), yy = m2[3];
+    return { d: dd, m: mm, y: yy, full: dd + "/" + mm + "/" + yy, heb: explicitHeb || toHebrewDateStr(yy, mm, dd) };
+  }
   var now = new Date();
-  var td = String(now.getDate()).padStart(2, '0'), tm = String(now.getMonth() + 1).padStart(2, '0'), ty = String(now.getFullYear());
-  return { d: '', m: '', y: '', full: String(val || ''), todayD: td, todayM: tm, todayY: ty, todayFull: td + '/' + tm + '/' + ty };
+  var td = String(now.getDate()).padStart(2, "0"), tm = String(now.getMonth() + 1).padStart(2, "0"), ty = String(now.getFullYear());
+  return { d: "", m: "", y: "", full: String(val || ""), heb: explicitHeb || "", todayD: td, todayM: tm, todayY: ty, todayFull: td + "/" + tm + "/" + ty, todayHeb: toHebrewDateStr(ty, tm, td) };
 }
 
 function parseCityStreet(ilAddr) {
@@ -262,7 +309,6 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
   var fontLatBold = await pdfDoc.embedStandardFont(PDFLib.StandardFonts.HelveticaBold);
 
   var ink = PDFLib.rgb(0.0, 0.28, 0.76);
-  var chkColor = PDFLib.rgb(0.0, 0.28, 0.76);
 
   function drawSingleLineRuns(pg, runs, x0, x1, y, sz, isHeb, align) {
     var availW = Math.max(8, (x1 - x0) - 4);
@@ -314,7 +360,6 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
         var maxW = Math.max(measureRunsWidth(runs1, baseWrapSz), measureRunsWidth(runs2, baseWrapSz));
         var lineSz = maxW > fullCellW ? (baseWrapSz * (fullCellW / maxW)) : baseWrapSz;
 
-        // If 2 lines still shrink below 6.8pt and we have 3+ words/parts, split into 3 bold lines at full size!
         var normWords = String(raw || '').trim().replace(/([A-Za-z\u0590-\u05FF]{6,})-/g, '$1- ').split(/\s+/);
         if (lineSz < 6.8 && normWords.length >= 3 && (o.allowThreeLines !== false)) {
           var l1 = normWords[0];
@@ -337,7 +382,7 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
         drawSingleLineRuns(pg, runs2, x0, x1, yCenter - vShift, lineSz, isHeb, o.align);
         return;
       }
-      sz = Math.max(6.5, scaledSz);
+      sz = Math.max(o.noWrap ? 5.8 : 6.5, scaledSz);
     }
 
     drawSingleLineRuns(pg, runs, x0, x1, y, sz, isHeb, o.align);
@@ -352,7 +397,7 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
     var cx = xLeft + (bw / 2);
     var cy = yBase + (bh / 2);
     var c = PDFLib.rgb(0.0, 0.42, 0.12); // Default ALL checked boxes to Dark Green
-    if (colorMode === 'red' || colorMode === false) c = PDFLib.rgb(0.62, 0.04, 0.04); // Red ONLY for NO / לא
+    if (colorMode === 'red' || colorMode === false) c = PDFLib.rgb(0.62, 0.04, 0.04); // Red for NO / לא or Laisser Passer
     pg.drawLine({ start: { x: cx - 5.1, y: cy + 0.6 }, end: { x: cx - 0.9, y: cy - 4.0 }, thickness: 3.2, color: c });
     pg.drawLine({ start: { x: cx - 0.9, y: cy - 4.0 }, end: { x: cx + 6.6, y: cy + 5.7 }, thickness: 3.2, color: c });
   }
@@ -368,9 +413,9 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
     }
   }
 
-  var dob = splitIsoDate(s.pf_dob);
-  var fDob = splitIsoDate(s.pf_father_dob);
-  var mDob = splitIsoDate(s.pf_mother_dob);
+  var dob = splitIsoDate(s.pf_dob, s.pf_hebrew_dob);
+  var fDob = splitIsoDate(s.pf_father_dob, s.pf_father_hebrew_dob);
+  var mDob = splitIsoDate(s.pf_mother_dob, s.pf_mother_hebrew_dob);
   var pIss = splitIsoDate(s.pf_pass_issue_date);
   var pExp = splitIsoDate(s.pf_pass_exp_date);
   var today = splitIsoDate('');
@@ -435,5 +480,6 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
 
 module.exports = {
   buildRandomStressPersona: buildRandomStressPersona,
-  createStamperContext: createStamperContext
+  createStamperContext: createStamperContext,
+  splitIsoDate: splitIsoDate
 };

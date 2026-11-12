@@ -60,34 +60,37 @@ async function stampAsh3(rawState, loaderOpts) {
   var citEn = s.pf_citizenship_en || '';
 
   put(0, s.pf_birth_country, 391, 506, 499.0, { align: 'center', size: 7.6, noWrap: true });
-  put(0, dob.full, 292, 386, 489.0, { align: 'center', size: 11.4, noWrap: true });
+  put(0, dob.heb || dob.full, 292, 386, 499.0, { align: 'center', size: 7.6, noWrap: true });
   put(0, natHe, 205, 286, 499.0, { align: 'center', size: 7.6, noWrap: true });
   put(0, relHe, 135, 200, 499.0, { align: 'center', size: 7.6, noWrap: true });
   put(0, s.pf_citizenship, 37, 130, 499.0, { align: 'center', size: 7.6, noWrap: true });
 
   put(0, birthEn, 391, 506, 482.0, { align: 'center', size: 7.4, noWrap: true });
+  put(0, dob.full, 292, 386, 482.0, { align: 'center', size: 9.4, noWrap: true });
   put(0, natEn, 205, 286, 482.0, { align: 'center', size: 7.4, noWrap: true });
   put(0, relEn, 135, 200, 482.0, { align: 'center', size: 7.4, noWrap: true });
   put(0, citEn, 37, 130, 482.0, { align: 'center', size: 7.4, noWrap: true });
 
   // Row 3: Parents & Mother's Maiden Name + Parents DOB
   put(0, s.pf_father_he, 431, 507, 438.5, { align: 'center', size: 7.4, yWrapCenter: 440.0, lineShift: 3.5, wrapSize: 7.0 });
-  put(0, fDob.full, 339, 426, 429.0, { align: 'center', size: 11.4, noWrap: true });
+  put(0, fDob.heb || fDob.full, 339, 426, 438.5, { align: 'center', size: 7.4, noWrap: true });
   put(0, s.pf_mother_he, 240, 334, 438.5, { align: 'center', size: 7.4, yWrapCenter: 440.0, lineShift: 3.5, wrapSize: 7.0 });
-  put(0, mDob.full, 141, 234, 429.0, { align: 'center', size: 11.4, noWrap: true });
+  put(0, mDob.heb || mDob.full, 141, 234, 438.5, { align: 'center', size: 7.4, noWrap: true });
   put(0, s.pf_mother_maiden, 37, 135, 438.5, { align: 'center', size: 7.4, yWrapCenter: 440.0, lineShift: 3.5, wrapSize: 7.0 });
 
   put(0, s.pf_father_en, 430, 508, 421.5, { align: 'center', size: 7.2, yWrapCenter: 423.0, lineShift: 3.4, wrapSize: 6.8 });
+  put(0, fDob.full, 339, 426, 421.5, { align: 'center', size: 9.4, noWrap: true });
   put(0, s.pf_mother_en, 239, 335, 421.5, { align: 'center', size: 7.2, yWrapCenter: 423.0, lineShift: 3.4, wrapSize: 6.8 });
+  put(0, mDob.full, 141, 234, 421.5, { align: 'center', size: 9.4, noWrap: true });
   put(0, s.pf_mother_maiden_en, 37, 135, 421.5, { align: 'center', size: 7.2, yWrapCenter: 423.0, lineShift: 3.4, wrapSize: 6.8 });
 
-  // Row 4: Email & Travel Document
+  // Row 4: Email & Travel Document (Passport = Blue, Laisser Passer = Red)
   put(0, s.pf_email, 395, 558, 368.0, { align: 'left', size: 8.2, noWrap: true });
   if (s._stressAllCheckboxes) {
-    check(0, 353.5, 396.2, 7.1, 7.1, 'green');
-    check(0, 352.0, 396.2, 7.1, 7.1, 'green');
+    check(0, 353.5, 396.2, 7.1, 7.1, "green");
+    check(0, 264.8, 396.2, 7.1, 7.1, "green");
   } else if (s.pf_pass_num) {
-    check(0, 353.5, 396.2, 7.1, 7.1, 'green');
+    check(0, 353.5, 396.2, 7.1, 7.1, "green");
   }
   put(0, s.pf_pass_num, 276, 389, 358.0, { align: 'center', size: 8.8, noWrap: true });
   put(0, pIss.full, 157, 270, 358.0, { align: 'center', size: 9.4, noWrap: true });
@@ -116,21 +119,25 @@ async function stampAsh3(rawState, loaderOpts) {
   put(0, s.pf_il_street_en, 147, 383, 215.5, { align: 'center', size: 7.4, noWrap: true });
   put(0, s.pf_phone_il, 36, 141, 226.0, { align: 'center', size: 8.4, noWrap: true });
 
-  // Row 7: Institution Where Applicant is Studying (Top row: בעברית y=143.5, Bottom row: In English y=124.5)
+  // Row 7: Institution Where Applicant is Studying (Top row: בעברית y=143.5, Bottom row: In English y=124.0)
   if (s.pf_inst_details) {
     var instP = String(s.pf_inst_details).split(/[•|]/).map(function(x){ return x.trim(); });
-    put(0, instP[0] || '', 438, 504, 143.5, { align: 'center', size: 7.4, yWrapCenter: 144.5, lineShift: 3.5, wrapSize: 7.0 });
+    put(0, instP[0] || '', 436, 505, 143.5, { align: 'center', size: 7.4, yWrapCenter: 144.5, lineShift: 3.5, wrapSize: 7.0 });
     put(0, il.city, 311, 433, 143.5, { align: 'center', size: 7.6, noWrap: true });
     put(0, instP[1] || '', 219, 305, 143.5, { align: 'center', size: 8.4, noWrap: true });
     put(0, instP[2] || '', 134, 213, 143.5, { align: 'center', size: 7.4, yWrapCenter: 144.5, lineShift: 3.5, wrapSize: 7.0 });
     put(0, instP[3] || '', 39, 128, 143.5, { align: 'center', size: 8.0, noWrap: true });
 
-    // Bottom "In English" row of Institution table
-    put(0, s.pf_inst_name_en || 'UNIVERSITY OF MASSACHUSETTS', 438, 504, 131.0, { align: 'center', size: 7.2, yWrapCenter: 125.5, lineShift: 3.5, wrapSize: 6.8 });
-    put(0, s.pf_inst_addr_en || (s.pf_il_street_en ? s.pf_il_street_en + ', ' + s.pf_il_city_en : 'HAIFA'), 311, 433, 127.5, { align: 'center', size: 7.2, yWrapCenter: 125.5, lineShift: 3.5, wrapSize: 6.8 });
-    put(0, instP[1] || '', 219, 305, 127.5, { align: 'center', size: 8.4, noWrap: true });
-    put(0, s.pf_inst_contact_en || 'RABBI DAVID COHEN', 134, 213, 127.5, { align: 'center', size: 7.2, yWrapCenter: 125.5, lineShift: 3.5, wrapSize: 6.8 });
-    put(0, instP[3] || '', 39, 128, 127.5, { align: 'center', size: 8.0, noWrap: true });
+    // Bottom "In English" row of Institution table (raised to 129.5, zero hardcoded fallbacks)
+    var instNameEn = s.pf_inst_name_en || instP[4] || '';
+    var instAddrEn = s.pf_inst_addr_en || instP[5] || (s.pf_il_street_en ? s.pf_il_street_en + (s.pf_il_city_en ? ', ' + s.pf_il_city_en : '') : (s.pf_il_city_en || ''));
+    var instContactEn = s.pf_inst_contact_en || instP[6] || '';
+    var instPhoneEn = s.pf_inst_phone_en || instP[3] || '';
+    put(0, instNameEn, 436, 505, 129.5, { align: 'center', size: 7.0, yWrapCenter: 129.5, lineShift: 3.2, wrapSize: 6.6 });
+    put(0, instAddrEn, 311, 433, 129.5, { align: 'center', size: 7.2, yWrapCenter: 129.5, lineShift: 3.2, wrapSize: 6.8 });
+    put(0, s.pf_inst_num || instP[1] || '', 219, 305, 129.5, { align: 'center', size: 8.4, noWrap: true });
+    put(0, instContactEn, 134, 213, 129.5, { align: 'center', size: 7.2, yWrapCenter: 129.5, lineShift: 3.2, wrapSize: 6.8 });
+    put(0, instPhoneEn, 39, 128, 129.5, { align: 'center', size: 8.0, noWrap: true });
   }
 
   // =========================================================================
@@ -146,10 +153,8 @@ async function stampAsh3(rawState, loaderOpts) {
     put(1, spSurHe, 495, 567, 594.0, { align: 'center', size: 7.6, yWrapCenter: 595.0, lineShift: 3.8, wrapSize: 7.4 });
     put(1, spGivenHe, 413, 489, 594.0, { align: 'center', size: 7.6, yWrapCenter: 595.0, lineShift: 3.8, wrapSize: 7.4 });
     if (s._stressAllCheckboxes) {
-      // In Israel: Yes - כן (Green) / No - לא (Red)
       check(1, 389.8, 597.7, 7.1, 7.1, 'green');
       check(1, 389.8, 583.8, 7.1, 7.1, 'red');
-      // Status (If Present In Israel): 3 boxes (Visitor = 602.5, Temporary Resident = 593.2, Permanent Resident = 584.0)
       check(1, 331.6, 602.5, 7.1, 7.1, 'green');
       check(1, 331.6, 593.2, 7.1, 7.1, 'green');
       check(1, 331.6, 584.0, 7.1, 7.1, 'green');
@@ -161,20 +166,27 @@ async function stampAsh3(rawState, loaderOpts) {
     put(1, s.pf_sp_citizenship_he, 48, 105, 594.0, { align: 'center', size: 7.6, noWrap: true });
   }
 
-  // Children Under the Age of 18 (Page 2: Strict separate bounds for English vs Hebrew sub-columns)
+  // Children Under the Age of 18 (Page 2: Exact 6 sub-columns + dynamic parsing + Hebrew vs English DOB)
   var kids = Array.isArray(s.pf_children_rows) ? s.pf_children_rows : [];
-  var kidY = [513.5, 496.5, 479.5];
+  if (!kids.length && s.pf_children_table && s.pf_children_table !== 'ללא') {
+    kids = String(s.pf_children_table).split(/\n|;/).map(function(line) {
+      var p = line.split(/[|•]/).map(function(x) { return x.trim(); });
+      return p.length >= 2 ? { given_he: p[0], given: p[1], country: p[2] || '', country_en: p[3] || '', dob: p[4] || p[2] || '', dob_he: p[5] || '' } : null;
+    }).filter(Boolean);
+  }
+  var kidY = [504.5, 490.0, 475.5];
   for (var ki = 0; ki < 3; ki++) {
     if (kids[ki]) {
-      // Given Name: English sub-col (x: 303..365), Hebrew sub-col (x: 432..495)
-      put(1, kids[ki].given || '', 303, 365, kidY[ki], { align: 'center', size: 6.8, allowThreeLines: false, yWrapCenter: kidY[ki]+0.8, lineShift: 3.4, wrapSize: 6.4 });
-      put(1, kids[ki].given_he || '', 432, 495, kidY[ki], { align: 'center', size: 7.0, allowThreeLines: false, yWrapCenter: kidY[ki]+0.8, lineShift: 3.4, wrapSize: 6.8 });
-      // Country of Birth: English sub-col (x: 173..235), Hebrew sub-col (x: 239..300)
-      put(1, kids[ki].country_en || '', 173, 235, kidY[ki], { align: 'center', size: 6.4, noWrap: true });
-      put(1, kids[ki].country || '', 239, 300, kidY[ki], { align: 'center', size: 6.8, noWrap: true });
-      // Date of Birth: English sub-col (x: 106..171), Hebrew sub-col (x: 37..106)
-      put(1, kids[ki].dob || '', 106, 171, kidY[ki], { align: 'center', size: 8.2, noWrap: true });
-      put(1, kids[ki].dob || '', 37, 106, kidY[ki], { align: 'center', size: 8.2, noWrap: true });
+      var kd = core.splitIsoDate ? core.splitIsoDate(kids[ki].dob, kids[ki].dob_he) : { full: kids[ki].dob || "", heb: kids[ki].dob_he || kids[ki].dob || "" };
+      // Given Name: In English (384..466) | בעברית (470..553)
+      put(1, kids[ki].given || "", 384, 466, kidY[ki], { align: "center", size: 6.6, allowThreeLines: false, yWrapCenter: kidY[ki] + 1.2, lineShift: 2.8, wrapSize: 6.2 });
+      put(1, kids[ki].given_he || "", 470, 553, kidY[ki], { align: "center", size: 6.8, allowThreeLines: false, yWrapCenter: kidY[ki] + 1.2, lineShift: 2.8, wrapSize: 6.4 });
+      // Country of Birth: In English (218..295) | בעברית (299..380)
+      put(1, kids[ki].country_en || "", 218, 295, kidY[ki], { align: "center", size: 6.4, noWrap: true });
+      put(1, kids[ki].country || "", 299, 380, kidY[ki], { align: "center", size: 7.0, noWrap: true });
+      // Date of Birth: In English (38..118) | בעברית (122..205)
+      put(1, kd.full || "", 38, 118, kidY[ki], { align: "center", size: 8.2, noWrap: true });
+      put(1, kd.heb || kd.full || "", 122, 205, kidY[ki], { align: "center", size: 7.0, noWrap: true });
     }
   }
 
