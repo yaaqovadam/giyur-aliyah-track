@@ -31,10 +31,12 @@ async function stampNespachAlef(rawState, loaderOpts) {
   put(0, passNum,  166.7, 238.9, 148.7, { align: 'center', size: 8.8, bold: true, noWrap: true });
   put(0, dateStr,   58.9, 147.3, 148.7, { align: 'center', size: 8.6, noWrap: true });
 
-  // Row 3: מאשר החתימה (שם ומשפחה size 9.7; תפקיד; תאריך; חתימה left blank)
-  put(0, 'עו״ד רותם אברהמי',                                  440.7, 550.7, 78.5, { align: 'center', size: 9.7, bold: true, noWrap: true });
-  put(0, 'רכזת מעמד ואשרות - לשכת ' + (branchCity || 'חיפה'), 305.5, 418.8, 78.5, { align: 'center', size: 8.0, noWrap: true });
-  put(0, dateStr,                                             203.2, 275.4, 78.5, { align: 'center', size: 8.6, noWrap: true });
+  // Row 3: מאשר החתימה (Clerk/Lawyer attestation — stamped only in Calibration Mode)
+  if (s._stressAllCheckboxes) {
+    put(0, 'עו״ד רותם אברהמי',                                  440.7, 550.7, 78.5, { align: 'center', size: 9.7, bold: true, noWrap: true });
+    put(0, 'רכזת מעמד ואשרות - לשכת ' + (branchCity || 'חיפה'), 305.5, 418.8, 78.5, { align: 'center', size: 8.0, noWrap: true });
+    put(0, dateStr,                                              203.2, 275.4, 78.5, { align: 'center', size: 8.6, noWrap: true });
+  }
 
   return await ctx.pdfDoc.save();
 }

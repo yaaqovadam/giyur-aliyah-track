@@ -36,7 +36,7 @@ async function stampMr14b(rawState, loaderOpts) {
   ];
   var rowYs = [395.7, 372.9, 350.1, 327.3, 304.5];
 
-  for (var i = 0; i < changes.length; i++) {
+  for (var i = 0; i < (s._stressAllCheckboxes ? changes.length : 0); i++) {
     var row = changes[i];
     var y = rowYs[i];
     put(0, row.item, 430.6, 556.9, y, { align: 'center', size: 8.2, bold: true, noWrap: true });
@@ -61,16 +61,18 @@ async function stampMr14b(rawState, loaderOpts) {
   ];
   var dotYs = [246.3, 223.6, 200.8, 178.1, 155.3, 132.6, 109.9, 87.1, 64.4];
 
-  for (var j = 0; j < prevNotes.length; j++) {
+  for (var j = 0; j < (s._stressAllCheckboxes ? prevNotes.length : 0); j++) {
     put(0, prevNotes[j], 230.1, 550.9, dotYs[j], { align: 'right', size: 7.8, noWrap: true });
   }
 
-  // Left clerk verification block inside רישומים קודמים
-  put(0, 'לשכת רשות האוכלוסין והגירה',             37.8, 216.1, dotYs[1], { align: 'center', size: 8.2, bold: true, noWrap: true });
-  put(0, 'סניף: ' + (branchCity || 'חיפה והצפון'),  37.8, 216.1, dotYs[2], { align: 'center', size: 8.0, noWrap: true });
-  put(0, 'מספר תיק: ' + (s.pf_req_num || '2026-98412'), 37.8, 216.1, dotYs[4], { align: 'center', size: 8.0, bold: true, noWrap: true });
-  put(0, 'תאריך אימות: ' + dateStr,                37.8, 216.1, dotYs[5], { align: 'center', size: 8.0, noWrap: true });
-  put(0, 'אומת ונבדק ע״י פקיד הרישום',              37.8, 216.1, dotYs[7], { align: 'center', size: 7.8, noWrap: true });
+  // Left clerk verification block inside רישומים קודמים (Calibration Mode only)
+  if (s._stressAllCheckboxes) {
+    put(0, 'לשכת רשות האוכלוסין והגירה',             37.8, 216.1, dotYs[1], { align: 'center', size: 8.2, bold: true, noWrap: true });
+    put(0, 'סניף: ' + (branchCity || 'חיפה והצפון'),  37.8, 216.1, dotYs[2], { align: 'center', size: 8.0, noWrap: true });
+    put(0, 'מספר תיק: ' + (s.pf_req_num || '2026-98412'), 37.8, 216.1, dotYs[4], { align: 'center', size: 8.0, bold: true, noWrap: true });
+    put(0, 'תאריך אימות: ' + dateStr,                 37.8, 216.1, dotYs[5], { align: 'center', size: 8.0, noWrap: true });
+    put(0, 'אומת ונבדק ע״י פקיד הרישום',              37.8, 216.1, dotYs[7], { align: 'center', size: 7.8, noWrap: true });
+  }
 
   return await ctx.pdfDoc.save();
 }

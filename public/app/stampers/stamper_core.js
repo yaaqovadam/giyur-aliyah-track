@@ -338,7 +338,7 @@ function splitSpouseFullName(s) {
 async function createStamperContext(pdfFilename, rawState, loaderOpts) {
   var PDFLib = loaderOpts.PDFLib;
   var fontkit = loaderOpts.fontkit;
-  var s = Object.assign({}, rawState || {});
+  var s = (rawState && rawState._isRealUser) ? rawState : Object.assign({}, rawState || {});
 
   var pdfBytes = await loaderOpts.loadPdfBytes(pdfFilename);
   var regFontBytes = await loaderOpts.loadFontBytes('NotoSansHebrew-Regular.ttf');
@@ -518,7 +518,8 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
     spDobFull: spDobFull,
     spAb: spAb,
     spIm: spIm,
-    spSb: spSb
+    spSb: spSb,
+    kids: Array.isArray(s.pf_children_rows) ? s.pf_children_rows : []
   };
 }
 

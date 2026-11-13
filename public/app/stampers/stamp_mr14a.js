@@ -112,15 +112,24 @@ async function stampMr14a(rawState, loaderOpts) {
   // =========================================================================
   // 7. ALL 11 CHECKBOXES + EDUCATION / OCCUPATION / GRANDFATHER (y = 449.4)
   // =========================================================================
-  check(0, 528.9, 458.2, 7.1, 7.1, 'blue');
-  check(0, 528.9, 446.5, 7.1, 7.1, 'blue');
-  check(0, 481.7, 458.2, 7.1, 7.1, 'blue');
-  check(0, 481.7, 446.1, 7.1, 7.1, 'blue');
-  check(0, 434.5, 458.2, 7.1, 7.1, 'blue');
-  check(0, 434.5, 446.1, 7.1, 7.1, 'blue');
-  check(0, 376.9, 469.6, 7.1, 7.1, 'blue');
-  check(0, 376.9, 458.7, 7.1, 7.1, 'blue');
-  check(0, 376.9, 447.8, 7.1, 7.1, 'blue');
+  if (s._stressAllCheckboxes) {
+    check(0, 528.9, 458.2, 7.1, 7.1, 'blue');
+    check(0, 528.9, 446.5, 7.1, 7.1, 'blue');
+    check(0, 481.7, 458.2, 7.1, 7.1, 'blue');
+    check(0, 481.7, 446.1, 7.1, 7.1, 'blue');
+    check(0, 434.5, 458.2, 7.1, 7.1, 'blue');
+    check(0, 434.5, 446.1, 7.1, 7.1, 'blue');
+    check(0, 376.9, 469.6, 7.1, 7.1, 'blue');
+    check(0, 376.9, 458.7, 7.1, 7.1, 'blue');
+    check(0, 376.9, 447.8, 7.1, 7.1, 'blue');
+  } else {
+    check(0, 528.9, ctx.isFemale ? 446.5 : 458.2, 7.1, 7.1, 'blue');
+    if (ctx.isMarried) check(0, 481.7, 446.1, 7.1, 7.1, 'blue');
+    else if (ctx.isDiv) check(0, 434.5, 458.2, 7.1, 7.1, 'blue');
+    else if (ctx.isWid) check(0, 434.5, 446.1, 7.1, 7.1, 'blue');
+    else check(0, 481.7, 458.2, 7.1, 7.1, 'blue');
+    check(0, 376.9, ctx.isMarried ? 469.6 : 447.8, 7.1, 7.1, 'blue');
+  }
 
   put(0, s.pf_edu_years || '16', 250.6, 311.6, 449.4, { align: 'center', size: 8.2, bold: true, noWrap: true });
   put(0, s.pf_occupation_he || 'אדריכלית נוף בכירה', 145.6, 250.6, 449.4, { align: 'center', size: 7.5, wrapSize: 6.8, yWrapCenter: 454.5, lineShift: 3.6 });
@@ -133,8 +142,10 @@ async function stampMr14a(rawState, loaderOpts) {
   put(0, (s.pf_marriage_place_he || abr.city || 'ליון - צרפת').replace(/,/g, ''), 297.1, 420.2, 412.5, { align: 'center', size: 7.8, noWrap: true });
   put(0, s.pf_prev_status_il_he || 'ב/2 תייר', 120.9, 297.1, 412.5, { align: 'center', size: 8.0, noWrap: true });
 
-  check(0, 105.9, 422.8, 7.1, 7.1, 'blue');
-  check(0, 105.9, 411.1, 7.1, 7.1, 'blue');
+  if (s._stressAllCheckboxes) {
+    check(0, 105.9, 422.8, 7.1, 7.1, 'blue');
+    check(0, 105.9, 411.1, 7.1, 7.1, 'blue');
+  }
 
   put(0, ((abr.city || 'ליון') + ' - ' + (abr.country || 'צרפת')).replace(/,/g, ''), 399.3, 544.1, 385.6, { align: 'center', size: 7.8, noWrap: true });
   put(0, s.pf_requested_status_he || 'עולה / א/5', 268.0, 399.3, 385.6, { align: 'center', size: 8.0, noWrap: true });
@@ -161,8 +172,8 @@ async function stampMr14a(rawState, loaderOpts) {
   ];
   var kids = Array.isArray(ctx.kids) ? ctx.kids : [];
   for (var k = 0; k < 9; k++) {
-    var kId = (kids[k] && (kids[k].tz || kids[k].id || kids[k].pass_num)) || kidCoords[k].fallback;
-    putIdGrid9(0, kId, kidCoords[k].col, kidCoords[k].y);
+    var kId = (kids[k] && (kids[k].tz || kids[k].id || kids[k].id_num || kids[k].pass_num)) || (s._stressAllCheckboxes ? kidCoords[k].fallback : '');
+    if (kId && /^\d+$/.test(String(kId).trim())) putIdGrid9(0, kId, kidCoords[k].col, kidCoords[k].y);
   }
 
   // =========================================================================
@@ -180,22 +191,26 @@ async function stampMr14a(rawState, loaderOpts) {
   put(0, s.pf_entry_date || '01/09/2025', 250.6, 399.3, 151.8, { align: 'center', size: 8.0, noWrap: true });
   put(0, today.todayFull || '12/11/2026', 250.6, 399.3, 125.7, { align: 'center', size: 8.0, noWrap: true });
 
-  // הערות (sitting 2.5pt above dotted lines 2, 3, 4: y=215.5, 196.5, 177.5) & חותמת הלשכה (y=118.0)
-  put(0, 'ללא הסתייגויות — כל הפרטים לעיל נכונים ומדויקים.', 22.9, 250.6, 215.5, { align: 'center', size: 7.4, noWrap: true });
-  put(0, 'נבדקו מסמכי מקור בלשכת רשות האוכלוסין.', 22.9, 250.6, 196.5, { align: 'center', size: 7.4, noWrap: true });
-  put(0, 'תיק גיור / מעמד אושר לרישום.', 22.9, 250.6, 181.0, { align: 'center', size: 7.4, noWrap: true });
-  put(0, 'לשכת חיפה — רשות האוכלוסין', 22.9, 250.6, 118.0, { align: 'center', size: 7.8, bold: true, noWrap: true });
+  // הערות & חותמת הלשכה (Clerk-only in Real User Mode)
+  if (s._stressAllCheckboxes) {
+    put(0, 'ללא הסתייגויות — כל הפרטים לעיל נכונים ומדויקים.', 22.9, 250.6, 215.5, { align: 'center', size: 7.4, noWrap: true });
+    put(0, 'נבדקו מסמכי מקור בלשכת רשות האוכלוסין.', 22.9, 250.6, 196.5, { align: 'center', size: 7.4, noWrap: true });
+    put(0, 'תיק גיור / מעמד אושר לרישום.', 22.9, 250.6, 181.0, { align: 'center', size: 7.4, noWrap: true });
+    put(0, 'לשכת חיפה — רשות האוכלוסין', 22.9, 250.6, 118.0, { align: 'center', size: 7.8, bold: true, noWrap: true });
+  }
 
   // מספר הזהות (minor parent ID box: x=182.3..250.6, y=63.0)
-  put(0, s.pf_sp_tz || '034567890', 22.9, 145.6, 82.0, { align: 'center', size: 8.4, bold: true, noWrap: true });
+  if (s._stressAllCheckboxes) put(0, s.pf_sp_tz || '034567890', 22.9, 145.6, 82.0, { align: 'center', size: 8.4, bold: true, noWrap: true });
 
   // =========================================================================
   // 11. BOTTOM ROW: REGISTRATION DATE & 3 SIGNATURE BOXES (y = 51.0 / 43.0)
   // =========================================================================
-  putDateYMD_RTL(0, s.pf_reg_date || (today && today.todayFull), '12/11/2026', 415.0, 449.0, 484.0, 528.0, 51.0);
-  put(0, 'אביגיל גולדשמיט', 270.5, 393.6, 43.0, { align: 'center', size: 8.0, bold: true, noWrap: true });
-  put(0, 'שמואל גולדשמיט', 145.6, 270.5, 43.0, { align: 'center', size: 8.0, bold: true, noWrap: true });
-  put(0, 'פקידי מרשם — חיפה', 22.9, 145.6, 43.0, { align: 'center', size: 7.8, bold: true, noWrap: true });
+  putDateYMD_RTL(0, (s.pf_reg_date && String(s.pf_reg_date).trim()) || (today && today.todayFull), '12/11/2026', 415.0, 449.0, 484.0, 528.0, 51.0);
+  if (s._stressAllCheckboxes) {
+    put(0, 'אביגיל גולדשמיט', 270.5, 393.6, 43.0, { align: 'center', size: 8.0, bold: true, noWrap: true });
+    put(0, 'שמואל גולדשמיט', 145.6, 270.5, 43.0, { align: 'center', size: 8.0, bold: true, noWrap: true });
+    put(0, 'פקידי מרשם — חיפה', 22.9, 145.6, 43.0, { align: 'center', size: 7.8, bold: true, noWrap: true });
+  }
 
   return await ctx.pdfDoc.save();
 }

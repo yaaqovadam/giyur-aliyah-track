@@ -71,13 +71,13 @@ async function stampAsh6(rawState, loaderOpts) {
   // Top-left Request Number (מספר בקשה)
   put(1, s.pf_req_num || '2026-98412', 37.7, 109.9, 692.0, { align: 'center', size: 8.4, bold: true, noWrap: true });
 
-  // Top Request Type Checkboxes (Both Checked)
+  // Top Request Type Checkboxes
   check(1, 495.7, 650.6, 7.1, 7.1, 'green');
-  check(1, 277.9, 650.6, 7.1, 7.1, 'green');
+  if (s._stressAllCheckboxes) check(1, 277.9, 650.6, 7.1, 7.1, 'green');
 
-  // Inviter Status Checkboxes (Both Checked)
+  // Inviter Status Checkboxes
   check(1, 318.4, 612.5, 7.1, 7.1, 'green');
-  check(1, 265.4, 612.5, 7.1, 7.1, 'green');
+  if (s._stressAllCheckboxes) check(1, 265.4, 612.5, 7.1, 7.1, 'green');
 
   // Inviter Row 1: 9-Cell ID Comb + 5 Multi-Row Name Boxes (Y = 561.0 .. 585.0)
   putExactComb(1, s.pf_sp_tz || '012345674', p2InviterTzLines, 565.0, true);
@@ -92,24 +92,31 @@ async function stampAsh6(rawState, loaderOpts) {
   put(1, spDobM ? spDobM[2] : '07',   505.3, 535.1, 524.5, { align: 'center', size: 8.0, noWrap: true });
   put(1, spDobM ? spDobM[1] : '15',   475.4, 505.3, 524.5, { align: 'center', size: 8.0, noWrap: true });
 
-  check(1, 460.5, 535.3, 7.1, 7.1, 'green');
-  check(1, 460.5, 524.9, 7.1, 7.1, 'green');
-  check(1, 416.8, 535.3, 7.1, 7.1, 'green');
-  check(1, 416.8, 524.9, 7.1, 7.1, 'green');
-  check(1, 380.8, 535.3, 7.1, 7.1, 'green');
-  check(1, 380.8, 524.9, 7.1, 7.1, 'green');
+  if (s._stressAllCheckboxes) {
+    check(1, 460.5, 535.3, 7.1, 7.1, 'green');
+    check(1, 460.5, 524.9, 7.1, 7.1, 'green');
+    check(1, 416.8, 535.3, 7.1, 7.1, 'green');
+    check(1, 416.8, 524.9, 7.1, 7.1, 'green');
+    check(1, 380.8, 535.3, 7.1, 7.1, 'green');
+    check(1, 380.8, 524.9, 7.1, 7.1, 'green');
+  } else {
+    check(1, 460.5, ctx.isFemale ? 535.3 : 524.9, 7.1, 7.1, 'green');
+    check(1, 416.8, 524.9, 7.1, 7.1, 'green');
+  }
 
-  put(1, '14/06/2026', 244.4, 350.7, 528.5, { align: 'center', size: 8.0, noWrap: true });
+  var marDateFmt = core.splitIsoDate(s.pf_marriage_date || (String(s.pf_marriage_details || '').split(/[•|]/)[0] || '').trim()).full;
+  var spOccHe = s.pf_sp_occupation_he || (String(s.pf_marriage_details || '').split(/[•|]/)[2] || '').trim();
+  put(1, marDateFmt || (s._stressAllCheckboxes ? '14/06/2026' : ''), 244.4, 350.7, 528.5, { align: 'center', size: 8.0, noWrap: true });
   put(1, relHe || 'יהודית', 138.1, 244.4, 528.5, { align: 'center', size: 7.8, wrapSize: 7.2, yWrapCenter: 530.5, lineShift: 4.0 });
   put(1, natHe || 'יהודייה', 31.9, 138.1, 528.5, { align: 'center', size: 7.8, wrapSize: 7.2, yWrapCenter: 530.5, lineShift: 4.0 });
 
   // Inviter Row 3: Prior Family Name, Prior Given Name, Entry Date, Citizenship, Status Date, Occupation (Y = 481.5 .. 503.6)
-  put(1, 'כהן-שוורצמן אלכסנדרוני', 476.7, 565.9, 488.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 491.0, lineShift: 4.0 });
-  put(1, 'עמנואל יהונתן אלעזר', 387.6, 476.7, 488.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 491.0, lineShift: 4.0 });
-  put(1, s.pf_sp_entry_date || '15/07/1991', 298.4, 387.6, 488.5, { align: 'center', size: 8.0, noWrap: true });
-  put(1, 'ישראלית ואמריקאית', 209.2, 298.4, 488.5, { align: 'center', size: 7.6, wrapSize: 7.2, yWrapCenter: 491.0, lineShift: 4.0 });
-  put(1, s.pf_sp_status_date || '15/07/1991', 120.0, 209.2, 488.5, { align: 'center', size: 8.0, noWrap: true });
-  put(1, 'מהנדס מערכות מידע ותוכנה', 30.8, 120.0, 488.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 491.0, lineShift: 4.0 });
+  put(1, s.pf_sp_prior_he || (s._stressAllCheckboxes ? 'כהן-שוורצמן אלכסנדרוני' : ''), 476.7, 565.9, 488.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 491.0, lineShift: 4.0 });
+  put(1, s.pf_sp_prior_given_he || (s._stressAllCheckboxes ? 'עמנואל יהונתן אלעזר' : ''), 387.6, 476.7, 488.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 491.0, lineShift: 4.0 });
+  put(1, core.splitIsoDate(s.pf_sp_entry_date).full || (s._stressAllCheckboxes ? '15/07/1991' : ''), 298.4, 387.6, 488.5, { align: 'center', size: 8.0, noWrap: true });
+  put(1, s.pf_sp_citizenship_he || (s._stressAllCheckboxes ? 'ישראלית ואמריקאית' : ''), 209.2, 298.4, 488.5, { align: 'center', size: 7.6, wrapSize: 7.2, yWrapCenter: 491.0, lineShift: 4.0 });
+  put(1, core.splitIsoDate(s.pf_sp_status_date).full || (s._stressAllCheckboxes ? '15/07/1991' : ''), 120.0, 209.2, 488.5, { align: 'center', size: 8.0, noWrap: true });
+  put(1, spOccHe || (s._stressAllCheckboxes ? 'מהנדס מערכות מידע ותוכנה' : ''), 30.8, 120.0, 488.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 491.0, lineShift: 4.0 });
 
   // Inviter Row 4: Address & Phones (Y = 433.8 .. 453.3 / 464.2)
   put(1, il.city || 'חיפה', 489.9, 565.9, 440.0, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 442.5, lineShift: 3.8 });
@@ -136,22 +143,28 @@ async function stampAsh6(rawState, loaderOpts) {
   put(1, dob.m || '11',   101.9, 132.0, 353.0, { align: 'center', size: 7.8, noWrap: true });
   put(1, dob.d || '23',    72.6, 101.9, 353.0, { align: 'center', size: 7.8, noWrap: true });
 
-  check(1, 57.7, 362.7, 7.1, 7.1, 'green');
-  check(1, 57.7, 352.3, 7.1, 7.1, 'green');
-
-  // Invited Row 2: Marital Status (All 4 Checked), Religion, Nationality, Citizenship, Entry Date, Port, Status, Visa Expiry (Y = 308.4 .. 331.6)
-  check(1, 551.0, 321.3, 7.1, 7.1, 'green');
-  check(1, 551.0, 310.9, 7.1, 7.1, 'green');
-  check(1, 519.8, 321.3, 7.1, 7.1, 'green');
-  check(1, 519.8, 310.9, 7.1, 7.1, 'green');
+  if (s._stressAllCheckboxes) {
+    check(1, 57.7, 362.7, 7.1, 7.1, 'green');
+    check(1, 57.7, 352.3, 7.1, 7.1, 'green');
+    check(1, 551.0, 321.3, 7.1, 7.1, 'green');
+    check(1, 551.0, 310.9, 7.1, 7.1, 'green');
+    check(1, 519.8, 321.3, 7.1, 7.1, 'green');
+    check(1, 519.8, 310.9, 7.1, 7.1, 'green');
+  } else {
+    check(1, 57.7, ctx.isFemale ? 352.3 : 362.7, 7.1, 7.1, 'green');
+    if (ctx.isMarried) check(1, 551.0, 310.9, 7.1, 7.1, 'green');
+    else if (ctx.isDiv) check(1, 519.8, 321.3, 7.1, 7.1, 'green');
+    else if (ctx.isWid) check(1, 519.8, 310.9, 7.1, 7.1, 'green');
+    else check(1, 551.0, 321.3, 7.1, 7.1, 'green');
+  }
 
   var ent6 = String(s.pf_entry_date_port || '').split(/[•|]/).map(function(x){ return x.trim(); });
   put(1, relHe || 'יהודית', 428.5, 489.9, 316.0, { align: 'center', size: 7.8, wrapSize: 7.2, yWrapCenter: 318.5, lineShift: 4.0 });
   put(1, natHe || 'יהודייה', 365.5, 428.5, 316.0, { align: 'center', size: 7.8, wrapSize: 7.2, yWrapCenter: 318.5, lineShift: 4.0 });
-  put(1, 'צרפתית ושוויצרית', 302.4, 365.5, 316.0, { align: 'center', size: 7.6, wrapSize: 7.0, yWrapCenter: 318.5, lineShift: 4.0 });
+  put(1, s.pf_citizenship || 'צרפתית ושוויצרית', 302.4, 365.5, 316.0, { align: 'center', size: 7.6, wrapSize: 7.0, yWrapCenter: 318.5, lineShift: 4.0 });
   put(1, ent6[0] || '01/09/2026', 221.4, 302.4, 316.0, { align: 'center', size: 7.8, noWrap: true });
-  put(1, 'נתב״ג טרמינל 3', 158.4, 221.4, 316.0, { align: 'center', size: 7.6, wrapSize: 7.0, yWrapCenter: 318.5, lineShift: 4.0 });
-  put(1, 'ב/2 תייר בהליך', 95.4, 158.4, 316.0, { align: 'center', size: 7.6, wrapSize: 7.0, yWrapCenter: 318.5, lineShift: 4.0 });
+  put(1, ent6[1] || 'נתב״ג טרמינל 3', 158.4, 221.4, 316.0, { align: 'center', size: 7.6, wrapSize: 7.0, yWrapCenter: 318.5, lineShift: 4.0 });
+  put(1, ent6[2] || 'ב/2 תייר בהליך', 95.4, 158.4, 316.0, { align: 'center', size: 7.6, wrapSize: 7.0, yWrapCenter: 318.5, lineShift: 4.0 });
   put(1, (ent6[3] || '01/12/2026').replace(/^עד\s*/, ''), 30.8, 95.4, 316.0, { align: 'center', size: 7.6, noWrap: true });
 
   // Invited Row 3: Abroad Address, Relation to Inviter, Home Phone, Mobile Phone (Y = 260.6 .. 280.2 / 291.1)
@@ -171,19 +184,26 @@ async function stampAsh6(rawState, loaderOpts) {
     { y: 146.1, yc: 148.1, chkM: 150.7, chkF: 140.2 }
   ];
   minorRowBands.forEach(function(band, idx) {
+    if (!s._stressAllCheckboxes && !cRows[idx]) return;
     var cr = cRows[idx] || {};
-    var cDob = core.splitIsoDate(cr.dob || '14/05/2018');
-    put(1, cr.id_num || 'FR1122334', 496.7, 563.6, band.y, { align: 'center', size: 7.6, noWrap: true });
-    put(1, 'גולדשמיט-מונטפיורי', 424.6, 496.7, band.y, { align: 'right', size: 7.4, wrapSize: 7.0, yWrapCenter: band.yc, lineShift: 3.8 });
-    put(1, cr.given_he || 'אריאל אלכסנדר בנימין', 352.6, 424.6, band.y, { align: 'right', size: 7.4, wrapSize: 7.0, yWrapCenter: band.yc, lineShift: 3.8 });
-    put(1, 'עמנואל אברהם לוי-צדק', 280.6, 352.6, band.y, { align: 'right', size: 7.4, wrapSize: 7.0, yWrapCenter: band.yc, lineShift: 3.8 });
-    put(1, cr.country || 'ליון, צרפת', 216.7, 280.6, band.y, { align: 'right', size: 7.4, wrapSize: 7.0, yWrapCenter: band.yc, lineShift: 3.8 });
-    put(1, cDob.y || '2018', 189.6, 216.7, band.y, { align: 'center', size: 7.6, noWrap: true });
-    put(1, cDob.m || '05',   162.6, 189.6, band.y, { align: 'center', size: 7.6, noWrap: true });
-    put(1, cDob.d || '14',   135.6, 162.6, band.y, { align: 'center', size: 7.6, noWrap: true });
-    check(1, 120.7, band.chkM, 7.1, 7.1, 'green');
-    check(1, 120.7, band.chkF, 7.1, 7.1, 'green');
-    put(1, cr.entry_date || '01/09/2026', 31.7, 86.5, band.y, { align: 'center', size: 7.4, noWrap: true });
+    var cDob = core.splitIsoDate(cr.dob || (s._stressAllCheckboxes ? '14/05/2018' : ''));
+    put(1, cr.id_num || (s._stressAllCheckboxes ? 'FR1122334' : ''), 496.7, 563.6, band.y, { align: 'center', size: 7.6, noWrap: true });
+    put(1, cr.surname_he || s.pf_surname_he || (s._stressAllCheckboxes ? 'גולדשמיט-מונטפיורי' : ''), 424.6, 496.7, band.y, { align: 'right', size: 7.4, wrapSize: 7.0, yWrapCenter: band.yc, lineShift: 3.8 });
+    put(1, cr.given_he || (s._stressAllCheckboxes ? 'אריאל אלכסנדר בנימין' : ''), 352.6, 424.6, band.y, { align: 'right', size: 7.4, wrapSize: 7.0, yWrapCenter: band.yc, lineShift: 3.8 });
+    put(1, cr.other_parent_he || ctx.spFullHe || (s._stressAllCheckboxes ? 'עמנואל אברהם לוי-צדק' : ''), 280.6, 352.6, band.y, { align: 'right', size: 7.4, wrapSize: 7.0, yWrapCenter: band.yc, lineShift: 3.8 });
+    put(1, cr.country || (s._stressAllCheckboxes ? 'ליון, צרפת' : ''), 216.7, 280.6, band.y, { align: 'right', size: 7.4, wrapSize: 7.0, yWrapCenter: band.yc, lineShift: 3.8 });
+    put(1, cDob.y || (s._stressAllCheckboxes ? '2018' : ''), 189.6, 216.7, band.y, { align: 'center', size: 7.6, noWrap: true });
+    put(1, cDob.m || (s._stressAllCheckboxes ? '05' : ''),   162.6, 189.6, band.y, { align: 'center', size: 7.6, noWrap: true });
+    put(1, cDob.d || (s._stressAllCheckboxes ? '14' : ''),   135.6, 162.6, band.y, { align: 'center', size: 7.6, noWrap: true });
+    if (s._stressAllCheckboxes) {
+      check(1, 120.7, band.chkM, 7.1, 7.1, 'green');
+      check(1, 120.7, band.chkF, 7.1, 7.1, 'green');
+    } else if (/נקבה|F/i.test(String(cr.gender || ''))) {
+      check(1, 120.7, band.chkF, 7.1, 7.1, 'green');
+    } else {
+      check(1, 120.7, band.chkM, 7.1, 7.1, 'green');
+    }
+    put(1, cr.entry_date || ent6[0] || (s._stressAllCheckboxes ? '01/09/2026' : ''), 31.7, 86.5, band.y, { align: 'center', size: 7.4, noWrap: true });
   });
 
   // Bottom Consent Line (הוצגה הסכמת הורה שני — Y = 72.7 .. 81.7, All 3 Checkboxes Checked)
@@ -251,8 +271,10 @@ async function stampAsh6(rawState, loaderOpts) {
     put(5, ll[1] || '045678909', 60, 165, 702.0, { align: 'center', size: 9.0, bold: true, noWrap: true });
 
     // Section א: Checkboxes בני (251.0), בתי (214.0), אחר (197.5) + text on line
-    check(5, 260.9, 654.5, 7.1, 7.1, 'blue');
-    check(5, 229.4, 654.5, 7.1, 7.1, 'blue');
+    if (s._stressAllCheckboxes) {
+      check(5, 260.9, 654.5, 7.1, 7.1, 'blue');
+      check(5, 229.4, 654.5, 7.1, 7.1, 'blue');
+    }
     check(5, 197.5, 654.5, 7.1, 7.1, 'blue');
     put(5, 'שוכרים', 85, 175, 656.5, { align: 'center', size: 8.2, bold: true, noWrap: true });
 
@@ -276,14 +298,15 @@ async function stampAsh6(rawState, loaderOpts) {
     put(5, ll[4] || '2', 282, 325, 558.5, { align: 'center', size: 9.0, bold: true, noWrap: true });
     put(5, ll[5] || '3.5', 195, 238, 558.5, { align: 'center', size: 9.0, bold: true, noWrap: true });
 
-    // Section ה: בקומה א (All 3 data rows populated: Y = 478.0, 461.0, 444.0)
-    var floorARows = [
+    // Section ה: בקומה א (Y = 478.0, 461.0, 444.0)
+    var floorARows = s._stressAllCheckboxes ? [
       { name: 'עמנואל ואביגיל לוי-גולדשמיט', father: 'מתתיהו', id: '012345674', rel: 'שוכרים ראשיים', date: '01/09/2026', paid_by: 'העברה בנקאית' },
       { name: 'אריאל אלכסנדר גולדשמיט', father: 'עמנואל', id: 'FR1122334', rel: 'בן השוכרת', date: '01/09/2026', paid_by: 'כלול בשכ״ד' },
       { name: 'נועה גבריאלה גולדשמיט', father: 'עמנואל', id: 'FR2233445', rel: 'בת השוכרת', date: '01/09/2026', paid_by: 'כלול בשכ״ד' }
-    ];
+    ] : (Array.isArray(s.pf_ll_floor_a_rows) && s.pf_ll_floor_a_rows.length ? s.pf_ll_floor_a_rows : []);
     [478.0, 461.0, 444.0].forEach(function(fy, rIdx) {
       var r = floorARows[rIdx];
+      if (!r) return;
       put(5, r.name,    438, 554, fy, { align: 'center', size: 6.8, bold: true, noWrap: true });
       put(5, r.father,  366, 434, fy, { align: 'center', size: 7.2, bold: true, noWrap: true });
       put(5, r.id,      286, 362, fy, { align: 'center', size: 7.6, bold: true, noWrap: true });
@@ -292,14 +315,15 @@ async function stampAsh6(rawState, loaderOpts) {
       put(5, r.paid_by,  36, 124, fy, { align: 'center', size: 6.8, bold: true, noWrap: true });
     });
 
-    // Section ה: בקומה ב (All 3 data rows populated: Y = 398.0, 381.0, 364.0)
-    var floorBRows = [
+    // Section ה: בקומה ב (Y = 398.0, 381.0, 364.0)
+    var floorBRows = s._stressAllCheckboxes ? [
       { name: 'משה ושרה אהרן אלון', father: 'אהרן', id: '045678909', rel: 'בעלי הנכס', date: '01/01/2015', paid_by: 'בעלים' },
       { name: 'יוסף חיים אהרן אלון', father: 'משה', id: '312456780', rel: 'בן המשכיר', date: '01/01/2015', paid_by: 'סמוך על שולחנו' },
       { name: 'ללא דיירים נוספים', father: 'ללא', id: '000000000', rel: 'ללא', date: '01/09/2026', paid_by: 'ללא' }
-    ];
+    ] : (Array.isArray(s.pf_ll_floor_b_rows) ? s.pf_ll_floor_b_rows : []);
     [398.0, 381.0, 364.0].forEach(function(fy, rIdx) {
       var r = floorBRows[rIdx];
+      if (!r) return;
       put(5, r.name,    438, 554, fy, { align: 'center', size: 6.8, bold: true, noWrap: true });
       put(5, r.father,  366, 434, fy, { align: 'center', size: 7.2, bold: true, noWrap: true });
       put(5, r.id,      286, 362, fy, { align: 'center', size: 7.6, bold: true, noWrap: true });
@@ -310,7 +334,7 @@ async function stampAsh6(rawState, loaderOpts) {
 
     // Section ו: Utility Checkboxes (חשמל, מים, טלפון, ארנונה)
     [313.0, 297.0, 281.0, 265.0].forEach(function(uy) {
-      check(5, 391.85, uy, 7.1, 7.1, 'green');
+      if (s._stressAllCheckboxes) check(5, 391.85, uy, 7.1, 7.1, 'green');
       check(5, 276.0,  uy, 7.1, 7.1, 'green');
     });
 
@@ -318,7 +342,11 @@ async function stampAsh6(rawState, loaderOpts) {
     put(5, ll[6] || 'העברה בנקאית חודשית', 180, 405, 244.5, { align: 'center', size: 8.2, bold: true, noWrap: true });
 
     // Section ח: מצב משפחתי: רווק (458.5), נשוי (426.5), גרוש (392.5), אלמן (356.5) at exact Y = 223.5
-    [464, 434.7, 405.7, 373.4].forEach(function(mx) { check(5, mx, 223.4, 7.1, 7.1, 'blue'); });
+    if (s._stressAllCheckboxes) {
+      [464, 434.7, 405.7, 373.4].forEach(function(mx) { check(5, mx, 223.4, 7.1, 7.1, 'blue'); });
+    } else {
+      check(5, 434.7, 223.4, 7.1, 7.1, 'blue');
+    }
     // מספר הילדים מתחת לגיל 18
     put(5, s.pf_ll_children_count || '3', 200, 232, 224.5, { align: 'center', size: 8.6, bold: true, noWrap: true });
     // המקצוע / העיסוק שלי

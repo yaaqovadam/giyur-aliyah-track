@@ -22,16 +22,16 @@ async function stampSecurityCv(rawState, loaderOpts) {
   var tzNum     = s.pf_sp_tz || s.pf_tz || '012345674';
   var passNum   = s.pf_pass_num || 'FR9876543';
   var dobStr    = (dob && dob.full) || '23/11/1994';
-  var spDobStr  = s.pf_sp_dob || '15/07/1991';
-  var marDate   = s.pf_marriage_date || '14/08/2022';
+  var spDobStr = core.splitIsoDate(ctx.spDobFull || s.pf_sp_dob).full || '15/07/1991';
+  var marDate = core.splitIsoDate(s.pf_marriage_date).full || '14/06/2025';
   var dateStr   = (today && today.todayFull) || '12/11/2026';
 
   var ilCity     = (il.city || 'חיפה').replace(/,/g, '');
   var ilStreet   = (il.street || 'שדרות הרצל').replace(/,/g, '');
   var ilHouse    = (il.houseNum || '42') + ' דירה ' + (il.apt || '9');
   var ilZip      = il.zip || '3321400';
-  var abrCountry = (abr.country || 'צרפת').replace(/,/g, '');
-  var abrCity    = (abr.city || 'ליון').replace(/,/g, '');
+  var abrCountry = (ctx.abrCountryHe || ( ctx.abr && ctx.abr.country ) || 'צרפת').replace(/,/g, '');
+  var abrCity = (ctx.abrCityHe || ( ctx.abr && ctx.abr.city ) || 'ליון').replace(/,/g, '');
 
   function estWidth(str, fontSize) {
     var sVal = String(str || '');
@@ -220,7 +220,7 @@ async function stampSecurityCv(rawState, loaderOpts) {
   putBox(1, ['04-8223344 (ישראל)', '+33-4-72112233 (חו״ל)'],        58.0, 327.0, 331.1, 376.0, { size: 9.4 });
   putBox(1, [s.pf_phone_il || '058-765-4321', '+33-6-12345678'],   58.0, 327.0, 286.3, 331.1, { size: 9.5 });
   putBox(1, s.pf_email || 'devorah.applicant@example.com',         58.0, 327.0, 241.4, 286.3, { size: 9.2 });
-  putBox(1, ['facebook.com/devorah.profile', '(ללא חשבונות נוספים)'], 58.0, 327.0, 174.2, 241.4, { size: 9.4 });
+  putBox(1, s._stressAllCheckboxes ? ['facebook.com/devorah.profile', '(ללא חשבונות נוספים)'] : ['ללא חשבון פייסבוק פעיל'], 58.0, 327.0, 174.2, 241.4, { size: 9.4 });
   putBox(1, ['אדריכלית נוף בכירה', 'ומתכננת ערים'],                 58.0, 327.0, 101.3, 174.2, { size: 9.5 });
 
   // 19. Workplace in Israel
@@ -404,10 +404,10 @@ async function stampSecurityCv(rawState, loaderOpts) {
     [183.1, 212.7], [147.8, 183.1], [115.8, 147.8], [ 77.3, 115.8]
   ];
   var p8Rows = [
-    { name: [fatherHe, maidenHe, 'YERMIYAHU'],   dob: '12/04/1965', id: 'FR4455661', addr: [abrCountry + ' ' + abrCity, 'רח׳ רפובליק 18'], tel: '+33-4721122', mob: '+33-611223344', freq: ['גבוהה', 'קשר שבועי'] },
-    { name: [motherHe, maidenHe, 'MIRIAM'],      dob: '08/09/1968', id: 'FR4455662', addr: [abrCountry + ' ' + abrCity, 'רח׳ רפובליק 18'], tel: '+33-4721122', mob: '+33-611223355', freq: ['גבוהה', 'קשר שבועי'] },
-    { name: [motherHe, maidenHe, 'MIRIAM'],      dob: '08/09/1968', id: 'FR4455662', addr: [abrCountry + ' ' + abrCity, 'רח׳ רפובליק 18'], tel: '+33-4721122', mob: '+33-611223355', freq: ['גבוהה', 'קשר שבועי'] },
-    { name: [fatherHe, maidenHe, 'YERMIYAHU'],   dob: '12/04/1965', id: 'FR4455661', addr: [abrCountry + ' ' + abrCity, 'רח׳ רפובליק 18'], tel: '+33-4721122', mob: '+33-611223344', freq: ['גבוהה', 'נשואים זה לזו'] },
+    { name: [fatherHe, (s.pf_father_en || 'SAMUEL').split(' ')[0]],   dob: '12/04/1965', id: 'FR4455661', addr: [abrCountry + ' ' + abrCity, 'רח׳ רפובליק 18'], tel: '+33-4721122', mob: '+33-611223344', freq: ['גבוהה', 'קשר שבועי'] },
+    { name: [motherHe, (s.pf_mother_en || 'MIRIAM').split(' ')[0]],      dob: '08/09/1968', id: 'FR4455662', addr: [abrCountry + ' ' + abrCity, 'רח׳ רפובליק 18'], tel: '+33-4721122', mob: '+33-611223355', freq: ['גבוהה', 'קשר שבועי'] },
+    { name: [motherHe, (s.pf_mother_en || 'MIRIAM').split(' ')[0]],      dob: '08/09/1968', id: 'FR4455662', addr: [abrCountry + ' ' + abrCity, 'רח׳ רפובליק 18'], tel: '+33-4721122', mob: '+33-611223355', freq: ['גבוהה', 'קשר שבועי'] },
+    { name: [fatherHe, (s.pf_father_en || 'SAMUEL').split(' ')[0]],   dob: '12/04/1965', id: 'FR4455661', addr: [abrCountry + ' ' + abrCity, 'רח׳ רפובליק 18'], tel: '+33-4721122', mob: '+33-611223344', freq: ['גבוהה', 'נשואים זה לזו'] },
     { name: ['דוד שמואל ' + maidenHe, 'DAVID'],  dob: '19/03/1992', id: 'FR7788991', addr: [abrCountry + ' פריז', 'ויקטור הוגו 10'],        tel: '+33-1445566', mob: '+33-677889900', freq: ['בינונית', 'חגים ומועדים'] },
     { name: ['שרה לאה ' + maidenHe, 'SARAH'],    dob: '25/06/1993', id: 'FR7788992', addr: [abrCountry + ' פריז', 'ויקטור הוגו 10'],        tel: '+33-1445566', mob: '+33-677889911', freq: ['בינונית', 'חגים ומועדים'] },
     { name: ['חנה רחל ' + maidenHe, 'HANNAH'],   dob: '04/11/1998', id: 'FR7788993', addr: [abrCountry + ' ' + abrCity, 'שד׳ ז׳ורס 22'],   tel: '+33-4729988', mob: '+33-688990011', freq: ['גבוהה', 'קשר חודשי'] },
@@ -526,10 +526,11 @@ async function stampSecurityCv(rawState, loaderOpts) {
   putComb(10, passNum, combV, 343.8, false);
   putUnderline(10, [apGivenHe, apSurHe], 215.5, 386.1, 339.9, { size: 9.2, gap: 8.6, lift: 2.2 });
 
-  // Lawyer Attestation (אשור קבלת הצהרה) — Single Declarant (spFullHe) & 9-digit Israeli ID (tzNum)
-  putUnderline(10, 'רותם אברהמי',                 394.9, 503.1, 259.9, { size: 9.4, maxLines: 1 });
-  putUnderline(10, '88412',                       250.7, 346.9, 259.9, { size: 9.6, maxLines: 1 });
-  putUnderline(10, 'שד׳ הפלי״ם 15 ' + branchCity, 106.5, 235.5, 259.9, { size: 9.0, maxLines: 1 });
+  if (s._stressAllCheckboxes) {
+    putUnderline(10, 'רותם אברהמי',                 394.9, 503.1, 259.9, { size: 9.4, maxLines: 1 });
+    putUnderline(10, '88412',                       250.7, 346.9, 259.9, { size: 9.6, maxLines: 1 });
+    putUnderline(10, 'שד׳ הפלי״ם 15 ' + branchCity, 106.5, 235.5, 259.9, { size: 9.0, maxLines: 1 });
+  }
 
   // מר/גב' [322.8..508.7]: Single declarant name (spFullHe) fits on 1 crisp 9.5pt BOLD line!
   putUnderline(10, spFullHe, 322.8, 508.7, 237.4, { size: 9.5, maxLines: 1 });
