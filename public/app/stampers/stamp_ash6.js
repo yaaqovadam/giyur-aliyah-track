@@ -81,11 +81,11 @@ async function stampAsh6(rawState, loaderOpts) {
 
   // Inviter Row 1: 9-Cell ID Comb + 5 Multi-Row Name Boxes (Y = 561.0 .. 585.0)
   putExactComb(1, s.pf_sp_tz || '012345674', p2InviterTzLines, 565.0, true);
-  put(1, 'לוי-אפשטיין אשכנזי ירושלמי', 371.2, 456.3, 568.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 571.0, lineShift: 4.2 });
-  put(1, 'יונתן מתתיהו רפאל שלמה', 286.1, 371.2, 568.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 571.0, lineShift: 4.2 });
-  put(1, 'אברהם משה בנימין אלעזר', 201.2, 286.1, 568.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 571.0, lineShift: 4.2 });
-  put(1, 'יעקב שלמה יצחק מנחם', 116.1, 201.2, 568.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 571.0, lineShift: 4.2 });
-  put(1, 'לאה רבקה שרה רחל', 31.0, 116.1, 568.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 571.0, lineShift: 4.2 });
+  put(1, ctx.spSurHe || 'לוי-אפשטיין אשכנזי ירושלמי', 371.2, 456.3, 568.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 571.0, lineShift: 4.2 });
+  put(1, ctx.spGivenHe || 'יונתן מתתיהו רפאל שלמה', 286.1, 371.2, 568.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 571.0, lineShift: 4.2 });
+  put(1, ctx.spAb || 'אברהם משה בנימין אלעזר', 201.2, 286.1, 568.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 571.0, lineShift: 4.2 });
+  put(1, ctx.spSb || 'יעקב שלמה יצחק מנחם', 116.1, 201.2, 568.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 571.0, lineShift: 4.2 });
+  put(1, ctx.spIm || 'לאה רבקה שרה רחל', 31.0, 116.1, 568.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 571.0, lineShift: 4.2 });
 
   // Inviter Row 2: DOB, Gender, Marital Status, Marriage Date, Religion, Nationality (Y = 520.9 .. 543.7)
   put(1, spDobM ? spDobM[3] : '1991', 535.1, 564.8, 524.5, { align: 'center', size: 8.0, noWrap: true });
@@ -112,8 +112,8 @@ async function stampAsh6(rawState, loaderOpts) {
   put(1, 'מהנדס מערכות מידע ותוכנה', 30.8, 120.0, 488.5, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 491.0, lineShift: 4.0 });
 
   // Inviter Row 4: Address & Phones (Y = 433.8 .. 453.3 / 464.2)
-  put(1, 'חיפה נווה שאנן', 489.9, 565.9, 440.0, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 442.5, lineShift: 3.8 });
-  put(1, 'שדרות הרצל המייסדים', 336.9, 489.9, 440.0, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 442.5, lineShift: 3.8 });
+  put(1, il.city || 'חיפה', 489.9, 565.9, 440.0, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 442.5, lineShift: 3.8 });
+  put(1, il.street || 'שדרות הרצל', 336.9, 489.9, 440.0, { align: 'right', size: 7.6, wrapSize: 7.2, yWrapCenter: 442.5, lineShift: 3.8 });
   put(1, il.house || '42', 282.9, 336.9, 440.0, { align: 'center', size: 8.0, noWrap: true });
   put(1, il.apt || '9', 237.9, 282.9, 440.0, { align: 'center', size: 8.0, noWrap: true });
   put(1, il.zip || '3321400', 183.9, 237.9, 440.0, { align: 'center', size: 7.8, noWrap: true });
@@ -155,9 +155,9 @@ async function stampAsh6(rawState, loaderOpts) {
   put(1, (ent6[3] || '01/12/2026').replace(/^עד\s*/, ''), 30.8, 95.4, 316.0, { align: 'center', size: 7.6, noWrap: true });
 
   // Invited Row 3: Abroad Address, Relation to Inviter, Home Phone, Mobile Phone (Y = 260.6 .. 280.2 / 291.1)
-  put(1, 'France Rhone-Alpes', 489.9, 565.9, 266.5, { align: 'center', size: 7.4, wrapSize: 7.0, yWrapCenter: 269.0, lineShift: 3.8 });
-  put(1, 'Lyon Metropolis', 401.5, 489.9, 266.5, { align: 'center', size: 7.4, wrapSize: 7.0, yWrapCenter: 269.0, lineShift: 3.8 });
-  put(1, 'Rue de la Republique', 320.4, 401.5, 266.5, { align: 'center', size: 7.4, wrapSize: 7.0, yWrapCenter: 269.0, lineShift: 3.8 });
+  put(1, abr.country || 'France', 489.9, 565.9, 266.5, { align: 'center', size: 7.4, wrapSize: 7.0, yWrapCenter: 269.0, lineShift: 3.8 });
+  put(1, abr.city || 'Lyon', 401.5, 489.9, 266.5, { align: 'center', size: 7.4, wrapSize: 7.0, yWrapCenter: 269.0, lineShift: 3.8 });
+  put(1, abr.street || 'Rue de la Republique', 320.4, 401.5, 266.5, { align: 'center', size: 7.4, wrapSize: 7.0, yWrapCenter: 269.0, lineShift: 3.8 });
   put(1, '25', 266.4, 320.4, 266.5, { align: 'center', size: 7.8, noWrap: true });
   put(1, 'בת זוג נשואה כדין', 183.9, 266.4, 271.5, { align: 'center', size: 7.6, wrapSize: 7.2, yWrapCenter: 274.5, lineShift: 4.0 });
   put(1, s.pf_phone_abroad || '+33-4-7890-1234', 102.9, 183.9, 271.5, { align: 'center', size: 7.2, noWrap: true });

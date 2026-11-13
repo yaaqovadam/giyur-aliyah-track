@@ -41,3 +41,6 @@ public/app/stampers/auto_*.js
 *_RULER.pdf
 *_AUTO_FILLED.pdf
 *_STUDIO_PROOF.pdf
+functions/.env
+functions/.env.*
+functions/node_modules/

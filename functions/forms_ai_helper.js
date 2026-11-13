@@ -44,7 +44,7 @@ async function handleFormsAi(req, res, secretObj, primaryModel) {
       parts.push({ text: prompt });
     }
 
-    const models = Array.from(new Set([primaryModel || "gemini-2.5-flash", "gemini-2.5-flash"]));
+    const models = Array.from(new Set([primaryModel || "gemini-3.8-flash", "gemini-3.8-flash"]));
     let parsed = null;
     let lastErr = "";
 

@@ -695,8 +695,26 @@
     if (scans.length === 0) {
       pills.push('<span style="background:#f1f5f9;border:1px solid #cbd5e1;color:#475569;padding:4px 9px;border-radius:999px;font-size:0.74rem;font-weight:800;">' + esc(c.noScans) + '</span>');
     } else {
-      scans.forEach(function(sc) {
-        pills.push('<span style="background:#dcfce7;border:1px solid #10b981;color:#065f46;padding:4px 9px;border-radius:999px;font-size:0.74rem;font-weight:800;">✅ ' + esc(sc.docTitle || sc.docType) + (sc.fullName ? ' (' + esc(sc.fullName) + ')' : '') + '</span>');
+            scans.forEach(function(sc) {
+        var sN = norm(sc.fullName);
+        if (sN && formFull && sN !== formFull && sN !== formRev && !hasPrior) {
+          errors.push(c.errScanVsForm.replace('{doc}', esc(sc.docTitle)).replace('{sn}', esc(sc.fullName)).replace('{fn}', esc((s.pf_given_en || '') + ' ' + (s.pf_surname_en || ''))));
+        }
+        if (sc.dob && s.pf_dob && sc.dob !== s.pf_dob) {
+          errors.push(c.errDobFlip.replace('{doc}', esc(sc.docTitle)).replace('{sd}', esc(sc.dob)).replace('{fd}', esc(s.pf_dob)));
+        }
+        if (sc.docType === 'birth_cert' && sc.isLongFormBothParents === false) {
+          errors.push('🛑 <strong>Short-Form Birth Certificate Detected (' + esc(sc.docTitle) + '):</strong> Missing both parents\' full names! Misrad HaPanim strictly rejects short-form abstracts—you MUST present a Long-Form Vault Birth Certificate listing both Father and Mother.');
+        }
+        if ((sc.docType === 'birth_cert' || sc.docType === 'police_check' || sc.docType === 'single_status' || sc.docType === 'marriage_cert') && sc.hasApostille === false) {
+          warnings.push('⚠️ <strong>No Apostille Visible on `' + esc(sc.docTitle) + '`:</strong> Make sure the original Hague Apostille stamp is attached before your Misrad HaPanim window appointment.');
+        }
+        if (sc.apostilleAuthorityOk === false) {
+          errors.push('🚨 <strong>Wrong Apostille Authority on `' + esc(sc.docTitle) + '`:</strong> Federal police checks (e.g. FBI) require a Federal Department of State Apostille—not a state notary apostille!');
+        }
+        if (sc.docLang && sc.docLang !== 'hebrew' && !sc.hasRedRibbon && sc.docType !== 'passport' && sc.docType !== 'entry_slip') {
+          warnings.push('🎀 <strong>Un-Translated Foreign Certificate (`' + esc(sc.docTitle) + '`):</strong> Clerks routinely refuse non-Hebrew certificates unless accompanied by a Red-Ribbon Israeli Notarial Hebrew Translation.');
+        }
       });
     }
 
@@ -739,7 +757,12 @@
     base._masterDossier = computeMasterDossierSummary(base);
     window.gatFormsState = base;
     if (window.gatDb && window.gatUid) {
-      window.gatDb.collection('users').doc(window.gatUid).set({ masterDossier: base._masterDossier }, { merge: true }).catch(function(){});
+      window.gatDb.collection('users').doc(window.gatUid).set({
+        uid: window.gatUid,
+        masterDossier: base._masterDossier,
+        scannedDocs: loadScans(),
+        updatedAtMs: Date.now()
+      }, { merge: true }).catch(function(){});
     }
     return base;
   };
@@ -775,44 +798,86 @@
               ts: new Date().toISOString(),
               docType: r.doc_type || 'certificate',
               docTitle: r.doc_title_detected || r.doc_type || 'Certificate',
-              fullName: r.person_full_name || '',
+              fullName: r.person_full_name || r.detected_full_name || '',
+              surnameEn: r.surname_en || '',
+              givenEn: r.given_en || '',
+              surnameHe: r.surname_he || '',
+              givenHe: r.given_he || '',
               priorNames: r.prior_or_maiden_names || '',
               dob: r.date_of_birth || '',
               passportNumber: r.passport_number || '',
               fatherName: r.father_full_name || '',
-              motherName: r.mother_full_name || ''
+              motherName: r.mother_full_name || '',
+              isLongFormBothParents: r.is_long_form_both_parents !== false,
+              hasApostille: r.has_apostille_visible !== false,
+              apostilleAuthorityOk: r.apostille_authority_correct !== false,
+              docLang: r.document_language || 'english',
+              hasRedRibbon: !!r.has_israeli_red_ribbon_notary,
+              issueDateIso: r.issue_date_iso || '',
+              findings: Array.isArray(r.forensic_findings) ? r.forensic_findings : []
             });
-            localStorage.setItem(SCANNED_KEY, JSON.stringify(scans.slice(0, 12)));
-            // Auto-fill empty form fields from scanned certificate/passport
+            localStorage.setItem(SCANNED_KEY, JSON.stringify(scans.slice(0, 15)));
+
+            // Auto-populate all matching intake fields (preferring Hebrew for Hebrew-script fields)
             var autoFilled = false;
-            var setIfEmpty = function(fid, valStr) {
+            var setFieldVal = function(fid, valStr, overwriteExisting) {
               if (!valStr) return;
+              var cleanVal = String(valStr).trim();
+              if (!cleanVal || cleanVal === 'null' || cleanVal === 'undefined') return;
               var cur = String((window.gatFormsState && window.gatFormsState[fid]) || '').trim();
-              if (!cur || cur === 'ללא') {
-                window.gatFormsState[fid] = String(valStr).trim();
+              if (overwriteExisting || !cur || cur === 'ללא') {
+                window.gatFormsState[fid] = cleanVal;
                 var el = document.getElementById(fid);
-                if (el && document.activeElement !== el) el.value = window.gatFormsState[fid];
+                if (el && document.activeElement !== el) el.value = cleanVal;
                 autoFilled = true;
               }
             };
-            if (r.person_full_name) {
+
+            if (r.surname_en) setFieldVal('pf_surname_en', r.surname_en.toUpperCase());
+            if (r.given_en) setFieldVal('pf_given_en', r.given_en.toUpperCase());
+            if (r.surname_he) setFieldVal('pf_surname_he', r.surname_he);
+            if (r.given_he) setFieldVal('pf_given_he', r.given_he);
+
+            if (!r.surname_en && !r.given_en && r.person_full_name) {
               var np = String(r.person_full_name).trim().split(/\s+/);
               if (np.length >= 2) {
                 var isHebName = /[\u0590-\u05FF]/.test(r.person_full_name);
-                setIfEmpty(isHebName ? 'pf_given_he' : 'pf_given_en', np.slice(0, -1).join(' '));
-                setIfEmpty(isHebName ? 'pf_surname_he' : 'pf_surname_en', np[np.length - 1]);
+                setFieldVal(isHebName ? 'pf_given_he' : 'pf_given_en', np.slice(0, -1).join(' '));
+                setFieldVal(isHebName ? 'pf_surname_he' : 'pf_surname_en', np[np.length - 1]);
               }
             }
-            if (r.date_of_birth && /^\d{4}-\d{2}-\d{2}$/.test(r.date_of_birth)) setIfEmpty('pf_dob', r.date_of_birth);
-            if (r.passport_number) setIfEmpty('pf_pass_num', r.passport_number);
-            if (r.father_full_name) setIfEmpty('pf_father_he', r.father_full_name);
-            if (r.mother_full_name) setIfEmpty('pf_mother_he', r.mother_full_name);
-            if (r.prior_or_maiden_names) setIfEmpty('pf_prior_names', r.prior_or_maiden_names);
-            if (r.issue_date_iso && (r.doc_type === 'police_check' || r.doc_type === 'single_status')) {
-              setIfEmpty('pf_police_issue_date', r.issue_date_iso);
+            if (r.date_of_birth && /^\d{4}-\d{2}-\d{2}$/.test(r.date_of_birth)) {
+              setFieldVal('pf_dob', r.date_of_birth);
             }
+            if (r.gender_he && (r.gender_he === 'נקבה' || r.gender_he === 'זכר')) {
+              setFieldVal('pf_gender', r.gender_he);
+            }
+            if (r.marital_he) setFieldVal('pf_marital', r.marital_he);
+            if (r.birth_country_city_he) setFieldVal('pf_birth_country', r.birth_country_city_he);
+            if (r.citizenship_he) setFieldVal('pf_citizenship', r.citizenship_he);
+            if (r.passport_number) setFieldVal('pf_pass_num', r.passport_number.toUpperCase());
+            if (r.passport_issue_date && /^\d{4}-\d{2}-\d{2}$/.test(r.passport_issue_date)) {
+              setFieldVal('pf_pass_issue_date', r.passport_issue_date);
+            }
+            if (r.passport_expiry_date && /^\d{4}-\d{2}-\d{2}$/.test(r.passport_expiry_date)) {
+              setFieldVal('pf_pass_exp_date', r.passport_expiry_date);
+            }
+            if (r.father_full_name) setFieldVal('pf_father_he', r.father_full_name);
+            if (r.mother_full_name) setFieldVal('pf_mother_he', r.mother_full_name);
+            if (r.mother_maiden_name_he) setFieldVal('pf_mother_maiden', r.mother_maiden_name_he);
+            if (r.paternal_grandfather_he) setFieldVal('pf_foreign_grandfather', r.paternal_grandfather_he);
+            if (r.spouse_full_name_he) setFieldVal('pf_sp_name_he', r.spouse_full_name_he);
+            if (r.spouse_tz) setFieldVal('pf_sp_tz', r.spouse_tz);
+            if (r.marriage_date_place_he) setFieldVal('pf_marriage_details', r.marriage_date_place_he);
+            if (r.entry_date_port_he) setFieldVal('pf_entry_date_port', r.entry_date_port_he);
+            if (r.prior_or_maiden_names) setFieldVal('pf_prior_names', r.prior_or_maiden_names);
+            if (r.issue_date_iso && /^\d{4}-\d{2}-\d{2}$/.test(r.issue_date_iso) && (r.doc_type === 'police_check' || r.doc_type === 'single_status')) {
+              setFieldVal('pf_police_issue_date', r.issue_date_iso);
+            }
+
             if (autoFilled && window.syncFormDraftIfChanged) window.syncFormDraftIfChanged();
             renderMasterDossierBar();
+            if (typeof window.runPibaForensicCheck === 'function') window.runPibaForensicCheck(false);
           }).catch(function() {});
         }
         return resp;
@@ -905,6 +970,66 @@
       '<table>' + rows + '</table>' +
       '<script>setTimeout(function(){window.print();},300);<\/script></body></html>');
     w.document.close();
+  };
+
+
+  window.stamperCalibrationMode = false;
+  window.toggleStamperCalibrationMode = function(valBool) {
+    var c = ui();
+    window.stamperCalibrationMode = (valBool !== undefined) ? !!valBool : !window.stamperCalibrationMode;
+    var badge = document.getElementById('pf-calib-mode-btn');
+    if (badge) {
+      badge.style.background = window.stamperCalibrationMode ? '#7c3aed' : '#0f766e';
+      badge.innerHTML = window.stamperCalibrationMode ? esc(c.calOn) : esc(c.calOff);
+    }
+  };
+
+  window.scanCertIntoFormsEngine = async function(inputEl) {
+    var file = inputEl && inputEl.files && inputEl.files[0];
+    if (!file) return;
+    var outEl = document.getElementById('pf-forensic-out');
+    if (outEl) {
+      outEl.style.display = 'block';
+      outEl.style.border = '2px solid #0284c7';
+      outEl.style.background = '#f0f9ff';
+      outEl.innerHTML = '<strong>🔍 Gemini 3.8 Flash Vision extracting fields from your document & checking for clerk traps...</strong>';
+    }
+    try {
+      var payload = await window.fileToCompressedBase64(file);
+      var res = await fetch('/api/auditDoc', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mode: 'dossier_doc',
+          mimeType: payload.mimeType,
+          base64Data: payload.base64Data,
+          lang: lang()
+        })
+      });
+      var data = await res.json();
+      if (!res.ok || !data.ok || !data.result) {
+        throw new Error((data && data.error) || 'Document scan failed');
+      }
+      var r = data.result;
+      var findingsHtml = (Array.isArray(r.forensic_findings) ? r.forensic_findings : []).map(function(f) {
+        return '<li style="margin-top:4px;">' + esc(f) + '</li>';
+      }).join('');
+      if (outEl) {
+        outEl.style.border = '2px solid #059669';
+        outEl.style.background = '#ecfdf5';
+        outEl.innerHTML = '<div style="font-weight:900;color:#065f46;margin-bottom:4px;">✅ Auto-Populated Form Fields from: ' + esc(r.doc_title_detected || r.doc_type || 'Document') + '</div>' +
+          (findingsHtml ? '<ul style="padding-left:18px;margin:6px 0;color:#0f172a;font-size:0.82rem;">' + findingsHtml + '</ul>' : '');
+      }
+      setTimeout(function() { window.runPibaForensicCheck(false); }, 350);
+    } catch (err) {
+      if (outEl) {
+        outEl.style.border = '2px solid #dc2626';
+        outEl.style.background = '#fef2f2';
+        outEl.innerHTML = '<span style="color:#b91c1c;font-weight:800;">⚠️ ' + esc(err.message || err) + '</span>';
+      }
+    } finally {
+      inputEl.value = '';
+    }
   };
 
   window.scanHandwrittenWorksheet = async function(inputEl) {
@@ -1131,7 +1256,7 @@
 
     // If unlocked and real-PDF stamper is loaded for forms mode, stamp exact Gov.il PDF directly!
     if (unlocked && mode === 'forms' && typeof window.stampOfficialGovPdf === 'function') {
-      await window.stampOfficialGovPdf(curForm, s);
+      await window.stampOfficialGovPdf(curForm, s, !!window.stamperCalibrationMode);
       return;
     }
 
@@ -1288,7 +1413,7 @@
         '<div style="margin-top:10px;">' + renderField('pf_rel_story') + '</div>' +
         '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">' +
           '<button type="button" id="pf-btn-ai-heb" class="btn" style="margin:0;flex:1;min-width:190px;background:#0369a1;" onclick="convertFormAnswersToClerkHebrew(false)">' + esc(c.btnAiHeb) + '</button>' +
-          '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#0f766e;" onclick="window.stampDemoPersonaPdf()">🧪 Sample Filled PDF</button>' +
+          '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#0f766e;" onclick="window.stampDemoPersonaPdf()">' + esc(c.calBtn || '🧪 Sample Filled PDF') + '</button>' +
           '<button type="button" class="btn btn-emerald" style="margin:0;flex:1;min-width:190px;" onclick="printOfficialPibaPacket()">' + esc(c.btnPrintFinal) + '</button></div>' +
         '<div id="pf-live-packet-preview" style="margin-top:12px;">' + window.buildStatutoryHebrewLetterHtml() + '</div>';
     } else {
@@ -1305,11 +1430,18 @@
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:10px;margin-bottom:10px;">' +
           '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selForm) + '</label><select id="pf_active_form" class="pf-bound-input" style="margin:0;" onchange="window.gatFormsState.pf_active_form=this.value;window.mountUnifiedPibaFormsEngine();">' + fOpts + '</select></div>' +
           '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selBranch) + '</label><select id="pf_target_branch" class="pf-bound-input" style="margin:0;">' + brOpts + '</select></div></div>' +
+        '<div style="background:#f0f9ff;border:2px dashed #0284c7;border-radius:12px;padding:10px 12px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;">' +
+          '<div style="flex:1;min-width:210px;"><div style="font-size:0.82rem;font-weight:900;color:#0c4a6e;">' + esc(c.afTitle || '📸 1-Tap Document Auto-Fill') + '</div><div style="font-size:0.74rem;color:#334155;">' + esc(c.afSub || '') + '</div></div>' +
+          '<input type="file" id="pf-cert-autofill-inp" accept="image/*,application/pdf" capture="environment" style="display:none;" onchange="window.scanCertIntoFormsEngine(this)" />' +
+          '<button type="button" class="btn" style="margin:0;padding:10px 14px;font-size:0.8rem;width:auto;background:#0284c7;color:#fff;" onclick="document.getElementById(\'pf-cert-autofill-inp\').click()">' + esc(c.afBtn || '📸 Auto-Fill') + '</button>' +
+        '</div>' +
         '<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;">' +
           '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#334155;" onclick="printBlankNativeWorksheet()">' + esc(c.btnPrintBlank) + '</button>' +
           '<input type="file" id="pf-ws-scan-inp" accept="image/*,application/pdf" capture="environment" style="display:none;" onchange="scanHandwrittenWorksheet(this)" />' +
           '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#0f172a;border:1.5px dashed #38bdf8;color:#38bdf8;" onclick="document.getElementById(\'pf-ws-scan-inp\').click()">' + esc(c.btnScanWs) + '</button>' +
           '<button type="button" id="pf-btn-ai-heb" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#0369a1;" onclick="convertFormAnswersToClerkHebrew(false)">' + esc(c.btnAiHeb) + '</button>' +
+          '<button type="button" id="pf-calib-mode-btn" class="btn" style="margin:0;padding:9px 12px;font-size:0.75rem;width:auto;background:' + (window.stamperCalibrationMode ? '#7c3aed' : '#0f766e') + ';" onclick="window.toggleStamperCalibrationMode()">' + (window.stamperCalibrationMode ? esc(c.calOn || '🎯 Full Calibration') : esc(c.calOff || '👤 Real User Input')) + '</button>' +
+          '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.75rem;width:auto;background:#4f46e5;" onclick="window.stampDemoPersonaPdf()">' + esc(c.calBtn || '🧪 Calibration PDF') + '</button>' +
         '</div>' +
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:11px;">' + gridFields.map(renderField).join('') + '</div>' +
         '<div style="margin-top:10px;display:flex;flex-direction:column;gap:8px;">' + wideFields.map(renderField).join('') + '</div>' +
@@ -1551,6 +1683,63 @@
       if (LETTERS[lk] && LETTERS[lk].t) LETTERS[lk].t.ru = ruLet[lk];
     });
   }
+
+
+  var EXTRA_FV_I18N = {
+    en: {
+      afTitle: '' + esc(c.afTitle || '📸 1-Tap Document Auto-Fill') + '',
+      afSub: '' + esc(c.afSub || '') + '',
+      afBtn: '' + esc(c.afBtn || '📸 Auto-Fill') + '',
+      calOn: '🎯 Mode: FULL CALIBRATION PROOF (All Checkboxes ON)',
+      calOff: '👤 Mode: REAL USER INPUT (Hebrew-First)',
+      calBtn: '' + esc(c.calBtn || '🧪 Calibration PDF') + ''
+    },
+    he: {
+      afTitle: '📸 מילוי אוטומטי מהיר מתעודה או דרכון (סריקת AI)',
+      afSub: 'העלו דרכון, תעודת לידה, נישואין, תעודת יושר או אשרת כניסה למילוי אוטומטי של הטופס בעברית תקנית:',
+      afBtn: '📸 צילום / העלאת תעודה ← מילוי הטופס',
+      calOn: '🎯 מצב: בדיקת כיול מלאה (כל המשבצות מסומנות)',
+      calOff: '👤 מצב: נתוני מבקש אמיתיים (עברית תקנית)',
+      calBtn: '🧪 הפקת PDF בדיקת כיול מלאה'
+    },
+    fr: {
+      afTitle: '📸 Remplissage Auto 1-Clic depuis Vos Actes (IA Vision)',
+      afSub: 'Téléversez Passeport, Acte de Naissance, Mariage ou Casier pour pré-remplir le formulaire en hébreu :',
+      afBtn: '📸 Scanner un Acte → Pré-remplir',
+      calOn: '🎯 Mode : CALIBRAGE COMPLET (Toutes Cases)',
+      calOff: '👤 Mode : DONNÉES RÉELLES (Hébreu)',
+      calBtn: '🧪 Générer PDF Test Calibrage'
+    },
+    es: {
+      afTitle: '📸 Autocompletado en 1 Clic desde Sus Documentos (IA)',
+      afSub: 'Suba Pasaporte, Partida de Nacimiento, Matrimonio o Antecedentes para autocompletar en hebreo:',
+      afBtn: '📸 Escanear Documento → Autocompletar',
+      calOn: '🎯 Modo: CALIBRACIÓN COMPLETA (Todas las Casillas)',
+      calOff: '👤 Modo: DATOS REALES (Hebreo)',
+      calBtn: '🧪 Generar PDF de Calibración'
+    },
+    de: {
+      afTitle: '📸 1-Klick Formular-Ausfüllung per Dokumenten-Scan (KI)',
+      afSub: 'Reisepass, Geburts-, Heiratsurkunde oder Führungszeugnis hochladen und automatisch auf Hebräisch ausfüllen:',
+      afBtn: '📸 Dokument Scannen → Auto-Ausfüllen',
+      calOn: '🎯 Modus: VOLL-KALIBRIERUNG (Alle Kästchen)',
+      calOff: '👤 Modus: ECHTE NUTZERDATEN (Hebräisch)',
+      calBtn: '🧪 Kalibrierungs-PDF Erstellen'
+    },
+    ru: {
+      afTitle: '📸 Автозаполнение Анкеты по Фото Документа в 1 Клик (ИИ)',
+      afSub: 'Загрузите загранпаспорт, свидетельство о рождении, браке или справку о несудимости для автозаполнения на иврите:',
+      afBtn: '📸 Сфотографировать Документ → Заполнить Анкету',
+      calOn: '🎯 Режим: ПОЛНАЯ КАЛИБРОВКА (Все Поля и Галочки)',
+      calOff: '👤 Режим: ДАННЫЕ ЗАЯВИТЕЛЯ (На Иврите)',
+      calBtn: '🧪 Тестовый PDF (Все Поля)'
+    }
+  };
+  Object.keys(EXTRA_FV_I18N).forEach(function(k) {
+    if (window.GAT_FORMS_META && window.GAT_FORMS_META.UI && window.GAT_FORMS_META.UI[k]) {
+      Object.assign(window.GAT_FORMS_META.UI[k], EXTRA_FV_I18N[k]);
+    }
+  });
 
   window.mountUnifiedPibaFormsEngine();
 })();

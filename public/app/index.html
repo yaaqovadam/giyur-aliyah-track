@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Interactive Command Center & Vetted Concierge | Giyur Aliyah Track</title>
-  <script src="/i18n/jurisdiction.js?v=1794549446393"></script>
+  <script src="/i18n/jurisdiction.js?v=1794563774612"></script>
   <style>
     :root, html, body {
       color-scheme: light only !important;
@@ -135,10 +135,15 @@
         <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
       </a>
     </div>
-    <button type="button" id="globe-lang-btn" class="globe-btn" onclick="window.toggleLang(event)" aria-label="Change Language">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-      <span id="globe-lang-lbl">EN</span>
-    </button>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button type="button" id="top-sync-btn" onclick="window.openDeviceSyncModal()" style="background:rgba(2,136,232,0.22);border:1.5px solid #38bdf8;color:#fff;padding:6px 10px;border-radius:10px;font-size:0.74rem;font-weight:900;cursor:pointer;display:flex;align-items:center;gap:5px;">
+        <span>📲</span><span id="top-sync-lbl">Sync Devices</span>
+      </button>
+      <button type="button" id="globe-lang-btn" class="globe-btn" onclick="window.toggleLang(event)" aria-label="Change Language">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span id="globe-lang-lbl">EN</span>
+      </button>
+    </div>
   </header>
 
   <div class="nav-tabs">
@@ -151,6 +156,53 @@
   </div>
 
   <div class="container" id="app-container"></div>
+
+
+  <!-- CROSS-DEVICE SYNC & UNIVERSAL SIGN-IN MODAL -->
+  <div class="paywall-backdrop" id="device-sync-modal" onclick="if(event.target===this) window.closeDeviceSyncModal()">
+    <div class="paywall-card" role="dialog" aria-modal="true" style="max-width:480px;">
+      <div class="pw-head" style="padding:20px 22px;">
+        <div>
+          <div id="sync-modal-pill" style="font-size:0.75rem;font-weight:900;color:#38bdf8;text-transform:uppercase;letter-spacing:0.04em;">📲 1-Step WhatsApp Account &amp; Sync</div>
+          <h3 id="sync-modal-title" style="font-size:1.22rem;margin-top:2px;">Sign In or Sync With WhatsApp</h3>
+        </div>
+        <button class="pw-close" onclick="window.closeDeviceSyncModal()" style="width:38px;height:38px;font-size:1.1rem;">✕</button>
+      </div>
+      <div class="pw-body" style="padding:20px 22px;">
+        <div id="sync-acct-badge" style="background:#f0f9ff;border:2px solid #7dd3fc;border-radius:13px;padding:12px 14px;font-size:0.86rem;color:#0c4a6e;font-weight:800;line-height:1.45;margin-bottom:14px;"></div>
+
+        <!-- STEP 1: ENTER WHATSAPP NUMBER -->
+        <div id="wa-auth-box" style="background:#ecfdf5;border:2.5px solid #10b981;border-radius:16px;padding:16px;margin-bottom:14px;">
+          <div id="wa-auth-head" style="font-size:0.98rem;font-weight:900;color:#065f46;margin-bottom:6px;">📲 Enter Your WhatsApp Number</div>
+          <div id="wa-auth-sub" style="font-size:0.83rem;color:#047857;line-height:1.5;margin-bottom:12px;">
+            Your forms, scanned certificates, and paid passes are tied to your WhatsApp number. Enter your number on any phone or computer to open your exact account:
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <input id="wa-login-phone-inp" type="tel" placeholder="+972 58... or +1..." style="margin:0;flex:1;min-width:170px;padding:13px 14px;font-size:1rem;font-weight:800;border:2px solid #059669 !important;border-radius:12px;" />
+            <button type="button" id="wa-send-code-btn" class="btn btn-emerald" style="margin:0;width:auto;padding:13px 18px;font-size:0.9rem;border-radius:12px;" onclick="window.requestWhatsAppLoginCode()">Send Code →</button>
+          </div>
+
+          <!-- STEP 2: 4-DIGIT CODE ENTRY (APPEARS AFTER SENDING) -->
+          <div id="wa-otp-verify-row" style="display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed #10b981;">
+            <div style="font-size:0.82rem;font-weight:900;color:#065f46;margin-bottom:6px;">✅ Check your WhatsApp! Tap the 1-Click Link OR enter the 4-digit code below:</div>
+            <div style="display:flex;gap:8px;">
+              <input id="wa-login-otp-inp" type="text" maxlength="4" inputmode="numeric" placeholder="4-Digit Code" style="margin:0;flex:1;padding:13px;font-size:1.2rem;font-weight:900;letter-spacing:6px;text-align:center;border:2px solid #0284c7 !important;border-radius:12px;" />
+              <button type="button" class="btn" style="margin:0;width:auto;padding:13px 20px;font-size:0.92rem;background:#0284c7;border-radius:12px;" onclick="window.verifyWhatsAppLoginCode()">Verify &amp; Open →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- QR SHORTCUT (SHOWN WHEN ALREADY LOGGED IN SO USER CAN SCAN COMPUTER SCREEN WITH PHONE) -->
+        <div id="wa-qr-shortcut-box" style="display:none;background:#f8fafc;border:2px dashed #0284c7;border-radius:14px;padding:14px;text-align:center;">
+          <div style="font-size:0.82rem;font-weight:900;color:#0c4a6e;margin-bottom:6px;">📷 Instant Camera Shortcut (Scan to Open on Your Phone/Computer)</div>
+          <img id="sync-qr-img" alt="Scan QR Code" style="width:165px;height:165px;border-radius:12px;border:1.5px solid #cbd5e1;margin:0 auto;display:block;" />
+          <div id="sync-generated-code" style="font-size:1.25rem;font-weight:900;color:#0f172a;letter-spacing:3px;margin-top:6px;"></div>
+        </div>
+
+        <div id="sync-status-msg" style="display:none;margin-top:12px;padding:11px 13px;border-radius:11px;font-size:0.85rem;font-weight:800;text-align:center;"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- 4-TIER PRO PAYWALL MODAL -->
   <div class="paywall-backdrop" id="pro-paywall-modal" onclick="if(event.target===this) closeProPaywall()">
@@ -280,6 +332,10 @@
           <button class="btn" style="margin:0;width:auto;padding:10px 16px;font-size:0.85rem;background:#0f172a;" onclick="redeemProCode()">Unlock</button>
         </div>
         <div id="pro-code-msg" style="font-size:0.8rem;font-weight:800;margin-top:6px;display:none;"></div>
+        <div style="margin-top:12px;background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+          <span id="pw-sync-banner-txt" style="font-size:0.84rem;font-weight:900;color:#92400e;">📲 Not logged in? Already paid on your other device?</span>
+          <button type="button" onclick="closeProPaywall();window.openDeviceSyncModal('receiver');" style="background:#d97706;color:#fff;border:none;border-radius:9px;padding:8px 14px;font-size:0.82rem;font-weight:900;cursor:pointer;" id="pw-sync-banner-btn">Sync With Logged-In Device →</button>
+        </div>
       </div>
     </div>
   </div>
@@ -287,14 +343,14 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script src="/app/bd_vault.js?v=1794549446393"></script>
-  <script src="/app/cp_vault.js?v=1794549446393"></script>
-  <script src="/app/songs_vault.js?v=1794549446393"></script>
-  <script src="/app/app.js?v=1794549446393"></script>
-  <script src="/app/vendor/pdf-lib.min.js?v=1794549446393"></script>
-  <script src="/app/vendor/fontkit.umd.min.js?v=1794549446393"></script>
-  <script src="/app/piba_pdf_stamper.js?v=1794549446393"></script>
-  <script src="/app/forms_vault.js?v=1794549446393"></script>
+  <script src="/app/bd_vault.js?v=1794563774612"></script>
+  <script src="/app/cp_vault.js?v=1794563774612"></script>
+  <script src="/app/songs_vault.js?v=1794563774612"></script>
+  <script src="/app/app.js?v=1794563774612"></script>
+  <script src="/app/vendor/pdf-lib.min.js?v=1794563774612"></script>
+  <script src="/app/vendor/fontkit.umd.min.js?v=1794563774612"></script>
+  <script src="/app/stampers/gat_modular_stampers_bundle.js?v=1794563774612"></script>
+  <script src="/app/forms_vault.js?v=1794563774612"></script>
 
 <!-- GAT_SEO_LITURGY_START -->
 <section id="gat-seo-liturgy-directory" aria-label="Complete Jewish Songs, Morning Prayers & Essential Brachot Text Reference" style="margin-top:18px;border-top:2px dashed #cbd5e1;padding-top:14px;">

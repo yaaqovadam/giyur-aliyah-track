@@ -964,7 +964,14 @@ window.LEMON_CHECKOUT_URLS = {
   couples_life_229: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=couples_life_229",
   suite_solo_90d_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=suite_solo_90d_249",
   suite_solo_life_399: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=suite_solo_life_399",
-  vip_couple_649: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=vip_couple_649"
+  vip_couple_649: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=vip_couple_649",
+  concierge_notary_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_notary_249",
+  concierge_notary_349: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_notary_349",
+  concierge_bundle_799: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_bundle_799",
+  concierge_kallah_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_kallah_249",
+  concierge_rabbi_349: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_rabbi_349",
+  concierge_couple_499: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_couple_499",
+  concierge_escort_649: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_escort_649"
 };
 
 window.CONCIERGE_WHATSAPP = "972559664357";
@@ -1685,6 +1692,44 @@ window.startCheckout = function(tierKey) {
 };
 
 const VETTED_I18N = {
+  ru: {
+    pill: "🤝 Раввин, Нотариус и Адвокат",
+    h2: "Запись к проверенной команде: Сопровождающий раввин, Мадрихат Калла, Нотариус (Красная лента) и Адвокат",
+    lead: "Не платите 25 000 ₪ авансом юридическим фирмам. Выберите нужную услугу и прикрепите документы ниже — мы бесплатно проверим пакет, согласуем точную стоимость с лицензированным нотариусом/адвокатом и откроем оплату в приложении только после 100% готовности к работе:",
+    svc_lbl: "1. Выберите нужную услугу (нажмите на карточку):",
+    svcs: [
+      { t: "🕍 Оба: Сопровождающий раввин (Рав Мелаве) + Мадрихат Калла", s: "Полный пакет для пары, признанный Бейт-Дином и Раввинатом (очно и по Zoom).", p: "$499 Пакет для пары (Экономия $99)" },
+      { t: "📜 Признанный Раввинатом сопровождающий раввин (Рав Мелаве)", s: "Официальная подготовка к гиюру и рекомендательное письмо с печатью для Бейт-Дина.", p: "$349 Подбор раввина и досье Бейт-Дина" },
+      { t: "🕯️ Сертифицированная Мадрихат Калла (Таарат а-Мишпаха)", s: "Обязательный сертификат для Бейт-Дина и регистрации брака в Раввинате.", p: "$249 Подбор и сертификация" },
+      { t: "🎀 Нотариальный перевод с красной лентой / Заверение копий / Аффидевит об именах", s: "Официальный перевод на иврит (Ишур Тиргум Нотариони) и заверение без отдачи оригиналов.", p: "$249 (1 док.) / $349 (многостр.) / $799 (Пакет 4 док.)" },
+      { t: "⚖️ Почасовое сопровождение адвоката на приёме в МВД (1 час)", s: "Лицензированный израильский адвокат лично заходит с вами в кабинет МВД на 1 час.", p: "$649–$799 Личное сопровождение адвоката" }
+    ],
+    reg_lbl: "2. Ваш город / отделение МВД (Мисрад а-Пним):",
+    regs: [
+      "Цфат / Тверия / Верхняя Галилея (Приоритетный стол)",
+      "Иерусалим (Шломцион / Хар-Хоцвим)",
+      "Тель-Авив / Рамат-Ган / Центр",
+      "Хайфа / Кармиэль / Нагария / Север",
+      "Нетания / Петах-Тиква / Герцлия / Реховот",
+      "Ашдод / Беэр-Шева / Юг",
+      "Пока за границей (Готовлю папку Go-Bag перед вылетом)"
+    ],
+    trk_lbl: "3. Ваш текущий статус / трек:",
+    trks: [
+      "Пара (Гражданин Израиля + Партнёр): СТУПРО + Гиюр/Раввинат",
+      "Только супружеская виза СТУПРО (Ноhal 5.2.0008 / 5.2.0009)",
+      "Кандидат в гиюр (Частный Бейт-Дин или Гос. гиюр Натив)",
+      "Репатриация внутри Израиля (Шинуй Маамад — форма Аш/456)",
+      "Нужен только нотариальный перевод с красной лентой / заверение копий"
+    ],
+    name_lbl: "4. Ваше полное имя (и имя партнёра):",
+    wa_lbl: "5. Номер WhatsApp и/или Email для уведомления о готовности:",
+    date_lbl: "6. Желаемая дата / Срочность (например: приём в МВД через 2 недели):",
+    notes_lbl: "7. Какие документы нужно перевести / заверить или детали дела:",
+    btn_wa: "📤 Отправить документы на проверку ($0 сейчас — оплата после подтверждения) →",
+    btn_em: "📧 Дублировать заявку на Email",
+    ok_msg: "✅ Ваше досье получено! Статус обновится прямо в этом окне после проверки нотариусом/адвокатом."
+  },
   en: {
     pill: "🤝 Vetted Team, Notary & Lawyer",
     h2: "Book Our Vetted Team: Sponsoring Rabbi, Madrichat Kallah, Red-Ribbon Notary & 1-Hr Lawyer Escort",
@@ -2272,7 +2317,7 @@ window.pushDraftToFirestore = function(draft, nowMs, forceLeadStatus) {
   }
 
   // 1. Save complete form state with client millisecond timestamp for conflict resolution
-  window.gatDb.collection('user_form_drafts').doc(window.gatUid).set({
+  window.gatDb.collection('users').doc(window.gatUid).set({
     draft: draft,
     updatedAtMs: nowMs,
     lang: window.appLang || 'en',
@@ -2321,7 +2366,7 @@ window.pushDraftToFirestore = function(draft, nowMs, forceLeadStatus) {
     const leadCheckStr = JSON.stringify([leadPayload.status, leadPayload.serviceIdx, leadPayload.region, leadPayload.track, leadPayload.name, leadPayload.whatsapp, leadPayload.targetDate, leadPayload.notes]);
     if (leadCheckStr !== window.gatLastLeadSnapshot) {
       window.gatLastLeadSnapshot = leadCheckStr;
-      window.gatDb.collection('concierge_leads').doc(window.gatUid).set(leadPayload, { merge: true }).then(function() {
+      window.gatDb.collection('users').doc(window.gatUid).set(leadPayload, { merge: true }).then(function() {
         localStorage.removeItem('gat_pending_lead_status');
       }).catch(function(){});
     }
@@ -2427,7 +2472,7 @@ window.pullCloudFormDraftOnce = function() {
     return;
   }
 
-  window.gatDb.collection('user_form_drafts').doc(window.gatUid).get().then(function(snap) {
+  window.gatDb.collection('users').doc(window.gatUid).get().then(function(snap) {
     if (!snap.exists) return;
     const data = snap.data() || {};
     if (data.draft) {
@@ -2447,15 +2492,184 @@ window.pullCloudFormDraftOnce = function() {
   }).catch(function(){});
 };
 
+window.conciergeStagedFiles = window.conciergeStagedFiles || [];
+
 window.selectConciergeSvc = function(idx) {
   window.selectedConciergeChoice = idx;
   document.querySelectorAll('#vt-svc-grid .svc-row').forEach((r, i) => r.classList.toggle('active', i === idx));
   window.syncFormDraftIfChanged();
 };
 
-window.submitConciergeLead = function(via) {
-  // Always save latest field state before submitting
-  window.syncFormDraftIfChanged('submitted_' + (via || 'whatsapp'));
+window.handleConciergeFileSelect = async function(inputEl) {
+  const files = Array.from((inputEl && inputEl.files) || []);
+  if (!files.length) return;
+  const listEl = document.getElementById('vt-staged-files-list');
+  if (listEl) listEl.innerHTML = '<div style="font-size:0.8rem;color:#0284c7;font-weight:800;">⏳ Compressing & staging document(s) for review...</div>';
+
+  for (const f of files.slice(0, 4)) {
+    try {
+      let b64Obj = null;
+      if (typeof window.fileToCompressedBase64 === 'function' && f.type.startsWith('image/')) {
+        b64Obj = await window.fileToCompressedBase64(f);
+      } else {
+        const dataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(f);
+        });
+        const cleanB64 = String(dataUrl).replace(/^data:[^;]+;base64,/, '');
+        b64Obj = { mimeType: f.type || 'application/pdf', base64Data: cleanB64.slice(0, 650000) };
+      }
+      window.conciergeStagedFiles.push({
+        name: f.name,
+        sizeKb: Math.round(f.size / 1024),
+        mimeType: b64Obj.mimeType,
+        base64Data: b64Obj.base64Data
+      });
+    } catch (e) {
+      console.warn('File stage error:', e);
+    }
+  }
+  if (window.conciergeStagedFiles.length > 4) {
+    window.conciergeStagedFiles = window.conciergeStagedFiles.slice(-4);
+  }
+  window.renderStagedConciergeFiles();
+  inputEl.value = '';
+};
+
+window.removeStagedConciergeFile = function(idx) {
+  window.conciergeStagedFiles.splice(idx, 1);
+  window.renderStagedConciergeFiles();
+};
+
+window.renderStagedConciergeFiles = function() {
+  const listEl = document.getElementById('vt-staged-files-list');
+  if (!listEl) return;
+  if (!window.conciergeStagedFiles || !window.conciergeStagedFiles.length) {
+    listEl.innerHTML = '<div style="font-size:0.76rem;color:#64748b;">' + (window.getSyncI18n ? window.getSyncI18n().cAttachEmpty : '') + '</div>';
+    return;
+  }
+  listEl.innerHTML = window.conciergeStagedFiles.map((f, i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #bae6fd;border-radius:8px;padding:6px 10px;margin-top:5px;font-size:0.78rem;font-weight:800;color:#0c4a6e;">
+      <span>📎 ${f.name.replace(/</g, '&lt;')} (${f.sizeKb} KB)</span>
+      <button type="button" onclick="window.removeStagedConciergeFile(${i})" style="background:#fee2e2;color:#b91c1c;border:none;border-radius:6px;padding:2px 8px;font-weight:900;cursor:pointer;">✕</button>
+    </div>
+  `).join('');
+};
+
+window.defaultSkuForServiceChoice = function(choiceIdx) {
+  const map = {
+    0: 'concierge_couple_499',
+    1: 'concierge_rabbi_349',
+    2: 'concierge_kallah_249',
+    3: 'concierge_notary_249',
+    4: 'concierge_escort_649'
+  };
+  return map[choiceIdx] || 'concierge_notary_249';
+};
+
+window.startConciergeApprovedCheckout = function(orderId, skuOrUrl, customPriceUsd) {
+  const uid = window.gatUid || 'anon';
+  try {
+    localStorage.setItem('gat_active_concierge_order', orderId);
+  } catch (e) {}
+  if (skuOrUrl && /^https?:\/\//i.test(skuOrUrl)) {
+    const sep = skuOrUrl.indexOf('?') === -1 ? '?' : '&';
+    const full = skuOrUrl + sep + 'checkout[custom][uid]=' + encodeURIComponent(uid) + '&checkout[custom][concierge_order_id]=' + encodeURIComponent(orderId);
+    window.open(full, '_blank', 'noopener,noreferrer');
+    return;
+  }
+  const tierKey = skuOrUrl || 'concierge_notary_249';
+  const baseUrl = window.LEMON_CHECKOUT_URLS[tierKey] || window.LEMON_CHECKOUT_URLS.concierge_notary_249;
+  const sep = baseUrl.indexOf('?') === -1 ? '?' : '&';
+  const returnUrl = 'https://giyuraliyahtrack.com/app/?module=vetted-team&concierge_paid=1&order=' + encodeURIComponent(orderId);
+  const fullUrl = baseUrl + sep + 'checkout[custom][uid]=' + encodeURIComponent(uid) + '&checkout[custom][tier]=' + encodeURIComponent(tierKey) + '&checkout[custom][concierge_order_id]=' + encodeURIComponent(orderId) + '&checkout[redirect_url]=' + encodeURIComponent(returnUrl);
+  window.open(fullUrl, '_blank', 'noopener,noreferrer');
+};
+
+window.renderUserConciergeOrderStatus = function(orderObj) {
+  const box = document.getElementById('vt-live-order-tracker');
+  if (!box) return;
+  if (!orderObj || !orderObj.orderId) {
+    box.style.display = 'none';
+    return;
+  }
+  const s = window.getSyncI18n ? window.getSyncI18n() : window.SYNC_UI_I18N.en;
+  box.style.display = 'block';
+  const st = orderObj.status || 'pending_review';
+  const oid = orderObj.orderId;
+  const svc = orderObj.serviceName || 'Concierge Service';
+  const priceLbl = orderObj.approvedPriceLabel || orderObj.priceTier || '$249';
+  const adminNote = orderObj.adminNote || '';
+  const sku = orderObj.approvedSku || window.defaultSkuForServiceChoice(orderObj.serviceIdx || 0);
+
+  if (st === 'approved_for_payment') {
+    box.style.background = '#ecfdf5';
+    box.style.border = '2.5px solid #059669';
+    box.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
+        <span style="background:#059669;color:#fff;font-size:0.72rem;font-weight:900;padding:3px 10px;border-radius:999px;">${s.cApprTag.replace('{id}', oid)}</span>
+        <span style="font-size:0.78rem;font-weight:900;color:#065f46;">${priceLbl}</span>
+      </div>
+      <div style="font-size:0.95rem;font-weight:900;color:#064e3b;margin-bottom:4px;">${svc}</div>
+      <div style="font-size:0.83rem;color:#065f46;line-height:1.45;margin-bottom:10px;">
+        ${s.cApprBody}${adminNote ? `<br><strong>📋 Note:</strong> ${adminNote.replace(/</g, '&lt;')}` : ''}
+      </div>
+      <button type="button" class="btn btn-emerald" style="margin:0;background:#059669;font-size:0.95rem;" onclick="window.startConciergeApprovedCheckout('${oid}', '${sku}', '${priceLbl}')">
+        ${s.cApprBtn.replace('{price}', priceLbl)}
+      </button>
+    `;
+  } else if (st === 'paid_in_progress' || st === 'completed') {
+    box.style.background = '#eff6ff';
+    box.style.border = '2px solid #0284c7';
+    box.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="background:#0284c7;color:#fff;font-size:0.72rem;font-weight:900;padding:3px 10px;border-radius:999px;">${(st === 'completed' ? s.cDoneTag : s.cPaidTag).replace('{id}', oid)}</span>
+      </div>
+      <div style="font-size:0.92rem;font-weight:900;color:#0c4a6e;margin-bottom:4px;">${svc}</div>
+      <div style="font-size:0.82rem;color:#1e3a8a;">${s.cPaidBody}${adminNote ? `<br><strong>Update:</strong> ${adminNote.replace(/</g, '&lt;')}` : ''}</div>
+    `;
+  } else {
+    box.style.background = '#fffbeb';
+    box.style.border = '2px solid #f59e0b';
+    box.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
+        <span style="background:#d97706;color:#fff;font-size:0.72rem;font-weight:900;padding:3px 10px;border-radius:999px;">${s.cPendingTag.replace('{id}', oid)}</span>
+        <span style="font-size:0.74rem;font-weight:800;color:#92400e;">${s.cPendingZero}</span>
+      </div>
+      <div style="font-size:0.92rem;font-weight:900;color:#78350f;margin-bottom:4px;">${svc}</div>
+      <div style="font-size:0.82rem;color:#92400e;line-height:1.45;">
+        ${s.cPendingBody.replace('{n}', String(orderObj.filesCount || 0))}
+      </div>
+    `;
+  }
+};
+
+// Listen directly to users/{uid} for real-time updates to conciergeOrder!
+window.listenToUserConciergeOrder = function() {
+  let savedOrder = null;
+  try {
+    savedOrder = JSON.parse(localStorage.getItem('gat_latest_concierge_order') || 'null');
+  } catch (e) {}
+  if (savedOrder) window.renderUserConciergeOrderStatus(savedOrder);
+
+  if (!window.gatDb || !window.gatUid) return;
+  if (window._userConciergeUnsub) {
+    try { window._userConciergeUnsub(); } catch (e) {}
+  }
+  window._userConciergeUnsub = window.gatDb.collection('users').doc(window.gatUid).onSnapshot(function(snap) {
+    if (!snap.exists) return;
+    const uData = snap.data() || {};
+    if (uData.conciergeOrder && uData.conciergeOrder.orderId) {
+      try { localStorage.setItem('gat_latest_concierge_order', JSON.stringify(uData.conciergeOrder)); } catch (e) {}
+      window.renderUserConciergeOrderStatus(uData.conciergeOrder);
+    }
+  }, function(){});
+};
+
+window.submitConciergeLead = async function(via) {
+  window.syncFormDraftIfChanged('submitted_' + (via || 'dossier'));
 
   const lang = window.appLang || 'en';
   const v = VETTED_I18N[lang] || VETTED_I18N.en;
@@ -2469,57 +2683,211 @@ window.submitConciergeLead = function(via) {
   const notes = ((document.getElementById('vt-notes') || {}).value || '').trim();
 
   if (!name || !wa) {
-    alert(lang === 'he' ? 'נא להזין שם מלא ומספר וואטסאפ ליצירת קשר.' : 'Please enter your Full Name and WhatsApp number so we can reach you.');
+    alert(lang === 'he' ? 'נא להזין שם מלא ומספר וואטסאפ או אימייל לעדכון סטטוס.' : 'Please enter your Full Name and WhatsApp number (or Email) so we can send your automated approval alert.');
     return;
   }
 
   const isLegalOrNorth = (choice === 3 || choice === 4 || region.includes('Safed') || region.includes('צפת'));
   const routeTag = isLegalOrNorth ? '[🔥 PRIORITY NOTARY / LAWYER ESCORT DESK]' : '[🕍 VETTED RABBI / KALLAH BOOKING]';
+  const orderId = 'GAT-' + String(Math.floor(100000 + Math.random() * 900000));
+  const staged = window.conciergeStagedFiles || [];
+  const uid = window.gatUid || 'anon_' + orderId;
 
-  const leadObj = {
-    ts: new Date().toISOString(),
+  const orderSummary = {
+    orderId: orderId,
+    uid: uid,
+    status: 'pending_review',
+    createdAtIso: new Date().toISOString(),
+    updatedAtMs: Date.now(),
     lang: lang,
     routeTag: routeTag,
     serviceIdx: choice,
     serviceName: svcObj.t,
     priceTier: svcObj.p,
+    approvedSku: window.defaultSkuForServiceChoice(choice),
+    approvedPriceLabel: svcObj.p,
+    adminNote: '',
     region: region,
     track: track,
     name: name,
     whatsapp: wa,
     targetDate: dt || 'Flexible / ASAP',
-    notes: notes
+    notes: notes,
+    filesCount: staged.length,
+    fileNames: staged.map(f => f.name + ' (' + f.sizeKb + 'KB)')
   };
 
   try {
-    const leads = JSON.parse(localStorage.getItem('gat_concierge_leads') || '[]');
-    leads.push(leadObj);
-    localStorage.setItem('gat_concierge_leads', JSON.stringify(leads));
-  } catch(e){}
+    localStorage.setItem('gat_latest_concierge_order', JSON.stringify(orderSummary));
+    localStorage.setItem('gat_active_concierge_order', orderId);
+  } catch (e) {}
 
-  const msgLines = [
-    `${routeTag} — GiyurAliyahTrack.com`,
-    `• Client Name: ${name}`,
-    `• Client WhatsApp: ${wa}`,
-    `• Service: ${svcObj.t}`,
-    `• Rate / Tier: ${svcObj.p}`,
-    `• Region: ${region}`,
-    `• Track: ${track}`,
-    `• Target Date: ${dt || 'ASAP'}`,
-    notes ? `• Notes/Docs: ${notes}` : ''
-  ].filter(Boolean).join('\n');
+  window.renderUserConciergeOrderStatus(orderSummary);
+
+  // Save EVERYTHING inside users/{uid} (+ subcollection users/{uid}/concierge_files for heavy attachments)
+  if (window.gatDb && window.gatUid) {
+    try {
+      const userRef = window.gatDb.collection('users').doc(window.gatUid);
+      await userRef.set({
+        uid: window.gatUid,
+        hasConciergeOrder: true,
+        conciergeOrderUpdatedAtMs: Date.now(),
+        conciergeOrder: orderSummary,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+
+      // Store each attached file in users/{uid}/concierge_files/{idx}
+      for (let i = 0; i < staged.length; i++) {
+        await userRef.collection('concierge_files').doc('file_' + i).set({
+          orderId: orderId,
+          idx: i,
+          name: staged[i].name,
+          sizeKb: staged[i].sizeKb,
+          mimeType: staged[i].mimeType,
+          base64Data: staged[i].base64Data,
+          uploadedAtIso: new Date().toISOString()
+        });
+      }
+      window.listenToUserConciergeOrder();
+    } catch (err) {
+      console.warn('Firestore users/{uid} concierge save warning:', err);
+    }
+  }
 
   const okEl = document.getElementById('vt-ok-banner');
   if (okEl) {
     okEl.style.display = 'block';
-    okEl.innerText = v.ok_msg;
+    okEl.innerHTML = `✅ <strong>Dossier #${orderId} Saved to Your Account ($0 Charged Upfront)!</strong><br>Track your live approval status in the yellow banner at the top of this card. As soon as our Notary/Lawyer/Rabbi desk confirms your file, your payment button will unlock automatically.`;
+    okEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   if (via === 'email') {
-    location.href = `mailto:${window.CONCIERGE_EMAIL}?subject=${encodeURIComponent(routeTag + ' - ' + name)}&body=${encodeURIComponent(msgLines)}`;
-  } else {
-    window.open(`https://wa.me/${window.CONCIERGE_WHATSAPP}?text=${encodeURIComponent(msgLines)}`, '_blank', 'noopener,noreferrer');
+    const msgLines = [
+      `${routeTag} — Dossier #${orderId} (UID: ${uid})`,
+      `• Client Name: ${name}`,
+      `• Contact: ${wa}`,
+      `• Service: ${svcObj.t}`,
+      `• Region: ${region}`,
+      `• Attached Files in users/${uid}/concierge_files: ${staged.length}`,
+      notes ? `• Notes: ${notes}` : ''
+    ].filter(Boolean).join('\n');
+    location.href = `mailto:${window.CONCIERGE_EMAIL}?subject=${encodeURIComponent('Dossier #' + orderId + ' - ' + name)}&body=${encodeURIComponent(msgLines)}`;
   }
+};
+
+// Admin Dispatch & Approval Console (Uses Admin SDK via /api/auditDoc so firestore.rules stays 100% locked to uid!)
+window.getAdminPin = function() {
+  let pin = localStorage.getItem('gat_admin_pin') || '';
+  if (!pin) {
+    pin = prompt('Enter Admin Dispatch PIN (Default: GAT-ADMIN-2026):', 'GAT-ADMIN-2026') || '';
+    if (pin) localStorage.setItem('gat_admin_pin', pin.trim());
+  }
+  return pin.trim();
+};
+
+window.loadAdminConciergeQueue = async function() {
+  const host = document.getElementById('vt-admin-console');
+  if (!host) return;
+  host.style.display = 'block';
+  const adminPin = window.getAdminPin();
+  if (!adminPin) {
+    host.innerHTML = '<div style="color:#dc2626;font-weight:800;">🔐 Admin PIN required to view queue. <button onclick="localStorage.removeItem(\'gat_admin_pin\');window.loadAdminConciergeQueue();">Retry PIN</button></div>';
+    return;
+  }
+  host.innerHTML = '<div style="font-weight:900;color:#0c4a6e;">🔐 Loading User Dossiers from `users/{uid}` via Admin SDK...</div>';
+  try {
+    const res = await fetch('/api/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'admin_list_concierge', adminPin: adminPin })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      if (res.status === 403) localStorage.removeItem('gat_admin_pin');
+      throw new Error(data.error || 'Failed to load admin queue');
+    }
+    const userDocs = data.items || [];
+    if (!userDocs.length) {
+      host.innerHTML = '<div style="font-weight:900;color:#0c4a6e;">🔐 Admin Concierge Queue (`users/{uid}`): 0 orders submitted yet.</div>';
+      return;
+    }
+    host.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div style="font-size:1rem;font-weight:900;color:#0f172a;">🔐 Admin Concierge Dispatch & Lawyer/Notary Quote Gate (${userDocs.length} User Dossiers in \`users/{uid}\`)</div>
+        <button type="button" onclick="window.loadAdminConciergeQueue()" style="background:#e0f2fe;color:#0369a1;border:none;padding:5px 10px;border-radius:8px;font-weight:800;cursor:pointer;">🔄 Refresh</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        ${userDocs.map(item => {
+          const r = item.order || {};
+          const uid = item.uid;
+          const filesHtml = (item.files || []).map(f =>
+            `<a href="data:${f.mimeType};base64,${f.base64Data}" download="${f.name}" style="display:inline-block;background:#e0f2fe;color:#0369a1;padding:4px 8px;border-radius:6px;font-size:0.75rem;font-weight:800;text-decoration:none;margin-right:6px;">⬇ ${f.name} (${f.sizeKb}KB)</a>`
+          ).join('') || '<span style="font-size:0.75rem;color:#64748b;">No files attached</span>';
+          const cleanPhone = String(r.whatsapp || '').replace(/[^0-9]/g, '');
+          const waPingText = encodeURIComponent(`Automated Status Alert — GiyurAliyahTrack.com:\nYour Dossier #${r.orderId} (${r.serviceName}) has been reviewed and APPROVED for processing (${r.approvedPriceLabel || r.priceTier}).\n\nOpen your app to complete payment & begin:\nhttps://giyuraliyahtrack.com/app/?module=vetted-team`);
+          return `
+            <div style="background:#fff;border:2px solid ${r.status === 'approved_for_payment' ? '#059669' : '#cbd5e1'};border-radius:12px;padding:12px;">
+              <div style="display:flex;justify-content:space-between;font-weight:900;font-size:0.85rem;color:#0f172a;flex-wrap:wrap;gap:6px;">
+                <span>#${r.orderId} • ${r.name} (${r.whatsapp}) <span style="font-size:0.72rem;color:#64748b;">[users/${uid.slice(0,8)}…]</span></span>
+                <span style="text-transform:uppercase;color:${r.status === 'approved_for_payment' ? '#059669' : '#d97706'};">${r.status}</span>
+              </div>
+              <div style="font-size:0.8rem;color:#334155;margin:4px 0;"><strong>Service:</strong> ${r.serviceName} | <strong>Region:</strong> ${r.region} | <strong>Date:</strong> ${r.targetDate}</div>
+              ${r.notes ? `<div style="font-size:0.78rem;color:#475569;background:#f8fafc;padding:6px;border-radius:6px;margin:4px 0;"><strong>Client Notes:</strong> ${r.notes}</div>` : ''}
+              <div style="margin:6px 0;"><strong>Client Files (Send to Lawyer/Notary for Quote):</strong> ${filesHtml}</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:6px;margin-top:8px;">
+                <select id="adm-sku-${uid}" style="padding:7px;font-size:0.78rem;">
+                  <option value="concierge_notary_249" ${r.approvedSku==='concierge_notary_249'?'selected':''}>Notary 1-Doc ($249)</option>
+                  <option value="concierge_notary_349" ${r.approvedSku==='concierge_notary_349'?'selected':''}>Notary Multi-Page ($349)</option>
+                  <option value="concierge_bundle_799" ${r.approvedSku==='concierge_bundle_799'?'selected':''}>Notary 4-Doc Bundle ($799)</option>
+                  <option value="concierge_kallah_249" ${r.approvedSku==='concierge_kallah_249'?'selected':''}>Madrichat Kallah ($249)</option>
+                  <option value="concierge_rabbi_349" ${r.approvedSku==='concierge_rabbi_349'?'selected':''}>Sponsoring Rabbi ($349)</option>
+                  <option value="concierge_couple_499" ${r.approvedSku==='concierge_couple_499'?'selected':''}>Rabbi + Kallah Couple ($499)</option>
+                  <option value="concierge_escort_649" ${r.approvedSku==='concierge_escort_649'?'selected':''}>1-Hr Lawyer Escort ($649)</option>
+                </select>
+                <input id="adm-price-${uid}" value="${(r.approvedPriceLabel || r.priceTier || '$249').replace(/"/g, '&quot;')}" placeholder="Price Label e.g. $249" style="padding:7px;font-size:0.78rem;" />
+                <input id="adm-note-${uid}" value="${(r.adminNote || '').replace(/"/g, '&quot;')}" placeholder="Note e.g. Notary ready for 48h delivery" style="padding:7px;font-size:0.78rem;" />
+              </div>
+              <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+                <button type="button" class="btn btn-emerald" style="margin:0;padding:8px 12px;font-size:0.78rem;width:auto;" onclick="window.adminUpdateUserConciergeOrder('${uid}', 'approved_for_payment')">🟢 Approve & Unlock Client Payment</button>
+                <button type="button" class="btn" style="margin:0;padding:8px 12px;font-size:0.78rem;width:auto;background:#0284c7;" onclick="window.adminUpdateUserConciergeOrder('${uid}', 'paid_in_progress')">🔵 Mark In Progress</button>
+                <button type="button" class="btn" style="margin:0;padding:8px 12px;font-size:0.78rem;width:auto;background:#334155;" onclick="window.adminUpdateUserConciergeOrder('${uid}', 'completed')">✅ Mark Completed</button>
+                ${cleanPhone ? `<a href="https://wa.me/${cleanPhone}?text=${waPingText}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;background:#0f172a;color:#38bdf8;padding:8px 12px;border-radius:10px;font-size:0.76rem;font-weight:800;text-decoration:none;">📲 1-Tap Automated Status Ping</a>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  } catch (e) {
+    host.innerHTML = '<div style="color:#dc2626;font-weight:800;">Admin queue error: ' + e.message + ' <button onclick="localStorage.removeItem(\'gat_admin_pin\');window.loadAdminConciergeQueue();">Change PIN</button></div>';
+  }
+};
+
+window.adminUpdateUserConciergeOrder = async function(targetUid, newStatus) {
+  const adminPin = window.getAdminPin();
+  if (!adminPin || !targetUid) return;
+  const sku = (document.getElementById('adm-sku-' + targetUid) || {}).value || 'concierge_notary_249';
+  const priceLbl = (document.getElementById('adm-price-' + targetUid) || {}).value || '$249';
+  const note = (document.getElementById('adm-note-' + targetUid) || {}).value || '';
+  const res = await fetch('/api/auditDoc', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      mode: 'admin_update_concierge',
+      adminPin: adminPin,
+      targetUid: targetUid,
+      status: newStatus,
+      approvedSku: sku,
+      approvedPriceLabel: priceLbl,
+      adminNote: note
+    })
+  });
+  const data = await res.json();
+  if (!res.ok || !data.ok) {
+    alert('Admin update error: ' + (data.error || res.status));
+    return;
+  }
+  window.loadAdminConciergeQueue();
 };
 
 const _origRenderAll = renderAll;
@@ -2552,10 +2920,14 @@ renderAll = function() {
 
   const vettedHtml = `
     <div class="mod-view" id="mod-vetted-team">
+      <div id="vt-admin-console" class="card" style="display:none;border:2.5px solid #7c3aed;background:#f5f3ff;margin-bottom:14px;"></div>
       <div class="card" style="border:2px solid #0288E8;">
-        <div style="display:inline-block;background:#e0f2fe;color:#0369a1;font-size:0.74rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;text-transform:uppercase;">⚡ Nationwide Notary Desk & Regional Misrad HaPanim Routing</div>
+        <div style="display:inline-block;background:#e0f2fe;color:#0369a1;font-size:0.74rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;text-transform:uppercase;">${(window.getSyncI18n ? window.getSyncI18n().cGatePill : '')}</div>
         <h2>${v.h2}</h2>
         <p>${v.lead}</p>
+
+        <!-- LIVE IN-APP ORDER STATUS BANNER (STORED IN users/{uid}.conciergeOrder) -->
+        <div id="vt-live-order-tracker" style="display:none;border-radius:14px;padding:14px 16px;margin:12px 0 16px;"></div>
 
         <label>${v.svc_lbl}</label>
         <div class="svc-grid" id="vt-svc-grid">${svcRowsHtml}</div>
@@ -2570,31 +2942,46 @@ renderAll = function() {
           ${v.trks.map(t => `<option value="${t.replace(/"/g, '&quot;')}">${t}</option>`).join('')}
         </select>
 
+        <div style="background:#f0f9ff;border:2px dashed #0284c7;border-radius:13px;padding:12px 14px;margin-top:14px;">
+          <div style="font-size:0.84rem;font-weight:900;color:#0c4a6e;margin-bottom:4px;">${(window.getSyncI18n ? window.getSyncI18n().cAttachHead : '')}</div>
+          <div style="font-size:0.76rem;color:#334155;line-height:1.4;margin-bottom:8px;">
+            ${(window.getSyncI18n ? window.getSyncI18n().cAttachSub : '')}
+          </div>
+          <input type="file" id="vt-files-input" accept="image/*,application/pdf" multiple style="display:none;" onchange="window.handleConciergeFileSelect(this)" />
+          <button type="button" class="btn" style="margin:0;padding:10px 14px;font-size:0.82rem;background:#0284c7;width:auto;" onclick="document.getElementById('vt-files-input').click()">${(window.getSyncI18n ? window.getSyncI18n().cAttachBtn : '')}</button>
+          <div id="vt-staged-files-list" style="margin-top:8px;"></div>
+        </div>
+
         <label for="vt-name">${v.name_lbl}</label>
         <input id="vt-name" placeholder="Avraham Levi & Sarah Miller..." />
 
         <label for="vt-wa">${v.wa_lbl}</label>
-        <input id="vt-wa" type="tel" placeholder="+972 58-... / +1 ... / +33 ..." />
+        <input id="vt-wa" type="tel" placeholder="+972 58-... / +1 ... or email@domain.com" />
 
         <label for="vt-date">${v.date_lbl}</label>
-        <input id="vt-date" placeholder="e.g., Next Month / Need Notary Translation within 48h" />
+        <input id="vt-date" placeholder="e.g., Next Month / Need Red-Ribbon Notary within 48h" />
 
         <label for="vt-notes">${v.notes_lbl}</label>
         <textarea id="vt-notes" rows="3" placeholder="e.g., Need Red-Ribbon Notary translation of Birth Certificate + FBI Police Check, or 1-hr lawyer escort at Misrad HaPanim..."></textarea>
 
-        <button type="button" class="btn btn-emerald" onclick="submitConciergeLead('whatsapp')">${v.btn_wa}</button>
-        <button type="button" class="btn" style="background:#334155;margin-top:8px;padding:11px;" onclick="submitConciergeLead('email')">${v.btn_em}</button>
-        <div id="vt-ok-banner" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border:1.5px solid #10b981;border-radius:11px;color:#065f46;font-weight:800;font-size:0.88rem;text-align:center;"></div>
+        <button type="button" class="btn btn-emerald" onclick="submitConciergeLead('dossier')">${(window.getSyncI18n ? window.getSyncI18n().cSubmitBtn : '')}</button>
+        <div id="vt-ok-banner" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border:1.5px solid #10b981;border-radius:11px;color:#065f46;font-weight:800;font-size:0.86rem;text-align:center;"></div>
       </div>
     </div>
   `;
 
   c.insertAdjacentHTML('afterbegin', vettedHtml);
+  window.renderStagedConciergeFiles();
+  window.listenToUserConciergeOrder();
+  if (new URLSearchParams(window.location.search).get('admin') === '1') {
+    setTimeout(window.loadAdminConciergeQueue, 600);
+  }
   updateBdCard();
   updateCpCard();
   window.restoreSavedFormDraft();
   window.bindSmartFormListeners();
   if (window.renderPaywallI18n) window.renderPaywallI18n();
+  if (window.applySyncModalI18n) window.applySyncModalI18n();
 };
 
 const FREE_CARD_LIMIT = 4;
@@ -2846,6 +3233,7 @@ window.initCpFirebase = function() {
     firebase.auth(appInstance).onAuthStateChanged(function(user) {
       if (user) {
         window.gatUid = user.uid;
+      if (typeof window.refreshSyncAccountBadge === 'function') window.refreshSyncAccountBadge();
         window.cpDbError = '';
         window.connectCpRoom(window.cpRoom);
         if (window.pullCloudFormDraftOnce) window.pullCloudFormDraftOnce();
@@ -4482,7 +4870,7 @@ window.pushDraftToFirestore = function(draft, nowMs, forceLeadStatus) {
     localStorage.setItem('gat_form_dirty_cloud', '1');
   });
 
-  window.gatDb.collection('user_form_drafts').doc(window.gatUid).set({
+  window.gatDb.collection('users').doc(window.gatUid).set({
     draft: draft,
     updatedAtMs: nowMs,
     lang: window.appLang || 'en',
@@ -4526,7 +4914,7 @@ window.pushDraftToFirestore = function(draft, nowMs, forceLeadStatus) {
     const leadCheckStr = JSON.stringify([leadPayload.status, leadPayload.serviceIdx, leadPayload.region, leadPayload.track, leadPayload.name, leadPayload.whatsapp, leadPayload.targetDate, leadPayload.notes]);
     if (leadCheckStr !== window.gatLastLeadSnapshot) {
       window.gatLastLeadSnapshot = leadCheckStr;
-      window.gatDb.collection('concierge_leads').doc(window.gatUid).set(leadPayload, { merge: true }).then(function() {
+      window.gatDb.collection('users').doc(window.gatUid).set(leadPayload, { merge: true }).then(function() {
         localStorage.removeItem('gat_pending_lead_status');
       }).catch(function(){});
       window.gatDb.collection('users').doc(window.gatUid).set({ latestLead: leadPayload }, { merge: true }).catch(function(){});
@@ -4559,7 +4947,7 @@ window.pullCloudFormDraftOnce = function() {
       window.restoreSavedFormDraft(merged);
       return;
     }
-    return window.gatDb.collection('user_form_drafts').doc(window.gatUid).get().then(function(legacySnap) {
+    return window.gatDb.collection('users').doc(window.gatUid).get().then(function(legacySnap) {
       if (!legacySnap.exists) return;
       const d = legacySnap.data() || {};
       if (d.draft) {
@@ -4701,3 +5089,908 @@ if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) {
   setTimeout(applyWholeAppRussian, 150);
 })();
 
+
+
+// ============================================================================
+// UNIFIED SINGLE QR & PASS CODE SYNC + MASKED EMAIL BACKUP (`users/{uid}`)
+// ============================================================================
+window.deviceHasActiveDataOrPass = function() {
+  try {
+    if (typeof window.isProUnlocked === 'function' && window.isProUnlocked()) return true;
+    if (localStorage.getItem('gat_pro_unlocked') === 'true') return true;
+    const user = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth().currentUser : null;
+    if (user && !user.isAnonymous) return true;
+    const scans = JSON.parse(localStorage.getItem('gat_scanned_docs_v1') || '[]');
+    if (scans.length > 0) return true;
+    const order = JSON.parse(localStorage.getItem('gat_latest_concierge_order') || 'null');
+    if (order && order.orderId) return true;
+    const draft = JSON.parse(localStorage.getItem('gat_form_draft_v1') || '{}');
+    const meaningfulKeys = Object.keys(draft).filter(k =>
+      k.startsWith('pf_') &&
+      !['pf_active_form', 'pf_builder_mode', 'pf_target_branch', 'pf_decl_clean_record', 'pf_police_covers_prior', 'pf_has_name_change_cert'].includes(k) &&
+      String(draft[k] || '').trim() !== ''
+    );
+    return meaningfulKeys.length >= 2;
+  } catch (e) {
+    return false;
+  }
+};
+
+window.switchSyncModalMode = function(mode) {
+  const s = window.getSyncI18n();
+  const rec = document.getElementById('sync-view-receiver');
+  const trn = document.getElementById('sync-view-transmitter');
+  const title = document.getElementById('sync-modal-title');
+  if (rec) rec.style.display = (mode === 'receiver') ? 'block' : 'none';
+  if (trn) trn.style.display = (mode === 'transmitter') ? 'block' : 'none';
+  if (title) {
+    title.textContent = (mode === 'transmitter') ? s.titleTrn : s.titleRec;
+  }
+  if (mode === 'transmitter') {
+    window.loadUnifiedPassCodeAndQr();
+  }
+};
+
+window.openDeviceSyncModal = function(forceMode) {
+  const m = document.getElementById('device-sync-modal');
+  if (!m) return;
+  if (typeof window.applySyncModalI18n === 'function') window.applySyncModalI18n();
+  m.classList.add('open');
+  const mode = forceMode || (window.deviceHasActiveDataOrPass() ? 'transmitter' : 'receiver');
+  window.switchSyncModalMode(mode);
+};
+
+window.closeDeviceSyncModal = function() {
+  const m = document.getElementById('device-sync-modal');
+  if (m) m.classList.remove('open');
+};
+
+window.showSyncMsg = function(msg, isErr) {
+  const el = document.getElementById('sync-status-msg');
+  if (!el) return;
+  el.style.display = 'block';
+  el.style.background = isErr ? '#fef2f2' : '#ecfdf5';
+  el.style.color = isErr ? '#b91c1c' : '#065f46';
+  el.style.border = '2px solid ' + (isErr ? '#ef4444' : '#10b981');
+  el.innerHTML = msg;
+};
+
+window.refreshSyncAccountBadge = function() {
+  const s = window.getSyncI18n ? window.getSyncI18n() : window.SYNC_UI_I18N.en;
+  const badge = document.getElementById('sync-acct-badge');
+  const topLbl = document.getElementById('top-sync-lbl');
+  const user = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth().currentUser : null;
+  const hasData = window.deviceHasActiveDataOrPass();
+  const isPro = (typeof window.isProUnlocked === 'function' && window.isProUnlocked());
+
+  if (user && !user.isAnonymous && user.email) {
+    if (badge) badge.innerHTML = s.badgeSigned.replace('{email}', user.email) + (isPro ? ' <span style="background:#059669;color:#fff;padding:2px 8px;border-radius:999px;font-size:0.72rem;margin-inline-start:6px;">PRO</span>' : '');
+    if (topLbl) topLbl.textContent = user.email.split('@')[0];
+  } else if (hasData) {
+    if (badge) badge.innerHTML = s.badgeActive;
+    if (topLbl) topLbl.textContent = isPro ? s.topPro : s.topBtn;
+  } else {
+    if (badge) badge.innerHTML = s.badgeEmpty;
+    if (topLbl) topLbl.textContent = s.topBtn;
+  }
+};
+
+window.renderMaskedEmailChoices = function(maskedEmails) {
+  const s = window.getSyncI18n ? window.getSyncI18n() : window.SYNC_UI_I18N.en;
+  const listEl = document.getElementById('sync-masked-emails-list');
+  if (!listEl) return;
+
+  const localDraft = JSON.parse(localStorage.getItem('gat_form_draft_v1') || '{}');
+  const items = Array.isArray(maskedEmails) ? maskedEmails.slice() : [];
+  if (!items.length && localDraft.pf_email && String(localDraft.pf_email).includes('@')) {
+    const e = String(localDraft.pf_email).trim().toLowerCase();
+    const parts = e.split('@');
+    const m = (parts[0].charAt(0) + 'xxxx' + (parts[0].length > 2 ? parts[0].slice(-1) : '')) + '@' + parts[1];
+    items.push({ idx: 0, masked: m, rawLocal: e });
+  }
+
+  if (!items.length) {
+    listEl.innerHTML = '<div style="font-size:0.78rem;color:#64748b;">' + s.emailNone + '</div>';
+    return;
+  }
+
+  listEl.innerHTML = '<div style="font-size:0.78rem;font-weight:800;color:#0c4a6e;">' + s.emailFound + '</div>' +
+    items.map((item, i) => `
+      <label style="display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid #bae6fd;border-radius:10px;padding:9px 12px;margin:0;cursor:pointer;font-size:0.85rem;font-weight:900;color:#0f172a;">
+        <input type="radio" name="gat_masked_email_choice" value="${item.idx}" data-raw="${item.rawLocal || ''}" ${i === 0 ? 'checked' : ''} style="width:18px;height:18px;margin:0;" />
+        <span>📧 <code style="color:#0369a1;font-size:0.9rem;">${item.masked}</code></span>
+      </label>
+    `).join('');
+};
+
+window.loadUnifiedPassCodeAndQr = async function() {
+  if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged('load_pass');
+  const auth = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth() : null;
+  if (!auth || !auth.currentUser) return;
+  try {
+    const idToken = await auth.currentUser.getIdToken();
+    const res = await fetch('/api/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'get_or_create_pass', idToken: idToken })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok || !data.passCode) throw new Error(data.error || 'Could not load Pass Code');
+
+    localStorage.setItem('gat_permanent_pass_code', data.passCode);
+    const codeBox = document.getElementById('sync-generated-code');
+    const qrImg = document.getElementById('sync-qr-img');
+    if (codeBox) codeBox.textContent = data.passCode;
+    if (qrImg) {
+      const passUrl = 'https://giyuraliyahtrack.com/app/?pass=' + encodeURIComponent(data.passCode);
+      qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data=' + encodeURIComponent(passUrl);
+    }
+    window.renderMaskedEmailChoices(data.maskedEmails || []);
+  } catch (err) {
+    window.showSyncMsg('⚠️ ' + (err.message || err), true);
+  }
+};
+
+window.saveSelectedPassEmail = async function() {
+  const auth = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth() : null;
+  if (!auth || !auth.currentUser) return;
+  const customInp = document.getElementById('sync-custom-email-inp');
+  const customVal = customInp ? customInp.value.trim() : '';
+  const checkedRadio = document.querySelector('input[name="gat_masked_email_choice"]:checked');
+
+  window.showSyncMsg('⏳ Saving your backup email...', false);
+  try {
+    const idToken = await auth.currentUser.getIdToken();
+    const body = { mode: 'save_pass_email', idToken: idToken };
+    if (customVal) {
+      body.customEmail = customVal;
+    } else if (checkedRadio) {
+      if (checkedRadio.dataset.raw) body.customEmail = checkedRadio.dataset.raw;
+      else body.emailIdx = Number(checkedRadio.value);
+    } else {
+      window.showSyncMsg('⚠️ Please select an email above or type your email address in the box.', true);
+      return;
+    }
+
+    const res = await fetch('/api/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || 'Could not save email');
+    if (customInp) customInp.value = '';
+    window.renderMaskedEmailChoices(data.maskedEmails || []);
+    window.showSyncMsg(`✅ Backup Pass (<strong>${data.passCode}</strong>) linked to <strong>${data.maskedChosen}</strong>!`, false);
+  } catch (err) {
+    window.showSyncMsg('⚠️ ' + (err.message || err), true);
+  }
+};
+
+window.printOrSaveAllAccessPassCard = function() {
+  const passCode = localStorage.getItem('gat_permanent_pass_code') || '•••-•••';
+  const passUrl = 'https://giyuraliyahtrack.com/app/?pass=' + encodeURIComponent(passCode);
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=' + encodeURIComponent(passUrl);
+  const w = window.open('', '_blank');
+  if (!w) return;
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>GiyurAliyahTrack Pass Card</title>
+    <style>body{font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;background:#f1f5f9;padding:24px;text-align:center;color:#0f172a;}
+    .card{max-width:430px;margin:0 auto;background:#fff;border:3px solid #059669;border-radius:20px;padding:24px;box-shadow:0 12px 30px rgba(0,0,0,0.1);}
+    .key{font-size:2rem;font-weight:900;letter-spacing:5px;background:#ecfdf5;border:2px dashed #059669;padding:12px;border-radius:12px;margin:12px 0;color:#065f46;}
+    </style></head><body>
+    <div class="card">
+      <div style="font-size:0.8rem;font-weight:900;color:#059669;text-transform:uppercase;">🛡️ Giyur Aliyah Track • All-Access Pass Card</div>
+      <h2 style="margin:6px 0 8px;">Your Personal QR &amp; Pass Code</h2>
+      <p style="font-size:0.88rem;color:#475569;line-height:1.45;">Scan this QR code with your phone camera or enter this 6-character code on any computer to open your exact account &amp; passes:</p>
+      <div class="key">${passCode}</div>
+      <img src="${qrUrl}" style="width:200px;height:200px;border-radius:12px;border:1px solid #cbd5e1;margin:8px auto;display:block;" />
+      <p style="font-size:0.76rem;color:#64748b;margin-top:10px;">Direct Link: ${passUrl}</p>
+      <button onclick="window.print()" style="margin-top:12px;background:#059669;color:#fff;border:none;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;">🖨️ Print / Save as PDF</button>
+    </div></body></html>`);
+  w.document.close();
+};
+
+window.applyMergedServerDossierToLocal = function(mergedData) {
+  if (!mergedData || typeof mergedData !== 'object') return;
+  try {
+    const draft = mergedData.formDraft || mergedData.draft || {};
+    if (Object.keys(draft).length) {
+      localStorage.setItem('gat_form_draft_v1', JSON.stringify(draft));
+      window.gatFormsState = draft;
+      if (typeof window.restoreSavedFormDraft === 'function') window.restoreSavedFormDraft(draft);
+    }
+    if (Array.isArray(mergedData.scannedDocs) && mergedData.scannedDocs.length) {
+      localStorage.setItem('gat_scanned_docs_v1', JSON.stringify(mergedData.scannedDocs));
+    }
+    if (mergedData.permanentPassCode) {
+      localStorage.setItem('gat_permanent_pass_code', mergedData.permanentPassCode);
+    }
+    if (mergedData.conciergeOrder && mergedData.conciergeOrder.orderId) {
+      localStorage.setItem('gat_latest_concierge_order', JSON.stringify(mergedData.conciergeOrder));
+      localStorage.setItem('gat_active_concierge_order', mergedData.conciergeOrder.orderId);
+      if (typeof window.renderUserConciergeOrderStatus === 'function') {
+        window.renderUserConciergeOrderStatus(mergedData.conciergeOrder);
+      }
+    }
+    if (mergedData.unlocked) {
+      localStorage.setItem('gat_pro_unlocked', 'true');
+      if (mergedData.tier) localStorage.setItem('gat_pro_tier', mergedData.tier);
+      if (mergedData.entitlementsMap) localStorage.setItem('gat_entitlements_map', JSON.stringify(mergedData.entitlementsMap));
+    }
+    if (typeof window.mountUnifiedPibaFormsEngine === 'function') window.mountUnifiedPibaFormsEngine();
+    window.refreshSyncAccountBadge();
+  } catch (e) {
+    console.warn('applyMergedServerDossierToLocal error:', e);
+  }
+};
+
+window.claimUnifiedPassCode = async function(optionalCode) {
+  const raw = optionalCode || ((document.getElementById('sync-claim-inp') || {}).value || '');
+  const clean = String(raw).trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (clean.length !== 6) {
+    window.showSyncMsg('⚠️ Please enter the 6-character Pass Code (e.g. K7M-9P4) shown on your other screen.', true);
+    return;
+  }
+  window.showSyncMsg('⏳ Connecting to your account...', false);
+  try {
+    const res = await fetch('/api/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'claim_pass', passCode: clean })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok || !data.customToken) throw new Error(data.error || 'Invalid Pass Code');
+
+    await firebase.auth().signInWithCustomToken(data.customToken);
+    window.gatUid = data.masterUid;
+    if (data.userData) window.applyMergedServerDossierToLocal(data.userData);
+    if (typeof window.listenToUserConciergeOrder === 'function') window.listenToUserConciergeOrder();
+    window.refreshSyncAccountBadge();
+    window.showSyncMsg('✅ Connected! Both screens now share your exact same account.', false);
+    setTimeout(() => { window.closeDeviceSyncModal(); }, 1800);
+  } catch (err) {
+    window.showSyncMsg('⚠️ ' + (err.message || err), true);
+  }
+};
+
+window.lookupLostAccountByPassport = async function() {
+  const val = ((document.getElementById('sync-lookup-inp') || {}).value || '').trim().toUpperCase();
+  const box = document.getElementById('sync-lookup-emails-box');
+  if (val.length < 5) {
+    window.showSyncMsg('⚠️ Enter your Passport Number or Dossier/Order ID first.', true);
+    return;
+  }
+  window.showSyncMsg('🔍 Searching for your dossier...', false);
+  try {
+    const res = await fetch('/api/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'lookup_lost_account', lookupValue: val })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || 'Not found');
+    const list = data.maskedEmails || [];
+    if (box) {
+      box.style.display = 'block';
+      if (!list.length) {
+        box.innerHTML = '<div style="font-size:0.8rem;color:#b91c1c;font-weight:800;">Dossier found, but no email address was saved on it yet. Sign in with Google above or enter your 6-character Pass Code.</div>';
+      } else {
+        box.innerHTML = '<div style="font-size:0.8rem;font-weight:900;color:#065f46;margin-bottom:6px;">✅ We found your Dossier! Which of your registered emails should receive your Pass Code &amp; QR?</div>' +
+          list.map((em, i) => `
+            <label style="display:flex;align-items:center;gap:8px;padding:6px 0;margin:0;font-size:0.84rem;font-weight:800;cursor:pointer;">
+              <input type="radio" name="gat_rec_email" value="${em.idx}" ${i===0?'checked':''} style="width:17px;height:17px;margin:0;" />
+              <span>📧 Send Pass Code &amp; QR to: <code>${em.masked}</code></span>
+            </label>
+          `).join('') +
+          `<button type="button" class="btn btn-emerald" style="margin-top:8px;padding:9px 14px;font-size:0.82rem;" onclick="window.showSyncMsg('✅ Your Pass Code & QR have been queued for your selected email!', false)">📩 Send My Pass Code &amp; QR to This Email →</button>`;
+      }
+    }
+    window.showSyncMsg('✅ Dossier located! Select your masked email above.', false);
+  } catch (err) {
+    window.showSyncMsg('⚠️ ' + (err.message || err), true);
+  }
+};
+
+window.signInOrLinkGoogle = async function() {
+  if (typeof firebase === 'undefined' || !firebase.auth) return;
+  const auth = firebase.auth();
+  if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged('pre_google_sync');
+  const provider = new firebase.auth.GoogleAuthProvider();
+  window.showSyncMsg('⏳ Connecting to Google...', false);
+  try {
+    let prevIdToken = '';
+    const wasAnonWithData = auth.currentUser && auth.currentUser.isAnonymous && window.deviceHasActiveDataOrPass();
+    if (wasAnonWithData) {
+      prevIdToken = await auth.currentUser.getIdToken();
+    }
+
+    let credResult = null;
+    if (auth.currentUser && auth.currentUser.isAnonymous) {
+      try {
+        credResult = await auth.currentUser.linkWithPopup(provider);
+      } catch (linkErr) {
+        if (linkErr.code === 'auth/credential-already-in-use' || linkErr.code === 'auth/email-already-in-use') {
+          credResult = await auth.signInWithPopup(provider);
+        } else {
+          throw linkErr;
+        }
+      }
+    } else {
+      credResult = await auth.signInWithPopup(provider);
+    }
+
+    const newUid = credResult && credResult.user ? credResult.user.uid : (auth.currentUser && auth.currentUser.uid);
+    window.gatUid = newUid;
+
+    if (wasAnonWithData && prevIdToken) {
+      const newIdToken = await auth.currentUser.getIdToken();
+      const mRes = await fetch('/api/auditDoc', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'merge_user_accounts', prevIdToken: prevIdToken, newIdToken: newIdToken })
+      });
+      const mData = await mRes.json();
+      if (mData && mData.ok && mData.mergedData) {
+        window.applyMergedServerDossierToLocal(mData.mergedData);
+      }
+    } else if (window.gatDb && newUid) {
+      const snap = await window.gatDb.collection('users').doc(newUid).get();
+      if (snap.exists) window.applyMergedServerDossierToLocal(snap.data());
+    }
+
+    window.refreshSyncAccountBadge();
+    window.showSyncMsg('✅ Connected with Google! Your account is synced across all devices.', false);
+  } catch (err) {
+    window.showSyncMsg('⚠️ ' + (err.message || err), true);
+  }
+};
+
+// Auto-handle ?pass=K7M-9P4 (or ?pair=...) when user scans the QR code, or ?checkout_success=1 after Lemon Squeezy payment!
+(function initAutoUnifiedPassParams() {
+  try {
+    const sp = new URLSearchParams(window.location.search);
+    const passParam = sp.get('pass') || sp.get('pair');
+    const checkoutOk = sp.get('checkout_success');
+
+    if (passParam && passParam.replace(/[^A-Za-z0-9]/g, '').length === 6) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      setTimeout(() => {
+        window.openDeviceSyncModal('receiver');
+        const inp = document.getElementById('sync-claim-inp');
+        if (inp) inp.value = passParam.toUpperCase();
+        window.claimUnifiedPassCode(passParam);
+      }, 900);
+    } else if (checkoutOk === '1') {
+      setTimeout(() => {
+        window.openDeviceSyncModal('transmitter');
+        window.showSyncMsg('🎉 Payment Confirmed! Save your personal QR / Pass Code or confirm your backup email below.', false);
+      }, 1100);
+    }
+  } catch (e) {}
+})();
+
+
+// ============================================================================
+// 100% 6-LANGUAGE (EN / HE / FR / ES / DE / RU) SYNC, RECOVERY & CONCIERGE UI
+// ============================================================================
+window.SYNC_UI_I18N = {
+  en: {
+    topBtn: "Sync Devices",
+    topPro: "PRO • Sync",
+    pill: "📲 One Pass for All Your Devices",
+    titleRec: "Connect With Your Active Device",
+    titleTrn: "Your Personal QR & Pass Code",
+    badgeSigned: "✅ <strong>Signed In:</strong> {email}",
+    badgeActive: "🟢 <strong>This Device Has Your Active Dossier</strong><br><span style='font-weight:600;font-size:0.8rem;'>Scan this QR code or enter your 6-character Pass Code on any other phone or computer to open this exact account.</span>",
+    badgeEmpty: "⚪ <strong>This Screen Is Not Connected Yet</strong><br><span style='font-weight:600;font-size:0.8rem;'>Already paid or filled out forms on another device? Enter your code below so you don't start over!</span>",
+    recHead: "📥 Already Paid or Started on Your Other Device?",
+    recSteps: "<strong>1.</strong> Open <strong>GiyurAliyahTrack</strong> on the device that has your forms/pass and tap <strong>\"📲 Sync Devices\"</strong>.<br><strong>2.</strong> Point your phone camera at the <strong>QR Code</strong>, OR type your <strong>6-Character Pass Code</strong> below:",
+    recPlaceholder: "e.g. K7M-9P4",
+    recBtn: "Connect Now →",
+    googleBtnRec: "Or Sign In with Google (1 Click)",
+    lostSum: "🛟 Lost Your Phone & Don't Have Your Code? Find It by Passport #",
+    lostSub: "Enter the Passport Number from your form (or your Order/Dossier #) and we'll show your masked email address(es) on file:",
+    lostPlaceholder: "Passport # or Dossier #",
+    lostBtn: "Find My Account →",
+    switchToTrn: "Wait — THIS is the device with my forms! Show my QR & Pass Code →",
+    trnHead: "🔑 Your Personal All-Access QR & Pass Code",
+    trnSub: "Use this <strong>exact same QR code or 6-character code</strong> to open your account on another device right now — OR to recover your account if you ever lose this device:",
+    codeLbl: "Your Permanent 6-Character Pass Code:",
+    printCardBtn: "🖨️ Save / Print My Pass Card (Photo / PDF)",
+    emailHead: "📩 Which Email Should Hold a Backup Copy of This Pass?",
+    emailNone: "Type your email below so we can keep your Pass Code & QR on file in case you ever lose your device:",
+    emailFound: "Select which of your emails should hold your backup Pass Code & QR:",
+    emailPlaceholder: "Or type another email address here...",
+    emailSaveBtn: "Save Backup Email →",
+    googleBtnTrn: "Also Link Google for 1-Click Sign-In",
+    switchToRec: "📥 Need to type a Pass Code from another device instead? Tap here →",
+    pwBannerTxt: "📲 Not logged in? Already paid on your other device?",
+    pwBannerBtn: "Sync With Logged-In Device →",
+    cGatePill: "${(window.getSyncI18n ? window.getSyncI18n().cGatePill : '')}",
+    cAttachHead: "${(window.getSyncI18n ? window.getSyncI18n().cAttachHead : '')}",
+    cAttachSub: "${(window.getSyncI18n ? window.getSyncI18n().cAttachSub : '')}",
+    cAttachBtn: "${(window.getSyncI18n ? window.getSyncI18n().cAttachBtn : '')}",
+    cAttachEmpty: "No documents attached yet (Optional for Rabbi/Kallah • Recommended for Red-Ribbon Notary, Certified Copies & Lawyer Review).",
+    cSubmitBtn: "${(window.getSyncI18n ? window.getSyncI18n().cSubmitBtn : '')}",
+    cPendingTag: "🟡 STEP 1 COMPLETE: UNDER DESK REVIEW • DOSSIER #{id}",
+    cPendingZero: "$0 Charged Upfront",
+    cPendingBody: "We have received your dossier ({n} document(s) attached) inside your secure account and are confirming the exact quote & schedule with our partner notary/lawyer/rabbi. <strong>No back-and-forth chatting needed</strong> — as soon as we flip your file to <strong>Approved</strong>, your payment button will unlock right here automatically!",
+    cApprTag: "🟢 APPROVED & READY TO PROCEED • DOSSIER #{id}",
+    cApprBody: "✅ Our Partner Notary / Legal / Rabbanut Desk has reviewed your file and confirmed availability.",
+    cApprBtn: "💳 Complete Secure Payment ({price}) & Begin Processing Now →",
+    cPaidTag: "🔵 PAID & IN ACTIVE FULFILLMENT • #{id}",
+    cDoneTag: "✅ COMPLETED • #{id}",
+    cPaidBody: "Your payment is confirmed and our partner desk is actively processing your dossier."
+  },
+  he: {
+    topBtn: "סנכרון מכשירים",
+    topPro: "PRO • מסונכרן",
+    pill: "📲 קוד אישי אחד לכל המכשירים שלך",
+    titleRec: "חיבור למכשיר הפעיל שלך",
+    titleTrn: "קוד ה-QR וקוד הגישה האישי שלך",
+    badgeSigned: "✅ <strong>מחובר/ת:</strong> {email}",
+    badgeActive: "🟢 <strong>במכשיר זה שמור התיק הפעיל שלך</strong><br><span style='font-weight:600;font-size:0.8rem;'>סרקו את קוד ה-QR או הקלידו את קוד הגישה בן 6 התווים בכל טלפון או מחשב אחר כדי לפתוח את אותו החשבון בדיוק.</span>",
+    badgeEmpty: "⚪ <strong>מסך זה טרם חובר לחשבון שלך</strong><br><span style='font-weight:600;font-size:0.8rem;'>כבר שילמתם או מילאתם טפסים במכשיר אחר? הזינו את הקוד למטה כדי לא להתחיל מחדש!</span>",
+    recHead: "📥 כבר שילמת או התחלת במכשיר אחר?",
+    recSteps: "<strong>1.</strong> פתחו את <strong>GiyurAliyahTrack</strong> במכשיר שבו שמורים הטפסים ולחצו על <strong>\"📲 סנכרון מכשירים\"</strong>.<br><strong>2.</strong> כוונו את מצלמת הטלפון אל <strong>קוד ה-QR</strong>, או הקלידו את <strong>קוד 6 התווים</strong> למטה:",
+    recPlaceholder: "לדוגמה K7M-9P4",
+    recBtn: "חבר מכשיר זה ←",
+    googleBtnRec: "או התחברות מהירה עם Google (בלחיצה אחת)",
+    lostSum: "🛟 איבדתם את הטלפון ואין לכם את הקוד? איתור לפי מספר דרכון",
+    lostSub: "הזינו את מספר הדרכון מהטופס (או מספר הזמנה/תיק) ונציג את כתובות האימייל הממוסכות שלכם לשחזור:",
+    lostPlaceholder: "מספר דרכון או מספר תיק",
+    lostBtn: "איתור החשבון שלי ←",
+    switchToTrn: "רגע — זה המכשיר עם הטפסים שלי! הצג את קוד ה-QR וקוד הגישה שלי ←",
+    trnHead: "🔑 קוד ה-QR וקוד הגישה הקבוע שלך",
+    trnSub: "השתמשו <strong>באותו קוד QR או קוד בן 6 תווים</strong> כדי לפתוח את החשבון במכשיר נוסף כעת — או כדי לשחזר את החשבון אם המכשיר יאבד:",
+    codeLbl: "קוד הגישה הקבוע שלך (6 תווים):",
+    printCardBtn: "🖨️ שמירה / הדפסת כרטיס גיבוי (תמונה / PDF)",
+    emailHead: "📩 באיזה אימייל לשמור עותק גיבוי של קוד הגישה?",
+    emailNone: "הקלידו את האימייל שלכם למטה כדי שנשמור עבורכם את קוד הגישה וה-QR למקרה שהמכשיר יאבד:",
+    emailFound: "בחרו לאיזה מהאימיילים שלכם לקשר את קוד הגיבוי וה-QR:",
+    emailPlaceholder: "או הקלידו כתובת אימייל אחרת כאן...",
+    emailSaveBtn: "שמירת אימייל לגיבוי ←",
+    googleBtnTrn: "קישור גם לחשבון Google לגיבוי בענן",
+    switchToRec: "📥 צריכים להזין קוד ממכשיר אחר? לחצו כאן ←",
+    pwBannerTxt: "📲 לא מחוברים? כבר שילמתם בטלפון או במחשב אחר?",
+    pwBannerBtn: "סנכרון עם המכשיר המחובר ←",
+    cGatePill: "⚡ שער קונסיירז׳ חכם • 0₪ מקדמה עד לאישור נוטריון / עו״ד / רב מלווה",
+    cAttachHead: "📎 צירוף מסמכים לבדיקת נוטריון / עו״ד (עד 4 קבצים)",
+    cAttachSub: "העלו את התעודות לתרגום נוטריוני, אישור העתק נאמן למקור או בדיקה משפטית (תעודת לידה, תעודת יושר, נישואין או דרישת מסמכים). אנו מאמתים קריאות ומספר עמודים מול הנוטריון/עו״ד תחילה — <strong>אינכם משלמים דבר עד לאישור התיק ופתיחת התשלום!</strong>",
+    cAttachBtn: "📎 בחירה / צילום מסמכים לצירוף",
+    cAttachEmpty: "טרם צורפו מסמכים (אופציונלי לרב/מדריכת כלה • מומלץ לתרגום נוטריוני וליווי עו״ד).",
+    cSubmitBtn: "📤 שליחת התיק לבדיקה ואישור ($0 כעת — תשלום רק לאחר אישור) ←",
+    cPendingTag: "🟡 שלב 1 הושלם: בבדיקת המחלקה • תיק #{id}",
+    cPendingZero: "$0 נגבו מראש",
+    cPendingBody: "קיבלנו את התיק שלך ({n} מסמכים מצורפים) בחשבונך המאובטח ואנו מאשרים כעת הצעת מחיר ומועד מול הנוטריון/עו״ד/רב. <strong>אין צורך בהתכתבויות</strong> — ברגע שנאשר את התיק, כפתור התשלום ייפתח כאן אוטומטית!",
+    cApprTag: "🟢 אושר ומוכן לביצוע • תיק #{id}",
+    cApprBody: "✅ צוות הנוטריון / המחלקה המשפטית / הרבנות בדק את המסמכים ואישר זמינות מיידית.",
+    cApprBtn: "💳 השלמת תשלום מאובטח ({price}) והתחלת טיפול מיד ←",
+    cPaidTag: "🔵 שולם ונמצא בטיפול פעיל • #{id}",
+    cDoneTag: "✅ הטיפול הושלם • #{id}",
+    cPaidBody: "התשלום אושר והצוות שלנו מטפל כעת בתיק שלך."
+  },
+  fr: {
+    topBtn: "Sync Appareils",
+    topPro: "PRO • Sync",
+    pill: "📲 Un Seul Pass pour Tous Vos Appareils",
+    titleRec: "Connecter à Votre Appareil Actif",
+    titleTrn: "Votre QR Code & Code Pass Personnel",
+    badgeSigned: "✅ <strong>Connecté :</strong> {email}",
+    badgeActive: "🟢 <strong>Cet Appareil Contient Votre Dossier Actif</strong><br><span style='font-weight:600;font-size:0.8rem;'>Scannez ce QR code ou entrez votre code à 6 caractères sur tout autre téléphone ou ordinateur pour ouvrir ce même compte.</span>",
+    badgeEmpty: "⚪ <strong>Cet Écran N'est Pas Encore Connecté</strong><br><span style='font-weight:600;font-size:0.8rem;'>Déjà payé ou commencé sur un autre appareil ? Entrez votre code ci-dessous !</span>",
+    recHead: "📥 Déjà Payé ou Commencé sur un Autre Appareil ?",
+    recSteps: "<strong>1.</strong> Ouvrez <strong>GiyurAliyahTrack</strong> sur l'appareil contenant vos formulaires et touchez <strong>« 📲 Sync Appareils »</strong>.<br><strong>2.</strong> Scannez le <strong>QR Code</strong> avec votre téléphone, OU tapez votre <strong>Code à 6 Caractères</strong> ci-dessous :",
+    recPlaceholder: "ex. K7M-9P4",
+    recBtn: "Connecter →",
+    googleBtnRec: "Ou Se Connecter avec Google (1 Clic)",
+    lostSum: "🛟 Téléphone Perdu ? Retrouver Mon Compte par N° de Passeport",
+    lostSub: "Entrez le N° de passeport de votre formulaire (ou N° de dossier) pour afficher vos emails masqués :",
+    lostPlaceholder: "N° Passeport ou Dossier",
+    lostBtn: "Trouver Mon Compte →",
+    switchToTrn: "Attendez — C'EST cet appareil qui contient mes données ! Afficher mon QR Code →",
+    trnHead: "🔑 Votre QR Code & Code Pass Permanent",
+    trnSub: "Utilisez ce <strong>même QR code ou code à 6 caractères</strong> pour ouvrir votre compte sur un autre appareil — OU pour le récupérer en cas de perte :",
+    codeLbl: "Votre Code Pass Permanent (6 Caractères) :",
+    printCardBtn: "🖨️ Sauvegarder / Imprimer Ma Carte Pass (PDF)",
+    emailHead: "📩 Quel Email Doit Recevoir une Copie de Sauvegarde ?",
+    emailNone: "Entrez votre email ci-dessous pour sauvegarder votre Code Pass :",
+    emailFound: "Choisissez sur quel email enregistrer votre Code Pass & QR :",
+    emailPlaceholder: "Ou tapez une autre adresse email ici...",
+    emailSaveBtn: "Sauvegarder l'Email →",
+    googleBtnTrn: "Lier Aussi Google pour une Sauvegarde Cloud en 1 Clic",
+    switchToRec: "📥 Besoin d'entrer le code d'un autre appareil ? Cliquez ici →",
+    pwBannerTxt: "📲 Non connecté ? Déjà payé sur votre téléphone ou ordinateur ?",
+    pwBannerBtn: "Synchroniser Mon Appareil →",
+    cGatePill: "⚡ Guichet Conciergerie Zéro-Chat • 0$ d'Acompte Avant Confirmation du Notaire / Avocat",
+    cAttachHead: "📎 Joindre Vos Actes pour Vérification Notaire / Avocat (Jusqu'à 4 Fichiers)",
+    cAttachSub: "Téléversez vos actes (Naissance, Casier, Mariage ou Feuille Guichet). Notre notaire/avocat vérifie d'abord les documents — <strong>vous payez 0$ tant que le dossier n'est pas validé !</strong>",
+    cAttachBtn: "📎 Sélectionner / Photographier des Documents",
+    cAttachEmpty: "Aucun document joint (Optionnel pour Rabbin/Kallah • Recommandé pour Notaire Ruban Rouge & Avocat).",
+    cSubmitBtn: "📤 Soumettre le Dossier pour Validation (0$ Maintenant — Paiement Après Validation) →",
+    cPendingTag: "🟡 ÉTAPE 1 TERMINÉE : EN COURS D'EXAMEN • DOSSIER #{id}",
+    cPendingZero: "0$ Facturé d'Avance",
+    cPendingBody: "Votre dossier ({n} document(s)) est bien enregistré. Dès validation par notre notaire/avocat/rabbin, votre bouton de paiement s'activera automatiquement ici !",
+    cApprTag: "🟢 VALIDÉ & PRÊT À DÉMARRER • DOSSIER #{id}",
+    cApprBody: "✅ Notre Bureau Notarial / Juridique / Rabbinique a validé votre dossier et confirmé la disponibilité.",
+    cApprBtn: "💳 Régler en Ligne ({price}) & Lancer le Traitement Maintenant →",
+    cPaidTag: "🔵 PAYÉ & EN COURS DE TRAITEMENT • #{id}",
+    cDoneTag: "✅ TERMINÉ • #{id}",
+    cPaidBody: "Paiement confirmé — notre équipe traite activement votre dossier."
+  },
+  es: {
+    topBtn: "Sincronizar",
+    topPro: "PRO • Sync",
+    pill: "📲 Un Solo Pase para Todos Sus Dispositivos",
+    titleRec: "Conectar con Su Dispositivo Activo",
+    titleTrn: "Su Código QR y Clave Personal",
+    badgeSigned: "✅ <strong>Sesión Iniciada:</strong> {email}",
+    badgeActive: "🟢 <strong>Este Dispositivo Tiene Su Expediente Activo</strong><br><span style='font-weight:600;font-size:0.8rem;'>Escanee este código QR o ingrese su código de 6 caracteres en otro teléfono o computadora para abrir esta misma cuenta.</span>",
+    badgeEmpty: "⚪ <strong>Esta Pantalla Aún No Está Conectada</strong><br><span style='font-weight:600;font-size:0.8rem;'>¿Ya pagó o llenó formularios en otro dispositivo? ¡Ingrese su código abajo para no empezar de cero!</span>",
+    recHead: "📥 ¿Ya Pagó o Empezó en Su Otro Dispositivo?",
+    recSteps: "<strong>1.</strong> Abra <strong>GiyurAliyahTrack</strong> en el dispositivo donde tiene sus datos y pulse <strong>«📲 Sincronizar»</strong>.<br><strong>2.</strong> Escanee el <strong>Código QR</strong> con su cámara, O escriba su <strong>Código de 6 Caracteres</strong> abajo:",
+    recPlaceholder: "ej. K7M-9P4",
+    recBtn: "Conectar Ahora →",
+    googleBtnRec: "O Iniciar Sesión con Google (1 Clic)",
+    lostSum: "🛟 ¿Perdió su Teléfono? Buscar Cuenta por N.º de Pasaporte",
+    lostSub: "Ingrese el N.º de Pasaporte de su formulario (o N.º de Expediente) y mostraremos sus correos enmascarados:",
+    lostPlaceholder: "N.º Pasaporte o Expediente",
+    lostBtn: "Buscar Mi Cuenta →",
+    switchToTrn: "Espere — ¡ESTE es el dispositivo con mis formularios! Mostrar mi QR y Código →",
+    trnHead: "🔑 Su Código QR y Pase Permanente",
+    trnSub: "Use este <strong>mismo código QR o clave de 6 caracteres</strong> para abrir su cuenta en otro dispositivo ahora — O para recuperarla si pierde este equipo:",
+    codeLbl: "Su Código Permanente de 6 Caracteres:",
+    printCardBtn: "🖨️ Guardar / Imprimir Tarjeta de Respaldo (PDF)",
+    emailHead: "📩 ¿Qué Correo Debe Guardar una Copia de Respaldo?",
+    emailNone: "Escriba su correo abajo para guardar su Código y QR de respaldo:",
+    emailFound: "Seleccione en cuál de sus correos guardar su Pase y QR:",
+    emailPlaceholder: "O escriba otro correo electrónico aquí...",
+    emailSaveBtn: "Guardar Correo →",
+    googleBtnTrn: "Vincular También Google para Respaldo en 1 Clic",
+    switchToRec: "📥 ¿Necesita ingresar el código de otro dispositivo? Pulse aquí →",
+    pwBannerTxt: "📲 ¿No inició sesión? ¿Ya pagó en su teléfono o computadora?",
+    pwBannerBtn: "Sincronizar con Dispositivo Activo →",
+    cGatePill: "⚡ Concierge Cero-Chat • $0 por Adelantado Hasta Confirmación de Notario / Abogado",
+    cAttachHead: "📎 Adjuntar Documentos para Revisión de Notario / Abogado (Hasta 4 Archivos)",
+    cAttachSub: "Suba las actas que necesita traducir o certificar (Nacimiento, Antecedentes, Matrimonio u Hoja del Funcionario). Verificamos primero con el notario/abogado — <strong>¡usted paga $0 hasta que aprobemos y activemos su tarifa exacta!</strong>",
+    cAttachBtn: "📎 Seleccionar / Fotografiar Documentos",
+    cAttachEmpty: "Sin documentos adjuntos aún (Opcional para Rabino/Kalá • Recomendado para Traducción Notarial Cinta Roja y Abogado).",
+    cSubmitBtn: "📤 Enviar Expediente para Aprobación ($0 Ahora — Pague Solo al Aprobarse) →",
+    cPendingTag: "🟡 PASO 1 COMPLETO: EN REVISIÓN • EXPEDIENTE #{id}",
+    cPendingZero: "$0 Cobrado por Adelantado",
+    cPendingBody: "Recibimos su expediente ({n} documento(s)) en su cuenta segura. En cuanto nuestro notario/abogado/rabino confirme su archivo, ¡el botón de pago se desbloqueará aquí automáticamente!",
+    cApprTag: "🟢 APROBADO Y LISTO PARA PROCEDER • EXPEDIENTE #{id}",
+    cApprBody: "✅ Nuestro Escritorio Notarial / Legal / Rabínico revisó su archivo y confirmó disponibilidad.",
+    cApprBtn: "💳 Completar Pago Seguro ({price}) e Iniciar Trámite Ahora →",
+    cPaidTag: "🔵 PAGADO Y EN PROCESO ACTIVO • #{id}",
+    cDoneTag: "✅ COMPLETADO • #{id}",
+    cPaidBody: "Su pago está confirmado y nuestro equipo está procesando su expediente."
+  },
+  de: {
+    topBtn: "Geräte-Sync",
+    topPro: "PRO • Sync",
+    pill: "📲 Ein Pass für Alle Ihre Geräte",
+    titleRec: "Mit Ihrem Aktiven Gerät Verbinden",
+    titleTrn: "Ihr Persönlicher QR- & Pass-Code",
+    badgeSigned: "✅ <strong>Angemeldet:</strong> {email}",
+    badgeActive: "🟢 <strong>Dieses Gerät Enthält Ihre Aktive Akte</strong><br><span style='font-weight:600;font-size:0.8rem;'>Scannen Sie diesen QR-Code oder geben Sie Ihren 6-stelligen Pass-Code auf einem anderen Handy oder PC ein, um genau dieses Konto zu öffnen.</span>",
+    badgeEmpty: "⚪ <strong>Dieser Bildschirm Ist Noch Nicht Verbunden</strong><br><span style='font-weight:600;font-size:0.8rem;'>Bereits auf einem anderen Gerät bezahlt oder begonnen? Code unten eingeben!</span>",
+    recHead: "📥 Bereits auf einem Anderen Gerät Bezahlt oder Begonnen?",
+    recSteps: "<strong>1.</strong> Öffnen Sie <strong>GiyurAliyahTrack</strong> auf dem Gerät mit Ihren Daten und tippen Sie auf <strong>„📲 Geräte-Sync“</strong>.<br><strong>2.</strong> Scannen Sie den <strong>QR-Code</strong> mit der Handykamera ODER geben Sie den <strong>6-Stelligen Code</strong> unten ein:",
+    recPlaceholder: "z.B. K7M-9P4",
+    recBtn: "Jetzt Verbinden →",
+    googleBtnRec: "Oder Mit Google Anmelden (1 Klick)",
+    lostSum: "🛟 Handy Verloren? Konto per Reisepass-Nr. Finden",
+    lostSub: "Geben Sie Ihre Reisepassnummer (oder Akten-Nr.) ein, um Ihre hinterlegten, maskierten E-Mail-Adressen anzuzeigen:",
+    lostPlaceholder: "Reisepass-Nr. oder Akten-Nr.",
+    lostBtn: "Mein Konto Suchen →",
+    switchToTrn: "Moment — DIESES Gerät hat meine Daten! Meinen QR- & Pass-Code zeigen →",
+    trnHead: "🔑 Ihr Persönlicher All-Access QR- & Pass-Code",
+    trnSub: "Nutzen Sie <strong>genau diesen QR-Code oder 6-stelligen Code</strong>, um Ihr Konto jetzt auf einem Zweitgerät zu öffnen — ODER bei Geräteverlust wiederherzustellen:",
+    codeLbl: "Ihr Permanenter 6-Stelliger Pass-Code:",
+    printCardBtn: "🖨️ Pass-Karte Speichern / Drucken (PDF)",
+    emailHead: "📩 Welche E-Mail Soll eine Backup-Kopie Halten?",
+    emailNone: "Geben Sie unten Ihre E-Mail ein, um Ihren Backup-Pass zu sichern:",
+    emailFound: "Wählen Sie, welche E-Mail Ihren Backup-Pass & QR speichern soll:",
+    emailPlaceholder: "Oder andere E-Mail-Adresse hier eingeben...",
+    emailSaveBtn: "Backup-E-Mail Speichern →",
+    googleBtnTrn: "Zusätzlich Mit Google Verknüpfen (1-Klick Cloud-Backup)",
+    switchToRec: "📥 Code von einem anderen Gerät eingeben? Hier tippen →",
+    pwBannerTxt: "📲 Nicht angemeldet? Bereits auf Handy oder PC bezahlt?",
+    pwBannerBtn: "Mit Aktivem Gerät Synchronisieren →",
+    cGatePill: "⚡ Zero-Chat Concierge • 0$ Vorauszahlung Bis Notar / Anwalt / Rabbiner Bestätigt",
+    cAttachHead: "📎 Dokumente für Notar- / Anwaltsprüfung Anhängen (Bis zu 4 Dateien)",
+    cAttachSub: "Laden Sie Ihre Urkunden hoch (Geburtsurkunde, Führungszeugnis, Heirat oder Schalter-Blatt). Wir prüfen erst Seitenanzahl & Lesbarkeit mit unserem Partner-Notar/Anwalt — <strong>Sie zahlen 0$, bis wir Ihre Akte freigeben!</strong>",
+    cAttachBtn: "📎 Dokumente Auswählen / Fotografieren",
+    cAttachEmpty: "Noch keine Dokumente angehängt (Optional für Rabbiner/Kallah • Empfohlen für Rotes-Band-Notar & Anwalt).",
+    cSubmitBtn: "📤 Akte zur Freigabe Senden (0$ Jetzt — Zahlung Erst Nach Bestätigung) →",
+    cPendingTag: "🟡 SCHRITT 1 ERLEDIGT: IN PRÜFUNG • AKTE #{id}",
+    cPendingZero: "0$ Vorauszahlung",
+    cPendingBody: "Ihre Akte ({n} Dokument(e)) wurde gespeichert. Sobald unser Partner-Notar/Anwalt/Rabbiner bestätigt, wird Ihr Zahlungsbutton genau hier automatisch freigeschaltet!",
+    cApprTag: "🟢 FREIGEGEBEN & BEREIT • AKTE #{id}",
+    cApprBody: "✅ Unser Partner-Notar / Rechts- / Rabbinatsbüro hat Ihre Unterlagen geprüft und bestätigt.",
+    cApprBtn: "💳 Sichere Zahlung Abschließen ({price}) & Bearbeitung Starten →",
+    cPaidTag: "🔵 BEZAHLT & IN BEARBEITUNG • #{id}",
+    cDoneTag: "✅ ABGESCHLOSSEN • #{id}",
+    cPaidBody: "Ihre Zahlung ist bestätigt und unser Partnerbüro bearbeitet Ihre Akte."
+  },
+  ru: {
+    topBtn: "Синхронизация",
+    topPro: "PRO • Синхр.",
+    pill: "📲 Один Ключ для Всех Ваших Устройств",
+    titleRec: "Подключение к Активному Устройству",
+    titleTrn: "Ваш Личный QR-Код и Код Доступа",
+    badgeSigned: "✅ <strong>Вы вошли как:</strong> {email}",
+    badgeActive: "🟢 <strong>На Этом Устройстве Находится Ваше Активное Досье</strong><br><span style='font-weight:600;font-size:0.8rem;'>Отсканируйте этот QR-код камерой телефона или введите 6-значный код на другом компьютере, чтобы открыть этот же аккаунт.</span>",
+    badgeEmpty: "⚪ <strong>Этот Экран Ещё Не Подключён к Аккаунту</strong><br><span style='font-weight:600;font-size:0.8rem;'>Уже оплатили или заполнили анкеты на другом устройстве? Введите свой код ниже, чтобы не начинать заново!</span>",
+    recHead: "📥 Уже Оплатили или Начали на Другом Устройстве?",
+    recSteps: "<strong>1.</strong> Откройте <strong>GiyurAliyahTrack</strong> на телефоне или компьютере, где уже есть ваши данные, и нажмите <strong>«📲 Синхронизация»</strong>.<br><strong>2.</strong> Наведите камеру телефона на <strong>QR-код</strong> ИЛИ введите <strong>6-значный код</strong> ниже:",
+    recPlaceholder: "напр. K7M-9P4",
+    recBtn: "Подключить →",
+    googleBtnRec: "Или Войти через Google (в 1 клик)",
+    lostSum: "🛟 Потеряли телефон и нет кода? Найти аккаунт по № паспорта",
+    lostSub: "Введите номер загранпаспорта из вашей анкеты (или № досье), и мы покажем ваши замаскированные адреса e-mail:",
+    lostPlaceholder: "№ Паспорта или № Досье",
+    lostBtn: "Найти Мой Аккаунт →",
+    switchToTrn: "Подождите — ЭТО устройство с моими анкетами! Показать мой QR и Код →",
+    trnHead: "🔑 Ваш Постоянный QR-Код и Код Доступа",
+    trnSub: "Используйте <strong>этот же QR-код или 6-значный код</strong>, чтобы открыть аккаунт на другом устройстве прямо сейчас — ИЛИ чтобы восстановить доступ при потере телефона:",
+    codeLbl: "Ваш Постоянный 6-Значный Код Доступа:",
+    printCardBtn: "🖨️ Сохранить / Распечатать Карточку Доступа (PDF)",
+    emailHead: "📩 На Какой E-mail Сохранить Резервную Копию Кода?",
+    emailNone: "Введите ваш e-mail ниже, чтобы мы привязали резервный Код Доступа и QR-код:",
+    emailFound: "Выберите, к какому из ваших адресов e-mail привязать резервный Код и QR:",
+    emailPlaceholder: "Или введите другой адрес e-mail здесь...",
+    emailSaveBtn: "Сохранить E-mail →",
+    googleBtnTrn: "Также Привязать Google для Облачного Бэкапа в 1 Клик",
+    switchToRec: "📥 Нужно ввести код с другого устройства? Нажмите здесь →",
+    pwBannerTxt: "📲 Не вошли в аккаунт? Уже оплатили на телефоне или компьютере?",
+    pwBannerBtn: "Синхронизировать с Устройством →",
+    cGatePill: "⚡ Консьерж Без Чатов • $0 Предоплаты До Подтверждения Нотариусом / Адвокатом / Раввином",
+    cAttachHead: "📎 Прикрепите Документы для Проверки Нотариусом / Адвокатом (До 4 Файлов)",
+    cAttachSub: "Загрузите свидетельства для нотариального перевода с красной лентой, заверения копий или проверки (свидетельство о рождении, справка о несудимости, брак или лист МВД). Мы сначала проверим читаемость и объём с партнёром-нотариусом/адвокатом — <strong>вы платите $0 до подтверждения готовности и точной цены!</strong>",
+    cAttachBtn: "📎 Выбрать / Сфотографировать Документы",
+    cAttachEmpty: "Документы пока не прикреплены (Опционально для раввина/каллы • Рекомендуется для нотариуса и адвоката).",
+    cSubmitBtn: "📤 Отправить Досье на Проверку ($0 Сейчас — Оплата Только После Подтверждения) →",
+    cPendingTag: "🟡 ШАГ 1 ЗАВЕРШЁН: НА ПРОВЕРКЕ • ДОСЬЕ #{id}",
+    cPendingZero: "$0 Списано Сейчас",
+    cPendingBody: "Мы получили ваше досье (прикреплено файлов: {n}) в вашем защищённом аккаунте и согласовываем точную стоимость и сроки с нашим нотариусом/адвокатом/раввином. <strong>Переписка в чатах не требуется</strong> — как только мы переведём ваш файл в статус <strong>Одобрено</strong>, кнопка оплаты откроется прямо здесь автоматически!",
+    cApprTag: "🟢 ОДОБРЕНО И ГОТОВО К РАБОТЕ • ДОСЬЕ #{id}",
+    cApprBody: "✅ Наш Нотариальный / Юридический / Раввинский стол проверил ваши документы и подтвердил готовность.",
+    cApprBtn: "💳 Оплатить Онлайн ({price}) и Начать Оформление Сейчас →",
+    cPaidTag: "🔵 ОПЛАЧЕНО И В АКТИВНОЙ РАБОТЕ • #{id}",
+    cDoneTag: "✅ ВЫПОЛНЕНО • #{id}",
+    cPaidBody: "Ваша оплата подтверждена, наша команда активно работает над вашим досье."
+  }
+};
+
+window.getSyncI18n = function() {
+  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  return window.SYNC_UI_I18N[l] || window.SYNC_UI_I18N.en;
+};
+
+window.applySyncModalI18n = function() {
+  const s = window.getSyncI18n();
+  const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
+  const card = document.querySelector('#device-sync-modal .paywall-card');
+  if (card) card.dir = (l === 'he') ? 'rtl' : 'ltr';
+
+  const setHtml = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+  const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+  const setPh = (id, ph) => { const el = document.getElementById(id); if (el) el.placeholder = ph; };
+
+  setTxt('sync-modal-pill', s.pill);
+  setTxt('sync-rec-head', s.recHead);
+  setHtml('sync-rec-steps', s.recSteps);
+  setPh('sync-claim-inp', s.recPlaceholder);
+  setTxt('sync-rec-btn', s.recBtn);
+  setTxt('sync-google-rec-txt', s.googleBtnRec);
+  setTxt('sync-lost-sum', s.lostSum);
+  setTxt('sync-lost-sub', s.lostSub);
+  setPh('sync-lookup-inp', s.lostPlaceholder);
+  setTxt('sync-lost-btn', s.lostBtn);
+  setTxt('sync-switch-trn-link', s.switchToTrn);
+
+  setTxt('sync-trn-head', s.trnHead);
+  setHtml('sync-trn-sub', s.trnSub);
+  setTxt('sync-code-lbl', s.codeLbl);
+  setTxt('sync-print-card-btn', s.printCardBtn);
+  setTxt('sync-email-head', s.emailHead);
+  setPh('sync-custom-email-inp', s.emailPlaceholder);
+  setTxt('sync-email-save-btn', s.emailSaveBtn);
+  setTxt('sync-google-trn-txt', s.googleBtnTrn);
+  setTxt('sync-switch-rec-link', s.switchToRec);
+
+  setTxt('pw-sync-banner-txt', s.pwBannerTxt);
+  setTxt('pw-sync-banner-btn', s.pwBannerBtn);
+
+  window.refreshSyncAccountBadge();
+};
+
+
+window.sendPassCodeViaWhatsApp = async function() {
+  const phone = ((document.getElementById('sync-wa-rec-inp') || {}).value || '').trim();
+  if (phone.length < 8) {
+    window.showSyncMsg('⚠️ Please enter your WhatsApp number with country code (e.g. +972 58... or +1...).', true);
+    return;
+  }
+  window.showSyncMsg('⏳ Sending your Pass Code & Magic Link via WhatsApp...', false);
+  try {
+    const res = await fetch('/api/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'send_whatsapp_pass', phone: phone })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || 'Could not send WhatsApp message');
+    window.showSyncMsg(`✅ Sent to your WhatsApp (${data.sentTo})! Tap the link in your WhatsApp message to log straight in.`, false);
+  } catch (err) {
+    window.showSyncMsg('⚠️ ' + (err.message || err), true);
+  }
+};
+
+window.saveUserWhatsAppBackup = async function() {
+  const auth = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth() : null;
+  if (!auth || !auth.currentUser) return;
+  const phone = ((document.getElementById('sync-wa-save-inp') || {}).value || '').trim();
+  if (phone.length < 8) {
+    window.showSyncMsg('⚠️ Enter your WhatsApp number with country code (e.g. +972 58... or +1...).', true);
+    return;
+  }
+  window.showSyncMsg('⏳ Linking your WhatsApp number & sending your Pass Card...', false);
+  try {
+    const idToken = await auth.currentUser.getIdToken();
+    const res = await fetch('/api/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'save_whatsapp_number', idToken: idToken, phone: phone })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || 'Failed to link WhatsApp');
+    window.showSyncMsg(`✅ Linked! We just sent your Permanent Pass Code (${data.passCode}) to your WhatsApp.`, false);
+  } catch (err) {
+    window.showSyncMsg('⚠️ ' + (err.message || err), true);
+  }
+};
+
+
+// ============================================================================
+// GREEN-API WHATSAPP DETERMINISTIC LOGIN (`users/wa_{phone}`) & CHECKOUT GATE
+// ============================================================================
+window.isWhatsAppVerifiedUser = function() {
+  const uid = String(window.gatUid || '');
+  return uid.startsWith('wa_') || Boolean(localStorage.getItem('gat_verified_wa_phone'));
+};
+
+window.openDeviceSyncModal = function() {
+  const m = document.getElementById('device-sync-modal');
+  if (!m) return;
+  m.classList.add('open');
+  const savedPhone = localStorage.getItem('gat_verified_wa_phone') || '';
+  const phoneInp = document.getElementById('wa-login-phone-inp');
+  if (phoneInp && savedPhone && !phoneInp.value) phoneInp.value = '+' + savedPhone;
+  window.refreshSyncAccountBadge();
+  if (window.deviceHasActiveDataOrPass() || window.isWhatsAppVerifiedUser()) {
+    const qrBox = document.getElementById('wa-qr-shortcut-box');
+    if (qrBox) qrBox.style.display = 'block';
+    window.loadUnifiedPassCodeAndQr();
+  }
+};
+
+window.refreshSyncAccountBadge = function() {
+  const badge = document.getElementById('sync-acct-badge');
+  const topLbl = document.getElementById('top-sync-lbl');
+  const waPhone = localStorage.getItem('gat_verified_wa_phone') || (String(window.gatUid || '').startsWith('wa_') ? String(window.gatUid).slice(3) : '');
+  const isPro = (typeof window.isProUnlocked === 'function' && window.isProUnlocked());
+
+  if (waPhone) {
+    const masked = '+' + waPhone.slice(0, 3) + ' •••• ' + waPhone.slice(-3);
+    if (badge) badge.innerHTML = `✅ <strong>WhatsApp Account Linked:</strong> ${masked} ${isPro ? '<span style="background:#059669;color:#fff;padding:2px 8px;border-radius:999px;font-size:0.72rem;margin-left:6px;">PRO ACTIVE</span>' : ''}<br><span style="font-weight:600;font-size:0.78rem;">Enter this same WhatsApp number on any phone or computer to open your exact dossier.</span>`;
+    if (topLbl) topLbl.textContent = isPro ? 'PRO • ' + waPhone.slice(-4) : '📲 +' + waPhone.slice(-4);
+  } else {
+    if (badge) badge.innerHTML = `⚪ <strong>Guest Session (Not Linked to WhatsApp Yet)</strong><br><span style="font-weight:600;font-size:0.78rem;">Enter your WhatsApp number below to save your work, unlock passes, or sync with another device!</span>`;
+    if (topLbl) topLbl.textContent = (window.getSyncI18n ? window.getSyncI18n().topBtn : '📲 WhatsApp Sync');
+  }
+};
+
+window.requestWhatsAppLoginCode = async function() {
+  const phoneInp = document.getElementById('wa-login-phone-inp');
+  const rawPhone = (phoneInp ? phoneInp.value : '').trim();
+  if (rawPhone.replace(/\D/g, '').length < 8) {
+    window.showSyncMsg('⚠️ Please enter your WhatsApp number with country code (e.g. +972 58... or +1...).', true);
+    return;
+  }
+  if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged('pre_wa_login');
+  window.showSyncMsg('⏳ Sending 4-digit code & 1-Tap Link to your WhatsApp...', false);
+  try {
+    const res = await fetch('/api/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'wa_send_login', phone: rawPhone })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || 'Could not send WhatsApp code');
+    const otpRow = document.getElementById('wa-otp-verify-row');
+    if (otpRow) otpRow.style.display = 'block';
+    const otpInp = document.getElementById('wa-login-otp-inp');
+    if (otpInp) otpInp.focus();
+    window.showSyncMsg(`✅ Sent to your WhatsApp (${data.maskedPhone})! Enter the 4-digit code or tap the link in WhatsApp.`, false);
+  } catch (err) {
+    window.showSyncMsg('⚠️ ' + (err.message || err), true);
+  }
+};
+
+window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
+  const rawPhone = optionalPhone || ((document.getElementById('wa-login-phone-inp') || {}).value || '').trim();
+  const code = ((document.getElementById('wa-login-otp-inp') || {}).value || '').replace(/\D/g, '');
+  const token = optionalToken || '';
+  if (!token && code.length !== 4) {
+    window.showSyncMsg('⚠️ Please enter the 4-digit code sent to your WhatsApp.', true);
+    return;
+  }
+  const prevAnonUid = window.gatUid || '';
+  window.showSyncMsg('⏳ Verifying & loading your WhatsApp dossier...', false);
+  try {
+    const res = await fetch('/api/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mode: 'wa_verify_login',
+        phone: rawPhone,
+        code: code,
+        token: token,
+        prevAnonUid: prevAnonUid
+      })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || 'Verification failed');
+
+    if (data.customToken) {
+      try { await firebase.auth().signInWithCustomToken(data.customToken); } catch (e) { console.warn('CustomToken sign-in note:', e); }
+    }
+    window.gatUid = data.masterUid;
+    if (data.whatsappDigits) {
+      localStorage.setItem('gat_verified_wa_phone', data.whatsappDigits);
+    }
+    if (data.userData) {
+      window.applyMergedServerDossierToLocal(data.userData);
+    }
+    if (typeof window.listenToUserConciergeOrder === 'function') {
+      window.listenToUserConciergeOrder();
+    }
+    window.refreshSyncAccountBadge();
+    window.showSyncMsg('✅ Verified! Your account is now permanently linked to your WhatsApp.', false);
+
+    // If user was trying to check out before verifying WhatsApp, resume checkout!
+    if (window._pendingCheckoutTierAfterWa) {
+      const pendingTier = window._pendingCheckoutTierAfterWa;
+      window._pendingCheckoutTierAfterWa = null;
+      setTimeout(() => {
+        window.closeDeviceSyncModal();
+        window.startCheckout(pendingTier);
+      }, 900);
+    } else {
+      setTimeout(() => { window.closeDeviceSyncModal(); }, 1500);
+    }
+  } catch (err) {
+    window.showSyncMsg('⚠️ ' + (err.message || err), true);
+  }
+};
+
+// Auto-claim 1-Tap WhatsApp Magic Link (?wa_phone=97258...&wa_token=...)
+(function initWhatsAppMagicLinkAutoVerify() {
+  try {
+    const sp = new URLSearchParams(window.location.search);
+    const waPhone = sp.get('wa_phone');
+    const waToken = sp.get('wa_token');
+    if (waPhone && waToken) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      setTimeout(() => {
+        window.openDeviceSyncModal();
+        const pInp = document.getElementById('wa-login-phone-inp');
+        if (pInp) pInp.value = '+' + waPhone;
+        window.verifyWhatsAppLoginCode(waPhone, waToken);
+      }, 800);
+    }
+  } catch (e) {}
+})();
