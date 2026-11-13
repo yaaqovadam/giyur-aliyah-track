@@ -2471,30 +2471,143 @@ module.exports = { stampSecurityCv: stampSecurityCv };
     };
   }
 
-  // Normalize user form draft so user fields override persona defaults cleanly
+  // Normalize user form draft:
+  // - In Calibration/Stress Mode (isDemoStress === true): uses full buildRandomStressPersona()
+  // - In Real User Mode (isDemoStress === false): NEVER uses buildRandomStressPersona()!
+  //   Any field left blank by the user returns " " to bypass inline `|| "fake"` fallbacks
+  //   and is trimmed to "" by put()/putComb() so unanswered PDF boxes stay 100% blank.
   function prepareUserStamperState(rawDraft, isDemoStress) {
-    var base = core.buildRandomStressPersona();
+    var basePersona = core.buildRandomStressPersona();
     if (isDemoStress) {
-      base._stressAllCheckboxes = true;
-      return base;
+      basePersona._stressAllCheckboxes = true;
+      return basePersona;
     }
-    // In real user mode, start with empty strings for narrative/personal fields, then overlay user's draft
-    var clean = Object.assign({}, base, { _stressAllCheckboxes: false });
-    Object.keys(rawDraft || {}).forEach(function(k) {
-      if (rawDraft[k] !== undefined && rawDraft[k] !== null && String(rawDraft[k]).trim() !== '') {
-        clean[k] = rawDraft[k];
+
+    var d = {};
+    var src = rawDraft || {};
+    Object.keys(src).forEach(function(k) {
+      var v = src[k];
+      if (v !== undefined && v !== null && String(v).trim() !== '') {
+        d[k] = v;
       }
     });
-    // Parse children table if user entered text into pf_children_table
-    var ct = String((rawDraft && rawDraft.pf_children_table) || '').trim();
-    if (!ct || /^(ללא|אין|none|n\/a|no|-)$/i.test(ct)) {
-      clean.pf_children_rows = [];
+
+    d.parseAnyDateParts = function(raw, fallbackObj) {
+      var sVal = String(raw || '').trim();
+      if (!sVal) return { dd: '', mm: '', yyyy: '' };
+      return basePersona.parseAnyDateParts(sVal, { d: '', m: '', y: '', full: '' });
+    };
+    d._stressAllCheckboxes = false;
+    d._isRealUser = true;
+
+    // Smart 1:1 alias & composite field derivations so user never has to type the same fact twice
+    if (!d.pf_tz && d.pf_id_num) d.pf_tz = d.pf_id_num;
+    if (!d.pf_id_num && d.pf_tz) d.pf_id_num = d.pf_tz;
+    if (!d.pf_maiden_he && d.pf_prior_names) d.pf_maiden_he = d.pf_prior_names;
+    if (!d.pf_maiden_surname_he && d.pf_prior_names) d.pf_maiden_surname_he = d.pf_prior_names;
+    if (!d.pf_prev_surname_he && d.pf_prior_names) d.pf_prev_surname_he = d.pf_prior_names;
+    if (!d.pf_abroad_addr_he && d.pf_abroad_addr) d.pf_abroad_addr_he = d.pf_abroad_addr;
+    if (!d.pf_birth_city_he && d.pf_birth_country) d.pf_birth_city_he = d.pf_birth_country;
+    if (!d.pf_birth_country_he && d.pf_birth_country) d.pf_birth_country_he = d.pf_birth_country;
+
+    // Split Israeli spouse full Hebrew name into given + surname if not entered separately
+    if (d.pf_sp_name_he && (!d.pf_sp_given_he || !d.pf_sp_surname_he)) {
+      var spParts = String(d.pf_sp_name_he).trim().split(/\s+/);
+      if (!d.pf_sp_given_he) d.pf_sp_given_he = spParts[0] || '';
+      if (!d.pf_sp_surname_he) d.pf_sp_surname_he = spParts.slice(1).join(' ') || spParts[0] || '';
     }
-    return clean;
+
+    // Split Hebrew DOB (e.g. "כ״ו בכסלו תשנ״ה") into day / month / year for MR/14a if not split
+    if (d.pf_hebrew_dob && (!d.pf_dob_heb_day || !d.pf_dob_heb_mon || !d.pf_dob_heb_yr)) {
+      var hParts = String(d.pf_hebrew_dob).trim().split(/\s+/);
+      if (hParts.length >= 3) {
+        if (!d.pf_dob_heb_day) d.pf_dob_heb_day = hParts[0];
+        if (!d.pf_dob_heb_mon) d.pf_dob_heb_mon = hParts.slice(1, -1).join(' ');
+        if (!d.pf_dob_heb_yr) d.pf_dob_heb_yr = hParts[hParts.length - 1];
+      } else {
+        if (!d.pf_dob_heb_day) d.pf_dob_heb_day = d.pf_hebrew_dob;
+      }
+    }
+
+    // Split pf_entry_date_port ("01/09/2026 • נתב״ג • ב/2") into pf_entry_date & pf_border_station_he if needed
+    if (d.pf_entry_date_port) {
+      var epParts = String(d.pf_entry_date_port).split(/[•|,\-]+/).map(function(x) { return x.trim(); }).filter(Boolean);
+      if (!d.pf_entry_date && epParts[0]) d.pf_entry_date = epParts[0];
+      if (!d.pf_border_station_he && epParts[1]) d.pf_border_station_he = epParts[1];
+      if (!d.pf_prev_status_il_he && epParts[2]) d.pf_prev_status_il_he = epParts[2];
+    }
+
+    // Split pf_marriage_details ("14/06/2026 • ליון, צרפת") if marriage_date / marriage_place_he not set separately
+    if (d.pf_marriage_details) {
+      var mParts = String(d.pf_marriage_details).split(/[•|]+/).map(function(x) { return x.trim(); }).filter(Boolean);
+      if (!d.pf_marriage_date && mParts[0]) d.pf_marriage_date = mParts[0];
+      if (!d.pf_marriage_place_he && mParts[1]) d.pf_marriage_place_he = mParts[1];
+    }
+
+    // Parse accompanying children table if provided by user
+    var ct = String(d.pf_children_table || '').trim();
+    if (!ct || /^(ללא|אין|none|n\/a|no|-)$/i.test(ct)) {
+      d.pf_children_rows = [];
+    } else if (!Array.isArray(d.pf_children_rows)) {
+      d.pf_children_rows = ct.split(/\n+/).map(function(line) {
+        var cols = line.split(/[|•,]+/).map(function(c) { return c.trim(); });
+        return {
+          id_num: cols[0] || '',
+          surname_he: cols[1] || d.pf_surname_he || '',
+          given_he: cols[2] || '',
+          given: cols[3] || cols[2] || '',
+          country: cols[4] || d.pf_birth_country || '',
+          country_en: cols[5] || d.pf_birth_country_en || '',
+          dob: cols[6] || '',
+          gender: cols[7] || '',
+          other_parent_he: cols[8] || d.pf_sp_name_he || '',
+          entry_date: cols[9] || d.pf_entry_date || ''
+        };
+      }).filter(function(r) { return r.id_num || r.given_he || r.given; });
+    }
+
+    // Parse Landlord Floor rows on Ash/6 p.6 only if landlord affidavit is filled
+    if (!Array.isArray(d.pf_ll_floor_a_rows)) {
+      if (d.pf_ll_affidavit) {
+        d.pf_ll_floor_a_rows = [{
+          name: ((d.pf_sp_name_he || '') + ' ' + (d.pf_given_he || '')).trim(),
+          father: d.pf_father_he || '',
+          id: d.pf_sp_tz || d.pf_pass_num || '',
+          rel: 'שוכרים',
+          date: d.pf_entry_date || '',
+          paid_by: 'השוכרים'
+        }];
+      } else {
+        d.pf_ll_floor_a_rows = [];
+      }
+    }
+    if (!Array.isArray(d.pf_ll_floor_b_rows)) {
+      d.pf_ll_floor_b_rows = [];
+    }
+
+    // Return a Proxy in real-user mode so any unset property returns " " (truthy to suppress
+    // inline `|| "fake fallback"` in stampers, while .trim() in put()/putComb() turns it into ""!)
+    if (typeof Proxy === 'function') {
+      return new Proxy(d, {
+        get: function(target, prop) {
+          if (prop in target) return target[prop];
+          if (typeof prop === 'symbol') return target[prop];
+          if (prop === '_stressAllCheckboxes' || prop === 'pf_laissez_passer') return false;
+          if (String(prop).endsWith('_rows')) return [];
+          return ' ';
+        }
+      });
+    }
+    return d;
+  }
+
+  if (window.GAT_MODULAR_STAMPERS && window.GAT_MODULAR_STAMPERS.sec_cv && !window.GAT_MODULAR_STAMPERS.security_cv) {
+    window.GAT_MODULAR_STAMPERS.security_cv = window.GAT_MODULAR_STAMPERS.sec_cv;
   }
 
   window.stampOfficialGovPdf = async function(formKey, rawState, isDemoStress) {
     var fk = formKey || (window.gatFormsState && window.gatFormsState.pf_active_form) || 'ash3';
+    if (fk === 'security_cv' && !window.GAT_MODULAR_STAMPERS.security_cv) fk = 'sec_cv';
     var opts = makeBrowserLoaderOpts();
     var state = prepareUserStamperState(rawState || (window.collectCurrentFormDraft && window.collectCurrentFormDraft()) || {}, !!isDemoStress);
 

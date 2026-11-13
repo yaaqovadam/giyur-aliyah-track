@@ -611,6 +611,210 @@
     }
   };
 
+
+  // ============================================================================
+  // 100% 1:1 GRANULAR FIELD DEFINITIONS FOR ALL 8 PIBA FORMS (EN/FR/ES/DE/HE/RU)
+  // ============================================================================
+  var GRANULAR_1TO1_FIELDS = {
+    pf_tz: { req: 0, script: 'any',
+      l: { en: 'Applicant Israeli ID / Teudat Zehut Number (9 Digits, if issued)', fr: 'N° Teudat Zehut du Demandeur (9 chiffres, si déjà attribué)', es: 'N.º Teudat Zehut del Solicitante (9 dígitos, si posee)', de: 'Israelische Teudat-Zehut-Nr. des Antragstellers (falls vorhanden)', he: 'מספר תעודת זהות של המבקש/ת (9 ספרות — אם הונפקה)', ru: 'Номер Теудат Зеут заявителя (9 цифр, если уже выдан)' } },
+    pf_req_num: { req: 0, script: 'any',
+      l: { en: 'PIBA Application / File Number (if assigned by clerk)', fr: 'N° de Dossier / Demande PIBA (si attribué)', es: 'N.º de Expediente / Solicitud PIBA (si fue asignado)', de: 'PIBA Antrags- / Aktennummer (falls vergeben)', he: 'מספר בקשה / תיק ברשות האוכלוסין (אם קיים)', ru: 'Номер заявления / дела в МВД (если присвоен)' } },
+    pf_visa_num: { req: 0, script: 'any',
+      l: { en: 'Current Israeli Visa / Sticker Number', fr: 'Numéro de Visa Israélien Actuel', es: 'Número de Visa Israelí Actual', de: 'Aktuelle Israelische Visumnummer', he: 'מספר אשרה נוכחית בדרכון', ru: 'Номер текущей израильской визы' } },
+    pf_prior_names_en: { req: 0, script: 'latin',
+      l: { en: 'Maiden / Prior Legal Names — Latin Letters (Ash/1 & Ash/3)', fr: 'Nom de Jeune Fille / Noms Antérieurs — Lettres Latines (Ash/1 & Ash/3)', es: 'Apellido de Soltera / Nombres Anteriores — Letras Latinas (Ash/1 y Ash/3)', de: 'Geburtsname / Frühere Namen — Lateinische Buchstaben (Asch/1 & Asch/3)', he: 'שמות קודמים / שם נעורים בלועזית (אש/1 ואש/3)', ru: 'Девичья фамилия / прежние имена — Латиницей (Аш/1 и Аш/3)' } },
+    pf_birth_country_en: { req: 0, script: 'latin',
+      l: { en: 'Country & City of Birth — Latin Letters (Ash/3)', fr: 'Pays & Ville de Naissance — Lettres Latines (Ash/3)', es: 'País y Ciudad de Nacimiento — Letras Latinas (Ash/3)', de: 'Geburtsland & Geburtsort — Lateinische Buchstaben (Asch/3)', he: 'ארץ ועיר לידה בלועזית (אש/3)', ru: 'Страна и город рождения — Латиницей (Аш/3)' } },
+    pf_citizenship_en: { req: 0, script: 'latin',
+      l: { en: 'Current Citizenship(s) — Latin Letters (Ash/3)', fr: 'Nationalité(s) Actuelle(s) — Lettres Latines (Ash/3)', es: 'Ciudadanía(s) Actual(es) — Letras Latinas (Ash/3)', de: 'Staatsangehörigkeit(en) — Lateinische Buchstaben (Asch/3)', he: 'אזרחות בלועזית (אש/3)', ru: 'Гражданство — Латиницей (Аш/3)' } },
+    pf_citizenship_code: { req: 0, script: 'any',
+      l: { en: 'Additional Foreign Citizenship (for MR/14a Dual-Citizenship Notice)', fr: 'Autre Nationalité Étrangère (pour MR/14a)', es: 'Otra Ciudadanía Extranjera (para MR/14a)', de: 'Weitere Ausländische Staatsbürgerschaft (für MR/14a)', he: 'אזרחות זרה נוספת (לשאלון מר/14א)', ru: 'Дополнительное иностранное гражданство (для МР/14а)' } },
+    pf_religion_en: { req: 0, script: 'latin',
+      l: { en: 'Religion — Latin Letters (Ash/3, e.g. JEWISH)', fr: 'Religion — Lettres Latines (Ash/3, ex. JEWISH)', es: 'Religión — Letras Latinas (Ash/3, ej. JEWISH)', de: 'Religion — Lateinische Buchstaben (Asch/3, z.B. JEWISH)', he: 'דת בלועזית (אש/3, כגון JEWISH)', ru: 'Вероисповедание — Латиницей (Аш/3, напр. JEWISH)' } },
+    pf_nationality_en: { req: 0, script: 'latin',
+      l: { en: 'Nationality / Leom — Latin Letters (Ash/3, e.g. JEWISH)', fr: 'Nationalité / Leom — Lettres Latines (Ash/3)', es: 'Nacionalidad / Leom — Letras Latinas (Ash/3)', de: 'Nationalität / Leom — Lateinische Buchstaben (Asch/3)', he: 'לאום בלועזית (אש/3, כגון JEWISH)', ru: 'Национальность / Леом — Латиницей (Аш/3)' } },
+    pf_occupation_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Applicant Occupation / Profession (in Hebrew)', fr: 'Profession / Métier du Demandeur (en Hébreu)', es: 'Profesión / Ocupación del Solicitante (en Hebreo)', de: 'Beruf / Tätigkeit des Antragstellers (auf Hebräisch)', he: 'משלח יד / מקצוע של המבקש/ת (בעברית)', ru: 'Профессия / род занятий заявителя (на иврите)' } },
+    pf_edu_years: { req: 0, script: 'any',
+      l: { en: 'Total Years of Schooling / Higher Education (e.g. 16)', fr: 'Nombre Total d\'Années d\'Études (ex. 16)', es: 'Total de Años de Estudio / Educación (ej. 16)', de: 'Gesamtzahl der Schul- und Studienjahre (z.B. 16)', he: 'מספר שנות לימוד (למשל 16)', ru: 'Общее количество лет обучения (напр. 16)' } },
+    pf_father_en: { req: 0, script: 'latin',
+      l: { en: 'Father\'s Full Name — Latin Letters (Ash/1 & Ash/3)', fr: 'Nom Complet du Père — Lettres Latines (Ash/1 & Ash/3)', es: 'Nombre Completo del Padre — Letras Latinas (Ash/1 y Ash/3)', de: 'Vollständiger Name des Vaters — Latein (Asch/1 & Asch/3)', he: 'שם האב בלועזית (אש/1 ואש/3)', ru: 'Полное имя отца — Латиницей (Аш/1 и Аш/3)' } },
+    pf_father_tz: { req: 0, script: 'any',
+      l: { en: 'Father\'s Israeli Teudat Zehut (if Israeli citizen — MR/14a)', fr: 'Teudat Zehut Israélienne du Père (si Israélien — MR/14a)', es: 'Teudat Zehut Israelí del Padre (si es israelí — MR/14a)', de: 'Israelische Teudat Zehut des Vaters (falls Israeli — MR/14a)', he: 'מספר ת"ז של האב (אם אזרח ישראלי — מר/14א)', ru: 'Теудат Зеут отца (если гражданин Израиля — МР/14а)' } },
+    pf_mother_en: { req: 0, script: 'latin',
+      l: { en: 'Mother\'s Full Name — Latin Letters (Ash/1 & Ash/3)', fr: 'Nom Complet de la Mère — Lettres Latines (Ash/1 & Ash/3)', es: 'Nombre Completo de la Madre — Letras Latinas (Ash/1 y Ash/3)', de: 'Vollständiger Name der Mutter — Latein (Asch/1 & Asch/3)', he: 'שם האם בלועזית (אש/1 ואש/3)', ru: 'Полное имя матери — Латиницей (Аш/1 и Аш/3)' } },
+    pf_mother_maiden_en: { req: 0, script: 'latin',
+      l: { en: 'Mother\'s Maiden Surname — Latin Letters (Ash/1 & Ash/3)', fr: 'Nom de Jeune Fille de la Mère — Lettres Latines (Ash/1 & Ash/3)', es: 'Apellido de Soltera de la Madre — Letras Latinas (Ash/1 y Ash/3)', de: 'Geburtsname der Mutter — Latein (Asch/1 & Asch/3)', he: 'שם נעורים של האם בלועזית (אש/1 ואש/3)', ru: 'Девичья фамилия матери — Латиницей (Аш/1 и Аш/3)' } },
+    pf_mother_tz: { req: 0, script: 'any',
+      l: { en: 'Mother\'s Israeli Teudat Zehut (if Israeli citizen — MR/14a)', fr: 'Teudat Zehut Israélienne de la Mère (si Israélienne — MR/14a)', es: 'Teudat Zehut Israelí de la Madre (si es israelí — MR/14a)', de: 'Israelische Teudat Zehut der Mutter (falls Israeli — MR/14a)', he: 'מספר ת"ז של האם (אם אזרחית ישראלית — מר/14א)', ru: 'Теудат Зеут матери (если гражданка Израиля — МР/14а)' } },
+    pf_il_city_en: { req: 0, script: 'latin',
+      l: { en: 'Israeli City — Latin Letters (Ash/3, e.g. HAIFA / JERUSALEM)', fr: 'Ville en Israël — Lettres Latines (Ash/3)', es: 'Ciudad en Israel — Letras Latinas (Ash/3)', de: 'Stadt in Israel — Lateinische Buchstaben (Asch/3)', he: 'עיר מגורים בישראל בלועזית (אש/3)', ru: 'Город в Израиле — Латиницей (Аш/3)' } },
+    pf_il_street_en: { req: 0, script: 'latin',
+      l: { en: 'Israeli Street, House & Apt — Latin Letters (Ash/3)', fr: 'Rue, N° & Appt en Israël — Lettres Latines (Ash/3)', es: 'Calle, Número y Dpto en Israel — Letras Latinas (Ash/3)', de: 'Straße, Haus- & Wohnungsnr. in Israel — Latein (Asch/3)', he: 'רחוב ומספר בית בישראל בלועזית (אש/3)', ru: 'Улица, дом и кв. в Израиле — Латиницей (Аш/3)' } },
+    pf_phone_abroad: { req: 0, script: 'any',
+      l: { en: 'Phone Number Abroad (with Country Code)', fr: 'Numéro de Téléphone à l\'Étranger (avec indicatif)', es: 'Teléfono en el Extranjero (con código de país)', de: 'Telefonnummer im Ausland (mit Ländervorwahl)', he: 'מספר טלפון בחו"ל (כולל קידומת מדינה)', ru: 'Телефон за границей (с кодом страны)' } },
+    pf_ash3_months: { req: 0, script: 'any',
+      l: { en: 'Requested Extension Duration in Months (e.g. 12)', fr: 'Durée de Prolongation Demandée en Mois (ex. 12)', es: 'Duración de Prórroga Solicitada en Meses (ej. 12)', de: 'Gewünschte Verlängerungsdauer in Monaten (z.B. 12)', he: 'מספר חודשי הארכה מבוקשים (למשל 12)', ru: 'Запрашиваемый срок продления в месяцах (напр. 12)' } },
+    pf_ash3_target_visa_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Target Visa Category in Hebrew (e.g. א/2, ב/1, א/5, ב/2)', fr: 'Catégorie de Visa Demandée en Hébreu (ex. א/2, ב/1, א/5)', es: 'Categoría de Visa Solicitada en Hebreo (ej. א/2, ב/1, א/5)', de: 'Gewünschte Visakategorie auf Hebräisch (z.B. א/2, ב/1, א/5)', he: 'סוג האשרה המבוקשת בעברית (א/2, ב/1, א/5, ב/2)', ru: 'Запрашиваемая категория визы на иврите (א/2, ב/1, א/5)' } },
+    pf_ash3_target_visa_en: { req: 0, script: 'latin',
+      l: { en: 'Target Visa Category in Latin Letters (e.g. A/2, B/1, A/5, B/2)', fr: 'Catégorie de Visa Demandée en Latin (ex. A/2, B/1, A/5)', es: 'Categoría de Visa en Letras Latinas (ej. A/2, B/1, A/5)', de: 'Visakategorie in Lateinschrift (z.B. A/2, B/1, A/5)', he: 'סוג האשרה המבוקשת בלועזית (A/2, B/1, A/5)', ru: 'Категория визы латиницей (A/2, B/1, A/5)' } },
+    pf_laissez_passer: { req: 0, t: 'checkbox', def: false,
+      l: { en: 'Check ONLY if using a Laissez-Passer / Travel Document instead of a regular National Passport (Ash/3)', fr: 'Cocher UNIQUEMENT si vous utilisez un Laissez-Passer au lieu d\'un passeport national (Ash/3)', es: 'Marque SOLO si usa Laissez-Passer / Documento de Viaje en lugar de pasaporte nacional (Ash/3)', de: 'NUR ankreuzen bei Laissez-Passer / Reiseausweis statt Nationalpass (Asch/3)', he: 'סמנו רק אם המסמך הוא תעודת מעבר (לסה-פסה) במקום דרכון לאומי (אש/3)', ru: 'Отметьте ТОЛЬКО если используется Лессе-Пассе / проездной документ вместо обычного паспорта (Аш/3)' } },
+    pf_inst_name_en: { req: 0, script: 'latin',
+      l: { en: 'Studying Institution / Yeshiva / Ulpan Name — Latin Letters (Ash/3)', fr: 'Nom de l\'Institution / Oulpan — Lettres Latines (Ash/3)', es: 'Nombre de la Institución / Yeshivá / Ulpán — Letras Latinas (Ash/3)', de: 'Name des Lehrinstituts / Jeschiwa / Ulpan — Latein (Asch/3)', he: 'שם מוסד הלימודים בלועזית (אש/3)', ru: 'Название учебного заведения / ульпана / ешивы — Латиницей (Аш/3)' } },
+    pf_inst_addr_en: { req: 0, script: 'latin',
+      l: { en: 'Institution Address — Latin Letters (Ash/3)', fr: 'Adresse de l\'Institution — Lettres Latines (Ash/3)', es: 'Dirección de la Institución — Letras Latinas (Ash/3)', de: 'Adresse des Lehrinstituts — Latein (Asch/3)', he: 'כתובת מוסד הלימודים בלועזית (אש/3)', ru: 'Адрес учебного заведения — Латиницей (Аш/3)' } },
+    pf_inst_contact_en: { req: 0, script: 'latin',
+      l: { en: 'Institution Contact / Rabbi Name — Latin Letters (Ash/3)', fr: 'Personne de Contact / Rabbin — Lettres Latines (Ash/3)', es: 'Persona de Contacto / Rabino — Letras Latinas (Ash/3)', de: 'Ansprechpartner / Rabbiner — Latein (Asch/3)', he: 'איש קשר במוסד הלימודים בלועזית (אש/3)', ru: 'Контактное лицо / раввин — Латиницей (Аш/3)' } },
+    pf_sp_surname_en: { req: 0, script: 'latin',
+      l: { en: 'Spouse / Partner Surname — Passport Latin Letters (Ash/456)', fr: 'Nom de Famille du Conjoint — Lettres Latines (Ash/456)', es: 'Apellido del Cónyuge — Letras Latinas (Ash/456)', de: 'Nachname des Ehepartners — Latein (Asch/456)', he: 'שם משפחה של בן/בת הזוג בלועזית (אש/456)', ru: 'Фамилия супруга(и) — Латиницей (Аш/456)' } },
+    pf_sp_given_en: { req: 0, script: 'latin',
+      l: { en: 'Spouse / Partner Given Name(s) — Passport Latin Letters (Ash/456)', fr: 'Prénom(s) du Conjoint — Lettres Latines (Ash/456)', es: 'Nombre(s) del Cónyuge — Letras Latinas (Ash/456)', de: 'Vorname(n) des Ehepartners — Latein (Asch/456)', he: 'שם פרטי של בן/בת הזוג בלועזית (אש/456)', ru: 'Имя супруга(и) — Латиницей (Аш/456)' } },
+    pf_sp_dob: { req: 0, t: 'date', script: 'any',
+      l: { en: 'Spouse / Partner Date of Birth', fr: 'Date de Naissance du Conjoint / Partenaire', es: 'Fecha de Nacimiento del Cónyuge / Pareja', de: 'Geburtsdatum des Ehepartners / Partners', he: 'תאריך לידה של בן/בת הזוג', ru: 'Дата рождения супруга(и) / партнёра' } },
+    pf_sp_citizenship_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Spouse / Partner Citizenship(s) (in Hebrew)', fr: 'Nationalité(s) du Conjoint (en Hébreu)', es: 'Ciudadanía(s) del Cónyuge (en Hebreo)', de: 'Staatsangehörigkeit(en) des Partners (auf Hebräisch)', he: 'אזרחות בן/בת הזוג (בעברית)', ru: 'Гражданство супруга(и) (на иврите)' } },
+    pf_sp_birth_country_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Spouse / Inviter Country of Birth (in Hebrew)', fr: 'Pays de Naissance du Conjoint / Invitant (en Hébreu)', es: 'País de Nacimiento del Cónyuge / Invitante (en Hebreo)', de: 'Geburtsland des Partners / Einladers (auf Hebräisch)', he: 'ארץ לידה של בן הזוג / המזמין (בעברית)', ru: 'Страна рождения супруга / приглашающего (на иврите)' } },
+    pf_sp_prior_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Spouse / Inviter Prior Surname (in Hebrew — or "ללא")', fr: 'Nom Antérieur du Conjoint / Invitant (en Hébreu — ou « ללא »)', es: 'Apellido Anterior del Cónyuge / Invitante (en Hebreo — o «ללא»)', de: 'Früherer Name des Partners / Einladers (auf Hebräisch — oder „ללא“)', he: 'שם משפחה קודם של בן הזוג / המזמין (או "ללא")', ru: 'Прежняя фамилия супруга / приглашающего (или «ללא»)' } },
+    pf_sp_entry_date: { req: 0, t: 'date', script: 'any',
+      l: { en: 'Israeli Sponsor Date of Aliyah / Entry (if born abroad — Ash/6)', fr: 'Date d\'Aliyah / Entrée du Conjoint Israélien (Ash/6)', es: 'Fecha de Aliyá / Entrada del Cónyuge Israelí (Ash/6)', de: 'Alija- / Einreisedatum des israelischen Partners (Asch/6)', he: 'תאריך עלייה / כניסה לישראל של בן הזוג הישראלי (אש/6)', ru: 'Дата репатриации / въезда израильского супруга (Аш/6)' } },
+    pf_sp_status_date: { req: 0, t: 'date', script: 'any',
+      l: { en: 'Date Israeli Sponsor Received Israeli Status (Ash/6)', fr: 'Date d\'Obtention du Statut Israélien du Conjoint (Ash/6)', es: 'Fecha de Obtención del Estatus Israelí del Cónyuge (Ash/6)', de: 'Datum des Erhalts des israelischen Status des Partners (Asch/6)', he: 'תאריך קבלת המעמד של בן הזוג הישראלי (אש/6)', ru: 'Дата получения статуса израильским супругом (Аш/6)' } },
+    pf_sp_pass_exp: { req: 0, t: 'date', script: 'any',
+      l: { en: 'Spouse Passport Expiry Date (Ash/456)', fr: 'Date d\'Expiration du Passeport du Conjoint (Ash/456)', es: 'Fecha de Vencimiento del Pasaporte del Cónyuge (Ash/456)', de: 'Ablaufdatum des Reisepasses des Partners (Asch/456)', he: 'תוקף דרכון של בן/בת הזוג (אש/456)', ru: 'Срок действия паспорта супруга(и) (Аш/456)' } },
+    pf_sp_phone_home: { req: 0, script: 'any',
+      l: { en: 'Spouse / Home Landline Phone (if any — Ash/6)', fr: 'Téléphone Fixe du Domicile / Conjoint (Ash/6)', es: 'Teléfono Fijo de Casa / Cónyuge (Ash/6)', de: 'Festnetztelefon des Partners / Haushalts (Asch/6)', he: 'טלפון קווי בבית (אם קיים — אש/6)', ru: 'Домашний телефон супруга (если есть — Аш/6)' } },
+    pf_marriage_date: { req: 0, t: 'date', script: 'any',
+      l: { en: 'Date of Marriage (if Married — MR/14a, Ash/6, Security CV)', fr: 'Date de Mariage (si Marié — MR/14a, Ash/6, CV)', es: 'Fecha de Matrimonio (si es Casado — MR/14a, Ash/6, CV)', de: 'Heiratsdatum (falls verheiratet — MR/14a, Asch/6, CV)', he: 'תאריך נישואין (לנשואים — מר/14א, אש/6, קורות חיים)', ru: 'Дата брака (если в браке — МР/14а, Аш/6, Анкета безопасности)' } },
+    pf_marriage_place_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Place / Country of Marriage (in Hebrew — MR/14a & Ash/6)', fr: 'Lieu / Pays de Mariage (en Hébreu — MR/14a & Ash/6)', es: 'Lugar / País de Matrimonio (en Hebreo — MR/14a y Ash/6)', de: 'Heiratsort / -land (auf Hebräisch — MR/14a & Asch/6)', he: 'מקום / מדינת הנישואין (בעברית — מר/14א ואש/6)', ru: 'Место / страна заключения брака (на иврите — МР/14а и Аш/6)' } },
+    pf_ash6_minor_consent_reason: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/6 Page 4: Reason if Other Parent Does Not Sign Minor Child Consent (in Hebrew)', fr: 'Ash/6 Page 4 : Motif si l\'autre parent ne signe pas pour l\'enfant mineur (en Hébreu)', es: 'Ash/6 Pág. 4: Motivo si el otro progenitor no firma por el menor (en Hebreo)', de: 'Asch/6 Seite 4: Grund, falls der andere Elternteil nicht unterschreibt (Hebräisch)', he: 'אש/6 עמ׳ 4: סיבה לאי-חתימת ההורה הנוסף לקטין (אם רלוונטי)', ru: 'Аш/6 стр. 4: Причина отсутствия подписи второго родителя несовершеннолетнего (на иврите)' } },
+    pf_ash6_decl_exception_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/6 Page 4: Exceptions to Clean-Record Declaration (or "ללא הסתייגויות")', fr: 'Ash/6 Page 4 : Réserves éventuelles à la déclaration (ou « ללא הסתייגויות »)', es: 'Ash/6 Pág. 4: Excepciones a la declaración jurada (o «ללא הסתייגויות»)', de: 'Asch/6 Seite 4: Ausnahmen zur Erklärung (oder „ללא הסתייגויות“)', he: 'אש/6 עמ׳ 4: פירוט הסתייגויות להצהרה (או "ללא הסתייגויות")', ru: 'Аш/6 стр. 4: Исключения к декларации (или «ללא הסתייגויות»)' } },
+    pf_ll_children_count: { req: 0, script: 'any',
+      l: { en: 'Ash/6 Page 6 Landlord Affidavit: Number of Landlord\'s Children', fr: 'Ash/6 Page 6 Affidavit Propriétaire : Nombre d\'enfants du propriétaire', es: 'Ash/6 Pág. 6 Declaración Propietario: N.º de hijos del propietario', de: 'Asch/6 Seite 6 Vermieter-Affidavit: Anzahl der Kinder des Vermieters', he: 'אש/6 עמ׳ 6 (תצהיר משכיר): מספר ילדים של המשכיר', ru: 'Аш/6 стр. 6 (Декларация арендодателя): Количество детей арендодателя' } },
+    pf_ll_occupation: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/6 Page 6 Landlord Affidavit: Landlord\'s Occupation (in Hebrew)', fr: 'Ash/6 Page 6 Affidavit Propriétaire : Profession du propriétaire (en Hébreu)', es: 'Ash/6 Pág. 6 Declaración Propietario: Profesión del propietario (en Hebreo)', de: 'Asch/6 Seite 6 Vermieter-Affidavit: Beruf des Vermieters (auf Hebräisch)', he: 'אש/6 עמ׳ 6 (תצהיר משכיר): עיסוקו של המשכיר (בעברית)', ru: 'Аш/6 стр. 6 (Декларация арендодателя): Профессия арендодателя (на иврите)' } },
+    pf_mail_recipient_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/456 Page 1: Mailing Recipient Name in Israel (if different from residential address)', fr: 'Ash/456 Page 1 : Destinataire du courrier en Israël (si différent)', es: 'Ash/456 Pág. 1: Destinatario de correo en Israel (si es distinto)', de: 'Asch/456 Seite 1: Postempfänger in Israel (falls abweichend)', he: 'אש/456 עמ׳ 1: שם מקבל הדואר בישראל (אם שונה מכתובת המגורים)', ru: 'Аш/456 стр. 1: Имя получателя почты в Израиле (если отличается от адреса)' } },
+    pf_mail_street_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/456 Page 1: Mailing Street & House # in Israel (in Hebrew)', fr: 'Ash/456 Page 1 : Rue & N° pour le courrier (en Hébreu)', es: 'Ash/456 Pág. 1: Calle y N.º para correo (en Hebreo)', de: 'Asch/456 Seite 1: Postanschrift Straße & Hausnr. (auf Hebräisch)', he: 'אש/456 עמ׳ 1: רחוב ומס׳ בית למשלוח דואר (בעברית)', ru: 'Аш/456 стр. 1: Улица и дом для почты (на иврите)' } },
+    pf_mail_city_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/456 Page 1: Mailing City & Zip in Israel (in Hebrew)', fr: 'Ash/456 Page 1 : Ville & Code Postal pour le courrier (en Hébreu)', es: 'Ash/456 Pág. 1: Ciudad y Código Postal para correo (en Hebreo)', de: 'Asch/456 Seite 1: Postanschrift Ort & PLZ (auf Hebräisch)', he: 'אש/456 עמ׳ 1: יישוב ומיקוד למשלוח דואר (בעברית)', ru: 'Аш/456 стр. 1: Город и индекс для почты (на иврите)' } },
+    pf_mail_proxy_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/456 Page 1: Authorized Representative / Proxy Name (if any, in Hebrew)', fr: 'Ash/456 Page 1 : Nom du Mandataire / Représentant Autorisé (en Hébreu)', es: 'Ash/456 Pág. 1: Nombre del Apoderado / Representante (en Hebreo)', de: 'Asch/456 Seite 1: Bevollmächtigter / Vertreter (auf Hebräisch)', he: 'אש/456 עמ׳ 1: שם מיופה כוח לקבלת דואר (אם קיים)', ru: 'Аш/456 стр. 1: Имя доверенного лица (если есть, на иврите)' } },
+    pf_prev_pass_num: { req: 0, script: 'latin',
+      l: { en: 'Ash/1: Previous Passport Number (if held)', fr: 'Ash/1 : Numéro de Passeport Précédent (le cas échéant)', es: 'Ash/1: Número de Pasaporte Anterior (si tuvo)', de: 'Asch/1: Frühere Reisepassnummer (falls vorhanden)', he: 'אש/1: מספר דרכון קודם (אם היה)', ru: 'Аш/1: Номер предыдущего загранпаспорта (если был)' } },
+    pf_prev_il_id: { req: 0, script: 'any',
+      l: { en: 'Ash/1: Previous Israeli ID / Visa Number (if ever held)', fr: 'Ash/1 : Ancien N° d\'Identité / Visa Israélien (le cas échéant)', es: 'Ash/1: N.º de Identidad / Visa Israelí Previo (si tuvo)', de: 'Asch/1: Frühere israelische ID- / Visumnummer (falls vorhanden)', he: 'אש/1: מספר זהות / אשרה קודם בישראל (אם היה)', ru: 'Аш/1: Прежний израильский номер удостоверения / визы (если был)' } },
+    pf_parallel_req_details: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/1: Parallel Application Details in Israel or Abroad (if any, in Hebrew)', fr: 'Ash/1 : Détails d\'une Demande Parallèle (le cas échéant, en Hébreu)', es: 'Ash/1: Detalles de Solicitud Paralela (si existe, en Hebreo)', de: 'Asch/1: Details zu einem Parallelantrag (falls vorhanden, Hebräisch)', he: 'אש/1: פירוט בקשה מקבילה שהוגשה בארץ או בחו"ל (אם קיימת)', ru: 'Аш/1: Подробности параллельного заявления (если подавалось, на иврите)' } },
+    pf_prev_rejected_details: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/1: Prior Entry Denial / Deportation Details (if any, in Hebrew)', fr: 'Ash/1 : Détails d\'un Refus d\'Entrée / Expulsion Antérieur (en Hébreu)', es: 'Ash/1: Detalles de Rechazo de Entrada / Deportación Previa (en Hebreo)', de: 'Asch/1: Details zu früherer Einreiseverweigerung / Ausweisung (Hebräisch)', he: 'אש/1: פירוט סירוב כניסה או הרחקה מישראל בעבר (אם היה)', ru: 'Аш/1: Подробности прошлых отказов во въезде / депортации (если были, на иврите)' } },
+    pf_status_cancelled_reason: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/1: Reason if Israeli Status Was Ever Cancelled (if any, in Hebrew)', fr: 'Ash/1 : Motif si un Statut Israélien a été Annulé (en Hébreu)', es: 'Ash/1: Motivo si su Estatus Israelí Fue Cancelado (en Hebreo)', de: 'Asch/1: Grund, falls ein israelischer Status widerrufen wurde (Hebräisch)', he: 'אש/1: סיבת ביטול מעמד בישראל בעבר (אם רלוונטי)', ru: 'Аш/1: Причина отмены статуса в Израиле в прошлом (если применимо, на иврите)' } },
+    pf_company_name_he: { req: 0, script: 'he', rtl: 1,
+      l: { en: 'Ash/1: Inviting Organization / Institution / Company Name in Israel (if applicable, in Hebrew)', fr: 'Ash/1 : Nom de l\'Institution / Organisation Invitante en Israël (en Hébreu)', es: 'Ash/1: Nombre de la Institución / Organización Invitante en Israel (en Hebreo)', de: 'Asch/1: Name der einladenden Institution / Organisation in Israel (Hebräisch)', he: 'אש/1: שם תאגיד / מוסד מזמין בישראל (אם רלוונטי)', ru: 'Аш/1: Название приглашающей организации / учреждения в Израиле (на иврите)' } }
+  };
+
+  Object.keys(GRANULAR_1TO1_FIELDS).forEach(function(fid) {
+    F[fid] = GRANULAR_1TO1_FIELDS[fid];
+  });
+
+  // Append granular fields to each form's field list (preserving existing order + adding 1:1 fields)
+  var FORM_EXTRA_FIELDS = {
+    ash3: [
+      'pf_ash3_months', 'pf_ash3_target_visa_he', 'pf_ash3_target_visa_en', 'pf_laissez_passer',
+      'pf_prior_names_en', 'pf_birth_country_en', 'pf_citizenship_en', 'pf_religion_en', 'pf_nationality_en',
+      'pf_father_en', 'pf_mother_en', 'pf_mother_maiden_en',
+      'pf_il_city_en', 'pf_il_street_en', 'pf_phone_abroad',
+      'pf_inst_name_en', 'pf_inst_addr_en', 'pf_inst_contact_en',
+      'pf_sp_citizenship_he'
+    ],
+    ash6: [
+      'pf_req_num', 'pf_marriage_date', 'pf_marriage_place_he',
+      'pf_sp_entry_date', 'pf_sp_status_date', 'pf_sp_phone_home', 'pf_phone_abroad',
+      'pf_ash6_minor_consent_reason', 'pf_ash6_decl_exception_he',
+      'pf_ll_children_count', 'pf_ll_occupation'
+    ],
+    nespach_alef: [
+      'pf_tz', 'pf_req_num'
+    ],
+    ash456: [
+      'pf_visa_num', 'pf_occupation_he', 'pf_edu_years',
+      'pf_sp_surname_en', 'pf_sp_given_en', 'pf_sp_citizenship_he', 'pf_sp_pass_exp',
+      'pf_mail_recipient_he', 'pf_mail_street_he', 'pf_mail_city_he', 'pf_mail_proxy_he',
+      'pf_father_tz', 'pf_mother_tz', 'pf_marriage_date', 'pf_marriage_place_he', 'pf_citizenship_code'
+    ],
+    ash1: [
+      'pf_ash3_target_visa_he', 'pf_ash3_target_visa_en',
+      'pf_prior_names_en', 'pf_father_en', 'pf_mother_en', 'pf_mother_maiden_en',
+      'pf_occupation_he', 'pf_phone_abroad', 'pf_company_name_he',
+      'pf_sp_birth_country_he', 'pf_sp_prior_he',
+      'pf_prev_pass_num', 'pf_prev_il_id', 'pf_parallel_req_details', 'pf_prev_rejected_details', 'pf_status_cancelled_reason',
+      'pf_children_table'
+    ],
+    sec_cv: [
+      'pf_tz', 'pf_prior_names', 'pf_marital', 'pf_marriage_date', 'pf_sp_name_he', 'pf_sp_dob',
+      'pf_father_he', 'pf_mother_he', 'pf_occupation_he', 'pf_edu_years', 'pf_email'
+    ]
+  };
+
+  Object.keys(FORM_EXTRA_FIELDS).forEach(function(fk) {
+    if (!FORMS[fk]) return;
+    var tailCheckboxes = ['pf_rel_story', 'pf_decl_clean_record', 'pf_police_covers_prior', 'pf_has_name_change_cert'];
+    var baseList = FORMS[fk].fields.filter(function(x) { return tailCheckboxes.indexOf(x) === -1; });
+    var tailList = FORMS[fk].fields.filter(function(x) { return tailCheckboxes.indexOf(x) !== -1; });
+    FORM_EXTRA_FIELDS[fk].forEach(function(nf) {
+      if (baseList.indexOf(nf) === -1 && tailList.indexOf(nf) === -1) baseList.push(nf);
+    });
+    FORMS[fk].fields = baseList.concat(tailList);
+  });
+
+  // Also add standalone MR/14a and MR/14b form tabs so users can fill/print them individually if needed
+  FORMS.mr14a = {
+    code: 'טופס מר/14 א׳', minPassM: 12, warnPassM: 24, blankPdf: '/forms/gov-pdfs/mr14a_registry.pdf',
+    t: {
+      en: 'טופס מר/14 א׳ (MR/14a — 1p): First Teudat Zehut Population Registry Questionnaire',
+      fr: 'טופס מר/14 א׳ (MR/14a — 1p) : Questionnaire d\'Inscription 1ère Teudat Zehut',
+      es: 'טופס מר/14 א׳ (MR/14a — 1p): Cuestionario de Registro para 1ª Teudat Zehut',
+      de: 'טופס מר/14 א׳ (MR/14a — 1S): Melderegister-Fragebogen für Erste Teudat Zehut',
+      he: 'טופס מר/14 א׳ (1 עמ׳): שאלון רישום למרשם האוכלוסין ותעודת זהות ראשונה',
+      ru: 'טופס מר/14 א׳ (МР/14а — 1 стр.): Анкета регистрации в реестре населения для первого Теудат Зеут'
+    },
+    fields: [
+      'pf_tz', 'pf_req_num', 'pf_visa_num',
+      'pf_surname_he', 'pf_given_he', 'pf_surname_en', 'pf_given_en', 'pf_prior_names',
+      'pf_father_he', 'pf_father_tz', 'pf_mother_he', 'pf_mother_tz', 'pf_foreign_grandfather',
+      'pf_dob', 'pf_hebrew_dob', 'pf_gender', 'pf_marital', 'pf_marriage_date', 'pf_marriage_place_he',
+      'pf_birth_country', 'pf_citizenship', 'pf_citizenship_code', 'pf_religion_nat',
+      'pf_occupation_he', 'pf_edu_years', 'pf_pass_num', 'pf_pass_issue_date', 'pf_pass_exp_date',
+      'pf_entry_date_port', 'pf_il_addr_he', 'pf_phone_il', 'pf_email', 'pf_456_shvut',
+      'pf_decl_clean_record'
+    ]
+  };
+
+  FORMS.mr14b = {
+    code: 'טופס מר/14 ב׳', minPassM: 12, warnPassM: 24, blankPdf: '/forms/gov-pdfs/mr14b_registry_notice.pdf',
+    t: {
+      en: 'טופס מר/14 ב׳ (MR/14b — 1p): Foreign Citizenship & Passport Declaration',
+      fr: 'טופס מר/14 ב׳ (MR/14b — 1p) : Déclaration de Nationalité & Passeport Étrangers',
+      es: 'טופס מר/14 ב׳ (MR/14b — 1p): Declaración de Ciudadanía y Pasaporte Extranjeros',
+      de: 'טופס מר/14 ב׳ (MR/14b — 1S): Erklärung über Ausländische Staatsbürgerschaft & Reisepass',
+      he: 'טופס מר/14 ב׳ (1 עמ׳): הודעה על אזרחות זרה ודרכון זר',
+      ru: 'טופס מר/14 ב׳ (МР/14б — 1 стр.): Уведомление об иностранном гражданстве и паспорте'
+    },
+    fields: [
+      'pf_tz', 'pf_req_num', 'pf_surname_he', 'pf_given_he',
+      'pf_citizenship', 'pf_pass_num', 'pf_pass_exp_date', 'pf_decl_clean_record'
+    ]
+  };
+
   window.GAT_FORMS_META = { F: F, FORMS: FORMS, UI: UI };
 
   function lang() { return window.appLang || localStorage.getItem('gat_lang') || 'en'; }
@@ -756,14 +960,7 @@
     }
     base._masterDossier = computeMasterDossierSummary(base);
     window.gatFormsState = base;
-    if (window.gatDb && window.gatUid) {
-      window.gatDb.collection('users').doc(window.gatUid).set({
-        uid: window.gatUid,
-        masterDossier: base._masterDossier,
-        scannedDocs: loadScans(),
-        updatedAtMs: Date.now()
-      }, { merge: true }).catch(function(){});
-    }
+    // Dirty-checked cloud sync is handled strictly by window.syncFormDraftIfChanged() when values actually change
     return base;
   };
 
@@ -1344,15 +1541,24 @@
     document.querySelectorAll('.pf-bound-input').forEach(function(el) {
       if (el.dataset.pfBound === '1') return;
       el.dataset.pfBound = '1';
-      var handler = function() {
+      el.dataset.lastSavedVal = el.type === 'checkbox' ? String(!!el.checked) : String(el.value || '');
+      var commitIfChanged = function() {
         if (!el.id) return;
-        window.gatFormsState[el.id] = el.type === 'checkbox' ? !!el.checked : el.value;
+        var newVal = el.type === 'checkbox' ? !!el.checked : el.value;
+        var newStr = String(newVal);
+        if (el.dataset.lastSavedVal === newStr) return; // Nothing changed -> 0 saves!
+        el.dataset.lastSavedVal = newStr;
+        window.gatFormsState[el.id] = newVal;
         if (el.id === 'pf_demand_date') updateClerkTimerDisplay();
         renderMasterDossierBar();
         if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged();
       };
-      el.addEventListener('blur', handler);
-      el.addEventListener('change', handler);
+      if (el.type === 'checkbox' || el.tagName === 'SELECT' || el.type === 'date') {
+        el.addEventListener('change', commitIfChanged);
+      } else {
+        el.addEventListener('change', commitIfChanged);
+        el.addEventListener('blur', commitIfChanged);
+      }
     });
   }
 
@@ -1687,12 +1893,12 @@
 
   var EXTRA_FV_I18N = {
     en: {
-      afTitle: '' + esc(c.afTitle || '📸 1-Tap Document Auto-Fill') + '',
-      afSub: '' + esc(c.afSub || '') + '',
-      afBtn: '' + esc(c.afBtn || '📸 Auto-Fill') + '',
+      afTitle: '📸 1-Tap Document Auto-Fill (AI Vision)',
+      afSub: 'Upload Passport, Birth Cert, Marriage Cert, or Police Check to pre-fill your form in Clerk Hebrew:',
+      afBtn: '📸 Scan Document → Auto-Fill',
       calOn: '🎯 Mode: FULL CALIBRATION PROOF (All Checkboxes ON)',
       calOff: '👤 Mode: REAL USER INPUT (Hebrew-First)',
-      calBtn: '' + esc(c.calBtn || '🧪 Calibration PDF') + ''
+      calBtn: '🧪 Calibration PDF'
     },
     he: {
       afTitle: '📸 מילוי אוטומטי מהיר מתעודה או דרכון (סריקת AI)',
