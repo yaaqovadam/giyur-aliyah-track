@@ -336,5 +336,19 @@
     "mic_mac_h": "<li>Click the <strong>tune/lock icon</strong> in the top-left URL address bar.</li><li>Open <strong>Site Settings</strong> → set <strong>Microphone</strong> to <strong>Allow</strong>.</li><li>Refresh this page!</li>",
     "mic_gen_h": "Please allow Microphone and Speech Recognition permissions in your browser settings.",
     "mic_refresh": "🔄 Refresh Page After Enabling"
-  }
+  },
+  "tracking_partner": {
+    "title": "✨ Tracking Partner",
+    "reset": "↺",
+    "wa": "📲",
+    "minBtn": "⎯ Minimize",
+    "placeholder": "Ask about this form, deadlines, or passes...",
+    "send": "Ask",
+    "welcome": "👋 **Shalom! I'm your personal Giyur & Aliyah Tracking Partner.**\n\nTap any status or form below — I'll **open that page behind this window**, explain what to watch out for, and you can tap **⎯ Minimize** to read the page and tap **✨** anytime to continue!",
+    "tracksTitle": "📍 TAP YOUR STATUS OR FORM:",
+    "jumpReadBtn": "📖 Minimize & Read Page (Tap ✨ to Resume)",
+    "quotaFree": "🔒 You've used all **30 free Tracking Partner questions for today**! Unlock any **Statutory Forms Pass ($89 / $149)** or **Full VIP Suite** for **150 daily questions** plus full form & deadline mastery.\n\n[[NAV:paywall|]]",
+    "quotaPaid": "You have reached today's 150-question limit. Message our WhatsApp desk at +972-52-582-2005 for urgent help!"
+  },
+  "sync_drawer_btn": "📲 Sync Devices & Pass Code"
 }

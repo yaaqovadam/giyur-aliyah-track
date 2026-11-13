@@ -336,5 +336,19 @@
     "mic_mac_h": "<li>Klicken Sie links in der Adressleiste auf das <strong>Schloss-/Einstellungssymbol</strong>.</li><li>Öffnen Sie <strong>Website-Einstellungen</strong> und erlauben Sie das <strong>Mikrofon</strong>.</li><li>Seite neu laden!</li>",
     "mic_gen_h": "Bitte erlauben Sie den Mikrofonzugriff in Ihren Browsereinstellungen.",
     "mic_refresh": "🔄 Seite neu laden"
-  }
+  },
+  "tracking_partner": {
+    "title": "✨ Track-Partner",
+    "reset": "↺",
+    "wa": "📲",
+    "minBtn": "⎯ Minimieren",
+    "placeholder": "Frage zu Formular, Fristen oder Pässen...",
+    "send": "Fragen",
+    "welcome": "👋 **Schalom! Ich bin Ihr persönlicher Giyur & Aliyah Track-Partner.**\n\nTippen Sie unten auf Ihr Formular oder Ihren Status: Ich **öffne die Seite im Hintergrund**, erkläre die Fallen, und Sie können auf **⎯ Minimieren** tippen, um in Ruhe zu lesen, und danach auf **✨**!",
+    "tracksTitle": "📍 STATUS ODER FORMULAR ANTIPPEN:",
+    "jumpReadBtn": "📖 Minimieren & Seite lesen (✨ zum Fortsetzen)",
+    "quotaFree": "🔒 Sie haben alle **30 kostenlosen Fragen für heute** genutzt! Schalten Sie den **Formular-Pass ($89 / $149)** oder die **VIP-Suite** frei für **150 Fragen/Tag** und volle Formular-Hilfe.\n\n[[NAV:paywall|]]",
+    "quotaPaid": "Tageslimit von 150 Fragen erreicht. Schreiben Sie uns per WhatsApp an +972-52-582-2005!"
+  },
+  "sync_drawer_btn": "📲 Geräte synchronisieren & Pass-Code"
 }

@@ -329,5 +329,19 @@
     "mic_mac_h": "<li>Click the <strong>tune/lock icon</strong> in the top-left URL address bar.</li><li>Open <strong>Site Settings</strong> → set <strong>Microphone</strong> to <strong>Allow</strong>.</li><li>Refresh this page!</li>",
     "mic_gen_h": "Please allow Microphone and Speech Recognition permissions in your browser settings.",
     "mic_refresh": "🔄 Refresh Page After Enabling"
-  }
+  },
+  "tracking_partner": {
+    "title": "✨ Партнёр по треку",
+    "reset": "↺",
+    "wa": "📲",
+    "minBtn": "⎯ Свернуть",
+    "placeholder": "Спросите про анкету, сроки или тариф...",
+    "send": "Спросить",
+    "welcome": "👋 **Шалом! Я ваш персональный партнёр по треку гиюра и репатриации.**\n\nНажмите на ваш статус или анкету ниже — я **открою эту страницу на фоне**, объясню все ловушки МВД, а вы сможете нажать **⎯ Свернуть**, изучить страницу и нажать **✨**, чтобы продолжить!",
+    "tracksTitle": "📍 ВЫБЕРИТЕ СТАТУС ИЛИ АНКЕТУ МВД:",
+    "jumpReadBtn": "📖 Свернуть и читать страницу (Нажмите ✨ для продолжения)",
+    "quotaFree": "🔒 Вы использовали все **30 бесплатных вопросов на сегодня**! Откройте **Пакет анкет МВД ($89 / $149)** или **VIP-пакет**, чтобы получить **150 вопросов в день** и полный разбор всех полей анкет.\n\n[[NAV:paywall|]]",
+    "quotaPaid": "Вы достигли дневного лимита в 150 вопросов. Напишите нам в WhatsApp +972-52-582-2005!"
+  },
+  "sync_drawer_btn": "📲 Синхронизация устройств и Код"
 }

@@ -136,6 +136,183 @@ exports.auditDoc = onRequest(
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });
     }
+    // ========================================================================
+    // 0. IN-APP 24/7 3-TIER AI TRACK PARTNER & BLACK-BOX GATEKEEPER (mode === "helpdesk_chat")
+    // ========================================================================
+    if (req.body && req.body.mode === "helpdesk_chat") {
+      try {
+        const db = admin.firestore();
+        const uid = String(req.body.uid || "").trim();
+        const lang = String(req.body.lang || "en").trim();
+        const currentMod = String(req.body.currentMod || "").trim();
+        const currentForm = String(req.body.currentForm || "").trim();
+        const formSnapshot = (req.body.formSnapshot && typeof req.body.formSnapshot === "object") ? req.body.formSnapshot : {};
+        const userMessage = String(req.body.message || "").trim().slice(0, 1000);
+        const history = Array.isArray(req.body.history) ? req.body.history.slice(-8) : [];
+        if (!userMessage) {
+          return res.status(400).json({ ok: false, error: "Empty message" });
+        }
+
+        let uData = {};
+        let entData = {};
+        if (uid && uid !== "anon") {
+          const [uSnap, eSnap] = await Promise.all([
+            db.collection("users").doc(uid).get(),
+            db.collection("pro_entitlements").doc(uid).get()
+          ]);
+          if (uSnap.exists) uData = uSnap.data() || {};
+          if (eSnap.exists) entData = eSnap.data() || {};
+        }
+
+        // Strict server-side capability resolution from pro_entitlements/{uid}
+        const entMap = entData.unlocked ? (entData.entitlementsMap || {}) : {};
+        const unlockedKeys = Object.keys(entMap);
+        const primaryTier = entData.unlocked ? (entData.tier || uData.tier || "") : "";
+        if (primaryTier && !unlockedKeys.includes(primaryTier)) unlockedKeys.push(primaryTier);
+
+        const FORMS_TIERS = ["forms_90d_89", "forms_life_149", "suite_solo_90d_249", "suite_solo_life_399", "vip_couple_649"];
+        const BD_TIERS = ["bd_pack1_65", "bd_pack2_65", "bd_pack3_49", "bd_pack4_49", "bd_all700_179", "bd_suite_90d_149", "bd_suite_life_249", "suite_solo_90d_249", "suite_solo_life_399", "vip_couple_649"];
+        const SONGS_TIERS = ["songs_65", "bd_suite_90d_149", "bd_suite_life_249", "suite_solo_90d_249", "suite_solo_life_399", "vip_couple_649"];
+        const COUPLES_TIERS = ["couples_sync_75", "couples_90d_129", "couples_life_229", "suite_solo_90d_249", "suite_solo_life_399", "vip_couple_649"];
+
+        const hasFormsUnlocked = unlockedKeys.some((k) => FORMS_TIERS.includes(k));
+        const hasBdUnlocked = unlockedKeys.some((k) => BD_TIERS.includes(k));
+        const hasSongsUnlocked = unlockedKeys.some((k) => SONGS_TIERS.includes(k));
+        const hasCouplesUnlocked = unlockedKeys.some((k) => COUPLES_TIERS.includes(k));
+
+        const conciergeOrder = uData.conciergeOrder || null;
+        const hasConciergeOrder = Boolean(conciergeOrder && conciergeOrder.orderId);
+        const isPaid = Boolean(entData.unlocked || (hasConciergeOrder && ["approved_for_payment", "paid_in_progress", "completed"].includes(conciergeOrder.status)));
+        const passCode = uData.permanentPassCode || "";
+        const tierLevel = hasConciergeOrder
+          ? "TIER 3 — VIP CONCIERGE CLIENT"
+          : (isPaid ? "TIER 2 — PAID SOFTWARE USER" : "TIER 1 — UNPAID LEAD");
+
+        // Enforce 30 questions/day cap for Unpaid Visitors (150/day for Paid Users)
+        const dayKey = new Date().toISOString().slice(0, 10);
+        const rawIp = String(req.headers["x-forwarded-for"] || req.ip || "anon").split(",")[0].trim().replace(/[^a-zA-Z0-9_.-]/g, "_");
+        const quotaId = (uid && uid !== "anon") ? `u_${uid}_${dayKey}` : `ip_${rawIp}_${dayKey}`;
+        const quotaRef = db.collection("hd_daily_quota").doc(quotaId);
+        const quotaSnap = await quotaRef.get();
+        const usedToday = (quotaSnap.exists && quotaSnap.data() && quotaSnap.data().count) ? Number(quotaSnap.data().count) : 0;
+        const maxDaily = isPaid ? 150 : 30;
+        if (usedToday >= maxDaily) {
+          const QUOTA_I18N = {
+            en: { free: "🔒 You've used all **30 free Tracking Partner questions for today**! Unlock any **Statutory Forms Pass ($89 / $149)** or **Full VIP Suite** for **150 daily questions** plus full form & deadline mastery.\n\n[[NAV:paywall|]]", paid: "You have reached today's 150-question limit. Message our WhatsApp desk at +972-52-582-2005 for urgent help!" },
+            he: { free: "🔒 ניצלת את כל **30 השאלות החינמיות להיום**! פתח את **חבילת הטפסים ($89 / $149)** או **חבילת ה-VIP** לקבלת **150 שאלות ביום** והדרכה מלאה על כל סעיפי הטפסים.\n\n[[NAV:paywall|]]", paid: "הגעת למכסת 150 השאלות היומית. שלח הודעה לוואטסאפ +972-52-582-2005 לסיוע דחוף!" },
+            fr: { free: "🔒 Vous avez utilisé vos **30 questions gratuites du jour** ! Débloquez le **Pass Formulaires ($89 / $149)** ou la **Suite VIP** pour **150 questions/jour** et l'assistance complète sur les formulaires.\n\n[[NAV:paywall|]]", paid: "Limite de 150 questions atteinte aujourd'hui. Écrivez-nous sur WhatsApp au +972-52-582-2005 !" },
+            es: { free: "🔒 ¡Has usado tus **30 preguntas gratuitas de hoy**! Desbloquea el **Pase de Formularios ($89 / $149)** o la **Suite VIP** para obtener **150 preguntas diarias** y guía completa.\n\n[[NAV:paywall|]]", paid: "Alcanzaste el límite de 150 preguntas de hoy. ¡Escríbenos por WhatsApp al +972-52-582-2005!" },
+            de: { free: "🔒 Sie haben alle **30 kostenlosen Fragen für heute** genutzt! Schalten Sie den **Formular-Pass ($89 / $149)** oder die **VIP-Suite** frei für **150 Fragen/Tag** und volle Formular-Hilfe.\n\n[[NAV:paywall|]]", paid: "Tageslimit von 150 Fragen erreicht. Schreiben Sie uns per WhatsApp an +972-52-582-2005!" },
+            ru: { free: "🔒 Вы использовали все **30 бесплатных вопросов на сегодня**! Откройте **Пакет анкет МВД ($89 / $149)** или **VIP-пакет**, чтобы получить **150 вопросов в день** и полный разбор всех полей анкет.\n\n[[NAV:paywall|]]", paid: "Вы достигли дневного лимита в 150 вопросов. Напишите нам в WhatsApp +972-52-582-2005!" }
+          };
+          const qL = QUOTA_I18N[lang] || QUOTA_I18N.en;
+          return res.status(200).json({
+            ok: true,
+            reply: isPaid ? qL.paid : qL.free,
+            tierLevel,
+            isPaid,
+            quotaReached: true
+          });
+        }
+        await quotaRef.set({ count: usedToday + 1, dayKey, isPaid, updatedAtMs: Date.now() }, { merge: true });
+
+        if (hasConciergeOrder && uid && uid !== "anon") {
+          await db.collection("users").doc(uid).set({
+            lastConciergeHelpdeskMsg: userMessage,
+            lastConciergeHelpdeskAtMs: Date.now()
+          }, { merge: true }).catch(() => {});
+        }
+
+        const formsCoachInstructions = hasFormsUnlocked
+          ? `UNLOCKED FORMS COACH MODE IS ACTIVE (hasFormsUnlocked = TRUE):
+- Because this user PAID for and UNLOCKED the Statutory Hebrew Forms Engine, the Black Box for all 8 PIBA Forms (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, Security CV) is 100% OPEN!
+- Answer ANY question about ANY field, section, checkbox, or attachment on their forms with crystal-clear, thorough guidance.
+- User's current live form draft snapshot (if filled): ${JSON.stringify(formSnapshot).slice(0, 600)}
+- PROACTIVE TIME-CONSTRAINT & CLERK WARNINGS (Always warn the user when relevant!):
+  1. ⏳ 180-Day (6-Month) Apostille Expiration Clock: Misrad HaPanim and Va'adat Charigim reject Federal Police Checks (FBI/ACRO/RCMP Teudat Yosher) and Single/Marital Status Certificates if more than 180 days have passed since their issue date.
+  2. ⏳ 30-to-45 Day Clerk Deficiency Clock (Drishat Mismachim): Once a clerk hands you a deficiency sheet, missing items must be submitted within 25–45 days or the file is closed (Sgirat Tik). Remind them they can generate a formal Hebrew 30-Day Extension Request (Michtav Ha'arachat Moadim) inside the Forms Engine.
+  3. ⏳ B/2 Tourist Visa 90-Day Clock: Must file Ash/3 extension or Ash/1/Ash/6 before the current visa expires to prevent illegal overstay flags.
+  4. ⏳ 24-Month Sal Klita Cliff (Form Ash/456 Shinui Ma'amad): Spending >24 cumulative months in Israel in the 3 years before receiving Teudat Oleh cancels the ~21,700 NIS Sal Klita absorption cash grant.
+  5. ✍️ In-Person Blank Boxes Rule: Remind them that our Real-User PDF Stamper intentionally leaves the Clerk Remarks on MR/14a, the Specimen Signature box on MR/14b (must be signed inside the branch in front of the clerk), and the Lawyer/Registrar Attestation block on Nespach Alef blank so no clerk rejects the form for pre-signing!
+- SMART CROSS-TIER PARTNER UPSELL: Even though they unlocked Forms, if their question touches on Red-Ribbon Notarial Translation ($249/$349/$799), Sponsoring Rabbi ($349), Madrichat Kallah ($249), 1-Hour Lawyer Escort ($649), the 80-Question 2-Phone Spousal Interview Simulator ($129/$229), or Beit Din 700 Questions ($149/$249) — and they haven't unlocked those yet — warmly recommend those tiers as their next step!`
+          : `LOCKED FORMS BLACK-BOX MODE (hasFormsUnlocked = FALSE):
+- This user has NOT paid for the Statutory Hebrew Forms Engine yet.
+- Explain WHY the form/stage they are asking about is a major bureaucratic trap (e.g., 180-day Apostille expirations, why Misrad HaPanim clerks reject un-audited forms or missing Hebrew explanation letters) and the huge benefit of our engine vs. a 25,000₪ lawyer retainer.
+- HOWEVER, treat the specific field-by-field instructions, exact Hebrew Michtav Hesber phrasing, and coordinate-stamped PDFs as a SEALED BLACK BOX until they unlock the **Statutory Hebrew Forms Pass ($89 90-Day Pass or $149 Lifetime Pass)** or **Full VIP Suite ($249 / $399 / $649)**!`;
+
+        const sysPrompt = `You are the official ✨ AI Track Partner & Bureaucratic Navigator for GiyurAliyahTrack.com.
+Always reply in the user's language (match English, Hebrew, French, Spanish, German, or Russian; default UI language is '${lang}').
+Keep every response COMPLETE, clear, warm, and under 140 words. Never stop mid-sentence.
+
+LIVE SERVER-VERIFIED USER STATUS:
+- Gatekeeper Level: ${tierLevel}
+- Currently Viewing: Module="${currentMod || "hebrew-engine"}" | Form="${currentForm || "ash1"}"
+- Unlocked Capabilities:
+  • Statutory Hebrew Forms & Clerk Engine (8 PIBA PDFs): ${hasFormsUnlocked ? "UNLOCKED ✅" : "LOCKED 🔒"}
+  • Beit Din 700 Questions Deck: ${hasBdUnlocked ? "UNLOCKED ✅" : "LOCKED 🔒"}
+  • 56 Shabbat Songs & Prayers Karaoke Grader: ${hasSongsUnlocked ? "UNLOCKED ✅" : "LOCKED 🔒"}
+  • Spousal Visa 80-Q 2-Phone Simulator: ${hasCouplesUnlocked ? "UNLOCKED ✅" : "LOCKED 🔒"}
+  • Vetted Human Concierge Dossier: ${hasConciergeOrder ? "ACTIVE ✅ (" + JSON.stringify({ orderId: conciergeOrder.orderId, service: conciergeOrder.serviceName, status: conciergeOrder.status }) + ")" : "NONE (Available in 🤝 Vetted Team tab)"}
+- Permanent 6-Char Pass Code (Free to share if asked about login/sync): ${passCode || "Tap '📲 Sync Devices' at the top of the app to link WhatsApp & get your 6-char Pass Code"}
+
+STRICT DOMAIN & CAPABILITY RULES:
+1. STRICT DOMAIN CONSTRAINT: Only discuss Israeli Conversion (Giyur / Beit Din / Rabbanut), Aliyah / Shinui Ma'amad, Misrad HaPanim (PIBA) visas & forms, and GiyurAliyahTrack services. Politely refuse any off-topic question in 1 sentence.
+2. ${formsCoachInstructions}
+3. LOCKED vs. UNLOCKED FOR OTHER MODULES:
+   - If Beit Din (hasBdUnlocked=${hasBdUnlocked}), Songs (hasSongsUnlocked=${hasSongsUnlocked}), or Couples Simulator (hasCouplesUnlocked=${hasCouplesUnlocked}) is LOCKED 🔒, explain the value and pricing ($149/$249 Beit Din Suite, $129/$229 Spousal Sync, $249/$399/$649 Full Suite) without giving away actual curveball answers or interview questions. If UNLOCKED ✅, help them use it fully!
+   - Whenever they need human legal representation, Red-Ribbon Notarial Translation ($249/$349/$799), Sponsoring Rabbi Rav Melaveh ($349), Madrichat Kallah ($249), Couple Rabbi+Kallah ($499), or 1-Hour Lawyer Escort at Misrad HaPanim ($649–$799), direct them to the "🤝 Vetted Team" tab ($0 upfront intake).
+4. SMART PAGE NAVIGATION TAG:
+   - At the very end of your reply, include ONE navigation tag on its own line so the user can tap a button to jump to that page and minimize the chat while reading:
+     [[NAV:hebrew-engine|ash1]], [[NAV:hebrew-engine|ash3]], [[NAV:hebrew-engine|ash6]], [[NAV:hebrew-engine|ash456]], [[NAV:hebrew-engine|mr14a]], [[NAV:hebrew-engine|mr14b]], [[NAV:hebrew-engine|nespach_alef]], [[NAV:hebrew-engine|security_cv]], [[NAV:beit-din-150|]], [[NAV:songs-prayers|]], [[NAV:couples-sync|]], [[NAV:vetted-team|]], or [[NAV:paywall|]].`;
+
+        const contents = [];
+        for (const h of history) {
+          if (h && h.text) {
+            contents.push({
+              role: h.role === "model" ? "model" : "user",
+              parts: [{ text: String(h.text).slice(0, 700) }]
+            });
+          }
+        }
+        contents.push({ role: "user", parts: [{ text: userMessage }] });
+
+        const apiKey = GEMINI_API_KEY.value();
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+        const gResp = await fetch(geminiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: sysPrompt }] },
+            contents,
+            generationConfig: {
+              temperature: 0.25,
+              maxOutputTokens: 1200,
+              thinkingConfig: { thinkingBudget: 0 }
+            }
+          })
+        });
+        const gJson = await gResp.json();
+        const parts = (gJson.candidates && gJson.candidates[0] && gJson.candidates[0].content && gJson.candidates[0].content.parts) || [];
+        const replyText = parts.map((p) => p.text || "").join("").trim() ||
+          "I'm here to guide your track! Tap any status or form chip above to jump to that section.";
+
+        return res.status(200).json({
+          ok: true,
+          reply: replyText,
+          tierLevel,
+          isPaid,
+          hasFormsUnlocked,
+          hasBdUnlocked,
+          hasSongsUnlocked,
+          hasCouplesUnlocked,
+          hasConciergeOrder
+        });
+      } catch (hdErr) {
+        console.error("helpdesk_chat error:", hdErr);
+        return res.status(500).json({ ok: false, error: "Helpdesk temporarily busy. Please try again or message +972-52-582-2005 on WhatsApp." });
+      }
+    }
+
     if (req.body && [
       "get_or_create_pass",
       "claim_pass",
@@ -987,12 +1164,19 @@ exports.greenApiWebhook = onRequest(
       //    or "לחץ על כפתור שלח כדי לאמת" or a 20-char Zehut authCode), forward
       //    the exact webhook body to Make.com and DO NOT reply with GAT AI!
       // ======================================================================
+      const has20CharToken = /\b[A-Za-z0-9]{20}\b/.test(cleanText);
       const isZehutMsg =
-        cleanText.includes("Tap the Send button to verify") ||
-        cleanText.includes("לחץ על כפתור שלח כדי לאמת") ||
-        /^[A-Za-z0-9]{20}(\s|$)/.test(cleanText);
+        has20CharToken && (
+          cleanText.includes("Tap the Send button to verify") ||
+          cleanText.includes("לחץ על כפתור שלח כדי לאמת") ||
+          /^[A-Za-z0-9]{20}(\s|$)/.test(cleanText)
+        );
 
       if (isZehutMsg) {
+        // Never forward synthetic TEST_ messages to Make.com so Make's Firestore module never pauses on a non-existent doc ID!
+        if (String(body.idMessage || "").startsWith("TEST_")) {
+          return res.status(200).json({ ok: true, routedTo: "zehut_make_dry_run" });
+        }
         await fetch("https://hook.eu1.make.com/77do2nwi2q6xmhko0vgucg2y235w47qg", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -1109,7 +1293,7 @@ STRICT GUARDRAILS — NEVER GIVE AWAY THE FARM:
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemInstruction }] },
           contents: [{ role: "user", parts: [{ text: cleanText }] }],
-          generationConfig: { temperature: 0.25, maxOutputTokens: 500 }
+          generationConfig: { temperature: 0.25, maxOutputTokens: 1200, thinkingConfig: { thinkingBudget: 0 } }
         })
       });
       const gJson = await gResp.json();

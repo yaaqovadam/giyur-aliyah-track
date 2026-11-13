@@ -336,5 +336,19 @@
     "mic_mac_h": "<li>Haga clic en el icono de <strong>candado/ajustes</strong> en la barra de direcciones.</li><li>Abra <strong>Configuración del sitio</strong> y permita el <strong>Micrófono</strong>.</li><li>¡Actualice la página!</li>",
     "mic_gen_h": "Permita el acceso al micrófono en la configuración de su navegador.",
     "mic_refresh": "🔄 Actualizar página"
-  }
+  },
+  "tracking_partner": {
+    "title": "✨ Socio de Seguimiento",
+    "reset": "↺",
+    "wa": "📲",
+    "minBtn": "⎯ Minimizar",
+    "placeholder": "Pregunta sobre este formulario, plazos o pases...",
+    "send": "Enviar",
+    "welcome": "👋 **¡Shalom! Soy tu Socio de Seguimiento de Giyur y Aliyah.**\n\nToca cualquier estatus o formulario abajo: abriré **esa página de fondo**, te explicaré las trampas y podrás tocar **⎯ Minimizar** para leer la página y **✨** para continuar.",
+    "tracksTitle": "📍 TOCA TU ESTATUS O FORMULARIO:",
+    "jumpReadBtn": "📖 Minimizar y leer página (Toca ✨ para seguir)",
+    "quotaFree": "🔒 ¡Has usado tus **30 preguntas gratuitas de hoy**! Desbloquea el **Pase de Formularios ($89 / $149)** o la **Suite VIP** para obtener **150 preguntas diarias** y guía completa.\n\n[[NAV:paywall|]]",
+    "quotaPaid": "Alcanzaste el límite de 150 preguntas de hoy. ¡Escríbenos por WhatsApp al +972-52-582-2005!"
+  },
+  "sync_drawer_btn": "📲 Sincronizar Dispositivos y Código"
 }
