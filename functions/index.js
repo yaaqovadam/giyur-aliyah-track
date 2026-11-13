@@ -228,9 +228,43 @@ exports.auditDoc = onRequest(
       // 3. RECEIVER DEVICE: Claim Permanent Pass Code (via QR scan ?pass=XXX-XXX or typed code)
       //    Signs Receiver Device into the EXACT SAME Firebase UID via createCustomToken!
       if (req.body.mode === "claim_pass") {
-        const raw = String(req.body.passCode || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+        const rawInput = String(req.body.passCode || "").trim().toUpperCase();
+        const targetUid = String(req.body.targetUid || "").trim();
+
+        // Check if it is an active server-side Promo Code in promo_codes/{rawInput}
+        if (rawInput.length >= 4 && targetUid) {
+          const promoSnap = await db.collection("promo_codes").doc(rawInput).get();
+          if (promoSnap.exists && promoSnap.data() && promoSnap.data().active !== false) {
+            const pData = promoSnap.data();
+            const tier = pData.tier || "suite_solo_life_399";
+            const days = TIER_DAYS[tier] !== undefined ? TIER_DAYS[tier] : 0;
+            const expMs = days > 0 ? Date.now() + days * 24 * 60 * 60 * 1000 : 0;
+            const entRef = db.collection("pro_entitlements").doc(targetUid);
+            const entPre = await entRef.get();
+            const existingMap = (entPre.exists && entPre.data().entitlementsMap) ? entPre.data().entitlementsMap : {};
+            existingMap[tier] = { exp: expMs, ts: Date.now() };
+            const entPayload = {
+              uid: targetUid,
+              unlocked: true,
+              tier,
+              entitlementsMap: existingMap,
+              source: "verified_promo_code",
+              unlockedAt: admin.firestore.FieldValue.serverTimestamp()
+            };
+            await entRef.set(entPayload, { merge: true });
+            await db.collection("users").doc(targetUid).set(entPayload, { merge: true });
+            return res.status(200).json({
+              ok: true,
+              masterUid: targetUid,
+              mergedData: entPayload,
+              userData: entPayload
+            });
+          }
+        }
+
+        const raw = rawInput.replace(/[^A-Z0-9]/g, "");
         if (raw.length !== 6) {
-          return res.status(400).json({ ok: false, error: "Please enter the 6-character Pass Code (e.g. K7M-9P4) shown on your other device or backup card." });
+          return res.status(400).json({ ok: false, error: "Please enter your 6-character Pass Code (e.g. K7M-9P4)." });
         }
         const formatted = raw.slice(0, 3) + "-" + raw.slice(3, 6);
         const qSnap = await db.collection("users").where("permanentPassCode", "==", formatted).limit(1).get();
@@ -248,18 +282,21 @@ exports.auditDoc = onRequest(
           console.warn('createCustomToken fallback:', ctErr.message);
         }
         const entSnap = await db.collection("pro_entitlements").doc(masterUid).get();
-        const entData = entSnap.exists ? entSnap.data() : {};
+        const entData = entSnap.exists ? (entSnap.data() || {}) : {};
+        const verifiedUnlocked = Boolean(entData.unlocked);
+        const mergedPayload = Object.assign({}, srcData, {
+          unlocked: verifiedUnlocked,
+          tier: verifiedUnlocked ? (entData.tier || srcData.tier || "") : "",
+          entitlementsMap: verifiedUnlocked ? (entData.entitlementsMap || {}) : {}
+        });
 
         return res.status(200).json({
           ok: true,
           masterUid,
           passCode: formatted,
           customToken,
-          userData: Object.assign({}, srcData, {
-            unlocked: Boolean(srcData.unlocked || entData.unlocked),
-            tier: entData.tier || srcData.tier || "",
-            entitlementsMap: entData.entitlementsMap || srcData.entitlementsMap || {}
-          })
+          mergedData: mergedPayload,
+          userData: mergedPayload
         });
       }
 
@@ -471,10 +508,9 @@ exports.auditDoc = onRequest(
             return res.status(401).json({ ok: false, error: "Invalid 4-digit code. Please check your WhatsApp message." });
           }
 
+          // Keep waOtp & waMagicToken valid until waOtpExpMs (15m window) so browser pre-fetch or double-tap never fails
           await userRef.set({
-            waOtp: "",
-            waMagicToken: "",
-            waOtpExpMs: 0,
+            lastVerifiedAtMs: Date.now(),
             updatedAtMs: Date.now()
           }, { merge: true });
 
@@ -500,6 +536,26 @@ exports.auditDoc = onRequest(
               });
               await userRef.set(finalUserData, { merge: true });
             }
+            const anonEntSnap = await db.collection("pro_entitlements").doc(prevAnonUid).get();
+            if (anonEntSnap.exists && anonEntSnap.data() && anonEntSnap.data().unlocked) {
+              const anonEnt = anonEntSnap.data();
+              const waEntSnap = await db.collection("pro_entitlements").doc(waUid).get();
+              const waEnt = waEntSnap.exists ? (waEntSnap.data() || {}) : {};
+              const mergedEntMap = Object.assign({}, anonEnt.entitlementsMap || {}, waEnt.entitlementsMap || {});
+              const mergedTier = waEnt.tier || anonEnt.tier || finalUserData.tier || "";
+              const entPayload = {
+                uid: waUid,
+                unlocked: true,
+                tier: mergedTier,
+                entitlementsMap: mergedEntMap,
+                updatedAtMs: Date.now()
+              };
+              await db.collection("pro_entitlements").doc(waUid).set(entPayload, { merge: true });
+              await userRef.set(entPayload, { merge: true });
+              finalUserData.unlocked = true;
+              finalUserData.tier = mergedTier;
+              finalUserData.entitlementsMap = mergedEntMap;
+            }
           }
 
           let customToken = null;
@@ -519,9 +575,9 @@ exports.auditDoc = onRequest(
             passCode: finalUserData.permanentPassCode || "",
             customToken,
             userData: Object.assign({}, finalUserData, {
-              unlocked: Boolean(finalUserData.unlocked || entData.unlocked),
-              tier: entData.tier || finalUserData.tier || "",
-              entitlementsMap: entData.entitlementsMap || finalUserData.entitlementsMap || {}
+              unlocked: Boolean(entData.unlocked),
+              tier: entData.unlocked ? (entData.tier || finalUserData.tier || "") : "",
+              entitlementsMap: entData.unlocked ? (entData.entitlementsMap || {}) : {}
             })
           });
         }
@@ -755,11 +811,16 @@ exports.paymentWebhook = onRequest(
     try {
       const secret = process.env.WEBHOOK_SECRET || "";
       const sig = req.get("X-Signature") || req.get("Stripe-Signature") || "";
-      if (secret && sig && !sig.includes("t=")) {
-        // LemonSqueezy HMAC-SHA256 verification
-        const hmac = crypto.createHmac("sha256", secret).update(req.rawBody).digest("hex");
-        if (hmac !== sig) {
-          return res.status(401).json({ error: "Invalid webhook signature" });
+      if (secret) {
+        if (!sig) {
+          return res.status(401).json({ error: "Missing X-Signature header" });
+        }
+        if (!sig.includes("t=")) {
+          // Strict timing-safe LemonSqueezy HMAC-SHA256 verification
+          const hmac = crypto.createHmac("sha256", secret).update(req.rawBody || Buffer.from(JSON.stringify(req.body || {}))).digest("hex");
+          if (hmac !== sig) {
+            return res.status(401).json({ error: "Invalid webhook signature" });
+          }
         }
       }
 
@@ -828,7 +889,53 @@ exports.paymentWebhook = onRequest(
         await db.collection("couples_rooms").doc(room).set({ vipCoupleUnlocked: true }, { merge: true });
       }
 
-      return res.status(200).json({ ok: true, uid, tier, conciergeOrderId });
+      // Send instant WhatsApp receipt + Permanent Pass Code + 1-Tap Magic Link via GreenAPI (052-582-2005)
+      const rawWaPhone =
+        custom.wa_phone ||
+        uPreData.whatsappDigits ||
+        (String(uid).startsWith("wa_") ? String(uid).slice(3) : "") ||
+        (uPreData.conciergeOrder && uPreData.conciergeOrder.whatsapp) ||
+        (uPreData.formDraft && (uPreData.formDraft.pf_phone_il || uPreData.formDraft.pf_phone)) ||
+        "";
+      const waDigits = normalizePhoneDigits(rawWaPhone);
+      let waReceiptSent = false;
+      if (waDigits.length >= 8) {
+        const magicToken = crypto.randomBytes(16).toString("hex");
+        const waTargetRef = db.collection("users").doc(`wa_${waDigits}`);
+        await waTargetRef.set({
+          uid: `wa_${waDigits}`,
+          whatsappDigits: waDigits,
+          permanentPassCode: permCode,
+          unlocked: true,
+          tier,
+          entitlementsMap: existingMap,
+          waMagicToken: magicToken,
+          waOtpExpMs: Date.now() + 24 * 60 * 60 * 1000,
+          updatedAtMs: Date.now()
+        }, { merge: true });
+        await db.collection("pro_entitlements").doc(`wa_${waDigits}`).set({
+          uid: `wa_${waDigits}`,
+          unlocked: true,
+          tier,
+          entitlementsMap: existingMap,
+          source: "verified_webhook",
+          unlockedAt: admin.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        const magicLink = `https://giyuraliyahtrack.com/app/?wa_phone=${waDigits}&wa_token=${magicToken}`;
+        const receiptMsg = [
+          `🎉 *GiyurAliyahTrack — Payment Confirmed!*`,
+          `Thank you! Your tier (*${tier}*) is now unlocked${orderNum ? " (Order #" + orderNum + ")" : ""}.`,
+          ``,
+          `🔑 *Permanent 6-Char Pass Code:* *${permCode}*`,
+          `👉 *Tap here to open your unlocked dossier on any device:*`,
+          magicLink
+        ].join("\n");
+        const sentRes = await sendGreenApiWhatsApp(waDigits, receiptMsg).catch(() => ({ ok: false }));
+        waReceiptSent = Boolean(sentRes && sentRes.ok);
+      }
+
+      return res.status(200).json({ ok: true, uid, tier, conciergeOrderId, passCode: permCode, waReceiptSent });
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -924,18 +1031,48 @@ exports.greenApiWebhook = onRequest(
       const entMap = Object.assign({}, (uData && uData.entitlementsMap) || {}, entData.entitlementsMap || {});
       const conciergeOrder = (uData && uData.conciergeOrder) || null;
 
-      // FAST-PATH: If user is asking for their login/pass code or lost device recovery (FREE FOR EVERYONE!)
+      // FAST-PATH: Universal WhatsApp Login / OTP / Pass Code / Device Sync (Works for brand-new AND existing users!)
       const lower = cleanText.toLowerCase();
-      if (/\b(code|pass|login|sync|lost|recover|toilet|קוד|סיסמה|סנכרון|התחבר|код|пароль|вход)\b/i.test(lower) && userDoc && passCode) {
+      if (/\b(code|pass|login|sync|lost|recover|toilet|otp|קוד|סיסמה|סנכרון|התחבר|כניסה|код|пароль|вход)\b/i.test(lower)) {
+        const targetUid = userDoc ? userDoc.id : `wa_${senderDigits}`;
+        const targetRef = db.collection("users").doc(targetUid);
+        const otp = String(Math.floor(1000 + Math.random() * 9000));
+        const magicToken = crypto.randomBytes(16).toString("hex");
+        const finalPassCode = passCode || generateCleanPassCode();
+
+        await targetRef.set({
+          uid: targetUid,
+          whatsappDigits: senderDigits,
+          permanentPassCode: finalPassCode,
+          waOtp: otp,
+          waMagicToken: magicToken,
+          waOtpExpMs: Date.now() + 15 * 60 * 1000,
+          updatedAtMs: Date.now()
+        }, { merge: true });
+
+        const magicUrl = `https://giyuraliyahtrack.com/app/?wa_phone=${senderDigits}&wa_token=${magicToken}`;
         const fastReply = [
-          `🔑 *GiyurAliyahTrack — Instant Account & Pass Recovery*`,
-          `Your Permanent 6-Character Pass Code is: *${passCode}*`,
+          `🔐 *GiyurAliyahTrack — Instant Login & Device Sync*`,
+          `• 4-Digit Login Code: *${otp}*`,
+          `• Permanent 6-Char Pass Code: *${finalPassCode}*`,
           ``,
-          `👉 *Tap here to open your synced account on any phone or computer:*`,
-          `https://giyuraliyahtrack.com/app/?pass=${passCode}`
+          `👉 *Tap here for 1-Click Magic Login:*`,
+          magicUrl
         ].join("\n");
         await sendGreenApiWhatsApp(chatId, fastReply);
-        return res.status(200).json({ ok: true, mode: "fast_pass_recovery" });
+        return res.status(200).json({ ok: true, mode: "fast_pass_recovery", uid: targetUid });
+      }
+
+      const hasConciergeOrder = Boolean(conciergeOrder && conciergeOrder.orderId);
+      const userTierLevel = hasConciergeOrder
+        ? "TIER 3 — VIP CONCIERGE CLIENT"
+        : (isPaid ? "TIER 2 — PAID SOFTWARE USER" : "TIER 1 — UNPAID LEAD");
+
+      if (hasConciergeOrder && userDoc) {
+        await userDoc.ref.set({
+          lastConciergeWhatsAppMsg: cleanText.slice(0, 1000),
+          lastConciergeWhatsAppAtMs: Date.now()
+        }, { merge: true }).catch(() => {});
       }
 
       // Build strict Entitlement-Aware System Prompt for Gemini 3.8 Flash
@@ -943,8 +1080,9 @@ exports.greenApiWebhook = onRequest(
 Always reply in the EXACT SAME LANGUAGE the user wrote in (English, Hebrew, French, Spanish, German, or Russian). Keep replies concise, warm, authoritative, and formatted for WhatsApp (*bold*, bullet points, max 120 words).
 
 CRITICAL USER ACCOUNT STATUS FROM FIRESTORE:
+- Gatekeeper Classification: ${userTierLevel}
 - Phone Number: +${senderDigits}
-- Has Account in Firestore: ${userDoc ? "YES (UID: " + userDoc.id.slice(0, 8) + ")" : "NO ACCOUNT LINKED TO THIS PHONE YET"}
+- Has Account in Firestore: ${userDoc ? "YES (UID: " + userDoc.id.slice(0, 12) + ")" : "NO ACCOUNT LINKED TO THIS PHONE YET"}
 - Permanent Pass Code (FREE to give them anytime they ask to log in/sync): ${passCode || "Not generated yet — tell them to open https://giyuraliyahtrack.com/app/ and tap 📲 Sync Devices"}
 - Paid Software Status: ${isPaid ? "PAID CUSTOMER (Active Tier: " + unlockedTier + " | Unlocked Modules: " + JSON.stringify(entMap) + ")" : "UNPAID / FREE TIER USER"}
 - Active Concierge Dossier: ${conciergeOrder ? JSON.stringify({ orderId: conciergeOrder.orderId, service: conciergeOrder.serviceName, status: conciergeOrder.status, price: conciergeOrder.approvedPriceLabel, note: conciergeOrder.adminNote }) : "None"}

@@ -7,6 +7,8 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/"/>
   </url>
   <url>
     <loc>https://giyuraliyahtrack.com/he/</loc>
@@ -15,6 +17,8 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/"/>
   </url>
   <url>
     <loc>https://giyuraliyahtrack.com/fr/</loc>
@@ -23,6 +27,8 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/"/>
   </url>
   <url>
     <loc>https://giyuraliyahtrack.com/es/</loc>
@@ -31,6 +37,8 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/"/>
   </url>
   <url>
     <loc>https://giyuraliyahtrack.com/de/</loc>
@@ -39,6 +47,8 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
     <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/"/>
   </url>
   <url>
     <loc>https://giyuraliyahtrack.com/emergency-aliyah-go-bag-shinui-maamad/</loc>
@@ -442,5 +452,15 @@
   </url>
   <url>
     <loc>https://giyuraliyahtrack.com/forms/</loc>
+  </url>
+  <url>
+    <loc>https://giyuraliyahtrack.com/ru/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/"/>
   </url>
 </urlset>

@@ -2,17 +2,27 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Master User Document & Subcollections (Strictly locked to the user's own UID)
+    // Master User Document & Subcollections (Locked to owner; client CANNOT self-grant paid entitlements!)
     match /users/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && (!('unlocked' in request.resource.data) || request.resource.data.unlocked == false)
+        && (!('entitlementsMap' in request.resource.data));
+      allow update: if request.auth != null && request.auth.uid == uid
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['unlocked', 'tier', 'entitlementsMap', 'lastOrderNumber']));
       match /{allSubcollections=**} {
         allow read, write: if request.auth != null && request.auth.uid == uid;
       }
     }
 
-    // 1. E2EE 2-Phone Couples Sync Rooms (Direct doc lookup only; no collection listing)
+    // 1. E2EE 2-Phone Couples Sync Rooms (Direct doc lookup only; client cannot spoof vipCoupleUnlocked)
     match /couples_rooms/{roomId} {
-      allow get, create, update, delete: if request.auth != null && roomId.size() >= 16;
+      allow get: if request.auth != null && roomId.size() >= 16;
+      allow create: if request.auth != null && roomId.size() >= 16
+        && (!('vipCoupleUnlocked' in request.resource.data) || request.resource.data.vipCoupleUnlocked == false);
+      allow update: if request.auth != null && roomId.size() >= 16
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['vipCoupleUnlocked']));
+      allow delete: if request.auth != null && roomId.size() >= 16;
       allow list: if false;
     }
 
@@ -26,16 +36,15 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
 
-    // 4. Pro Entitlements (Read-only for owner; only Admin SDK webhook/Cloud Functions can write)
+    // 4. Pro Entitlements (Read-only for owner; ONLY Admin SDK paymentWebhook / Cloud Functions can write)
     match /pro_entitlements/{uid} {
       allow get: if request.auth != null && request.auth.uid == uid;
       allow list, write: if false;
     }
 
-    // 5. Dynamic Promo Codes (Single-code lookup only; no listing or client writes)
+    // 5. Dynamic Promo Codes (No direct client access; verified server-side only)
     match /promo_codes/{code} {
-      allow get: if request.auth != null;
-      allow list, write: if false;
+      allow read, write: if false;
     }
 
     // Default deny everything else

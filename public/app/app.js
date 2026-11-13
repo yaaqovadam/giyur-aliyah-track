@@ -977,7 +977,7 @@ window.LEMON_CHECKOUT_URLS = {
 window.CONCIERGE_WHATSAPP = "972559664357";
 window.CONCIERGE_EMAIL = "concierge@giyuraliyahtrack.com";
 
-const GAT_CODE_TIER_MAP = {"55a5e6b3bffb18e7822e5297e907c35beb3161ffc75c49e1109f9978f827b240":"forms_90d_89","8575d2a62340999cb5b207c8ddea45a3d69f882a95bf4450440f029bb0f52d3e":"forms_life_149","5470b090e1253b907549423404ce954e2f3f32bae219158fd7ba7be1124fb113":"bd_suite_90d_149","eed0f662bacea98b9d722f8b58719b520e2c33ac302123941456ff31c09bb63a":"bd_suite_life_249","42e383f151f2a9a9b54faf48ea7681e7c24c09de4c888bed089e94e0d21ba408":"couples_90d_129","e36c103b7598eb93ce8234eb03d9e054539f1dcd745df66883011a312fae7878":"couples_life_229","103d7969a5e67888f8e69257bf11261ba67bc1d19bf360a7211b7f63cb94090e":"suite_solo_90d_249","58b2f480939ba9b02361e850f7f5cb47244e433311515b772fb5e9672684a084":"suite_solo_life_399","2868a99ae4f528edc73ef1d4578efe60b44f14d8f16128ab4259d88df742e2c3":"suite_solo_life_399","a10c9b96585ea52f5da6f7efc1267e8c434f1be24968da4d2440e19940776485":"vip_couple_649","3806c36fc793f18d0d97e637adb6bcc235f2ff0454bb8a287d07d4674010ed24":"vip_couple_649"};
+const GAT_CODE_TIER_MAP = {};
 
 window.TIER_CAPABILITIES = {
   forms_90d_89:       { days: 90, forms: true, audit: true, bd: [], songs: false, couples: false, vip2Phone: false, label: '📄 90-Day Hebrew Forms & Clerk Dossier Pass ($89)' },
@@ -1559,121 +1559,133 @@ window.sha256Hex = async function(str) {
   return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
 };
 
-window.grantProEntitlement = function(sourceTag, tierKey) {
-  const cap = window.TIER_CAPABILITIES[tierKey] ? tierKey : 'suite_solo_life_399';
-  const def = window.TIER_CAPABILITIES[cap];
-  const map = window.getUnlockedTiersMap();
-  const expMs = def.days > 0 ? (Date.now() + def.days * 24 * 60 * 60 * 1000) : 0;
-  map[cap] = { exp: expMs, ts: Date.now() };
-  localStorage.setItem('gat_entitlements_v2', JSON.stringify(map));
-  localStorage.setItem('gat_unlocked_tier', cap);
-
+// STRICT SERVER-VERIFIED ENTITLEMENT APPLICATION ONLY (Never unlocks from URL params or client-side calls)
+window.applyServerVerifiedEntitlements = function(serverEntMap, fallbackTier) {
+  const cleanMap = {};
+  const now = Date.now();
+  if (serverEntMap && typeof serverEntMap === 'object') {
+    Object.keys(serverEntMap).forEach(function(k) {
+      if (window.TIER_CAPABILITIES[k]) {
+        const entry = serverEntMap[k] || {};
+        if (!entry.exp || entry.exp > now) {
+          cleanMap[k] = { exp: entry.exp || 0, ts: entry.ts || now };
+        }
+      }
+    });
+  }
+  if (fallbackTier && window.TIER_CAPABILITIES[fallbackTier] && !cleanMap[fallbackTier]) {
+    cleanMap[fallbackTier] = { exp: 0, ts: now };
+  }
+  localStorage.setItem('gat_entitlements_v2', JSON.stringify(cleanMap));
+  localStorage.setItem('gat_entitlements_map', JSON.stringify(cleanMap));
+  localStorage.setItem('gat_pro_unlocked', Object.keys(cleanMap).length ? 'true' : 'false');
   if (window.canUnlockForms()) {
-    document.querySelectorAll('.hebrew-out').forEach(el => el.classList.remove('watermarked'));
+    document.querySelectorAll('.hebrew-out').forEach(function(el) { el.classList.remove('watermarked'); });
   }
-
-  if (window.gatDb && window.gatUid) {
-    window.gatDb.collection('pro_entitlements').doc(window.gatUid).set({
-      uid: window.gatUid,
-      unlocked: true,
-      tier: cap,
-      tierLabel: def.label,
-      entitlementsMap: map,
-      source: sourceTag || 'checkout_or_code',
-      unlockedAt: firebase.firestore.FieldValue.serverTimestamp()
-    }, { merge: true }).catch(function(){});
-
-    if (def.vip2Phone && window.cpRoom) {
-      window.gatDb.collection('couples_rooms').doc(window.cpRoom).set({
-        vipCoupleUnlocked: true
-      }, { merge: true }).catch(function(){});
-    }
-  }
+  if (typeof renderAll === 'function') renderAll();
 };
 
-window.syncProEntitlementFromCloud = function() {
+window.grantProEntitlement = function() {
+  console.warn('Direct client-side entitlement grants are disabled. Waiting for verified server webhook.');
+};
+
+window.syncProEntitlementFromCloud = function(retryCount) {
+  const attempt = typeof retryCount === 'number' ? retryCount : 0;
   const params = new URLSearchParams(window.location.search);
   const isCheckoutReturn = params.get('checkout_success') === '1' || params.get('pro_unlock') === '1' || !!params.get('order_id');
-  const returnedTier = params.get('tier') || localStorage.getItem('gat_pending_tier') || 'suite_solo_life_399';
 
-  if (isCheckoutReturn) {
-    window.grantProEntitlement('lemonsqueezy_return', returnedTier);
-    localStorage.removeItem('gat_pending_tier');
+  if (isCheckoutReturn && attempt === 0) {
     const cleanUrl = new URL(window.location.href);
     cleanUrl.searchParams.delete('checkout_success');
     cleanUrl.searchParams.delete('pro_unlock');
     cleanUrl.searchParams.delete('order_id');
     cleanUrl.searchParams.delete('tier');
     window.history.replaceState({}, '', cleanUrl.toString());
-    const def = window.TIER_CAPABILITIES[returnedTier] || window.TIER_CAPABILITIES.suite_solo_life_399;
-    if (window.showCpToast) window.showCpToast('✅ Unlocked: ' + def.label, true);
-    renderAll();
-    openMod(window.currentMod || 'hebrew-engine');
-    return;
+    if (window.showCpToast) window.showCpToast('⏳ Verifying your payment with Lemon Squeezy...', true);
   }
 
   if (!window.gatDb || !window.gatUid) return;
   window.gatDb.collection('pro_entitlements').doc(window.gatUid).get().then(function(snap) {
     if (snap.exists && snap.data() && snap.data().unlocked) {
       const d = snap.data();
-      if (d.entitlementsMap && typeof d.entitlementsMap === 'object') {
-        const cur = window.getUnlockedTiersMap();
-        const merged = Object.assign({}, d.entitlementsMap, cur);
-        localStorage.setItem('gat_entitlements_v2', JSON.stringify(merged));
-      } else if (d.tier) {
-        window.grantProEntitlement('cloud_restore', d.tier);
+      localStorage.removeItem('gat_pending_tier');
+      window.applyServerVerifiedEntitlements(d.entitlementsMap, d.tier);
+      if (isCheckoutReturn && window.showCpToast) {
+        const def = window.TIER_CAPABILITIES[d.tier] || { label: 'Pro Suite' };
+        window.showCpToast('✅ Payment Verified! Unlocked: ' + def.label, true);
       }
-      if (!Array.from(document.querySelectorAll('audio')).some(function(a){ return !a.paused; })) {
-        renderAll();
-        openMod(window.currentMod || 'hebrew-engine');
+    } else {
+      // Zero-Trust Enforcement: If server says NOT unlocked, wipe any spoofed localStorage keys!
+      if (isCheckoutReturn && attempt < 6) {
+        setTimeout(function() { window.syncProEntitlementFromCloud(attempt + 1); }, 2000);
+        return;
       }
+      localStorage.removeItem('gat_entitlements_v2');
+      localStorage.removeItem('gat_entitlements_map');
+      localStorage.removeItem('gat_pro_unlocked');
+      localStorage.removeItem('gat_pro_tier');
+      localStorage.removeItem('gat_partner_vip_shared');
+      if (typeof renderAll === 'function') renderAll();
     }
   }).catch(function(){});
 };
 
-window.redeemProCode = async function() {
-  const inp = document.getElementById('pro-code-input');
-  const msg = document.getElementById('pro-code-msg');
-  const code = (inp ? inp.value : '').trim().toUpperCase();
+window.redeemProCode = window.redeemCode = async function() {
+  const inp = document.getElementById('pro-code-input') || document.getElementById('pw-code-inp');
+  const msg = document.getElementById('pro-code-msg') || document.getElementById('pw-code-msg');
+  if (!inp) return;
+  const code = inp.value.trim().toUpperCase();
   if (msg) msg.style.display = 'block';
+  const pwT = (window.PW_I18N && window.PW_I18N[window.appLang || 'en']) || (window.PW_I18N && window.PW_I18N.en) || {
+    code_empty: 'Please enter your 6-character Pass Code.',
+    code_verifying: '⏳ Verifying your paid pass on server...',
+    code_ok: '✅ Verified! Unlocked: ',
+    code_invalid: 'Invalid or unpaid code. Please check your WhatsApp receipt.'
+  };
   if (!code) {
-    const pwT = (window.PW_I18N && window.PW_I18N[window.appLang || 'en']) || window.PW_I18N.en;
     if (msg) { msg.style.color = '#e11d48'; msg.innerText = pwT.code_empty; }
     return;
   }
-  const pwT = (window.PW_I18N && window.PW_I18N[window.appLang || 'en']) || window.PW_I18N.en;
-  if (msg) { msg.style.color = '#0284c7'; msg.innerText = pwT.code_verifying; }
-
-  const digest = await window.sha256Hex('gat_vip_shield_2026_' + code);
-  let matchedTier = GAT_CODE_TIER_MAP[digest] || '';
-
-  if (!matchedTier && window.gatDb) {
-    try {
-      const snap = await window.gatDb.collection('promo_codes').doc(code).get();
-      if (snap.exists && snap.data() && snap.data().active !== false) {
-        matchedTier = snap.data().tier || 'suite_solo_life_399';
-      }
-    } catch (e) {}
+  if (msg) {
+    msg.style.color = '#0284c7';
+    msg.innerText = pwT.code_verifying;
   }
-
-  if (matchedTier) {
-    window.grantProEntitlement('code_' + digest.slice(0, 8), matchedTier);
-    const def = window.TIER_CAPABILITIES[matchedTier] || window.TIER_CAPABILITIES.suite_solo_life_399;
-    if (msg) {
-      msg.style.color = '#059669';
-      msg.innerText = pwT.code_ok + def.label;
-    }
-    setTimeout(function() {
-      window.closeProPaywall();
-      if (!Array.from(document.querySelectorAll('audio')).some(function(a){ return !a.paused; })) {
-        renderAll();
-        openMod(window.currentMod || 'hebrew-engine');
+  try {
+    const res = await fetch('/api/auditDoc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mode: 'claim_pass',
+        passCode: code,
+        targetUid: window.gatUid || ''
+      })
+    });
+    const data = await res.json();
+    if (res.ok && data.ok && data.mergedData && data.mergedData.unlocked) {
+      window.applyMergedServerDossierToLocal(data.mergedData);
+      const def = window.TIER_CAPABILITIES[data.mergedData.tier] || { label: 'Pro Pass' };
+      if (msg) {
+        msg.style.color = '#059669';
+        msg.innerText = (pwT.code_ok || '✅ Unlocked: ') + def.label;
       }
-    }, 800);
-  } else {
+      setTimeout(function() {
+        if (typeof window.closeProPaywall === 'function') window.closeProPaywall();
+        if (typeof window.closePaywall === 'function') window.closePaywall();
+        if (!Array.from(document.querySelectorAll('audio')).some(function(a){ return !a.paused; })) {
+          if (typeof renderAll === 'function') renderAll();
+          if (typeof openMod === 'function') openMod(window.currentMod || 'hebrew-engine');
+        }
+      }, 700);
+    } else {
+      if (msg) {
+        msg.style.color = '#e11d48';
+        msg.innerText = (data && data.error) ? data.error : pwT.code_invalid;
+      }
+    }
+  } catch (e) {
     if (msg) {
       msg.style.color = '#e11d48';
-      msg.innerText = pwT.code_invalid;
+      msg.innerText = 'Verification error. Please try again.';
     }
   }
 };
@@ -1685,10 +1697,21 @@ window.startCheckout = function(tierKey) {
     localStorage.setItem('gat_pending_tier', tierKey);
     localStorage.setItem('gat_pending_checkout_ts', String(Date.now()));
   } catch(e){}
+  const waPhone = localStorage.getItem('gat_verified_wa_phone') || ((window.gatFormsState && (window.gatFormsState.pf_phone_il || window.gatFormsState.pf_phone)) || '').replace(/\D/g, '');
+  const activeConciergeOrderId = localStorage.getItem('gat_active_concierge_order') || '';
   const sep = baseUrl.indexOf('?') === -1 ? '?' : '&';
   const returnUrl = 'https://giyuraliyahtrack.com/app/?checkout_success=1&tier=' + encodeURIComponent(tierKey);
-  const fullUrl = baseUrl + sep + 'checkout[custom][uid]=' + encodeURIComponent(window.gatUid || 'anon') + '&checkout[custom][tier]=' + encodeURIComponent(tierKey) + '&checkout[redirect_url]=' + encodeURIComponent(returnUrl);
-  window.open(fullUrl, '_blank', 'noopener,noreferrer');
+  let fullUrl = baseUrl + sep
+    + 'checkout[custom][uid]=' + encodeURIComponent(window.gatUid || 'anon')
+    + '&checkout[custom][tier]=' + encodeURIComponent(tierKey)
+    + (waPhone ? '&checkout[custom][wa_phone]=' + encodeURIComponent(waPhone) : '')
+    + (activeConciergeOrderId ? '&checkout[custom][concierge_order_id]=' + encodeURIComponent(activeConciergeOrderId) : '')
+    + '&checkout[redirect_url]=' + encodeURIComponent(returnUrl);
+  if (window.LemonSqueezy && window.LemonSqueezy.Url && typeof window.LemonSqueezy.Url.Open === 'function') {
+    window.LemonSqueezy.Url.Open(fullUrl);
+  } else {
+    window.open(fullUrl, '_blank', 'noopener,noreferrer');
+  }
 };
 
 const VETTED_I18N = {
@@ -5315,7 +5338,20 @@ window.applyMergedServerDossierToLocal = function(mergedData) {
     if (mergedData.unlocked) {
       localStorage.setItem('gat_pro_unlocked', 'true');
       if (mergedData.tier) localStorage.setItem('gat_pro_tier', mergedData.tier);
-      if (mergedData.entitlementsMap) localStorage.setItem('gat_entitlements_map', JSON.stringify(mergedData.entitlementsMap));
+      if (mergedData.entitlementsMap && typeof mergedData.entitlementsMap === 'object') {
+        localStorage.setItem('gat_entitlements_map', JSON.stringify(mergedData.entitlementsMap));
+        const curV2 = (typeof window.getUnlockedTiersMap === 'function') ? window.getUnlockedTiersMap() : {};
+        const mergedV2 = Object.assign({}, curV2, mergedData.entitlementsMap);
+        if (mergedData.tier && !mergedV2[mergedData.tier]) {
+          mergedV2[mergedData.tier] = { exp: 0, ts: Date.now() };
+        }
+        localStorage.setItem('gat_entitlements_v2', JSON.stringify(mergedV2));
+      } else if (mergedData.tier) {
+        const curV2 = (typeof window.getUnlockedTiersMap === 'function') ? window.getUnlockedTiersMap() : {};
+        curV2[mergedData.tier] = { exp: 0, ts: Date.now() };
+        localStorage.setItem('gat_entitlements_v2', JSON.stringify(curV2));
+      }
+      if (typeof renderAll === 'function') renderAll();
     }
     if (typeof window.mountUnifiedPibaFormsEngine === 'function') window.mountUnifiedPibaFormsEngine();
     window.refreshSyncAccountBadge();
