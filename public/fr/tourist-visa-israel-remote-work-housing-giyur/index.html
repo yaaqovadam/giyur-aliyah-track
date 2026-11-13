@@ -108,7 +108,7 @@
     .app-nav-back svg { width: 30px !important; height: 30px !important; stroke: #ffffff !important; stroke-width: 3.2 !important; fill: none !important; stroke-linecap: round !important; stroke-linejoin: round !important; }
     html[dir="rtl"] .app-nav-back svg { transform: scaleX(-1); }
   </style>
-<script>(function(){var isRoot=(location.pathname==="/"||/^\/(he|fr|es|de)\/?$/.test(location.pathname));if(isRoot&&!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();
+<script>(function(){var isRoot=(location.pathname==="/"||/^\/(he|fr|es|de|ru)\/?$/.test(location.pathname));if(isRoot&&!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();
 
 
   
@@ -696,7 +696,7 @@
     "duration": "PT9S",
     "contentUrl": "https://giyuraliyahtrack.com/intro.mp4",
     "embedUrl": "https://giyuraliyahtrack.com/?intro=1",
-    "inLanguage": ["en", "he"],
+    "inLanguage": ["en", "he", "fr", "es", "de", "ru"],
     "isFamilyFriendly": true,
     "publisher": {
       "@type": "Organization",
@@ -712,7 +712,7 @@
   <script src="/i18n/jurisdiction.js?v=130"></script>
   
   <meta property="og:title" content="Conversion, Rabbanut & Aliyah Without Losing 5 Years | Giyur Aliyah Track (EN)" />
-  <meta property="og:description" content="Tap any box below to see the hidden trap in plain English—or jump straight to your Track & Deadline Tracker. Fleeing rising global antisemitism, embassy backl" />
+  <meta property="og:description" content="Skip the 30,000₪ immigration lawyer retainer. The complete A-to-Z Israeli Conversion (Giyur), Chief Rabbinate (Ishur Giyur), In-Israel Aliyah (Shinui Ma'amad Form Ash/456), Va'adat Charigim (Form Ash/1), and Misrad HaPanim Spousal Visa (Nohal 5.2.0008 / 5.2.0009 Form Ash/3 & Ash/6) auto-filler, 180-day Apostille tracker, 700 Beit Din flashcards, and 80-question couples interview simulator." />
   <meta property="og:url" content="https://giyuraliyahtrack.com/" />
   <meta property="og:image" content="https://giyuraliyahtrack.com/bg-watercolor.jpg" />
   
@@ -726,6 +726,7 @@
   <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/tourist-visa-israel-remote-work-housing-giyur/" />
   <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/tourist-visa-israel-remote-work-housing-giyur/" />
   <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/tourist-visa-israel-remote-work-housing-giyur/" />
+  <link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/tourist-visa-israel-remote-work-housing-giyur/" />
   <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
 </head>
 <body>
@@ -1700,6 +1701,7 @@
       fr: 'Économisé vs ~3,2% de frais bancaires + payez votre propriétaire directement en ₪ sans compte bancaire israélien',
       es: 'Ahorrado vs. ~3,2% de comisión bancaria + pague al propietario directamente en ₪ sin cuenta bancaria israelí',
       de: 'Gespart ggü. ~3,2% Bankaufschlag + zahlen Sie Vermieter direkt in ₪ ohne israelisches Bankkonto'
+      ,ru: 'Экономия по сравнению с ~3,2% банковской комиссией + прямая оплата арендодателю в ₪ без счёта в израильском банке'
     };
     const subEl = document.getElementById('fx-saved-detail');
     if (subEl) subEl.innerText = fxSubMap[lang] || fxSubMap.en;
@@ -1718,6 +1720,7 @@
       fr: countries + (countries === 1 ? ' Pays' : ' Pays'),
       es: countries + (countries === 1 ? ' País' : ' Países'),
       de: countries + (countries === 1 ? ' Land' : ' Länder')
+      ,ru: countries + (countries === 1 ? ' страна' : ' стран(ы)')
     };
     const mMap = {
       en: months + ' Months',
@@ -1725,6 +1728,7 @@
       fr: months + ' Mois',
       es: months + ' Meses',
       de: months + ' Monate'
+      ,ru: months + ' мес.'
     };
     document.getElementById('val-countries').innerText = cMap[lang] || cMap.en;
     document.getElementById('val-months').innerText = mMap[lang] || mMap.en;
@@ -1742,6 +1746,7 @@
       fr: totalSaved.replace('.', ',') + ' Ans',
       es: totalSaved.replace('.', ',') + ' Años',
       de: totalSaved.replace('.', ',') + ' Jahre'
+      ,ru: totalSaved + ' г./лет'
     };
     const dMap = {
       en: 'Plus ' + apptsSaved + '+ Wasted Clerk Appointments & Expired Apostilles Avoided',
@@ -1749,6 +1754,7 @@
       fr: 'Plus ' + apptsSaved + '+ RDV guichetiers perdus & Apostilles expirées évités',
       es: 'Más ' + apptsSaved + '+ citas perdidas y Apostillas vencidas evitadas',
       de: 'Plus ' + apptsSaved + '+ verlorene Behördentermine & abgelaufene Apostillen vermieden'
+      ,ru: 'Плюс предотвращено ' + apptsSaved + '+ пустых визитов в МВД и просроченных Апостилей'
     };
     document.getElementById('emerald-years').innerText = yMap[lang] || yMap.en;
     document.getElementById('emerald-detail').innerText = dMap[lang] || dMap.en;
@@ -1772,6 +1778,7 @@
       fr: { 'not-started': '⚪ Non commencé', 'waiting': '⏳ En attente', 'complete': '✅ Terminé' },
       es: { 'not-started': '⚪ No iniciado', 'waiting': '⏳ En espera', 'complete': '✅ Completado' },
       de: { 'not-started': '⚪ Nicht begonnen', 'waiting': '⏳ Wartend', 'complete': '✅ Erledigt' }
+      ,ru: { 'not-started': '⚪ Не начато', 'waiting': '⏳ В ожидании', 'complete': '✅ Готово' }
     };
     const labels = statusMap[lang] || statusMap.en;
     const curr = btn.getAttribute('data-state');
@@ -1986,7 +1993,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 <script>
   (function(){
     var p = location.pathname.split('/').filter(Boolean)[0];
-    var urlLang = (['he','fr','es','de'].indexOf(p) !== -1) ? p : 'en';
+    var urlLang = (['he','fr','es','de','ru'].indexOf(p) !== -1) ? p : 'en';
     window.gatLang = (new URLSearchParams(location.search).get('lang')) || urlLang;
     localStorage.setItem('gat_lang', window.gatLang);
   })();
@@ -2013,7 +2020,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     document.querySelectorAll('#dahan-gold-card, .seo-mesh-link, .track-card a[href*="dahan-ruling"]').forEach(a => {
       let href = a.getAttribute('href') || '';
       if (!href.startsWith('/')) return;
-      let clean = href.replace(/^\/(he|fr|es|de)(\/|$)/, '/');
+      let clean = href.replace(/^\/(he|fr|es|de|ru)(\/|$)/, '/');
       if (!clean.endsWith('/')) clean += '/';
       if (clean.startsWith('/forms')) {
         a.setAttribute('href', '/forms/');
@@ -2095,7 +2102,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     applyHtmlBlocks(lang);
     if (typeof window.syncActiveTabAndTrackUI === 'function') window.syncActiveTabAndTrackUI(true);
 
-    const badgeMap = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
+    const badgeMap = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE', ru:'RU' };
     document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span, [onclick*="toggleLang"] span').forEach(el => {
       el.textContent = badgeMap[lang] || 'EN';
     });
@@ -2129,7 +2136,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
 <script id="bulletproof-5lang-globe">
 (function() {
-  const LANGS = ['en', 'he', 'fr', 'es', 'de'];
+  const LANGS = ['en', 'he', 'fr', 'es', 'de', 'ru'];
 
   function detectUrlLang() {
     const parts = window.location.pathname.split('/').filter(Boolean);
@@ -2153,7 +2160,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   }
 
   function updateGlobeBadge(lang) {
-    const labels = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE' };
+    const labels = { en:'EN', he:'HE', fr:'FR', es:'ES', de:'DE', ru:'RU' };
     document.querySelectorAll('#globe-lang-btn span, #lang-toggle span, .lang-btn span').forEach(el => {
       el.textContent = labels[lang] || 'EN';
     });
@@ -2218,7 +2225,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 <script id="gat-nav-engine">
 (function(){
   window.getUrlLang = function(){
-    const m = location.pathname.match(/^\/(he|fr|es|de)(\/|$)/);
+    const m = location.pathname.match(/^\/(he|fr|es|de|ru)(\/|$)/);
     return m ? m[1] : 'en';
   };
   window.gatLang = window.getUrlLang();
@@ -2233,7 +2240,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   };
 
   window.isSpokePage = function(){
-    const p = window.normPath(location.pathname).replace(/^\/(he|fr|es|de)(\/|$)/, '/');
+    const p = window.normPath(location.pathname).replace(/^\/(he|fr|es|de|ru)(\/|$)/, '/');
     return p !== '/' && p !== '/index.html';
   };
 

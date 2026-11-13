@@ -322,7 +322,7 @@ async function stampAsh6(rawState, loaderOpts) {
     // מספר הילדים מתחת לגיל 18
     put(5, s.pf_ll_children_count || '3', 200, 232, 224.5, { align: 'center', size: 8.6, bold: true, noWrap: true });
     // המקצוע / העיסוק שלי
-    put(5, s.pf_ll_occupation || 'מהנדס אזרחי ובעל נכסים', 45, 118, 224.5, { align: 'center', size: 8.2, wrapSize: 7.8, bold: true, yWrapCenter: 229.5, lineShift: 4.2 });
+    put(5, s.pf_ll_occupation || 'מהנדס אזרחי ובעל נכסים', 38, 84, 233.0, { align: 'center', size: 6.5, bold: true });
 
     // Bottom Date (תאריך) — leave signature line blank
     put(5, today.todayFull, 418, 505, 158.5, { align: 'center', size: 9.0, bold: true, noWrap: true });

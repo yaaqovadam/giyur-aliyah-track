@@ -64,7 +64,7 @@ FFMPEG_BIN = shutil.which("ffmpeg") or "/opt/homebrew/bin/ffmpeg"
 FFPROBE_BIN = shutil.which("ffprobe") or "/opt/homebrew/bin/ffprobe"
 
 ALREADY_LOCKED = {"s_1", "a_1", "s_3", "a_3", "a_4", "s_12", "s_13"}
-LANG_KEYS = ["en", "he", "fr", "es", "de"]
+LANG_KEYS = ["en", "he", "fr", "es", "de", "ru"]
 
 
 def find_api_key():
@@ -184,22 +184,22 @@ def call_gemini_json(api_key, prompt, mp3_bytes=None):
 def generate_1to1_transliterations(api_key, he_words, nusach="s"):
     """Generates mathematically locked 1:1 token-for-token transliterations in 45-word chunks."""
     n_he = len(he_words)
-    en_out, fr_out, es_out, de_out = [], [], [], []
+    en_out, fr_out, es_out, de_out, ru_out = [], [], [], [], []
     pron_style = "Sephardi/Israeli (kamatz='a', tav='t')" if nusach == "s" else "Ashkenazi (kamatz='o', tav='s' when Sav)"
 
     CHUNK = 45
     for base in range(0, n_he, CHUNK):
         sub = he_words[base : base + CHUNK]
         indexed_in = [{"i": idx, "he": w} for idx, w in enumerate(sub)]
-        prompt = f"""Transliterate each of these {len(sub)} Hebrew liturgical words ({pron_style} pronunciation) into English (en), French (fr), Spanish (es), and German (de) phonetics.
+        prompt = f"""Transliterate each of these {len(sub)} Hebrew liturgical words ({pron_style} pronunciation) into English (en), French (fr), Spanish (es), German (de), and Russian Cyrillic (ru) phonetics.
 Input words:
 {json.dumps(indexed_in, ensure_ascii=False)}
 
 CRITICAL 1:1 TOKEN RULE:
 - Return `"items"`: an array of EXACTLY {len(sub)} objects (`"i": 0` .. `"i": {len(sub)-1}`).
-- Each `"en"`, `"fr"`, `"es"`, and `"de"` value MUST be a SINGLE token with NO spaces (join prefixes with hyphens if needed, e.g. `"B'chol"`, `"Ve-ahavta"`, `"Melech"`).
-- Transliterate `"יְיָ"` or `"אֲדֹנָי"` as `"Adonai"` (fr: `"Adonaï"`, es: `"Adonai"`, de: `"Adonai"`).
-Return ONLY valid JSON: {{"items": [{{"i": 0, "en": "...", "fr": "...", "es": "...", "de": "..."}}]}}"""
+- Each `"en"`, `"fr"`, `"es"`, `"de"`, and `"ru"` value MUST be a SINGLE token with NO spaces (join prefixes with hyphens if needed, e.g. `"B'chol"`, `"Ve-ahavta"`, `"Бе-холь"`, `"Ве-ахавта"`).
+- Transliterate `"יְיָ"` or `"אֲדֹנָי"` as `"Adonai"` (fr: `"Adonaï"`, es: `"Adonai"`, de: `"Adonai"`, ru: `"Адонай"`).
+Return ONLY valid JSON: {{"items": [{{"i": 0, "en": "...", "fr": "...", "es": "...", "de": "...", "ru": "..."}}]}}"""
         res = call_gemini_json(api_key, prompt, mp3_bytes=None) or {}
         by_i = {int(it.get("i", pos)): it for pos, it in enumerate(res.get("items") or []) if isinstance(it, dict)}
         for idx, hw in enumerate(sub):
@@ -212,6 +212,7 @@ Return ONLY valid JSON: {{"items": [{{"i": 0, "en": "...", "fr": "...", "es": ".
             fr_out.append(one_tok(it.get("fr"), en_t))
             es_out.append(one_tok(it.get("es"), en_t))
             de_out.append(one_tok(it.get("de"), en_t))
+            ru_out.append(one_tok(it.get("ru"), en_t))
 
     return {
         "en": " ".join(en_out),
@@ -219,6 +220,7 @@ Return ONLY valid JSON: {{"items": [{{"i": 0, "en": "...", "fr": "...", "es": ".
         "fr": " ".join(fr_out),
         "es": " ".join(es_out),
         "de": " ".join(de_out),
+        "ru": " ".join(ru_out),
     }
 
 

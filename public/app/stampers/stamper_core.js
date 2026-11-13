@@ -45,7 +45,30 @@ function buildRandomStressPersona() {
   var fg = pick(femGiven), fa = pick(fatherGiven), mo = pick(motherGiven);
   var spG = pick(spouseGiven), spS = pick(spouseSur);
 
+  
+  // Universal split-date helper for app/AI-scanned dates (DD/MM/YYYY, YYYY-MM-DD, Date, or {d,m,y})
+  function parseAnyDateParts(raw, fallbackObj) {
+    if (raw && typeof raw === "object" && (raw.d || raw.day || raw.full)) {
+      if (raw.d && raw.m && raw.y) return { dd: String(raw.d).padStart(2,"0"), mm: String(raw.m).padStart(2,"0"), yyyy: String(raw.y) };
+      raw = raw.full || "";
+    }
+    var sVal = String(raw || (fallbackObj && fallbackObj.full) || "23/11/1994").trim();
+    var mIso = sVal.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/);
+    if (mIso) return { dd: mIso[3].padStart(2,"0"), mm: mIso[2].padStart(2,"0"), yyyy: mIso[1] };
+    var mIl = sVal.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{2,4})$/);
+    if (mIl) {
+      var yr = mIl[3].length === 2 ? ("20" + mIl[3]) : mIl[3];
+      return { dd: mIl[1].padStart(2,"0"), mm: mIl[2].padStart(2,"0"), yyyy: yr };
+    }
+    return {
+      dd: (fallbackObj && fallbackObj.d) || "23",
+      mm: (fallbackObj && fallbackObj.m) || "11",
+      yyyy: (fallbackObj && fallbackObj.y) || "1994"
+    };
+  }
+
   return {
+    parseAnyDateParts: parseAnyDateParts,
     pf_ash3_action: 'הארכה ל-12 חודשים • החלפה לאשרת א/2 לימודי גיור',
     pf_ash3_months: '12',
     pf_ash3_target_visa_he: 'א/2',
@@ -78,7 +101,7 @@ function buildRandomStressPersona() {
     pf_mother_maiden_en: 'ROTHSCHILD-LEVY HALPERIN',
     pf_mother_dob: '1965-09-08',
     pf_foreign_grandfather: 'אליעזר מנחם מונטפיורי',
-    pf_pass_num: 'FR9876543',
+    pf_pass_num: 'FR98765432',
     pf_pass_issue_date: '2024-03-10',
     pf_pass_exp_date: '2034-03-09',
     pf_police_issue_date: '2026-09-20',
@@ -365,7 +388,7 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
     if (!runs.length) return;
 
     var availW = Math.max(10, (x1 - x0) - 4.0);
-    var sz = Math.min(o.size || 7.6, 12.0);
+    var sz = Math.min(o.size || 8.6, 12.0);
     var minSingleLineSz = o.minSize || (sz - 0.3);
     var w = measureRunsWidth(runs, sz);
 
@@ -374,7 +397,7 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
       var scaledSz = sz * (availW / w);
       var twoLines = (o.noWrap !== true) ? splitTextIntoTwoBalancedLines(raw) : null;
       if (twoLines && scaledSz < minSingleLineSz) {
-        var baseWrapSz = Math.max(o.wrapSize || 7.4, 7.2);
+        var baseWrapSz = Math.max(o.wrapSize || 7.6, 7.2);
         var runs1 = buildVisualRuns(twoLines[0], fHeb, fLat);
         var runs2 = buildVisualRuns(twoLines[1], fHeb, fLat);
         var maxW = Math.max(measureRunsWidth(runs1, baseWrapSz), measureRunsWidth(runs2, baseWrapSz));
@@ -416,8 +439,9 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
     var bh = boxH || 7.1;
     var cx = xLeft + (bw / 2) + 1.2;
     var cy = yBase + (bh / 2);
-    var c = PDFLib.rgb(0.0, 0.28, 0.76); // Default ALL checked boxes to Dark Green
-    if (colorMode === 'red' || colorMode === false) c = PDFLib.rgb(0.62, 0.04, 0.04); // Red for NO / לא or Laisser Passer
+    var c = PDFLib.rgb(0.0, 0.28, 0.76); // Default ALL checks to Royal Blue
+    if (colorMode === 'red' || colorMode === false) c = PDFLib.rgb(0.62, 0.04, 0.04); // Red ONLY for NO / לא
+    else if (colorMode === 'temp_green') c = PDFLib.rgb(0.0, 0.65, 0.18); // Temporary Green for newly added check calibration
     pg.drawLine({ start: { x: cx - 5.1, y: cy + 0.6 }, end: { x: cx - 0.9, y: cy - 4.0 }, thickness: 3.2, color: c });
     pg.drawLine({ start: { x: cx - 0.9, y: cy - 4.0 }, end: { x: cx + 6.6, y: cy + 5.7 }, thickness: 3.2, color: c });
   }

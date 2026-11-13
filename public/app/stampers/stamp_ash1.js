@@ -18,7 +18,7 @@ async function stampAsh1(rawState, loaderOpts) {
   put(0, ash1CatEn, 330, 435, 752.5, { align: 'center', size: 9.8, bold: true, noWrap: true });
 
   // Details of the Israeli Applicant (Sponsor) — 100% Hebrew, Bold, 2-line wrap at 7.6pt
-  put(0, s.pf_company_name_he || '', 480, 558, 605.5, { align: 'center', size: 7.6, yWrapCenter: 605.5, lineShift: 4.0, wrapSize: 7.4 });
+  put(0, s.pf_company_name_he || 'מכון גיור חיפה (ע״ר)', 480, 558, 605.5, { align: 'center', size: 7.6, yWrapCenter: 605.5, lineShift: 4.0, wrapSize: 7.4 });
   put(0, s.pf_sp_tz, 375, 475, 605.5, { align: 'center', size: 8.8, noWrap: true });
   put(0, spFullHe, 254, 369, 605.5, { align: 'center', size: 7.6, yWrapCenter: 605.5, lineShift: 4.0, wrapSize: 7.4 });
   put(0, s.pf_sp_relation_he || (spFullHe ? 'בן/בת זוג' : ''), 148, 248, 605.5, { align: 'center', size: 7.6, yWrapCenter: 605.5, lineShift: 4.0, wrapSize: 7.4 });
@@ -31,8 +31,8 @@ async function stampAsh1(rawState, loaderOpts) {
   put(0, s.pf_mother_en || s.pf_mother_he, 40, 149, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
 
   // Row 2: Mother's maiden name, Previous family name, Nationality, Religion
-  put(0, s.pf_mother_maiden_en || s.pf_mother_maiden, 438, 558, 493.0, { align: 'center', size: 7.4, yWrapCenter: 494.5, lineShift: 4.0, wrapSize: 7.2 });
-  put(0, s.pf_prior_names_en || s.pf_prior_names, 304, 433, 493.0, { align: 'center', size: 7.4, yWrapCenter: 494.5, lineShift: 4.0, wrapSize: 7.2 });
+  put(0, s.pf_mother_maiden || s.pf_mother_maiden_en, 438, 558, 493.0, { align: 'center', size: 7.4, yWrapCenter: 494.5, lineShift: 4.0, wrapSize: 7.2 });
+  put(0, s.pf_prior_names || s.pf_prior_names_en, 304, 433, 493.0, { align: 'center', size: 7.4, yWrapCenter: 494.5, lineShift: 4.0, wrapSize: 7.2 });
   put(0, natHe, 169, 298, 493.0, { align: 'center', size: 8.0, noWrap: true });
   put(0, relHe, 39, 163, 493.0, { align: 'center', size: 8.0, noWrap: true });
 
@@ -79,7 +79,7 @@ async function stampAsh1(rawState, loaderOpts) {
   var kidY = [265.2, 252.8, 237.5];
   for (var ki = 0; ki < 3; ki++) {
     if (kids[ki]) {
-      put(0, kids[ki].given, 376, 540, kidY[ki], { align: 'center', size: 7.0, bold: true, noWrap: true });
+      put(0, kids[ki].given_he || kids[ki].given, 376, 540, kidY[ki], { align: 'center', size: 7.0, bold: true, noWrap: true });
       put(0, kids[ki].country, 204, 370, kidY[ki], { align: 'center', size: 7.4, noWrap: true });
       put(0, kids[ki].dob, 38, 198, kidY[ki], { align: 'center', size: 9.4, noWrap: true });
     }
@@ -90,7 +90,8 @@ async function stampAsh1(rawState, loaderOpts) {
   var purp1 = ash1ConsParts[0] || '';
   var consulateHe = ash1ConsParts[1] || '';
   put(0, purp1, 285, 462, 210.5, { align: 'right', bold: true, noWrap: true });
-  put(0, s.pf_entry_date_port || '', 298, 475, 166.0, { align: 'center', size: 7.0, noWrap: true });
+  var rawStay = String(s.pf_entry_date_port || '').replace(/•\s*([אב]\/[1-5])\s*•\s*(\d{2}\/\d{2}\/\d{4})/, '• אשרת $1 עד $2');
+  put(0, rawStay, 298, 475, 166.0, { align: 'center', size: 7.0, noWrap: true });
   put(0, s.pf_prev_il_id || 'ללא', 298, 490, 153.5, { align: 'center', size: 7.2, noWrap: true });
   put(0, s.pf_prev_pass_num || 'ללא', 298, 478, 141.2, { align: 'center', size: 8.8, noWrap: true });
   put(0, s.pf_status_cancelled_reason || 'לא — מעולם לא בוטל מעמד בישראל', 298, 416, 129.0, { align: 'center', size: 7.0, noWrap: true });
@@ -111,14 +112,10 @@ async function stampAsh1(rawState, loaderOpts) {
     check(0, 217.1, 55.9, 7.1, 7.1, 'red');
     check(0, 506.1, 42.7, 7.1, 7.1, 'red');
   }
-  if (s.pf_prev_rejected_details) {
-    put(0, s.pf_prev_rejected_details, 38, 128, 106.5, { align: 'center', size: 6.8, noWrap: true });
-    put(0, s.pf_prev_rejected_details_en || 'N/A — Never rejected', 218, 378, 80.2, { align: 'center', size: 8.2, noWrap: true });
-  }
-  if (s.pf_parallel_req_details) {
-    put(0, s.pf_parallel_req_details, 38, 118, 56.8, { align: 'center', size: 6.8, noWrap: true });
-    put(0, s.pf_parallel_req_details_en || 'N/A — No parallel request', 135, 290, 31.0, { align: 'center', size: 8.2, noWrap: true });
-  }
+  put(0, s.pf_prev_rejected_details || 'ללא — מעולם לא נדחתה בקשה', 38, 128, 106.5, { align: 'center', size: 6.8, noWrap: true });
+  put(0, s.pf_prev_rejected_details_en || 'N/A — Never rejected', 218, 378, 80.2, { align: 'center', size: 8.2, noWrap: true });
+  put(0, s.pf_parallel_req_details || 'ללא — אין בקשה במקביל', 38, 118, 56.8, { align: 'center', size: 6.8, noWrap: true });
+  put(0, s.pf_parallel_req_details_en || 'N/A — No parallel request', 135, 290, 31.0, { align: 'center', size: 8.2, noWrap: true });
 
   // =========================================================================
   // Page 2 (index 1)

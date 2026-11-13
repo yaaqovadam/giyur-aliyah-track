@@ -48,6 +48,16 @@ window.JURISDICTION_DATA = {
     single: "DE : Erweiterte Meldebescheinigung (mit Familienstand: ledig) / Ehefähigkeitszeugnis | AT : Ledigkeitsbescheinigung",
     rabbi: "Ischur Jahadut einer anerkannten orthodoxen Rabbinatskonferenz (ORD Deutschland / IKG Wien / IRG Zürich)",
     apostille: "DE : BfAA (Bundesamt für Auswärtige Angelegenheiten für Führungszeugnis) & Landgericht/Regierungspräsidium | AT : BMEIA | CH : Bundeskanzlei"
+  },
+  ru: {
+    flag: "🇷🇺/🇺🇦/🇧🇾/🇰🇿",
+    label: "RU",
+    name: "Русский (РФ / СНГ / Израиль)",
+    police: "Справка об отсутствии судимости МВД РФ (ГИАЦ МВД / Госуслуги, с синей печатью <180 дней) | Выписка МВД Украины / Беларуси / Казахстана",
+    birth: "Повторное свидетельство о рождении ЗАГС (или Архивная справка ЗАГС по форме № 4 с указанием обоих родителей и национальности)",
+    single: "Справка ЗАГС об отсутствии факта государственной регистрации заключения брака (Форма № 15 / № 6) + Свидетельства о разводе (если были)",
+    rabbi: "Официальное подтверждение еврейства (Ишур Яадут) от признанного ортодоксального раввината (ФЕОР / КЕРООР / Главный раввинат)",
+    apostille: "Оригинальный штамп «Апостиль» (Минюст / Управление ЗАГС на акты гражданского состояния • ИЦ МВД на справку о несудимости)"
   }
 };
 window.TRACKS_I18N = {};
