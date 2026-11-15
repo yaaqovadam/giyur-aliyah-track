@@ -165,6 +165,8 @@ dicts = {l: json.load(open(f"public/i18n/{l}.json", encoding="utf-8")) for l in 
 
 base_html = open("public/index.html", encoding="utf-8").read()
 base_html = re.sub(r'<link rel="alternate" hreflang="[^"]*" href="[^"]*" />\s*', '', base_html)
+base_html = re.sub(r'[ \t]*<meta\s+property="og:[^"]*"\s+content="[^"]*"\s*/?>\s*\n?', '', base_html)
+base_html = re.sub(r'[ \t]*<meta\s+name="twitter:[^"]*"\s+content="[^"]*"\s*/?>\s*\n?', '', base_html)
 base_html = base_html.replace(DOMAIN_SHIELD, "")
 base_html = re.sub(r'<article class="seo-spoke-article">[\s\S]*?</article>\s*', '', base_html)
 
@@ -296,8 +298,21 @@ def render_page(lang, canon_url, spoke_cfg=None):
         out = re.sub(r'<meta name="description" content="[^"]*" />', lambda _: f'<meta name="description" content="{meta_desc}" />', out, count=1)
         hub_lib = build_hub_library_html(lang, d)
         out = re.sub(r'<div class="seo-obstacle-library">[\s\S]*?</div>', lambda _: hub_lib, out, count=1)
+        hub_faqs = [{"@type": "Question", "name": st_t, "acceptedAnswer": {"@type": "Answer", "text": st_p}}]
+        for ob_item in d.get("_obstacles", [])[:9]:
+            q_txt = f"{ob_item.get('tag','')} — {ob_item.get('title','')}".strip(" —")
+            a_txt = re.sub(r"<[^>]+>", " ", f"{ob_item.get('body','')} {ob_item.get('goodText','')}").strip()[:650]
+            if q_txt and a_txt:
+                hub_faqs.append({"@type": "Question", "name": q_txt, "acceptedAnswer": {"@type": "Answer", "text": a_txt}})
+        hub_faq_obj = {"@context": "https://schema.org", "@graph": [
+            {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Giyur Aliyah Track", "item": b_hub}]},
+            {"@type": "FAQPage", "mainEntity": hub_faqs}
+        ]}
+        hub_faq_tag = '<script type="application/ld+json">\n' + json.dumps(hub_faq_obj, ensure_ascii=False) + '\n</script>'
+        out = re.sub(r'<script type="application/ld\+json">\s*\{"@context":"https://schema\.org","@type":"FAQPage"[\s\S]*?</script>', lambda _: hub_faq_tag, out, count=1)
 
-    og_tags = f'  <meta property="og:title" content="{page_title}" />\n  <meta property="og:description" content="{meta_desc}" />\n  <meta property="og:url" content="{canon_url}" />\n  <meta property="og:image" content="https://giyuraliyahtrack.com/bg-watercolor.jpg" />'
+    og_loc = {"en":"en_US","he":"he_IL","fr":"fr_FR","es":"es_ES","de":"de_DE","ru":"ru_RU"}.get(lang, "en_US")
+    og_tags = f'  <meta property="og:type" content="website" />\n  <meta property="og:locale" content="{og_loc}" />\n  <meta property="og:site_name" content="Giyur Aliyah Track" />\n  <meta property="og:title" content="{page_title}" />\n  <meta property="og:description" content="{meta_desc}" />\n  <meta property="og:url" content="{canon_url}" />\n  <meta property="og:image" content="https://giyuraliyahtrack.com/bg-watercolor.jpg" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:title" content="{page_title}" />\n  <meta name="twitter:description" content="{meta_desc}" />'
     out = out.replace("</head>", f"{og_tags}\n  {make_hreflang(spoke_cfg)}\n  {DOMAIN_SHIELD}\n</head>", 1)
 
     if lang != "en":
@@ -322,10 +337,6 @@ for l in LANGS:
         loc_dir = f"public/{loc_slug}" if l == "en" else f"public/{l}/{loc_slug}"
         os.makedirs(loc_dir, exist_ok=True)
         open(f"{loc_dir}/index.html", "w", encoding="utf-8").write(rendered_html)
-        # Also write fallback universal slug directory so both URLs work seamlessly!
-        uni_dir = f"public/{s['slug']}" if l == "en" else f"public/{l}/{s['slug']}"
-        os.makedirs(uni_dir, exist_ok=True)
-        open(f"{uni_dir}/index.html", "w", encoding="utf-8").write(rendered_html)
 
 if os.path.exists("public/forms/index.html"):
     fh = open("public/forms/index.html", encoding="utf-8").read()
@@ -338,11 +349,12 @@ for sp_cfg in [None] + SPOKES:
     for l in LANGS:
         loc = get_localized_url(l, sp_cfg)
         sm.append(f"  <url>\n    <loc>{loc}</loc>")
+        sm.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{get_localized_url("en", sp_cfg)}"/>')
         for alt in LANGS:
             aloc = get_localized_url(alt, sp_cfg)
             sm.append(f'    <xhtml:link rel="alternate" hreflang="{alt}" href="{aloc}"/>')
         sm.append("  </url>")
-sm.append("  <url>\n    <loc>https://giyuraliyahtrack.com/forms/</loc>\n  </url>\n</urlset>")
+sm.append("</urlset>")
 open("public/sitemap.xml", "w", encoding="utf-8").write("\n".join(sm))
 print("✅ Pre-baked 6-Language Native SEO Libraries, Localized URLs & Statutory Authority across 132 static HTML pages!")
 
@@ -710,7 +722,8 @@ def render_form_landing_page(lang, f_cfg):
     hreflang_tags = [f'<link rel="alternate" hreflang="x-default" href="{get_form_url("en", f_cfg)}" />'] + [
         f'<link rel="alternate" hreflang="{lc}" href="{get_form_url(lc, f_cfg)}" />' for lc in LANGS
     ]
-    og_tags = f'  <meta property="og:title" content="{page_title}" />\n  <meta property="og:description" content="{meta_desc}" />\n  <meta property="og:url" content="{canon_url}" />\n  <meta property="og:image" content="https://giyuraliyahtrack.com/bg-watercolor.jpg" />'
+    og_loc = {"en":"en_US","he":"he_IL","fr":"fr_FR","es":"es_ES","de":"de_DE","ru":"ru_RU"}.get(lang, "en_US")
+    og_tags = f'  <meta property="og:type" content="website" />\n  <meta property="og:locale" content="{og_loc}" />\n  <meta property="og:site_name" content="Giyur Aliyah Track" />\n  <meta property="og:title" content="{page_title}" />\n  <meta property="og:description" content="{meta_desc}" />\n  <meta property="og:url" content="{canon_url}" />\n  <meta property="og:image" content="https://giyuraliyahtrack.com/bg-watercolor.jpg" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:title" content="{page_title}" />\n  <meta name="twitter:description" content="{meta_desc}" />'
     out = out.replace("</head>", f"{og_tags}\n  " + "\n  ".join(hreflang_tags) + f"\n  {DOMAIN_SHIELD}\n</head>", 1)
     return out
 
@@ -721,9 +734,6 @@ for f_cfg in FORM_CATALOG:
         loc_dir = f"public/forms/{loc_slug}" if l == "en" else f"public/{l}/forms/{loc_slug}"
         os.makedirs(loc_dir, exist_ok=True)
         open(f"{loc_dir}/index.html", "w", encoding="utf-8").write(html_out)
-        short_dir = f"public/forms/{f_cfg['short_slug']}" if l == "en" else f"public/{l}/forms/{f_cfg['short_slug']}"
-        os.makedirs(short_dir, exist_ok=True)
-        open(f"{short_dir}/index.html", "w", encoding="utf-8").write(html_out)
 
 
 FORMS_HUB_TITLES = {
@@ -754,13 +764,21 @@ for l in LANGS:
 
 sm_txt = open("public/sitemap.xml", "r", encoding="utf-8").read().replace("</urlset>", "").rstrip()
 sm_extra = []
+for l in LANGS:
+    fhub_loc = get_forms_hub_url(l)
+    sm_extra.append(f"  <url>\n    <loc>{fhub_loc}</loc>")
+    sm_extra.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{get_forms_hub_url("en")}"/>')
+    for alt in LANGS:
+        sm_extra.append(f'    <xhtml:link rel="alternate" hreflang="{alt}" href="{get_forms_hub_url(alt)}"/>')
+    sm_extra.append("  </url>")
 for f_cfg in FORM_CATALOG:
     for l in LANGS:
         loc = get_form_url(l, f_cfg)
         sm_extra.append(f"  <url>\n    <loc>{loc}</loc>")
+        sm_extra.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{get_form_url("en", f_cfg)}"/>')
         for alt in LANGS:
             sm_extra.append(f'    <xhtml:link rel="alternate" hreflang="{alt}" href="{get_form_url(alt, f_cfg)}"/>')
         sm_extra.append("  </url>")
 sm_extra.append("</urlset>\n")
 open("public/sitemap.xml", "w", encoding="utf-8").write(sm_txt + "\n" + "\n".join(sm_extra))
-print("✅ Pre-baked 48 Native 6-Language Government Form Landing Pages (with LIVE_SEO = False safety lock kept ON)!")
+print("✅ Pre-baked 48 Native 6-Language Government Form Landing Pages (with LIVE_SEO = False safety lock ON)!")

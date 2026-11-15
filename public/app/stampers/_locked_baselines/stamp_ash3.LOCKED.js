@@ -24,18 +24,18 @@ async function stampAsh3(rawState, loaderOpts) {
   var wantChange = /החלפה|change/i.test(actionStr) || Boolean(s.pf_ash3_target_visa_he || s.pf_ash3_target_visa_en);
 
   if (s._stressAllCheckboxes) {
-    check(0, 552.5, 694.7, 8.9, 10.0, 'green'); // HE: בקשה להארכת תוקף רשיון ישיבה
-    check(0, 125.9, 695.7, 8.9, 10.0, 'green'); // EN: Application to extend present permit
-    check(0, 552.5, 671.4, 8.9, 10.0, 'green'); // HE: בקשה להחלפת סוג האשרה ל:
-    check(0, 125.9, 672.5, 8.9, 10.0, 'green'); // EN: Application to change visa category to:
+    check(0, 552.5, 694.7, 8.9, 10.0, 'blue'); // HE: בקשה להארכת תוקף רשיון ישיבה
+    check(0, 125.9, 695.7, 8.9, 10.0, 'blue'); // EN: Application to extend present permit
+    check(0, 552.5, 671.4, 8.9, 10.0, 'blue'); // HE: בקשה להחלפת סוג האשרה ל:
+    check(0, 125.9, 672.5, 8.9, 10.0, 'blue'); // EN: Application to change visa category to:
   } else {
     if (wantExtend) {
-      check(0, 552.5, 694.7, 8.9, 10.0, 'green');
-      check(0, 125.9, 695.7, 8.9, 10.0, 'green');
+      check(0, 552.5, 694.7, 8.9, 10.0, 'blue');
+      check(0, 125.9, 695.7, 8.9, 10.0, 'blue');
     }
     if (wantChange) {
-      check(0, 552.5, 671.4, 8.9, 10.0, 'green');
-      check(0, 125.9, 672.5, 8.9, 10.0, 'green');
+      check(0, 552.5, 671.4, 8.9, 10.0, 'blue');
+      check(0, 125.9, 672.5, 8.9, 10.0, 'blue');
     }
   }
 
@@ -56,15 +56,15 @@ async function stampAsh3(rawState, loaderOpts) {
 
   // Family Status Checkboxes (Wingdings 7.2 x 8.0 boxes)
   if (s._stressAllCheckboxes) {
-    check(0, 196.6, 558.5, 7.2, 8.0, 'green'); // רווק/ה - Single
-    check(0, 114.4, 558.5, 7.2, 8.0, 'green'); // נשוי/אה - Married
-    check(0, 196.6, 543.2, 7.2, 8.0, 'green'); // גרוש/ה - Divorced
-    check(0, 114.4, 543.2, 7.2, 8.0, 'green'); // אלמן/ה - Widowed
+    check(0, 196.6, 558.5, 7.2, 8.0, 'blue'); // רווק/ה - Single
+    check(0, 114.4, 558.5, 7.2, 8.0, 'blue'); // נשוי/אה - Married
+    check(0, 196.6, 543.2, 7.2, 8.0, 'blue'); // גרוש/ה - Divorced
+    check(0, 114.4, 543.2, 7.2, 8.0, 'blue'); // אלמן/ה - Widowed
   } else {
-    if (isMarried)  check(0, 114.4, 558.5, 7.2, 8.0, 'green');
-    else if (isWid) check(0, 114.4, 543.2, 7.2, 8.0, 'green');
-    else if (isDiv) check(0, 196.6, 543.2, 7.2, 8.0, 'green');
-    else if (mar)   check(0, 196.6, 558.5, 7.2, 8.0, 'green');
+    if (isMarried)  check(0, 114.4, 558.5, 7.2, 8.0, 'blue');
+    else if (isWid) check(0, 114.4, 543.2, 7.2, 8.0, 'blue');
+    else if (isDiv) check(0, 196.6, 543.2, 7.2, 8.0, 'blue');
+    else if (mar)   check(0, 196.6, 558.5, 7.2, 8.0, 'blue');
   }
 
   // Table 2: Country of Birth, DOB, Nationality, Religion, Citizenship (בעברית y=499.8 | In English y=482.8)
@@ -96,11 +96,11 @@ async function stampAsh3(rawState, loaderOpts) {
   // Table 4: E-mail & Passport / Laissez-Passer
   // Checkboxes: Passport (353.5, 394.5) | Laissez-Passer (260.7, 394.5)
   if (s._stressAllCheckboxes) {
-    check(0, 353.5, 394.5, 7.2, 8.0, 'green'); // דרכון Passport
+    check(0, 353.5, 394.5, 7.2, 8.0, 'blue'); // דרכון Passport
     check(0, 260.7, 394.5, 7.2, 8.0, 'red');   // תעודת מעבר Laissez-Passer
   } else {
     if (s.pf_laissez_passer) check(0, 260.7, 394.5, 7.2, 8.0, 'red');
-    else if (s.pf_pass_num)  check(0, 353.5, 394.5, 7.2, 8.0, 'green');
+    else if (s.pf_pass_num)  check(0, 353.5, 394.5, 7.2, 8.0, 'blue');
   }
   put(0, s.pf_email,    395, 559, 368.0, { align: 'center', size: 8.2, noWrap: true });
   put(0, s.pf_pass_num, 275, 390, 359.8, { align: 'center', size: 9.0, bold: true, noWrap: true });
@@ -171,22 +171,22 @@ async function stampAsh3(rawState, loaderOpts) {
 
   // Spouse Checkboxes: In Israel (Yes / No) + Status (Visitor / Temporary / Permanent)
   if (s._stressAllCheckboxes) {
-    check(1, 389.8, 595.7, 8.9, 10.0, 'green'); // נמצא/ת בישראל: כן - Yes
+    check(1, 389.8, 595.7, 8.9, 10.0, 'blue'); // נמצא/ת בישראל: כן - Yes
     check(1, 389.8, 584.5, 8.9, 10.0, 'red');   // נמצא/ת בישראל: לא - No (RED)
-    check(1, 330.4, 599.7, 8.9, 10.0, 'green'); // מבקר - Visitor
-    check(1, 330.4, 590.7, 8.9, 10.0, 'green'); // ארעי - Temporary Resident
-    check(1, 330.4, 581.7, 8.9, 10.0, 'green'); // קבע - Permanent Resident
+    check(1, 330.4, 599.7, 8.9, 10.0, 'blue'); // מבקר - Visitor
+    check(1, 330.4, 590.7, 8.9, 10.0, 'blue'); // ארעי - Temporary Resident
+    check(1, 330.4, 581.7, 8.9, 10.0, 'blue'); // קבע - Permanent Resident
   } else if (spFullHe || s.pf_sp_tz) {
     var spNotInIl = s.pf_sp_in_israel === false || /לא|no/i.test(String(s.pf_sp_in_israel || ''));
     if (spNotInIl) {
       check(1, 389.8, 584.5, 8.9, 10.0, 'red');
     } else {
-      check(1, 389.8, 595.7, 8.9, 10.0, 'green');
+      check(1, 389.8, 595.7, 8.9, 10.0, 'blue');
     }
     var spSt = String(s.pf_sp_status || 'קבע').toLowerCase();
-    if (/מבקר|visitor/.test(spSt))        check(1, 330.4, 599.7, 8.9, 10.0, 'green');
-    else if (/ארעי|temp/.test(spSt))      check(1, 330.4, 590.7, 8.9, 10.0, 'green');
-    else                                  check(1, 330.4, 581.7, 8.9, 10.0, 'green');
+    if (/מבקר|visitor/.test(spSt))        check(1, 330.4, 599.7, 8.9, 10.0, 'blue');
+    else if (/ארעי|temp/.test(spSt))      check(1, 330.4, 590.7, 8.9, 10.0, 'blue');
+    else                                  check(1, 330.4, 581.7, 8.9, 10.0, 'blue');
   }
 
   // Spouse 9-Digit Identity / Passport Comb (9 cells from x=107.66 to 222.41, step=12.75pt, y=585.2)

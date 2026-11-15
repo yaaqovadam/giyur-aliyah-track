@@ -176,7 +176,7 @@ async function stampSecurityCv(rawState, loaderOpts) {
   //   Cell 1 is 96.1pt tall (y = 299.1..395.2)!
   //   We pass 5 distinct lines so Hebrew & English NEVER mix and English is 2 full-size 9.5pt BOLD rows!
   // =========================================================================
-  [623.8, 590.2, 556.5, 522.9].forEach(function(y) { check(0, 524.7, y, 7.1, 7.1, 'green'); });
+  [623.8, 590.2, 556.5, 522.9].forEach(function(y) { check(0, 524.7, y, 7.1, 7.1, 'blue'); });
 
   putBox(0, [
     apGivenHe + ' ' + apSurHe,

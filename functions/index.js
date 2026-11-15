@@ -1121,7 +1121,9 @@ exports.paymentWebhook = onRequest(
       // Supports both LemonSqueezy (meta.custom_data) and Stripe (data.object.metadata)
       const custom = (body.meta && body.meta.custom_data) || (body.data && body.data.object && body.data.object.metadata) || {};
       const uid = custom.uid;
-      const tier = custom.tier || "suite_solo_life_399";
+      const attrs_item = (body.data && body.data.attributes && body.data.attributes.first_order_item) || {};
+      const rawVariantName = String(custom.tier || custom.sku || attrs_item.variant_name || attrs_item.product_name || "").trim();
+      const tier = (TIER_DAYS[rawVariantName] !== undefined || rawVariantName.startsWith("concierge_")) ? rawVariantName : (custom.tier || "suite_solo_life_399");
       const room = custom.room || "";
       const attrs = (body.data && body.data.attributes) || {};
       const checkoutEmail = String(attrs.user_email || custom.email || "").trim().toLowerCase();

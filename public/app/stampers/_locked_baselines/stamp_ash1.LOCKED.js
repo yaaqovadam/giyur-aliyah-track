@@ -44,14 +44,14 @@ async function stampAsh1(rawState, loaderOpts) {
 
   // Row 4: Family Status, Passport, Gender (ALL Green — non-Yes/No selection boxes)
   if (s._stressAllCheckboxes) {
-    check(0, 548.7, 406.7, 7.1, 7.1, 'green'); // רווק/ה Single
-    check(0, 466.5, 406.7, 7.1, 7.1, 'green'); // נשוי/אה Married
-    check(0, 548.7, 391.6, 7.1, 7.1, 'green'); // גרוש/ה Divorced
-    check(0, 466.5, 391.6, 7.1, 7.1, 'green'); // אלמן/ה Widowed
-    check(0, 369.9, 432.3, 7.1, 7.1, 'green'); // דרכון Passport
-    check(0, 281.4, 432.3, 7.1, 7.1, 'green'); // תעודת מעבר Laissez-passer
-    check(0, 71.7, 410.0, 7.1, 7.1, 'green');  // זכר Male
-    check(0, 71.3, 390.5, 7.1, 7.1, 'green');  // נקבה Female
+    check(0, 548.7, 406.7, 7.1, 7.1, 'blue'); // רווק/ה Single
+    check(0, 466.5, 406.7, 7.1, 7.1, 'blue'); // נשוי/אה Married
+    check(0, 548.7, 391.6, 7.1, 7.1, 'blue'); // גרוש/ה Divorced
+    check(0, 466.5, 391.6, 7.1, 7.1, 'blue'); // אלמן/ה Widowed
+    check(0, 369.9, 432.3, 7.1, 7.1, 'blue'); // דרכון Passport
+    check(0, 281.4, 432.3, 7.1, 7.1, 'blue'); // תעודת מעבר Laissez-passer
+    check(0, 71.7, 410.0, 7.1, 7.1, 'blue');  // זכר Male
+    check(0, 71.3, 390.5, 7.1, 7.1, 'blue');  // נקבה Female
   } else {
     if (isMarried) check(0, 466.5, 406.7);
     else if (isWid) check(0, 466.5, 391.6);
@@ -98,13 +98,13 @@ async function stampAsh1(rawState, loaderOpts) {
 
   // Bottom Yes/No Checkboxes & Explanations (GREEN = YES / כן, RED = NO / לא)
   if (s._stressAllCheckboxes) {
-    check(0, 250.2, 105.7, 7.1, 7.1, 'green'); // Q1 HE כן (YES = GREEN)
+    check(0, 250.2, 105.7, 7.1, 7.1, 'blue'); // Q1 HE כן (YES = GREEN)
     check(0, 230.0, 105.7, 7.1, 7.1, 'red');   // Q1 HE לא (NO = RED)
-    check(0, 41.0, 75.0, 7.1, 7.1, 'green');   // Q1 EN YES (YES = GREEN)
+    check(0, 41.0, 75.0, 7.1, 7.1, 'blue');   // Q1 EN YES (YES = GREEN)
     check(0, 76.9, 75.0, 7.1, 7.1, 'red');     // Q1 EN NO (NO = RED)
-    check(0, 237.4, 55.9, 7.1, 7.1, 'green');  // Q2 HE כן (YES = GREEN)
+    check(0, 237.4, 55.9, 7.1, 7.1, 'blue');  // Q2 HE כן (YES = GREEN)
     check(0, 217.1, 55.9, 7.1, 7.1, 'red');    // Q2 HE לא (NO = RED)
-    check(0, 470.3, 42.7, 7.1, 7.1, 'green');  // Q2 EN YES (YES = GREEN)
+    check(0, 470.3, 42.7, 7.1, 7.1, 'blue');  // Q2 EN YES (YES = GREEN)
     check(0, 506.1, 42.7, 7.1, 7.1, 'red');    // Q2 EN NO (NO = RED)
   } else {
     check(0, 230.0, 105.7, 7.1, 7.1, 'red');

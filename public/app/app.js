@@ -949,29 +949,29 @@ function setAppLang(lang, btn) {
 // ============================================================================
 
 window.LEMON_CHECKOUT_URLS = {
-  forms_90d_89: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=forms_90d_89",
-  forms_life_149: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=forms_life_149",
-  bd_suite_90d_149: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_suite_90d_149",
-  bd_suite_life_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_suite_life_249",
-  bd_pack1_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_pack1_65",
-  bd_pack2_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_pack2_65",
-  bd_pack3_49: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_pack3_49",
-  bd_pack4_49: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_pack4_49",
-  bd_all700_179: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=bd_all700_179",
-  songs_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=songs_65",
-  couples_sync_75: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=couples_sync_75",
-  couples_90d_129: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=couples_90d_129",
-  couples_life_229: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=couples_life_229",
-  suite_solo_90d_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=suite_solo_90d_249",
-  suite_solo_life_399: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=suite_solo_life_399",
-  vip_couple_649: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=vip_couple_649",
-  concierge_notary_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_notary_249",
-  concierge_notary_349: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_notary_349",
-  concierge_bundle_799: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_bundle_799",
-  concierge_kallah_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_kallah_249",
-  concierge_rabbi_349: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_rabbi_349",
-  concierge_couple_499: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_couple_499",
-  concierge_escort_649: "https://giyuraliyahtrack.lemonsqueezy.com/checkout?variant=concierge_escort_649"
+  forms_90d_89: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/1dcd8419-9756-4799-a7f9-aa190baef217?signature=85e790da7c3c7c155e4bf726490dc6ba8e6788dcc29c3341d286a35341e583d7",
+  forms_life_149: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/cbd71e26-f075-401b-9f7f-22b1d2f3bcf6?signature=3e3d7010c42ac042f17a43868f0c5bf8778b9dc42f6195af17c10b4e0439caa8",
+  bd_suite_90d_149: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/dc92a7d8-a00f-4bde-b813-be350ef8b269?signature=bd60c72c155f77e68beaf776d3212b85ef8a25764547bc0eba10052ead0623ea",
+  bd_suite_life_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/3c78ca8d-57f3-489a-baa3-278ae64e06e4?signature=fbfd4aabcf1e901f5010186ed47c722598d1bd4f97c6a435c3780139d620625c",
+  bd_pack1_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/5e8eb9a3-3e66-42e8-8abb-622b7eb4bf17?signature=182ffa82d0202d8103a307ed634f8e7e8c84cea38ddb7eb904633ad5c469b0d4",
+  bd_pack2_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/d7c77664-9e71-414a-9fd4-470425c62a7e?signature=b1056d5cdccea9ef8dcf6606c0f8925a38e1b51ec2dc93f0b2ce7ccde26fb46c",
+  bd_pack3_49: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/53442aab-269a-474f-a4e6-bd6b3d85c878?signature=f878bbbf736327a9c0aac0e94b010894f41c7f200b838e5f1ed32800a8408a40",
+  bd_pack4_49: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/d97aa484-28b6-4dfb-b854-905e42e0c811?signature=f7bc812d54f2552f3484a47e52547085012c142a9f964d542276c33601562d5b",
+  bd_all700_179: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/8b4fb26f-2444-4262-a524-a8ec8fbffb9c?signature=3e4a8252615251862c2a30d77a8d8a5e7efcca64454d2151d56bac416b013905",
+  songs_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/c0423ec1-2ab3-4dc7-bc90-0c801ea9bb38?signature=37bc3c1c82dd318d7150983c8f1403ec22e19843dcf15937d60d530484eb85c4",
+  couples_sync_75: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/dd89332a-2fea-4de0-a1d1-cf03130c6d23?signature=19599491ea9301a0feff76c283c47f0134fc2da9d9ea7b6a073c39ed3d27fcbc",
+  couples_90d_129: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/56670492-9141-4e56-9d97-08c156c43157?signature=7d549b7eb97047ac77409e591f84d8c042add7cdc0e8489e2d7ccb6bff15a0da",
+  couples_life_229: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/e2efd140-f7fa-49c5-af97-ee1211c5a016?signature=980f9215cf85c6acc8aa58441c99757a5669e00d103f8a74358fd5c8dd09914b",
+  suite_solo_90d_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/97be2b0d-d0d2-41a1-ac0a-c95b2100d94c?signature=dc0bca26928dc97a93582cb3e367c8f4c3713dba7071bc02b1b963c7376f7e2b",
+  suite_solo_life_399: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/f21829f2-8195-4235-a439-e013ad13be8f?signature=fd7433cf297bf7a1c87511348eb92b351c5f11942e62373a3a544d35a3de96ea",
+  vip_couple_649: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/f4b49eda-62b2-4560-9a95-9da3bd12ac86?signature=aaea5f7f750f189f66b1ada7d30d36f9eecc036ad89ca39b2b6297e596546871",
+  concierge_notary_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/8404ace1-d5a8-4c06-8ddf-a9ea09ce98d0?signature=f7b4939e69e9c99ed24df45137dc7466feed83d58ae75bfabaeea4241678a928",
+  concierge_notary_349: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/8ff9a979-4bc0-409b-90d2-7fad2b9c6de2?signature=f9b1caf1c2817cfb27cacf8f349ee0ea53a7b01e1d848a4b26fa5e265054b930",
+  concierge_bundle_799: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/ec42070c-8cd2-45cc-be5c-f208852ce0a5?signature=3bb05a004db4f5b2ee38dd30646b78c4696291de8e307f055d1bb23f0c55d30f",
+  concierge_kallah_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/0c7ef2ee-6b20-445c-9a65-351ae6571519?signature=4ecc179bdfd4af0995f67043a69518c0cd7791340fcb67c607de8b70a1938157",
+  concierge_rabbi_349: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/86e349af-69b2-41dd-8a34-a5ecb30560d5?signature=da20b9b62d632c6bcba470cf9bcb94eb1fe9fd3ddff703a5cb5bb80b0f589240",
+  concierge_couple_499: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/48bd2b44-7390-4acb-9de2-40be017704f0?signature=08a7286dc2479fbab287ea0b2f813b1b26caa6514ba9acc995ab67c9a1c23e05",
+  concierge_escort_649: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/61375b39-aa6c-4694-ad67-9c2f3d2eb9be?signature=b63d3bac518ba116255afc215db4e6f2fccf8199a090b64474a8c67dc4672d8b"
 };
 
 window.CONCIERGE_WHATSAPP = "972559664357";
@@ -7898,3 +7898,228 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
   }
   setTimeout(window.renderTabSpecificFaqs, 250);
 })();
+
+
+/* === GAT_VIRAL_SHARE_ENGINE_START === */
+window.GAT_SHARE_I18N = {
+  en: {
+    btn_playbook: "📤 Share This Case Playbook with Partner / Friend",
+    btn_decoder: "📤 Share Free Clerk Sheet Decoder",
+    btn_forms: "📤 Share Official Hebrew PIBA Form Stamper",
+    btn_bd: "📤 Share 700-Q Beit Din Simulator",
+    btn_couples: "📤 Invite Partner to 300-Q 2-Phone Sync",
+    btn_songs: "📤 Share 56 Shabbat Songs & Brachot Trainer",
+    btn_drawer: "📤 Share Giyur Aliyah Track",
+    copied: "✅ Link & statutory summary copied! Paste it in WhatsApp, Telegram, or Reddit/Facebook groups.",
+    modal_title: "📤 Share with Your Partner or Community",
+    modal_sub: "Help a partner, friend, or fellow applicant escape the Misrad HaPanim & Rabbanut loop:",
+    wa_btn: "💬 Send via WhatsApp",
+    copy_btn: "📋 Copy Link & Summary",
+    close_btn: "Close",
+    msg: {
+      playbook: "🕍✈️ Here is our exact Israeli Ministry of Interior (PIBA) & Rabbanut step-by-step case playbook on Giyur Aliyah Track:",
+      decoder: "🔍 This free AI Clerk Sheet Decoder translates Misrad HaPanim 'Drishat Mismachim' rejection sheets and checks the 180-day Apostille clock:",
+      forms: "📄 Auto-fill all 8 official Hebrew PIBA / Misrad HaPanim forms (Ash/1, Ash/3, Ash/6, Ash/456, Nespach Alef) in English/French/Spanish/German/Russian -> outputs stamped Hebrew PDFs:",
+      bd: "🕍 Practice the 700 real Orthodox Beit Din tribunal questions (Core + Curveballs + Men's/Women's packs) in 6 languages:",
+      couples: "💑 Let's practice our 300-Question Misrad HaPanim Separated-Room Couples Interview together on 2 phones:",
+      songs: "🎵 Word-by-word karaoke trainer for all 56 Shabbat Songs, Shacharit Morning Prayers & Essential Brachot (Sephardi & Ashkenazi):",
+      drawer: "🛡️ Giyur Aliyah Track — The 6-Language Anti-Loop Command Center for Conversion (Giyur), Aliyah & Spousal Visas in Israel:"
+    }
+  },
+  he: {
+    btn_playbook: "📤 שתף את תיק המסלול עם בן/בת הזוג או חבר",
+    btn_decoder: "📤 שתף את מפענח דרישת המסמכים (חינם)",
+    btn_forms: "📤 שתף את ממלא 8 טפסי רשות האוכלוסין בעברית",
+    btn_bd: "📤 שתף את סימולטור 700 שאלות בית הדין",
+    btn_couples: "📤 הזמן את בן/בת הזוג לסנכרון 300 שאלות השימוע",
+    btn_songs: "📤 שתף את מאמן 56 שירי שבת, תפילות וברכות",
+    btn_drawer: "📤 שתף את Giyur Aliyah Track",
+    copied: "✅ הקישור והתקציר הועתקו! הדביקו בוואטסאפ או בקבוצות.",
+    modal_title: "📤 שתף עם בן/בת הזוג או בקהילה",
+    modal_sub: "עזרו לבן/בת הזוג או לחברים במסלול לחסוך חודשים של טרטור במשרד הפנים וברבנות:",
+    wa_btn: "💬 שלח בוואטסאפ",
+    copy_btn: "📋 העתק קישור ותקציר",
+    close_btn: "סגור",
+    msg: {
+      playbook: "🕍✈️ הנה תוכנית הפעולה המדויקת שלנו מול רשות האוכלוסין (PIBA) והרבנות ב-Giyur Aliyah Track:",
+      decoder: "🔍 מפענח דרישות המסמכים של משרד הפנים ובודק שעון 180 יום לאפוסטיל:",
+      forms: "📄 מילוי אוטומטי של 8 טפסי משרד הפנים הרשמיים בעברית תקנית מכל שפה:",
+      bd: "🕍 סימולטור 700 שאלות אמיתיות של בית הדין לגיור ב-6 שפות:",
+      couples: "💑 בוא/י נתרגל יחד את 300 שאלות השימוע הזוגי של משרד הפנים ב-2 טלפונים:",
+      songs: "🎵 מאמן קריוקי מילה-במילה ל-56 שירי שבת, תפילות שחרית וברכות (ספרדי ואשכנזי):",
+      drawer: "🛡️ Giyur Aliyah Track — מרכז השליטה ב-6 שפות לגיור, עלייה והליך מדורג בישראל:"
+    }
+  },
+  fr: {
+    btn_playbook: "📤 Partager ce Plan d'Action avec Conjoint / Ami",
+    btn_decoder: "📤 Partager le Décodeur de Fiche PIBA",
+    btn_forms: "📤 Partager le Générateur des 8 Formulaires PIBA",
+    btn_bd: "📤 Partager le Simulateur 700 Questions Beit Din",
+    btn_couples: "📤 Inviter mon Conjoint (Synchro 300 Q. sur 2 Tél.)",
+    btn_songs: "📤 Partager les 56 Chants de Chabbat & Brakhot",
+    btn_drawer: "📤 Partager Giyur Aliyah Track",
+    copied: "✅ Lien et résumé copiés ! Collez-les sur WhatsApp ou dans vos groupes.",
+    modal_title: "📤 Partager avec votre Conjoint ou Communauté",
+    modal_sub: "Aidez votre conjoint ou un ami à éviter les pièges du Misrad HaPanim et du Rabbinat :",
+    wa_btn: "💬 Envoyer sur WhatsApp",
+    copy_btn: "📋 Copier le Lien",
+    close_btn: "Fermer",
+    msg: {
+      playbook: "🕍✈️ Voici notre plan d'action exact pour le Misrad HaPanim (PIBA) et le Rabbinat sur Giyur Aliyah Track :",
+      decoder: "🔍 Ce décodeur gratuit traduit les fiches d'exigences du Misrad HaPanim et vérifie l'horloge des 180 jours d'Apostille :",
+      forms: "📄 Remplissez les 8 formulaires officiels PIBA en français -> génère les PDF officiels en hébreu :",
+      bd: "🕍 Révisez les 700 vraies questions du Beit Din orthodoxe en 6 langues :",
+      couples: "💑 Entraînons-nous ensemble aux 300 questions de l'entretien de couple PIBA sur 2 téléphones :",
+      songs: "🎵 Karaoké mot-à-mot des 56 chants de Chabbat, prières du matin et Brakhot (Séfarade & Achkénaze) :",
+      drawer: "🛡️ Giyur Aliyah Track — Le Centre de Commande en 6 langues pour Giyur, Aliyah et Visa Conjoint en Israël :"
+    }
+  },
+  es: {
+    btn_playbook: "📤 Compartir este Plan de Caso con Pareja / Amigo",
+    btn_decoder: "📤 Compartir Decodificador de Hoja PIBA",
+    btn_forms: "📤 Compartir Generador de 8 Formularios PIBA",
+    btn_bd: "📤 Compartir Simulador 700 Preguntas Beit Din",
+    btn_couples: "📤 Invitar a mi Pareja (Sincro 300 P. en 2 Teléfonos)",
+    btn_songs: "📤 Compartir 56 Canciones de Shabat y Brajot",
+    btn_drawer: "📤 Compartir Giyur Aliyah Track",
+    copied: "✅ ¡Enlace y resumen copiados! Pégalo en WhatsApp o en tus grupos.",
+    modal_title: "📤 Compartir con tu Pareja o Comunidad",
+    modal_sub: "Ayuda a tu pareja o a un amigo a evitar el bucle del Misrad HaPanim y del Rabinato:",
+    wa_btn: "💬 Enviar por WhatsApp",
+    copy_btn: "📋 Copiar Enlace",
+    close_btn: "Cerrar",
+    msg: {
+      playbook: "🕍✈️ Aquí está nuestro plan paso a paso para el Misrad HaPanim (PIBA) y el Rabinato en Giyur Aliyah Track:",
+      decoder: "🔍 Este decodificador gratuito traduce las hojas de requisitos del Misrad HaPanim y verifica el reloj de 180 días de Apostilla:",
+      forms: "📄 Completa los 8 formularios oficiales de PIBA en español -> genera los PDF oficiales en hebreo:",
+      bd: "🕍 Practica las 700 preguntas reales del Beit Din ortodoxo en 6 idiomas:",
+      couples: "💑 Practiquemos juntos las 300 preguntas de la entrevista de pareja en cuartos separados desde 2 teléfonos:",
+      songs: "🎵 Karaoke palabra por palabra de las 56 canciones de Shabat, rezos matutinos y Brajot (Sefardí y Ashkenazí):",
+      drawer: "🛡️ Giyur Aliyah Track — El Centro de Comando en 6 idiomas para Conversión, Aliyá y Visa de Pareja en Israel:"
+    }
+  },
+  de: {
+    btn_playbook: "📤 Diesen Fall-Fahrplan mit Partner / Freund teilen",
+    btn_decoder: "📤 Kostenlosen PIBA-Blatt-Decoder teilen",
+    btn_forms: "📤 8 Hebräische PIBA-Formular-Generator teilen",
+    btn_bd: "📤 700-Fragen Beit-Din-Simulator teilen",
+    btn_couples: "📤 Partner einladen (300-Fragen 2-Handy-Sync)",
+    btn_songs: "📤 56 Schabbat-Lieder & Brachot Trainer teilen",
+    btn_drawer: "📤 Giyur Aliyah Track teilen",
+    copied: "✅ Link & Zusammenfassung kopiert! In WhatsApp oder Gruppen einfügen.",
+    modal_title: "📤 Mit Partner oder Community teilen",
+    modal_sub: "Helfen Sie Ihrem Partner oder Freunden, die Misrad HaPanim & Rabbinat-Schleife zu durchbrechen:",
+    wa_btn: "💬 Per WhatsApp senden",
+    copy_btn: "📋 Link kopieren",
+    close_btn: "Schließen",
+    msg: {
+      playbook: "🕍✈️ Hier ist unser genauer Schritt-für-Schritt-Fahrplan für Misrad HaPanim (PIBA) & Rabbinat auf Giyur Aliyah Track:",
+      decoder: "🔍 Dieser kostenlose Decoder übersetzt Anforderungsblätter des Misrad HaPanim und prüft die 180-Tage-Apostille-Frist:",
+      forms: "📄 Alle 8 offiziellen PIBA-Formulare auf Deutsch ausfüllen -> druckfertige hebräische PDFs:",
+      bd: "🕍 Alle 700 echten Fragen des orthodoxen Beit Din in 6 Sprachen üben:",
+      couples: "💑 Lass uns gemeinsam die 300 Fragen des getrennten Paar-Interviews auf 2 Smartphones üben:",
+      songs: "🎵 Wort-für-Wort-Karaoke für alle 56 Schabbat-Lieder, Morgengebete & Brachot (Sephardisch & Aschkenasisch):",
+      drawer: "🛡️ Giyur Aliyah Track — Das 6-sprachige Kontrollzentrum für Giur, Alija & Ehepartner-Visum in Israel:"
+    }
+  },
+  ru: {
+    btn_playbook: "📤 Поделиться Планом Действий с Партнёром / Другом",
+    btn_decoder: "📤 Поделиться Декодером Листа МВД (PIBA)",
+    btn_forms: "📤 Поделиться Генератором 8 Бланков МВД на Иврите",
+    btn_bd: "📤 Поделиться Симулятором 700 Вопросов Бейт-Дина",
+    btn_couples: "📤 Пригласить Партнёра (300 Вопросов Собеседования)",
+    btn_songs: "📤 Поделиться Тренажёром 56 Песен Шаббата и Брахот",
+    btn_drawer: "📤 Поделиться Giyur Aliyah Track",
+    copied: "✅ Ссылка и описание скопированы! Отправьте в WhatsApp, Telegram или группу.",
+    modal_title: "📤 Поделиться с Партнёром или Друзьями",
+    modal_sub: "Помогите партнёру или друзьям избежать бюрократической петли МВД (PIBA) и Раввината:",
+    wa_btn: "💬 Отправить в WhatsApp",
+    copy_btn: "📋 Скопировать Ссылку",
+    close_btn: "Закрыть",
+    msg: {
+      playbook: "🕍✈️ Вот наш точный пошаговый план для МВД Израиля (PIBA) и Раввината на Giyur Aliyah Track:",
+      decoder: "🔍 Бесплатный ИИ-декодер переводит листы требований МВД («Дришат Мисмахим») и проверяет таймер 180 дней для апостиля:",
+      forms: "📄 Автозаполнение всех 8 официальных бланков МВД (PIBA) на русском -> готовые PDF на иврите:",
+      bd: "🕍 Тренажёр 700 реальных вопросов ортодоксального Бейт-Дина на 6 языках:",
+      couples: "💑 Давай вместе потренируем 300 вопросов перекрёстного собеседования МВД (СтуПро) с двух телефонов:",
+      songs: "🎵 Пословное караоке для 56 песен Шаббата, утренних молитв и благословений (сефардский и ашкеназский нусах):",
+      drawer: "🛡️ Giyur Aliyah Track — Центр управления на 6 языках для гиюра, алии и визы супругов (СтуПро) в Израиле:"
+    }
+  }
+};
+
+window.getGatShareLang = function() {
+  const raw = (window.curLang || localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || document.documentElement.lang || 'en').toLowerCase().slice(0, 2);
+  return window.GAT_SHARE_I18N[raw] ? raw : 'en';
+};
+
+window.shareGatRelief = function(contextKey, customUrl) {
+  const lang = window.getGatShareLang();
+  const pack = window.GAT_SHARE_I18N[lang] || window.GAT_SHARE_I18N.en;
+  const baseOrigin = "https://giyuraliyahtrack.com";
+  const langPrefix = (lang === 'en') ? '' : ('/' + lang);
+  const urlMap = {
+    playbook: window.location.href.startsWith('http') ? window.location.href : (baseOrigin + langPrefix + '/'),
+    decoder: baseOrigin + "/app/?module=clerk-auditor" + (lang === "en" ? "" : "&lang=" + lang),
+    forms: baseOrigin + "/app/?module=hebrew-engine" + (lang === "en" ? "" : "&lang=" + lang),
+    bd: baseOrigin + "/app/?module=beit-din-150" + (lang === "en" ? "" : "&lang=" + lang),
+    couples: baseOrigin + "/app/?module=couples-sync" + (lang === "en" ? "" : "&lang=" + lang),
+    songs: baseOrigin + "/app/?module=songs-prayers" + (lang === "en" ? "" : "&lang=" + lang),
+    drawer: baseOrigin + langPrefix + "/"
+  };
+  const targetUrl = customUrl || urlMap[contextKey] || (baseOrigin + langPrefix + "/");
+  const shareText = (pack.msg[contextKey] || pack.msg.drawer) + " " + targetUrl;
+
+  if (navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '')) {
+    navigator.share({
+      title: "Giyur Aliyah Track",
+      text: pack.msg[contextKey] || pack.msg.drawer,
+      url: targetUrl
+    }).catch(function(){});
+    return;
+  }
+
+  // Show clean 1-tap Share Modal (WhatsApp + Copy Link)
+  let modal = document.getElementById('gat-viral-share-modal');
+  if (modal) modal.remove();
+  modal = document.createElement('div');
+  modal.id = 'gat-viral-share-modal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(10,25,47,0.82);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;';
+  const waHref = 'https://wa.me/?text=' + encodeURIComponent(shareText);
+  modal.innerHTML = `
+    <div style="background:#112240;border:1px solid rgba(2,136,232,0.45);border-radius:20px;max-width:440px;width:100%;padding:24px;color:#F8FAFC;box-shadow:0 20px 50px rgba(0,0,0,0.6);text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;" dir="${lang==='he'?'rtl':'ltr'}">
+      <div style="font-size:1.2rem;font-weight:800;margin-bottom:8px;color:#FFFFFF;">${pack.modal_title}</div>
+      <div style="font-size:0.9rem;color:#94A3B8;line-height:1.45;margin-bottom:16px;">${pack.modal_sub}</div>
+      <div style="background:#0A192F;border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px;font-size:0.82rem;color:#CBD5E1;text-align:${lang==='he'?'right':'left'};margin-bottom:18px;word-break:break-word;">${shareText}</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="${waHref}" target="_blank" rel="noopener" style="display:block;background:#25D366;color:#062010;font-weight:800;text-decoration:none;padding:13px 16px;border-radius:12px;font-size:0.95rem;">${pack.wa_btn}</a>
+        <button id="gat-viral-copy-btn" style="background:linear-gradient(135deg,#0A96FA 0%,#0277D0 100%);color:#FFFFFF;font-weight:700;border:none;padding:13px 16px;border-radius:12px;font-size:0.95rem;cursor:pointer;">${pack.copy_btn}</button>
+        <button onclick="document.getElementById('gat-viral-share-modal').remove()" style="background:transparent;color:#94A3B8;border:1px solid rgba(255,255,255,0.15);padding:10px 16px;border-radius:12px;font-size:0.88rem;cursor:pointer;">${pack.close_btn}</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  document.getElementById('gat-viral-copy-btn').onclick = function() {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareText);
+    }
+    this.textContent = pack.copied;
+    this.style.background = '#10B981';
+  };
+};
+
+window.syncGatShareButtonsI18n = function() {
+  const lang = window.getGatShareLang ? window.getGatShareLang() : 'en';
+  const pack = (window.GAT_SHARE_I18N && window.GAT_SHARE_I18N[lang]) || (window.GAT_SHARE_I18N && window.GAT_SHARE_I18N.en);
+  if (!pack) return;
+  document.querySelectorAll('.gat-share-ctx-btn').forEach(function(btn) {
+    const ctx = btn.getAttribute('data-share-ctx');
+    if (ctx && pack['btn_' + ctx]) btn.textContent = pack['btn_' + ctx];
+  });
+};
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', function() { setTimeout(window.syncGatShareButtonsI18n, 150); });
+  document.addEventListener('click', function() { setTimeout(window.syncGatShareButtonsI18n, 80); });
+}
+/* === GAT_VIRAL_SHARE_ENGINE_END === */
+

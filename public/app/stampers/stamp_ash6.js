@@ -58,8 +58,8 @@ async function stampAsh6(rawState, loaderOpts) {
   var p1RowsY = [487.5, 467.0, 446.5, 426.0, 405.5, 385.0, 364.5, 344.5, 324.0, 303.5, 283.0, 262.5, 242.0, 221.5, 201.0, 180.5];
   var p1LeftBoxSkip = { 446.5: true, 385.0: true, 364.5: true, 324.0: true };
   p1RowsY.forEach(function(ry) {
-    check(0, 509.5, ry, 7.1, 7.1, 'green');
-    if (!p1LeftBoxSkip[ry]) check(0, 461.2, ry, 7.1, 7.1, 'green');
+    check(0, 509.5, ry, 7.1, 7.1, 'blue');
+    if (!p1LeftBoxSkip[ry]) check(0, 461.2, ry, 7.1, 7.1, 'blue');
   });
 
   put(0, '01/09/2025', 106, 152, 281.5, { align: 'center', size: 8.2, bold: true, noWrap: true });
@@ -72,12 +72,12 @@ async function stampAsh6(rawState, loaderOpts) {
   put(1, s.pf_req_num || '2026-98412', 37.7, 109.9, 692.0, { align: 'center', size: 8.4, bold: true, noWrap: true });
 
   // Top Request Type Checkboxes
-  check(1, 495.7, 650.6, 7.1, 7.1, 'green');
-  if (s._stressAllCheckboxes) check(1, 277.9, 650.6, 7.1, 7.1, 'green');
+  check(1, 495.7, 650.6, 7.1, 7.1, 'blue');
+  if (s._stressAllCheckboxes) check(1, 277.9, 650.6, 7.1, 7.1, 'blue');
 
   // Inviter Status Checkboxes
-  check(1, 318.4, 612.5, 7.1, 7.1, 'green');
-  if (s._stressAllCheckboxes) check(1, 265.4, 612.5, 7.1, 7.1, 'green');
+  check(1, 318.4, 612.5, 7.1, 7.1, 'blue');
+  if (s._stressAllCheckboxes) check(1, 265.4, 612.5, 7.1, 7.1, 'blue');
 
   // Inviter Row 1: 9-Cell ID Comb + 5 Multi-Row Name Boxes (Y = 561.0 .. 585.0)
   putExactComb(1, s.pf_sp_tz || '012345674', p2InviterTzLines, 565.0, true);
@@ -93,15 +93,15 @@ async function stampAsh6(rawState, loaderOpts) {
   put(1, spDobM ? spDobM[1] : '15',   475.4, 505.3, 524.5, { align: 'center', size: 8.0, noWrap: true });
 
   if (s._stressAllCheckboxes) {
-    check(1, 460.5, 535.3, 7.1, 7.1, 'green');
-    check(1, 460.5, 524.9, 7.1, 7.1, 'green');
-    check(1, 416.8, 535.3, 7.1, 7.1, 'green');
-    check(1, 416.8, 524.9, 7.1, 7.1, 'green');
-    check(1, 380.8, 535.3, 7.1, 7.1, 'green');
-    check(1, 380.8, 524.9, 7.1, 7.1, 'green');
+    check(1, 460.5, 535.3, 7.1, 7.1, 'blue');
+    check(1, 460.5, 524.9, 7.1, 7.1, 'blue');
+    check(1, 416.8, 535.3, 7.1, 7.1, 'blue');
+    check(1, 416.8, 524.9, 7.1, 7.1, 'blue');
+    check(1, 380.8, 535.3, 7.1, 7.1, 'blue');
+    check(1, 380.8, 524.9, 7.1, 7.1, 'blue');
   } else {
-    check(1, 460.5, ctx.isFemale ? 535.3 : 524.9, 7.1, 7.1, 'green');
-    check(1, 416.8, 524.9, 7.1, 7.1, 'green');
+    check(1, 460.5, ctx.isFemale ? 535.3 : 524.9, 7.1, 7.1, 'blue');
+    check(1, 416.8, 524.9, 7.1, 7.1, 'blue');
   }
 
   var marDateFmt = core.splitIsoDate(s.pf_marriage_date || (String(s.pf_marriage_details || '').split(/[•|]/)[0] || '').trim()).full;
@@ -144,18 +144,18 @@ async function stampAsh6(rawState, loaderOpts) {
   put(1, dob.d || '23',    72.6, 101.9, 353.0, { align: 'center', size: 7.8, noWrap: true });
 
   if (s._stressAllCheckboxes) {
-    check(1, 57.7, 362.7, 7.1, 7.1, 'green');
-    check(1, 57.7, 352.3, 7.1, 7.1, 'green');
-    check(1, 551.0, 321.3, 7.1, 7.1, 'green');
-    check(1, 551.0, 310.9, 7.1, 7.1, 'green');
-    check(1, 519.8, 321.3, 7.1, 7.1, 'green');
-    check(1, 519.8, 310.9, 7.1, 7.1, 'green');
+    check(1, 57.7, 362.7, 7.1, 7.1, 'blue');
+    check(1, 57.7, 352.3, 7.1, 7.1, 'blue');
+    check(1, 551.0, 321.3, 7.1, 7.1, 'blue');
+    check(1, 551.0, 310.9, 7.1, 7.1, 'blue');
+    check(1, 519.8, 321.3, 7.1, 7.1, 'blue');
+    check(1, 519.8, 310.9, 7.1, 7.1, 'blue');
   } else {
-    check(1, 57.7, ctx.isFemale ? 352.3 : 362.7, 7.1, 7.1, 'green');
-    if (ctx.isMarried) check(1, 551.0, 310.9, 7.1, 7.1, 'green');
-    else if (ctx.isDiv) check(1, 519.8, 321.3, 7.1, 7.1, 'green');
-    else if (ctx.isWid) check(1, 519.8, 310.9, 7.1, 7.1, 'green');
-    else check(1, 551.0, 321.3, 7.1, 7.1, 'green');
+    check(1, 57.7, ctx.isFemale ? 352.3 : 362.7, 7.1, 7.1, 'blue');
+    if (ctx.isMarried) check(1, 551.0, 310.9, 7.1, 7.1, 'blue');
+    else if (ctx.isDiv) check(1, 519.8, 321.3, 7.1, 7.1, 'blue');
+    else if (ctx.isWid) check(1, 519.8, 310.9, 7.1, 7.1, 'blue');
+    else check(1, 551.0, 321.3, 7.1, 7.1, 'blue');
   }
 
   var ent6 = String(s.pf_entry_date_port || '').split(/[•|]/).map(function(x){ return x.trim(); });
@@ -196,19 +196,19 @@ async function stampAsh6(rawState, loaderOpts) {
     put(1, cDob.m || (s._stressAllCheckboxes ? '05' : ''),   162.6, 189.6, band.y, { align: 'center', size: 7.6, noWrap: true });
     put(1, cDob.d || (s._stressAllCheckboxes ? '14' : ''),   135.6, 162.6, band.y, { align: 'center', size: 7.6, noWrap: true });
     if (s._stressAllCheckboxes) {
-      check(1, 120.7, band.chkM, 7.1, 7.1, 'green');
-      check(1, 120.7, band.chkF, 7.1, 7.1, 'green');
+      check(1, 120.7, band.chkM, 7.1, 7.1, 'blue');
+      check(1, 120.7, band.chkF, 7.1, 7.1, 'blue');
     } else if (/נקבה|F/i.test(String(cr.gender || ''))) {
-      check(1, 120.7, band.chkF, 7.1, 7.1, 'green');
+      check(1, 120.7, band.chkF, 7.1, 7.1, 'blue');
     } else {
-      check(1, 120.7, band.chkM, 7.1, 7.1, 'green');
+      check(1, 120.7, band.chkM, 7.1, 7.1, 'blue');
     }
     put(1, cr.entry_date || ent6[0] || (s._stressAllCheckboxes ? '01/09/2026' : ''), 31.7, 86.5, band.y, { align: 'center', size: 7.4, noWrap: true });
   });
 
   // Bottom Consent Line (הוצגה הסכמת הורה שני — Y = 72.7 .. 81.7, All 3 Checkboxes Checked)
-  check(1, 423.3, 74.6, 7.1, 7.1, 'green');
-  check(1, 204.7, 74.6, 7.1, 7.1, 'green');
+  check(1, 423.3, 74.6, 7.1, 7.1, 'blue');
+  check(1, 204.7, 74.6, 7.1, 7.1, 'blue');
   check(1, 171.9, 74.6, 7.1, 7.1, 'red');
   put(1, s.pf_ash6_minor_consent_reason || 'אפוטרופסות משותפת של שני ההורים המבקשים', 32.5, 142.8, 75.5, { align: 'right', size: 7.4, wrapSize: 7.0, yWrapCenter: 78.5, lineShift: 3.8 });
 
@@ -242,7 +242,7 @@ async function stampAsh6(rawState, loaderOpts) {
   // Page 4 (index 3) — נספח אש 6 דף 4
   // =========================================================================
   put(3, s.pf_req_num || '2026-98412', 55, 135, 664.0, { align: 'center', size: 8.4, bold: true, noWrap: true });
-  [654.7, 624.7, 594.7, 546.7, 516.7].forEach(function(cy) { check(3, 532.2, cy, 7.1, 7.1, 'green'); });
+  [654.7, 624.7, 594.7, 546.7, 516.7].forEach(function(cy) { check(3, 532.2, cy, 7.1, 7.1, 'blue'); });
   put(3, s.pf_ash6_decl_exception_he || 'ללא הסתייגויות — כל סעיפי ההצהרה לעיל מתקיימים במלואם וללא יוצא מן הכלל.', 60, 535, 472.5, { align: 'right', size: 7.6, noWrap: true });
   put(3, branchCity, 385, 455, 270.5, { align: 'right', size: 9.0, bold: true, noWrap: true });
   put(3, today.todayFull, 265, 330, 270.5, { align: 'center', size: 9.0, bold: true, noWrap: true });
@@ -254,7 +254,7 @@ async function stampAsh6(rawState, loaderOpts) {
   put(4, s.pf_surname_he, 245, 344, 688.5, { align: 'right', size: 7.6, bold: true, noWrap: true });
   put(4, s.pf_pass_num, 125, 221, 688.5, { align: 'center', size: 9.0, bold: true, noWrap: true });
   [665.2, 621.3, 602.6, 583.9, 565.4, 533.9, 515.4, 484.0, 460.0, 436.0, 412.0, 393.2, 374.7].forEach(function(cy) {
-    check(4, 534.8, cy, 7.1, 7.1, 'green');
+    check(4, 534.8, cy, 7.1, 7.1, 'blue');
   });
   put(4, s.pf_ash6_decl_exception_he || 'ללא הסתייגויות — כל סעיפי ההצהרה לעיל מתקיימים במלואם וללא יוצא מן הכלל.', 60, 535, 341.0, { align: 'right', size: 7.6, noWrap: true });
   put(4, branchCity, 395, 470, 214.0, { align: 'right', size: 9.0, bold: true, noWrap: true });
@@ -334,8 +334,8 @@ async function stampAsh6(rawState, loaderOpts) {
 
     // Section ו: Utility Checkboxes (חשמל, מים, טלפון, ארנונה)
     [313.0, 297.0, 281.0, 265.0].forEach(function(uy) {
-      if (s._stressAllCheckboxes) check(5, 391.85, uy, 7.1, 7.1, 'green');
-      check(5, 276.0,  uy, 7.1, 7.1, 'green');
+      if (s._stressAllCheckboxes) check(5, 391.85, uy, 7.1, 7.1, 'blue');
+      check(5, 276.0,  uy, 7.1, 7.1, 'blue');
     });
 
     // Section ז: התשלום מתבצע כדלקמן
