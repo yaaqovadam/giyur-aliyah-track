@@ -1230,7 +1230,7 @@
     if (!t) return;
     const leftBd = document.getElementById("left-drawer");
     const leftPn = document.getElementById("left-drawer-panel");
-    const leftHd = document.getElementById("left-edge-handle");
+    const leftHd = document.getElementById("left-edge-handle"); const hamClicked = t.closest && t.closest(".hamburger-btn"); if (hamClicked) return;
     if (leftBd && leftBd.classList.contains("open")) {
       if (leftPn && !leftPn.contains(t) && (!leftHd || !leftHd.contains(t))) {
         if (typeof window.toggleLeftDrawer === "function") window.toggleLeftDrawer(false);
@@ -1535,4 +1535,302 @@
   } else {
     setupHebrewEngineSubTabs();
   }
+})();
+
+
+// === UNIFIED HAMBURGER + LEFT DRAWER CONTROLLER & LIVE HUMAN VISITOR TRACKER ===
+(function initUnifiedDrawerAndVisitorPulse() {
+  const DRAWER_I18N = {
+    en: {
+      sync: "📲 Sync Devices & Pass Code",
+      home: "🏠 Home & Track Playbooks",
+      hebrew: "📸 Statutory Hebrew & 8 Forms",
+      bd: "🕍 700 Beit Din Flashcards",
+      couples: "📱 300 Couples 2-Phone Sync",
+      songs: "🎵 56 Songs, Prayers & Brachot",
+      rabbi: "✍️ Rabbi & Host Family Letters",
+      vetted: "🤝 Vetted Notary, Rabbi & Lawyer",
+      paywall: "🔓 View Passes & Pricing ($89–$649)",
+      faq: "❓ FAQ, Pricing & Refund Policy"
+    },
+    he: {
+      sync: "📲 סנכרון מכשירים וקוד גישה",
+      home: "🏠 דף הבית ומדריכי המסלולים",
+      hebrew: "📸 8 טפסי משרד הפנים ופענוח AI",
+      bd: "🕍 מאגר 700 שאלות בית הדין",
+      couples: "📱 סימולטור 300 שאלות לזוגות (2 טלפונים)",
+      songs: "🎵 56 שירי שבת, תפילות וברכות",
+      rabbi: "✍️ מכתבי רב מלווה ומשפחה מארחת",
+      vetted: "🤝 נוטריון סרט אדום, רב מלווה ועו״ד",
+      paywall: "🔓 מחירון וחבילות גישה ($89–$649)",
+      faq: "❓ שאלות נפוצות, מחירון ותנאי ביטול"
+    },
+    fr: {
+      sync: "📲 Synchroniser Appareils & Code",
+      home: "🏠 Accueil & Guides des Parcours",
+      hebrew: "📸 8 Formulaires PIBA & IA Hébreu",
+      bd: "🕍 700 Questions du Beit Din",
+      couples: "📱 300 Questions Couple (Sync 2 Tél.)",
+      songs: "🎵 56 Chants, Prières & Brakhot",
+      rabbi: "✍️ Lettres Rabbin & Famille d'Accueil",
+      vetted: "🤝 Notaire Ruban Rouge, Rabbin & Avocat",
+      paywall: "🔓 Tarifs & Pass d'Accès (89$–649$)",
+      faq: "❓ FAQ, Tarifs & Politique de Remboursement"
+    },
+    es: {
+      sync: "📲 Sincronizar Dispositivos y Código",
+      home: "🏠 Inicio y Guías de Vías",
+      hebrew: "📸 8 Formularios PIBA e IA en Hebreo",
+      bd: "🕍 700 Preguntas del Beit Din",
+      couples: "📱 300 Preguntas Parejas (Sync 2 Tel.)",
+      songs: "🎵 56 Canciones, Rezos y Brajot",
+      rabbi: "✍️ Cartas de Rabino y Familia Anfitriona",
+      vetted: "🤝 Notario Cinta Roja, Rabino y Abogado",
+      paywall: "🔓 Planes y Precios ($89–$649)",
+      faq: "❓ Preguntas Frecuentes, Precios y Reembolsos"
+    },
+    de: {
+      sync: "📲 Geräte synchronisieren & Code",
+      home: "🏠 Startseite & Track-Leitfäden",
+      hebrew: "📸 8 PIBA-Formulare & Hebräisch-KI",
+      bd: "🕍 700 Beit-Din-Prüfungsfragen",
+      couples: "📱 300 Paar-Fragen (2-Handy-Sync)",
+      songs: "🎵 56 Schabbat-Lieder, Gebete & Brachot",
+      rabbi: "✍️ Rabbiner- & Gastfamilien-Briefe",
+      vetted: "🤝 Rotband-Notar, Rabbiner & Anwalt",
+      paywall: "🔓 Pässe & Preise ($89–$649)",
+      faq: "❓ FAQ, Preise & Rückerstattungsrichtlinie"
+    },
+    ru: {
+      sync: "📲 Синхронизация устройств и Код",
+      home: "🏠 Главная и гиды по маршрутам",
+      hebrew: "📸 8 анкет МВД и ИИ-переводчик",
+      bd: "🕍 700 вопросов суда Бейт-Дин",
+      couples: "📱 300 вопросов МВД для пар (2 тел.)",
+      songs: "🎵 56 песен Шаббата, молитв и брахот",
+      rabbi: "✍️ Письма раввина и принимающей семьи",
+      vetted: "🤝 Нотариус, раввин и адвокат в МВД",
+      paywall: "🔓 Тарифы и доступ ($89–$649)",
+      faq: "❓ Частые вопросы, цены и условия возврата"
+    }
+  };
+
+  function getActiveLang() {
+    const p = (window.location.pathname.split("/")[1] || "").toLowerCase();
+    if (DRAWER_I18N[p]) return p;
+    const q = new URLSearchParams(window.location.search).get("lang");
+    if (q && DRAWER_I18N[q.toLowerCase()]) return q.toLowerCase();
+    const l = String(window.appLang || window.gatLang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+    return DRAWER_I18N[l] ? l : "en";
+  }
+
+  window.gatDrawerNav = function(target) {
+    window.toggleLeftDrawer(false);
+    const l = getActiveLang();
+    const langPrefix = (l && l !== "en") ? ("/" + l + "/") : "/";
+    const langQuery = (l && l !== "en") ? ("&lang=" + l) : "";
+    const isApp = window.location.pathname.indexOf("/app") === 0;
+
+    if (target === "sync") {
+      if (typeof window.openDeviceSyncModal === "function") window.openDeviceSyncModal();
+      else window.location.href = "/app/?sync=1" + langQuery;
+      return;
+    }
+    if (target === "home") {
+      if (isApp) window.location.href = langPrefix;
+      else if (typeof window.switchTab === "function") { window.switchTab(0); window.scrollTo({ top: 0, behavior: "smooth" }); }
+      else window.location.href = langPrefix;
+      return;
+    }
+    if (target === "paywall") {
+      if (typeof window.openProPaywall === "function") window.openProPaywall();
+      else window.location.href = "/app/?paywall=1" + langQuery;
+      return;
+    }
+    if (target === "faq") {
+      const faqEl = document.getElementById("gat-faq-pricing-legal");
+      if (faqEl) {
+        if (typeof window.switchTab === "function" && !isApp) window.switchTab(0, true, true);
+        setTimeout(function() { faqEl.scrollIntoView({ behavior: "smooth", block: "start" }); }, 80);
+      } else {
+        window.location.href = langPrefix + "#gat-faq-pricing-legal";
+      }
+      return;
+    }
+    // Otherwise target is an /app/ module name
+    if (isApp && typeof window.openMod === "function") {
+      window.openMod(target);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.location.href = "/app/?module=" + encodeURIComponent(target) + langQuery;
+    }
+  };
+
+  function rebuildUnifiedLeftDrawerDom() {
+    const l = getActiveLang();
+    const d = DRAWER_I18N[l] || DRAWER_I18N.en;
+
+    // Hide any legacy #app-drawer
+    const legacy = document.getElementById("app-drawer");
+    if (legacy) {
+      legacy.classList.remove("open");
+      legacy.style.display = "none";
+    }
+
+    let bd = document.getElementById("left-drawer");
+    if (!bd) {
+      bd = document.createElement("div");
+      bd.id = "left-drawer";
+      document.body.appendChild(bd);
+    }
+    bd.dir = (l === "he") ? "rtl" : "ltr";
+    bd.onclick = function(e) { if (e.target === bd) window.toggleLeftDrawer(false); };
+
+    let panel = document.getElementById("left-drawer-panel") || bd.querySelector(".drawer-panel");
+    if (!panel) {
+      panel = document.createElement("aside");
+      panel.id = "left-drawer-panel";
+      bd.appendChild(panel);
+    } else {
+      panel.id = "left-drawer-panel";
+    }
+
+    panel.innerHTML = `
+      <div class="drawer-brand-center" style="margin:0 -4px 10px -4px;padding:4px 10px 14px 10px;border-bottom:1.5px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;white-space:nowrap;font-size:1.38rem;font-weight:900;letter-spacing:-0.02em;color:#082548;line-height:1.1;direction:ltr;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:#0288E8;color:#fff;flex-shrink:0;box-shadow:0 4px 10px rgba(2,136,232,0.3);">
+            <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:#ffffff;"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg>
+          </span>
+          <span>Giyur<span style="color:#03A9F4;">Aliyah</span>Track</span>
+        </div>
+        <button type="button" onclick="window.toggleLeftDrawer(false)" style="background:#f1f5f9;color:#0f172a;border:1px solid #cbd5e1;width:32px;height:32px;border-radius:8px;font-weight:900;cursor:pointer;flex-shrink:0;">✕</button>
+      </div>
+      <button type="button" id="drawer-top-sync-btn" onclick="window.gatDrawerNav('sync')" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#ffffff;border:2.5px solid #4FC3F7;padding:12px 14px;border-radius:12px;font-size:0.9rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin:2px 0 10px 0;box-shadow:0 6px 18px rgba(3,169,244,0.35);">${d.sync}</button>
+      <button type="button" class="gat-ld-item" onclick="window.gatDrawerNav('home')">${d.home}</button>
+      <button type="button" class="gat-ld-item" onclick="window.gatDrawerNav('hebrew-engine')">${d.hebrew}</button>
+      <button type="button" class="gat-ld-item" onclick="window.gatDrawerNav('beit-din-150')">${d.bd}</button>
+      <button type="button" class="gat-ld-item" onclick="window.gatDrawerNav('couples-sync')">${d.couples}</button>
+      <button type="button" class="gat-ld-item" onclick="window.gatDrawerNav('songs-prayers')">${d.songs}</button>
+      <button type="button" class="gat-ld-item" onclick="window.gatDrawerNav('rabbi-letters')">${d.rabbi}</button>
+      <button type="button" class="gat-ld-item" onclick="window.gatDrawerNav('vetted-team')">${d.vetted}</button>
+      <button type="button" class="gat-ld-item" onclick="window.gatDrawerNav('faq')">${d.faq}</button>
+      <button type="button" class="gat-ld-item" style="color:#0288D1;border-bottom:none;" onclick="window.gatDrawerNav('paywall')">${d.paywall}</button>
+    `;
+
+    // Wire every .hamburger-btn on the page directly to window.toggleLeftDrawer
+    document.querySelectorAll(".hamburger-btn").forEach(function(hb) {
+      hb.onclick = function(ev) {
+        if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+        window.toggleLeftDrawer();
+      };
+    });
+  }
+
+  window.toggleLeftDrawer = function(open) {
+    rebuildUnifiedLeftDrawerDom();
+    const bd = document.getElementById("left-drawer");
+    if (!bd) return;
+    const nextState = typeof open === "boolean" ? open : !bd.classList.contains("open");
+    bd.classList.toggle("open", nextState);
+  };
+  window.toggleDrawer = window.toggleLeftDrawer;
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", rebuildUnifiedLeftDrawerDom);
+  } else {
+    rebuildUnifiedLeftDrawerDom();
+  }
+
+  // Handle ?paywall=1 or ?sync=1 URL triggers on /app/
+  setTimeout(function() {
+    const sp = new URLSearchParams(window.location.search);
+    if (sp.get("paywall") === "1" && typeof window.openProPaywall === "function") window.openProPaywall();
+    if (sp.get("sync") === "1" && typeof window.openDeviceSyncModal === "function") window.openDeviceSyncModal();
+  }, 400);
+
+  // ==========================================================================
+  // REAL HUMAN VISITOR & PAGE DWELL-TIME PULSE TRACKER (FIREBASE)
+  // ==========================================================================
+  (function initFirebaseHumanVisitorPulse() {
+    try {
+      const ua = navigator.userAgent || "";
+      if (navigator.webdriver || /bot|crawler|spider|slurp|bingpreview|facebookexternalhit|headless|lighthouse|gtmetrix/i.test(ua)) {
+        return; // Ignore bots & crawlers
+      }
+      let vid = localStorage.getItem("gat_human_vid");
+      if (!vid) {
+        vid = "v_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+        localStorage.setItem("gat_human_vid", vid);
+      }
+      let sid = sessionStorage.getItem("gat_human_sid");
+      if (!sid) {
+        sid = "s_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 7);
+        sessionStorage.setItem("gat_human_sid", sid);
+      }
+
+      let unushedSec = 0;
+      let totalPageSec = 0;
+      let initialSent = false;
+
+      function getCleanPath() {
+        const p = window.location.pathname || "/";
+        const sp = new URLSearchParams(window.location.search);
+        const m = sp.get("module") || sp.get("mod") || "";
+        return m ? (p + "?module=" + m) : p;
+      }
+
+      function sendPulse(deltaSec, isArrival) {
+        if (!isArrival && deltaSec <= 0) return;
+        const payload = JSON.stringify({
+          mode: "visitor_pulse",
+          vid: vid,
+          sid: sid,
+          uid: window.gatUid || localStorage.getItem("gat_uid") || "",
+          lang: getActiveLang(),
+          path: getCleanPath(),
+          deltaSec: deltaSec,
+          totalPageSec: totalPageSec,
+          isArrival: !!isArrival,
+          tz: (Intl && Intl.DateTimeFormat) ? (Intl.DateTimeFormat().resolvedOptions().timeZone || "") : "",
+          ref: document.referrer ? String(document.referrer).slice(0, 120) : "",
+          screen: window.innerWidth + "x" + window.innerHeight
+        });
+        unushedSec = 0;
+        fetch("/api/auditDoc", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: payload,
+          keepalive: true
+        }).catch(function() {});
+      }
+
+      // Send initial arrival pulse after 3 seconds of real human presence
+      setTimeout(function() {
+        if (document.visibilityState === "visible") {
+          initialSent = true;
+          sendPulse(3, true);
+        }
+      }, 3000);
+
+      // Count active foreground seconds
+      setInterval(function() {
+        if (document.visibilityState === "visible") {
+          unushedSec += 1;
+          totalPageSec += 1;
+          if (initialSent && unushedSec >= 25) {
+            sendPulse(unushedSec, false);
+          }
+        }
+      }, 1000);
+
+      document.addEventListener("visibilitychange", function() {
+        if (document.visibilityState === "hidden" && unushedSec > 0) {
+          sendPulse(unushedSec, false);
+        }
+      });
+      window.addEventListener("pagehide", function() {
+        if (unushedSec > 0) sendPulse(unushedSec, false);
+      });
+    } catch (e) {}
+  })();
 })();

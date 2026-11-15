@@ -139,6 +139,86 @@ exports.auditDoc = onRequest(
     // ========================================================================
     // 0. IN-APP 24/7 3-TIER AI TRACK PARTNER & BLACK-BOX GATEKEEPER (mode === "helpdesk_chat")
     // ========================================================================
+        // ========================================================================
+    // 0A. REAL HUMAN VISITOR & PAGE DWELL-TIME PULSE TRACKER (mode === "visitor_pulse" / "admin_get_analytics")
+    // ========================================================================
+    if (req.body && req.body.mode === "visitor_pulse") {
+      try {
+        const db = admin.firestore();
+        const vid = String(req.body.vid || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 48);
+        if (!vid) return res.status(200).json({ ok: true });
+        const lang = String(req.body.lang || "en").slice(0, 5);
+        const pathKey = String(req.body.path || "/").slice(0, 120);
+        const safePathField = pathKey.replace(/[.#$/\[\]]/g, "_");
+        const deltaSec = Math.max(0, Math.min(120, Number(req.body.deltaSec) || 0));
+        const isArrival = !!req.body.isArrival;
+        const tz = String(req.body.tz || "").slice(0, 60);
+        const ref = String(req.body.ref || "").slice(0, 120);
+        const screen = String(req.body.screen || "").slice(0, 24);
+        const dayStr = new Date().toISOString().slice(0, 10);
+        const nowMs = Date.now();
+
+        const dayRef = db.collection("site_analytics_daily").doc(dayStr);
+        const visRef = db.collection("site_visitors_recent").doc(vid);
+
+        const dayUpdate = {
+          date: dayStr,
+          updatedAt: nowMs,
+          totalSeconds: admin.firestore.FieldValue.increment(deltaSec),
+          [`langSeconds.${lang}`]: admin.firestore.FieldValue.increment(deltaSec),
+          [`pageSeconds.${safePathField}`]: admin.firestore.FieldValue.increment(deltaSec)
+        };
+        if (isArrival) {
+          dayUpdate.totalPageViews = admin.firestore.FieldValue.increment(1);
+          dayUpdate[`langViews.${lang}`] = admin.firestore.FieldValue.increment(1);
+          dayUpdate[`pageViews.${safePathField}`] = admin.firestore.FieldValue.increment(1);
+        }
+
+        await Promise.all([
+          dayRef.set(dayUpdate, { merge: true }),
+          visRef.set({
+            vid,
+            lastSeen: nowMs,
+            day: dayStr,
+            lang,
+            currentPath: pathKey,
+            tz,
+            ref,
+            screen,
+            totalSeconds: admin.firestore.FieldValue.increment(deltaSec),
+            [`pages.${safePathField}`]: admin.firestore.FieldValue.increment(deltaSec)
+          }, { merge: true })
+        ]);
+        return res.status(200).json({ ok: true });
+      } catch (e) {
+        return res.status(200).json({ ok: false });
+      }
+    }
+
+    if (req.body && req.body.mode === "admin_get_analytics") {
+      try {
+        const expectedPin = process.env.GAT_ADMIN_PIN || "6130";
+        if (String(req.body.adminPin || "").trim() !== expectedPin) {
+          return res.status(403).json({ ok: false, error: "Invalid Admin PIN" });
+        }
+        const db = admin.firestore();
+        const dayStr = new Date().toISOString().slice(0, 10);
+        const [daySnap, recentSnap] = await Promise.all([
+          db.collection("site_analytics_daily").doc(dayStr).get(),
+          db.collection("site_visitors_recent").orderBy("lastSeen", "desc").limit(50).get()
+        ]);
+        const visitors = [];
+        recentSnap.forEach(doc => visitors.push(doc.data()));
+        return res.status(200).json({
+          ok: true,
+          today: daySnap.exists ? daySnap.data() : { date: dayStr, totalSeconds: 0, totalPageViews: 0 },
+          visitors
+        });
+      } catch (e) {
+        return res.status(500).json({ ok: false, error: e.message });
+      }
+    }
+
     if (req.body && req.body.mode === "helpdesk_chat") {
       try {
         const db = admin.firestore();
