@@ -38,7 +38,7 @@
   "b5_t": "5 à 8+ Lettres Tamponnées de Rabbin & Hôtes",
   "b5_d": "Modèles en hébreu prêts à signer sur WhatsApp pour votre rabbin et famille d'accueil.",
   "b6_top": "Case 7 • Conjoints",
-  "b6_t": "Visa Conjoint (Nohal 5.2.0008) & 80 Questions",
+  "b6_t": "Visa Conjoint (Nohal 5.2.0008) & 300 Questions",
   "b6_d": "Réussir l'interrogatoire séparé et obtenir le permis B/1 puis la Teudat Zehut A/5.",
   "b7_top": "Case 8 • Casier",
   "b7_t": "Aliyah ou Visa avec un Antécédent (Bulletin n°3)",
@@ -68,7 +68,7 @@
   "mesh_2": "⚖️ Va'adat Charigim (Formulaire Ash/1) : Giyur d'État Touriste/Étudiant",
   "mesh_3": "⏱️ Les 5 Pièces Apostillées & l'Horloge de 180 Jours (Bulletin n°3)",
   "mesh_4": "✍️ Obtenir 5 à 8+ Lettres Tamponnées de Rabbin & Famille d'Accueil",
-  "mesh_5": "💍 Visa Conjoint Misrad HaPanim (Nohal 5.2.0008) & 80 Questions",
+  "mesh_5": "💍 Visa Conjoint Misrad HaPanim (Nohal 5.2.0008) & 300 Questions",
   "mesh_6": "📸 Traducteur Guichetier & Formulaires Ash/1 + Ash/3 en Hébreu",
   "mesh_7": "🛡️ Aliyah ou Visa Conjoint avec un Antécédent (Réhabilitation)",
   "mesh_8": "💼 Survie Touriste B/2 : Télétravail Étranger Légal & Logement",
@@ -145,9 +145,9 @@
     },
     {
       "tag": "Voie 4 • Visa Conjoint Misrad HaPanim (Nohal 5.2.0008)",
-      "title": "La Procédure Graduée (Tahalich Medurag) & L'Interrogatoire de 80 Questions",
+      "title": "La Procédure Graduée (Tahalich Medurag) & L'Interrogatoire de 300 Questions",
       "body": "Pour les couples mariés ou concubins (Yeduim BeTzibur) : obtenez le permis de travail B/1 puis la Teudat Zehut A/5.",
-      "badTitle": "❌ L'Interrogatoire Séparé (80 Questions) :",
+      "badTitle": "❌ L'Interrogatoire Séparé (300 Questions) :",
       "badText": "• Les deux conjoints sont interrogés séparément sur leur quotidien. 3 contradictions bloquent le visa d'un an.",
       "goodTitle": "✅ Simulateur de Synchronisation Couples :",
       "goodText": "• Entraînez-vous sur les 80 questions réelles du Misrad HaPanim dans l'application.",
@@ -254,11 +254,40 @@
       "goodTitle": "⚡ La Solution 100% Cachère & Halachique dans le Même Délai",
       "goodText": "<ul><li>Choisissez la <strong>Voie 2 (Beit Din Orthodoxe Privé sous l'arrêt Rogachova + Ishur Giyur du Beit HaDin HaGadol)</strong> ou la <strong>Voie 3 (Conversion d'État Nativ)</strong> avec notre équipe bienveillante de rabbins et Madrichot Kallah reconnus par la Rabbanut !</li></ul><br><button class='btn-sky' onclick='closeObstacle(); switchTab(3);'>Rencontrer Notre Équipe Orthodoxe Reconnue →</button>",
       "time": "⏱️ Protégez Votre Âme, Votre Mariage et Vos Futurs Enfants"
+    },
+    "overseas_giyur": {
+      "tag": "🌍 Overseas Conversions (RCA / London Beth Din / Consistoire / cRc / COR)",
+      "title": "WhyEven Recognized Overseas Conversions Get Blocked Without 'Ishur Giyur' & 9–12 Months Community Residency",
+      "body": "Converted abroad through a recognized Orthodox court like the RCA/GPS (US), cRc (Chicago), COR (Canada), London Beth Din (UK), Consistoire (France), ORD (Germany), or AMIA (Argentina)? Both the Jewish Agency and Misrad HaPanim enforce a strict rule: you must prove 9 to 12+ months of active residency in that exact converting community AFTER your Mikvah date before applying for Aliyah—or come to Israel and validate your conversion through the Chief Rabbinate (Rabbanut) / State Giyur.",
+      "badTitle": "🚨 The 'Fly Straight After the Mikvah' Trap",
+      "badText": "Flying to Israel immediately after an overseas Mikvah (or holding a private overseas conversion not on the Chief Rabbinate's approved list) triggers an automatic Aliyah freeze and prevents you from marrying in Israel through the Rabbanut.",
+      "goodTitle": "⚡ The 2 Proven Solutions (Supreme Rabbinical Court 'Ishur Giyur' or In-Israel Rabbanut Track)",
+      "goodText": "Before you board a plane or walk into Misrad HaPanim, get your 5 double-Apostilled homeland civil documents, obtain formal Chief Rabbinate recognition ('Ishur Giyur'), or enter our Vetted Sponsoring Rabbi & Rabbanut track so your marriage and Aliyah are 100% bulletproof."
+    },
+    "spousal_deep_dive": {
+      "tag": "DOSSIER COMPLET • PROCÉDURE 5.2.0008 / 5.2.0009 & PIÈGE DU NOUVEAU-NÉ SANS TEUDAT ZEHUT",
+      "title": "Le Guide Complet des 5 Ans du Visa Conjoint, l'Interrogatoire des 300 Questions & Comment Inscrire Votre Bébé sur Votre Teudat Zehut Sans Blocage de 2 Ans.",
+      "body": "Que vous soyez mariés (Nohal 5.2.0008, Formulaire Ash/6) ou concubins (Nohal 5.2.0009, Formulaires Ash/1 + Ash/3 + Annexe A en 13 clauses), le Misrad HaPanim impose un parcours gradué de 5 ans—et si un enfant naît avant que votre dossier ne soit blindé, les agents peuvent refuser d'inscrire votre bébé sur votre Teudat Zehut (Sefach) pendant deux ans.",
+      "badTitle": "🚨 Les 4 Pièges Brutaux du Visa Conjoint & de la Naissance d'un Enfant (Nohal 5.2.0008 & 5.2.0004)",
+      "badText": "<ul><li><strong>1. Le Bluff de Fermeture sous 30 Jours vs Art. ה.2(8) :</strong> Selon l'édition juillet 2026 du Nohal 5.2.0008 art. ה.2(8), vous avez droit à <strong>45 + 45 jours</strong> pour fournir les pièces manquantes, et à un recours écrit de <strong>21 jours (Nohal 1.6.0001)</strong> !</li><li><strong>2. Le Droit au Double Parcours Conjoint + Giyur (Art. ג.10) :</strong> L'article ג.10 vous autorise formellement à mener simultanément votre résidence conjoint ET votre conversion au Grand Rabbinat !</li><li><strong>3. Le Cauchemar du Nouveau-Né Non Inscrit sur la Teudat Zehut (Nohal 5.2.0004) :</strong> Lorsqu'un bébé naît en Israël d'un parent israélien et d'un conjoint étranger/en conversion, l'hôpital ne délivre qu'un avis de naissance sans numéro d'identité. Sans preuve de <strong>300 jours de vie commune avant la naissance</strong>, le Misrad HaPanim exige un <strong>test ADN judiciaire (Bdikot Rikmot) coûtant 15 000 ₪+</strong>, bloquant les allocations Bituach Leumi et la Kupat Cholim pendant 2 ans !</li><li><strong>4. L'Interrogatoire Annuel des 300 Questions en Salles Séparées :</strong> Chaque année, les agents vous séparent dans deux pièces pour vérifier 80 détails de votre vie quotidienne.</li></ul>",
+      "goodTitle": "⚡ Le Bouclier en 4 Étapes pour Obtenir le Statut A/5, Réussir les 300 Questions & Inscrire Votre Bébé dès le 1er Jour",
+      "goodText": "<ul><li><strong>1. Remplir le Formulaire Ash/6 (6 Pages) + Lettre Statutaire :</strong> Inclut l'attestation de bail (p. 5) et la dispense de certificat de célibat séparé (art. ד.2.ה).</li><li><strong>2. Verrouiller la Preuve des 300 Jours Avant l'Accouchement :</strong> Enregistrez votre bail commun, Arnona et factures au moins 300 jours avant la naissance pour inscrire immédiatement votre bébé sur le Sefach de la Teudat Zehut sans test ADN !</li><li><strong>3. Synchroniser vos Réponses sur 2 Téléphones (300 Questions) :</strong> Testez-vous en direct avant le rendez-vous au Misrad HaPanim.</li><li><strong>4. Valider la Conversion & le Mariage au Rabbinat en Parallèle :</strong> Étudiez ensemble avec notre Rabbin accompagnateur et notre Madrichat Kallah reconnus.</li></ul>",
+      "time": "⏱️ Économise 2 à 4 Ans • Évite 15 000 ₪ de Procès ADN & les Blocages de Dossier"
+    },
+    "newborn_sefach": {
+      "tag": "DOSSIER COMPLET • PROCÉDURE 5.2.0008 / 5.2.0009 & PIÈGE DU NOUVEAU-NÉ SANS TEUDAT ZEHUT",
+      "title": "Le Guide Complet des 5 Ans du Visa Conjoint, l'Interrogatoire des 300 Questions & Comment Inscrire Votre Bébé sur Votre Teudat Zehut Sans Blocage de 2 Ans.",
+      "body": "Que vous soyez mariés (Nohal 5.2.0008, Formulaire Ash/6) ou concubins (Nohal 5.2.0009, Formulaires Ash/1 + Ash/3 + Annexe A en 13 clauses), le Misrad HaPanim impose un parcours gradué de 5 ans—et si un enfant naît avant que votre dossier ne soit blindé, les agents peuvent refuser d'inscrire votre bébé sur votre Teudat Zehut (Sefach) pendant deux ans.",
+      "badTitle": "🚨 Les 4 Pièges Brutaux du Visa Conjoint & de la Naissance d'un Enfant (Nohal 5.2.0008 & 5.2.0004)",
+      "badText": "<ul><li><strong>1. Le Bluff de Fermeture sous 30 Jours vs Art. ה.2(8) :</strong> Selon l'édition juillet 2026 du Nohal 5.2.0008 art. ה.2(8), vous avez droit à <strong>45 + 45 jours</strong> pour fournir les pièces manquantes, et à un recours écrit de <strong>21 jours (Nohal 1.6.0001)</strong> !</li><li><strong>2. Le Droit au Double Parcours Conjoint + Giyur (Art. ג.10) :</strong> L'article ג.10 vous autorise formellement à mener simultanément votre résidence conjoint ET votre conversion au Grand Rabbinat !</li><li><strong>3. Le Cauchemar du Nouveau-Né Non Inscrit sur la Teudat Zehut (Nohal 5.2.0004) :</strong> Lorsqu'un bébé naît en Israël d'un parent israélien et d'un conjoint étranger/en conversion, l'hôpital ne délivre qu'un avis de naissance sans numéro d'identité. Sans preuve de <strong>300 jours de vie commune avant la naissance</strong>, le Misrad HaPanim exige un <strong>test ADN judiciaire (Bdikot Rikmot) coûtant 15 000 ₪+</strong>, bloquant les allocations Bituach Leumi et la Kupat Cholim pendant 2 ans !</li><li><strong>4. L'Interrogatoire Annuel des 300 Questions en Salles Séparées :</strong> Chaque année, les agents vous séparent dans deux pièces pour vérifier 80 détails de votre vie quotidienne.</li></ul>",
+      "goodTitle": "⚡ Le Bouclier en 4 Étapes pour Obtenir le Statut A/5, Réussir les 300 Questions & Inscrire Votre Bébé dès le 1er Jour",
+      "goodText": "<ul><li><strong>1. Remplir le Formulaire Ash/6 (6 Pages) + Lettre Statutaire :</strong> Inclut l'attestation de bail (p. 5) et la dispense de certificat de célibat séparé (art. ד.2.ה).</li><li><strong>2. Verrouiller la Preuve des 300 Jours Avant l'Accouchement :</strong> Enregistrez votre bail commun, Arnona et factures au moins 300 jours avant la naissance pour inscrire immédiatement votre bébé sur le Sefach de la Teudat Zehut sans test ADN !</li><li><strong>3. Synchroniser vos Réponses sur 2 Téléphones (300 Questions) :</strong> Testez-vous en direct avant le rendez-vous au Misrad HaPanim.</li><li><strong>4. Valider la Conversion & le Mariage au Rabbinat en Parallèle :</strong> Étudiez ensemble avec notre Rabbin accompagnateur et notre Madrichat Kallah reconnus.</li></ul>",
+      "time": "⏱️ Économise 2 à 4 Ans • Évite 15 000 ₪ de Procès ADN & les Blocages de Dossier"
     }
   },
   "_blocks": {
     "#left-drawer-panel": "<div><div class=\"drawer-brand-center\"><div class=\"brand-title\" style=\"font-size:1.3rem;\">🛠️ Dossiers & <span>Conciergerie</span></div></div><div class=\"drawer-dark-stats\" style=\"border-color:#38bdf8;\"><div class=\"dds-head\" style=\"color:#38bdf8;\"><span>🛡️ Bouclier Bureaucratie 1-Coup</span><span>✓</span></div><div class=\"dds-grid\"><div><span class=\"dds-num\">5 Pièces</span><span class=\"dds-lbl\">Horloge 180j</span></div><div><span class=\"dds-num\">2-Sens</span><span class=\"dds-lbl\">PDF Hébreu</span></div><div><span class=\"dds-num\">5–8+</span><span class=\"dds-lbl\">Lettres Rabbin</span></div></div></div><div class=\"drawer-list\"><button class=\"drawer-row\" onclick=\"openTerm('go_bag'); toggleLeftDrawer(false);\">🚨 Dossier Go-Bag & Aliyah d'Urgence</button><button class=\"drawer-row\" onclick=\"openTerm('bridge_health'); toggleLeftDrawer(false);\">🏥 Assurance Santé 60–90 Jours (Sans TZ)</button><button class=\"drawer-row\" onclick=\"openTerm('fx_shield'); toggleLeftDrawer(false);\">💸 Payer Loyer en ₪ & Économiser 2,5% FX</button><button class=\"drawer-row\" onclick=\"switchTab(4); toggleLeftDrawer(false);\">📸 Traducteur Guichetier & PDF Hébreu</button><button class=\"drawer-row\" onclick=\"switchTab(3); toggleLeftDrawer(false);\">🕍 Rabbin Accompagnateur & Madrichat Kallah</button><button class=\"drawer-row\" onclick=\"openObstacle(8); toggleLeftDrawer(false);\">💼 Survie Touriste : Télétravail & Logement</button><button class=\"drawer-row\" onclick=\"openTerm('community_letters'); toggleLeftDrawer(false);\">✍️ Générateur de Lettres & En-tête Rabbin</button><button class=\"drawer-row\" onclick=\"openTerm('five_docs'); toggleLeftDrawer(false);\">✈️ 5 Pièces Apostillées & Règle 24 Mois</button><button class=\"drawer-row\" onclick=\"openTerm('vaadat_charigim'); toggleLeftDrawer(false);\">⚖️ Guide Va'adat Charigim (Formulaire Ash/1)</button><button class=\"drawer-row\" onclick=\"switchTab(3); toggleLeftDrawer(false);\">ℹ️ Ce Que Nous Sommes — Et Ne Sommes PAS</button></div></div><div><button class=\"btn-install-navy\" onclick=\"switchTab(2); toggleLeftDrawer(false);\">⏱️ Calculer Temps & Argent Économisés →</button></div>",
-    "#app-drawer .drawer-panel": "<div><div class=\"drawer-brand-center\"><div class=\"brand-title\" style=\"font-size:1.4rem;\">Giyur<span>Aliyah</span>Track</div></div><div class=\"drawer-dark-stats\"><div class=\"dds-head\"><span>⚡ Bouclier Anti-Boucle</span><span>↻</span></div><div class=\"dds-grid\"><div><span class=\"dds-num green\">3,5 Ans</span><span class=\"dds-lbl\">Économisés</span></div><div><span class=\"dds-num\">150 Q.</span><span class=\"dds-lbl\">Beit Din</span></div><div><span class=\"dds-num\">80 Q.</span><span class=\"dds-lbl\">Synchro Couple</span></div></div></div><div class=\"drawer-list\"><a href=\"/app?module=beit-din-150\" class=\"drawer-row\">🕍 150 Questions Beit Din (Simulateur)</a><a href=\"/app?module=songs-prayers\" class=\"drawer-row\">🎵 12 Chants de Chabbat, Prières & Chema</a><a href=\"/app?module=couples-sync\" class=\"drawer-row\">📱 Synchro 80 Questions sur 2 Téléphones</a><button class=\"drawer-row\" onclick=\"switchTab(4); toggleDrawer(false);\">📊 Suivi en Direct : Horloges 180j & 30j</button><a href=\"/app\" class=\"drawer-row\" style=\"color:var(--sky);\">🔐 Portail Complet des Membres (/app)</a></div></div><div><button class=\"btn-install-navy\" onclick=\"alert('Pour installer l\\'application : touchez Partager dans Safari/Chrome puis Sur l\\'écran d\\'accueil.')\">📲 Installer l'Application</button></div>",
+    "#app-drawer .drawer-panel": "<div><div class=\"drawer-brand-center\"><div class=\"brand-title\" style=\"font-size:1.4rem;\">Giyur<span>Aliyah</span>Track</div></div><div class=\"drawer-dark-stats\"><div class=\"dds-head\"><span>⚡ Bouclier Anti-Boucle</span><span>↻</span></div><div class=\"dds-grid\"><div><span class=\"dds-num green\">3,5 Ans</span><span class=\"dds-lbl\">Économisés</span></div><div><span class=\"dds-num\">150 Q.</span><span class=\"dds-lbl\">Beit Din</span></div><div><span class=\"dds-num\">80 Q.</span><span class=\"dds-lbl\">Synchro Couple</span></div></div></div><div class=\"drawer-list\"><a href=\"/app?module=beit-din-150\" class=\"drawer-row\">🕍 150 Questions Beit Din (Simulateur)</a><a href=\"/app?module=songs-prayers\" class=\"drawer-row\">🎵 12 Chants de Chabbat, Prières & Chema</a><a href=\"/app?module=couples-sync\" class=\"drawer-row\">📱 Synchro 300 Questions sur 2 Téléphones</a><button class=\"drawer-row\" onclick=\"switchTab(4); toggleDrawer(false);\">📊 Suivi en Direct : Horloges 180j & 30j</button><a href=\"/app\" class=\"drawer-row\" style=\"color:var(--sky);\">🔐 Portail Complet des Membres (/app)</a></div></div><div><button class=\"btn-install-navy\" onclick=\"alert('Pour installer l\\'application : touchez Partager dans Safari/Chrome puis Sur l\\'écran d\\'accueil.')\">📲 Installer l'Application</button></div>",
     "#mesh-title": "📚 Guides Statutaires Officiels & Procédures Misrad HaPanim / Rabbanut",
     "#view-2 .hero-center p": "Les guichetiers et les Apostilles expirées font perdre 2 à 4 ans. Calculez combien de temps notre méthode vous fait gagner :",
     "#view-2 .zehut-select-label": "Sélectionnez Votre Situation / Voie Cible :",
@@ -279,16 +308,16 @@
     "#view-3 .hero-center p": "Les deux partenaires doivent suivre le cours. Choisissez ce dont vous avez besoin pour une mise en relation directe :",
     "#view-3 .vetted-card": "<h3>🛡️ Ce Que Nous Sommes — Et Ce Que Nous Ne Sommes PAS</h3>\n        <p style=\"margin-bottom:8px;\"><strong>Ce que nous ne sommes PAS :</strong> Nous ne sommes <strong>PAS avocats</strong>, <strong>PAS rabbins ni un Beit Din</strong>, et <strong>PAS un organisme gouvernemental</strong>.</p>\n        <p style=\"margin-bottom:0;\"><strong>Ce que nous SOMMES :</strong> Des couples ayant traversé ce labyrinthe de 5 ans qui ont créé le moteur d'ordonnancement des pièces, le traducteur de lettres guichetier, le générateur PDF en hébreu et le simulateur <em>Ma'amad Beit Din</em>.</p>",
     "#view-4 .shield-banner": "<div class=\"sb-top\"><span class=\"sb-tag\">🟢 Synchronisé Gov.il (Nohal 5.2.0008 Éd. 16)</span><span class=\"sb-live\" id=\"tracker-progress-badge\">2 / 9 Terminés • 2 En attente</span></div>\n        <h3>Ne Perdez Jamais un An à Cause d'une Apostille Expirée ou d'un Dossier Fermé</h3>\n        <p>Touchez le statut de chaque étape (<strong>Non commencé ➔ En attente ➔ Terminé</strong>) pour ancrer vos horloges de 180 jours (Apostille) et 30 jours (Misrad HaPanim).</p>\n        <div class=\"timer-strip\"><div class=\"timer-box\"><div class=\"tb-label\">Validité Apostille</div><div class=\"tb-val\" id=\"timer-apostille\">148 Jours Restants</div></div><div class=\"timer-box\"><div class=\"tb-label\">Bouclier 30 Jours</div><div class=\"tb-val\" id=\"timer-clerk\" style=\"color:#3b82f6;\">Protégé (29j)</div></div></div>",
-    "#view-4 .two-way-bar": "<a href=\"/app?module=songs-prayers\" class=\"btn-action-tile\"><div class=\"bat-top\">🎵 Audio + Coach IA</div><div class=\"bat-title\">12 Chants de Chabbat, Prières & Chema</div></a>\n        <a href=\"/app?module=beit-din-150\" class=\"btn-action-tile\"><div class=\"bat-top\">🕍 Simulation Ma'amad Beit Din</div><div class=\"bat-title\">150 Questions du Beit Din</div></a>\n        <a href=\"/app?module=couples-sync\" class=\"btn-action-tile\"><div class=\"bat-top\">📱 Synchro 2 Téléphones en Direct</div><div class=\"bat-title\">Interrogatoire Couples 80 Questions</div></a>\n        <a href=\"/app?module=hebrew-engine\" class=\"btn-action-tile\"><div class=\"bat-top\">📸 Traducteur + 📝 PDF Hébreu</div><div class=\"bat-title\">Scanner Lettre / Formulaires Ash/1 & Ash/3</div></a>",
+    "#view-4 .two-way-bar": "<a href=\"/app?module=songs-prayers\" class=\"btn-action-tile\"><div class=\"bat-top\">🎵 Audio + Coach IA</div><div class=\"bat-title\">12 Chants de Chabbat, Prières & Chema</div></a>\n        <a href=\"/app?module=beit-din-150\" class=\"btn-action-tile\"><div class=\"bat-top\">🕍 Simulation Ma'amad Beit Din</div><div class=\"bat-title\">150 Questions du Beit Din</div></a>\n        <a href=\"/app?module=couples-sync\" class=\"btn-action-tile\"><div class=\"bat-top\">📱 Synchro 2 Téléphones en Direct</div><div class=\"bat-title\">Interrogatoire Couples 300 Questions</div></a>\n        <a href=\"/app?module=hebrew-engine\" class=\"btn-action-tile\"><div class=\"bat-top\">📸 Traducteur + 📝 PDF Hébreu</div><div class=\"bat-title\">Scanner Lettre / Formulaires Ash/1 & Ash/3</div></a>",
     "#track-0": "<span class=\"tc-pill\">Voie 1 • Départ d'Urgence : Juifs de Naissance, Couples Mixtes & Candidats en Cours de Giyur</span>\n        <h2>Aliyah d'Urgence, « Issue de Secours » Mi-Conversion & Dossier Go-Bag</h2>\n        <p class=\"tc-lead\"><strong>Juif de naissance, couple mixte ou bloqué au milieu d'une conversion (Consistoire / Beth Din) à l'étranger ?</strong> N'attendez pas 9 mois au consulat : entrez avec un visa B/2 et transférez votre dossier directement en Israël grâce à votre Go-Bag :</p>\n        <ul class=\"tc-list\">\n          <li><strong>🆘 L'Issue de Secours « Mi-Conversion » & Post-Mikvé (Tik Ha'avarah) :</strong> En plein Giyur au Consistoire/Beth Din ou bloqué par la règle des 9 mois après le Mikvé ? Emportez un <strong>Dossier de Transfert Officiel Tamponné (<em>Tik Ha'avarah</em>)</strong> détaillant vos heures d'étude, Chabbatot et attestation du Dayan pour basculer vers un Beit Din privé en Israël (Voie 2), la <em>Va'adat Charigim</em> (Formulaire Ash/1, Voie 3) ou demander une dérogation humanitaire aux 9 mois !</li>\n          <li><strong>📋 Les 7 Originaux Doublement Apostillés (<span class=\"term-link\" onclick=\"openTerm('go_bag')\">Voir le Dossier Go-Bag ⓘ</span>) :</strong> 2 exemplaires de votre <strong>Copie Intégrale d'Acte de Naissance</strong>, <strong>Bulletin n°3</strong> apostillé (&lt;180j), <strong>Livret de Famille / Célibat</strong> apostillé, et <strong>Attestation du Consistoire / Dossier Beit Din</strong>.</li>\n          <li><strong>🏥💸 Survivre 60–90 Jours Sans Teudat Zehut :</strong> Activez votre <span class=\"term-link\" onclick=\"openTerm('bridge_health')\">Assurance Santé Transitoire 60–90 Jours (Maccabi/Clalit) ⓘ</span> et payez votre propriétaire en ₪ via notre <span class=\"term-link\" onclick=\"openTerm('fx_shield')\">Pont de Change Aliyah Sans Teudat Zehut ⓘ</span>.</li>\n        </ul>\n        <button class=\"btn-sky\" onclick=\"switchTab(4)\">Charger la Voie 1 & l'Issue de Secours dans Mon Suivi →</button>",
     "#track-1": "<span class=\"tc-pill\">Voie 2 • Devenir 100% Juif Halakhique Plus Vite (Gush Etzion, Bnei Brak)</span>\n        <h2>Beit Din Orthodoxe Privé (Gush Etzion, Bnei Brak & Validation Rabbanut)</h2>\n        <p class=\"tc-lead\"><strong>Idéal pour devenir 100% juif selon la Halakha sans attendre des années les guichetiers !</strong> Excellent pour les étudiants ou les couples souhaitant une Houppa casher maintenant avant de valider au Grand Rabbinat :</p>\n        <ul class=\"tc-list\">\n          <li><strong>💸 Le Piège des 24 Mois du Sal Klita (~21 700 ₪ en Jeu !) :</strong> Dépasser <strong>24 mois cumulés en Israël</strong> sur les 3 ans précédant la Teudat Oleh annule votre prime d'intégration Sal Klita !</li>\n          <li><strong>🛡️ L'Arrêt <em>Rogachova</em> de la Cour Suprême (HCJ 7625/06) face au Mur Touristique :</strong> Bien que l'arrêt <em>Rogachova</em> (2016) reconnaisse les tribunaux orthodoxes privés établis (<em>Gush Etzion / Bnei Brak</em>) pour la Loi du Retour sous visa long séjour, les touristes B/2 font face aux blocages du Misrad HaPanim — et le Grand Rabbinat exige l'<em>Ishur Giyur</em> pour le mariage. <a href=\"/fr/dahan-ruling-non-orthodox-conversion-aliyah-truth/\" style=\"color:var(--sky);font-weight:800;text-decoration:underline;\">Vous envisagez la voie non-orthodoxe Dahan ? Lisez ce guide vérité d'abord →</a></li>\n          <li><strong>⚡ Zéro Apostille Requise à l'Ouverture :</strong> Aucun Bulletin n°3 ou Apostille n'est requis pour ouvrir un dossier privé ! Vous n'aurez besoin des <span class=\"term-link\" onclick=\"openTerm('five_docs')\">5 Pièces Apostillées Obligatoires ⓘ</span> que pour le pont vers le Rabbinat ou le Misrad HaPanim.</li>\n          <li><strong>💣 Ne Laissez Jamais la Validation Inachevée :</strong> S'arrêter après le Mikvé sans <span class=\"term-link\" onclick=\"openTerm('ishur_giyur')\">Validation du Grand Rabbinat (Ishur Giyur) ⓘ</span> bloque le mariage au Rabbinat pour vous et vos futurs enfants.</li>\n        </ul>\n        <button class=\"btn-sky\" onclick=\"switchTab(4)\">Charger la Voie 2 dans Mon Suivi en Direct →</button>",
     "#track-2": "<span class=\"tc-pill\">Voie 3 • Conversion d'État Officielle & Aliyah Loi du Retour</span>\n        <h2>Giyur d'État (Nativ / Ma'arach HaGiyur) & Grand Rabbinat</h2>\n        <p class=\"tc-lead\">La voie gouvernementale officielle qui ouvre droit à la citoyenneté israélienne (Aliyah) dès l'immersion au Mikvé :</p>\n        <ul class=\"tc-list\">\n          <li><strong>✈️ Faut-il Rentrer Chercher ses Pièces ? (Horloge 180j & 3 Profils) :</strong> Si vous avez déjà vos 5 pièces apostillées, restez en Israël ! Sinon, vérifiez les <span class=\"term-link\" onclick=\"openTerm('five_docs')\">5 Pièces Apostillées & les 3 Profils Aliyah/Giyur ⓘ</span> avant l'expiration des <strong>180 jours</strong>.</li>\n          <li><strong>⚠️ Le Mur Touristique/Étudiant (Va'adat Charigim) :</strong> Les non-citoyens doivent d'abord obtenir l'accord du <span class=\"term-link\" onclick=\"openTerm('vaadat_charigim')\">Comité des Exceptions (Formulaire Ash/1) ⓘ</span>.</li>\n          <li><strong>Pourquoi 70% des Demandes Échouent :</strong> Soumettre un récit émotionnel en français au lieu d'un <em>Michtav Hesber</em> juridique en hébreu + <span class=\"term-link\" onclick=\"openTerm('community_letters')\">5 à 8+ Lettres Tamponnées de Rabbin & Communauté ⓘ</span>.</li>\n          <li><strong>L'Obstacle de l'Examen Final :</strong> Réussir l'audience devant les 3 Dayanim sur les 150 questions de Halakha et les 12 chants de Chabbat.</li>\n        </ul>\n        <button class=\"btn-sky\" onclick=\"switchTab(4)\">Charger la Voie 3 dans Mon Suivi en Direct →</button>",
-    "#track-3": "<span class=\"tc-pill\">Voie 4 • Résidence Conjoint (Tahalich Medurag) & Changement de Statut</span>\n        <h2>Visa Civil Misrad HaPanim, Teudat Zehut A/5 & Citoyenneté</h2>\n        <p class=\"tc-lead\">Géré par le Ministère de l'Intérieur pour les conjoints/partenaires d'Israéliens (Formulaire Ash/3 — Nohal 5.2.0008 / 5.2.0009) :</p>\n        <ul class=\"tc-list\">\n          <li><strong>🛡️ Double Blindage (« Jeu du Guichetier X » vs « Loi 2026 Y ») :</strong> Les guichetiers menacent encore de fermer le dossier sous 30 jours ou exigent de choisir entre dossier conjoint et Giyur—alors que les <em>Nohal 5.2.0008 (Éd. 16) / 5.2.0009 (Éd. 17, juillet 2026)</em> accordent <strong>45+45 jours pour pièces manquantes (Art. ה.2.8)</strong>, <strong>21 jours de recours (Nohal 1.6.0001)</strong>, <strong>dispense de célibat si mentionné sur l'acte de mariage (Art. ד.2.ה)</strong>, et le droit de <strong>mener les dossiers Conjoint et Giyur/Aliyah (Ash/456) simultanément (Art. ג.10 / ג.7)</strong> !</li>\n          <li><strong>🌍 La Règle Universelle des « 3 Paniers » de Police :</strong> Exige un Casier Judiciaire apostillé (Bulletin n°3) pour (1) le pays de naissance, (2) chaque nationalité, et (3) tout pays vécu >12 mois depuis l'âge de 14 ans.</li>\n          <li><strong>🕵️‍♂️ L'Interrogatoire Séparé de 80 Questions :</strong> Organisé chaque année dans deux pièces séparées avant le renouvellement du permis B/1 ou de la Teudat Zehut A/5.</li>\n        </ul>\n        <button class=\"btn-sky\" onclick=\"switchTab(4)\">Charger la Voie 4 dans Mon Suivi en Direct →</button>",
+    "#track-3": "<span class=\"tc-pill\">Voie 4 • Résidence Conjoint (Tahalich Medurag) & Changement de Statut</span>\n        <h2>Visa Civil Misrad HaPanim, Teudat Zehut A/5 & Citoyenneté</h2>\n        <p class=\"tc-lead\">Géré par le Ministère de l'Intérieur pour les conjoints/partenaires d'Israéliens (Formulaire Ash/3 — Nohal 5.2.0008 / 5.2.0009) :</p>\n        <ul class=\"tc-list\">\n          <li><strong>🛡️ Double Blindage (« Jeu du Guichetier X » vs « Loi 2026 Y ») :</strong> Les guichetiers menacent encore de fermer le dossier sous 30 jours ou exigent de choisir entre dossier conjoint et Giyur—alors que les <em>Nohal 5.2.0008 (Éd. 16) / 5.2.0009 (Éd. 17, juillet 2026)</em> accordent <strong>45+45 jours pour pièces manquantes (Art. ה.2.8)</strong>, <strong>21 jours de recours (Nohal 1.6.0001)</strong>, <strong>dispense de célibat si mentionné sur l'acte de mariage (Art. ד.2.ה)</strong>, et le droit de <strong>mener les dossiers Conjoint et Giyur/Aliyah (Ash/456) simultanément (Art. ג.10 / ג.7)</strong> !</li>\n          <li><strong>🌍 La Règle Universelle des « 3 Paniers » de Police :</strong> Exige un Casier Judiciaire apostillé (Bulletin n°3) pour (1) le pays de naissance, (2) chaque nationalité, et (3) tout pays vécu >12 mois depuis l'âge de 14 ans.</li>\n          <li><strong>🕵️‍♂️ L'Interrogatoire Séparé de 300 Questions :</strong> Organisé chaque année dans deux pièces séparées avant le renouvellement du permis B/1 ou de la Teudat Zehut A/5.</li>\n        </ul>\n        <button class=\"btn-sky\" onclick=\"switchTab(4)\">Charger la Voie 4 dans Mon Suivi en Direct →</button>",
     "#view-2 .emerald-sub": "Plus 7+ RDV guichetiers perdus & Apostilles expirées évités",
     "#mg-0": "<div class=\"mg-header\"><span class=\"mg-title\">0. Communauté Israélienne (9 Mois) & Lettres</span><span class=\"mg-badge\">100% en Israël</span></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Lettres du Rabbin & Famille d'Accueil (Mishpacha Melavah)</div><div class=\"si-meta\">Modèles hébreu WhatsApp • <a href=\"javascript:void(0)\" onclick=\"openTerm('community_letters')\" style=\"color:var(--sky);font-weight:800;text-decoration:none;\">Envoyer →</a></div></div><button class=\"status-pill\" data-state=\"waiting\" onclick=\"cycleStatus(this)\">⏳ En cours</button></div>",
     "#mg-1": "<div class=\"mg-header\"><span class=\"mg-title\">1. Dossier Étranger & Casier Judiciaire « 3 Paniers »</span><span class=\"mg-badge\">Horloge 180j</span></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Copie Intégrale d'Acte de Naissance + Apostille</div><div class=\"si-meta\">Original intégral avec noms des deux parents</div></div><button class=\"status-pill\" data-state=\"complete\" onclick=\"cycleStatus(this)\">✅ Terminé</button></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Célibat, Divorce/Mariage & Changement de Nom + Apostilles</div><div class=\"si-meta\">Livret de famille / Certificat de coutume apostillé</div></div><button class=\"status-pill\" data-state=\"waiting\" onclick=\"cycleStatus(this)\">⏳ En cours</button></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Casier Judiciaire 3 Paniers (Bulletin n°3) + Apostille</div><div class=\"si-meta\">Pays de naissance + Nationalités + Vécus >1 an dès 14 ans</div></div><button class=\"status-pill\" data-state=\"waiting\" onclick=\"cycleStatus(this)\">⏳ En cours</button></div>",
     "#mg-2": "<div class=\"mg-header\"><span class=\"mg-title\">2. Cours Reconnus Rabbanut & Examen Beit Din</span><span class=\"mg-badge\">Voies 2 & 3</span></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Cours avec Rabbin Accompagnateur (Couple Inscrit)</div><div class=\"si-meta\">Rav Melaveh reconnu par la Rabbanut</div></div><button class=\"status-pill\" data-state=\"complete\" onclick=\"cycleStatus(this)\">✅ Terminé</button></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Madrichat Kallah Certifiée (Pureté Familiale)</div><div class=\"si-meta\">Attestation officielle pour le Beit Din & mariage</div></div><button class=\"status-pill\" data-state=\"not-started\" onclick=\"cycleStatus(this)\">⚪ À faire</button></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">150 Questions Beit Din & 12 Chants de Chabbat</div><div class=\"si-meta\">Simulateur Ma'amad Beit Din • <a href=\"/app?module=beit-din-150\" style=\"color:var(--sky);font-weight:800;text-decoration:none;\">S'entraîner →</a></div></div><button class=\"status-pill\" data-state=\"not-started\" onclick=\"cycleStatus(this)\">⚪ À faire</button></div>",
-    "#mg-3": "<div class=\"mg-header\"><span class=\"mg-title\">3. Validation Grand Rabbinat & Misrad HaPanim</span><span class=\"mg-badge\">Protection Famille</span></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Validation Beit HaDin HaGadol (Ishur Giyur)</div><div class=\"si-meta\">Protège le mariage religieux de vos futurs enfants</div></div><button class=\"status-pill\" data-state=\"not-started\" onclick=\"cycleStatus(this)\">⚪ À faire</button></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Formulaire Hébreu Ash/1 ou Ash/3 + Michtav Hesber • <a href=\"/forms\" style=\"color:var(--sky);font-weight:800;text-decoration:none;\">📄 Forms →</a></div><div class=\"si-meta\">Ouvrir le dossier dès le 1er rendez-vous</div></div><button class=\"status-pill\" data-state=\"not-started\" onclick=\"cycleStatus(this)\">⚪ À faire</button></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Synchro 80 Questions Couple sur 2 Téléphones</div><div class=\"si-meta\">Test d'entretien séparé • <a href=\"/app?module=couples-sync\" style=\"color:var(--sky);font-weight:800;text-decoration:none;\">Synchroniser →</a></div></div><button class=\"status-pill\" data-state=\"not-started\" onclick=\"cycleStatus(this)\">⚪ À faire</button></div>"
+    "#mg-3": "<div class=\"mg-header\"><span class=\"mg-title\">3. Validation Grand Rabbinat & Misrad HaPanim</span><span class=\"mg-badge\">Protection Famille</span></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Validation Beit HaDin HaGadol (Ishur Giyur)</div><div class=\"si-meta\">Protège le mariage religieux de vos futurs enfants</div></div><button class=\"status-pill\" data-state=\"not-started\" onclick=\"cycleStatus(this)\">⚪ À faire</button></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Formulaire Hébreu Ash/1 ou Ash/3 + Michtav Hesber • <a href=\"/forms\" style=\"color:var(--sky);font-weight:800;text-decoration:none;\">📄 Forms →</a></div><div class=\"si-meta\">Ouvrir le dossier dès le 1er rendez-vous</div></div><button class=\"status-pill\" data-state=\"not-started\" onclick=\"cycleStatus(this)\">⚪ À faire</button></div><div class=\"sub-item\"><div class=\"si-info\"><div class=\"si-name\">Synchro 300 Questions Couple sur 2 Téléphones</div><div class=\"si-meta\">Test d'entretien séparé • <a href=\"/app?module=couples-sync\" style=\"color:var(--sky);font-weight:800;text-decoration:none;\">Synchroniser →</a></div></div><button class=\"status-pill\" data-state=\"not-started\" onclick=\"cycleStatus(this)\">⚪ À faire</button></div>"
   },
   "mesh_forms": "📄 Coffre des Formulaires Officiels en Hébreu (Ash/1, Ash/3, Ash/6 & Ash/456 Oleh)",
   "mesh_title": "📚 Guides Statutaires Officiels & Procédures Misrad HaPanim / Rabbanut",
@@ -350,5 +379,255 @@
     "quotaFree": "🔒 Vous avez utilisé vos **30 questions gratuites du jour** ! Débloquez le **Pass Formulaires ($89 / $149)** ou la **Suite VIP** pour **150 questions/jour** et l'assistance complète sur les formulaires.\n\n[[NAV:paywall|]]",
     "quotaPaid": "Limite de 150 questions atteinte aujourd'hui. Écrivez-nous sur WhatsApp au +972-52-582-2005 !"
   },
-  "sync_drawer_btn": "📲 Synchroniser les Appareils & Code"
+  "sync_drawer_btn": "📲 Synchroniser les Appareils & Code",
+  "_funnel_pre_ai": {
+    "cat1": "🕍 CATÉGORIE 1 : CONVERSION, BEIT DIN PRIVÉS & GRAND RABBINAT",
+    "cat2": "🛂 CATÉGORIE 2 : DÉLAIS VISA, 5 DOCUMENTS APOSTILLÉS & SURVIE TOURISTE",
+    "cat3": "💍 CATÉGORIE 3 : VISA CONJOINT (5.2.0008), LETTRES PIBA & CASIER",
+    "freeTag": "Guides Gratuits",
+    "f_h": "🧭 Quel parcours vous intéresse ?",
+    "f_s": "Touchez votre parcours ci-dessous pour ouvrir votre guide étape par étape :",
+    "f_b1": "🕍 1) Giyur — Je veux me convertir (ou valider ma conversion)",
+    "f_b2": "✈️ 2) Aliyah — Je veux faire mon Aliyah en Israël (ou Visa Conjoint)",
+    "f_b3": "✡️ 3) Les Deux — Je veux me convertir ET faire mon Aliyah / me marier",
+    "q1_t": "Étape 1 sur 2 : Où en êtes-vous dans votre parcours de conversion ?",
+    "q1_opts": [
+      [
+        "🏛️ Converti(e) / en cours dans un Beit Din Privé (Gush Etzion, Bnei Brak, Chabad ou Étranger)",
+        "priv_bd"
+      ],
+      [
+        "💔 Conversion non-orthodoxe envisagée / effectuée (Réformée / Massorti — arrêt Dahan)",
+        "dahan_bd"
+      ],
+      [
+        "🛂 En Israël sous visa touriste B/2 (90j) & souhaite le Giyur d'État (Va'adat Charigim)",
+        "tourist_vc"
+      ],
+      [
+        "📚 Besoin d'un Rabbin accompagnateur reconnu, Madrichat Kallah & préparation 700 questions",
+        "state_prep"
+      ]
+    ],
+    "q2_t": "Étape 1 sur 2 : Quelle situation d'Aliyah ou de statut vous correspond ?",
+    "q2_opts": [
+      [
+        "🚨 Encore à l'étranger / Départ d'urgence : Quels 5 documents apostillés mettre dans mon Go-Bag ?",
+        "go_bag"
+      ],
+      [
+        "✈️ Déjà en Israël : Aliyah en Israël (Shinui Ma'amad Formulaire Ash/456 & Sal Klita 24 mois)",
+        "shinui"
+      ],
+      [
+        "💍 Conjoint marié ou concubin d'un citoyen israélien (Procédure Nohal 5.2.0008 / Form. Ash/6)",
+        "spousal"
+      ],
+      [
+        "🛡️ Demande d'Aliyah ou Visa Conjoint avec un ancien antécédent / Casier (Bulletin n°3)",
+        "crim"
+      ]
+    ],
+    "q3_t": "Étape 1 sur 2 : Quelle est votre situation actuelle pour Conversion + Aliyah ?",
+    "q3_opts": [
+      [
+        "⚠️ Converti(e) via Gush Etzion / Bnei Brak / Beit Din privé ou étranger & souhaite Aliyah / Mariage",
+        "priv_bd"
+      ],
+      [
+        "💑 En couple avec un(e) Israélien(ne) : Besoin Visa Conjoint (5.2.0008) + Conversion Rabbinat (Art. ג.10)",
+        "dual"
+      ],
+      [
+        "🛂 Sous visa touriste B/2 (sans conjoint israélien) : Besoin Va'adat Charigim (Ash/1) + Guide Survie",
+        "tourist_vc"
+      ],
+      [
+        "✈️ Encore à l'étranger : Prévoit de venir en Israël pour conversion & Aliyah (5 docs apostillés d'abord !)",
+        "go_bag"
+      ]
+    ],
+    "res": {
+      "priv_bd": [
+        "🚨 GUIDE BEIT DIN PRIVÉ / ÉTRANGER",
+        "Pourquoi le Misrad HaPanim et le Grand Rabbinat bloquent Gush Etzion / les conversions privées",
+        "Le Misrad HaPanim bloque les conversions privées touristes pendant 2 à 5+ ans, et le Grand Rabbinat refuse à 100% d'enregistrer le mariage sans validation d'État ('Ishur Giyur' / Giyur L'Chumra) ou dossier Conjoint (Nohal 5.2.0008) en parallèle.",
+        [
+          [
+            "1️⃣ À lire d'abord : Piège Gush Etzion & Beit Din Privé",
+            "obs:0"
+          ],
+          [
+            "2️⃣ Étape 2 : Règle des 9 mois en communauté & Ishur Giyur",
+            "obs:2"
+          ],
+          [
+            "3️⃣ Étape 3 : Les 5 documents apostillés (Délai 180j)",
+            "obs:1"
+          ]
+        ]
+      ],
+      "dahan_bd": [
+        "⚠️ GUIDE CONVERSION NON-ORTHODOXE ('DAHAN')",
+        "Pourquoi le Grand Rabbinat bloque les conversions 'Dahan' pour le mariage en Israël",
+        "Une conversion non-orthodoxe vous interdit définitivement (ainsi qu'à vos futurs enfants) de vous marier via le Rabbinat israélien. Vous pouvez accomplir un parcours 100% Halakhique reconnu dans le même délai.",
+        [
+          [
+            "1️⃣ À lire d'abord : La vérité sur l'arrêt Dahan vs Rabbinat",
+            "term:dahan_truth"
+          ],
+          [
+            "2️⃣ Étape 2 : Rabbin accompagnateur & Madrichat Kallah reconnus",
+            "obs:5"
+          ],
+          [
+            "3️⃣ Étape 3 : Passer la Va'adat Charigim (Form. Ash/1)",
+            "obs:3"
+          ]
+        ]
+      ],
+      "tourist_vc": [
+        "🏛️ GUIDE TOURISTE B/2 VERS GIYUR D'ÉTAT",
+        "Comment passer la Va'adat Charigim (Form. Ash/1) avant la fin des 90 jours",
+        "Les touristes doivent obtenir l'accord de la Commission des Exceptions avec le formulaire Ash/1, une lettre explicative en hébreu (Michtav Hesber), 5–8+ lettres de rabbins et les 5 documents apostillés.",
+        [
+          [
+            "1️⃣ À lire d'abord : Va'adat Charigim & gel du délai de 90j",
+            "obs:3"
+          ],
+          [
+            "2️⃣ Étape 2 : Les 5 documents apostillés obligatoires",
+            "obs:1"
+          ],
+          [
+            "3️⃣ Étape 3 : Télétravail légal & logement sous visa B/2",
+            "obs:8"
+          ]
+        ]
+      ],
+      "state_prep": [
+        "🕍 PRÉPARATION BEIT DIN & RABBINAT",
+        "Les deux partenaires doivent étudier ! Rabbin, Kallah & Examen 700 Questions",
+        "Même si l'un des conjoints est citoyen israélien juif de naissance, le Beit Din exige que les DEUX partenaires étudient avec un rabbin reconnu et une Madrichat Kallah certifiée.",
+        [
+          [
+            "1️⃣ À lire d'abord : Guide Rabbin, Kallah & Examen Beit Din",
+            "obs:5"
+          ],
+          [
+            "2️⃣ Étape 2 : 5–8+ lettres de recommandation rabbiniques",
+            "term:community_letters"
+          ],
+          [
+            "3️⃣ Ouvrir les 700 Questions Beit Din & 56 Chants →",
+            "app:beit-din-150|"
+          ]
+        ]
+      ],
+      "go_bag": [
+        "🚨 PROTOCOLE GO-BAG AVANT LE VOL",
+        "Ne montez PAS dans l'avion sans vos 5 originaux doublement apostillés",
+        "Commander une Copie Intégrale de Naissance, un Certificat de Célibat et un Bulletin n°3 depuis Israël prend des mois pendant que le délai de 180 jours expire.",
+        [
+          [
+            "1️⃣ À lire d'abord : Check-list Go-Bag avant départ",
+            "term:go_bag"
+          ],
+          [
+            "2️⃣ Étape 2 : Les 5 documents apostillés & l'horloge des 180j",
+            "obs:1"
+          ],
+          [
+            "3️⃣ Étape 3 : Transférer des fonds & payer son loyer en ₪ sans TZ",
+            "term:fx_shield"
+          ]
+        ]
+      ],
+      "shinui": [
+        "✈️ ALIYAH EN ISRAËL (SHINUI MA'AMAD • NOHAL 5.2.0001)",
+        "Formulaire Ash/456, MR/14a/b & le piège des 24 mois du Sal Klita",
+        "Exige le formulaire Ash/456 (exonéré de frais art. ג.7), MR/14a/b et des apostilles <180j. Attention : >24 mois cumulés en Israël durant les 3 dernières années annule la prime Sal Klita (~21 700 ₪) !",
+        [
+          [
+            "1️⃣ À lire d'abord : 5 documents apostillés & règles Sal Klita",
+            "term:five_docs"
+          ],
+          [
+            "2️⃣ Étape 2 : Assurance santé pont de 60–90 jours",
+            "term:bridge_health"
+          ],
+          [
+            "3️⃣ Ouvrir le générateur hébreu Ash/456 & MR/14a →",
+            "app:hebrew-engine|ash456"
+          ]
+        ]
+      ],
+      "spousal": [
+        "💍 GUIDE VISA CONJOINT (NOHAL 5.2.0008)",
+        "Réussir la procédure graduée et l'interrogatoire des 80 questions en salles séparées",
+        "Les agents vérifient chaque date du formulaire Ash/6 (6 pages) et vous séparent dans deux pièces pour 80 questions sur votre vie quotidienne.",
+        [
+          [
+            "1️⃣ À lire d'abord : L'interrogatoire des 80 questions en salles séparées",
+            "obs:6"
+          ],
+          [
+            "2️⃣ Étape 2 : Les 5 documents apostillés & dispense art. ד.2.ה",
+            "obs:1"
+          ],
+          [
+            "3️⃣ Ouvrir le moteur hébreu Formulaire Ash/6 →",
+            "app:hebrew-engine|ash6"
+          ]
+        ]
+      ],
+      "dual": [
+        "✡️💍 GUIDE DOUBLE PARCOURS COUPLE (ART. ג.10)",
+        "Menez simultanément votre résidence conjoint ET votre conversion au Rabbinat !",
+        "Selon le Nohal 5.2.0008 art. ג.10, vous avez le droit légal d'obtenir votre permis de travail B/1 conjoint ET de compléter votre conversion au Rabbinat en parallèle !",
+        [
+          [
+            "1️⃣ À lire d'abord : Les deux partenaires doivent étudier",
+            "obs:5"
+          ],
+          [
+            "2️⃣ Étape 2 : L'interrogatoire des 80 questions",
+            "obs:6"
+          ],
+          [
+            "3️⃣ Étape 3 : Pourquoi les conversions privées bloquent les mariages",
+            "obs:2"
+          ]
+        ]
+      ],
+      "crim": [
+        "🛡️ GUIDE RÉHABILITATION • CASIER JUDICIAIRE",
+        "Ne cachez jamais une ancienne arrestation — Utilisez un dossier de réhabilitation",
+        "Cocher 'Aucun antécédent' lorsqu'une mention figure sur le casier judiciaire entraîne un refus immédiat. Une déclaration transparente avec lettre explicative en hébreu évite 2 ans de recours.",
+        [
+          [
+            "1️⃣ À lire d'abord : Guide Aliyah / Visa avec antécédents",
+            "obs:7"
+          ],
+          [
+            "2️⃣ Étape 2 : Les 5 documents apostillés & vérification 3 pays",
+            "obs:1"
+          ],
+          [
+            "3️⃣ Demander l'assistance d'un avocat vérifié →",
+            "app:vetted-team|"
+          ]
+        ]
+      ]
+    },
+    "pre_ai": {
+      "fiance_ask": "⚠️ **ATTENTION — Avant de voyager pour vous marier, votre parcours dépend d'UNE question clé !**\n\nLe Misrad HaPanim **refuse** l'Aliyah immédiate après une conversion privée sous visa touriste (Gush Etzion, Bnei Brak, etc.), et le Grand Rabbinat **bloque à 100%** ces conversions pour le mariage en Israël.\n\n**Règle d'or pendant votre séjour au pays :** Ne reprenez PAS l'avion sans récupérer en personne vos **5 documents originaux apostillés** + votre **Acte de Mariage apostillé** !\n\n👇 **Pour connaître votre parcours exact, indiquez le statut de votre fiancé(e) :**\n\n[[ASK:[fiance_israeli] Mon/ma fiancé(e) est citoyen(ne) israélien(ne)|🇮🇱 A) Mon/ma fiancé(e) est citoyen(ne) israélien(ne)]]\n[[ASK:[fiance_foreign_jew] Mon/ma fiancé(e) est Juif/Juive de naissance à l'étranger|✡️ B) Mon/ma fiancé(e) est Juif/Juive de naissance (Aliyah ensemble)]]\n[[ASK:[fiance_other] Mon/ma fiancé(e) est aussi en conversion / non-Israélien|🌍 C) Mon/ma fiancé(e) se convertit / n'est ni Israélien ni Juif de naissance]]\n[[NAV:obs|0|📖 Ou réduire & lire : Piège des Beit Din Privés]]",
+      "fiance_il": "🇮🇱 **Votre fiancé(e) est citoyen(ne) israélien(ne) — Votre Double Parcours (Art. ג.10) :**\n\n1. **Pendant votre séjour au pays :** Récupérez vos **5 documents apostillés** + faites apostiller votre **Acte de Mariage** (mentionnant votre état antérieur 'Célibataire' pour la dispense art. ד.2.ה !).\n2. **Ouvrez le dossier Conjoint (*Nohal 5.2.0008* / Form. Ash/6) :** Vous donne immédiatement un visa de travail B/1.\n3. **Validation au Grand Rabbinat en parallèle (Art. ג.10) :** Vous avez le droit légal de mener simultanément votre dossier Conjoint et votre conversion d'État (*Ishur Giyur* / *Giyur L'Chumra*) !\n\n[[NAV:obs|1|1️⃣ À lire d'abord : Les 5 documents apostillés]]\n[[NAV:obs|5|2️⃣ Étape 2 : Les deux partenaires doivent étudier]]\n[[NAV:hebrew-engine|ash6|3️⃣ Ouvrir le générateur hébreu Formulaire Ash/6]]",
+      "fiance_fj": "✡️ **Votre fiancé(e) est Juif/Juive de naissance à l'étranger (Aliyah ensemble) :**\n\n1. **Pourquoi votre conversion privée seule ne suffit pas :** Le Misrad HaPanim ne reconnaît pas une conversion privée touriste pour une Aliyah indépendante.\n2. **Avant de revenir en Israël :** Mettez dans votre Go-Bag les **5 documents apostillés des deux conjoints**, l'**Attestation de Judaïté (*Ishur Yahadut*)** du Consistoire de votre fiancé(e) et votre **Acte de Mariage apostillé**, puis validez votre conversion auprès du Grand Rabbinat !\n\n[[NAV:term|go_bag|1️⃣ À lire d'abord : Check-list Go-Bag avant le vol]]\n[[NAV:obs|2|2️⃣ Étape 2 : Validation Rabbinat (Ishur Giyur)]]\n[[NAV:obs|5|3️⃣ Étape 3 : Rabbin accompagnateur & Madrichat Kallah]]",
+      "fiance_ot": "🚨 **STOP — Danger si aucun des deux partenaires n'est citoyen israélien ou Juif de naissance :**\n\nUne conversion privée effectuée en Israël sous visa touriste **ne donne pas droit à la Loi du Retour** ! Si vous rentrez vous marier avec un partenaire non-israélien et revenez demander l'Aliyah, **le Misrad HaPanim vous refusera tous les deux.**\n\n**Vos 2 options légales :**\n• **Option A (Communauté reconnue à l'étranger) :** Valider la conversion des deux conjoints via le Consistoire/Beit Din reconnu + résider **9 à 12 mois complets APRÈS le Mikvé** dans cette communauté.\n• **Option B (*Va'adat Charigim* en Israël) :** Récupérer vos **5 documents apostillés** au pays et déposer le **Formulaire Ash/1**.\n\n[[NAV:term|overseas_giyur|1️⃣ À lire d'abord : Règle des 9–12 mois à l'étranger]]\n[[NAV:obs|3|2️⃣ Étape 2 : Passer la Va'adat Charigim (Form. Ash/1)]]\n[[NAV:obs|1|3️⃣ Étape 3 : Les 5 documents apostillés]]",
+      "priv_bd": "⚠️ **AVERTISSEMENT CRITIQUE — Lisez ceci avant d'aller au Misrad HaPanim !**\n\nUne conversion via **Gush Etzion (*Giyur K'Halacha*), Bnei Brak (Rabbi Karelitz), un Beit Din privé ou à l'étranger sans validation** est une **conversion privée**—et **NON** le Giyur d'État du Grand Rabbinat.\n\n1. **Le Misrad HaPanim bloque l'Aliyah :** Refus d'Aliyah immédiate sous visa touriste et dossiers gelés pendant **2 à 5+ ans**.\n2. **Le Grand Rabbinat bloque le mariage :** Refus à **100%** d'enregistrer votre mariage sans validation officielle du Rabbinat (*Ishur Giyur*) ou procédure Conjoint (*Nohal 5.2.0008 / Form. Ash/6*).\n\n[[NAV:obs|0|1️⃣ À lire d'abord : Piège Gush Etzion & Beit Din Privé]]\n[[NAV:obs|2|2️⃣ Étape 2 : Règle des 9 mois & Ishur Giyur]]\n[[NAV:obs|1|3️⃣ Étape 3 : Les 5 documents apostillés obligatoires]]",
+      "dahan": "⚠️ **STOP — La vérité sur les conversions non-orthodoxes ('Arrêt Dahan') :**\n\n1. **Le Grand Rabbinat rejette à 100% les conversions non-orthodoxes**—vous empêchant définitivement (ainsi que vos enfants) de vous marier via le Rabbinat en Israël.\n2. **Vous pouvez accomplir une conversion 100% Halakhique reconnue par le Rabbinat** dans le même délai avec notre Rabbin accompagnateur et Madrichat Kallah !\n\n[[NAV:term|dahan_truth|1️⃣ À lire d'abord : Vérité arrêt Dahan vs Rabbinat]]\n[[NAV:obs|5|2️⃣ Étape 2 : Rabbin accompagnateur & Madrichat Kallah]]",
+      "vc": "🏛️ **Passer la *Va'adat Charigim* (Formulaire Ash/1) sous visa touriste B/2 :**\n\nLes touristes doivent obtenir l'autorisation de la Commission des Exceptions avec les formulaires Ash/1 et Ash/3, un *Michtav Hesber* en hébreu, 5–8+ lettres rabbiniques et les 5 documents apostillés avant l'expiration des 90 jours.\n\n[[NAV:obs|3|1️⃣ À lire d'abord : Va'adat Charigim & gel du délai]]\n[[NAV:obs|1|2️⃣ Étape 2 : Les 5 documents apostillés]]\n[[NAV:hebrew-engine|ash1|3️⃣ Ouvrir le moteur hébreu Formulaires Ash/1 & Ash/3]]"
+    }
+  }
 }

@@ -23,7 +23,7 @@
   "b0_t": "Brand New? The A-to-Z Big Picture",
   "b0_d": "How Conversion, Aliyah, the Rabbanut & Misrad HaPanim connect.",
   "b1_top": "Box 2 • The Loop",
-  "b1_t": "🕍 200 Beit Din Deck (+200 Expansion)",
+  "b1_t": "🕍 700 Beit Din Deck (+200 Expansion)",
   "b1_d": "Core 200 Ma'amad Beit Din flashcards + optional 200 Dayanim Curveballs expansion pack.",
   "b2_top": "Box 3 • Future Kids",
   "b2_t": "Already Converted? The Unfinished Trap",
@@ -38,7 +38,7 @@
   "b5_t": "Sponsoring Rabbi, Kallah & Exam",
   "b5_d": "Both partners must study! Meet our vetted Rabbanut team.",
   "b6_top": "Box 7 • Couples Sync",
-  "b6_t": "80-Question Couples Interrogation",
+  "b6_t": "300-Question Couples Interrogation",
   "b6_d": "Sync answers on 2 phones before Misrad HaPanim separates you.",
   "b7_top": "Box 8 • Past Record",
   "b7_t": "Aliyah / Visa With a Criminal Record",
@@ -68,7 +68,7 @@
   "mesh_2": "⚖️ Va'adat Charigim (Form Ash/1): Tourist & Student State Giyur",
   "mesh_3": "⏱️ The 5 Mandatory Apostilled Docs & 180-Day Misrad HaPanim Clock",
   "mesh_4": "✍️ How to Get 5–8+ Stamped Israeli Rabbi & Host Family Letters",
-  "mesh_5": "💍 Misrad HaPanim Spousal Visa (Nohal 5.2.0008) & 80-Question Interview",
+  "mesh_5": "💍 Misrad HaPanim Spousal Visa (Nohal 5.2.0008) & 300-Question Interview",
   "mesh_6": "📸 Two-Way Hebrew Clerk Translator & Form Ash/1 + Ash/3 PDF Filler",
   "mesh_7": "🛡️ Making Aliyah or Spousal Visa With a Past Arrest (Teudat Yosher)",
   "mesh_8": "💼 B/2 Tourist Survival: Legal Foreign Remote Work & Housing in Israel",
@@ -85,8 +85,8 @@
   "_obstacles": [
     {
       "tag": "BOX 1 OF 9 • THE BIG PICTURE",
-      "title": "Gush Etzion Is for Tourists Going Home. The Rabbanut Is for Making Aliyah.",
-      "body": "A tourist can convert at an Orthodox Beit Din like Gush Etzion, and the Rabbanut will fully agree: 'Your conversion is kosher and you are 100% Jewish'—yet neither the Rabbanut nor Misrad HaPanim will approve you for Aliyah.",
+      "title": "Private Beit Dins (Gush Etzion / Giyur K'Halacha, Bnei Brak, Jerusalem Badatz) Are Blocked for Aliyah & Rabbanut Marriage.",
+      "body": "A tourist or partner can convert at a private Orthodox Beit Din in Israel—like Gush Etzion (Giyur K'Halacha), Bnei Brak (Rabbi Karelitz), Jerusalem private courts, or Chabad—and while Halachically kosher, Misrad HaPanim WILL NOT approve you for Aliyah on a tourist conversion, and the Chief Rabbinate (Rabbanut) 100% refuses to register your marriage unless you go through the State Rabbanut or the 5-Year Spousal Track.",
       "badTitle": "🛡️ The Dual-Gatekeeper Truth",
       "badText": "Why don't they accept it for Aliyah? Because the Rabbanut and Misrad HaPanim work as dual security gatekeepers to stop bad actors, spies, and covert missionaries from slipping into Israeli citizenship.",
       "goodTitle": "⚡ Pick the Right Track From Day 1",
@@ -254,6 +254,35 @@
       "goodTitle": "⚡ The Good-Samaritan Solution: Do It 100% Kosher in the Exact Same Timeframe",
       "goodText": "<ul><li><strong>1. Want Fast, Warm, Undisputed Halachic Status?</strong> Use <strong>Track 2 (Private Orthodox Beit Din — Gush Etzion / Bnei Brak under the 2016 Rogachova ruling) + Beit HaDin HaGadol Validation (<em>Ishur Giyur</em>)</strong> or <strong>Track 3 (State Nativ via <em>Va'adat Charigim</em>)</strong>. In 9–12 months of genuine study with our vetted Rabbanut-recognized Sponsoring Rabbi & Madrichat Kallah, every Beit Din, shul, and in-law on earth will recognize you and your children forever!</li><li><strong>2. Already Did a Non-Orthodox Conversion or Married to an Israeli?</strong> You can immediately secure your legal Israeli work permit and residency via <strong>Track 4 (<em>Nohal 5.2.0008 / 5.2.0009</em> Spousal Visa)</strong> while we connect you with a warm, non-judgmental Rabbanut-recognized Sponsoring Rabbi to complete your full Halachic Orthodox conversion!</li></ul><br><button class='btn-sky' onclick='closeObstacle(); switchTab(3);'>Meet Our Warm, Vetted Orthodox Rabbi & Kallah Team →</button>",
       "time": "⏱️ Protect Your Soul, Your Wedding & Your Future Children Forever"
+    },
+    "overseas_giyur": {
+      "tag": "🌍 Overseas Conversions (RCA / London Beth Din / Consistoire / cRc / COR)",
+      "title": "WhyEven Recognized Overseas Conversions Get Blocked Without 'Ishur Giyur' & 9–12 Months Community Residency",
+      "body": "Converted abroad through a recognized Orthodox court like the RCA/GPS (US), cRc (Chicago), COR (Canada), London Beth Din (UK), Consistoire (France), ORD (Germany), or AMIA (Argentina)? Both the Jewish Agency and Misrad HaPanim enforce a strict rule: you must prove 9 to 12+ months of active residency in that exact converting community AFTER your Mikvah date before applying for Aliyah—or come to Israel and validate your conversion through the Chief Rabbinate (Rabbanut) / State Giyur.",
+      "badTitle": "🚨 The 'Fly Straight After the Mikvah' Trap",
+      "badText": "Flying to Israel immediately after an overseas Mikvah (or holding a private overseas conversion not on the Chief Rabbinate's approved list) triggers an automatic Aliyah freeze and prevents you from marrying in Israel through the Rabbanut.",
+      "goodTitle": "⚡ The 2 Proven Solutions (Supreme Rabbinical Court 'Ishur Giyur' or In-Israel Rabbanut Track)",
+      "goodText": "Before you board a plane or walk into Misrad HaPanim, get your 5 double-Apostilled homeland civil documents, obtain formal Chief Rabbinate recognition ('Ishur Giyur'), or enter our Vetted Sponsoring Rabbi & Rabbanut track so your marriage and Aliyah are 100% bulletproof."
+    },
+    "spousal_deep_dive": {
+      "tag": "DEEP DIVE • NOHAL 5.2.0008 / 5.2.0009 SPOUSAL TRACK & NEWBORN TEUDAT ZEHUT SEFACH TRAP",
+      "title": "The Complete 5-Year Graduated Spousal Playbook, 300-Question Interview & Adding Your Newborn Baby to Your Teudat Zehut Without a 2-Year Freeze.",
+      "body": "Whether you are married (Nohal 5.2.0008, Form Ash/6) or common-law partners (Nohal 5.2.0009, Form Ash/1 + Ash/3 + 13-Clause Nespach Alef), Misrad HaPanim puts couples through a grueling 4.5-to-5.5-year graduated residency track (Tahalich Medurag)—and if a baby is born before your file is properly anchored, clerks can block adding your own child to your Teudat Zehut (Sefach) for years.",
+      "badTitle": "🚨 The 4 Brutal Misrad HaPanim Spousal & Newborn Traps (Nohal 5.2.0008 & Nohal 5.2.0004)",
+      "badText": "<ul><li><strong>1. The 30-Day File-Closure Bluff vs. Sec. ה.2(8):</strong> Clerks routinely hand couples a Hebrew deficiency sheet (<em>Drishat Mismachim</em>) threatening to close the file in 30 days—hiding that under July 2026 Nohal 5.2.0008 Sec. ה.2(8), the Visa Team Leader can grant <strong>45 + 45 days</strong>, and Nohal 1.6.0001 grants a mandatory <strong>21-day written internal appeal</strong>!</li><li><strong>2. The 'Close Your Conversion File' Lie vs. Sec. ג.10:</strong> Clerks often tell couples that opening a Spousal Visa cancels their State/Rabbanut Conversion track. Under <strong>Sec. ג.10 (Married) and Sec. ג.7 (Common-Law)</strong>, you have the explicit statutory right to run your Spousal Residency AND your Conversion/Aliyah track simultaneously!</li><li><strong>3. The 2-Year Unregistered Newborn / Teudat Zehut Sefach Nightmare (Nohal 5.2.0004 & 2.2.0007):</strong> When a baby is born in an Israeli hospital to an Israeli citizen and a foreign/converting spouse whose status isn't finalized, the hospital only issues a temporary <em>Hodaa Al Leida</em> (Birth Notice) and refuses to add the newborn to the Israeli parent's <em>Teudat Zehut Sefach</em>! If you cannot prove <strong>300+ days of shared cohabitation prior to the birth</strong>, Misrad HaPanim demands a <strong>15,000₪+ Family Court Paternity DNA Lawsuit (Bdikot Rikmot)</strong>—leaving your baby without an ID number, freezing <em>Bituach Leumi</em> birth grants & monthly child allowances, and blocking normal <em>Kupat Cholim</em> coverage for up to 2 years!</li><li><strong>4. The Annual 300-Question Separated-Room Interrogation:</strong> Every 12 months before renewing your B/1 work visa or A/5 temporary Teudat Zehut, clerks separate both partners into two rooms and cross-examine you on 80 intimate daily-life details (floor plan, electric bills, alarm times, in-laws, holidays, and bank transfers).</li></ul>",
+      "goodTitle": "⚡ The 4-Step Shield to Lock In Your A/5 ID, Pass the 300 Questions & Register Your Baby on Day 1",
+      "goodText": "<ul><li><strong>1. Stamp a Clerk-Proof 6-Page Form Ash/6 + Statutory Cover Letter:</strong> Use our English-to-Hebrew Form Engine to auto-fill all 6 pages of Form Ash/6 (including the Page 5 Landlord Affidavit) plus a statutory Hebrew cover sheet citing <strong>Sec. ד.2.ה</strong> (exempting married couples from a separate pre-marriage single-status certificate when prior status 'Single' appears on the Apostilled Marriage Certificate!).</li><li><strong>2. Lock In Your 300-Day Pre-Birth Cohabitation Proof (Protect Your Baby!):</strong> Before giving birth in Israel, register your joint lease, municipal Arnona, shared bank/utility bills, and joint affidavits in your Misrad HaPanim file at least 300 days prior to delivery so your newborn is added to the Israeli parent's <em>Teudat Zehut Sefach</em> under Nohal 5.2.0004 without a Family Court DNA order!</li><li><strong>3. Drill on 2 Phones Before Your Separated-Room Interview:</strong> Run our live 2-Phone 300-Question Firestore Matcher from opposite ends of your couch to catch every date or household mismatch before sitting in front of the clerk.</li><li><strong>4. Finish Rabbanut Conversion & Re-Marriage in Parallel:</strong> While your B/1 or A/5 visa protects your legal work rights and Kupat Cholim, study together with our vetted Rabbanut-recognized Sponsoring Rabbi and Madrichat Kallah so your marriage and children are 100% recognized by the Chief Rabbinate forever.</li></ul>",
+      "time": "⏱️ Saves 2–4 Years • Prevents 15,000₪ Newborn DNA Lawsuits & 12-Month Interview Freezes"
+    },
+    "newborn_sefach": {
+      "tag": "DEEP DIVE • NOHAL 5.2.0008 / 5.2.0009 SPOUSAL TRACK & NEWBORN TEUDAT ZEHUT SEFACH TRAP",
+      "title": "The Complete 5-Year Graduated Spousal Playbook, 300-Question Interview & Adding Your Newborn Baby to Your Teudat Zehut Without a 2-Year Freeze.",
+      "body": "Whether you are married (Nohal 5.2.0008, Form Ash/6) or common-law partners (Nohal 5.2.0009, Form Ash/1 + Ash/3 + 13-Clause Nespach Alef), Misrad HaPanim puts couples through a grueling 4.5-to-5.5-year graduated residency track (Tahalich Medurag)—and if a baby is born before your file is properly anchored, clerks can block adding your own child to your Teudat Zehut (Sefach) for years.",
+      "badTitle": "🚨 The 4 Brutal Misrad HaPanim Spousal & Newborn Traps (Nohal 5.2.0008 & Nohal 5.2.0004)",
+      "badText": "<ul><li><strong>1. The 30-Day File-Closure Bluff vs. Sec. ה.2(8):</strong> Clerks routinely hand couples a Hebrew deficiency sheet (<em>Drishat Mismachim</em>) threatening to close the file in 30 days—hiding that under July 2026 Nohal 5.2.0008 Sec. ה.2(8), the Visa Team Leader can grant <strong>45 + 45 days</strong>, and Nohal 1.6.0001 grants a mandatory <strong>21-day written internal appeal</strong>!</li><li><strong>2. The 'Close Your Conversion File' Lie vs. Sec. ג.10:</strong> Clerks often tell couples that opening a Spousal Visa cancels their State/Rabbanut Conversion track. Under <strong>Sec. ג.10 (Married) and Sec. ג.7 (Common-Law)</strong>, you have the explicit statutory right to run your Spousal Residency AND your Conversion/Aliyah track simultaneously!</li><li><strong>3. The 2-Year Unregistered Newborn / Teudat Zehut Sefach Nightmare (Nohal 5.2.0004 & 2.2.0007):</strong> When a baby is born in an Israeli hospital to an Israeli citizen and a foreign/converting spouse whose status isn't finalized, the hospital only issues a temporary <em>Hodaa Al Leida</em> (Birth Notice) and refuses to add the newborn to the Israeli parent's <em>Teudat Zehut Sefach</em>! If you cannot prove <strong>300+ days of shared cohabitation prior to the birth</strong>, Misrad HaPanim demands a <strong>15,000₪+ Family Court Paternity DNA Lawsuit (Bdikot Rikmot)</strong>—leaving your baby without an ID number, freezing <em>Bituach Leumi</em> birth grants & monthly child allowances, and blocking normal <em>Kupat Cholim</em> coverage for up to 2 years!</li><li><strong>4. The Annual 300-Question Separated-Room Interrogation:</strong> Every 12 months before renewing your B/1 work visa or A/5 temporary Teudat Zehut, clerks separate both partners into two rooms and cross-examine you on 80 intimate daily-life details (floor plan, electric bills, alarm times, in-laws, holidays, and bank transfers).</li></ul>",
+      "goodTitle": "⚡ The 4-Step Shield to Lock In Your A/5 ID, Pass the 300 Questions & Register Your Baby on Day 1",
+      "goodText": "<ul><li><strong>1. Stamp a Clerk-Proof 6-Page Form Ash/6 + Statutory Cover Letter:</strong> Use our English-to-Hebrew Form Engine to auto-fill all 6 pages of Form Ash/6 (including the Page 5 Landlord Affidavit) plus a statutory Hebrew cover sheet citing <strong>Sec. ד.2.ה</strong> (exempting married couples from a separate pre-marriage single-status certificate when prior status 'Single' appears on the Apostilled Marriage Certificate!).</li><li><strong>2. Lock In Your 300-Day Pre-Birth Cohabitation Proof (Protect Your Baby!):</strong> Before giving birth in Israel, register your joint lease, municipal Arnona, shared bank/utility bills, and joint affidavits in your Misrad HaPanim file at least 300 days prior to delivery so your newborn is added to the Israeli parent's <em>Teudat Zehut Sefach</em> under Nohal 5.2.0004 without a Family Court DNA order!</li><li><strong>3. Drill on 2 Phones Before Your Separated-Room Interview:</strong> Run our live 2-Phone 300-Question Firestore Matcher from opposite ends of your couch to catch every date or household mismatch before sitting in front of the clerk.</li><li><strong>4. Finish Rabbanut Conversion & Re-Marriage in Parallel:</strong> While your B/1 or A/5 visa protects your legal work rights and Kupat Cholim, study together with our vetted Rabbanut-recognized Sponsoring Rabbi and Madrichat Kallah so your marriage and children are 100% recognized by the Chief Rabbinate forever.</li></ul>",
+      "time": "⏱️ Saves 2–4 Years • Prevents 15,000₪ Newborn DNA Lawsuits & 12-Month Interview Freezes"
     }
   },
   "_blocks": {
@@ -275,7 +304,7 @@
     "#view-2 > .btn-sky": "[EN_DOM_DEFAULT:#view-2 > .btn-sky]",
     "#track-1": "<span class=\"tc-pill\">Track 2 • Become 100% Halachically Jewish Faster (For Diaspora or Israel Stepping-Stone)</span>\n          <h2>Private Orthodox Beit Din (Gush Etzion, Bnei Brak & More)</h2>\n          <p class=\"tc-lead\"><strong>If you want to become 100% Halachically Jewish without waiting years for government clerks, this is a fantastic path!</strong> Israel has 5+ respected private Orthodox courts (from Modern Orthodox <em>Giyur K'Halacha</em> in Gush Etzion to Haredi courts like R' Karelitz's Beit Din in Bnei Brak). Great for students returning home Jewish or couples who want a kosher Chuppah <em>now</em> and bridge to Rabbanut validation later.</p>\n          <ul class=\"tc-list\">\n            <li><strong>💸 The 24-Month Sal Klita Cash Cliff (~21,700 NIS at Stake!):</strong> Spending more than <strong>24 cumulative months inside Israel</strong> (in the 3 years before getting your Teudat Oleh) cancels your Sal Klita cash grant!</li>\n            <li><strong>🛡️ The Supreme Court <em>Rogachova</em> Ruling (HCJ 7625/06) vs. The Tourist Wall:</strong> While the 2016 Supreme Court <em>Rogachova</em> ruling recognizes established private Orthodox courts (<em>Gush Etzion</em> / <em>Bnei Brak</em>) for Law of Return when converting on a valid long-term visa, B/2 tourists face strict Misrad HaPanim security blocks—and the Chief Rabbinate still requires <em>Ishur Giyur</em> for marriage registration. <a href=\"/dahan-ruling-non-orthodox-conversion-aliyah-truth/\" style=\"color:var(--sky);font-weight:800;text-decoration:underline;\">Considering the Non-Orthodox Dahan Ruling Track? Read This Truth Guide First →</a></li>\n            <li><strong>⚡ Zero Government Apostille Red Tape Upfront:</strong> Opening a private Beit Din file requires no FBI checks or Apostilles upfront! You only need the <span class=\"term-link\" onclick=\"openTerm('five_docs')\">5 Mandatory Apostilled Docs ⓘ</span> when bridging to the Rabbanut or Misrad HaPanim.</li>\n            <li><strong>💣 Never Leave Validation Half-Finished:</strong> Stopping after the Mikvah without <span class=\"term-link\" onclick=\"openTerm('ishur_giyur')\">Chief Rabbinate Validation (Ishur Giyur) ⓘ</span> blocks Rabbanut weddings for you and your future kids.</li>\n          </ul>\n          <button class=\"btn-sky\" onclick=\"switchTab(4)\">Load Track 2 Into My Live Tracker →</button>",
     "#track-2": "<span class=\"tc-pill\">Track 3 • Official State Conversion & Law of Return Aliyah</span>\n          <h2>State Giyur (Nativ / Ma'arach HaGiyur) & Chief Rabbinate</h2>\n          <p class=\"tc-lead\">The official government conversion pathway that grants Law of Return citizenship (Aliyah) immediately upon completion.</p>\n          <ul class=\"tc-list\">\n            <li><strong>✈️ Do You Need to Fly Home for Docs? (The 180-Day Clock & 3 Profiles):</strong> <strong>If you brought all 5 Apostilled documents with you—you are golden!</strong> If not, inspect the <span class=\"term-link\" onclick=\"openTerm('five_docs')\">5 Mandatory Apostilled Docs & 3 Aliyah/Giyur Profiles ⓘ</span> before your <strong>180-day clock</strong> expires!</li>\n            <li><strong>⚠️ The Tourist/Student Wall (Va'adat Charigim):</strong> Non-citizens are legally barred from State Giyur until passing the <span class=\"term-link\" onclick=\"openTerm('vaadat_charigim')\">Exceptions Committee (Form Ash/1) ⓘ</span>.</li>\n            <li><strong>Why Applications Fail:</strong> Submitting an emotional English story instead of a statutory Hebrew <em>Michtav Hesber</em> + <span class=\"term-link\" onclick=\"openTerm('community_letters')\">5–8+ Stamped Israeli Rabbi & Community Letters ⓘ</span>.</li>\n            <li><strong>The Exam Hurdle:</strong> Passing the 3-judge Beit Din panel on 150 Halacha questions + 12 Shabbat songs.</li>\n          </ul>\n          <button class=\"btn-sky\" onclick=\"switchTab(4)\">Load Track 3 Into My Live Tracker →</button>",
-    "#track-3": "<span class=\"tc-pill\">Track 4 • Spousal Residency (Tahalich Medurag) & Change of Status</span>\n          <h2>Misrad HaPanim Civil Visa, A/5 Teudat Zehut & Citizenship</h2>\n          <p class=\"tc-lead\">Run by the Ministry of Interior for spouses/partners of Israelis (Form Ash/3) and post-conversion residency.</p>\n          <ul class=\"tc-list\">\n            <li><strong>🛡️ Dual-Armor (\"Old Clerk Game X\" vs. \"2026 Law Y\"):</strong> Clerks still play the 30-day threat game, demand separate bachelorhood certs, or tell couples to close their Giyur file—ignoring July 2026 <em>Nohal 5.2.0008 (Ed. 16) / 5.2.0009 (Ed. 17)</em> rules granting <strong>45+45 days for missing docs (Sec. ה.2.8)</strong>, <strong>21-day Nohal 1.6.0001 appeals</strong>, <strong>Marriage Cert prior-single exemption (Sec. ד.2.ה)</strong>, and the right to <strong>run Spousal &amp; Giyur/Aliyah tracks simultaneously (Sec. ג.10 / ג.7)</strong>! We prep your folder for the strictest clerk <em>and</em> print the exact 2026 law on your Hebrew cover sheet.</li>\n            <li><strong>🌍 The \"3-Bucket\" Universal Police Check Rule:</strong> Requires Apostilled federal checks from (1) Country of Birth, (2) Every Citizenship, and (3) Every Country lived in >12 months since age 14.</li>\n            <li><strong>🕵️‍♂️ Separated 80-Question Sincerity Interrogation:</strong> Held annually in separate rooms before renewing your B/1 work visa or A/5 Teudat Zehut.</li>\n          </ul>\n          <button class=\"btn-sky\" onclick=\"switchTab(4)\">Load Track 4 Into My Live Tracker →</button>",
+    "#track-3": "<span class=\"tc-pill\">Track 4 • Spousal Residency (Tahalich Medurag) & Change of Status</span>\n          <h2>Misrad HaPanim Civil Visa, A/5 Teudat Zehut & Citizenship</h2>\n          <p class=\"tc-lead\">Run by the Ministry of Interior for spouses/partners of Israelis (Form Ash/3) and post-conversion residency.</p>\n          <ul class=\"tc-list\">\n            <li><strong>🛡️ Dual-Armor (\"Old Clerk Game X\" vs. \"2026 Law Y\"):</strong> Clerks still play the 30-day threat game, demand separate bachelorhood certs, or tell couples to close their Giyur file—ignoring July 2026 <em>Nohal 5.2.0008 (Ed. 16) / 5.2.0009 (Ed. 17)</em> rules granting <strong>45+45 days for missing docs (Sec. ה.2.8)</strong>, <strong>21-day Nohal 1.6.0001 appeals</strong>, <strong>Marriage Cert prior-single exemption (Sec. ד.2.ה)</strong>, and the right to <strong>run Spousal &amp; Giyur/Aliyah tracks simultaneously (Sec. ג.10 / ג.7)</strong>! We prep your folder for the strictest clerk <em>and</em> print the exact 2026 law on your Hebrew cover sheet.</li>\n            <li><strong>🌍 The \"3-Bucket\" Universal Police Check Rule:</strong> Requires Apostilled federal checks from (1) Country of Birth, (2) Every Citizenship, and (3) Every Country lived in >12 months since age 14.</li>\n            <li><strong>🕵️‍♂️ Separated 300-Question Sincerity Interrogation:</strong> Held annually in separate rooms before renewing your B/1 work visa or A/5 Teudat Zehut.</li>\n          </ul>\n          <button class=\"btn-sky\" onclick=\"switchTab(4)\">Load Track 4 Into My Live Tracker →</button>",
     "#view-2 .hero-center p": "[EN_DOM_DEFAULT:#view-2 .hero-center p]",
     "#view-2 .zehut-select-label": "[EN_DOM_DEFAULT:#view-2 .zehut-select-label]",
     "#z-track": "<option value=\"dual\">Couple (Israeli + Partner): Need BOTH Rabbanut + Misrad HaPanim (Dual-Track)</option>\n            <option value=\"shinui\">Emergency Relocation / In-Israel Aliyah (Shinui Ma'amad + Go-Bag — Track 1)</option>\n            <option value=\"gush\">Student / Visitor / Couple: Private Beit Din (Gush Etzion) + Ishur Giyur (Track 2)</option>\n            <option value=\"state\">Tourist / Student Seeking State Giyur & Direct Aliyah via Va'adat Charigim (Track 3)</option>\n            <option value=\"spousal\">Spousal / Partner Visa Only: Need B/1 Work Visa & A/5 Teudat Zehut (Track 4)</option>",
@@ -350,5 +379,255 @@
     "quotaFree": "🔒 You've used all **30 free Tracking Partner questions for today**! Unlock any **Statutory Forms Pass ($89 / $149)** or **Full VIP Suite** for **150 daily questions** plus full form & deadline mastery.\n\n[[NAV:paywall|]]",
     "quotaPaid": "You have reached today's 150-question limit. Message our WhatsApp desk at +972-52-582-2005 for urgent help!"
   },
-  "sync_drawer_btn": "📲 Sync Devices & Pass Code"
+  "sync_drawer_btn": "📲 Sync Devices & Pass Code",
+  "_funnel_pre_ai": {
+    "cat1": "🕍 CATEGORY 1: CONVERSION, PRIVATE BEIT DINS & RABBANUT",
+    "cat2": "🛂 CATEGORY 2: VISA CLOCKS, 5 APOSTILLED DOCS & TOURIST SURVIVAL",
+    "cat3": "💍 CATEGORY 3: SPOUSAL VISA (5.2.0008), CLERK SHEETS & PAST RECORDS",
+    "freeTag": "Free Playbooks",
+    "f_h": "🧭 Tell Us What Track You Are Interested In:",
+    "f_s": "Tap your track below to open your step-by-step Case Playbook:",
+    "f_b1": "🕍 1) Giyur — I Want to Convert (or Validate My Conversion)",
+    "f_b2": "✈️ 2) Aliyah — I Want to Make Aliyah to Israel (or Spousal Visa)",
+    "f_b3": "✡️ 3) Both — I Want to Convert AND Make Aliyah / Marry",
+    "q1_t": "Step 1 of 2: Where are you in your conversion journey right now?",
+    "q1_opts": [
+      [
+        "🏛️ Converted / converting at a Private Beit Din (Gush Etzion, Bnei Brak, Chabad, or Overseas)",
+        "priv_bd"
+      ],
+      [
+        "💔 Considering / completed a Non-Orthodox conversion (Reform / Conservative 'Dahan' ruling)",
+        "dahan_bd"
+      ],
+      [
+        "🛂 In Israel on a 90-Day B/2 Tourist Visa & want State Giyur (Va'adat Charigim)",
+        "tourist_vc"
+      ],
+      [
+        "📚 Need a Vetted Sponsoring Rabbi, Madrichat Kallah & 700-Q Beit Din Prep",
+        "state_prep"
+      ]
+    ],
+    "q2_t": "Step 1 of 2: Which Aliyah or Residency situation fits you?",
+    "q2_opts": [
+      [
+        "🚨 Still Abroad / Emergency Exit: What 5 Apostilled Docs must be in my Go-Bag before flying?",
+        "go_bag"
+      ],
+      [
+        "✈️ In Israel: Making Aliyah from inside Israel (Shinui Ma'amad Form Ash/456 & 24-Mo Sal Klita)",
+        "shinui"
+      ],
+      [
+        "💍 Married or Unmarried Partner of an Israeli Citizen (Spousal Visa Nohal 5.2.0008 / Form Ash/6)",
+        "spousal"
+      ],
+      [
+        "🛡️ Applying for Aliyah or Spousal Visa with an Old / Expunged Record (Teudat Yosher)",
+        "crim"
+      ]
+    ],
+    "q3_t": "Step 1 of 2: What is your current situation for Converting + Making Aliyah?",
+    "q3_opts": [
+      [
+        "⚠️ Converted / converting via Gush Etzion / Bnei Brak / Private or Overseas Beit Din & want Aliyah / Marriage",
+        "priv_bd"
+      ],
+      [
+        "💑 With an Israeli Partner: Need BOTH Spousal Visa (Nohal 5.2.0008) + Rabbanut Conversion (Sec. ג.10)",
+        "dual"
+      ],
+      [
+        "🛂 On a B/2 Tourist Visa (No Israeli partner) & need Va'adat Charigim (Form Ash/1) + Survival Guide",
+        "tourist_vc"
+      ],
+      [
+        "✈️ Still Abroad: Planning to come to Israel to convert & make Aliyah (5 Apostilled Docs first!)",
+        "go_bag"
+      ]
+    ],
+    "res": {
+      "priv_bd": [
+        "🚨 PRIVATE / OVERSEAS BEIT DIN PLAYBOOK",
+        "Why Misrad HaPanim & the Rabbanut Block Gush Etzion / Private Conversions",
+        "Misrad HaPanim stalls tourist private conversions for 2–5+ years, and the Chief Rabbinate 100% blocks marriage registration unless you complete State Rabbanut validation ('Ishur Giyur' / Giyur L'Chumra) or run the Spousal Track (Nohal 5.2.0008) in parallel.",
+        [
+          [
+            "1️⃣ Read First: Private Conversion & Gush Etzion Trap",
+            "obs:0"
+          ],
+          [
+            "2️⃣ Read Next: Post-Mikvah & 9-Month Community Rule",
+            "obs:2"
+          ],
+          [
+            "3️⃣ Read Next: Pulling All 5 Apostilled Docs (180d Clock)",
+            "obs:1"
+          ]
+        ]
+      ],
+      "dahan_bd": [
+        "⚠️ NON-ORTHODOX ('DAHAN') PLAYBOOK",
+        "Why the Rabbanut Blocks 'Dahan' Conversions from Marriage in Israel",
+        "A non-Orthodox conversion permanently bars you and your future children from marrying through the Israeli Rabbanut. You can complete a 100% Halachic, Rabbanut-recognized track in the exact same timeframe.",
+        [
+          [
+            "1️⃣ Read First: The Unfiltered Dahan vs. Rabbanut Truth",
+            "term:dahan_truth"
+          ],
+          [
+            "2️⃣ Read Next: Vetted Rabbanut Rabbi & Madrichat Kallah",
+            "obs:5"
+          ],
+          [
+            "3️⃣ Read Next: Passing Va'adat Charigim (Form Ash/1)",
+            "obs:3"
+          ]
+        ]
+      ],
+      "tourist_vc": [
+        "🏛️ B/2 TOURIST TO STATE GIYUR PLAYBOOK",
+        "How to Pass Va'adat Charigim (Form Ash/1) Before Your 90-Day Clock Expires",
+        "Tourists must pass the Exceptions Committee with Form Ash/1, a Hebrew Michtav Hesber, 5–8+ Israeli Rabbi/Host Family letters, and 5 Apostilled Homeland Docs.",
+        [
+          [
+            "1️⃣ Read First: Va'adat Charigim & Freezing Your 90d Clock",
+            "obs:3"
+          ],
+          [
+            "2️⃣ Read Next: The 5 Mandatory Apostilled Docs",
+            "obs:1"
+          ],
+          [
+            "3️⃣ Read Next: Legal Remote Work & Housing on B/2 Visa",
+            "obs:8"
+          ]
+        ]
+      ],
+      "state_prep": [
+        "🕍 BEIT DIN & RABBANUT PREP PLAYBOOK",
+        "Both Partners Must Study! Vetted Rabbi, Kallah & 700-Q Beit Din Exam",
+        "Even when one spouse is a born-Jewish Israeli citizen, BOTH partners must study with a Rabbanut-recognized Rabbi and Madrichat Kallah.",
+        [
+          [
+            "1️⃣ Read First: Vetted Rabbi, Kallah & Exam Guide",
+            "obs:5"
+          ],
+          [
+            "2️⃣ Read Next: 5–8+ Israeli Rabbi & Host Family Letters",
+            "term:community_letters"
+          ],
+          [
+            "3️⃣ Launch 700 Beit Din Deck & 56 Songs Karaoke →",
+            "app:beit-din-150|"
+          ]
+        ]
+      ],
+      "go_bag": [
+        "🚨 PRE-FLIGHT GO-BAG PLAYBOOK",
+        "Do NOT Board a Plane Without All 5 Double-Apostilled Originals",
+        "Ordering foreign Birth Certificates, Single Status Proofs, and FBI/ACRO/RCMP Police Checks remotely from Israel takes months while your 180-day clock runs out.",
+        [
+          [
+            "1️⃣ Read First: Pre-Flight Go-Bag Checklist",
+            "term:go_bag"
+          ],
+          [
+            "2️⃣ Read Next: The 5 Apostilled Docs & 180-Day Clock",
+            "obs:1"
+          ],
+          [
+            "3️⃣ Read Next: Moving Funds & Paying Rent in ₪ Without TZ",
+            "term:fx_shield"
+          ]
+        ]
+      ],
+      "shinui": [
+        "✈️ IN-ISRAEL ALIYAH (SHINUI MA'AMAD)",
+        "Form Ash/456, MR/14a/b & The 24-Month Sal Klita Cliff",
+        "Requires Form Ash/456 (fee-exempt per Sec. ג.7), MR/14a/b, Nativ Security CV, and fresh <180d Apostilles. Warning: >24 cumulative months in Israel in the prior 3 years cancels the ~21,700 NIS Sal Klita!",
+        [
+          [
+            "1️⃣ Read First: 5 Apostilled Docs & 24-Mo Sal Klita Rules",
+            "term:five_docs"
+          ],
+          [
+            "2️⃣ Read Next: 60–90 Day Bridge Health Insurance",
+            "term:bridge_health"
+          ],
+          [
+            "3️⃣ Open Form Ash/456 & MR/14a Hebrew Filler →",
+            "app:hebrew-engine|ash456"
+          ]
+        ]
+      ],
+      "spousal": [
+        "💍 SPOUSAL VISA PLAYBOOK (NOHAL 5.2.0008)",
+        "Passing the Graduated Spousal Process & 300-Question Separated-Room Interview",
+        "Clerks audit every date on your 6-page Form Ash/6 (or 13-clause Nespach Alef) and separate you into two rooms for 80 daily-life questions.",
+        [
+          [
+            "1️⃣ Read First: 300-Question Separated-Room Interrogation",
+            "obs:6"
+          ],
+          [
+            "2️⃣ Read Next: The 5 Apostilled Docs & Sec. ד.2.ה Exemption",
+            "obs:1"
+          ],
+          [
+            "3️⃣ Open Form Ash/6 Hebrew Engine →",
+            "app:hebrew-engine|ash6"
+          ]
+        ]
+      ],
+      "dual": [
+        "✡️💍 DUAL-TRACK COUPLE PLAYBOOK (SEC. ג.10)",
+        "Run Spousal Residency AND Rabbanut Conversion Simultaneously!",
+        "Under Nohal 5.2.0008 Sec. ג.10, you have the statutory right to lock in your Spousal B/1 work permit AND complete Rabbanut conversion at the same time—and BOTH partners must study!",
+        [
+          [
+            "1️⃣ Read First: Both Partners Must Study (Rabbi & Kallah)",
+            "obs:5"
+          ],
+          [
+            "2️⃣ Read Next: 300-Question Separated-Room Interview",
+            "obs:6"
+          ],
+          [
+            "3️⃣ Read Next: Why Private Conversions Block Rabbanut Weddings",
+            "obs:2"
+          ]
+        ]
+      ],
+      "crim": [
+        "🛡️ REHABILITATION PLAYBOOK",
+        "Never Hide an Old or Expunged Arrest — Use a Rehabilitation Dossier",
+        "Checking 'No Criminal Record' when an expunged arrest shows on an FBI/ACRO/RCMP check causes instant rejection. Upfront disclosure with a Hebrew Rehabilitation Michtav Hesber prevents 2-year appeals.",
+        [
+          [
+            "1️⃣ Read First: Applying With a Criminal Record Guide",
+            "obs:7"
+          ],
+          [
+            "2️⃣ Read Next: The 5 Apostilled Docs & 3-Bucket Check",
+            "obs:1"
+          ],
+          [
+            "3️⃣ Request Vetted Lawyer Review / Escort →",
+            "app:vetted-team|"
+          ]
+        ]
+      ]
+    },
+    "pre_ai": {
+      "fiance_ask": "⚠️ **HOLD ON — Before You Fly Home & Back, Your Track Depends on ONE Critical Question!**\n\nMisrad HaPanim **refuses** immediate Aliyah on a tourist Private Beit Din conversion (Gush Etzion, Bnei Brak, etc.), and the Chief Rabbinate **100% blocks** private conversions for marriage in Israel.\n\n**Golden Rule While You Are Home:** Do NOT board your return flight without pulling all **5 double-Apostilled Homeland Docs** in person (Long-Form Birth Cert, Police Check <180d, Single Status Proof) + your **double-Apostilled Marriage Certificate**!\n\n👇 **To give you the exact track for you and your fiancé, tap who your fiancé is below:**\n\n[[ASK:[fiance_israeli] My fiancé is an Israeli Citizen|🇮🇱 A) My Fiancé Is an Israeli Citizen]]\n[[ASK:[fiance_foreign_jew] My fiancé is a Born Jew from abroad|✡️ B) My Fiancé Is a Born Jew from Abroad]]\n[[ASK:[fiance_other] My fiancé is also converting / not Jewish|🌍 C) My Fiancé Is Converting / Not an Israeli or Born Jew]]\n[[NAV:obs|0|📖 Or Minimize & Read: Private Beit Din Truth Popup]]",
+      "fiance_il": "🇮🇱 **Your Fiancé Is an Israeli Citizen — Your Exact Dual-Track Playbook:**\n\n1. **While Home Getting Married:** Pull all **5 double-Apostilled Homeland Docs** in person + get an **Apostille on your Marriage Certificate** (listing prior status as 'Single' for the Sec. ד.2.ה exemption!).\n2. **Enter Spousal Track (*Nohal 5.2.0008* / Form Ash/6):** Locks in your legal residency & B/1 work visa immediately.\n3. **Run Rabbanut Conversion Simultaneously (Sec. ג.10):** Under Sec. ג.10, you can complete your **State Rabbanut validation (*Giyur L'Chumra* / *Ishur Giyur*)** in parallel! Both you and your Israeli spouse must study with a Rabbanut-recognized Rabbi & Madrichat Kallah.\n\n[[NAV:obs|1|1️⃣ Read First: Pull All 5 Apostilled Docs While Home]]\n[[NAV:obs|5|2️⃣ Read Next: Both Partners Must Study (Rabbi & Kallah)]]\n[[NAV:hebrew-engine|ash6|3️⃣ Open Form Ash/6 Spousal Dossier Engine]]",
+      "fiance_fj": "✡️ **Your Fiancé Is a Born Jew from Abroad (Making Aliyah Together):**\n\n1. **Why Your Private Conversion Alone Won't Work:** Misrad HaPanim does not recognize a tourist's private Israeli conversion for independent Aliyah.\n2. **Before Flying Back:** Pull **both partners' 5 double-Apostilled civil documents**, your fiancé's Orthodox **Proof of Judaism (*Ishur Yahadut*)**, and your **Apostilled Marriage Certificate** into your Carry-On Go-Bag, then complete **Rabbanut Validation (*Ishur Giyur*)** in Israel so you and your future kids have 100% recognized status!\n\n[[NAV:term|go_bag|1️⃣ Read First: Pre-Flight Go-Bag (Bring All 5 Docs!)]]\n[[NAV:obs|2|2️⃣ Read Next: Rabbanut Validation (Ishur Giyur) for Future Kids]]\n[[NAV:obs|5|3️⃣ Read Next: Vetted Rabbanut Rabbi & Madrichat Kallah Guide]]",
+      "fiance_ot": "🚨 **STOP — Danger Zone If Neither Partner Is an Israeli Citizen or Born Jew:**\n\nA private Israeli conversion done on a tourist visa does **not** grant Law of Return rights to you or your spouse! If you fly home, marry a partner who is not an Israeli or born Jew, and fly back expecting Aliyah, **Misrad HaPanim will block you both.**\n\n**Your 2 Legal Paths:**\n• **Option A (Overseas Recognized Community):** Validate/complete conversion for BOTH partners at a Rabbanut-recognized overseas Beit Din (RCA, London, Consistoire) + live in that community **9–12 full months AFTER the Mikvah**.\n• **Option B (In-Israel *Va'adat Charigim*):** Pull all **5 double-Apostilled Homeland Docs** while home, return to Israel, and file **Form Ash/1** to enter official State Conversion.\n\n[[NAV:term|overseas_giyur|1️⃣ Read First: Overseas 9–12 Month Community Rule]]\n[[NAV:obs|3|2️⃣ Read Next: Passing Va'adat Charigim (Form Ash/1) in Israel]]\n[[NAV:obs|1|3️⃣ Read Next: Pulling All 5 Apostilled Docs While Home]]",
+      "priv_bd": "⚠️ **CRITICAL WARNING — Read This Before Going to Misrad HaPanim!**\n\nA conversion through **Gush Etzion (*Giyur K'Halacha*), Bnei Brak (Rabbi Karelitz), Jerusalem private courts, Chabad, or an unvalidated overseas Beit Din** is a **Private Beit Din** conversion—**NOT** the State Rabbanut (*Ma'arach HaGiyur*).\n\n1. **Misrad HaPanim Blocks Aliyah:** Misrad HaPanim **refuses** immediate Aliyah on a tourist private conversion and stalls *Bagatz* files for **2 to 5+ years**.\n2. **The Rabbanut Blocks Marriage:** The Chief Rabbinate **100% rejects** Gush Etzion and private conversions for marriage in Israel.\n3. **Your 2 Real Paths:** Complete **State Rabbanut Conversion / Validation (*Ishur Giyur* + 5 Apostilled Docs + 9-Mo Community)** OR file the **Spousal Track (*Nohal 5.2.0008 / Form Ash/6*)**.\n\n[[NAV:obs|0|1️⃣ Read First: Private Beit Din & Gush Etzion Trap]]\n[[NAV:obs|2|2️⃣ Read Next: 9-Month Community & Ishur Giyur Rule]]\n[[NAV:obs|1|3️⃣ Read Next: The 5 Mandatory Apostilled Homeland Docs]]",
+      "dahan": "⚠️ **STOP — The Truth About Non-Orthodox ('Dahan Ruling') Conversions:**\n\n1. **The Chief Rabbinate 100% rejects non-Orthodox conversions**—permanently blocking you and your future children from marrying a Jewish citizen through the Rabbanut.\n2. **Misrad HaPanim drags *Dahan* files out for years**, whereas you can complete a **100% Halachic, Rabbanut-recognized conversion** in the same timeframe with our Vetted Sponsoring Rabbi & Madrichat Kallah!\n\n[[NAV:term|dahan_truth|1️⃣ Read First: The Unfiltered Dahan vs. Rabbanut Truth]]\n[[NAV:obs|5|2️⃣ Read Next: Vetted Rabbanut Sponsoring Rabbi & Kallah Guide]]",
+      "vc": "🏛️ **Passing *Va'adat Charigim* (Form Ash/1) on a B/2 Tourist Visa:**\n\nTourists are blocked from State Conversion unless they first pass **Va'adat Charigim** with Form Ash/1, Ash/3, a Hebrew *Michtav Hesber*, 5–8+ Israeli Rabbi/Host Family letters, and 5 Apostilled Homeland Docs before their 90-day visa expires.\n\n[[NAV:obs|3|1️⃣ Read First: Passing Va'adat Charigim & Freezing Your Clock]]\n[[NAV:obs|1|2️⃣ Read Next: The 5 Mandatory Apostilled Docs]]\n[[NAV:hebrew-engine|ash1|3️⃣ Open Form Ash/1 & Ash/3 Guided Hebrew Engine]]"
+    }
+  }
 }

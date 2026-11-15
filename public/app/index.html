@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="color-scheme" content="light only" />
   <meta name="supported-color-schemes" content="light only" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Interactive Command Center & Vetted Concierge | Giyur Aliyah Track</title>
   <script src="/i18n/jurisdiction.js?v=1794565776862"></script>
@@ -119,6 +119,34 @@
     .kw-word.kw-active { background:#fde047 !important; color:#082548 !important; font-weight:900 !important; transform:scale(1.07); box-shadow:0 2px 8px rgba(250,204,21,0.45); }
     .kw-word.kw-passed { background: #e0f2fe; color: #0284c7; }
 
+  
+    
+    /* === ABSOLUTE 1.0x VIEWPORT, INPUT & KEYBOARD LOCK === */
+    *, *::before, *::after {
+      touch-action: pan-x pan-y !important;
+      -webkit-text-size-adjust: 100% !important;
+      text-size-adjust: 100% !important;
+    }
+    html, body {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      min-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      -webkit-user-select: none;
+    }
+    input, textarea, select, #gat-hd-input {
+      font-size: 16px !important;
+      line-height: 1.25 !important;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+    }
+    .drawer-backdrop {
+      overflow: hidden !important;
+      max-width: 100vw !important;
+    }
+
   </style>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));}</script>
 <script type="application/ld+json">
@@ -175,6 +203,9 @@
       </a>
     </div>
     <div style="display:flex;align-items:center;gap:8px;">
+            <button type="button" class="hamburger-btn" onclick="if(typeof window.toggleLeftDrawer==='function') window.toggleLeftDrawer(true);" aria-label="Menu" style="background:rgba(255,255,255,0.12);border:1.5px solid rgba(56,189,248,0.45);color:#fff;width:38px;height:38px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;">
+        <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#ffffff;stroke-width:2.5;stroke-linecap:round;"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
       <button type="button" id="globe-lang-btn" class="globe-btn" onclick="window.toggleLang(event)" aria-label="Change Language">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         <span id="globe-lang-lbl">EN</span>
@@ -187,9 +218,9 @@
     <button class="mod-tab concierge-pill" data-mod="vetted-team" onclick="openMod('vetted-team')">🤝 Vetted Team, Notary & Lawyer</button>
     <button class="mod-tab active" data-mod="hebrew-engine" onclick="openMod('hebrew-engine')">📸 Hebrew & Forms</button>
     <button class="mod-tab" data-mod="rabbi-letters" onclick="openMod('rabbi-letters')">✍️ Rabbi Letters</button>
-    <button class="mod-tab" data-mod="beit-din-150" onclick="openMod('beit-din-150')">🕍 200 Beit Din Deck</button>
-    <button class="mod-tab" data-mod="couples-sync" onclick="openMod('couples-sync')">📱 80 Couples Sync</button>
-    <button class="mod-tab" data-mod="songs-prayers" onclick="openMod('songs-prayers')">🎵 Songs &amp; Prayers</button>
+    <button class="mod-tab" data-mod="beit-din-150" onclick="openMod('beit-din-150')">🕍 700 Beit Din Deck</button>
+    <button class="mod-tab" data-mod="couples-sync" onclick="openMod('couples-sync')">📱 300 Couples Sync</button>
+    <button class="mod-tab" data-mod="songs-prayers" onclick="openMod('songs-prayers')">🎵 56 Songs &amp; Prayers</button>
   </div>
 
   <div class="container" id="app-container"></div>
@@ -291,7 +322,7 @@
             <div>
               <div class="tier-name">📱 Spousal Visa 2-Phone Sync + Audit</div>
               <div class="tier-price">$129 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">90-Day (2 Phones)</span></div>
-              <div class="tier-desc">80-Question Nohal 5.2.0008 Separated Room 2-Phone E2EE Matcher + Pre-Flight Document & Apostille Inspector. (Or <strong>$229 5-Yr Residency</strong>).</div>
+              <div class="tier-desc">300-Question Nohal 5.2.0008 Separated Room 2-Phone E2EE Matcher + Pre-Flight Document & Apostille Inspector. (Or <strong>$229 5-Yr Residency</strong>).</div>
             </div>
             <div style="display:flex;gap:6px;">
               <button class="tier-btn" style="flex:1;" onclick="startCheckout('couples_90d_129')">90-Day ($129)</button>
@@ -304,7 +335,7 @@
             <div>
               <div class="tier-name">👑 Full Dual-Track Suite + Packet Audit</div>
               <div class="tier-price" style="color:#b45309;">$249–$649</div>
-              <div class="tier-desc">All 3 Engines Unlocked (Forms + 700 Beit Din + Songs + 80 Couples Sync + Pre-Flight Dossier & Apostille Audit):</div>
+              <div class="tier-desc">All 3 Engines Unlocked (Forms + 700 Beit Din + Songs + 300 Couples Sync + Pre-Flight Dossier & Apostille Audit):</div>
             </div>
             <div style="display:flex;flex-direction:column;gap:5px;">
               <div style="display:flex;gap:6px;">
@@ -353,13 +384,13 @@
 
           <div class="tier-box">
             <div>
-              <div class="tier-name">🎵 Songs Grader OR 📱 80-Q Sync Only</div>
+              <div class="tier-name">🎵 Songs Grader OR 📱 300-Q Sync Only</div>
               <div class="tier-price">$65 / $75 <span style="font-size:0.74rem;color:#64748b;font-weight:700;">standalone</span></div>
-              <div class="tier-desc">Unlock the Songs, Morning Prayers &amp; Essential Brachot Grader ($65) or standalone 80-Q 2-Phone Sync ($75):</div>
+              <div class="tier-desc">Unlock the Songs, Morning Prayers &amp; Essential Brachot Grader ($65) or standalone 300-Q 2-Phone Sync ($75):</div>
             </div>
             <div style="display:flex;gap:6px;">
               <button class="tier-btn" style="flex:1;" onclick="startCheckout('songs_65')">Songs ($65)</button>
-              <button class="tier-btn" style="flex:1;" onclick="startCheckout('couples_sync_75')">80-Q Sync ($75)</button>
+              <button class="tier-btn" style="flex:1;" onclick="startCheckout('couples_sync_75')">300-Q Sync ($75)</button>
             </div>
           </div>
         </div>
@@ -380,10 +411,10 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script src="/app/bd_vault.js?v=1794565776862"></script>
-  <script src="/app/cp_vault.js?v=1794565776862"></script>
+  <script src="/app/bd_vault.js?v=1794720202"></script>
+  <script src="/app/cp_vault.js?v=1794720202"></script>
   <script src="/app/songs_vault.js?v=1794565776862"></script>
-  <script src="/app/app.js?v=1794577532"></script>
+  <script src="/app/app.js?v=1794720202"></script>
   <script src="/app/vendor/pdf-lib.min.js?v=1794565776862"></script>
   <script src="/app/vendor/fontkit.umd.min.js?v=1794565776862"></script>
   <script src="/app/stampers/gat_modular_stampers_bundle.js?v=1794565776862"></script>
