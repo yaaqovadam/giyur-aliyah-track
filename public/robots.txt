@@ -1,3 +1,2 @@
 User-agent: *
 Disallow: /
-Sitemap: https://giyuraliyahtrack.com/sitemap.xml

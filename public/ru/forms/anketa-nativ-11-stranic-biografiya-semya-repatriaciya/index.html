@@ -241,7 +241,96 @@
       overflow: hidden !important;
     }
 
-  </style>
+  
+
+
+  
+  
+  
+  
+  /* === EXACT CONTRAST RULES: LIGHT FAQ CARDS vs. DARK NAVY FOOTER & PLAYBOOKS === */
+  details > summary:not(.gat-dark-summary),
+  details > summary:not(.gat-dark-summary) * {
+    color: #082548 !important;
+    -webkit-text-fill-color: #082548 !important;
+    opacity: 1 !important;
+  }
+  .seo-obstacle-library > details > summary,
+  .seo-obstacle-library > details > summary *,
+  #gat-seo-library > details > summary,
+  #gat-seo-library > details > summary *,
+  .gat-dark-legal-footer details > summary,
+  .gat-dark-legal-footer details > summary *,
+  summary.gat-dark-summary,
+  summary.gat-dark-summary * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  .gat-dark-legal-footer details p,
+  .gat-dark-legal-footer details p *,
+  p.gat-dark-body,
+  p.gat-dark-body * {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+
+  
+  
+  /* === CLEAN iOS FORM INPUT & CONTRAST STABILIZER (ZERO SCROLL YANKING) === */
+  details > summary:not(.gat-dark-summary),
+  details > summary:not(.gat-dark-summary) * {
+    color: #082548 !important;
+    -webkit-text-fill-color: #082548 !important;
+    opacity: 1 !important;
+  }
+  .seo-obstacle-library > details > summary,
+  .seo-obstacle-library > details > summary *,
+  #gat-seo-library > details > summary,
+  #gat-seo-library > details > summary *,
+  .gat-dark-legal-footer details > summary,
+  .gat-dark-legal-footer details > summary *,
+  summary.gat-dark-summary,
+  summary.gat-dark-summary * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  .gat-dark-legal-footer details p,
+  .gat-dark-legal-footer details p *,
+  p.gat-dark-body,
+  p.gat-dark-body * {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+  input, select, textarea {
+    font-size: 16px !important;
+    touch-action: manipulation !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+  }
+
+
+/* Urgent Bold Red Styling for POINT-OF-NO-RETURN Pre-Flight Go-Bag Card */
+#seo-obs-golink,
+#seo-obs-golink details,
+article:has(summary span[data-ponr="1"]),
+details.gat-ponr-red-card {
+  border-top: 4px solid #dc2626 !important;
+  border-color: #fca5a5 !important;
+  background: linear-gradient(180deg, #fef2f2 0%, #ffffff 100%) !important;
+}
+#seo-obs-golink summary,
+#seo-obs-golink summary span,
+details.gat-ponr-red-card summary,
+details.gat-ponr-red-card summary span {
+  color: #b91c1c !important;
+  font-weight: 900 !important;
+}
+
+</style>
 <script>(function(){var isRoot=(location.pathname==="/"||/^\/(he|fr|es|de|ru)\/?$/.test(location.pathname));if(isRoot&&!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();
 
 
@@ -263,7 +352,7 @@
     document.head.appendChild(st);
   }
 })();</script>
-<script>if(!window.SKIP_GAT_INTRO){document.write('<scr'+'ipt src="/splash.js?v=1794732270"></scr'+'ipt>');}</script>
+<script>if(!window.SKIP_GAT_INTRO){document.write('<scr'+'ipt src="/splash.js?v=1794832905"></scr'+'ipt>');}</script>
 <!-- GAT ANTI-FLASH END -->
   <meta charset="UTF-8" />
   <meta name="color-scheme" content="light only" />
@@ -336,7 +425,7 @@
     html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
 
     /* App Shell Frame */
-    .app-shell { display: flex; flex-direction: column; height: 100dvh; width: 100%; max-width: 100%; background: var(--bg); position: relative; }
+    .app-shell { display: flex; flex-direction: column; height: 100svh; width: 100%; max-width: 100%; background: var(--bg); position: relative; }
 
     /* Pure White Top Header (Zehut 2026 Style) */
     .app-header { height: var(--header-h); background: #ffffff; border-bottom: 2px solid var(--border-light); box-shadow: 0 2px 10px rgba(11, 59, 89, 0.05); display: flex; align-items: center; justify-content: space-between; padding: 0 18px; flex-shrink: 0; z-index: 40; }
@@ -820,7 +909,7 @@
   {
     "@context": "https://schema.org",
     "@type": "VideoObject",
-    "name": "Giyur Aliyah Track — Conversion, Rabbanut & Aliyah Without Losing 5 Years",
+    "name": "Гиюр, Раввинат и Репатриация без потери 5 лет | Giyur Aliyah Track (RU)",
     "description": "Official step-by-step interactive tracker and plain-English guide for Orthodox Conversion (Giyur), Rabbanut recognition, Misrad HaPnim (Nohal 5.2.0008 spousal & conversion tracks), and Aliyah to Israel without losing years to bureaucratic traps.",
     "thumbnailUrl": [
       "https://giyuraliyahtrack.com/bg-watercolor.jpg"
@@ -842,7 +931,7 @@
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Giyur Aliyah Track", "item": "https://giyuraliyahtrack.com/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "⚖️ 2026 Official PIBA & Chief Rabbinate Statutory Authority Table", "acceptedAnswer": {"@type": "Answer", "text": "Procedure Nohal 5.2.0008 (Ed. 16, July 20, 2026 — Married Spouses, 6-Page Form Ash/6 Dossier & Lease Affidavit) • Nohal 5.2.0009 (Ed. 17, July 16, 2026 — Common-Law Couples, Form Ash/1, Ash/3 & 13-Clause Appendix A Affidavit) • Nohal 5.2.0001 (Ed. 10, May 19, 2026 — In-Israel Aliyah / Shinui Ma'amad, 3-Page Form Ash/456, MR/14 & Ash/114, Fee-Exempt per Sec. ג.7) • Dual-Armor Rights: Sec. ה.2(8) / ה.7 (45+45 Day Missing Document Extension via Visa Team Leader), Nohal 1.6.0001 (21-Day Written Internal Appeal against Appendix C Summary Refusal), Sec. ג.10 / ג.7 (Statutory Right to Run Spousal & Conversion/Aliyah Files Simultaneously), Sec. ד.2.ה (Marriage Certificate Prior-Single Status Exemption), and Nohal 2.11.0001 (Foreign & Utah Civil Marriage Registration)."}}, {"@type": "Question", "name": "BOX 1 OF 9 • THE BIG PICTURE — Private Beit Dins (Gush Etzion / Giyur K'Halacha, Bnei Brak, Jerusalem Badatz) Are Blocked for Aliyah & Rabbanut Marriage.", "acceptedAnswer": {"@type": "Answer", "text": "A tourist or partner can convert at a private Orthodox Beit Din in Israel—like Gush Etzion (Giyur K'Halacha), Bnei Brak (Rabbi Karelitz), Jerusalem private courts, or Chabad—and while Halachically kosher, Misrad HaPanim WILL NOT approve you for Aliyah on a tourist conversion, and the Chief Rabbinate (Rabbanut) 100% refuses to register your marriage unless you go through the State Rabbanut or the 5-Year Spousal Track. We show you whether you belong on Track 1 (Emergency In-Israel Aliyah / Go-Bag), Track 2 (Private Beit Din + Ishur Giyur), Track 3 (State Giyur via Va'adat Charigim), or Track 4 (Spousal Residency Nohal 5.2.0008) before you waste"}}, {"@type": "Question", "name": "BOX 2 OF 9 • THE 2-YEAR BREADCRUMB LOOP — The 'Fly Home & Grab All 5 Civil Docs in Person' Power Move (vs. Remote Ordering Hell).", "acceptedAnswer": {"@type": "Answer", "text": "You need 5 Apostilled home-country documents: (1) Long-Form Birth Certificate, (2) Single Status Affidavit, (3) Prior Divorce/Marriage Decrees, (4) Name Change Docs, and (5) 3-Bucket Criminal Checks. Starting here, flying home briefly to pull all 5 Apostilled docs in person (often same-day!), and returning with a complete file earns 10x more respect from the Rabbanut."}}, {"@type": "Question", "name": "BOX 3 OF 9 • THE UNFINISHED POST-MIKVAH TRAP — Why Stopping After the Mikvah Blocks Weddings Until Someone Finishes What You Left Behind.", "acceptedAnswer": {"@type": "Answer", "text": "When you've found your person and want to marry, waiting even one day is hell. Stopping after an independent Mikvah without Supreme Rabbinical Court validation ('Ishur Giyur') blocks your wedding—or your future kids' weddings—for years. Our Tracker guides you through Chief Rabbinate validation and sends pre-written Hebrew reference drafts to your Israeli Rabbi & host family via WhatsApp."}}, {"@type": "Question", "name": "BOX 4 OF 9 • THE 90-DAY TOURIST VISA CLOCK — How to Study for Conversion or Apply With Your Partner Without Overstaying Your Visa.", "acceptedAnswer": {"@type": "Answer", "text": "Tourists on a B/2 visa are legally blocked from entering State Conversion for Aliyah without first passing the Exceptions Committee (Va'adat Charigim). We generate your statutory Hebrew Explanation Letter (Michtav Hesber) and send automated WhatsApp alerts before any clerk deadline expires."}}, {"@type": "Question", "name": "BOX 5 OF 9 • TWO-WAY HEBREW DOCUMENT ENGINE — 1) Snap Any Clerk Letter for Instant English + Timer. 2) Answer in English to Print Official Hebrew PDFs.", "acceptedAnswer": {"@type": "Answer", "text": "You face two Hebrew walls: blank government forms you must submit in Hebrew, and mystery Hebrew printout sheets clerks hand you with hidden deadlines. Snap a clerk's Hebrew paper to read it in plain English and auto-start your deadline countdown—or answer English questions to print official Hebrew Forms Ash/1 & Ash/3."}}, {"@type": "Question", "name": "BOX 6 OF 9 • VETTED RABBI, MADRICHAT KALLAH & EXAM — Both Partners Must Take the Course! Meet Our Vetted Rabbanut Team & Pass the 150 Questions.", "acceptedAnswer": {"@type": "Answer", "text": "Even when one spouse is a born-Jewish Israeli citizen, the Beit Din requires BOTH partners to study with a recognized Sponsoring Rabbi AND complete a Family Purity course with a Rabbanut-certified Madrichat Kallah. We introduce you to our vetted Sponsoring Rabbi and Madrichat Kallah (with flexible 1-on-1 & remote-friendly scheduling) and drill you on all 150 questions & 12 Shabbat songs."}}, {"@type": "Question", "name": "BOX 7 OF 9 • 80-QUESTION COUPLES INTERROGATION — Sync With Your Partner on 2 Phones Before Misrad HaPanim Puts You in Separate Rooms.", "acceptedAnswer": {"@type": "Answer", "text": "Every year of the Graduated Spousal Process (Tahalich Medurag), clerks separate you and your partner into two rooms to ask 80 personal daily-life questions. Take our 80-question test on two phones from opposite sides of your couch and instantly see every mismatch before your appointment."}}, {"@type": "Question", "name": "BOX 8 OF 9 • APPLYING WITH A CRIMINAL RECORD — Have an Old Arrest, DUI, or Expunged Record? Never Hide It—Use Our Rehabilitation Dossier.", "acceptedAnswer": {"@type": "Answer", "text": "Misrad HaPanim requires Apostilled National Police Checks (US FBI, UK ACRO, EU, CA RCMP) from your birth country, every citizenship, and every country lived in >1 year since age 14. We guide you through proper upfront disclosure backed by court dispositions, Rabbi character references, and a statutory Hebrew Rehabilitation Explanation Letter."}}, {"@type": "Question", "name": "BOX 9 OF 9 • TOURIST FINANCIAL & HOUSING SURVIVAL — How to Sustain Yourself on a B/2 Tourist or Student Visa Without Working Illegally.", "acceptedAnswer": {"@type": "Answer", "text": "Working locally in Israel on a tourist visa triggers deportation and kills your Giyur/Aliyah file—yet paying 5,000 NIS/mo rent with zero income drains savings fast. Work remotely for foreign clients paid to your home bank (online English teaching, translation, remote tech) + slash rent via live-in nanny, elderly caretaker, or dorm volunteering."}}]}]}
 </script>
-  <script src="/i18n/jurisdiction.js?v=1794732270"></script>
+  <script src="/i18n/jurisdiction.js?v=1794787531"></script>
   
 <script type="application/ld+json">
 {
@@ -885,6 +974,35 @@
 </script>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:site_name" content="Giyur Aliyah Track" />
@@ -903,6 +1021,48 @@
   <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/forms/nativ-fragebogen-11-seiten-lebenslauf-alija-israel/" />
   <link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/forms/anketa-nativ-11-stranic-biografiya-semya-repatriaciya/" />
   <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
+<style id="gat-horizontal-tabs-scroll-fix">
+  /* Allow horizontal touch-scrolling on top module/track tab rows while keeping page locked */
+  .mod-tabs, .mod-tabs *,
+  .nav-tabs, .nav-tabs *,
+  .sub-tabs, .sub-tabs *,
+  #mod-tabs, #mod-tabs *,
+  #hebrew-subtabs-bar, #hebrew-subtabs-bar *,
+  [role="tablist"], [role="tablist"] * {
+    touch-action: pan-x pan-y !important;
+  }
+  .mod-tabs,
+  .nav-tabs,
+  .sub-tabs,
+  #mod-tabs,
+  #hebrew-subtabs-bar,
+  [role="tablist"] {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    max-width: 100vw !important;
+  }
+  .mod-tabs::-webkit-scrollbar,
+  .nav-tabs::-webkit-scrollbar,
+  .sub-tabs::-webkit-scrollbar,
+  #mod-tabs::-webkit-scrollbar,
+  #hebrew-subtabs-bar::-webkit-scrollbar,
+  [role="tablist"]::-webkit-scrollbar {
+    display: none !important;
+  }
+  .mod-tabs > *,
+  .nav-tabs > *,
+  .sub-tabs > *,
+  #mod-tabs > *,
+  #hebrew-subtabs-bar > *,
+  [role="tablist"] > * {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+</style>
 </head>
 <body>
 
@@ -969,9 +1129,7 @@
            ========================================================= -->
       <section class="app-view active" id="view-0" aria-label="Start Here: Conversion, Aliyah & Rabbanut">
         <div class="hero-center">
-          <div class="hero-emblem">
-            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4.5l2.1 3.6h4.1l-2.1 3.6 2.1 3.6h-4.1L12 19.9l-2.1-3.6H5.8l2.1-3.6-2.1-3.6h4.1L12 5.5z"/></svg>
-          </div>
+          <div class="brand-mark" style="margin: 0 auto 12px; width: 42px; height: 42px; border-radius: 11px;"><svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg></div>
           <h2 data-i18n="hero_h1">Гиюр, Раввинат и Алия без потери 5 лет жизни и 30 000 ₪ на адвокатов</h2>
           <p data-i18n="hero_p">Нажмите на любой блок ниже, чтобы увидеть скрытые ловушки МВД и Раввината простым языком — или перейдите сразу к вашему Трекеру сроков и документов.</p>
         </div>
@@ -987,24 +1145,15 @@
           <div class="ea-cta" data-i18n="ea_cta">Открыть чек-лист «Go-Bag» и гид по прохождению границы →</div>
         </div>
         <!-- 3-BUTTON TRACK DIAGNOSTIC FUNNEL (PRE-BAKED IN STATIC HTML) -->
-        <section id="gat-3track-funnel-card" style="background:#fff;border:2.5px solid #03A9F4;border-radius:20px;padding:18px 16px;margin:16px 0 22px 0;box-shadow:0 12px 32px rgba(3,169,244,0.16);">
-          <div style="font-size:1.1rem;font-weight:900;color:#082548;margin-bottom:4px;">🧭 Tell Us What Track You Are Interested In:</div>
-          <div style="font-size:0.82rem;color:#475569;font-weight:700;margin-bottom:12px;">Tap your track below to open your step-by-step Case Playbook:</div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:14px 16px;border-radius:14px;font-size:0.94rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.35);text-align:start;" onclick="window.selectGatMainTrack(1)"><span>🕍 1) Giyur — I Want to Convert (or Validate My Conversion)</span><span>❯</span></button>
-            <button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:14px 16px;border-radius:14px;font-size:0.94rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.35);text-align:start;" onclick="window.selectGatMainTrack(2)"><span>✈️ 2) Aliyah — I Want to Make Aliyah to Israel (or Spousal Visa)</span><span>❯</span></button>
-            <button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:14px 16px;border-radius:14px;font-size:0.94rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.35);text-align:start;" onclick="window.selectGatMainTrack(3)"><span>✡️ 3) Both — I Want to Convert AND Make Aliyah / Marry</span><span>❯</span></button>
-          </div>
-          <div id="gat-3track-diag-box"></div>
-        </section>
-        <article class="seo-spoke-article" style="border-top:5px solid #03A9F4;"><div style="display:inline-block;background:#e0f2fe;color:#0284c7;font-size:0.76rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;">OFFICIAL PIBA / MISRAD HAPANIM FORM • Nativ Security CV (שאלון נתיב)</div><h1>Анкета Натив (11 страниц) — Заполнить на русском → Готовый PDF на иврите для репатриации</h1><h4>🚨 Ловушка чиновников МВД и правила PIBA 2026:</h4><p>Пропуски в хронологии работы и адресов или неуказанные родственники в 11-страничной анкете «Натив» приводят к многомесячным задержкам проверки.</p><div style="display:flex;flex-direction:column;gap:10px;margin:18px 0;"><a class="btn-sky" style="background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);border:2px solid #4FC3F7;font-size:0.98rem;" href="/app/?mod=hebrew-engine&form=security_cv&lang=ru">⚡ Заполнить на русском языке → Скачать готовый PDF на иврите (Синие чернила) →</a><a class="btn-outline-card" style="padding:12px 16px;font-size:0.88rem;font-weight:800;margin-top:0;" href="/app/forms/SecurityCV.pdf" target="_blank" rel="noopener">📥 Скачать пустой бланк PDF на иврите (Бесплатно)</a></div><h2>📋 Полный протокол заполнения анкеты на иврите и обязательный список документов</h2><div><ul><li><strong>1. Почему МВД Израиля (PIBA) отказывает при подаче анкет на русском или английском языке:</strong> По официальным регламентам Управления народонаселения и иммиграции (МВД Израиля), все государственные бланки (Аш/1, Аш/3, Аш/6, Аш/456, МР/14а, МР/14б, Неспах Алеф и 11-страничная анкета «Натив») должны быть заполнены строго на нормативном иврите справа налево. Заполнение ивритских полей латиницей или пропуски дат в биографии дают чиновнику право отказать в открытии дела прямо в окне приёма.</li><li><strong>2. Пять обязательных документов с двойным апостилем (Жёсткие часы 180 дней):</strong> К каждому досье прикладываются оригиналы с апостилем из страны рождения, всех стран гражданства и каждой страны, где вы проживали более 1 года с 14 лет: (а) Полное свидетельство о рождении (или повторное/архивная справка ЗАГС с указанием обоих родителей), (б) Справка об отсутствии судимости МВД / ФБР со сроком выдачи не более 180 дней, (в) Справка о семейном положении / незамужестве (Форма №15 или льгота п. ד.2.ה, если добрачный статус «холост/не замужем» указан в свидетельстве о браке с апостилем), (г) Свидетельства и решения суда о всех предыдущих разводах, и (д) Справки о перемене имени/фамилии (Форма №16).</li><li><strong>3. Ваши законные права двойной защиты (п. ה.2.8, п. ג.10 и Ноаль 1.6.0001):</strong> Редакции инструкций Ноаль 5.2.0008 (Ред. 16) и Ноаль 5.2.0009 (Ред. 17) от июля 2026 года гарантируют вам право запросить <strong>продление на 45 + 45 дней</strong> через руководителя визового отдела для донесения зарубежных справок (п. ה.2.8), подать <strong>письменную апелляцию в течение 21 дня</strong> (Ноаль 1.6.0001) и вести дело СТУПРО параллельно с государственным гиюром (п. ג.10).</li><li><strong>4. Защита новорождённых детей и запись в Сефах Теудат-Зеута (Ноаль 5.2.0004):</strong> Документальное подтверждение 300 дней совместного проживания в Израиле до рождения ребёнка позволяет сразу вписать малыша в Теудат-Зеут родителя-израильтянина без 2-летней заморозки и без судебного ДНК-теста на отцовство (Бдикот Рикмот) за 15 000+ ₪.</li></ul></div><hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/><h2>Полный 5-летний план СТУПРО, перекрёстный допрос из 300 вопросов и как вписать новорождённого ребёнка в Теудат-Зеут без 2-летней блокировки.</h2><p>Будь то официальный брак (Ноаль 5.2.0008, анкета Аш/6) или гражданское партнёрство (Ноаль 5.2.0009, анкеты Аш/1 + Аш/3 + декларация 13 пунктов Неспах Алеф), МВД Израиля проводит пары через 5-летнюю ступенчатую процедуру (СТУПРО) — и если ребёнок рождается до закрепления статуса, чиновники могут на 2 года заблокировать внесение вашего малыша в вкладыш (Сефах) Теудат-Зеута.</p><h4>🚨 4 главные ловушки СТУПРО и регистрации новорождённых в МВД (Ноаль 5.2.0008 и 5.2.0004)</h4><div><ul><li><strong>1. Блеф о закрытии дела за 30 дней против п. ה.2(8):</strong> По Ноаль 5.2.0008 п. ה.2(8) вы имеете право на <strong>45 + 45 дней</strong> для донесения документов и <strong>21 день на письменную апелляцию (Ноаль 1.6.0001)</strong>!</li><li><strong>2. Законное право вести СТУПРО и гиюр одновременно (п. ג.10):</strong> Статья ג.10 прямо разрешает проходить СТУПРО И государственный гиюр параллельно без закрытия дела!</li><li><strong>3. Кошмар 2-летнего отказа вписать новорождённого в Теудат-Зеут (Ноаль 5.2.0004 и 2.2.0007):</strong> Когда у гражданина Израиля и супруги-иностранки (или проходящей гиюр) рождается ребёнок в израильской больнице, выдаётся лишь временная справка о рождении (<em>Одаа аль Лейда</em>) без номера ТЗ. Если вы документально не доказали <strong>300 дней совместного проживания до рождения ребёнка</strong>, МВД требует <strong>судебный ДНК-тест на отцовство (Бдикот Рикмот) через Суд по семейным делам стоимостью 15 000+ ₪</strong> — оставляя малыша без номера ТЗ, пособий Битуах Леуми и полноценной больничной кассы на 2 года!</li><li><strong>4. Ежегодный перекрёстный допрос из 300 вопросов в разных кабинетах:</strong> Каждый год перед продлением визы B/1 или A/5 чиновники разводят супругов по разным комнатам и сверяют 80 бытовых деталей.</li></ul></div><h4>⚡ Защитный план из 4 шагов: получение A/5, прохождение 300 вопросов и запись ребёнка в Теудат-Зеут с 1-го дня</h4><div><ul><li><strong>1. Заполнить 6-страничную анкету Аш/6 + юридическое письмо на иврите:</strong> Включая декларацию аренды (стр. 5) и льготу п. ד.2.ה (освобождение от отдельной справки о незамужестве при наличии отметки в свидетельстве о браке).</li><li><strong>2. Зафиксировать 300 дней совместной жизни до родов:</strong> Заранее приобщите к делу МВД совместный договор аренды, Арнону и счета минимум за 300 дней до родов, чтобы вписать ребёнка в Сефах Теудат-Зеута по Ноаль 5.2.0004 без судебного ДНК-теста!</li><li><strong>3. Пройти тренажёр 300 вопросов на 2 телефонах:</strong> Выявите все расхождения до визита в МВД.</li><li><strong>4. Завершить гиюр и хупу в Главном раввинате параллельно:</strong> Обучайтесь вместе с нашим признанным раввином и Мадрихат Калла.</li></ul></div><hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/><h3>⚖️ Официальная правовая база МВД Израиля (PIBA) и Главного раввината (Редакции 2026 г.)</h3><p>Инструкция Ноаль 5.2.0008 (Ред. 16 от 20.07.2026 — Зарегистрированные супруги, анкета Аш/6 на 6 стр. и декларация аренды) • Ноаль 5.2.0009 (Ред. 17 от 16.07.2026 — Гражданские партнёры / Ядуим бе-Цибур, анкеты Аш/1, Аш/3 и аффидевит Приложения А из 13 пунктов) • Ноаль 5.2.0001 (Ред. 10 от 19.05.2026 — Репатриация внутри Израиля / Шинуй Маамад, анкета Аш/456, МР/14 и Аш/114, освобождение от пошлины по п. ג.7) • Права двойной защиты: п. ה.2(8) (продление срока подачи документов на 45+45 дней через руководителя визового отдела), Ноаль 1.6.0001 (21 день на письменную апелляцию против отказа), п. ג.10 / ג.7 (право вести дело о ССТ и гиюре/репатриации параллельно без закрытия дела).</p><p><strong>🇷🇺/🇺🇦/🇧🇾/🇰🇿 Активная юрисдикция документов: Русский (РФ / СНГ / Израиль):</strong> Справка об отсутствии судимости МВД РФ (ГИАЦ МВД / Госуслуги, с синей печатью <180 дней) | Выписка МВД Украины / Беларуси / Казахстана | Повторное свидетельство о рождении ЗАГС (или Архивная справка ЗАГС по форме № 4 с указанием обоих родителей и национальности) | Справка ЗАГС об отсутствии факта государственной регистрации заключения брака (Форма № 15 / № 6) + Свидетельства о разводе (если были) | Оригинальный штамп «Апостиль» (Минюст / Управление ЗАГС на акты гражданского состояния • ИЦ МВД на справку о несудимости)</p><div style="margin-top:16px;"><h3 style="margin-bottom:8px;">📄 Все 8 официальных анкет МВД Израиля (PIBA) и Натив:</h3><div class="seo-mesh-grid"><a class="seo-mesh-link" href="/ru/forms/anketa-ash1-vaadat-harigim-zayavlenie-na-vizu-izrail/">📄 Ash/1 (אש/1) — Анкета Аш/1 (טופס אש/1) — Заполнить на русском → Готовый PDF на иврите (Ваадат Харигим)</a><a class="seo-mesh-link" href="/ru/forms/anketa-ash3-prodlenie-vizy-smena-statusa-izrail/">📄 Ash/3 (אש/3) — Анкета Аш/3 (טופס אש/3) — Заполнить на русском → Готовый PDF на иврите (Продление визы)</a><a class="seo-mesh-link" href="/ru/forms/anketa-ash6-stupro-viza-suprugov-nohal-5-2-0008-izrail/">📄 Ash/6 (אש/6) — Анкета Аш/6 (טופס אש/6) — Заполнить на русском → 6-стр. досье СТУПРО на иврите (Ноаль 5.2.0008)</a><a class="seo-mesh-link" href="/ru/forms/anketa-ash456-repatriaciya-vnutri-izrailya-shinuj-maamad/">📄 Ash/456 (אש/456) — Анкета Аш/456 (טופס אש/456) — Заполнить на русском → PDF на иврите (Репатриация в Израиле / Шинуй Маамад)</a><a class="seo-mesh-link" href="/ru/forms/anketa-mr14a-pervyj-biometricheskij-teudat-zeut/">📄 MR/14a (מר/14א) — Анкета МР/14а (טופס מר/14א) — Заполнить на русском → PDF на иврите (Первый Теудат-Зеут)</a><a class="seo-mesh-link" href="/ru/forms/anketa-mr14b-pervyj-zagranpasport-izrailya-darkon/">📄 MR/14b (מר/14ב) — Анкета МР/14б (טופס מר/14ב) — Заполнить на русском → PDF на иврите (Даркон / Теудат-Маавар)</a><a class="seo-mesh-link" href="/ru/forms/nespah-alef-deklaraciya-13-punktov-yaduim-be-cibur-5-2-0009/">📄 Nespach Alef (נספח א׳) — Неспах Алеф (נספח א׳) — Заполнить на русском → Декларация 13 пунктов на иврите (Ядуим бе-Цибур 5.2.0009)</a><a class="seo-mesh-link" href="/ru/forms/anketa-nativ-11-stranic-biografiya-semya-repatriaciya/">📄 Nativ Security CV (שאלון נתיב) — Анкета Натив (11 страниц) — Заполнить на русском → Готовый PDF на иврите для репатриации</a></div></div></article>
+        <section id="gat-3track-funnel-card" style="background:#fff;border:2.5px solid #03A9F4;border-radius:20px;padding:15px 14px;margin:8px 0 16px 0;box-shadow:0 12px 32px rgba(3,169,244,0.16);"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;"><div style="background:linear-gradient(135deg,#082548 0%,#0288D1 100%);color:#fff;border:1.5px solid #03A9F4;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">1. Выбор пути</div><div style="background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">2. Ситуация</div><div style="background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">3. План действий</div></div><div style="font-size:1.06rem;font-weight:900;color:#082548;margin-bottom:3px;">🧭 Какой трек вас интересует?</div><div style="font-size:0.81rem;color:#475569;font-weight:700;margin-bottom:10px;">Выберите ваш маршрут ниже, чтобы открыть пошаговый план действий:</div><div style="display:flex;flex-direction:column;gap:9px;"><button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:13px 15px;border-radius:14px;font-size:0.92rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.32);text-align:start;" onclick="window.selectGatMainTrack(1)"><span>🕍 1) Гиюр — Я хочу пройти гиюр (или подтвердить мой гиюр)</span><span>❯</span></button><button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:13px 15px;border-radius:14px;font-size:0.92rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.32);text-align:start;" onclick="window.selectGatMainTrack(2)"><span>✈️ 2) Алия — Я хочу репатриироваться в Израиль (или виза ССТ)</span><span>❯</span></button><button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:13px 15px;border-radius:14px;font-size:0.92rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.32);text-align:start;" onclick="window.selectGatMainTrack(3)"><span>✡️ 3) Оба — Я хочу пройти гиюр И репатриироваться / вступить в брак</span><span>❯</span></button><button type="button" style="width:100%;background:#fffbeb;color:#92400e;border:2px solid #f59e0b;padding:10px 14px;border-radius:12px;font-size:0.82rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:start;" onclick="window.showGatDiagResult('go_bag')"><span>🚨 Ещё за границей / Экстренный выезд? Папка Go-Bag и Апостиль</span><span>❯</span></button></div><div id="gat-3track-diag-box"></div></section>
+        <article class="seo-spoke-article" style="border-top:5px solid #03A9F4;"><div style="display:inline-block;background:#e0f2fe;color:#0284c7;font-size:0.76rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;">ОФИЦИАЛЬНЫЙ БЛАНК МВД ИЗРАИЛЯ (PIBA) • Nativ Security CV (שאלון נתיב)</div><h1>Анкета Натив (11 страниц) — Заполнить на русском → Готовый PDF на иврите для репатриации</h1><h4>🚨 Ловушка чиновников МВД и правила PIBA 2026:</h4><p>Пропуски в хронологии работы и адресов или неуказанные родственники в 11-страничной анкете «Натив» приводят к многомесячным задержкам проверки.</p><div style="display:flex;flex-direction:column;gap:10px;margin:18px 0;"><a class="btn-sky" style="background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);border:2px solid #4FC3F7;font-size:0.98rem;" href="/app/?mod=hebrew-engine&form=security_cv&lang=ru">⚡ Заполнить на русском языке → Скачать готовый PDF на иврите (Синие чернила) →</a><a class="btn-outline-card" style="padding:12px 16px;font-size:0.88rem;font-weight:800;margin-top:0;" href="/app/forms/SecurityCV.pdf" target="_blank" rel="noopener">📥 Скачать пустой бланк PDF на иврите (Бесплатно)</a></div><h2>📋 Полный протокол заполнения анкеты на иврите и обязательный список документов</h2><div><ul><li><strong>1. Почему МВД Израиля (PIBA) отказывает при подаче анкет на русском или английском языке:</strong> По официальным регламентам Управления народонаселения и иммиграции (МВД Израиля), все государственные бланки (Аш/1, Аш/3, Аш/6, Аш/456, МР/14а, МР/14б, Неспах Алеф и 11-страничная анкета «Натив») должны быть заполнены строго на нормативном иврите справа налево. Заполнение ивритских полей латиницей или пропуски дат в биографии дают чиновнику право отказать в открытии дела прямо в окне приёма.</li><li><strong>2. Пять обязательных документов с двойным апостилем (Жёсткие часы 180 дней):</strong> К каждому досье прикладываются оригиналы с апостилем из страны рождения, всех стран гражданства и каждой страны, где вы проживали более 1 года с 14 лет: (а) Полное свидетельство о рождении (или повторное/архивная справка ЗАГС с указанием обоих родителей), (б) Справка об отсутствии судимости МВД / ФБР со сроком выдачи не более 180 дней, (в) Справка о семейном положении / незамужестве (Форма №15 или льгота п. ד.2.ה, если добрачный статус «холост/не замужем» указан в свидетельстве о браке с апостилем), (г) Свидетельства и решения суда о всех предыдущих разводах, и (д) Справки о перемене имени/фамилии (Форма №16).</li><li><strong>3. Ваши законные права двойной защиты (п. ה.2.8, п. ג.10 и Ноаль 1.6.0001):</strong> Редакции инструкций Ноаль 5.2.0008 (Ред. 16) и Ноаль 5.2.0009 (Ред. 17) от июля 2026 года гарантируют вам право запросить <strong>продление на 45 + 45 дней</strong> через руководителя визового отдела для донесения зарубежных справок (п. ה.2.8), подать <strong>письменную апелляцию в течение 21 дня</strong> (Ноаль 1.6.0001) и вести дело СТУПРО параллельно с государственным гиюром (п. ג.10).</li><li><strong>4. Защита новорождённых детей и запись в Сефах Теудат-Зеута (Ноаль 5.2.0004):</strong> Документальное подтверждение 300 дней совместного проживания в Израиле до рождения ребёнка позволяет сразу вписать малыша в Теудат-Зеут родителя-израильтянина без 2-летней заморозки и без судебного ДНК-теста на отцовство (Бдикот Рикмот) за 15 000+ ₪.</li></ul></div><hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/><h2>Полный 5-летний план СТУПРО, перекрёстный допрос из 300 вопросов и как вписать новорождённого ребёнка в Теудат-Зеут без 2-летней блокировки.</h2><p>Будь то официальный брак (Ноаль 5.2.0008, анкета Аш/6) или гражданское партнёрство (Ноаль 5.2.0009, анкеты Аш/1 + Аш/3 + декларация 13 пунктов Неспах Алеф), МВД Израиля проводит пары через 5-летнюю ступенчатую процедуру (СТУПРО) — и если ребёнок рождается до закрепления статуса, чиновники могут на 2 года заблокировать внесение вашего малыша в вкладыш (Сефах) Теудат-Зеута.</p><h4>🚨 4 главные ловушки СТУПРО и регистрации новорождённых в МВД (Ноаль 5.2.0008 и 5.2.0004)</h4><div><ul><li><strong>1. Блеф о закрытии дела за 30 дней против п. ה.2(8):</strong> По Ноаль 5.2.0008 п. ה.2(8) вы имеете право на <strong>45 + 45 дней</strong> для донесения документов и <strong>21 день на письменную апелляцию (Ноаль 1.6.0001)</strong>!</li><li><strong>2. Законное право вести СТУПРО и гиюр одновременно (п. ג.10):</strong> Статья ג.10 прямо разрешает проходить СТУПРО И государственный гиюр параллельно без закрытия дела!</li><li><strong>3. Кошмар 2-летнего отказа вписать новорождённого в Теудат-Зеут (Ноаль 5.2.0004 и 2.2.0007):</strong> Когда у гражданина Израиля и супруги-иностранки (или проходящей гиюр) рождается ребёнок в израильской больнице, выдаётся лишь временная справка о рождении (<em>Одаа аль Лейда</em>) без номера ТЗ. Если вы документально не доказали <strong>300 дней совместного проживания до рождения ребёнка</strong>, МВД требует <strong>судебный ДНК-тест на отцовство (Бдикот Рикмот) через Суд по семейным делам стоимостью 15 000+ ₪</strong> — оставляя малыша без номера ТЗ, пособий Битуах Леуми и полноценной больничной кассы на 2 года!</li><li><strong>4. Ежегодный перекрёстный допрос из 300 вопросов в разных кабинетах:</strong> Каждый год перед продлением визы B/1 или A/5 чиновники разводят супругов по разным комнатам и сверяют 80 бытовых деталей.</li></ul></div><h4>⚡ Защитный план из 4 шагов: получение A/5, прохождение 300 вопросов и запись ребёнка в Теудат-Зеут с 1-го дня</h4><div><ul><li><strong>1. Заполнить 6-страничную анкету Аш/6 + юридическое письмо на иврите:</strong> Включая декларацию аренды (стр. 5) и льготу п. ד.2.ה (освобождение от отдельной справки о незамужестве при наличии отметки в свидетельстве о браке).</li><li><strong>2. Зафиксировать 300 дней совместной жизни до родов:</strong> Заранее приобщите к делу МВД совместный договор аренды, Арнону и счета минимум за 300 дней до родов, чтобы вписать ребёнка в Сефах Теудат-Зеута по Ноаль 5.2.0004 без судебного ДНК-теста!</li><li><strong>3. Пройти тренажёр 300 вопросов на 2 телефонах:</strong> Выявите все расхождения до визита в МВД.</li><li><strong>4. Завершить гиюр и хупу в Главном раввинате параллельно:</strong> Обучайтесь вместе с нашим признанным раввином и Мадрихат Калла.</li></ul></div><hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/><h3>⚖️ Официальная правовая база МВД Израиля (PIBA) и Главного раввината (Редакции 2026 г.)</h3><p>Инструкция Ноаль 5.2.0008 (Ред. 16 от 20.07.2026 — Зарегистрированные супруги, анкета Аш/6 на 6 стр. и декларация аренды) • Ноаль 5.2.0009 (Ред. 17 от 16.07.2026 — Гражданские партнёры / Ядуим бе-Цибур, анкеты Аш/1, Аш/3 и аффидевит Приложения А из 13 пунктов) • Ноаль 5.2.0001 (Ред. 10 от 19.05.2026 — Репатриация внутри Израиля / Шинуй Маамад, анкета Аш/456, МР/14 и Аш/114, освобождение от пошлины по п. ג.7) • Права двойной защиты: п. ה.2(8) (продление срока подачи документов на 45+45 дней через руководителя визового отдела), Ноаль 1.6.0001 (21 день на письменную апелляцию против отказа), п. ג.10 / ג.7 (право вести дело о ССТ и гиюре/репатриации параллельно без закрытия дела).</p><h3>🛡️ Самостоятельная защита без адвокатов за 15 000–40 000 ₪, Сохнута и Нефеш бе-Нефеш (Реальность 2026 года)</h3><p>Почему тысячи гиорим, супругов израильтян и репатриантов застревают в бюрократии МВД? Еврейское агентство «Сохнут» и «Нефеш бе-Нефеш» ведут только стандартные кейсы из-за рубежа — они не защищают вас в МВД Израиля (Мисрад а-Пним) на процедуре СТУПРО (Ноаль 5.2.0008 / 5.2.0009), в комиссии Ваадат Харигим для туристов (анкета Аш/1), при легализации частного гиюра (Гуш-Эцион / Бней-Брак) или при наличии погашенной судимости. В то же время израильские адвокаты требуют от 15 000 до 40 000 ₪ просто за заполнение стандартных бланков на иврите (Аш/1, Аш/3, Аш/6, Аш/456, МР/14а, Неспах Алеф) и написание объяснительного письма. Giyur Aliyah Track даёт вам автоматическое заполнение всех 8 бланков МВД на иврите, базу из 700 вопросов Бейт-Дина и тренажёр перекрёстного допроса из 300 вопросов без кабальных гонораров.</p><p><strong>🇷🇺/🇺🇦/🇧🇾/🇰🇿 Активная юрисдикция документов: Русский (РФ / СНГ / Израиль):</strong> Справка об отсутствии судимости МВД РФ (ГИАЦ МВД / Госуслуги, с синей печатью <180 дней) | Выписка МВД Украины / Беларуси / Казахстана | Повторное свидетельство о рождении ЗАГС (или Архивная справка ЗАГС по форме № 4 с указанием обоих родителей и национальности) | Справка ЗАГС об отсутствии факта государственной регистрации заключения брака (Форма № 15 / № 6) + Свидетельства о разводе (если были) | Оригинальный штамп «Апостиль» (Минюст / Управление ЗАГС на акты гражданского состояния • ИЦ МВД на справку о несудимости)</p><div style="margin-top:16px;"><h3 style="margin-bottom:8px;">📄 Все 8 официальных анкет МВД Израиля (PIBA) и Натив:</h3><div class="seo-mesh-grid"><a class="seo-mesh-link" href="/ru/forms/anketa-ash1-vaadat-harigim-zayavlenie-na-vizu-izrail/">📄 Ash/1 (אש/1) — Анкета Аш/1 (טופס אש/1) — Заполнить на русском → Готовый PDF на иврите (Ваадат Харигим)</a><a class="seo-mesh-link" href="/ru/forms/anketa-ash3-prodlenie-vizy-smena-statusa-izrail/">📄 Ash/3 (אש/3) — Анкета Аш/3 (טופס אש/3) — Заполнить на русском → Готовый PDF на иврите (Продление визы)</a><a class="seo-mesh-link" href="/ru/forms/anketa-ash6-stupro-viza-suprugov-nohal-5-2-0008-izrail/">📄 Ash/6 (אש/6) — Анкета Аш/6 (טופס אש/6) — Заполнить на русском → 6-стр. досье СТУПРО на иврите (Ноаль 5.2.0008)</a><a class="seo-mesh-link" href="/ru/forms/anketa-ash456-repatriaciya-vnutri-izrailya-shinuj-maamad/">📄 Ash/456 (אש/456) — Анкета Аш/456 (טופס אש/456) — Заполнить на русском → PDF на иврите (Репатриация в Израиле / Шинуй Маамад)</a><a class="seo-mesh-link" href="/ru/forms/anketa-mr14a-pervyj-biometricheskij-teudat-zeut/">📄 MR/14a (מר/14א) — Анкета МР/14а (טופס מר/14א) — Заполнить на русском → PDF на иврите (Первый Теудат-Зеут)</a><a class="seo-mesh-link" href="/ru/forms/anketa-mr14b-pervyj-zagranpasport-izrailya-darkon/">📄 MR/14b (מר/14ב) — Анкета МР/14б (טופס מר/14ב) — Заполнить на русском → PDF на иврите (Даркон / Теудат-Маавар)</a><a class="seo-mesh-link" href="/ru/forms/nespah-alef-deklaraciya-13-punktov-yaduim-be-cibur-5-2-0009/">📄 Nespach Alef (נספח א׳) — Неспах Алеф (נספח א׳) — Заполнить на русском → Декларация 13 пунктов на иврите (Ядуим бе-Цибур 5.2.0009)</a><a class="seo-mesh-link" href="/ru/forms/anketa-nativ-11-stranic-biografiya-semya-repatriaciya/">📄 Nativ Security CV (שאלון נתיב) — Анкета Натив (11 страниц) — Заполнить на русском → Готовый PDF на иврите для репатриации</a></div></div></article>
         <div class="section-kicker">
           <h2 data-i18n="kicker_h2">На каком этапе вы застряли? (Нажмите на карточку)</h2>
           <span data-i18n="kicker_span">9 ключевых гидов</span>
         </div>
 
         <div class="enemy-grid">
-          <div id="gat-cat-hdr-1" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>🕍 CATEGORY 1: CONVERSION, PRIVATE BEIT DINS & RABBANUT</span><span style="color:#4FC3F7;font-size:0.75rem;">Free Playbooks</span></div>
+          <div id="gat-cat-hdr-1" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>🕍 КАТЕГОРИЯ 1: ГИЮР, ЧАСТНЫЕ БЕЙТ-ДИНЫ И ГЛАВНЫЙ РАВВИНАТ</span><span style="color:#4FC3F7;font-size:0.75rem;">Бесплатные гиды</span></div>
           <button class="enemy-card" onclick="openObstacle(0)">
             <div class="ec-top"><span data-i18n="b0_top">Блок 1 • Старт</span><span data-i18n="tap_lbl">Открыть →</span></div>
             <div class="ec-title" data-i18n="b0_t">С чего начать? Вся картина от А до Я</div>
@@ -1023,7 +1172,7 @@
             <div class="ec-desc" data-i18n="b2_d">Почему остановка после миквы без Ишур Гиюр блокирует хупу и Алию.</div>
           </button>
 
-          <div id="gat-cat-hdr-2" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>🛂 CATEGORY 2: VISA CLOCKS, 5 APOSTILLED DOCS & TOURIST SURVIVAL</span><span style="color:#4FC3F7;font-size:0.75rem;">Free Playbooks</span></div>
+          <div id="gat-cat-hdr-2" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>🛂 КАТЕГОРИЯ 2: СРОКИ ВИЗ, 5 ДОКУМЕНТОВ С АПОСТИЛЕМ И ВЫЖИВАНИЕ ТУРИСТА</span><span style="color:#4FC3F7;font-size:0.75rem;">Бесплатные гиды</span></div>
           <button class="enemy-card" onclick="openObstacle(3)">
             <div class="ec-top"><span data-i18n="b3_top">Блок 4 • Визовый таймер</span><span data-i18n="tap_lbl">Открыть →</span></div>
             <div class="ec-title" data-i18n="b3_t">Истекает 90-дневная туристическая виза B/2?</div>
@@ -1042,7 +1191,7 @@
             <div class="ec-desc" data-i18n="b5_d">Оба партнёра обязаны пройти курс! Познакомьтесь с нашей признанной командой.</div>
           </button>
 
-          <div id="gat-cat-hdr-3" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>💍 CATEGORY 3: SPOUSAL VISA (5.2.0008), CLERK SHEETS & PAST RECORDS</span><span style="color:#4FC3F7;font-size:0.75rem;">Free Playbooks</span></div>
+          <div id="gat-cat-hdr-3" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>💍 КАТЕГОРИЯ 3: ВИЗА СУПРУГОВ ССТ (5.2.0008), ПИСЬМА МВД И СУДИМОСТЬ</span><span style="color:#4FC3F7;font-size:0.75rem;">Бесплатные гиды</span></div>
           <button class="enemy-card" onclick="openObstacle(6)">
             <div class="ec-top"><span data-i18n="b6_top">Блок 7 • Синхронизация пар</span><span data-i18n="tap_lbl">Открыть →</span></div>
             <div class="ec-title" data-i18n="b6_t">Перекрёстный допрос пар (300 вопросов МВД)</div>
@@ -1055,7 +1204,7 @@
             <div class="ec-desc" data-i18n="b7_d">Справки о несудимости (МВД / ФБР) и реабилитационное досье на иврите.</div>
           </button>
                                       <a class="enemy-card" id="dahan-gold-card" href="/dahan-ruling-non-orthodox-conversion-aliyah-truth/" style="grid-column: 1 / -1; border-color: #f59e0b; background: #fffbeb; text-decoration: none;">
-            <div class="ec-top" style="color:#b45309;"><span data-i18n="bd_top">⚠️ Реформистский / Консервативный (БАГАЦ Дахан) vs Ортодоксальный трек</span><span>Open Page →</span></div>
+            <div class="ec-top" style="color:#b45309;"><span data-i18n="bd_top">⚠️ Реформистский / Консервативный (БАГАЦ Дахан) vs Ортодоксальный трек</span><span>Открыть инструкцию →</span></div>
             <div class="ec-title" data-i18n="bd_t">Думаете о неортодоксальном гиюре по делу «Дахан» ради Алии? Прочтите это первым делом.</div>
             <div class="ec-desc" data-i18n="bd_d">Почему адвокаты за 30 000 ₪ не предупредят вас, что Главный Раввинат заблокирует брак вам и вашим будущим детям в Израиле — и как пройти 100% галахический гиюр в те же сроки.</div>
           </a>
@@ -1093,7 +1242,7 @@
             <a class="seo-mesh-link" data-i18n="mesh_forms" href="/forms/">📄 Официальное хранилище и автозаполнение бланков МВД (Аш/1, Аш/3, Аш/6 и Аш/456)</a>
           </div>
         </nav>
-              <section id="gat-tab-faq-0" style="margin-top:28px;margin-bottom:18px;padding-top:20px;border-top:2px solid #cbd5e1;"></section>
+              <section id="gat-tab-faq-0" style="margin-top:28px;margin-bottom:18px;padding-top:20px;border-top:2px solid #cbd5e1;"><div class="section-kicker" style="margin-bottom:12px;"><h2>❓ FAQ: Срок апостиля 180 дней и 8 анкет МВД (PIBA) на иврите</h2><span>Правовой и программный гид (МВД Израиля и Бейт-Дин)</span></div><div style="display:flex;flex-direction:column;gap:10px;"><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">1. Какие документы истекают через 180 дней (6 месяцев)?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">МВД Израиля строго ограничивает срок годности справок о несудимости и справок о незамужестве / семейном положении 180 днями с даты выдачи.</p></details><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">2. Что означает правило «3 корзин» для справки о несудимости?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">Инспекторы требуют апостилированные справки о несудимости из: (1) каждой страны гражданства, (2) страны рождения и (3) любой страны, где вы проживали 12+ месяцев после 18 лет.</p></details><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">3. Почему анкеты МВД (Ash/1, Ash/3, Ash/6, Ash/456) должны быть заполнены на иврите?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">Отделения МВД отклоняют анкеты, заполненные латиницей или кириллицей. Наш генератор принимает ваши ответы на русском и печатает официальный PDF на иврите с гидом по подписям.</p></details></div><div style="background:#082548;color:#e2e8f0;border-radius:16px;padding:18px 18px;font-size:0.78rem;line-height:1.55;margin-top:18px;box-shadow:0 8px 24px rgba(8,37,72,0.18);"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.15);"><div><strong style="color:#ffffff;font-size:0.9rem;">GiyurAliyahTrack.com</strong> • Центр управления: Гиюр, Репатриация и СтуПро</div><div>📩 <a href="mailto:concierge@giyuraliyahtrack.com" style="color:#38bdf8;text-decoration:none;font-weight:800;">concierge@giyuraliyahtrack.com</a> • 📲 WhatsApp: <a href="https://wa.me/972525822005" style="color:#4ade80;text-decoration:none;font-weight:800;">+972-52-582-2005</a></div></div><div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;"><details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">📜 Условия использования и правовая оговорка</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">Giyur Aliyah Track предоставляет программную автоматизацию официальных бланков МВД (PIBA), тренажеры для подготовки к Бейт-Дину и процедурную навигацию. Мы не являемся юридической фирмой; опциональное адвокатское сопровождение оказывается лицензированными израильскими адвокатами и нотариусами.</p></details><details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">💳 Политика окончательности цифровых покупок (Без возврата)</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">Поскольку цифровые пакеты мгновенно открывают доступ к генераторам ивритских PDF-анкет, ИИ-кредитам и полным базам из 700/300 вопросов, ВСЕ ПРОДАЖИ ЦИФРОВОГО ПО ЯВЛЯЮТСЯ ОКОНЧАТЕЛЬНЫМИ И НЕ ПОДЛЕЖАТ ВОЗВРАТУ после активации.</p></details><details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">🔒 Конфиденциальность и защита данных (Zero-Leakage)</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">Все черновики анкет и комнаты синхронизации для двух телефонов зашифрованы и привязаны исключительно к вашему личному WhatsApp UID.</p></details></div></div></section>
       </section>
 
       
@@ -1172,9 +1321,7 @@
            ========================================================= -->
       <section class="app-view" id="view-2" aria-label="Time-Savings & Track Shield Calculator">
         <div class="hero-center" style="margin-bottom:18px;">
-          <div class="hero-emblem">
-            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-          </div>
+          <div class="brand-mark" style="margin: 0 auto 12px; width: 42px; height: 42px; border-radius: 11px;"><svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg></div>
           <h2 class="h1-style" data-i18n="t3_h1">Калькулятор экономии времени и денег</h2>
           <p>Clerks and expired Apostilles steal 2 to 4 years from unprepared applicants. Calculate how much time our playbook shaves off your track:</p>
         </div>
@@ -1217,7 +1364,7 @@
 
         <div class="fx-calc-box" id="fx-calc-box" style="margin-top:26px; padding-top:22px; border-top:2px dashed #cbd5e1;">
           <div class="hero-center" style="margin-bottom:14px;">
-            <h2 id="fx-h2" style="font-size:1.25rem; font-weight:900; color:var(--teal-dark); margin-bottom:6px;">💸 Aliyah Currency & Rent Wire Shield</h2>
+            <h2 id="fx-h2" style="font-size:1.25rem; font-weight:900; color:var(--teal-dark); margin-bottom:6px;">💸 Валютный щит и перевод оплаты аренды в шекелях (₪)</h2>
             <p id="fx-lead" style="font-size:0.92rem; color:#475569; margin:0;">Moving money for rent, living expenses, or an apartment? Retail banks skim ~3.2% in hidden exchange markups. See how much you keep using a licensed Israeli FX bridge:</p>
           </div>
 
@@ -1480,6 +1627,8 @@
 <div class="drawer-backdrop" id="app-drawer" onclick="if(event.target===this) toggleDrawer(false)">
   <aside class="drawer-panel">
     <div>
+<a href="/ru/pricing/" class="drawer-link" onclick="window.location.href='/ru/pricing/'" style="display:flex;align-items:center;gap:10px;padding:12px 16px;margin:8px 12px;border-radius:10px;background:linear-gradient(135deg,#0288d1,#059669);color:#fff !important;font-weight:900;font-size:0.92rem;text-decoration:none;box-shadow:0 4px 12px rgba(2,136,209,0.3);">💎 Все 23 услуги и тарифы (От $49) →</a>
+
       <div class="drawer-brand-center">
         <div class="brand-title" style="font-size:1.4rem;">Giyur<span>Aliyah</span>Track</div>
       </div>
@@ -1492,6 +1641,10 @@
           <div><span class="dds-num">300 Qs</span><span class="dds-lbl">Couples Sync</span></div>
         </div>
       </div>
+      <a id="gat-hamburger-pricing-link" class="drawer-item gat-hamburger-pricing-item" href="/ru/pricing/" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 10px 0;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,#0284c7,#2563eb);font-weight:800;font-size:0.93rem;text-decoration:none;box-shadow:0 4px 14px rgba(37,99,235,0.28);">
+        <span style="display:flex;align-items:center;gap:9px;"><span>💎</span><span>Все 23 услуги и тарифы</span></span>
+        <span style="font-size:0.8rem;opacity:0.95;">→</span>
+      </a>
 
       <div class="drawer-list">
         <a href="/app?module=beit-din-150" class="drawer-row">🕍 700 Beit Din Exam Flashcards & Game</a>
@@ -1661,7 +1814,7 @@
     if (!bd || !pn || !hd) return;
     let dragging = false, startX = 0, baseTx = 0, curTx = 0, moved = false;
     hd.addEventListener('pointerdown', e => {
-      e.preventDefault(); e.stopPropagation(); hd.setPointerCapture(e.pointerId);
+      e.stopPropagation(); try { hd.setPointerCapture(e.pointerId); } catch(_){}
       const w = pn.offsetWidth || 320, isOpen = bd.classList.contains('open');
       dragging = true; moved = false; startX = e.clientX; baseTx = isOpen ? 0 : -w; curTx = baseTx;
       pn.style.transition = 'none'; bd.style.transition = 'none'; hd.style.transition = 'none';
@@ -2460,6 +2613,83 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   window.addEventListener('pageshow', restoreOnLoad);
 })();
 </script>
-  <script src="/i18n/tracking_partner.js?v=1794732270"></script>
+  <script src="/i18n/tracking_partner.js?v=1794883297"></script>
+<style id="gat-zero-doom-scroll-ux">
+  /* 1. Fit Hero + Emergency Bar + 3-Track Wizard Stage cleanly inside 1st Viewport */
+  #view-0 .hero-center { padding: 8px 10px 4px 10px !important; margin-bottom: 4px !important; }
+  #view-0 .hero-emblem { width: 32px !important; height: 32px !important; margin-bottom: 4px !important; }
+  #view-0 .hero-center h1 { font-size: clamp(1.18rem, 3.6vw, 1.52rem) !important; line-height: 1.18 !important; margin: 0 0 4px 0 !important; }
+  #view-0 .hero-center p { font-size: 0.8rem !important; line-height: 1.3 !important; margin: 0 !important; }
+  #view-0 .exodus-alert { padding: 8px 12px !important; margin: 6px 0 8px 0 !important; border-radius: 12px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 10px !important; flex-wrap: wrap !important; }
+  #view-0 .exodus-alert .ea-top { margin-bottom: 0 !important; width: 100% !important; }
+  #view-0 .exodus-alert .ea-title { font-size: 0.82rem !important; margin: 2px 0 0 0 !important; }
+  #view-0 .exodus-alert .ea-desc { display: none !important; }
+  #view-0 .exodus-alert .ea-cta { font-size: 0.75rem !important; margin-top: 2px !important; }
+  #gat-3track-funnel-card { margin: 8px 0 14px 0 !important; padding: 14px 14px !important; scroll-margin-top: 68px !important; }
+
+  /* 2. Progressive Disclosure Silos Below the Fold (100% DOM crawlable for Googlebot) */
+  .gat-silo-hidden-card { display: none !important; }
+  #gat-cat-hdr-1, #gat-cat-hdr-2, #gat-cat-hdr-3 {
+    cursor: pointer !important;
+    transition: transform 0.12s ease, box-shadow 0.12s ease !important;
+    user-select: none !important;
+  }
+  #gat-cat-hdr-1:hover, #gat-cat-hdr-2:hover, #gat-cat-hdr-3:hover {
+    box-shadow: 0 4px 14px rgba(3, 169, 244, 0.25) !important;
+  }
+  #view-0 .seo-obstacle-library { margin: 12px 0 !important; }
+  #view-0 .seo-obstacle-library > details {
+    background: #f8fafc !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 14px !important;
+    padding: 11px 15px !important;
+  }
+  #view-0 .seo-obstacle-library > details > summary {
+    font-weight: 900 !important;
+    font-size: 0.88rem !important;
+    color: #082548 !important;
+    cursor: pointer !important;
+  }
+  #view-0 #seo-spoke-mesh { margin-top: 12px !important; }
+  #view-0 #mesh-title {
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: #f8fafc !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 14px !important;
+    padding: 11px 15px !important;
+    font-size: 0.88rem !important;
+    margin: 0 !important;
+  }
+  #view-0 .seo-mesh-grid { margin-top: 10px !important; }
+</style>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=ru&path=/ru/forms/anketa-nativ-11-stranic-biografiya-semya-repatriaciya/" width="1" height="1" alt="" /></noscript>
+
+
 </body>
 </html>

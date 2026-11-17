@@ -1048,3 +1048,80 @@ window.renderSongs12 = function() {
     box.style.position = 'relative';
   });
 };
+
+
+// ============================================================================
+// GAT ROBUST GLOBAL HAMBURGER & DRAWER EVENT DELEGATION (AUTO-INJECTED)
+// ============================================================================
+(function gatGlobalDrawerDelegation() {
+  if (window._gatDrawerDelegationInjected) return;
+  window._gatDrawerDelegationInjected = true;
+
+  const style = document.createElement('style');
+  style.id = 'gat-drawer-fix-style';
+  style.textContent = `
+    header.topbar, .appbar, .header-container {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 2147483640 !important;
+      pointer-events: auto !important;
+    }
+    .hamburger-btn, #menu-btn {
+      position: relative !important;
+      z-index: 2147483641 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+  `;
+  if (!document.getElementById('gat-drawer-fix-style')) {
+    document.head.appendChild(style);
+  }
+
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.hamburger-btn') || e.target.closest('#menu-btn') || e.target.closest('[data-action="toggle-drawer"]');
+    if (!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (typeof window.toggleDrawer === 'function') {
+      window.toggleDrawer();
+    } else if (typeof window.toggleLeftDrawer === 'function') {
+      window.toggleLeftDrawer();
+    } else {
+      const drawer = document.getElementById('app-drawer') || document.getElementById('left-drawer');
+      if (drawer) {
+        drawer.classList.toggle('open');
+        drawer.classList.toggle('active');
+      }
+    }
+  }, true);
+})();
+
+
+// ============================================================================
+// GAT ROBUST DRAWER BUTTON DELEGATION FIX (AUTO-INJECTED)
+// ============================================================================
+(function gatDrawerButtonFixInjected() {
+  if (window._gatDrawerBtnFixDone) return;
+  window._gatDrawerBtnFixDone = true;
+
+  document.addEventListener('click', function(e) {
+    const item = e.target.closest('#left-drawer button, #left-drawer a, #app-drawer button, #app-drawer a, .drawer-panel button, .drawer-panel a');
+    if (!item) return;
+
+    const href = item.getAttribute('href');
+    const onclickAttr = item.getAttribute('onclick');
+
+    if (!onclickAttr && href && href !== '#' && !href.startsWith('javascript:')) {
+      const drawer = document.getElementById('left-drawer') || document.getElementById('app-drawer');
+      if (drawer) drawer.classList.remove('open');
+      return;
+    }
+
+    setTimeout(() => {
+      const drawer = document.getElementById('left-drawer') || document.getElementById('app-drawer');
+      if (drawer) drawer.classList.remove('open');
+    }, 50);
+  }, true);
+})();

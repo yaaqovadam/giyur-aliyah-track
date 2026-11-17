@@ -1014,7 +1014,7 @@
     if (!document.getElementById("left-drawer")) {
       const style = document.createElement("style");
       style.textContent = `
-        #left-edge-handle {
+        #left-edge-handle { touch-action: none !important; -webkit-user-select: none !important; user-select: none !important;
           position: fixed; left: 0; top: 50%; transform: translate3d(0, -50%, 0);
           z-index: 9991; width: 24px; height: 82px; background: #082548;
           border: 2px solid #03A9F4; border-left: none; border-radius: 0 12px 12px 0;
@@ -1022,7 +1022,7 @@
           display: flex; align-items: center; justify-content: center;
           color: #4FC3F7; font-weight: 900; font-size: 0.95rem; cursor: pointer;
         }
-        html[dir="rtl"] #left-edge-handle {
+        html[dir="rtl"] #left-edge-handle { touch-action: none !important; -webkit-user-select: none !important; user-select: none !important;
           left: auto; right: 0; border-right: none; border-left: 2px solid #03A9F4;
           border-radius: 12px 0 0 12px;
         }
@@ -1107,19 +1107,24 @@
         `;
       }
 
-      let btn = document.getElementById("drawer-top-sync-btn");
+      let btn = panel.querySelector("#drawer-top-sync-btn"); if (btn && btn.tagName === "A") { btn.removeAttribute("href"); }
       if (!btn) {
         btn = document.createElement("button");
         btn.type = "button";
         btn.id = "drawer-top-sync-btn";
         btn.style.cssText = "width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#ffffff;border:2.5px solid #4FC3F7;padding:13px 14px;border-radius:12px;font-size:0.92rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin:2px 0 12px 0;box-shadow:0 6px 18px rgba(3,169,244,0.42);";
-        btn.onclick = function() {
+        btn.onclick = function(e) {
+          if (e && e.preventDefault) e.preventDefault();
+          if (e && e.stopPropagation) e.stopPropagation();
           if (typeof window.toggleLeftDrawer === "function") window.toggleLeftDrawer(false);
+          const appDr = document.getElementById("app-drawer");
+          if (appDr) appDr.classList.remove("open");
           if (typeof window.openDeviceSyncModal === "function") {
             window.openDeviceSyncModal();
           } else {
             window.location.href = "/app/?sync=1";
           }
+          return false;
         };
       }
 
@@ -1129,7 +1134,7 @@
           brandBox.parentNode.insertBefore(btn, brandBox.nextElementSibling);
         }
       }
-      btn.innerHTML = '<span>' + (SYNC_LABELS[curLang()] || SYNC_LABELS.en) + '</span>';
+      var wantSpan = '<span>' + (SYNC_LABELS[curLang()] || SYNC_LABELS.en) + '</span>'; if (btn.innerHTML !== wantSpan) { btn.innerHTML = wantSpan; }
     }
   }
 
@@ -1631,115 +1636,637 @@
 // === 6-LANGUAGE TAB-SPECIFIC FAQ & LEGAL FOOTER ENGINE ===
 (function initTabSpecificMultilingualFaqs() {
   const TAB_FAQS = {
-    en: {
-      kicker_sub: "Topic-Specific FAQ",
-      legal_title: "Statutory Legal-Tech & Rabbinic Command Center",
-      tos_t: "📜 Terms of Service & Legal Disclaimer",
-      tos_b: "Giyur Aliyah Track provides self-serve document preparation software, statutory Hebrew translation engines, and educational study vaults. Digital software passes do not constitute formal legal representation; licensed Israeli attorney representation and Ministry of Justice notarial seals are provided exclusively through our Vetted Human Concierge Desk.",
-      ref_t: "💳 Digital Finality & No-Refund Policy",
-      ref_b: "All passes are one-time payments with zero recurring charges. Because we provide a free preview tier upfront (free sample flashcards, songs, and form previews) and purchasing a pass grants immediate access to downloadable government PDFs, AI scanner credits, and full study vaults, ALL DIGITAL SOFTWARE SALES ARE FINAL AND NON-REFUNDABLE upon unlock (except for accidental duplicate billing). Human concierge placement fees are non-refundable once translation or professional matching begins (refundable only if we cannot match you in your region within 7 business days).",
-      priv_t: "🔒 Privacy & Zero-Leakage Data Security",
-      priv_b: "All form drafts and 2-phone couples rooms are encrypted and isolated to your personal WhatsApp UID. We never sell or share applicant data with third parties.",
-      tabs: {
-        0: {
-          h2: "❓ Platform, Pricing & Dual-Track FAQ",
-          items: [
-            ["1. How does Giyur Aliyah Track save 25,000₪+ in lawyer retainers?", "Our self-serve digital engines stamp all 8 official Hebrew PIBA government forms (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, Security CV), decode Hebrew clerk letters via AI Vision, train you on 700 Beit Din questions & 56 Shabbat Songs/Prayers, and sync couples on 300 separated-room questions."],
-            ["2. How does Modular Pricing work (90-Day Sprint vs. Lifetime)?", "Zero monthly subscriptions. Unlock only what fits your track: Statutory Hebrew Forms ($89 90-Day / $149 Lifetime), Beit Din 700-Q & 56 Songs Suite ($149 90-Day / $249 Lifetime, or sub-packs from $49), Spousal 300-Q 2-Phone Sync ($129 90-Day / $229 5-Yr Pass), or Full VIP Suites ($249–$649)."],
-            ["3. Are Human Concierge Services separate from software passes?", "Yes. Software passes unlock instant 24/7 digital tools. Optional human services—Red-Ribbon Notary ($249–$799), Vetted Sponsoring Rabbi ($349), Madrichat Kallah ($249), Couple Placement ($499), and 1-Hr Lawyer Branch Escort ($649–$799)—are booked via the Vetted Concierge Desk."]
+  "en": {
+    "kicker_sub": "Statutory & Software Guide",
+    "legal_title": "Statutory Legal-Tech & Rabbinic Command Center",
+    "tos_t": "📜 Terms of Service & Disclaimer",
+    "tos_b": "Giyur Aliyah Track provides statutory software automation, educational preparation vaults, and administrative routing. We are not a law firm or government agency; optional legal representation is provided strictly through independent licensed Israeli attorneys.",
+    "ref_t": "💳 Digital Finality & No-Refund Policy",
+    "ref_b": "Because digital passes immediately unlock proprietary PDF stampers, AI credits, and full study vaults, ALL DIGITAL SOFTWARE SALES ARE FINAL AND NON-REFUNDABLE upon unlock (except for accidental duplicate billing). Human concierge placement fees are non-refundable once translation or professional matching begins (refundable only if we cannot match you in your region within 7 business days).",
+    "priv_t": "🔒 Privacy & Zero-Leakage Data Security",
+    "priv_b": "All form drafts and 2-phone couples rooms are encrypted and isolated to your personal WhatsApp UID. We never sell or share applicant data with third parties.",
+    "tabs": {
+      "0": {
+        "h2": "❓ Platform, Pricing & Dual-Track FAQ",
+        "items": [
+          [
+            "1. Why is a 15,000₪–40,000₪ lawyer retainer 'just the starting fee'—and how does Giyur Aliyah Track save you from hidden billing?",
+            "Our self-serve digital engines stamp all 8 official Hebrew PIBA government forms (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, Security CV), decode Hebrew clerk letters via AI Vision, train you on 700 Beit Din questions & 56 Shabbat Songs/Prayers, and sync couples on 300 separated-room questions."
+          ],
+          [
+            "2. How does Modular Pricing work (90-Day Sprint vs. Lifetime)?",
+            "Zero monthly subscriptions. Unlock only what fits your track: Statutory Hebrew Forms ($89 90-Day / $149 Lifetime), Beit Din 700-Q & 56 Songs Suite ($149 90-Day / $249 Lifetime, or sub-packs from $49), Spousal 300-Q 2-Phone Sync ($129 90-Day / $229 5-Yr Pass), or Full VIP Suites ($249–$649)."
+          ],
+          [
+            "3. Are Human Concierge Services separate from software passes?",
+            "Yes. Software passes unlock instant 24/7 digital tools. Optional human services—Red-Ribbon Notary ($249–$799), Vetted Sponsoring Rabbi ($349), Madrichat Kallah ($249), Couple Placement ($499), and 1-Hr Lawyer Branch Escort ($649–$799)—are booked via the Vetted Concierge Desk."
           ]
-        },
-        1: {
-          h2: "❓ Track Rules & Misrad HaPanim Procedure FAQ",
-          items: [
-            ["1. Why do Private Beit Din conversions (Gush Etzion / Bnei Brak) get blocked for marriage?", "The Chief Rabbinate only registers marriages with a State Conversion Certificate (Teudat Giyur from Nativ) or Chief Rabbinate validation (Ishur Giyur). If you have an Israeli partner, run Nohal 5.2.0008 Sec. ג.10 alongside Rabbanut conversion."],
-            ["2. What is the difference between Nohal 5.2.0008 (Married) and 5.2.0009 (Unmarried)?", "Married couples file Form Ash/6 (1 year on B/1 work visa + 4 years on A/5 temporary residency to citizenship). Unmarried common-law couples sign the 13-clause Nespach Alef affidavit before an Israeli lawyer (3 years on B/1 + 4 years on A/5)."],
-            ["3. What is the 24-Month Sal Klita cliff when making Aliyah inside Israel (Form Ash/456)?", "If you have spent more than 24 cumulative months in Israel during the 3 years prior to your Aliyah approval, Misrad HaKlita cancels the ~21,700₪ Sal Klita cash absorption basket."]
+        ]
+      },
+      "1": {
+        "h2": "❓ Track Rules & Misrad HaPanim Procedure FAQ",
+        "items": [
+          [
+            "1. Why do Private Beit Din conversions (Gush Etzion / Bnei Brak) get blocked for marriage?",
+            "The Chief Rabbinate only registers marriages with a State Conversion Certificate (Teudat Giyur from Nativ) or Chief Rabbinate validation (Ishur Giyur). If you have an Israeli partner, run Nohal 5.2.0008 Sec. ג.10 alongside Rabbanut conversion."
+          ],
+          [
+            "2. What is the difference between Nohal 5.2.0008 (Married) and 5.2.0009 (Unmarried)?",
+            "Married couples file Form Ash/6 (1 year on B/1 work visa + 4 years on A/5 temporary residency to citizenship). Unmarried common-law couples sign the 13-clause Nespach Alef affidavit before an Israeli lawyer (3 years on B/1 + 4 years on A/5)."
+          ],
+          [
+            "3. What is the 24-Month Sal Klita cliff when making Aliyah inside Israel (Form Ash/456)?",
+            "If you have spent more than 24 cumulative months in Israel during the 3 years prior to your Aliyah approval, Misrad HaKlita cancels the ~21,700₪ Sal Klita cash absorption basket."
           ]
-        },
-        2: {
-          h2: "❓ Cost Breakdown, Notary & Wire Savings FAQ",
-          items: [
-            ["1. Why do 25,000₪ law firm retainers still result in delayed files?", "Even if you hire an expensive lawyer, YOU still have to pull the 5 double-Apostilled homeland documents yourself, pass the 300-question separated-room clerk interview yourself, and answer the 700 Beit Din questions yourself."],
-            ["2. When is an Israeli Red-Ribbon Notary translation mandatory?", "Any homeland Birth Certificate, Police Check, Single Status Proof, or Marriage/Divorce Certificate not issued in Hebrew or English (or whenever a branch clerk demands Hebrew) must be sealed with a red ribbon by an Israeli Notary ($249–$799)."],
-            ["3. How do I transfer money to pay rent in ₪ before I have a Teudat Zehut?", "Israeli banks restrict tourist accounts. Using a licensed FX platform (like IsraTransfer) locks institutional exchange rates (saving ~2.5% over wire fees) and can wire NIS (₪) directly to your Israeli landlord."]
+        ]
+      },
+      "2": {
+        "h2": "❓ Cost Breakdown, Notary & Wire Savings FAQ",
+        "items": [
+          [
+            "1. Why do 25,000₪ law firm retainers still result in delayed files?",
+            "Even if you hire an expensive lawyer, YOU still have to pull the 5 double-Apostilled homeland documents yourself, pass the 300-question separated-room clerk interview yourself, and answer the 700 Beit Din questions yourself."
+          ],
+          [
+            "2. When is an Israeli Red-Ribbon Notary translation mandatory?",
+            "Any homeland Birth Certificate, Police Check, Single Status Proof, or Marriage/Divorce Certificate not issued in Hebrew or English (or whenever a branch clerk demands Hebrew) must be sealed with a red ribbon by an Israeli Notary ($249–$799)."
+          ],
+          [
+            "3. How do I transfer money to pay rent in ₪ before I have a Teudat Zehut?",
+            "Israeli banks restrict tourist accounts. Using a licensed FX platform (like IsraTransfer) locks institutional exchange rates (saving ~2.5% over wire fees) and can wire NIS (₪) directly to your Israeli landlord."
           ]
-        },
-        3: {
-          h2: "❓ Sponsoring Rabbi, Madrichat Kallah & Beit Din FAQ",
-          items: [
-            ["1. Does my born-Jewish Israeli spouse also have to attend classes?", "Yes! Under Beit Din rules and Nohal 5.2.0008 Sec. ג.10, when a conversion candidate lives with a partner, BOTH partners must study with the Sponsoring Rabbi and Madrichat Kallah and keep Shabbat & Kashrut together."],
-            ["2. What letters are required to open a Beit Din file or pass Va'adat Charigim?", "You need an official Hebrew recommendation letter from a Rabbanut-recognized Sponsoring Rabbi (Rav Melaveh), a Host Family (Mishpacha Melavah) letter, and 5–8+ community letters confirming 9+ months of Shabbat attendance."],
-            ["3. What is tested at the final Ma'amad Beit Din tribunal?", "The 3 Dayanim test your sincere observance of Shabbat (39 Melachot, Muktzeh, Kiddush, Havdalah), Kashrut, Taharat HaMishpacha, Holidays, and ask you to recite Shema, Asher Yatzar, and daily Brachot from memory."]
+        ]
+      },
+      "3": {
+        "h2": "❓ Sponsoring Rabbi, Madrichat Kallah & Beit Din FAQ",
+        "items": [
+          [
+            "1. Does my born-Jewish Israeli spouse also have to attend classes?",
+            "Yes! Under Beit Din rules and Nohal 5.2.0008 Sec. ג.10, when a conversion candidate lives with a partner, BOTH partners must study with the Sponsoring Rabbi and Madrichat Kallah and keep Shabbat & Kashrut together."
+          ],
+          [
+            "2. What letters are required to open a Beit Din file or pass Va'adat Charigim?",
+            "You need an official Hebrew recommendation letter from a Rabbanut-recognized Sponsoring Rabbi (Rav Melaveh), a Host Family (Mishpacha Melavah) letter, and 5–8+ community letters confirming 9+ months of Shabbat attendance."
+          ],
+          [
+            "3. What is tested at the final Ma'amad Beit Din tribunal?",
+            "The 3 Dayanim test your sincere observance of Shabbat (39 Melachot, Muktzeh, Kiddush, Havdalah), Kashrut, Taharat HaMishpacha, Holidays, and ask you to recite Shema, Asher Yatzar, and daily Brachot from memory."
           ]
-        },
-        4: {
-          h2: "❓ 180-Day Apostille Clock & 30-Day File-Closure Shield FAQ",
-          items: [
-            ["1. Which documents expire after 180 days (6 months)?", "Misrad HaPanim strictly enforces a 180-day freshness limit on foreign Police Clearances (FBI, ACRO, RCMP, etc.) and Single Status Proofs (Tamtzit Rishum / Celibacy Affidavit) from the date of issuance."],
-            ["2. What is the '3-Bucket' Police Check rule?", "Clerks require apostilled federal/national police checks from: (1) every country of citizenship, (2) your country of birth, and (3) any country where you resided for 6–12+ months since age 14–18."],
-            ["3. What if my FBI / Apostille is delayed and the clerk gave me 30 days?", "Never let the 30-day clock expire silently! Generate and submit a formal Hebrew Extension Request Letter (Bakashat Ha'arachat Mo'ed) with proof of your pending apostille order before Day 25 to legally freeze administrative file closure."]
+        ]
+      },
+      "4": {
+        "h2": "❓ 180-Day Apostille Clock & 8 PIBA Forms FAQ",
+        "items": [
+          [
+            "1. Which documents expire after 180 days (6 months)?",
+            "Misrad HaPanim strictly enforces a 180-day freshness limit on foreign Police Clearances (FBI, ACRO, RCMP, etc.) and Single Status Proofs (Tamtzit Rishum / Celibacy Affidavit) from the date of issuance."
+          ],
+          [
+            "2. What is the '3-Bucket' Police Check rule?",
+            "Clerks require apostilled federal/national police checks from: (1) every country of citizenship, (2) your country of birth, and (3) any country where you resided for 12+ months after age 18."
+          ],
+          [
+            "3. Why must PIBA forms (Ash/1, Ash/3, Ash/6, Ash/456) be stamped in Hebrew?",
+            "Misrad HaPanim branch clerks reject handwritten Latin-script forms. Our stamper engine maps your inputs in 6 languages into pixel-accurate Hebrew PDFs alongside a Red-X Signing Guide."
           ]
-        }
+        ]
       }
     },
-    he: {
-      kicker_sub: "שאלות ותשובות לפי נושא",
-      legal_title: "מרכז שליטה משפטי והלכתי למשרד הפנים ולבית הדין",
-      tos_t: "📜 תנאי שימוש והבהרה משפטית",
-      tos_b: "המערכת מספקת כלי תוכנה למילוי טפסים, פענוח מסמכים ומאגרי לימוד. השימוש בתוכנה אינו מהווה ייצוג משפטי; שירותי עו״ד מורשה וחותמת נוטריון סרט אדום ניתנים בנפרד דרך דלפק המומחים שלנו.",
-      ref_t: "💳 מדיניות רכישה סופית (ללא החזר לאחר פתיחת הגישה)",
-      ref_b: "כל החבילות הן בתשלום חד-פעמי ללא מנוי מתחדש. מאחר שהמערכת מאפשרת התנסות חינמית מראש, ורכישת חבילה פותחת באופן מיידי הורדת טפסי PDF רשמיים, סריקות AI וגישה מלאה למאגרי המידע (בהתאם לחוק הגנת הצרכן למוצרים דיגיטליים הניתנים לשכפול/הורדה מיידית), כל רכישת תוכנה הינה סופית ואינה ניתנת לביטול או להחזר כספי לאחר פתיחת הגישה (למעט חיוב כפול בטעות). שירותי מומחים אנושיים יוחזרו במלואם רק אם לא נמצא עבורכם מומחה מתאים באזורכם תוך 7 ימי עסקים.",
-      priv_t: "🔒 פרטיות ואבטחת מידע מחמירה",
-      priv_b: "כל הטפסים וחדרי הסנכרון לזוגות מוצפנים ומשויכים אך ורק למספר הוואטסאפ האישי שלכם.",
-      tabs: {
-        0: {
-          h2: "❓ שאלות נפוצות: המערכת, מחירון ומסלול כפול",
-          items: [
-            ["1. איך המערכת חוסכת מעל 25,000 ₪ בשכר טרחת עורכי דין?", "המערכת ממלאת ומחתמת את כל 8 טפסי משרד הפנים בעברית (אש/1, אש/3, אש/6, אש/456, מר/14א, מר/14ב, נספח א׳ ושאלון נתיב), מפענחת דרישות מסמכים מהפקיד, ומכינה אתכם עם 700 שאלות בית דין, 56 שירים ותפילות ו-300 שאלות שימוע זוגי."],
-            ["2. איך עובד המחירון המודולרי (90 יום מול גישה לכל החיים)?", "ללא מנויים חודשיים! משלמים רק על המודול הדרוש לכם: מנוע טפסים בעברית ($89 ל-90 יום / $149 לכל החיים), חבילת בית דין ושירים ($149 / $249), סנכרון 300 שאלות לזוגות ($129 / $229), או חבילת VIP מלאה ($249–$649)."],
-            ["3. האם שירותי המומחים האנושיים (נוטריון, רב מלווה, מדריכת כלה, עו״ד) נפרדים מהתוכנה?", "כן. רישיון התוכנה מעניק גישה דיגיטלית מיידית 24/7. שירותי תרגום נוטריוני ($249–$799), רב מלווה ($349), מדריכת כלה ($249) וליווי עו״ד לסניף ($649–$799) מוזמנים דרך דלפק המומחים."]
-          ]
-        },
-        1: {
-          h2: "❓ שאלות נפוצות על 4 המסלולים ונהלי משרד הפנים",
-          items: [
-            ["1. מדוע גיור פרטי (גוש עציון / בני ברק) נחסם ברישום נישואין ברבנות?", "הרבנות הראשית רושמת לנישואין רק בעלי תעודת גיור ממלכתית (נתיב) או אישור גיור מהרבנות הראשית. לבני זוג של אזרחים ישראלים מומלץ לשלב נוהל 5.2.0008 סעיף ג.10 עם גיור מוכר."],
-            ["2. מה ההבדל בין נוהל נשואים (5.2.0008) לנוהל ידועים בציבור (5.2.0009)?", "נשואים מגישים טופס אש/6 (שנה ב/1 + 4 שנים א/5 עד אזרחות). ידועים בציבור חותמים על תצהיר נספח א׳ (13 סעיפים) בפני עו״ד ישראלי (3 שנים ב/1 + 4 שנים א/5)."],
-            ["3. מהי מגבלת 24 החודשים לקבלת סל קליטה בעלייה מתוך הארץ (טופס אש/456)?", "מי ששהה בישראל מעל 24 חודשים במצטבר ב-3 השנים שקדמו לאישור העלייה עלול לאבד את הזכאות לסל קליטה כספי (~21,700 ₪)."]
-          ]
-        },
-        2: {
-          h2: "❓ שאלות נפוצות: חיסכון בעלויות, נוטריון והעברות מט״ח",
-          items: [
-            ["1. מדוע גם עם עו״ד ב-25,000 ₪ תיקים נתקעים במשרד הפנים?", "גם כשמשלמים לעו״ד, אתם אלו שחייבים להשיג את 5 תעודות המקור עם אפוסטיל מחו״ל, לעבור בעצמכם את השימוע הזוגי הנפרד (300 שאלות) ולהיבחן מול הדיינים בבית הדין."],
-            ["2. מתי חובה להציג תרגום נוטריוני עם סרט אדום?", "כל תעודת לידה, תעודת יושר, תמצית רישום או תעודת נישואין שאינה בעברית או באנגלית חייבת בתרגום נוטריוני ישראלי רשמי ($249–$799)."],
-            ["3. איך מעבירים כסף לתשלום שכר דירה בשקלים לפני קבלת תעודת זהות?", "באמצעות חברת המרת מט״ח מפוקחת (כגון IsraTransfer) החוסכת כ-2.5% בעמלות הבנקים ומעבירה שקלים ישירות לחשבון בעל הדירה."]
-          ]
-        },
-        3: {
-          h2: "❓ שאלות נפוצות: רב מלווה, מדריכת כלה ובית הדין",
-          items: [
-            ["1. האם גם בן/בת הזוג הישראלי/ת מלידה חייב/ת להשתתף בלימודים?", "כן! לפי נהלי בית הדין ונוהל 5.2.0008 סעיף ג.10, כאשר מתגייר/ת חי/ה עם בן/בת זוג, שני בני הזוג חייבים ללמוד יחד ולשמור שבת וכשרות בבית משותף."],
-            ["2. אילו מכתבים נדרשים לפתיחת תיק בבית הדין ולוועדת חריגים?", "נדרש מכתב המלצה מרב מלווה מוכר, מכתב ממשפחה מלווה/מארחת בשבתות, ו-5 עד 8 מכתבי המלצה מחברי קהילה בישראל."],
-            ["3. על מה בוחנים הדיינים במעמד בית הדין הסופי?", "הדיינים בוחנים שמירת שבת מעשית, כשרות, טהרת המשפחה, חגי ישראל, ודקלום בעל פה של קריאת שמע, אשר יצר וברכות השחר והנהנין."]
-          ]
-        },
-        4: {
-          h2: "❓ שאלות נפוצות: שעון 180 יום לאפוסטיל והגנה מסגירת תיק (30 יום)",
-          items: [
-            ["1. אילו מסמכים פגים אחרי 180 יום (חצי שנה)?", "משרד הפנים אוכף תוקף של 180 יום מיום ההנפקה על תעודות יושר (FBI/ACRO/RCMP) ועל תעודות רווקות / תמצית רישום מחו״ל."],
-            ["2. מהו כלל '3 הסלים' לתעודות יושר?", "חובה להציג תעודת יושר עם אפוסטיל מכל מדינת אזרחות, ממדינת הלידה, ומכל מדינה שבה התגוררתם מעל חצי שנה–שנה מאז גיל בגרות."],
-            ["3. מה עושים אם האפוסטיל מתעכב והפקיד נתן 30 יום להשלמת מסמכים?", "מגישים לפני היום ה-25 מכתב בקשה רשמי בעברית להארכת מועד בצירוף אסמכתא להזמנת המסמכים, ובכך עוצרים סגירת תיק מנהלית."]
-          ]
-        }
-      }
+    "mods": {
+      "hebrew-engine": "4",
+      "beit-din-150": "3",
+      "couples-sync": "1",
+      "songs-prayers": "3",
+      "rabbi-letters": "3",
+      "vetted-team": "0"
     }
-  };
-  // Mirror EN fallback with localized headers for FR, ES, DE, RU
-  ["fr", "es", "de", "ru"].forEach(function(lc) {
-    if (!TAB_FAQS[lc]) TAB_FAQS[lc] = TAB_FAQS.en;
-  });
+  },
+  "he": {
+    "kicker_sub": "מדריך נוהלי משרד הפנים ובית הדין",
+    "legal_title": "מרכז שליטה משפטי-טכנולוגי לגיור, עלייה והליך מדורג",
+    "tos_t": "📜 תנאי שימוש והבהרה משפטית",
+    "tos_b": "Giyur Aliyah Track מספקת אוטומציה למילוי טפסים רשמיים, מאגרי הכנה לבית הדין ולשימוע זוגי, והכוונה פרוצדורלית. הפלטפורמה אינה משרד עורכי דין; ליווי משפטי אופציונלי ניתן על ידי עורכי דין ונוטריונים ישראלים מורשים בלבד.",
+    "ref_t": "💳 מדיניות סופיות עסקה דיגיטלית (ללא החזרים)",
+    "ref_b": "מאחר שפתיחת הגישה חושפת באופן מיידי את מחוללי הטפסים בעברית, קרדיטים של AI ומאגרי השאלות המלאים, כל רכישות התוכנה הדיגיטליות הן סופיות ואינן ניתנות להחזר כספי לאחר הפתיחה.",
+    "priv_t": "🔒 פרטיות ואבטחת מידע (Zero-Leakage)",
+    "priv_b": "כל טיוטות הטפסים וחדרי הסנכרון הזוגיים מוצפנים ומבודדים למזהה הוואטסאפ האישי שלך. איננו מוכרים או משתפים מידע עם צדדים שלישיים.",
+    "tabs": {
+      "0": {
+        "h2": "❓ שאלות נפוצות: תמחור מודולרי וחיסכון בשכר טרחה",
+        "items": [
+          [
+            "1. מדוע שכר טרחה של 15,000₪–40,000₪ לעו״ד הוא רק 'נקודת ההתחלה'—ואיך המערכת חוסכת זאת?",
+            "המנועים הדיגיטליים שלנו ממלאים בעברית תקנית את כל 8 טפסי רשות האוכלוסין (אש/1, אש/3, אש/6, אש/456, מר/14א, מר/14ב, נספח א׳, קורות חיים), מפענחים דרישות מסמכים ב-AI, ומאמנים אתכם על 700 שאלות בית הדין ו-300 שאלות השימוע הזוגי."
+          ],
+          [
+            "2. איך עובד התמחור המודולרי (90 יום מול גישה לכל החיים)?",
+            "ללא מנויים חודשיים מתחדשים. פותחים רק את המנוע הדרוש למסלול שלכם: טפסים ומפענח מכתבים ($89 ל-90 יום / $149 לכל החיים), חבילת 700 שאלות בית דין ו-56 שירים ($149 / $249), או סנכרון 300 שאלות זוגיות ($129 / $229)."
+          ],
+          [
+            "3. האם שירותי הקונסיירז׳ האנושיים נפרדים מרישיונות התוכנה?",
+            "כן. רישיונות התוכנה פותחים גישה מיידית 24/7 לכלים הדיגיטליים. שירותים אנושיים—תרגום נוטריוני בסרט אדום ($249–$799), רב מלווה ($349), מדריכת כלה ($249), וליווי עו״ד לסניף ($649–$799)—מוזמנים בנפרד."
+          ]
+        ]
+      },
+      "1": {
+        "h2": "❓ שאלות נפוצות: נהלי משרד הפנים (5.2.0008 / 5.2.0009) וגיור",
+        "items": [
+          [
+            "1. מדוע גיור פרטי (גוש עציון / בני ברק) נחסם ברישום נישואין ברבנות?",
+            "הרבנות הראשית רושמת לנישואין רק בעלי תעודת גיור ממלכתית (נתיב) או אישור גיור מהרבנות הראשית. לבני זוג של אזרחים ישראלים מומלץ לשלב הליך מדורג (נוהל 5.2.0008 סעיף ג.10) במקביל לגיור ממלכתי."
+          ],
+          [
+            "2. מה ההבדל בין נוהל 5.2.0008 (נשואים) לנוהל 5.2.0009 (ידועים בציבור)?",
+            "זוגות נשואים מגישים טופס אש/6 (שנה ב/1 + 4 שנים א/5 עד אזרחות). ידועים בציבור חותמים על נספח א׳ (13 סעיפים) בפני עו״ד (3 שנים ב/1 + 4 שנים א/5)."
+          ],
+          [
+            "3. מהי מלכודת 24 החודשים של סל קליטה בעלייה מתוך הארץ (טופס אש/456)?",
+            "מי ששהה בישראל מעל 24 חודשים במצטבר ב-3 השנים שקדמו לאישור העלייה מאבד את הזכאות למענק סל קליטה כספי (~21,700₪) ממשרד הקליטה."
+          ]
+        ]
+      },
+      "2": {
+        "h2": "❓ שאלות נפוצות: עלויות, נוטריון בסרט אדום והעברות מט״ח",
+        "items": [
+          [
+            "1. מדוע תיקים מתעכבים גם אחרי תשלום של 25,000₪ לעורך דין?",
+            "גם עם עורך דין יקר, אתם אלו שחייבים להשיג את 5 תעודות המקור עם אפוסטיל כפול, לעבור בעצמכם את השימוע הזוגי הנפרד (300 שאלות) ולענות בעצמכם לדייני בית הדין (700 שאלות)."
+          ],
+          [
+            "2. מתי חובה להציג תרגום נוטריוני ישראלי בסרט אדום?",
+            "כל תעודת לידה, תעודת יושר, תמצית רישום או תעודת נישואין/גירושין שאינה בעברית או באנגלית חייבת בחותמת סרט אדום של נוטריון ישראלי ($249–$799)."
+          ],
+          [
+            "3. איך מעבירים כסף לתשלום שכר דירה בשקלים לפני קבלת תעודת זהות?",
+            "בנקים בישראל מגבילים חשבונות תייר. שימוש בפלטפורמת מט״ח מורשית (כגון IsraTransfer) חוסך כ-2.5% בעמלות המרה ומאפשר העברת שקלים ישירות לבעל הדירה."
+          ]
+        ]
+      },
+      "3": {
+        "h2": "❓ שאלות נפוצות: רב מלווה, מדריכת כלה ומעמד בית הדין",
+        "items": [
+          [
+            "1. האם גם בן/בת הזוג הישראלי (יהודי מלידה) חייב להשתתף בלימודים?",
+            "כן! לפי כללי בית הדין ונוהל 5.2.0008 סעיף ג.10, כאשר מתגייר חי עם בן/בת זוג, שני בני הזוג חייבים ללמוד יחד עם הרב המלווה ומדריכת הכלה ולשמור שבת וכשרות יחד."
+          ],
+          [
+            "2. אילו מכתבי המלצה נדרשים לפתיחת תיק גיור או לוועדת חריגים?",
+            "נדרש מכתב רשמי בעברית מרב מלווה מוכר, מכתב ממשפחה מארחת (משפחה מלווה), ו-5–8 מכתבי המלצה מחברי קהילה ובית כנסת עם מספרי ת״ז (9 ספרות)."
+          ],
+          [
+            "3. מה שואלים במעמד בית הדין הסופי (3 דיינים)?",
+            "הדיינים בוחנים שמירת שבת (ל״ט מלאכות, מוקצה, קידוש, הבדלה), כשרות, טהרת המשפחה, חגים, ומבקשים לדקלם בעל-פה שמע ישראל, אשר יצר וברכות השחר."
+          ]
+        ]
+      },
+      "4": {
+        "h2": "❓ שאלות נפוצות: שעון 180 יום לאפוסטיל ו-8 טפסי משרד הפנים",
+        "items": [
+          [
+            "1. אילו מסמכים פגים תוקף אחרי 180 יום (6 חודשים)?",
+            "משרד הפנים אוכף תוקף מקסימלי של 180 יום מיום ההנפקה על תעודות יושר מהמולדת (FBI, ACRO וכו׳) ועל תעודות רווקות / תמצית רישום."
+          ],
+          [
+            "2. מהו כלל ׳3 הסלים׳ לתעודת יושר?",
+            "הפקידים דורשים תעודת יושר פדרלית עם אפוסטיל מ-(1) כל מדינת אזרחות, (2) מדינת הלידה, ו-(3) כל מדינה שבה התגוררתם 12+ חודשים מגיל 18."
+          ],
+          [
+            "3. מדוע חובה להגיש את טפסי אש/1, אש/3, אש/6 ואש/456 מודפסים בעברית?",
+            "פקידי רשות האוכלוסין דוחים טפסים הממולאים באותיות לטיניות. מנוע ההחתמה שלנו ממיר את הנתונים שלכם מ-6 שפות לקובץ PDF רשמי בעברית עם מדריך חתימות מסומן."
+          ]
+        ]
+      }
+    },
+    "mods": {
+      "hebrew-engine": "4",
+      "beit-din-150": "3",
+      "couples-sync": "1",
+      "songs-prayers": "3",
+      "rabbi-letters": "3",
+      "vetted-team": "0"
+    }
+  },
+  "fr": {
+    "kicker_sub": "Guide Statutaire & Logiciel (Misrad HaPanim & Beit Din)",
+    "legal_title": "Centre de Commande Legal-Tech & Rabbinique",
+    "tos_t": "📜 Conditions d'Utilisation & Clause de Non-Responsabilité",
+    "tos_b": "Giyur Aliyah Track fournit une automatisation logicielle des formulaires PIBA, des coffres de préparation au Beit Din et un routage procédural. Nous ne sommes pas un cabinet d'avocats ; l'assistance juridique optionnelle est assurée par des avocats et notaires israéliens agréés.",
+    "ref_t": "💳 Politique de Finalité Numérique & Non-Remboursement",
+    "ref_b": "L'activation donnant un accès immédiat aux générateurs PDF hébreux, aux crédits IA et aux 700/300 questions, TOUTES LES VENTES LOGICIELLES SONT DÉFINITIVES ET NON REMBOURSABLES dès le déverrouillage.",
+    "priv_t": "🔒 Confidentialité & Sécurité Zéro-Fuite",
+    "priv_b": "Tous vos brouillons de formulaires et salles de synchronisation à 2 téléphones sont chiffrés et isolés sur votre identifiant WhatsApp personnel.",
+    "tabs": {
+      "0": {
+        "h2": "❓ FAQ : Tarification Modulaire & Économies d'Avocat",
+        "items": [
+          [
+            "1. Pourquoi un forfait d'avocat de 15 000₪–40 000₪ n'est-il qu'un tarif de départ ?",
+            "Nos moteurs numériques remplissent en hébreu les 8 formulaires officiels du Misrad HaPanim (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, CV Nativ), traduisent les lettres de rejet par IA Vision et vous entraînent aux 700 questions du Beit Din et aux 300 questions de couple."
+          ],
+          [
+            "2. Comment fonctionne la tarification modulaire (Pass 90 Jours vs Accès à Vie) ?",
+            "Aucun abonnement mensuel. Débloquez uniquement votre module : Formulaires Hébreux ($89 90j / $149 à vie), Suite Beit Din 700-Q & 56 Chants ($149 90j / $249 à vie), Synchronisation Couple 300-Q ($129 90j / $229 5 ans) ou Suites VIP ($249–$649)."
+          ],
+          [
+            "3. Les services humains de conciergerie sont-ils séparés des pass logiciels ?",
+            "Oui. Les pass logiciels débloquent les outils numériques 24/7. Les services humains (Notaire Ruban Rouge $249–$799, Rabbin Accompagnateur $349, Madrichat Kallah $249, Avocat au guichet $649–$799) se réservent à la carte."
+          ]
+        ]
+      },
+      "1": {
+        "h2": "❓ FAQ : Règles Misrad HaPanim (Nohal 5.2.0008) & Conversion",
+        "items": [
+          [
+            "1. Pourquoi les conversions privées (Gush Etzion / Bnei Brak) bloquent-elles le mariage au Rabbinat ?",
+            "Le Grand Rabbinat n'enregistre les mariages qu'avec un certificat d'État (Teudat Giyur de Nativ) ou un Ishur Giyur. Si votre conjoint est israélien, menez la procédure Nohal 5.2.0008 Sec. ג.10 en parallèle."
+          ],
+          [
+            "2. Quelle est la différence entre Nohal 5.2.0008 (Mariés) et 5.2.0009 (Concubins) ?",
+            "Les couples mariés déposent le formulaire Ash/6 (1 an en visa B/1 + 4 ans en résidence A/5). Les couples non mariés signent la déclaration Nespach Alef à 13 clauses devant avocat (3 ans en B/1 + 4 ans en A/5)."
+          ],
+          [
+            "3. Qu'est-ce que le piège des 24 mois pour le Sal Klita (Formulaire Ash/456) ?",
+            "Si vous avez séjourné plus de 24 mois cumulés en Israël au cours des 3 années précédant votre Aliyah interne, le Misrad HaKlita annule le panier d'intégration (~21 700₪)."
+          ]
+        ]
+      },
+      "2": {
+        "h2": "❓ FAQ : Frais de Dossier, Notaire Ruban Rouge & Transferts NIS (₪)",
+        "items": [
+          [
+            "1. Pourquoi les dossiers prennent-ils du retard même avec un avocat à 25 000₪ ?",
+            "Même avec un avocat, VOUS devez obtenir vous-même les 5 actes apostillés, réussir l'interrogatoire séparé de 300 questions et répondre aux 700 questions des juges du Beit Din."
+          ],
+          [
+            "2. Quand la traduction par Notaire Israélien au Ruban Rouge est-elle obligatoire ?",
+            "Tout acte de naissance, casier judiciaire (Bulletin n°3), certificat de célibat ou acte de mariage en français doit être traduit en hébreu et scellé au ruban rouge par un notaire israélien ($249–$799)."
+          ],
+          [
+            "3. Comment payer un loyer en shekels (₪) avant d'avoir une Teudat Zehut ?",
+            "Les banques israéliennes bloquent l'ouverture de compte aux touristes. Une plateforme agréée comme IsraTransfer verrouille le taux interbancaire (économisant ~2,5%) et vire des shekels directement à votre propriétaire."
+          ]
+        ]
+      },
+      "3": {
+        "h2": "❓ FAQ : Rabbin Accompagnateur, Madrichat Kallah & Tribunal Beit Din",
+        "items": [
+          [
+            "1. Mon conjoint israélien (juif de naissance) doit-il aussi suivre les cours ?",
+            "Oui ! Selon le Beit Din et le Nohal 5.2.0008 Sec. ג.10, les deux partenaires doivent étudier avec le Rabbin et la Madrichat Kallah et pratiquer le Chabbat et la Cacherout ensemble."
+          ],
+          [
+            "2. Quelles lettres faut-il pour ouvrir un dossier Beit Din ou Va'adat Charigim ?",
+            "Il faut une lettre hébraïque d'un Rabbin Accompagnateur reconnu (Rav Melaveh), d'une famille d'accueil (Mishpacha Melavah) et 5 à 8+ lettres de membres de la synagogue avec leur numéro de Teudat Zehut à 9 chiffres."
+          ],
+          [
+            "3. Sur quoi porte l'examen final devant les 3 Dayanim (Ma'amad Beit Din) ?",
+            "Les 3 juges testent le Chabbat (39 Melachot, Mouktzeh, Kiddouch, Havdalah), la Cacherout, Taharat HaMishpacha, les fêtes, et demandent de réciter par cœur le Chema, Acher Yatzar et les Brachot du matin."
+          ]
+        ]
+      },
+      "4": {
+        "h2": "❓ FAQ : Horloge Apostille de 180 Jours & 8 Formulaires PIBA en Hébreu",
+        "items": [
+          [
+            "1. Quels documents expirent au bout de 180 jours (6 mois) ?",
+            "Le Misrad HaPanim applique une validité stricte de 180 jours sur les casiers judiciaires étrangers et les certificats de célibat / non-remariage à compter de leur date d'émission."
+          ],
+          [
+            "2. Qu'est-ce que la règle des « 3 Paniers » pour le casier judiciaire ?",
+            "Les agents exigent un casier judiciaire apostillé de : (1) chaque pays de nationalité, (2) votre pays de naissance, et (3) tout pays où vous avez résidé 12+ mois après 18 ans."
+          ],
+          [
+            "3. Pourquoi les formulaires PIBA (Ash/1, Ash/3, Ash/6, Ash/456) doivent-ils être imprimés en hébreu ?",
+            "Les guichets du Misrad HaPanim rejettent les formulaires remplis en alphabet latin. Notre moteur saisit vos réponses en français et génère le PDF officiel en hébreu avec un guide de signature."
+          ]
+        ]
+      }
+    },
+    "mods": {
+      "hebrew-engine": "4",
+      "beit-din-150": "3",
+      "couples-sync": "1",
+      "songs-prayers": "3",
+      "rabbi-letters": "3",
+      "vetted-team": "0"
+    }
+  },
+  "es": {
+    "kicker_sub": "Guía Estatutaria y de Software (Misrad HaPanim y Beit Din)",
+    "legal_title": "Centro de Comando Legal-Tech y Rabínico",
+    "tos_t": "📜 Términos de Servicio y Aviso Legal",
+    "tos_b": "Giyur Aliyah Track proporciona automatización de formularios oficiales PIBA, bóvedas de preparación para el Beit Din y orientación procesal. No somos un bufete de abogados; la representación legal opcional es brindada exclusivamente por abogados y notarios israelíes colegiados.",
+    "ref_t": "💳 Política de Finalidad Digital y No Reembolso",
+    "ref_b": "Dado que los pases digitales desbloquean instantáneamente los selladores PDF en hebreo, créditos de IA y las 700/300 preguntas, TODAS LAS VENTAS DE SOFTWARE DIGITAL SON FINALES Y NO REEMBOLSABLES tras su activación.",
+    "priv_t": "🔒 Privacidad y Seguridad de Datos Cero-Fugas",
+    "priv_b": "Todos los borradores de formularios y salas de sincronización de 2 teléfonos están cifrados y aislados en su UID personal de WhatsApp.",
+    "tabs": {
+      "0": {
+        "h2": "❓ FAQ: Precios Modulares y Ahorro en Honorarios de Abogados",
+        "items": [
+          [
+            "1. ¿Por qué un anticipo de abogado de 15.000₪–40.000₪ es solo el 'precio inicial'?",
+            "Nuestros motores digitales rellenan en hebreo los 8 formularios oficiales de PIBA (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespaj Alef, CV Nativ), traducen cartas de rechazo con IA y le entrenan en las 700 preguntas del Beit Din y las 300 preguntas de pareja."
+          ],
+          [
+            "2. ¿Cómo funcionan los Precios Modulares (Pase de 90 Días vs. Acceso de por Vida)?",
+            "Cero suscripciones mensuales. Desbloquee solo lo que necesita: Formularios Hebreos ($89 90d / $149 Vitalicio), Suite Beit Din 700-Q y 56 Canciones ($149 90d / $249 Vitalicio), Sincronización de Parejas 300-Q ($129 90d / $229 5 años) o Suites VIP ($249–$649)."
+          ],
+          [
+            "3. ¿Los Servicios Humanos de Concierge son independientes de los pases de software?",
+            "Sí. Los pases de software desbloquean herramientas digitales 24/7. Los servicios humanos (Notario Cinta Roja $249–$799, Rabino Patrocinador $349, Madrijat Kalá $249, Abogado acompañante $649–$799) se reservan por separado."
+          ]
+        ]
+      },
+      "1": {
+        "h2": "❓ FAQ: Reglas de Misrad HaPanim (Nohal 5.2.0008) y Conversión",
+        "items": [
+          [
+            "1. ¿Por qué las conversiones privadas (Gush Etzion / Bnei Brak) se bloquean para el matrimonio?",
+            "El Gran Rabinato solo registra matrimonios con Certificado Estatal (Teudat Giyur de Nativ) o Ishur Giyur. Si tiene pareja israelí, tramite el Nohal 5.2.0008 Sec. ג.10 en paralelo."
+          ],
+          [
+            "2. ¿Cuál es la diferencia entre Nohal 5.2.0008 (Casados) y 5.2.0009 (Parejas de Hecho)?",
+            "Las parejas casadas presentan el Formulario Ash/6 (1 año con visa B/1 + 4 años en residencia A/5). Las parejas no casadas firman la declaración Nespaj Alef de 13 cláusulas ante abogado (3 años en B/1 + 4 años en A/5)."
+          ],
+          [
+            "3. ¿Qué es el límite de 24 meses de Sal Klita al hacer Aliyá dentro de Israel (Ash/456)?",
+            "Si ha permanecido más de 24 meses acumulados en Israel durante los 3 años previos a la aprobación de su Aliyá, Misrad HaKlita cancela la cesta económica Sal Klita (~21.700₪)."
+          ]
+        ]
+      },
+      "2": {
+        "h2": "❓ FAQ: Desglose de Costos, Notario Cinta Roja y Transferencias en ₪",
+        "items": [
+          [
+            "1. ¿Por qué se retrasan los expedientes incluso pagando 25.000₪ a un bufete?",
+            "Incluso con un abogado costoso, USTED mismo debe apostillar los 5 documentos de origen, aprobar el interrogatorio en salas separadas de 300 preguntas y responder a las 700 preguntas del Beit Din."
+          ],
+          [
+            "2. ¿Cuándo es obligatoria la traducción por Notario Israelí con Cinta Roja?",
+            "Toda partida de nacimiento, antecedentes penales, fe de soltería o acta de matrimonio/divorcio en español debe ser traducida al hebreo y sellada con cinta roja por un notario israelí ($249–$799)."
+          ],
+          [
+            "3. ¿Cómo transfiero dinero para pagar el alquiler en shekels (₪) sin Teudat Zehut?",
+            "Los bancos israelíes restringen cuentas de turistas. Usar una plataforma autorizada como IsraTransfer fija tipos de cambio institucionales (ahorrando ~2,5%) y envía NIS (₪) directamente a su arrendador."
+          ]
+        ]
+      },
+      "3": {
+        "h2": "❓ FAQ: Rabino Patrocinador, Madrijat Kalá y Tribunal Beit Din",
+        "items": [
+          [
+            "1. ¿Mi pareja israelí (judío de nacimiento) también debe asistir a clases?",
+            "¡Sí! Bajo las reglas del Beit Din y el Nohal 5.2.0008 Sec. ג.10, ambos miembros de la pareja deben estudiar con el Rabino y la Madrijat Kalá y guardar Shabat y Kashrut juntos."
+          ],
+          [
+            "2. ¿Qué cartas se requieren para abrir un expediente en el Beit Din o Va'adat Jariguim?",
+            "Necesita una carta en hebreo de un Rabino Patrocinador reconocido (Rav Melavé), carta de Familia Anfitriona y 5–8+ cartas comunitarias con número de Teudat Zehut de 9 dígitos."
+          ],
+          [
+            "3. ¿Qué evalúan los 3 jueces en el tribunal final Ma'amad Beit Din?",
+            "Los 3 Dayanim evalúan Shabat (39 Melajot, Muktzé, Kidush, Havdalá), Kashrut, Taharat HaMishpajá, festividades, y piden recitar de memoria Shemá Yisrael, Asher Yatzar y bendiciones matutinas."
+          ]
+        ]
+      },
+      "4": {
+        "h2": "❓ FAQ: Reloj de Apostilla de 180 Días y 8 Formularios PIBA en Hebreo",
+        "items": [
+          [
+            "1. ¿Qué documentos caducan a los 180 días (6 meses)?",
+            "Misrad HaPanim aplica un límite estricto de 180 días desde su emisión a los Certificados de Antecedentes Penales y Certificados de Soltería."
+          ],
+          [
+            "2. ¿Qué es la regla de las '3 Cubetas' para antecedentes penales?",
+            "Los funcionarios exigen antecedentes penales apostillados de: (1) cada país de ciudadanía, (2) país de nacimiento y (3) cualquier país donde haya residido 12+ meses después de los 18 años."
+          ],
+          [
+            "3. ¿Por qué los formularios PIBA (Ash/1, Ash/3, Ash/6, Ash/456) deben imprimirse en hebreo?",
+            "Las oficinas de Misrad HaPanim rechazan formularios llenados en alfabeto latino. Nuestro motor toma sus datos en español y estampa el PDF oficial en hebreo con una Guía de Firma."
+          ]
+        ]
+      }
+    },
+    "mods": {
+      "hebrew-engine": "4",
+      "beit-din-150": "3",
+      "couples-sync": "1",
+      "songs-prayers": "3",
+      "rabbi-letters": "3",
+      "vetted-team": "0"
+    }
+  },
+  "de": {
+    "kicker_sub": "Gesetzlicher & Software-Leitfaden (Misrad HaPanim & Beit Din)",
+    "legal_title": "Legal-Tech & Rabbinisches Kontrollzentrum",
+    "tos_t": "📜 Nutzungsbedingungen & Rechtlicher Hinweis",
+    "tos_b": "Giyur Aliyah Track bietet Software-Automatisierung für offizielle PIBA-Formulare, Vorbereitungstrainer für das Beit Din und Verfahrensnavigation. Wir sind keine Anwaltskanzlei; optionale Rechtsberatung erfolgt ausschließlich durch zugelassene israelische Anwälte und Notare.",
+    "ref_t": "💳 Richtlinie zur Digitalen Endgültigkeit (Keine Rückerstattung)",
+    "ref_b": "Da digitale Pässe sofortigen Zugriff auf hebräische PDF-Stempel, KI-Credits und alle 700/300 Prüfungsfragen gewähren, SIND ALLE DIGITALEN SOFTWAREKÄUFE NACH FREISCHALTUNG ENDGÜLTIG UND NICHT ERSTATTUNGSFÄHIG.",
+    "priv_t": "🔒 Datenschutz & Zero-Leakage-Sicherheit",
+    "priv_b": "Alle Formularentwürfe und 2-Telefon-Synchronisationsräume sind verschlüsselt und auf Ihre persönliche WhatsApp-UID isoliert.",
+    "tabs": {
+      "0": {
+        "h2": "❓ FAQ: Modulare Preise & Anwaltskosten-Ersparnis",
+        "items": [
+          [
+            "1. Warum ist ein Anwaltshonorar von 15.000₪–40.000₪ oft nur die 'Einstiegsgebühr'?",
+            "Unsere digitalen Engines stempeln alle 8 offiziellen hebräischen PIBA-Formulare (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, Nativ-CV), übersetzen behördliche Ablehnungsbriefe per KI und trainieren Sie auf 700 Beit-Din-Fragen sowie 300 Paar-Interviewfragen."
+          ],
+          [
+            "2. Wie funktioniert die modulare Preisgestaltung (90-Tage-Pass vs. Lebenslanger Zugang)?",
+            "Keine Monatsabos. Schalten Sie nur frei, was Sie brauchen: Hebräische Formulare ($89 90T / $149 Lebenslang), Beit Din 700-Q & 56 Lieder Suite ($149 90T / $249 Lebenslang), Ehepartner 300-Q 2-Phone-Sync ($129 90T / $229 5 Jahre) oder VIP-Suiten ($249–$649)."
+          ],
+          [
+            "3. Sind menschliche Concierge-Dienste von Software-Pässen getrennt?",
+            "Ja. Software-Pässe schalten digitale 24/7-Tools frei. Menschliche Dienste (Rotband-Notar $249–$799, Begleitender Rabbiner $349, Madrichat Kallah $249, Anwaltsbegleitung $649–$799) werden separat über den Concierge-Desk gebucht."
+          ]
+        ]
+      },
+      "1": {
+        "h2": "❓ FAQ: Misrad HaPanim Verfahren (Nohal 5.2.0008) & Giur-Regeln",
+        "items": [
+          [
+            "1. Warum werden private Giur-Verfahren (Gush Etzion / Bnei Brak) bei der Eheschließung blockiert?",
+            "Das Oberrabbinat registriert Ehen nur mit staatlichem Konversionszertifikat (Teudat Giyur von Nativ) oder Ishur Giyur. Bei einem israelischen Partner sollten Sie Nohal 5.2.0008 Abs. ג.10 parallel durchführen."
+          ],
+          [
+            "2. Was ist der Unterschied zwischen Nohal 5.2.0008 (Verheiratet) und 5.2.0009 (Unverheiratet)?",
+            "Verheiratete Paare reichen Formular Ash/6 ein (1 Jahr B/1-Visum + 4 Jahre A/5-Aufenthalt). Unverheiratete Lebenspartner unterzeichnen die 13-Klausel-Erklärung Nespach Alef vor einem Anwalt (3 Jahre B/1 + 4 Jahre A/5)."
+          ],
+          [
+            "3. Was ist die 24-Monats-Grenze beim Sal Klita für Inlands-Alija (Formular Ash/456)?",
+            "Wer in den 3 Jahren vor der Alija-Genehmigung insgesamt mehr als 24 Monate in Israel verbracht hat, verliert den Anspruch auf den ~21.700₪ Sal Klita Eingliederungszuschuss."
+          ]
+        ]
+      },
+      "2": {
+        "h2": "❓ FAQ: Kostenübersicht, Rotband-Notar & Überweisungen in ₪",
+        "items": [
+          [
+            "1. Warum verzögern sich Akten selbst bei 25.000₪ Anwaltskosten?",
+            "Selbst mit einem teuren Anwalt müssen SIE die 5 doppelt apostillierten Heimatdokumente selbst beschaffen, das 300-Fragen-Interview in getrennten Räumen selbst bestehen und die 700 Beit-Din-Fragen selbst beantworten."
+          ],
+          [
+            "2. Wann ist eine israelische Rotband-Notarübersetzung Pflicht?",
+            "Jede Geburtsurkunde, jedes Führungszeugnis, jede Ledigkeitsbescheinigung oder Heiratsurkunde auf Deutsch muss von einem israelischen Notar ins Hebräische übersetzt und mit rotem Band versiegelt werden ($249–$799)."
+          ],
+          [
+            "3. Wie überweise ich Miete in Schekel (₪) ohne Teudat Zehut?",
+            "Israelische Banken schränken Touristenkonten ein. Eine lizenzierte FX-Plattform wie IsraTransfer sichert Institutionen-Kurse (~2,5% Ersparnis) und überweist NIS (₪) direkt an Ihren israelischen Vermieter."
+          ]
+        ]
+      },
+      "3": {
+        "h2": "❓ FAQ: Begleitender Rabbiner, Madrichat Kallah & Beit-Din-Tribunal",
+        "items": [
+          [
+            "1. Muss mein jüdisch geborener israelischer Partner ebenfalls am Unterricht teilnehmen?",
+            "Ja! Nach Beit-Din-Regeln und Nohal 5.2.0008 Abs. ג.10 müssen BEIDE Partner gemeinsam beim Rabbiner und der Madrichat Kallah lernen sowie Schabbat und Kaschrut gemeinsam halten."
+          ],
+          [
+            "2. Welche Empfehlungsschreiben werden für das Beit Din oder Va'adat Charigim benötigt?",
+            "Sie benötigen ein hebräisches Schreiben eines anerkannten Begleitrabbiners (Rav Melaveh), einer Gastfamilie (Mishpacha Melavah) sowie 5–8+ Gemeindebriefe mit 9-stelliger Teudat-Zehut-Nummer."
+          ],
+          [
+            "3. Was wird beim abschließenden Ma'amad Beit Din vor den 3 Richtern geprüft?",
+            "Die 3 Dayanim prüfen Schabbat (39 Melachot, Muktzeh, Kiddusch, Hawdala), Kaschrut, Taharat HaMishpacha, Feiertage und lassen Schema Jisrael, Ascher Jatzar und Morgengebete auswendig vortragen."
+          ]
+        ]
+      },
+      "4": {
+        "h2": "❓ FAQ: 180-Tage-Apostille-Uhr & 8 Hebräische PIBA-Formulare",
+        "items": [
+          [
+            "1. Welche Dokumente laufen nach 180 Tagen (6 Monaten) ab?",
+            "Das Misrad HaPanim setzt eine strikte 180-Tage-Frist ab Ausstellungsdatum für ausländische Führungszeugnisse und Ledigkeits-/Familienstandsbescheinigungen durch."
+          ],
+          [
+            "2. Was bedeutet die '3-Kategorien-Regel' beim Führungszeugnis?",
+            "Sachbearbeiter verlangen apostillierte Führungszeugnisse aus: (1) jedem Land der Staatsbürgerschaft, (2) dem Geburtsland und (3) jedem Land, in dem Sie ab 18 Jahren 12+ Monate gelebt haben."
+          ],
+          [
+            "3. Warum müssen PIBA-Formulare (Ash/1, Ash/3, Ash/6, Ash/456) auf Hebräisch ausgefüllt sein?",
+            "Misrad-HaPanim-Schalter lehnen Formulare in lateinischer Schrift ab. Unser Stempel-Generator überträgt Ihre deutschen Eingaben punktgenau in offizielle hebräische PDFs inklusive Unterschriften-Guide."
+          ]
+        ]
+      }
+    },
+    "mods": {
+      "hebrew-engine": "4",
+      "beit-din-150": "3",
+      "couples-sync": "1",
+      "songs-prayers": "3",
+      "rabbi-letters": "3",
+      "vetted-team": "0"
+    }
+  },
+  "ru": {
+    "kicker_sub": "Правовой и программный гид (МВД Израиля и Бейт-Дин)",
+    "legal_title": "Центр управления: Гиюр, Репатриация и СтуПро",
+    "tos_t": "📜 Условия использования и правовая оговорка",
+    "tos_b": "Giyur Aliyah Track предоставляет программную автоматизацию официальных бланков МВД (PIBA), тренажеры для подготовки к Бейт-Дину и процедурную навигацию. Мы не являемся юридической фирмой; опциональное адвокатское сопровождение оказывается лицензированными израильскими адвокатами и нотариусами.",
+    "ref_t": "💳 Политика окончательности цифровых покупок (Без возврата)",
+    "ref_b": "Поскольку цифровые пакеты мгновенно открывают доступ к генераторам ивритских PDF-анкет, ИИ-кредитам и полным базам из 700/300 вопросов, ВСЕ ПРОДАЖИ ЦИФРОВОГО ПО ЯВЛЯЮТСЯ ОКОНЧАТЕЛЬНЫМИ И НЕ ПОДЛЕЖАТ ВОЗВРАТУ после активации.",
+    "priv_t": "🔒 Конфиденциальность и защита данных (Zero-Leakage)",
+    "priv_b": "Все черновики анкет и комнаты синхронизации для двух телефонов зашифрованы и привязаны исключительно к вашему личному WhatsApp UID.",
+    "tabs": {
+      "0": {
+        "h2": "❓ FAQ: Модульные тарифы и экономия на гонорарах адвокатов",
+        "items": [
+          [
+            "1. Почему гонорар адвоката в 15 000₪–40 000₪ — это только «стартовый платеж»?",
+            "Наши цифровые модули заполняют на иврите все 8 официальных анкет МВД (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Неспах Алеф, анкета Натив), расшифровывают письма МВД через ИИ и готовят вас по 700 вопросам Бейт-Дина и 300 вопросам перекрестного интервью СтуПро."
+          ],
+          [
+            "2. Как работают модульные тарифы (Доступ на 90 дней против Пожизненного)?",
+            "Никаких ежемесячных подписок. Открывайте только нужный модуль: Ивритские анкеты МВД ($89 на 90д / $149 Навсегда), Пакет Бейт-Дин 700 вопросов и 56 песен ($149 90д / $249 Навсегда), Синхронизация пары 300 вопросов ($129 90д / $229 на 5 лет) или VIP-пакеты ($249–$649)."
+          ],
+          [
+            "3. Оплачиваются ли услуги живого консьержа отдельно от программных пакетов?",
+            "Да. Программные пакеты открывают доступ к цифровым инструментам 24/7. Живые специалисты (Нотариус с красной лентой $249–$799, Сопровождающий раввин $349, Мадрихат Калла $249, Выезд адвоката в МВД $649–$799) бронируются отдельно."
+          ]
+        ]
+      },
+      "1": {
+        "h2": "❓ FAQ: Правила МВД Израиля (Ноhаль 5.2.0008 / СтуПро) и Гиюр",
+        "items": [
+          [
+            "1. Почему частный гиюр (Гуш-Эцион / Бней-Брак) блокируют при регистрации брака?",
+            "Главный раввинат регистрирует браки только при наличии государственного свидетельства (Теудат Гиюр от Натив) или Ишур Гиюр. Если у вас партнер-израильтянин, ведите СтуПро (Ноhаль 5.2.0008 п. ג.10) параллельно."
+          ],
+          [
+            "2. В чем разница между Ноhаль 5.2.0008 (Брак) и 5.2.0009 (Гражданский союз)?",
+            "Официальные супруги подают анкету Ash/6 (1 год виза B/1 + 4 года ВНЖ A/5 до гражданства). Неженатые пары подписывают декларацию Неспах Алеф из 13 пунктов у адвоката (3 года B/1 + 4 года A/5)."
+          ],
+          [
+            "3. Что такое порог 24 месяцев для корзины абсорбции (Саль Клита) при репатриации в Израиле (Ash/456)?",
+            "Если вы провели в Израиле более 24 месяцев суммарно за 3 года до получения статуса оле, Министерство абсорбции аннулирует денежную выплату Саль Клита (~21 700₪)."
+          ]
+        ]
+      },
+      "2": {
+        "h2": "❓ FAQ: Расходы, Нотариус с красной лентой и переводы в шекелях (₪)",
+        "items": [
+          [
+            "1. Почему дела задерживаются даже после оплаты 25 000₪ адвокату?",
+            "Даже с дорогим адвокатом ВЫ сами должны собрать 5 документов с двойным апостилем, лично пройти перекрестное интервью из 300 вопросов в разных кабинетах и лично ответить на 700 вопросов судей Бейт-Дина."
+          ],
+          [
+            "2. Когда обязателен перевод израильским нотариусом с красной лентой?",
+            "Любое свидетельство о рождении, справка о несудимости, справка о семейном положении или браке/разводе на русском языке должны быть переведены на иврит и сшиты красной лентой израильским нотариусом ($249–$799)."
+          ],
+          [
+            "3. Как перевести деньги за аренду квартиры в шекелях (₪) до получения Теудат-Зеута?",
+            "Банки Израиля ограничивают счета туристов. Лицензированная платформа (например, IsraTransfer) фиксирует биржевой курс (экономия ~2,5%) и переводит шекели напрямую вашему арендодателю."
+          ]
+        ]
+      },
+      "3": {
+        "h2": "❓ FAQ: Сопровождающий раввин, Мадрихат Калла и суд Бейт-Дин",
+        "items": [
+          [
+            "1. Должен ли мой супруг-израильтянин (еврей по рождению) тоже посещать уроки?",
+            "Да! По правилам Бейт-Дина и Ноhаль 5.2.0008 п. ג.10 оба партнера обязаны учиться у раввина и мадрихат калла и вместе соблюдать Шаббат и кашрут."
+          ],
+          [
+            "2. Какие рекомендательные письма нужны для Бейт-Дина и Ваадат Харигим?",
+            "Требуется письмо на иврите от признанного раввина (Рав Мелаве), письмо от принимающей семьи (Мишпаха Мелава) и 5–8+ писем от членов синагоги с 9-значными номерами Теудат-Зеута."
+          ],
+          [
+            "3. Что проверяют 3 судьи (даяна) на финальном суде Маамад Бейт-Дин?",
+            "Судьи проверяют соблюдение Шаббата (39 мелахот, мукце, Кидуш, Авдала), кашрута, законов чистоты семьи, праздников и просят наизусть прочесть Шма Исраэль, Ашер Яцар и утренние благословения."
+          ]
+        ]
+      },
+      "4": {
+        "h2": "❓ FAQ: Срок апостиля 180 дней и 8 анкет МВД (PIBA) на иврите",
+        "items": [
+          [
+            "1. Какие документы истекают через 180 дней (6 месяцев)?",
+            "МВД Израиля строго ограничивает срок годности справок о несудимости и справок о незамужестве / семейном положении 180 днями с даты выдачи."
+          ],
+          [
+            "2. Что означает правило «3 корзин» для справки о несудимости?",
+            "Инспекторы требуют апостилированные справки о несудимости из: (1) каждой страны гражданства, (2) страны рождения и (3) любой страны, где вы проживали 12+ месяцев после 18 лет."
+          ],
+          [
+            "3. Почему анкеты МВД (Ash/1, Ash/3, Ash/6, Ash/456) должны быть заполнены на иврите?",
+            "Отделения МВД отклоняют анкеты, заполненные латиницей или кириллицей. Наш генератор принимает ваши ответы на русском и печатает официальный PDF на иврите с гидом по подписям."
+          ]
+        ]
+      }
+    },
+    "mods": {
+      "hebrew-engine": "4",
+      "beit-din-150": "3",
+      "couples-sync": "1",
+      "songs-prayers": "3",
+      "rabbi-letters": "3",
+      "vetted-team": "0"
+    }
+  }
+};
 
   function getCurLang() {
     const p = (window.location.pathname.split("/")[1] || "").toLowerCase();
@@ -1748,9 +2275,41 @@
     return TAB_FAQS[l] ? l : "en";
   }
 
-  window.renderTabSpecificFaqs = function() {
+  function buildFaqSectionHtml(d, tf, includeLegalFooter) {
+    const detailsHtml = tf.items.map(function(qa) {
+      return '<details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);">' +
+        '<summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">' + qa[0] + '</summary>' +
+        '<p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">' + qa[1] + '</p>' +
+      '</details>';
+    }).join("");
+
+    const legalFooterHtml = includeLegalFooter ? (
+      '<div style="background:#082548;color:#e2e8f0;border-radius:16px;padding:18px 18px;font-size:0.78rem;line-height:1.55;margin-top:18px;box-shadow:0 8px 24px rgba(8,37,72,0.18);">' +
+        '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.15);">' +
+          '<div><strong style="color:#ffffff;font-size:0.9rem;">GiyurAliyahTrack.com</strong> • ' + d.legal_title + '</div>' +
+          '<div>📩 <a href="mailto:concierge@giyuraliyahtrack.com" style="color:#38bdf8;text-decoration:none;font-weight:800;">concierge@giyuraliyahtrack.com</a> • 📲 WhatsApp: <a href="https://wa.me/972525822005" style="color:#4ade80;text-decoration:none;font-weight:800;">+972-52-582-2005</a></div>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;">' +
+          '<details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">' + d.tos_t + '</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">' + d.tos_b + '</p></details>' +
+          '<details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">' + d.ref_t + '</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">' + d.ref_b + '</p></details>' +
+          '<details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">' + d.priv_t + '</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">' + d.priv_b + '</p></details>' +
+        '</div>' +
+      '</div>'
+    ) : '';
+
+    return '<div class="section-kicker" style="margin-bottom:12px;">' +
+        '<h2>' + tf.h2 + '</h2>' +
+        '<span>' + d.kicker_sub + '</span>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;gap:10px;">' + detailsHtml + '</div>' +
+      legalFooterHtml;
+  }
+
+  window.renderTabSpecificFaqs = function(forcedMod) {
     const l = getCurLang();
     const d = TAB_FAQS[l] || TAB_FAQS.en;
+
+    // 1. Homepage / Spoke views (#view-0 .. #view-4)
     [0, 1, 2, 3, 4].forEach(function(tabIdx) {
       const viewEl = document.getElementById("view-" + tabIdx);
       if (!viewEl) return;
@@ -1761,37 +2320,49 @@
         sec.style.cssText = "margin-top:28px;margin-bottom:18px;padding-top:20px;border-top:2px solid #cbd5e1;";
         viewEl.appendChild(sec);
       }
-      const tf = d.tabs[tabIdx] || d.tabs[0];
-      const detailsHtml = tf.items.map(function(qa) {
-        return '<details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);">' +
-          '<summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">' + qa[0] + '</summary>' +
-          '<p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">' + qa[1] + '</p>' +
-        '</details>';
-      }).join("");
-
-      const legalFooterHtml = (tabIdx === 0) ? (
-        '<div style="background:#082548;color:#e2e8f0;border-radius:16px;padding:18px 18px;font-size:0.78rem;line-height:1.55;margin-top:18px;box-shadow:0 8px 24px rgba(8,37,72,0.18);">' +
-          '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.15);">' +
-            '<div><strong style="color:#ffffff;font-size:0.9rem;">GiyurAliyahTrack.com</strong> • ' + d.legal_title + '</div>' +
-            '<div>📩 <a href="mailto:concierge@giyuraliyahtrack.com" style="color:#38bdf8;text-decoration:none;font-weight:800;">concierge@giyuraliyahtrack.com</a> • 📲 WhatsApp: <a href="https://wa.me/972525822005" style="color:#4ade80;text-decoration:none;font-weight:800;">+972-52-582-2005</a></div>' +
-          '</div>' +
-          '<div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;">' +
-            '<details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">' + d.tos_t + '</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">' + d.tos_b + '</p></details>' +
-            '<details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">' + d.ref_t + '</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">' + d.ref_b + '</p></details>' +
-            '<details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">' + d.priv_t + '</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">' + d.priv_b + '</p></details>' +
-          '</div>' +
-        '</div>'
-      ) : '';
-
-      sec.innerHTML =
-        '<div class="section-kicker" style="margin-bottom:12px;">' +
-          '<h2>' + tf.h2 + '</h2>' +
-          '<span>' + d.kicker_sub + '</span>' +
-        '</div>' +
-        '<div style="display:flex;flex-direction:column;gap:10px;">' + detailsHtml + '</div>' +
-        legalFooterHtml;
+          const isMainHub = /^\/(?:(he|fr|es|de|ru)\/)?(?:index\.html)?$/i.test(window.location.pathname);
+    function getSpokeTopicTab() {
+      if (isMainHub) return "0";
+      const s = window.location.pathname.toLowerCase();
+      if (s.indexOf("forms") !== -1 || s.indexOf("apostil") !== -1 || s.indexOf("180-") !== -1 || s.indexOf("traduct") !== -1 || s.indexOf("uebersetzer") !== -1 || s.indexOf("perevod") !== -1 || s.indexOf("translator") !== -1 || s.indexOf("drishat") !== -1) return "4";
+      if (s.indexOf("rabbi") !== -1 || s.indexOf("rabbin") !== -1 || s.indexOf("rabino") !== -1 || s.indexOf("rav-melaveh") !== -1 || s.indexOf("ravvin") !== -1 || s.indexOf("gush-etzion") !== -1 || s.indexOf("ishur-giyur") !== -1 || s.indexOf("dahan") !== -1 || s.indexOf("vaadat") !== -1) return "3";
+      if (s.indexOf("spousal") !== -1 || s.indexOf("5-2-0008") !== -1 || s.indexOf("conjoint") !== -1 || s.indexOf("pareja") !== -1 || s.indexOf("ehepartner") !== -1 || s.indexOf("stupro") !== -1 || s.indexOf("sst") !== -1 || s.indexOf("newborn") !== -1 || s.indexOf("nouveau-ne") !== -1 || s.indexOf("recien-nacido") !== -1 || s.indexOf("neugeborenes") !== -1 || s.indexOf("novorozhdennogo") !== -1 || s.indexOf("tinok") !== -1) return "1";
+      if (s.indexOf("tourist") !== -1 || s.indexOf("touriste") !== -1 || s.indexOf("turista") !== -1 || s.indexOf("tayar") !== -1 || s.indexOf("turisticheskaya") !== -1 || s.indexOf("emergency") !== -1 || s.indexOf("urgence") !== -1 || s.indexOf("emergencia") !== -1 || s.indexOf("notfall") !== -1 || s.indexOf("ekstrennaya") !== -1 || s.indexOf("cherum") !== -1 || s.indexOf("criminal") !== -1 || s.indexOf("plili") !== -1 || s.indexOf("vorstrafe") !== -1 || s.indexOf("sudimost") !== -1) return "2";
+      return "0";
+    }
+      const effectiveKey = (tabIdx === 0 && !isMainHub) ? getSpokeTopicTab() : String(tabIdx);
+      const tf = d.tabs[effectiveKey] || d.tabs["0"];
+      sec.innerHTML = buildFaqSectionHtml(d, tf, tabIdx === 0);
     });
+
+    // 2. /app/ Module-Specific FAQ (#gat-faq-pricing-legal)
+    const appFaqSec = document.getElementById("gat-faq-pricing-legal");
+    if (appFaqSec) {
+      let activeMod = forcedMod || window.currentMod || "";
+      if (!activeMod) {
+        const sp = new URLSearchParams(window.location.search);
+        activeMod = sp.get("module") || sp.get("mod") || "";
+      }
+      if (!activeMod) {
+        const visibleMod = document.querySelector('.mod-view[style*="block"], .mod-view.active');
+        if (visibleMod && visibleMod.id) activeMod = visibleMod.id.replace(/^mod-/, "");
+      }
+      const mappedTabKey = (d.mods && d.mods[activeMod]) || "4";
+      const tfApp = d.tabs[mappedTabKey] || d.tabs["0"];
+      appFaqSec.innerHTML = buildFaqSectionHtml(d, tfApp, true);
+    }
   };
+
+  // Hook into openMod and language switches so /app/ FAQ updates immediately on tab or language change
+  if (!window._gatFaqHooked) {
+    window._gatFaqHooked = true;
+    document.addEventListener("click", function(e) {
+      const modBtn = e.target && e.target.closest && e.target.closest("[data-mod], .mod-tab, .gat-ld-item, .lang-opt, #lang-btn");
+      if (modBtn) {
+        setTimeout(function() { window.renderTabSpecificFaqs(); }, 60);
+      }
+    });
+  }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", window.renderTabSpecificFaqs);
@@ -2025,3 +2596,26 @@ if (typeof document !== 'undefined') {
 }
 /* === GAT_VIRAL_SHARE_ENGINE_END === */
 
+
+
+// Auto-open Sync Devices Modal when arriving via ?sync=1
+(function checkSyncUrlParam() {
+  try {
+    var sp = new URLSearchParams(window.location.search);
+    if (sp.get("sync") === "1") {
+      var cleanUrl = window.location.pathname + (sp.get("lang") ? "?lang=" + sp.get("lang") : "");
+      window.history.replaceState({}, document.title, cleanUrl);
+      var tries = 0;
+      var tmr = setInterval(function() {
+        tries++;
+        var m = document.getElementById("device-sync-modal");
+        if (m && typeof window.openDeviceSyncModal === "function") {
+          clearInterval(tmr);
+          window.openDeviceSyncModal();
+        } else if (tries > 25) {
+          clearInterval(tmr);
+        }
+      }, 120);
+    }
+  } catch (e) {}
+})();

@@ -151,6 +151,70 @@ SPOKES = [
     }
 ]
 
+STAGE_UI_STATIC_I18N = {
+    "en": ("1. Choose Track", "2. Your Situation", "3. Action Plan", "🚨 Still Abroad / Emergency Exit? Pre-Flight Go-Bag Protocol", "Open Page →", "OFFICIAL PIBA / MISRAD HAPANIM FORM"),
+    "he": ("1. בחירת מסלול", "2. המצב שלך", "3. תוכנית פעולה", "🚨 עדיין בחו״ל / יציאת חירום? נוהל תיק חירום ואפוסטיל", "לפתיחת המדריך ←", "טופס רשמי של רשות האוכלוסין ומשרד הפנים"),
+    "fr": ("1. Choisir Voie", "2. Votre Cas", "3. Plan d'Action", "🚨 Encore à l'étranger / Urgence ? Dossier Go-Bag Apostille", "Ouvrir le Guide →", "FORMULAIRE OFFICIEL PIBA / MISRAD HAPANIM"),
+    "es": ("1. Elegir Vía", "2. Su Caso", "3. Plan de Acción", "🚨 ¿Aún en el extranjero / Emergencia? Carpeta Go-Bag Apostilla", "Abrir Guía →", "FORMULARIO OFICIAL PIBA / MISRAD HAPANIM"),
+    "de": ("1. Weg wählen", "2. Ihre Lage", "3. Aktionsplan", "🚨 Noch im Ausland / Notfall? Go-Bag Apostille-Ordner", "Leitfaden öffnen →", "OFFIZIELLES FORMULAR PIBA / MISRAD HAPANIM"),
+    "ru": ("1. Выбор пути", "2. Ситуация", "3. План действий", "🚨 Ещё за границей / Экстренный выезд? Папка Go-Bag и Апостиль", "Открыть инструкцию →", "ОФИЦИАЛЬНЫЙ БЛАНК МВД ИЗРАИЛЯ (PIBA)")
+}
+
+DIY_VS_LAWYERS_NBN_I18N = {
+    "en": (
+        "🛡️ Self-Advocacy vs. 15,000–40,000₪ Immigration Lawyers, Nefesh B'Nefesh & The Jewish Agency (2026 Reality Check)",
+        "Why do thousands of converts, spouses of Israelis, and Aliyah applicants get stuck? Standard organizations like Nefesh B'Nefesh (NBN) and The Jewish Agency (Sochnut) only process textbook overseas Aliyah files—they do not represent you inside Misrad HaPanim for Spousal Visas (Nohal 5.2.0008 / 5.2.0009), Va'adat Charigim tourist-to-student conversion exceptions (Form Ash/1), Private Orthodox Beit Din validations (Gush Etzion / Bnei Brak / Karelitz), or Criminal Record Rehabilitation (Teudat Yosher). Meanwhile, private Israeli immigration law firms charge 15,000₪ to 40,000₪+ just to fill out standard Hebrew PDFs (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, Nespach Alef) and write a 1-page Hebrew explanation letter. Giyur Aliyah Track gives you the exact statutory Hebrew forms auto-filler, the 700-question Beit Din tribunal prep vault, the 300-question separated-room couples interrogation trainer, and step-by-step PIBA clerk survival playbooks so you can protect your own file without paying a 30,000₪ retainer."
+    ),
+    "he": (
+        "🛡️ ייצוג עצמי חכם מול עורכי דין ב-15,000–40,000 ₪, נפש בנפש והסוכנות היהודית (מדריך השטח ל-2026)",
+        "מדוע אלפי מתגיירים, בני זוג של אזרחים ישראלים ומבקשי עלייה נתקעים מול הבירוקרטיה? גופים כמו ׳נפש בנפש׳ והסוכנות היהודית מטפלים בתיקי עלייה קלאסיים מחו״ל בלבד — הם אינם מלווים אתכם בתוך לשכות משרד הפנים בהליך מדורג לבני זוג (נוהל 5.2.0008 / 5.2.0009), וועדת חריגים לגיור ממעמד תייר (טופס אש/1), הכרה בגיור פרטי (גוש עציון / בני ברק) או הכשרת תיק עם עבר פלילי (תעודת יושר). מנגד, משרדי עורכי דין להגירה גובים שכר טרחה של 15,000 עד 40,000 ₪ רק כדי למלא את טפסי הרשות בעברית (אש/1, אש/3, אש/6, אש/456, מר/14א, נספח א׳) ולנסח מכתב הסבר. המערכת שלנו מעניקה לכם מילוי אוטומטי של כל 8 הטפסים הרשמיים בעברית תקנית, מאגר 700 שאלות לבית הדין לגיור, סימולטור 300 שאלות לראיון זוגות בחדרים נפרדים ומדריכי הישרדות מול הפקיד — בעלות שווה לכל נפש."
+    ),
+    "fr": (
+        "🛡️ Se Défendre Soi-Même face aux Avocats à 15 000–40 000 ₪, Nefesh B'Nefesh & L'Agence Juive (Vérité Terrain 2026)",
+        "Pourquoi tant de convertis, conjoints d'Israéliens et candidats à l'Aliyah se retrouvent-ils bloqués ? L'Agence Juive (Sochnut) et Nefesh B'Nefesh ne traitent que les dossiers d'Aliyah standards depuis l'étranger : ils n'interviennent pas au guichet du Misrad HaPanim pour la procédure graduée de visa conjoint (Nohal 5.2.0008 / 5.2.0009), la Va'adat Charigim (Formulaire Ash/1), la validation des conversions privées (Gush Etzion / Bnei Brak) ou les dossiers avec casier judiciaire. De leur côté, les cabinets d'avocats israéliens facturent entre 15 000 ₪ et 40 000 ₪ uniquement pour remplir vos formulaires en hébreu (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, Nespach Alef). Giyur Aliyah Track vous donne le générateur automatique de formulaires officiels en hébreu, les 700 cartes du Beit Din et les 300 questions de l'entretien en salles séparées sans payer 30 000 ₪ d'honoraires."
+    ),
+    "es": (
+        "🛡️ Autodefensa Legal frente a Abogados de 15.000–40.000 ₪, Nefesh B'Nefesh y la Agencia Judía (Realidad 2026)",
+        "¿Por qué miles de conversos, parejas de israelíes y solicitantes de Aliyá quedan atrapados? La Agencia Judía (Sojnut) y Nefesh B'Nefesh solo tramitan casos estándar desde el exterior: no te representan ante Misrad HaPanim para Visas Conyugales (Nohal 5.2.0008 / 5.2.0009), Va'adat Jariguim para turistas (Formulario Ash/1), conversiones privadas (Gush Etzion / Bnei Brak) ni antecedentes penales. Mientras tanto, los bufetes de abogados cobran entre 15.000 ₪ y 40.000 ₪ solo por rellenar formularios en hebreo (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, Nespaj Alef). Giyur Aliyah Track te entrega el auto-rellenador oficial en hebreo, las 700 preguntas del Beit Din y el simulador de 300 preguntas en salas separadas por una fracción mínima."
+    ),
+    "de": (
+        "🛡️ Selbstvertretung statt 15.000–40.000 ₪ Anwaltskosten, Nefesh B'Nefesh & Jewish Agency (Praxis-Realität 2026)",
+        "Warum stecken Tausende Konvertiten, Ehepartner von Israelis und Alija-Antragsteller fest? Die Jewish Agency (Sochnut) und Nefesh B'Nefesh bearbeiten nur Standard-Alija-Fälle aus dem Ausland — sie begleiten Sie nicht ins Misrad HaPanim für das gestufte Ehepartner-Verfahren (Nohal 5.2.0008 / 5.2.0009), die Va'adat Charigim Ausnahme (Formular Ash/1), private Giur-Anerkennungen (Gush Etzion / Bnei Brak) oder Führungszeugnis-Rehabilitationen. Gleichzeitig verlangen israelische Einwanderungsanwälte 15.000 ₪ bis 40.000 ₪+, nur um Standardformulare auf Hebräisch (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, Nespach Alef) auszufüllen. Giyur Aliyah Track gibt Ihnen den hebräischen Formular-Generator, die 700 Beit-Din-Karten und das 300-Fragen-Paar-Training direkt in die Hand."
+    ),
+    "ru": (
+        "🛡️ Самостоятельная защита без адвокатов за 15 000–40 000 ₪, Сохнута и Нефеш бе-Нефеш (Реальность 2026 года)",
+        "Почему тысячи гиорим, супругов израильтян и репатриантов застревают в бюрократии МВД? Еврейское агентство «Сохнут» и «Нефеш бе-Нефеш» ведут только стандартные кейсы из-за рубежа — они не защищают вас в МВД Израиля (Мисрад а-Пним) на процедуре СТУПРО (Ноаль 5.2.0008 / 5.2.0009), в комиссии Ваадат Харигим для туристов (анкета Аш/1), при легализации частного гиюра (Гуш-Эцион / Бней-Брак) или при наличии погашенной судимости. В то же время израильские адвокаты требуют от 15 000 до 40 000 ₪ просто за заполнение стандартных бланков на иврите (Аш/1, Аш/3, Аш/6, Аш/456, МР/14а, Неспах Алеф) и написание объяснительного письма. Giyur Aliyah Track даёт вам автоматическое заполнение всех 8 бланков МВД на иврите, базу из 700 вопросов Бейт-Дина и тренажёр перекрёстного допроса из 300 вопросов без кабальных гонораров."
+    )
+}
+
+def build_static_funnel_html(lang, d):
+    fp = d.get("_funnel_pre_ai", {})
+    s1, s2, s3, em_btn, _, _ = STAGE_UI_STATIC_I18N.get(lang, STAGE_UI_STATIC_I18N["en"])
+    f_h = fp.get("f_h", "🧭 Tell Us What Track You Are Interested In:")
+    f_s = fp.get("f_s", "Tap your track below to open your step-by-step Case Playbook:")
+    f_b1 = fp.get("f_b1", "🕍 1) Giyur — I Want to Convert (or Validate My Conversion)")
+    f_b2 = fp.get("f_b2", "✈️ 2) Aliyah — I Want to Make Aliyah to Israel (or Spousal Visa)")
+    f_b3 = fp.get("f_b3", "✡️ 3) Both — I Want to Convert AND Make Aliyah / Marry")
+    b_css = "width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:13px 15px;border-radius:14px;font-size:0.92rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.32);text-align:start;"
+    return (
+        f'<section id="gat-3track-funnel-card" style="background:#fff;border:2.5px solid #03A9F4;border-radius:20px;padding:15px 14px;margin:8px 0 16px 0;box-shadow:0 12px 32px rgba(3,169,244,0.16);">'
+        f'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;">'
+        f'<div style="background:linear-gradient(135deg,#082548 0%,#0288D1 100%);color:#fff;border:1.5px solid #03A9F4;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">{s1}</div>'
+        f'<div style="background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">{s2}</div>'
+        f'<div style="background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">{s3}</div>'
+        f'</div>'
+        f'<div style="font-size:1.06rem;font-weight:900;color:#082548;margin-bottom:3px;">{f_h}</div>'
+        f'<div style="font-size:0.81rem;color:#475569;font-weight:700;margin-bottom:10px;">{f_s}</div>'
+        f'<div style="display:flex;flex-direction:column;gap:9px;">'
+        f'<button type="button" style="{b_css}" onclick="window.selectGatMainTrack(1)"><span>{f_b1}</span><span>❯</span></button>'
+        f'<button type="button" style="{b_css}" onclick="window.selectGatMainTrack(2)"><span>{f_b2}</span><span>❯</span></button>'
+        f'<button type="button" style="{b_css}" onclick="window.selectGatMainTrack(3)"><span>{f_b3}</span><span>❯</span></button>'
+        f'<button type="button" style="width:100%;background:#fffbeb;color:#92400e;border:2px solid #f59e0b;padding:10px 14px;border-radius:12px;font-size:0.82rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:start;" onclick="window.showGatDiagResult(\'go_bag\')"><span>{em_btn}</span><span>❯</span></button>'
+        f'</div>'
+        f'<div id="gat-3track-diag-box"></div>'
+        f'</section>'
+    )
+
 STATUTORY_AUTHORITY_I18N = {
     "en": ("⚖️ 2026 Official PIBA & Chief Rabbinate Statutory Authority Table", "Procedure Nohal 5.2.0008 (Ed. 16, July 20, 2026 — Married Spouses, 6-Page Form Ash/6 Dossier & Lease Affidavit) • Nohal 5.2.0009 (Ed. 17, July 16, 2026 — Common-Law Couples, Form Ash/1, Ash/3 & 13-Clause Appendix A Affidavit) • Nohal 5.2.0001 (Ed. 10, May 19, 2026 — In-Israel Aliyah / Shinui Ma'amad, 3-Page Form Ash/456, MR/14 & Ash/114, Fee-Exempt per Sec. ג.7) • Dual-Armor Rights: Sec. ה.2(8) / ה.7 (45+45 Day Missing Document Extension via Visa Team Leader), Nohal 1.6.0001 (21-Day Written Internal Appeal against Appendix C Summary Refusal), Sec. ג.10 / ג.7 (Statutory Right to Run Spousal & Conversion/Aliyah Files Simultaneously), Sec. ד.2.ה (Marriage Certificate Prior-Single Status Exemption), and Nohal 2.11.0001 (Foreign & Utah Civil Marriage Registration)."),
     "he": ("⚖️ טבלת אסמכתאות חוקיות ונהלי רשות האוכלוסין והרבנות הראשית (מהדורות 2026)", "נוהל 5.2.0008 (מהדורה 16, 20 ביולי 2026 — בני זוג נשואים, אוגדן טופס אש/6 עמ׳ 1–6 ותצהיר שכ״ד) • נוהל 5.2.0009 (מהדורה 17, 16 ביולי 2026 — חיים משותפים / ידועים בציבור, טופס אש/1, אש/3 ותצהיר 13 הסעיפים מנספח א׳) • נוהל 5.2.0001 (מהדורה 10, 19 במאי 2026 — שינוי מעמד לעולה בישראל, טופס אש/456 בן 3 עמודים, שאלון מר/14 וטופס אש/114, פטור מאגרה לפי סעיף ג.7) • זכויות שריון כפול: סעיף ה.2(8) / ה.7 (הארכת מועד של 45+45 ימים להמצאת מסמכים בסמכות ראש צוות אשרות), נוהל 1.6.0001 (ערר פנימי בכתב תוך 21 יום על סירוב על הסף מנספח ג׳), סעיף ג.10 / ג.7 (זכות לנהל הליך זוגי והליך גיור/שבות במקביל ללא סגירת תיק), סעיף ד.2.ה (פטור מתעודת רווקות נפרדת כשמצב קודם מצוין בתעודת הנישואין), ונוהל 2.11.0001 (רישום נישואין אזרחיים/יוטה)."),
@@ -198,15 +262,16 @@ def clean_no_divs(raw_str):
 def build_hub_library_html(lang, d):
     j = d.get("_jurisdiction", {})
     st_t, st_p = STATUTORY_AUTHORITY_I18N[lang]
-    parts = [f'<div class="seo-obstacle-library"><details><summary>📖 {d.get("mesh_title", "Official Statutory Playbooks & Bureaucracy Guides")} (2026 PIBA Editions)</summary>']
-    parts.append(f'<article><h2>{st_t}</h2><p>{st_p}</p>')
+    parts = [f'<div class="seo-obstacle-library"><details><summary style="">📖 {d.get("mesh_title", "Official Statutory Playbooks & Bureaucracy Guides")} (2026 PIBA Editions)</summary>']
+    diy_t, diy_p = DIY_VS_LAWYERS_NBN_I18N[lang]
+    parts.append(f'<article><h2>{st_t}</h2><p>{st_p}</p><h3>{diy_t}</h3><p>{diy_p}</p>')
     if j:
         parts.append(f'<p><strong>{j.get("flag","")} {j.get("name","")}:</strong> {j.get("police","")} • {j.get("birth","")} • {j.get("single","")} • {j.get("apostille","")}</p>')
     parts.append('</article>')
     for idx, ob in enumerate(d.get("_obstacles", [])):
-        parts.append(f'<article id="seo-obs-{idx}"><details class="gat-seo-card-acc"><summary><span>{ob.get("tag","")} — {ob.get("title","")}</span><span class="gat-acc-plus">＋</span></summary><section class="gat-acc-body"><h3>{ob.get("title","")}</h3><p>{ob.get("body","")}</p><h4>{ob.get("badTitle","")}</h4><p>{clean_no_divs(ob.get("badText",""))}</p><h4>{ob.get("goodTitle","")}</h4><p>{clean_no_divs(ob.get("goodText",""))}</p></section></details></article>')
+        parts.append(f'<article id="seo-obs-{idx}"><details class="gat-seo-card-acc"><summary style=""><span>{ob.get("tag","")} — {ob.get("title","")}</span><span class="gat-acc-plus">＋</span></summary><section class="gat-acc-body"><h3>{ob.get("title","")}</h3><p>{ob.get("body","")}</p><h4>{ob.get("badTitle","")}</h4><p>{clean_no_divs(ob.get("badText",""))}</p><h4>{ob.get("goodTitle","")}</h4><p>{clean_no_divs(ob.get("goodText",""))}</p></section></details></article>')
     for tk, tv in d.get("_terms", {}).items():
-        parts.append(f'<article id="seo-term-{tk}"><details class="gat-seo-card-acc"><summary><span>{tv.get("tag","")} — {tv.get("title","")}</span><span class="gat-acc-plus">＋</span></summary><section class="gat-acc-body"><h3>{tv.get("title","")}</h3><p>{tv.get("body","")}</p><h4>{tv.get("badTitle","")}</h4><p>{clean_no_divs(tv.get("badText",""))}</p><h4>{tv.get("goodTitle","")}</h4><p>{clean_no_divs(tv.get("goodText",""))}</p></section></details></article>')
+        parts.append(f'<article id="seo-term-{tk}"><details class="gat-seo-card-acc"><summary style=""><span>{tv.get("tag","")} — {tv.get("title","")}</span><span class="gat-acc-plus">＋</span></summary><section class="gat-acc-body"><h3>{tv.get("title","")}</h3><p>{tv.get("body","")}</p><h4>{tv.get("badTitle","")}</h4><p>{clean_no_divs(tv.get("badText",""))}</p><h4>{tv.get("goodTitle","")}</h4><p>{clean_no_divs(tv.get("goodText",""))}</p></section></details></article>')
     parts.append('</details></div>')
     return "\n".join(parts)
 
@@ -222,6 +287,9 @@ def render_page(lang, canon_url, spoke_cfg=None):
         if not k.startswith("_") and isinstance(val, str):
             out = re.sub(rf'(data-i18n="{re.escape(k)}"[^>]*>)[^<]*(</)', lambda m: m.group(1) + val + m.group(2), out)
 
+    out = re.sub(r'<section id="gat-3track-funnel-card"[\s\S]*?</section>', lambda _: build_static_funnel_html(lang, d), out, count=1)
+    _, _, _, _, open_pg_lbl, _ = STAGE_UI_STATIC_I18N.get(lang, STAGE_UI_STATIC_I18N["en"])
+    out = out.replace("<span>Open Page →</span>", f"<span>{open_pg_lbl}</span>")
     fp = d.get("_funnel_pre_ai", {})
     if fp:
         out = re.sub(r'(<div id="gat-cat-hdr-1"[^>]*>)[\s\S]*?(</div>)', lambda m: m.group(1) + f'<span>{fp.get("cat1","")}</span><span style="color:#4FC3F7;font-size:0.75rem;">{fp.get("freeTag","")}</span>' + m.group(2), out, count=1)
@@ -265,7 +333,7 @@ def render_page(lang, canon_url, spoke_cfg=None):
             # If this spoke is specifically about a term (like overseas_giyur), lead with the term title so every language page has its exact native title!
             lead_title = tm.get("title", ob["title"]) if t_key in ("overseas_giyur", "newborn_sefach") else ob["title"]
             tm_html = f"<hr style='margin:16px 0;border:none;border-top:1px solid #e2e8f0;'/><h2>{tm.get('tag','')} — {tm.get('title','')}</h2><p>{tm.get('body','')}</p><h3>{tm.get('badTitle','')}</h3><div>{clean_no_divs(tm.get('badText',''))}</div><h3>{tm.get('goodTitle','')}</h3><div>{clean_no_divs(tm.get('goodText',''))}</div>" if (tm and obs_key != "dahan_truth") else ""
-            art = f'<article class="seo-spoke-article"><h1>{lead_title}</h1><h2>{ob["tag"]} — {ob["title"]}</h2><p>{ob["body"]}</p><h3>{ob["badTitle"]}</h3><div>{clean_no_divs(ob["badText"])}</div><h3>{ob["goodTitle"]}</h3><div>{clean_no_divs(ob["goodText"])}</div>{tm_html}<hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/><h3>{st_t}</h3><p>{st_p}</p>{j_line}</article>'
+            art = f'<article class="seo-spoke-article"><h1>{lead_title}</h1><h2>{ob["tag"]} — {ob["title"]}</h2><p>{ob["body"]}</p><h3>{ob["badTitle"]}</h3><div>{clean_no_divs(ob["badText"])}</div><h3>{ob["goodTitle"]}</h3><div>{clean_no_divs(ob["goodText"])}</div>{tm_html}<hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/><h3>{st_t}</h3><p>{st_p}</p><h3>{DIY_VS_LAWYERS_NBN_I18N[lang][0]}</h3><p>{DIY_VS_LAWYERS_NBN_I18N[lang][1]}</p>{j_line}</article>'
             out = re.sub(r'<h1\b([^>]*)>([\s\S]*?)</h1>', r'<h2\1>\2</h2>', out)
             out = out.replace('<div class="section-kicker">', art + '\n        <div class="section-kicker">', 1)
             out = re.sub(r'<div class="seo-obstacle-library">[\s\S]*?</div>', '', out, count=1)
@@ -313,7 +381,9 @@ def render_page(lang, canon_url, spoke_cfg=None):
 
     og_loc = {"en":"en_US","he":"he_IL","fr":"fr_FR","es":"es_ES","de":"de_DE","ru":"ru_RU"}.get(lang, "en_US")
     og_tags = f'  <meta property="og:type" content="website" />\n  <meta property="og:locale" content="{og_loc}" />\n  <meta property="og:site_name" content="Giyur Aliyah Track" />\n  <meta property="og:title" content="{page_title}" />\n  <meta property="og:description" content="{meta_desc}" />\n  <meta property="og:url" content="{canon_url}" />\n  <meta property="og:image" content="https://giyuraliyahtrack.com/bg-watercolor.jpg" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:title" content="{page_title}" />\n  <meta name="twitter:description" content="{meta_desc}" />'
+    out = out.replace("Giyur Aliyah Track — Conversion, Rabbanut & Aliyah Without Losing 5 Years", page_title)
     out = out.replace("</head>", f"{og_tags}\n  {make_hreflang(spoke_cfg)}\n  {DOMAIN_SHIELD}\n</head>", 1)
+    out = out.replace("</body>", f'<noscript><img src="/api/auditDoc?mode=pixel&lang={lang}&path={canon_url.replace("https://giyuraliyahtrack.com", "")}" width="1" height="1" alt="" /></noscript>\n</body>', 1)
 
     if lang != "en":
         dahan_loc = SPOKES[9]["l_slugs"].get(lang, SPOKES[9]["slug"])
@@ -642,6 +712,14 @@ def render_form_landing_page(lang, f_cfg):
     for k, val in d.items():
         if not k.startswith("_") and isinstance(val, str):
             out = re.sub(rf'(data-i18n="{re.escape(k)}"[^>]*>)[^<]*(</)', lambda m: m.group(1) + val + m.group(2), out)
+    out = re.sub(r'<section id="gat-3track-funnel-card"[\s\S]*?</section>', lambda _: build_static_funnel_html(lang, d), out, count=1)
+    _, _, _, _, open_pg_lbl, form_badge_lbl = STAGE_UI_STATIC_I18N.get(lang, STAGE_UI_STATIC_I18N["en"])
+    out = out.replace('<span>Open Page →</span>', f'<span>{open_pg_lbl}</span>')
+    fp = d.get("_funnel_pre_ai", {})
+    if fp:
+        out = re.sub(r'(<div id="gat-cat-hdr-1"[^>]*>)[\s\S]*?(</div>)', lambda m: m.group(1) + f'<span>{fp.get("cat1","")}</span><span style="color:#4FC3F7;font-size:0.75rem;">{fp.get("freeTag","")}</span>' + m.group(2), out, count=1)
+        out = re.sub(r'(<div id="gat-cat-hdr-2"[^>]*>)[\s\S]*?(</div>)', lambda m: m.group(1) + f'<span>{fp.get("cat2","")}</span><span style="color:#4FC3F7;font-size:0.75rem;">{fp.get("freeTag","")}</span>' + m.group(2), out, count=1)
+        out = re.sub(r'(<div id="gat-cat-hdr-3"[^>]*>)[\s\S]*?(</div>)', lambda m: m.group(1) + f'<span>{fp.get("cat3","")}</span><span style="color:#4FC3F7;font-size:0.75rem;">{fp.get("freeTag","")}</span>' + m.group(2), out, count=1)
 
     blocks = d.get("_blocks", {})
     for tid in ["track-0", "track-1", "track-2", "track-3"]:
@@ -669,7 +747,7 @@ def render_form_landing_page(lang, f_cfg):
 
     art_html = (
         f'<article class="seo-spoke-article" style="border-top:5px solid #03A9F4;">'
-        f'<div style="display:inline-block;background:#e0f2fe;color:#0284c7;font-size:0.76rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;">OFFICIAL PIBA / MISRAD HAPANIM FORM • {f_cfg["code"]}</div>'
+        f'<div style="display:inline-block;background:#e0f2fe;color:#0284c7;font-size:0.76rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;">{STAGE_UI_STATIC_I18N.get(lang, STAGE_UI_STATIC_I18N["en"])[5]} • {f_cfg["code"]}</div>'
         f'<h1>{title_str}</h1>'
         f'<h4>{trap_hdr}</h4>'
         f'<p>{trap_str}</p>'
@@ -689,6 +767,8 @@ def render_form_landing_page(lang, f_cfg):
         f'<hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/>'
         f'<h3>{st_t}</h3>'
         f'<p>{st_p}</p>'
+        f'<h3>{DIY_VS_LAWYERS_NBN_I18N[lang][0]}</h3>'
+        f'<p>{DIY_VS_LAWYERS_NBN_I18N[lang][1]}</p>'
         f'{j_line}'
         f'<div style="margin-top:16px;">'
         f'<h3 style="margin-bottom:8px;">{mesh_hdr}</h3>'
@@ -724,7 +804,9 @@ def render_form_landing_page(lang, f_cfg):
     ]
     og_loc = {"en":"en_US","he":"he_IL","fr":"fr_FR","es":"es_ES","de":"de_DE","ru":"ru_RU"}.get(lang, "en_US")
     og_tags = f'  <meta property="og:type" content="website" />\n  <meta property="og:locale" content="{og_loc}" />\n  <meta property="og:site_name" content="Giyur Aliyah Track" />\n  <meta property="og:title" content="{page_title}" />\n  <meta property="og:description" content="{meta_desc}" />\n  <meta property="og:url" content="{canon_url}" />\n  <meta property="og:image" content="https://giyuraliyahtrack.com/bg-watercolor.jpg" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:title" content="{page_title}" />\n  <meta name="twitter:description" content="{meta_desc}" />'
+    out = out.replace("Giyur Aliyah Track — Conversion, Rabbanut & Aliyah Without Losing 5 Years", page_title)
     out = out.replace("</head>", f"{og_tags}\n  " + "\n  ".join(hreflang_tags) + f"\n  {DOMAIN_SHIELD}\n</head>", 1)
+    out = out.replace("</body>", f'<noscript><img src="/api/auditDoc?mode=pixel&lang={lang}&path={canon_url.replace("https://giyuraliyahtrack.com", "")}" width="1" height="1" alt="" /></noscript>\n</body>', 1)
     return out
 
 for f_cfg in FORM_CATALOG:

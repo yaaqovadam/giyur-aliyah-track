@@ -7,9 +7,9 @@ service cloud.firestore {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow create: if request.auth != null && request.auth.uid == uid
         && (!('unlocked' in request.resource.data) || request.resource.data.unlocked == false)
-        && (!('entitlementsMap' in request.resource.data));
+        && (!('entitlementsMap' in request.resource.data)) && (!('admin' in request.resource.data)) && (!('isAdmin' in request.resource.data));
       allow update: if request.auth != null && request.auth.uid == uid
-        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['unlocked', 'tier', 'entitlementsMap', 'lastOrderNumber']));
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['unlocked', 'tier', 'entitlementsMap', 'lastOrderNumber', 'admin', 'isAdmin']));
       match /{allSubcollections=**} {
         allow read, write: if request.auth != null && request.auth.uid == uid;
       }

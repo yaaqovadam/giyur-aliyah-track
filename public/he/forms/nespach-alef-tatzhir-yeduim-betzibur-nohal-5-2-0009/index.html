@@ -241,7 +241,96 @@
       overflow: hidden !important;
     }
 
-  </style>
+  
+
+
+  
+  
+  
+  
+  /* === EXACT CONTRAST RULES: LIGHT FAQ CARDS vs. DARK NAVY FOOTER & PLAYBOOKS === */
+  details > summary:not(.gat-dark-summary),
+  details > summary:not(.gat-dark-summary) * {
+    color: #082548 !important;
+    -webkit-text-fill-color: #082548 !important;
+    opacity: 1 !important;
+  }
+  .seo-obstacle-library > details > summary,
+  .seo-obstacle-library > details > summary *,
+  #gat-seo-library > details > summary,
+  #gat-seo-library > details > summary *,
+  .gat-dark-legal-footer details > summary,
+  .gat-dark-legal-footer details > summary *,
+  summary.gat-dark-summary,
+  summary.gat-dark-summary * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  .gat-dark-legal-footer details p,
+  .gat-dark-legal-footer details p *,
+  p.gat-dark-body,
+  p.gat-dark-body * {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+
+  
+  
+  /* === CLEAN iOS FORM INPUT & CONTRAST STABILIZER (ZERO SCROLL YANKING) === */
+  details > summary:not(.gat-dark-summary),
+  details > summary:not(.gat-dark-summary) * {
+    color: #082548 !important;
+    -webkit-text-fill-color: #082548 !important;
+    opacity: 1 !important;
+  }
+  .seo-obstacle-library > details > summary,
+  .seo-obstacle-library > details > summary *,
+  #gat-seo-library > details > summary,
+  #gat-seo-library > details > summary *,
+  .gat-dark-legal-footer details > summary,
+  .gat-dark-legal-footer details > summary *,
+  summary.gat-dark-summary,
+  summary.gat-dark-summary * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  .gat-dark-legal-footer details p,
+  .gat-dark-legal-footer details p *,
+  p.gat-dark-body,
+  p.gat-dark-body * {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+  input, select, textarea {
+    font-size: 16px !important;
+    touch-action: manipulation !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+  }
+
+
+/* Urgent Bold Red Styling for POINT-OF-NO-RETURN Pre-Flight Go-Bag Card */
+#seo-obs-golink,
+#seo-obs-golink details,
+article:has(summary span[data-ponr="1"]),
+details.gat-ponr-red-card {
+  border-top: 4px solid #dc2626 !important;
+  border-color: #fca5a5 !important;
+  background: linear-gradient(180deg, #fef2f2 0%, #ffffff 100%) !important;
+}
+#seo-obs-golink summary,
+#seo-obs-golink summary span,
+details.gat-ponr-red-card summary,
+details.gat-ponr-red-card summary span {
+  color: #b91c1c !important;
+  font-weight: 900 !important;
+}
+
+</style>
 <script>(function(){var isRoot=(location.pathname==="/"||/^\/(he|fr|es|de|ru)\/?$/.test(location.pathname));if(isRoot&&!/bot|googlebot|crawler|spider|lighthouse|pagespeed|headless/i.test(navigator.userAgent||"")){document.documentElement.classList.add("gat-pre-curtain");setTimeout(function(){document.documentElement.classList.remove("gat-pre-curtain")},1500);}})();
 
 
@@ -263,7 +352,7 @@
     document.head.appendChild(st);
   }
 })();</script>
-<script>if(!window.SKIP_GAT_INTRO){document.write('<scr'+'ipt src="/splash.js?v=1794732270"></scr'+'ipt>');}</script>
+<script>if(!window.SKIP_GAT_INTRO){document.write('<scr'+'ipt src="/splash.js?v=1794832905"></scr'+'ipt>');}</script>
 <!-- GAT ANTI-FLASH END -->
   <meta charset="UTF-8" />
   <meta name="color-scheme" content="light only" />
@@ -336,7 +425,7 @@
     html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
 
     /* App Shell Frame */
-    .app-shell { display: flex; flex-direction: column; height: 100dvh; width: 100%; max-width: 100%; background: var(--bg); position: relative; }
+    .app-shell { display: flex; flex-direction: column; height: 100svh; width: 100%; max-width: 100%; background: var(--bg); position: relative; }
 
     /* Pure White Top Header (Zehut 2026 Style) */
     .app-header { height: var(--header-h); background: #ffffff; border-bottom: 2px solid var(--border-light); box-shadow: 0 2px 10px rgba(11, 59, 89, 0.05); display: flex; align-items: center; justify-content: space-between; padding: 0 18px; flex-shrink: 0; z-index: 40; }
@@ -820,7 +909,7 @@
   {
     "@context": "https://schema.org",
     "@type": "VideoObject",
-    "name": "Giyur Aliyah Track — Conversion, Rabbanut & Aliyah Without Losing 5 Years",
+    "name": "גיור, רבנות ועלייה בלי לאבד 5 שנים | Giyur Aliyah Track (HE)",
     "description": "Official step-by-step interactive tracker and plain-English guide for Orthodox Conversion (Giyur), Rabbanut recognition, Misrad HaPnim (Nohal 5.2.0008 spousal & conversion tracks), and Aliyah to Israel without losing years to bureaucratic traps.",
     "thumbnailUrl": [
       "https://giyuraliyahtrack.com/bg-watercolor.jpg"
@@ -842,7 +931,7 @@
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Giyur Aliyah Track", "item": "https://giyuraliyahtrack.com/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "⚖️ 2026 Official PIBA & Chief Rabbinate Statutory Authority Table", "acceptedAnswer": {"@type": "Answer", "text": "Procedure Nohal 5.2.0008 (Ed. 16, July 20, 2026 — Married Spouses, 6-Page Form Ash/6 Dossier & Lease Affidavit) • Nohal 5.2.0009 (Ed. 17, July 16, 2026 — Common-Law Couples, Form Ash/1, Ash/3 & 13-Clause Appendix A Affidavit) • Nohal 5.2.0001 (Ed. 10, May 19, 2026 — In-Israel Aliyah / Shinui Ma'amad, 3-Page Form Ash/456, MR/14 & Ash/114, Fee-Exempt per Sec. ג.7) • Dual-Armor Rights: Sec. ה.2(8) / ה.7 (45+45 Day Missing Document Extension via Visa Team Leader), Nohal 1.6.0001 (21-Day Written Internal Appeal against Appendix C Summary Refusal), Sec. ג.10 / ג.7 (Statutory Right to Run Spousal & Conversion/Aliyah Files Simultaneously), Sec. ד.2.ה (Marriage Certificate Prior-Single Status Exemption), and Nohal 2.11.0001 (Foreign & Utah Civil Marriage Registration)."}}, {"@type": "Question", "name": "BOX 1 OF 9 • THE BIG PICTURE — Private Beit Dins (Gush Etzion / Giyur K'Halacha, Bnei Brak, Jerusalem Badatz) Are Blocked for Aliyah & Rabbanut Marriage.", "acceptedAnswer": {"@type": "Answer", "text": "A tourist or partner can convert at a private Orthodox Beit Din in Israel—like Gush Etzion (Giyur K'Halacha), Bnei Brak (Rabbi Karelitz), Jerusalem private courts, or Chabad—and while Halachically kosher, Misrad HaPanim WILL NOT approve you for Aliyah on a tourist conversion, and the Chief Rabbinate (Rabbanut) 100% refuses to register your marriage unless you go through the State Rabbanut or the 5-Year Spousal Track. We show you whether you belong on Track 1 (Emergency In-Israel Aliyah / Go-Bag), Track 2 (Private Beit Din + Ishur Giyur), Track 3 (State Giyur via Va'adat Charigim), or Track 4 (Spousal Residency Nohal 5.2.0008) before you waste"}}, {"@type": "Question", "name": "BOX 2 OF 9 • THE 2-YEAR BREADCRUMB LOOP — The 'Fly Home & Grab All 5 Civil Docs in Person' Power Move (vs. Remote Ordering Hell).", "acceptedAnswer": {"@type": "Answer", "text": "You need 5 Apostilled home-country documents: (1) Long-Form Birth Certificate, (2) Single Status Affidavit, (3) Prior Divorce/Marriage Decrees, (4) Name Change Docs, and (5) 3-Bucket Criminal Checks. Starting here, flying home briefly to pull all 5 Apostilled docs in person (often same-day!), and returning with a complete file earns 10x more respect from the Rabbanut."}}, {"@type": "Question", "name": "BOX 3 OF 9 • THE UNFINISHED POST-MIKVAH TRAP — Why Stopping After the Mikvah Blocks Weddings Until Someone Finishes What You Left Behind.", "acceptedAnswer": {"@type": "Answer", "text": "When you've found your person and want to marry, waiting even one day is hell. Stopping after an independent Mikvah without Supreme Rabbinical Court validation ('Ishur Giyur') blocks your wedding—or your future kids' weddings—for years. Our Tracker guides you through Chief Rabbinate validation and sends pre-written Hebrew reference drafts to your Israeli Rabbi & host family via WhatsApp."}}, {"@type": "Question", "name": "BOX 4 OF 9 • THE 90-DAY TOURIST VISA CLOCK — How to Study for Conversion or Apply With Your Partner Without Overstaying Your Visa.", "acceptedAnswer": {"@type": "Answer", "text": "Tourists on a B/2 visa are legally blocked from entering State Conversion for Aliyah without first passing the Exceptions Committee (Va'adat Charigim). We generate your statutory Hebrew Explanation Letter (Michtav Hesber) and send automated WhatsApp alerts before any clerk deadline expires."}}, {"@type": "Question", "name": "BOX 5 OF 9 • TWO-WAY HEBREW DOCUMENT ENGINE — 1) Snap Any Clerk Letter for Instant English + Timer. 2) Answer in English to Print Official Hebrew PDFs.", "acceptedAnswer": {"@type": "Answer", "text": "You face two Hebrew walls: blank government forms you must submit in Hebrew, and mystery Hebrew printout sheets clerks hand you with hidden deadlines. Snap a clerk's Hebrew paper to read it in plain English and auto-start your deadline countdown—or answer English questions to print official Hebrew Forms Ash/1 & Ash/3."}}, {"@type": "Question", "name": "BOX 6 OF 9 • VETTED RABBI, MADRICHAT KALLAH & EXAM — Both Partners Must Take the Course! Meet Our Vetted Rabbanut Team & Pass the 150 Questions.", "acceptedAnswer": {"@type": "Answer", "text": "Even when one spouse is a born-Jewish Israeli citizen, the Beit Din requires BOTH partners to study with a recognized Sponsoring Rabbi AND complete a Family Purity course with a Rabbanut-certified Madrichat Kallah. We introduce you to our vetted Sponsoring Rabbi and Madrichat Kallah (with flexible 1-on-1 & remote-friendly scheduling) and drill you on all 150 questions & 12 Shabbat songs."}}, {"@type": "Question", "name": "BOX 7 OF 9 • 80-QUESTION COUPLES INTERROGATION — Sync With Your Partner on 2 Phones Before Misrad HaPanim Puts You in Separate Rooms.", "acceptedAnswer": {"@type": "Answer", "text": "Every year of the Graduated Spousal Process (Tahalich Medurag), clerks separate you and your partner into two rooms to ask 80 personal daily-life questions. Take our 80-question test on two phones from opposite sides of your couch and instantly see every mismatch before your appointment."}}, {"@type": "Question", "name": "BOX 8 OF 9 • APPLYING WITH A CRIMINAL RECORD — Have an Old Arrest, DUI, or Expunged Record? Never Hide It—Use Our Rehabilitation Dossier.", "acceptedAnswer": {"@type": "Answer", "text": "Misrad HaPanim requires Apostilled National Police Checks (US FBI, UK ACRO, EU, CA RCMP) from your birth country, every citizenship, and every country lived in >1 year since age 14. We guide you through proper upfront disclosure backed by court dispositions, Rabbi character references, and a statutory Hebrew Rehabilitation Explanation Letter."}}, {"@type": "Question", "name": "BOX 9 OF 9 • TOURIST FINANCIAL & HOUSING SURVIVAL — How to Sustain Yourself on a B/2 Tourist or Student Visa Without Working Illegally.", "acceptedAnswer": {"@type": "Answer", "text": "Working locally in Israel on a tourist visa triggers deportation and kills your Giyur/Aliyah file—yet paying 5,000 NIS/mo rent with zero income drains savings fast. Work remotely for foreign clients paid to your home bank (online English teaching, translation, remote tech) + slash rent via live-in nanny, elderly caretaker, or dorm volunteering."}}]}]}
 </script>
-  <script src="/i18n/jurisdiction.js?v=1794732270"></script>
+  <script src="/i18n/jurisdiction.js?v=1794787531"></script>
   
 <script type="application/ld+json">
 {
@@ -885,6 +974,35 @@
 </script>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="he_IL" />
   <meta property="og:site_name" content="Giyur Aliyah Track" />
@@ -903,6 +1021,48 @@
   <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/forms/nespach-alef-13-klausel-erklaerung-lebenspartner-5-2-0009/" />
   <link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/forms/nespah-alef-deklaraciya-13-punktov-yaduim-be-cibur-5-2-0009/" />
   <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname);}})();</script>
+<style id="gat-horizontal-tabs-scroll-fix">
+  /* Allow horizontal touch-scrolling on top module/track tab rows while keeping page locked */
+  .mod-tabs, .mod-tabs *,
+  .nav-tabs, .nav-tabs *,
+  .sub-tabs, .sub-tabs *,
+  #mod-tabs, #mod-tabs *,
+  #hebrew-subtabs-bar, #hebrew-subtabs-bar *,
+  [role="tablist"], [role="tablist"] * {
+    touch-action: pan-x pan-y !important;
+  }
+  .mod-tabs,
+  .nav-tabs,
+  .sub-tabs,
+  #mod-tabs,
+  #hebrew-subtabs-bar,
+  [role="tablist"] {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    max-width: 100vw !important;
+  }
+  .mod-tabs::-webkit-scrollbar,
+  .nav-tabs::-webkit-scrollbar,
+  .sub-tabs::-webkit-scrollbar,
+  #mod-tabs::-webkit-scrollbar,
+  #hebrew-subtabs-bar::-webkit-scrollbar,
+  [role="tablist"]::-webkit-scrollbar {
+    display: none !important;
+  }
+  .mod-tabs > *,
+  .nav-tabs > *,
+  .sub-tabs > *,
+  #mod-tabs > *,
+  #hebrew-subtabs-bar > *,
+  [role="tablist"] > * {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+</style>
 </head>
 <body>
 
@@ -969,9 +1129,7 @@
            ========================================================= -->
       <section class="app-view active" id="view-0" aria-label="Start Here: Conversion, Aliyah & Rabbanut">
         <div class="hero-center">
-          <div class="hero-emblem">
-            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4.5l2.1 3.6h4.1l-2.1 3.6 2.1 3.6h-4.1L12 19.9l-2.1-3.6H5.8l2.1-3.6-2.1-3.6h4.1L12 5.5z"/></svg>
-          </div>
+          <div class="brand-mark" style="margin: 0 auto 12px; width: 42px; height: 42px; border-radius: 11px;"><svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg></div>
           <h2 data-i18n="hero_h1">גיור, רבנות ועלייה בלי לאבד 5 שנים בבירוקרטיה</h2>
           <p data-i18n="hero_p">לחצו על כל תיבה כדי לחשוף את המלכודת הבירוקרטית בשפה פשוטה — או עברו ישירות למעקב המסלול ולוח הזמנים שלכם.</p>
         </div>
@@ -987,24 +1145,15 @@
           <div class="ea-cta" data-i18n="ea_cta">פתחו את רשימת תיק החירום לטיסה ומדריך נתב״ג ←</div>
         </div>
         <!-- 3-BUTTON TRACK DIAGNOSTIC FUNNEL (PRE-BAKED IN STATIC HTML) -->
-        <section id="gat-3track-funnel-card" style="background:#fff;border:2.5px solid #03A9F4;border-radius:20px;padding:18px 16px;margin:16px 0 22px 0;box-shadow:0 12px 32px rgba(3,169,244,0.16);">
-          <div style="font-size:1.1rem;font-weight:900;color:#082548;margin-bottom:4px;">🧭 Tell Us What Track You Are Interested In:</div>
-          <div style="font-size:0.82rem;color:#475569;font-weight:700;margin-bottom:12px;">Tap your track below to open your step-by-step Case Playbook:</div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:14px 16px;border-radius:14px;font-size:0.94rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.35);text-align:start;" onclick="window.selectGatMainTrack(1)"><span>🕍 1) Giyur — I Want to Convert (or Validate My Conversion)</span><span>❯</span></button>
-            <button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:14px 16px;border-radius:14px;font-size:0.94rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.35);text-align:start;" onclick="window.selectGatMainTrack(2)"><span>✈️ 2) Aliyah — I Want to Make Aliyah to Israel (or Spousal Visa)</span><span>❯</span></button>
-            <button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:14px 16px;border-radius:14px;font-size:0.94rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.35);text-align:start;" onclick="window.selectGatMainTrack(3)"><span>✡️ 3) Both — I Want to Convert AND Make Aliyah / Marry</span><span>❯</span></button>
-          </div>
-          <div id="gat-3track-diag-box"></div>
-        </section>
-        <article class="seo-spoke-article" style="border-top:5px solid #03A9F4;"><div style="display:inline-block;background:#e0f2fe;color:#0284c7;font-size:0.76rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;">OFFICIAL PIBA / MISRAD HAPANIM FORM • Nespach Alef (נספח א׳)</div><h1>נספח א׳ (נוהל 5.2.0009) להורדה ומילוי — תצהיר 13 הסעיפים לבני זוג ידועים בציבור</h1><h4>🚨 מלכודת הפקידים ונהלי רשות האוכלוסין 2026:</h4><p>לפי נוהל 5.2.0009 (מהדורה 17, יולי 2026), בני זוג ידועים בציבור חייבים לחתום על תצהיר 13 הסעיפים בפני עורך דין ישראלי לאימות כנות הקשר וניהול משק בית משותף.</p><div style="display:flex;flex-direction:column;gap:10px;margin:18px 0;"><a class="btn-sky" style="background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);border:2px solid #4FC3F7;font-size:0.98rem;" href="/app/?mod=hebrew-engine&form=nespach_alef&lang=he">⚡ מילוי חכם בעברית והדפסת PDF רשמי בדיו כחול תקני + מכתב הסבר →</a><a class="btn-outline-card" style="padding:12px 16px;font-size:0.88rem;font-weight:800;margin-top:0;" href="/app/forms/NespachAlef.pdf" target="_blank" rel="noopener">📥 הורדת הטופס הריק המקורי (PDF בחינם)</a></div><h2>📋 פרוטוקול מילוי סעיף-אחר-סעיף בעברית ורשימת מסמכי החובה לצירוף</h2><div><ul><li><strong>1. מדוע פקידי משרד הפנים פוסלים טפסים שמולאו באנגלית או בכתב יד לא קריא:</strong> לפי נהלי רשות האוכלוסין וההגירה (PIBA), כל הטפסים הרשמיים (אש/1, אש/3, אש/6, אש/456, מר/14א, מר/14ב, נספח א׳ ושאלון נתיב בן 11 העמודים) חייבים להיות ממולאים בעברית תקנית ומדויקת. השארת פערי תאריכים או כתיבה באותיות לטיניות בשדות עבריים משמשת עילה לדחיית הבקשה על הסף.</li><li><strong>2. חמשת מסמכי המקור המאומתים באפוסטיל (שעון תוקף של 180 יום):</strong> לכל תיק שינוי מעמד, וועדת חריגים או הליך מדורג חובה לצרף מסמכי מקור עם אפוסטיל ממדינת הלידה, כל מדינת אזרחות וכל מדינה בה התגוררתם מעל שנה מגיל 14: (א) תעודת לידה מורחבת הכוללת את שמות שני ההורים, (ב) תעודת יושר פדרלית מבוססת טביעות אצבע (FBI / ACRO / RCMP) שהונפקה ב-180 הימים האחרונים, (ג) תמצית רווקות / מצב אישי (או פטור סעיף ד.2.ה לנשואים כשמצב קודם ׳רווק/ה׳ מופיע בתעודת הנישואין), (ד) תעודות גירושין/נישואין קודמים, ו-(ה) תעודות שינוי שם.</li><li><strong>3. זכויות שריון כפול מול הפקיד (סעיף ה.2.8, סעיף ג.10 ונוהל 1.6.0001):</strong> לפי מהדורות יולי 2026 של נוהל 5.2.0008 (מהדורה 16) ונוהל 5.2.0009 (מהדורה 17), זכותכם לדרוש <strong>הארכה של 45 + 45 ימים</strong> להמצאת מסמכים מחו״ל באישור ראש צוות אשרות (סעיף ה.2.8), להגיש <strong>ערר פנימי בכתב תוך 21 יום</strong> (נוהל 1.6.0001), ולנהל הליך מדורג והליך גיור ממלכתי במקביל ללא סגירת תיק (סעיף ג.10).</li><li><strong>4. הגנה על זוגות בהריון ורישום יילודים בספח תעודת הזהות (נוהל 5.2.0004):</strong> הגשת אוגדן מלא בעברית ותיעוד 300 ימי חיים משותפים לפני הלידה מונעים הקפאה של שנתיים ברישום התינוק בספח תעודת הזהות וחוסכים תביעת אבהות ובדיקת רקמות ב-15,000 ₪ בבית המשפט למשפחה.</li></ul></div><hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/><h2>מדריך ההליך המדורג ל-5 שנים, ראיון 80 השאלות ורישום תינוק שנולד בישראל בספח תעודת הזהות ללא עיכוב של שנתיים.</h2><p>בין אם אתם נשואים (נוהל 5.2.0008, טופס אש/6) ובין אם ידועים בציבור (נוהל 5.2.0009, טופס אש/1 + אש/3 + תצהיר 13 הסעיפים בנספח א׳), משרד הפנים מעביר בני זוג מסלול מדורג של 4.5 עד 5.5 שנים—וכשנולד לכם תינוק לפני שהתיק מעוגן כחוק, הפקידים עלולים לחסום את הוספת הילד לספח תעודת הזהות למשך שנתיים שלמות.</p><h4>🚨 4 המלכודות הקשות בהליך המדורג וברישום יילודים (נוהל 5.2.0008 ונוהל 5.2.0004)</h4><div><ul><li><strong>1. בלוף סגירת התיק תוך 30 יום מול סעיף ה.2(8):</strong> פקידים מוסרים דרישת מסמכים עם איום בסגירת תיק תוך 30 יום—ומסתירים שלפי נוהל 5.2.0008 (מהדורה 16, יולי 2026) סעיף ה.2(8), בסמכות ראש צוות אשרות להעניק <strong>45 + 45 ימים</strong>, ונוהל 1.6.0001 מקנה זכות ל<strong>ערר פנימי בכתב תוך 21 יום</strong>!</li><li><strong>2. השקר של ׳סגרו את תיק הגיור׳ מול סעיף ג.10:</strong> לפי <strong>סעיף ג.10 (נשואים) וסעיף ג.7 (ידועים בציבור)</strong>, זכותכם החוקית המפורשת לנהל הליך מדורג והליך גיור/שבות במקביל ללא סגירת תיק!</li><li><strong>3. סיוט אי-רישום תינוק בספח תעודת הזהות למשך שנתיים (נוהל 5.2.0004 ו-2.2.0007):</strong> כשנולד תינוק בישראל לאזרח ישראלי ולבת זוג זרה/מתגיירת שמעמדה טרם הוסדר, בית החולים מנפיק רק <em>הודעה על לידת חי</em> ומסרב לרשום את התינוק בספח תעודת הזהות! אם לא תוכיחו <strong>300 ימי חיים משותפים מוכחים לפני הלידה</strong>, משרד הפנים דורש <strong>תביעת אבהות ובדיקת רקמות בבית משפט למשפחה (בעלות 15,000+ ₪)</strong>—מה שמשאיר את התינוק ללא מספר זהות, מקפיא מענק לידה וקצבת ילדים בביטוח לאומי, וחוסם רישום תקין בקופת חולים למשך שנתיים!</li><li><strong>4. חקירת 80 השאלות השנתית בחדרים נפרדים:</strong> מדי שנה לפני חידוש אשרת B/1 או ת״ז ארעית A/5, הפקידים מפרידים ביניכם לשני חדרים לחקירה צולבת של 300 שאלות על חיי היום-יום.</li></ul></div><h4>⚡ תוכנית השריון ב-4 שלבים לקבלת א/5, מעבר ראיון 80 השאלות ורישום התינוק בספח מיום הלידה</h4><div><ul><li><strong>1. הפקת אוגדן טופס אש/6 (6 עמודים) + מכתב הסבר חוקי:</strong> מילוי אוטומטי בעברית תקנית כולל תצהיר שכר דירה (עמ׳ 5) ודרישת <strong>פטור סעיף ד.2.ה</strong> מתעודת רווקות נפרדת כשמצב קודם ׳רווק/ה׳ מופיע בתעודת הנישואין המאומתת באפוסטיל!</li><li><strong>2. עיגון 300 ימי מרכז חיים משותף לפני הלידה (הגנה על התינוק!):</strong> תיעוד מראש של חוזה שכירות משותף, ארנונה, חשבונות ותצהירים בתיק משרד הפנים לפחות 300 יום לפני הלידה מחייב רישום ישיר של היילוד בספח ת״ז לפי נוהל 5.2.0004 ללא צורך בצו בדיקת רקמות!</li><li><strong>3. סימולטור 80 השאלות ב-2 טלפונים:</strong> תרגול חי משני קצוות הספה לאיתור כל סתירה לפני הראיון במשרד הפנים.</li><li><strong>4. השלמת גיור ונישואין ברבנות במקביל:</strong> לימוד משותף של שני בני הזוג עם הרב המלווה ומדריכת הכלה המוכרים שלנו להבטחת מעמד הלכתי מלא לכם ולילדיכם.</li></ul></div><hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/><h3>⚖️ טבלת אסמכתאות חוקיות ונהלי רשות האוכלוסין והרבנות הראשית (מהדורות 2026)</h3><p>נוהל 5.2.0008 (מהדורה 16, 20 ביולי 2026 — בני זוג נשואים, אוגדן טופס אש/6 עמ׳ 1–6 ותצהיר שכ״ד) • נוהל 5.2.0009 (מהדורה 17, 16 ביולי 2026 — חיים משותפים / ידועים בציבור, טופס אש/1, אש/3 ותצהיר 13 הסעיפים מנספח א׳) • נוהל 5.2.0001 (מהדורה 10, 19 במאי 2026 — שינוי מעמד לעולה בישראל, טופס אש/456 בן 3 עמודים, שאלון מר/14 וטופס אש/114, פטור מאגרה לפי סעיף ג.7) • זכויות שריון כפול: סעיף ה.2(8) / ה.7 (הארכת מועד של 45+45 ימים להמצאת מסמכים בסמכות ראש צוות אשרות), נוהל 1.6.0001 (ערר פנימי בכתב תוך 21 יום על סירוב על הסף מנספח ג׳), סעיף ג.10 / ג.7 (זכות לנהל הליך זוגי והליך גיור/שבות במקביל ללא סגירת תיק), סעיף ד.2.ה (פטור מתעודת רווקות נפרדת כשמצב קודם מצוין בתעודת הנישואין), ונוהל 2.11.0001 (רישום נישואין אזרחיים/יוטה).</p><p><strong>🇮🇱 תחום שיפוט ומסמכי מקור: עברית (ישראל וחו״ל):</strong> תעודת יושר פדרלית (FBI בארה״ב / ACRO בבריטניה / RCMP בקנדה / מרשם פלילי אירופאי) בתוקף 180 יום | תעודת לידה מקורית מורחבת (Long-Form Vault) הכוללת את שמות שני ההורים | תמצית רישום / תצהיר רווקות או פנויות נוטריוני מאומת בחותמת אפוסטיל | חותמת אפוסטיל רשמית (מזכיר המדינה / משרד החוץ הפדרלי לחתימת FBI / FCDO / נוטריונים בצרפת)</p><div style="margin-top:16px;"><h3 style="margin-bottom:8px;">📄 כל 8 טפסי משרד הפנים ונתיב להורדה ומילוי אוטומטי:</h3><div class="seo-mesh-grid"><a class="seo-mesh-link" href="/he/forms/tofes-ash1-vaadat-charigim-bakashat-ashra/">📄 Ash/1 (אש/1) — טופס אש/1 להורדה ומילוי אוטומטי — בקשה לאשרת כניסה ווועדת חריגים לגיור</a><a class="seo-mesh-link" href="/he/forms/tofes-ash3-haarachat-ashra-shinui-maamad/">📄 Ash/3 (אש/3) — טופס אש/3 להורדה ומילוי אוטומטי — בקשה להארכת אשרת שהייה או החלפת סוג אשרה</a><a class="seo-mesh-link" href="/he/forms/tofes-ash6-halich-medurag-nohal-5-2-0008/">📄 Ash/6 (אש/6) — טופס אש/6 להורדה ומילוי אוטומטי — אוגדן 6 עמודים להליך מדורג לבני זוג (נוהל 5.2.0008)</a><a class="seo-mesh-link" href="/he/forms/tofes-ash456-shinui-maamad-leoleh-nohal-5-2-0001/">📄 Ash/456 (אש/456) — טופס אש/456 להורדה ומילוי אוטומטי — בקשה לשינוי מעמד לעולה מתוך ישראל (נוהל 5.2.0001)</a><a class="seo-mesh-link" href="/he/forms/tofes-mr14a-bakasha-leteudat-zehut-rishona/">📄 MR/14a (מר/14א) — טופס מר/14א להורדה ומילוי אוטומטי — בקשה לתעודת זהות ראשונה (עולים ותושבים א/5)</a><a class="seo-mesh-link" href="/he/forms/tofes-mr14b-darkon-rishon-teudat-maavar/">📄 MR/14b (מר/14ב) — טופס מר/14ב להורדה ומילוי אוטומטי — בקשה לדרכון ישראלי ראשון או תעודת מעבר</a><a class="seo-mesh-link" href="/he/forms/nespach-alef-tatzhir-yeduim-betzibur-nohal-5-2-0009/">📄 Nespach Alef (נספח א׳) — נספח א׳ (נוהל 5.2.0009) להורדה ומילוי — תצהיר 13 הסעיפים לבני זוג ידועים בציבור</a><a class="seo-mesh-link" href="/he/forms/sheelon-nativ-11-amudim-korot-chaim-aliyah/">📄 Nativ Security CV (שאלון נתיב) — שאלון נתיב (11 עמודים) להורדה ומילוי אוטומטי — קורות חיים ופרטי משפחה לשינוי מעמד ועלייה</a></div></div></article>
+        <section id="gat-3track-funnel-card" style="background:#fff;border:2.5px solid #03A9F4;border-radius:20px;padding:15px 14px;margin:8px 0 16px 0;box-shadow:0 12px 32px rgba(3,169,244,0.16);"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;"><div style="background:linear-gradient(135deg,#082548 0%,#0288D1 100%);color:#fff;border:1.5px solid #03A9F4;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">1. בחירת מסלול</div><div style="background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">2. המצב שלך</div><div style="background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">3. תוכנית פעולה</div></div><div style="font-size:1.06rem;font-weight:900;color:#082548;margin-bottom:3px;">🧭 באיזה מסלול אתם מתעניינים?</div><div style="font-size:0.81rem;color:#475569;font-weight:700;margin-bottom:10px;">לחצו על המסלול שלכם לפתיחת תוכנית העבודה המדויקת צעד אחר צעד:</div><div style="display:flex;flex-direction:column;gap:9px;"><button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:13px 15px;border-radius:14px;font-size:0.92rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.32);text-align:start;" onclick="window.selectGatMainTrack(1)"><span>🕍 1) גיור — אני רוצה להתגייר (או לאמת גיור קיים)</span><span>❯</span></button><button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:13px 15px;border-radius:14px;font-size:0.92rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.32);text-align:start;" onclick="window.selectGatMainTrack(2)"><span>✈️ 2) עלייה — אני רוצה לעשות עלייה לישראל (או אשרת בני זוג)</span><span>❯</span></button><button type="button" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:13px 15px;border-radius:14px;font-size:0.92rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 6px 18px rgba(3,169,244,0.32);text-align:start;" onclick="window.selectGatMainTrack(3)"><span>✡️ 3) שניהם — אני רוצה גם להתגייר וגם לעשות עלייה / להינשא</span><span>❯</span></button><button type="button" style="width:100%;background:#fffbeb;color:#92400e;border:2px solid #f59e0b;padding:10px 14px;border-radius:12px;font-size:0.82rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:start;" onclick="window.showGatDiagResult('go_bag')"><span>🚨 עדיין בחו״ל / יציאת חירום? נוהל תיק חירום ואפוסטיל</span><span>❯</span></button></div><div id="gat-3track-diag-box"></div></section>
+        <article class="seo-spoke-article" style="border-top:5px solid #03A9F4;"><div style="display:inline-block;background:#e0f2fe;color:#0284c7;font-size:0.76rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;">טופס רשמי של רשות האוכלוסין ומשרד הפנים • Nespach Alef (נספח א׳)</div><h1>נספח א׳ (נוהל 5.2.0009) להורדה ומילוי — תצהיר 13 הסעיפים לבני זוג ידועים בציבור</h1><h4>🚨 מלכודת הפקידים ונהלי רשות האוכלוסין 2026:</h4><p>לפי נוהל 5.2.0009 (מהדורה 17, יולי 2026), בני זוג ידועים בציבור חייבים לחתום על תצהיר 13 הסעיפים בפני עורך דין ישראלי לאימות כנות הקשר וניהול משק בית משותף.</p><div style="display:flex;flex-direction:column;gap:10px;margin:18px 0;"><a class="btn-sky" style="background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);border:2px solid #4FC3F7;font-size:0.98rem;" href="/app/?mod=hebrew-engine&form=nespach_alef&lang=he">⚡ מילוי חכם בעברית והדפסת PDF רשמי בדיו כחול תקני + מכתב הסבר →</a><a class="btn-outline-card" style="padding:12px 16px;font-size:0.88rem;font-weight:800;margin-top:0;" href="/app/forms/NespachAlef.pdf" target="_blank" rel="noopener">📥 הורדת הטופס הריק המקורי (PDF בחינם)</a></div><h2>📋 פרוטוקול מילוי סעיף-אחר-סעיף בעברית ורשימת מסמכי החובה לצירוף</h2><div><ul><li><strong>1. מדוע פקידי משרד הפנים פוסלים טפסים שמולאו באנגלית או בכתב יד לא קריא:</strong> לפי נהלי רשות האוכלוסין וההגירה (PIBA), כל הטפסים הרשמיים (אש/1, אש/3, אש/6, אש/456, מר/14א, מר/14ב, נספח א׳ ושאלון נתיב בן 11 העמודים) חייבים להיות ממולאים בעברית תקנית ומדויקת. השארת פערי תאריכים או כתיבה באותיות לטיניות בשדות עבריים משמשת עילה לדחיית הבקשה על הסף.</li><li><strong>2. חמשת מסמכי המקור המאומתים באפוסטיל (שעון תוקף של 180 יום):</strong> לכל תיק שינוי מעמד, וועדת חריגים או הליך מדורג חובה לצרף מסמכי מקור עם אפוסטיל ממדינת הלידה, כל מדינת אזרחות וכל מדינה בה התגוררתם מעל שנה מגיל 14: (א) תעודת לידה מורחבת הכוללת את שמות שני ההורים, (ב) תעודת יושר פדרלית מבוססת טביעות אצבע (FBI / ACRO / RCMP) שהונפקה ב-180 הימים האחרונים, (ג) תמצית רווקות / מצב אישי (או פטור סעיף ד.2.ה לנשואים כשמצב קודם ׳רווק/ה׳ מופיע בתעודת הנישואין), (ד) תעודות גירושין/נישואין קודמים, ו-(ה) תעודות שינוי שם.</li><li><strong>3. זכויות שריון כפול מול הפקיד (סעיף ה.2.8, סעיף ג.10 ונוהל 1.6.0001):</strong> לפי מהדורות יולי 2026 של נוהל 5.2.0008 (מהדורה 16) ונוהל 5.2.0009 (מהדורה 17), זכותכם לדרוש <strong>הארכה של 45 + 45 ימים</strong> להמצאת מסמכים מחו״ל באישור ראש צוות אשרות (סעיף ה.2.8), להגיש <strong>ערר פנימי בכתב תוך 21 יום</strong> (נוהל 1.6.0001), ולנהל הליך מדורג והליך גיור ממלכתי במקביל ללא סגירת תיק (סעיף ג.10).</li><li><strong>4. הגנה על זוגות בהריון ורישום יילודים בספח תעודת הזהות (נוהל 5.2.0004):</strong> הגשת אוגדן מלא בעברית ותיעוד 300 ימי חיים משותפים לפני הלידה מונעים הקפאה של שנתיים ברישום התינוק בספח תעודת הזהות וחוסכים תביעת אבהות ובדיקת רקמות ב-15,000 ₪ בבית המשפט למשפחה.</li></ul></div><hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/><h2>מדריך ההליך המדורג ל-5 שנים, ראיון 80 השאלות ורישום תינוק שנולד בישראל בספח תעודת הזהות ללא עיכוב של שנתיים.</h2><p>בין אם אתם נשואים (נוהל 5.2.0008, טופס אש/6) ובין אם ידועים בציבור (נוהל 5.2.0009, טופס אש/1 + אש/3 + תצהיר 13 הסעיפים בנספח א׳), משרד הפנים מעביר בני זוג מסלול מדורג של 4.5 עד 5.5 שנים—וכשנולד לכם תינוק לפני שהתיק מעוגן כחוק, הפקידים עלולים לחסום את הוספת הילד לספח תעודת הזהות למשך שנתיים שלמות.</p><h4>🚨 4 המלכודות הקשות בהליך המדורג וברישום יילודים (נוהל 5.2.0008 ונוהל 5.2.0004)</h4><div><ul><li><strong>1. בלוף סגירת התיק תוך 30 יום מול סעיף ה.2(8):</strong> פקידים מוסרים דרישת מסמכים עם איום בסגירת תיק תוך 30 יום—ומסתירים שלפי נוהל 5.2.0008 (מהדורה 16, יולי 2026) סעיף ה.2(8), בסמכות ראש צוות אשרות להעניק <strong>45 + 45 ימים</strong>, ונוהל 1.6.0001 מקנה זכות ל<strong>ערר פנימי בכתב תוך 21 יום</strong>!</li><li><strong>2. השקר של ׳סגרו את תיק הגיור׳ מול סעיף ג.10:</strong> לפי <strong>סעיף ג.10 (נשואים) וסעיף ג.7 (ידועים בציבור)</strong>, זכותכם החוקית המפורשת לנהל הליך מדורג והליך גיור/שבות במקביל ללא סגירת תיק!</li><li><strong>3. סיוט אי-רישום תינוק בספח תעודת הזהות למשך שנתיים (נוהל 5.2.0004 ו-2.2.0007):</strong> כשנולד תינוק בישראל לאזרח ישראלי ולבת זוג זרה/מתגיירת שמעמדה טרם הוסדר, בית החולים מנפיק רק <em>הודעה על לידת חי</em> ומסרב לרשום את התינוק בספח תעודת הזהות! אם לא תוכיחו <strong>300 ימי חיים משותפים מוכחים לפני הלידה</strong>, משרד הפנים דורש <strong>תביעת אבהות ובדיקת רקמות בבית משפט למשפחה (בעלות 15,000+ ₪)</strong>—מה שמשאיר את התינוק ללא מספר זהות, מקפיא מענק לידה וקצבת ילדים בביטוח לאומי, וחוסם רישום תקין בקופת חולים למשך שנתיים!</li><li><strong>4. חקירת 80 השאלות השנתית בחדרים נפרדים:</strong> מדי שנה לפני חידוש אשרת B/1 או ת״ז ארעית A/5, הפקידים מפרידים ביניכם לשני חדרים לחקירה צולבת של 300 שאלות על חיי היום-יום.</li></ul></div><h4>⚡ תוכנית השריון ב-4 שלבים לקבלת א/5, מעבר ראיון 80 השאלות ורישום התינוק בספח מיום הלידה</h4><div><ul><li><strong>1. הפקת אוגדן טופס אש/6 (6 עמודים) + מכתב הסבר חוקי:</strong> מילוי אוטומטי בעברית תקנית כולל תצהיר שכר דירה (עמ׳ 5) ודרישת <strong>פטור סעיף ד.2.ה</strong> מתעודת רווקות נפרדת כשמצב קודם ׳רווק/ה׳ מופיע בתעודת הנישואין המאומתת באפוסטיל!</li><li><strong>2. עיגון 300 ימי מרכז חיים משותף לפני הלידה (הגנה על התינוק!):</strong> תיעוד מראש של חוזה שכירות משותף, ארנונה, חשבונות ותצהירים בתיק משרד הפנים לפחות 300 יום לפני הלידה מחייב רישום ישיר של היילוד בספח ת״ז לפי נוהל 5.2.0004 ללא צורך בצו בדיקת רקמות!</li><li><strong>3. סימולטור 80 השאלות ב-2 טלפונים:</strong> תרגול חי משני קצוות הספה לאיתור כל סתירה לפני הראיון במשרד הפנים.</li><li><strong>4. השלמת גיור ונישואין ברבנות במקביל:</strong> לימוד משותף של שני בני הזוג עם הרב המלווה ומדריכת הכלה המוכרים שלנו להבטחת מעמד הלכתי מלא לכם ולילדיכם.</li></ul></div><hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/><h3>⚖️ טבלת אסמכתאות חוקיות ונהלי רשות האוכלוסין והרבנות הראשית (מהדורות 2026)</h3><p>נוהל 5.2.0008 (מהדורה 16, 20 ביולי 2026 — בני זוג נשואים, אוגדן טופס אש/6 עמ׳ 1–6 ותצהיר שכ״ד) • נוהל 5.2.0009 (מהדורה 17, 16 ביולי 2026 — חיים משותפים / ידועים בציבור, טופס אש/1, אש/3 ותצהיר 13 הסעיפים מנספח א׳) • נוהל 5.2.0001 (מהדורה 10, 19 במאי 2026 — שינוי מעמד לעולה בישראל, טופס אש/456 בן 3 עמודים, שאלון מר/14 וטופס אש/114, פטור מאגרה לפי סעיף ג.7) • זכויות שריון כפול: סעיף ה.2(8) / ה.7 (הארכת מועד של 45+45 ימים להמצאת מסמכים בסמכות ראש צוות אשרות), נוהל 1.6.0001 (ערר פנימי בכתב תוך 21 יום על סירוב על הסף מנספח ג׳), סעיף ג.10 / ג.7 (זכות לנהל הליך זוגי והליך גיור/שבות במקביל ללא סגירת תיק), סעיף ד.2.ה (פטור מתעודת רווקות נפרדת כשמצב קודם מצוין בתעודת הנישואין), ונוהל 2.11.0001 (רישום נישואין אזרחיים/יוטה).</p><h3>🛡️ ייצוג עצמי חכם מול עורכי דין ב-15,000–40,000 ₪, נפש בנפש והסוכנות היהודית (מדריך השטח ל-2026)</h3><p>מדוע אלפי מתגיירים, בני זוג של אזרחים ישראלים ומבקשי עלייה נתקעים מול הבירוקרטיה? גופים כמו ׳נפש בנפש׳ והסוכנות היהודית מטפלים בתיקי עלייה קלאסיים מחו״ל בלבד — הם אינם מלווים אתכם בתוך לשכות משרד הפנים בהליך מדורג לבני זוג (נוהל 5.2.0008 / 5.2.0009), וועדת חריגים לגיור ממעמד תייר (טופס אש/1), הכרה בגיור פרטי (גוש עציון / בני ברק) או הכשרת תיק עם עבר פלילי (תעודת יושר). מנגד, משרדי עורכי דין להגירה גובים שכר טרחה של 15,000 עד 40,000 ₪ רק כדי למלא את טפסי הרשות בעברית (אש/1, אש/3, אש/6, אש/456, מר/14א, נספח א׳) ולנסח מכתב הסבר. המערכת שלנו מעניקה לכם מילוי אוטומטי של כל 8 הטפסים הרשמיים בעברית תקנית, מאגר 700 שאלות לבית הדין לגיור, סימולטור 300 שאלות לראיון זוגות בחדרים נפרדים ומדריכי הישרדות מול הפקיד — בעלות שווה לכל נפש.</p><p><strong>🇮🇱 תחום שיפוט ומסמכי מקור: עברית (ישראל וחו״ל):</strong> תעודת יושר פדרלית (FBI בארה״ב / ACRO בבריטניה / RCMP בקנדה / מרשם פלילי אירופאי) בתוקף 180 יום | תעודת לידה מקורית מורחבת (Long-Form Vault) הכוללת את שמות שני ההורים | תמצית רישום / תצהיר רווקות או פנויות נוטריוני מאומת בחותמת אפוסטיל | חותמת אפוסטיל רשמית (מזכיר המדינה / משרד החוץ הפדרלי לחתימת FBI / FCDO / נוטריונים בצרפת)</p><div style="margin-top:16px;"><h3 style="margin-bottom:8px;">📄 כל 8 טפסי משרד הפנים ונתיב להורדה ומילוי אוטומטי:</h3><div class="seo-mesh-grid"><a class="seo-mesh-link" href="/he/forms/tofes-ash1-vaadat-charigim-bakashat-ashra/">📄 Ash/1 (אש/1) — טופס אש/1 להורדה ומילוי אוטומטי — בקשה לאשרת כניסה ווועדת חריגים לגיור</a><a class="seo-mesh-link" href="/he/forms/tofes-ash3-haarachat-ashra-shinui-maamad/">📄 Ash/3 (אש/3) — טופס אש/3 להורדה ומילוי אוטומטי — בקשה להארכת אשרת שהייה או החלפת סוג אשרה</a><a class="seo-mesh-link" href="/he/forms/tofes-ash6-halich-medurag-nohal-5-2-0008/">📄 Ash/6 (אש/6) — טופס אש/6 להורדה ומילוי אוטומטי — אוגדן 6 עמודים להליך מדורג לבני זוג (נוהל 5.2.0008)</a><a class="seo-mesh-link" href="/he/forms/tofes-ash456-shinui-maamad-leoleh-nohal-5-2-0001/">📄 Ash/456 (אש/456) — טופס אש/456 להורדה ומילוי אוטומטי — בקשה לשינוי מעמד לעולה מתוך ישראל (נוהל 5.2.0001)</a><a class="seo-mesh-link" href="/he/forms/tofes-mr14a-bakasha-leteudat-zehut-rishona/">📄 MR/14a (מר/14א) — טופס מר/14א להורדה ומילוי אוטומטי — בקשה לתעודת זהות ראשונה (עולים ותושבים א/5)</a><a class="seo-mesh-link" href="/he/forms/tofes-mr14b-darkon-rishon-teudat-maavar/">📄 MR/14b (מר/14ב) — טופס מר/14ב להורדה ומילוי אוטומטי — בקשה לדרכון ישראלי ראשון או תעודת מעבר</a><a class="seo-mesh-link" href="/he/forms/nespach-alef-tatzhir-yeduim-betzibur-nohal-5-2-0009/">📄 Nespach Alef (נספח א׳) — נספח א׳ (נוהל 5.2.0009) להורדה ומילוי — תצהיר 13 הסעיפים לבני זוג ידועים בציבור</a><a class="seo-mesh-link" href="/he/forms/sheelon-nativ-11-amudim-korot-chaim-aliyah/">📄 Nativ Security CV (שאלון נתיב) — שאלון נתיב (11 עמודים) להורדה ומילוי אוטומטי — קורות חיים ופרטי משפחה לשינוי מעמד ועלייה</a></div></div></article>
         <div class="section-kicker">
           <h2 data-i18n="kicker_h2">איפה אתם תקועים? (לחצו על תיבה)</h2>
           <span data-i18n="kicker_span">9 מדריכי ליבה</span>
         </div>
 
         <div class="enemy-grid">
-          <div id="gat-cat-hdr-1" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>🕍 CATEGORY 1: CONVERSION, PRIVATE BEIT DINS & RABBANUT</span><span style="color:#4FC3F7;font-size:0.75rem;">Free Playbooks</span></div>
+          <div id="gat-cat-hdr-1" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>🕍 קטגוריה 1: גיור, בתי דין פרטיים והרבנות הראשית</span><span style="color:#4FC3F7;font-size:0.75rem;">מדריכים בחינם</span></div>
           <button class="enemy-card" onclick="openObstacle(0)">
             <div class="ec-top"><span data-i18n="b0_top">תיבה 1 • התמונה המלאה</span><span data-i18n="tap_lbl">לחצו ←</span></div>
             <div class="ec-title" data-i18n="b0_t">חדשים בתהליך? התמונה המלאה מא׳ ועד ת׳</div>
@@ -1023,7 +1172,7 @@
             <div class="ec-desc" data-i18n="b2_d">למה עצירה אחרי המקווה ללא אישור בי״ד הגדול חוסמת חתונה ועלייה.</div>
           </button>
 
-          <div id="gat-cat-hdr-2" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>🛂 CATEGORY 2: VISA CLOCKS, 5 APOSTILLED DOCS & TOURIST SURVIVAL</span><span style="color:#4FC3F7;font-size:0.75rem;">Free Playbooks</span></div>
+          <div id="gat-cat-hdr-2" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>🛂 קטגוריה 2: שעון אשרת תייר, 5 מסמכי אפוסטיל והישרדות בארץ</span><span style="color:#4FC3F7;font-size:0.75rem;">מדריכים בחינם</span></div>
           <button class="enemy-card" onclick="openObstacle(3)">
             <div class="ec-top"><span data-i18n="b3_top">תיבה 4 • שעון ויזת תייר</span><span data-i18n="tap_lbl">לחצו ←</span></div>
             <div class="ec-title" data-i18n="b3_t">ויזת התייר (90 יום) עומדת להיגמר?</div>
@@ -1042,7 +1191,7 @@
             <div class="ec-desc" data-i18n="b5_d">שני בני הזוג חייבים ללמוד! הכירו את הצוות המוכר שלנו.</div>
           </button>
 
-          <div id="gat-cat-hdr-3" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>💍 CATEGORY 3: SPOUSAL VISA (5.2.0008), CLERK SHEETS & PAST RECORDS</span><span style="color:#4FC3F7;font-size:0.75rem;">Free Playbooks</span></div>
+          <div id="gat-cat-hdr-3" style="grid-column:1/-1;background:linear-gradient(135deg,#082548 0%,#0b3b59 100%);color:#ffffff;padding:10px 14px;border-radius:12px;font-size:0.84rem;font-weight:900;letter-spacing:0.02em;border-left:4px solid #03A9F4;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>💍 קטגוריה 3: הליך מדורג (5.2.0008), דרישות מסמכים ועבר פלילי</span><span style="color:#4FC3F7;font-size:0.75rem;">מדריכים בחינם</span></div>
           <button class="enemy-card" onclick="openObstacle(6)">
             <div class="ec-top"><span data-i18n="b6_top">תיבה 7 • סינכרון זוגי</span><span data-i18n="tap_lbl">לחצו ←</span></div>
             <div class="ec-title" data-i18n="b6_t">תחקור 80 השאלות הזוגי במשרד הפנים</div>
@@ -1055,7 +1204,7 @@
             <div class="ec-desc" data-i18n="b7_d">תעודות יושר (FBI/ACRO/RCMP) ובניית תיק שיקום והמלצות מראש.</div>
           </button>
                                       <a class="enemy-card" id="dahan-gold-card" href="/dahan-ruling-non-orthodox-conversion-aliyah-truth/" style="grid-column: 1 / -1; border-color: #f59e0b; background: #fffbeb; text-decoration: none;">
-            <div class="ec-top" style="color:#b45309;"><span data-i18n="bd_top">⚠️ גיור לא-אורתודוקסי (בג״ץ דהן) מול המסלול ההלכתי</span><span>Open Page →</span></div>
+            <div class="ec-top" style="color:#b45309;"><span data-i18n="bd_top">⚠️ גיור לא-אורתודוקסי (בג״ץ דהן) מול המסלול ההלכתי</span><span>לפתיחת המדריך ←</span></div>
             <div class="ec-title" data-i18n="bd_t">שוקלים גיור רפורמי/קונסרבטיבי (בג״ץ דהן) לעלייה? קראו זאת תחילה.</div>
             <div class="ec-desc" data-i18n="bd_d">למה עורכי דין לא יספרו לכם שאתם וילדיכם תיחסמו מנישואין ברבנות — ואיך לעבור גיור 100% הלכתי באותו פרק זמן.</div>
           </a>
@@ -1093,7 +1242,7 @@
             <a class="seo-mesh-link" data-i18n="mesh_forms" href="/forms/">📄 מאגר טפסים רשמיים ומחולל מכתבי הסבר (אש/1, אש/3, אש/6 וטופס אש/456 לעולה)</a>
           </div>
         </nav>
-              <section id="gat-tab-faq-0" style="margin-top:28px;margin-bottom:18px;padding-top:20px;border-top:2px solid #cbd5e1;"></section>
+              <section id="gat-tab-faq-0" style="margin-top:28px;margin-bottom:18px;padding-top:20px;border-top:2px solid #cbd5e1;"><div class="section-kicker" style="margin-bottom:12px;"><h2>❓ שאלות נפוצות: שעון 180 יום לאפוסטיל ו-8 טפסי משרד הפנים</h2><span>מדריך נוהלי משרד הפנים ובית הדין</span></div><div style="display:flex;flex-direction:column;gap:10px;"><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">1. אילו מסמכים פגים תוקף אחרי 180 יום (6 חודשים)?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">משרד הפנים אוכף תוקף מקסימלי של 180 יום מיום ההנפקה על תעודות יושר מהמולדת (FBI, ACRO וכו׳) ועל תעודות רווקות / תמצית רישום.</p></details><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">2. מהו כלל ׳3 הסלים׳ לתעודת יושר?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">הפקידים דורשים תעודת יושר פדרלית עם אפוסטיל מ-(1) כל מדינת אזרחות, (2) מדינת הלידה, ו-(3) כל מדינה שבה התגוררתם 12+ חודשים מגיל 18.</p></details><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">3. מדוע חובה להגיש את טפסי אש/1, אש/3, אש/6 ואש/456 מודפסים בעברית?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">פקידי רשות האוכלוסין דוחים טפסים הממולאים באותיות לטיניות. מנוע ההחתמה שלנו ממיר את הנתונים שלכם מ-6 שפות לקובץ PDF רשמי בעברית עם מדריך חתימות מסומן.</p></details></div><div style="background:#082548;color:#e2e8f0;border-radius:16px;padding:18px 18px;font-size:0.78rem;line-height:1.55;margin-top:18px;box-shadow:0 8px 24px rgba(8,37,72,0.18);"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.15);"><div><strong style="color:#ffffff;font-size:0.9rem;">GiyurAliyahTrack.com</strong> • מרכז שליטה משפטי-טכנולוגי לגיור, עלייה והליך מדורג</div><div>📩 <a href="mailto:concierge@giyuraliyahtrack.com" style="color:#38bdf8;text-decoration:none;font-weight:800;">concierge@giyuraliyahtrack.com</a> • 📲 WhatsApp: <a href="https://wa.me/972525822005" style="color:#4ade80;text-decoration:none;font-weight:800;">+972-52-582-2005</a></div></div><div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;"><details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">📜 תנאי שימוש והבהרה משפטית</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">Giyur Aliyah Track מספקת אוטומציה למילוי טפסים רשמיים, מאגרי הכנה לבית הדין ולשימוע זוגי, והכוונה פרוצדורלית. הפלטפורמה אינה משרד עורכי דין; ליווי משפטי אופציונלי ניתן על ידי עורכי דין ונוטריונים ישראלים מורשים בלבד.</p></details><details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">💳 מדיניות סופיות עסקה דיגיטלית (ללא החזרים)</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">מאחר שפתיחת הגישה חושפת באופן מיידי את מחוללי הטפסים בעברית, קרדיטים של AI ומאגרי השאלות המלאים, כל רכישות התוכנה הדיגיטליות הן סופיות ואינן ניתנות להחזר כספי לאחר הפתיחה.</p></details><details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">🔒 פרטיות ואבטחת מידע (Zero-Leakage)</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">כל טיוטות הטפסים וחדרי הסנכרון הזוגיים מוצפנים ומבודדים למזהה הוואטסאפ האישי שלך. איננו מוכרים או משתפים מידע עם צדדים שלישיים.</p></details></div></div></section>
       </section>
 
       
@@ -1172,9 +1321,7 @@
            ========================================================= -->
       <section class="app-view" id="view-2" aria-label="Time-Savings & Track Shield Calculator">
         <div class="hero-center" style="margin-bottom:18px;">
-          <div class="hero-emblem">
-            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-          </div>
+          <div class="brand-mark" style="margin: 0 auto 12px; width: 42px; height: 42px; border-radius: 11px;"><svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg></div>
           <h2 class="h1-style" data-i18n="t3_h1">מחשבון חיסכון בזמן ובבירוקרטיה</h2>
           <p>Clerks and expired Apostilles steal 2 to 4 years from unprepared applicants. Calculate how much time our playbook shaves off your track:</p>
         </div>
@@ -1217,7 +1364,7 @@
 
         <div class="fx-calc-box" id="fx-calc-box" style="margin-top:26px; padding-top:22px; border-top:2px dashed #cbd5e1;">
           <div class="hero-center" style="margin-bottom:14px;">
-            <h2 id="fx-h2" style="font-size:1.25rem; font-weight:900; color:var(--teal-dark); margin-bottom:6px;">💸 Aliyah Currency & Rent Wire Shield</h2>
+            <h2 id="fx-h2" style="font-size:1.25rem; font-weight:900; color:var(--teal-dark); margin-bottom:6px;">💸 מגן המרת מט״ח והעברת שכר דירה לעולים</h2>
             <p id="fx-lead" style="font-size:0.92rem; color:#475569; margin:0;">Moving money for rent, living expenses, or an apartment? Retail banks skim ~3.2% in hidden exchange markups. See how much you keep using a licensed Israeli FX bridge:</p>
           </div>
 
@@ -1447,6 +1594,8 @@
 <div class="drawer-backdrop" id="app-drawer" onclick="if(event.target===this) toggleDrawer(false)">
   <aside class="drawer-panel">
     <div>
+<a href="/he/pricing/" class="drawer-link" onclick="window.location.href='/he/pricing/'" style="display:flex;align-items:center;gap:10px;padding:12px 16px;margin:8px 12px;border-radius:10px;background:linear-gradient(135deg,#0288d1,#059669);color:#fff !important;font-weight:900;font-size:0.92rem;text-decoration:none;box-shadow:0 4px 12px rgba(2,136,209,0.3);">💎 כל 23 השירותים והמחירים (החל מ-$49) ←</a>
+
       <div class="drawer-brand-center">
         <div class="brand-title" style="font-size:1.4rem;">Giyur<span>Aliyah</span>Track</div>
       </div>
@@ -1459,6 +1608,10 @@
           <div><span class="dds-num">300 Qs</span><span class="dds-lbl">Couples Sync</span></div>
         </div>
       </div>
+      <a id="gat-hamburger-pricing-link" class="drawer-item gat-hamburger-pricing-item" href="/he/pricing/" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 10px 0;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,#0284c7,#2563eb);font-weight:800;font-size:0.93rem;text-decoration:none;box-shadow:0 4px 14px rgba(37,99,235,0.28);">
+        <span style="display:flex;align-items:center;gap:9px;"><span>💎</span><span>כל 23 השירותים והמחירים</span></span>
+        <span style="font-size:0.8rem;opacity:0.95;">→</span>
+      </a>
 
       <div class="drawer-list">
         <a href="/app?module=beit-din-150" class="drawer-row">🕍 700 Beit Din Exam Flashcards & Game</a>
@@ -1628,7 +1781,7 @@
     if (!bd || !pn || !hd) return;
     let dragging = false, startX = 0, baseTx = 0, curTx = 0, moved = false;
     hd.addEventListener('pointerdown', e => {
-      e.preventDefault(); e.stopPropagation(); hd.setPointerCapture(e.pointerId);
+      e.stopPropagation(); try { hd.setPointerCapture(e.pointerId); } catch(_){}
       const w = pn.offsetWidth || 320, isOpen = bd.classList.contains('open');
       dragging = true; moved = false; startX = e.clientX; baseTx = isOpen ? 0 : -w; curTx = baseTx;
       pn.style.transition = 'none'; bd.style.transition = 'none'; hd.style.transition = 'none';
@@ -2427,6 +2580,83 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   window.addEventListener('pageshow', restoreOnLoad);
 })();
 </script>
-  <script src="/i18n/tracking_partner.js?v=1794732270"></script>
+  <script src="/i18n/tracking_partner.js?v=1794883297"></script>
+<style id="gat-zero-doom-scroll-ux">
+  /* 1. Fit Hero + Emergency Bar + 3-Track Wizard Stage cleanly inside 1st Viewport */
+  #view-0 .hero-center { padding: 8px 10px 4px 10px !important; margin-bottom: 4px !important; }
+  #view-0 .hero-emblem { width: 32px !important; height: 32px !important; margin-bottom: 4px !important; }
+  #view-0 .hero-center h1 { font-size: clamp(1.18rem, 3.6vw, 1.52rem) !important; line-height: 1.18 !important; margin: 0 0 4px 0 !important; }
+  #view-0 .hero-center p { font-size: 0.8rem !important; line-height: 1.3 !important; margin: 0 !important; }
+  #view-0 .exodus-alert { padding: 8px 12px !important; margin: 6px 0 8px 0 !important; border-radius: 12px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 10px !important; flex-wrap: wrap !important; }
+  #view-0 .exodus-alert .ea-top { margin-bottom: 0 !important; width: 100% !important; }
+  #view-0 .exodus-alert .ea-title { font-size: 0.82rem !important; margin: 2px 0 0 0 !important; }
+  #view-0 .exodus-alert .ea-desc { display: none !important; }
+  #view-0 .exodus-alert .ea-cta { font-size: 0.75rem !important; margin-top: 2px !important; }
+  #gat-3track-funnel-card { margin: 8px 0 14px 0 !important; padding: 14px 14px !important; scroll-margin-top: 68px !important; }
+
+  /* 2. Progressive Disclosure Silos Below the Fold (100% DOM crawlable for Googlebot) */
+  .gat-silo-hidden-card { display: none !important; }
+  #gat-cat-hdr-1, #gat-cat-hdr-2, #gat-cat-hdr-3 {
+    cursor: pointer !important;
+    transition: transform 0.12s ease, box-shadow 0.12s ease !important;
+    user-select: none !important;
+  }
+  #gat-cat-hdr-1:hover, #gat-cat-hdr-2:hover, #gat-cat-hdr-3:hover {
+    box-shadow: 0 4px 14px rgba(3, 169, 244, 0.25) !important;
+  }
+  #view-0 .seo-obstacle-library { margin: 12px 0 !important; }
+  #view-0 .seo-obstacle-library > details {
+    background: #f8fafc !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 14px !important;
+    padding: 11px 15px !important;
+  }
+  #view-0 .seo-obstacle-library > details > summary {
+    font-weight: 900 !important;
+    font-size: 0.88rem !important;
+    color: #082548 !important;
+    cursor: pointer !important;
+  }
+  #view-0 #seo-spoke-mesh { margin-top: 12px !important; }
+  #view-0 #mesh-title {
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: #f8fafc !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 14px !important;
+    padding: 11px 15px !important;
+    font-size: 0.88rem !important;
+    margin: 0 !important;
+  }
+  #view-0 .seo-mesh-grid { margin-top: 10px !important; }
+</style>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=en&path=/" width="1" height="1" alt="" /></noscript>
+<noscript><img src="/api/auditDoc?mode=pixel&lang=he&path=/he/forms/nespach-alef-tatzhir-yeduim-betzibur-nohal-5-2-0009/" width="1" height="1" alt="" /></noscript>
+
+
 </body>
 </html>

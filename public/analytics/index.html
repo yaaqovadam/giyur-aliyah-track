@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Live Traffic & Crawler Command Center | Giyur Aliyah Track</title>
+  <link rel="canonical" href="https://giyuraliyahtrack.com/analytics/">
+  <meta name="description" content="Giyur Aliyah Track — Live Human Visitor & Statutory Engagement Telemetry Dashboard.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    :root {
+      --navy: #082548;
+      --navy-dark: #051830;
+      --sky: #03A9F4;
+      --sky-dark: #0288D1;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #475569;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .topbar {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 3px solid var(--sky);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .topbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pin-input {
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid #4FC3F7;
+      color: #fff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      width: 120px;
+    }
+    .btn {
+      background: linear-gradient(135deg, var(--sky-dark) 0%, var(--sky) 100%);
+      color: #fff;
+      border: 1.5px solid #81D4FA;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.84rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .container {
+      max-width: 1380px;
+      margin: 20px auto;
+      padding: 0 16px 60px 16px;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .kpi-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 14px rgba(8,37,72,0.06);
+    }
+    .kpi-card.highlight {
+      border-color: var(--sky);
+      background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+    }
+    .kpi-card.bot-card {
+      border-color: var(--amber);
+      background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%);
+    }
+    .kpi-lbl {
+      font-size: 0.74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .kpi-val {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--navy);
+    }
+    .kpi-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+      font-weight: 700;
+    }
+    .section-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 20px rgba(8,37,72,0.06);
+    }
+    .section-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .section-hdr h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-input {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      min-width: 240px;
+      font-weight: 600;
+    }
+    .table-wrap {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th {
+      background: #f8fafc;
+      color: var(--navy);
+      font-weight: 900;
+      text-align: left;
+      padding: 11px 12px;
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    tr:hover td {
+      background: #f8fafc;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .badge-sky { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+    .badge-emerald { background: #d1fae5; color: #047857; border: 1px solid #6ee7b7; }
+    .badge-amber { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
+    .badge-navy { background: var(--navy); color: #fff; }
+    .page-journey {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .page-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid var(--sky);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+    }
+    .page-pill code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 800;
+      color: var(--navy);
+      word-break: break-all;
+    }
+    .page-pill .dwell {
+      font-weight: 900;
+      color: #047857;
+      background: #d1fae5;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      flex-shrink: 0;
+    }
+    .bot-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .bot-sum-card {
+      background: #fffbeb;
+      border: 1.5px solid #fcd34d;
+      border-radius: 12px;
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .bot-sum-name { font-weight: 900; color: #78350f; font-size: 0.84rem; }
+    .bot-sum-hits { font-weight: 900; background: #f59e0b; color: #fff; padding: 3px 9px; border-radius: 999px; font-size: 0.78rem; }
+    .status-dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.25);
+      margin-right: 6px;
+    }
+  
+  
+  /* === EXACT CONTRAST RULES: LIGHT FAQ CARDS vs. DARK NAVY FOOTER & PLAYBOOKS === */
+  details > summary:not(.gat-dark-summary),
+  details > summary:not(.gat-dark-summary) * {
+    color: #082548 !important;
+    -webkit-text-fill-color: #082548 !important;
+    opacity: 1 !important;
+  }
+  .seo-obstacle-library > details > summary,
+  .seo-obstacle-library > details > summary *,
+  #gat-seo-library > details > summary,
+  #gat-seo-library > details > summary *,
+  .gat-dark-legal-footer details > summary,
+  .gat-dark-legal-footer details > summary *,
+  summary.gat-dark-summary,
+  summary.gat-dark-summary * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  .gat-dark-legal-footer details p,
+  .gat-dark-legal-footer details p *,
+  p.gat-dark-body,
+  p.gat-dark-body * {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+
+  
+  
+  /* === CLEAN iOS FORM INPUT & CONTRAST STABILIZER (ZERO SCROLL YANKING) === */
+  details > summary:not(.gat-dark-summary),
+  details > summary:not(.gat-dark-summary) * {
+    color: #082548 !important;
+    -webkit-text-fill-color: #082548 !important;
+    opacity: 1 !important;
+  }
+  .seo-obstacle-library > details > summary,
+  .seo-obstacle-library > details > summary *,
+  #gat-seo-library > details > summary,
+  #gat-seo-library > details > summary *,
+  .gat-dark-legal-footer details > summary,
+  .gat-dark-legal-footer details > summary *,
+  summary.gat-dark-summary,
+  summary.gat-dark-summary * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  .gat-dark-legal-footer details p,
+  .gat-dark-legal-footer details p *,
+  p.gat-dark-body,
+  p.gat-dark-body * {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+  input, select, textarea {
+    font-size: 16px !important;
+    touch-action: manipulation !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+  }
+
+</style>
+<style id="gat-horizontal-tabs-scroll-fix">
+  /* Allow horizontal touch-scrolling on top module/track tab rows while keeping page locked */
+  .mod-tabs, .mod-tabs *,
+  .nav-tabs, .nav-tabs *,
+  .sub-tabs, .sub-tabs *,
+  #mod-tabs, #mod-tabs *,
+  #hebrew-subtabs-bar, #hebrew-subtabs-bar *,
+  [role="tablist"], [role="tablist"] * {
+    touch-action: pan-x pan-y !important;
+  }
+  .mod-tabs,
+  .nav-tabs,
+  .sub-tabs,
+  #mod-tabs,
+  #hebrew-subtabs-bar,
+  [role="tablist"] {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    max-width: 100vw !important;
+  }
+  .mod-tabs::-webkit-scrollbar,
+  .nav-tabs::-webkit-scrollbar,
+  .sub-tabs::-webkit-scrollbar,
+  #mod-tabs::-webkit-scrollbar,
+  #hebrew-subtabs-bar::-webkit-scrollbar,
+  [role="tablist"]::-webkit-scrollbar {
+    display: none !important;
+  }
+  .mod-tabs > *,
+  .nav-tabs > *,
+  .sub-tabs > *,
+  #mod-tabs > *,
+  #hebrew-subtabs-bar > *,
+  [role="tablist"] > * {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+</style>
+</head>
+<body>
+<!-- RESTRICTED ACCESS GATE (SHARED ACROSS /analytics AND /concierge, 8-HR AUTO-DELETE) -->
+<style id="gat-hard-auth-style">
+  body > *:not(#gat-hard-auth-overlay) { display: none !important; }
+</style>
+<div id="gat-hard-auth-overlay" style="position:fixed;inset:0;background:#041226;z-index:2147483647;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:20px;">
+  <div style="background:#0b2240;border:1.5px solid #1e293b;border-radius:18px;max-width:380px;width:100%;padding:28px;text-align:center;color:#fff;box-shadow:0 25px 60px rgba(0,0,0,0.65);">
+    <div style="font-size:2rem;margin-bottom:8px;">🔒</div>
+    <div style="font-size:1.1rem;font-weight:900;margin-bottom:6px;" id="gat-gate-title">Verifying Admin Session...</div>
+    <div style="font-size:0.8rem;color:#94a3b8;margin-bottom:16px;" id="gat-gate-sub">Checking your active login session...</div>
+    <div id="gat-gate-step1">
+      <input type="tel" id="gat-gate-wa-phone" placeholder="WhatsApp Number" autocomplete="off" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #334155;background:#041226;color:#fff;font-size:1rem;text-align:center;font-weight:800;margin-bottom:10px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')window.sendAdminWaOtp()" />
+      <button type="button" id="gat-gate-send-btn" onclick="window.sendAdminWaOtp()" style="width:100%;padding:12px;border-radius:10px;border:none;background:#0288d1;color:#fff;font-weight:900;font-size:0.92rem;cursor:pointer;">Send 4-Digit WhatsApp Code</button>
+    </div>
+    <div id="gat-gate-step2" style="display:none;">
+      <input type="text" id="gat-gate-otp-code" placeholder="4-Digit WhatsApp Code" maxlength="6" autocomplete="one-time-code" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #10b981;background:#041226;color:#fff;font-size:1.2rem;letter-spacing:6px;text-align:center;font-weight:900;margin-bottom:10px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')window.verifyAdminWaOtp()" />
+      <button type="button" id="gat-gate-verify-btn" onclick="window.verifyAdminWaOtp()" style="width:100%;padding:12px;border-radius:10px;border:none;background:#059669;color:#fff;font-weight:900;font-size:0.92rem;cursor:pointer;">Verify &amp; Open</button>
+    </div>
+    <div id="gat-gate-err" style="color:#f87171;font-size:0.8rem;font-weight:800;margin-top:10px;display:none;"></div>
+  </div>
+</div>
+<script>
+(function(){
+  // Auto-delete expired session tokens from localStorage
+  function cleanExpiredTokens() {
+    var tok = localStorage.getItem('gat_admin_session_tok') || '';
+    if (tok) {
+      var parts = tok.split('.');
+      if (parts.length === 3 && Number(parts[1]) < Date.now()) {
+        localStorage.removeItem('gat_admin_session_tok'); localStorage.removeItem('gat_admin_pin');
+        sessionStorage.removeItem('gat_admin_session_tok');
+      }
+    }
+  }
+  cleanExpiredTokens();
+
+    if (window.location.hash && window.location.hash.indexOf('admin_tok=') !== -1) {
+    var hTok = decodeURIComponent(window.location.hash.split('admin_tok=')[1].split('&')[0]);
+    if (hTok) {
+      localStorage.setItem('gat_admin_session_tok', hTok);
+      sessionStorage.setItem('gat_admin_session_tok', hTok);
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  }
+  function getStoredAuth() {
+    cleanExpiredTokens();
+    var tok = localStorage.getItem('gat_admin_session_tok') || sessionStorage.getItem('gat_admin_session_tok') || '';
+    var uid = localStorage.getItem('gat_uid') || sessionStorage.getItem('gat_admin_uid') || '';
+    var pass = localStorage.getItem('gat_passcode') || localStorage.getItem('gat_wa_magic') || '';
+    var pin = sessionStorage.getItem('gat_admin_pin') || '' || '';
+    if (!uid || !pass) {
+      try {
+        var st = JSON.parse(localStorage.getItem('gat_state_v2') || '{}');
+        if (!uid && st.uid) uid = st.uid;
+        if (!pass && st.permanentPassCode) pass = st.permanentPassCode;
+      } catch (e) {}
+    }
+    return { adminSessionToken: tok, adminUid: uid, adminPassOrMagic: pass, adminPin: pin };
+  }
+
+  var origFetch = window.fetch.bind(window);
+  window.fetch = function(url, opts) {
+    if (typeof url === 'string' && (url.indexOf('auditdoc') !== -1 || url.indexOf('auditDoc') !== -1) && opts && opts.body) {
+      try {
+        var b = JSON.parse(opts.body);
+        var a = getStoredAuth();
+        if (a.adminSessionToken) b.adminSessionToken = a.adminSessionToken;
+        if (a.adminUid) b.adminUid = a.adminUid;
+        if (a.adminPassOrMagic) b.adminPassOrMagic = a.adminPassOrMagic;
+        if (a.adminPin && !b.adminPin) b.adminPin = a.adminPin;
+        opts.body = JSON.stringify(b);
+      } catch (e) {}
+    }
+    return origFetch(url, opts);
+  };
+
+  function unlockConsoleDOM(tok) {
+    if (tok) {
+      localStorage.setItem('gat_admin_session_tok', tok);
+      sessionStorage.setItem('gat_admin_session_tok', tok);
+    }
+    var eb = document.getElementById('error-box');
+    if (eb) { eb.style.display = 'none'; eb.textContent = ''; }
+    var st = document.getElementById('gat-hard-auth-style');
+    if (st) st.remove();
+    var ov = document.getElementById('gat-hard-auth-overlay');
+    if (ov) ov.remove();
+    if (typeof window.loadQueue === 'function') window.loadQueue();
+    if (typeof window.loadAnalytics === 'function') window.loadAnalytics();
+    if (typeof window.loadVisitorPulse === 'function') window.loadVisitorPulse();
+  }
+
+  window.trySilentAdminAutoOpen = async function() {
+    var a = getStoredAuth();
+    try {
+      var res = await origFetch('https://auditdoc-nbq4mfrrnq-uc.a.run.app', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.assign({ mode: 'admin_list_concierge' }, a))
+      });
+      var data = await res.json();
+      if (res.ok && !data.error) {
+        unlockConsoleDOM(data.adminSessionToken || a.adminSessionToken);
+        return;
+      }
+    } catch (e) {}
+    var tEl = document.getElementById('gat-gate-title');
+    var sEl = document.getElementById('gat-gate-sub');
+    if (tEl) tEl.textContent = 'Restricted Area';
+    if (sEl) sEl.textContent = 'Sign in with WhatsApp 2FA to continue (code auto-deletes in 5m).';
+  };
+
+  window.sendAdminWaOtp = async function() {
+    var ph = (document.getElementById('gat-gate-wa-phone').value || '').replace(/[^0-9]/g, ''); if (ph.indexOf('05') === 0 && ph.length === 10) ph = '972' + ph.slice(1);
+    var btn = document.getElementById('gat-gate-send-btn');
+    var err = document.getElementById('gat-gate-err');
+    if (!ph) return;
+    btn.disabled = true; btn.textContent = 'Sending WhatsApp Code...';
+    err.style.display = 'none';
+    try {
+      var res = await origFetch('https://auditdoc-nbq4mfrrnq-uc.a.run.app', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'wa_send_login', phone: ph })
+      });
+      var data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || 'Unable to send code');
+      window._pendingAdminPhone = ph;
+      document.getElementById('gat-gate-step1').style.display = 'none';
+      document.getElementById('gat-gate-step2').style.display = 'block';
+      document.getElementById('gat-gate-sub').textContent = 'Enter the 4-digit code sent to your WhatsApp (expires in 5m).';
+      document.getElementById('gat-gate-otp-code').focus();
+    } catch (e) {
+      err.textContent = '❌ ' + (e.message || 'Access Denied');
+      err.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'Send 4-Digit WhatsApp Code';
+    }
+  };
+
+  window.verifyAdminWaOtp = async function() {
+    var code = (document.getElementById('gat-gate-otp-code').value || '').trim();
+    var btn = document.getElementById('gat-gate-verify-btn');
+    var err = document.getElementById('gat-gate-err');
+    if (!code) return;
+    btn.disabled = true; btn.textContent = 'Verifying...';
+    err.style.display = 'none';
+    try {
+      var res = await origFetch('https://auditdoc-nbq4mfrrnq-uc.a.run.app', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'wa_verify_login', phone: window._pendingAdminPhone, code: code })
+      });
+      var data = await res.json();
+      if (!res.ok || !data.ok || !data.adminSessionToken) throw new Error('Invalid or expired code');
+      localStorage.setItem('gat_uid', data.uid);
+      if (data.permanentPassCode) localStorage.setItem('gat_passcode', data.permanentPassCode);
+      unlockConsoleDOM(data.adminSessionToken);
+    } catch (e) {
+      err.textContent = '❌ ' + (e.message || 'Invalid code');
+      err.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'Verify & Open';
+    }
+  };
+
+  window.trySilentAdminAutoOpen();
+})();
+</script>
+
+
+
+
+
+  <header class="topbar">
+    <h1><span class="status-dot"></span> Giyur Aliyah Track — Live Human & Webcrawler Telemetry</h1>
+    <div class="topbar-controls">
+      <input type="password" id="admin-pin" class="pin-input" placeholder="Admin PIN" value="6130" />
+      <button type="button" class="btn" onclick="loadAnalytics()">🔄 Refresh Now</button>
+      <label style="font-size:0.8rem;font-weight:800;display:flex;align-items:center;gap:5px;cursor:pointer;">
+        <input type="checkbox" id="auto-refresh" checked onchange="toggleAutoRefresh()" /> Auto-Refresh (15s)
+      </label>
+      <a href="/concierge/" class="btn" style="background:linear-gradient(135deg,#047857 0%,#10b981 100%);border-color:#6ee7b7;">⚖️ Concierge & Legal Desk →</a>
+      <a href="/" class="btn btn-secondary">← Back to Site</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="error-banner" style="display:none;background:#fee2e2;border:2px solid #ef4444;color:#991b1b;padding:12px 16px;border-radius:12px;font-weight:800;margin-bottom:16px;"></div>
+
+    <!-- TOP KPI SUMMARY -->
+    <div class="kpi-grid">
+      <div class="kpi-card highlight">
+        <div class="kpi-lbl">🧍 Real Human Visitors</div>
+        <div class="kpi-val" id="kpi-humans">—</div>
+        <div class="kpi-sub" id="kpi-humans-sub">Active & recent unique visitors</div>
+      </div>
+      <div class="kpi-card highlight">
+        <div class="kpi-lbl">⏱️ Total Human Time on Site</div>
+        <div class="kpi-val" id="kpi-total-time">—</div>
+        <div class="kpi-sub" id="kpi-avg-time">Avg per visitor: —</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl">📄 Human Page Views (Today)</div>
+        <div class="kpi-val" id="kpi-today-views">—</div>
+        <div class="kpi-sub" id="kpi-today-time">Today's dwell time: —</div>
+      </div>
+      <div class="kpi-card bot-card">
+        <div class="kpi-lbl">🤖 Webcrawler & Bot Visits</div>
+        <div class="kpi-val" id="kpi-bots">—</div>
+        <div class="kpi-sub" id="kpi-bot-engines">Unique crawler engines: —</div>
+      </div>
+    </div>
+
+    <!-- LIST 1: REAL HUMAN VISITORS -->
+    <section class="section-card">
+      <div class="section-hdr">
+        <h2>🧍 List 1: Real Human Visitors — Arrival Source, Pages Viewed & Exact Time Spent</h2>
+        <input type="text" id="human-filter" class="filter-input" placeholder="🔍 Filter by page, source, timezone, lang..." oninput="renderTables()" />
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th># / Last Active</th>
+              <th>Where They Arrived From (Source / Referrer)</th>
+              <th>Location / Device / Lang</th>
+              <th>Pages Viewed & Exact Time on Each Page</th>
+              <th>Total Time on Site</th>
+            </tr>
+          </thead>
+          <tbody id="humans-tbody">
+            <tr><td colspan="5" style="text-align:center;padding:24px;font-weight:800;color:#64748b;">Loading live visitor telemetry...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- LIST 2: WEBCRAWLERS & BOTS -->
+    <section class="section-card">
+      <div class="section-hdr">
+        <h2>🤖 List 2: Webcrawlers & Search/AI Bots — Which Crawlers & Pages Crawled</h2>
+        <input type="text" id="bot-filter" class="filter-input" placeholder="🔍 Filter by bot name, user-agent, page..." oninput="renderTables()" />
+      </div>
+      <div id="bot-summary-box" class="bot-summary-grid"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th># / Last Seen</th>
+              <th>Crawler / Bot Engine</th>
+              <th>Total Hits</th>
+              <th>Pages Crawled (with Hit Counts)</th>
+              <th>Raw User-Agent String</th>
+            </tr>
+          </thead>
+          <tbody id="bots-tbody">
+            <tr><td colspan="5" style="text-align:center;padding:24px;font-weight:800;color:#64748b;">Loading crawler telemetry...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let LAST_DATA = null;
+    let refreshTimer = null;
+
+    function fmtDuration(sec) {
+      const s = Math.max(0, Math.round(Number(sec) || 0));
+      if (s < 60) return s + "s";
+      const m = Math.floor(s / 60);
+      const rem = s % 60;
+      if (m < 60) return m + "m " + rem + "s";
+      const h = Math.floor(m / 60);
+      return h + "h " + (m % 60) + "m " + rem + "s";
+    }
+
+    function fmtTimeAgo(ms) {
+      if (!ms) return "Unknown";
+      const diffSec = Math.max(0, Math.round((Date.now() - Number(ms)) / 1000));
+      const d = new Date(Number(ms));
+      const timeStr = d.toLocaleString();
+      if (diffSec < 60) return "🟢 Live now (" + diffSec + "s ago)<br><small style='color:#64748b;'>" + timeStr + "</small>";
+      if (diffSec < 3600) return Math.floor(diffSec / 60) + "m ago<br><small style='color:#64748b;'>" + timeStr + "</small>";
+      if (diffSec < 86400) return Math.floor(diffSec / 3600) + "h ago<br><small style='color:#64748b;'>" + timeStr + "</small>";
+      return Math.floor(diffSec / 86400) + "d ago<br><small style='color:#64748b;'>" + timeStr + "</small>";
+    }
+
+    function decodeSafePath(safeKey) {
+      const s = String(safeKey || "");
+      if (s === "_") return "/";
+      return s.replace(/^_/, "/").replace(/_/g, "/").replace(/\/\/+/g, "/");
+    }
+
+    function fmtReferrer(v) {
+      const ext = String(v.externalRef || "").trim();
+      const raw = String(v.ref || "").trim();
+      const target = ext || raw;
+      if (!target) {
+        return '<span class="badge badge-navy">Direct / Typed URL / Bookmark</span>';
+      }
+      try {
+        const u = new URL(target);
+        const host = u.hostname.replace(/^www\./, "");
+        if (/giyuraliyahtrack\.com|giyur-aliyah-track\.web\.app|localhost/i.test(host)) {
+          return '<span class="badge badge-sky">Internal Navigation</span><div style="font-size:0.76rem;color:#475569;margin-top:4px;">From: <code>' + (u.pathname || "/") + '</code></div>';
+        }
+        let icon = "🌐";
+        if (/google\./i.test(host)) icon = "🔍 Google Search";
+        else if (/bing\./i.test(host)) icon = "🔎 Bing Search";
+        else if (/whatsapp|wa\.me/i.test(host)) icon = "📲 WhatsApp";
+        else if (/t\.me|telegram/i.test(host)) icon = "✈️ Telegram";
+        else if (/facebook|fb\.|instagram/i.test(host)) icon = "📘 Meta / Facebook";
+        else if (/reddit/i.test(host)) icon = "👽 Reddit";
+        else if (/chatgpt|openai|perplexity|claude/i.test(host)) icon = "🤖 AI Search Referral";
+        return '<span class="badge badge-emerald">' + icon + ' (' + host + ')</span><div style="font-size:0.74rem;color:#475569;margin-top:4px;word-break:break-all;">' + target + '</div>';
+      } catch (e) {
+        return '<span class="badge badge-sky">' + target + '</span>';
+      }
+    }
+
+    function parseDeviceSummary(v) {
+      const ua = String(v.ua || "");
+      const scr = String(v.screen || "");
+      let dev = "💻 Desktop";
+      if (/iPhone|iPad|iPod/i.test(ua)) dev = "📱 iPhone / iOS";
+      else if (/Android/i.test(ua)) dev = "📱 Android";
+      else if (scr && parseInt(scr.split("x")[0], 10) < 768) dev = "📱 Mobile";
+      return dev + (scr ? " (" + scr + ")" : "");
+    }
+
+    async function loadAnalytics() {
+      const pinEl = document.getElementById("admin-pin");
+      const pin = (pinEl ? pinEl.value : "6130").trim();
+      localStorage.setItem("gat_admin_pin", pin);
+      const errBanner = document.getElementById("error-banner");
+      if (errBanner) errBanner.style.display = "none";
+
+      try {
+        const res = await fetch("/api/auditDoc", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: "admin_get_analytics", adminPin: pin })
+        });
+        const data = await res.json();
+        if (!data.ok) {
+          throw new Error(data.error || "Failed to load analytics");
+        }
+        LAST_DATA = data;
+        renderTables();
+      } catch (e) {
+        if (errBanner) {
+          errBanner.textContent = "⚠️ Error loading telemetry: " + e.message;
+          errBanner.style.display = "block";
+        }
+      }
+    }
+
+    function renderTables() {
+      if (!LAST_DATA) return;
+      const visitors = LAST_DATA.visitors || [];
+      const crawlers = LAST_DATA.crawlers || [];
+      const today = LAST_DATA.today || {};
+
+      // Separate any bot that might have been stored in visitors prior to upgrade
+      const botRx = /(bot|crawler|spider|slurp|bingpreview|facebookexternalhit|whatsapp|telegrambot|twitterbot|linkedinbot|applebot|semrush|ahrefs|gptbot|claudebot|perplexity|headlesschrome|lighthouse|python|curl|wget)/i;
+      const cleanHumans = [];
+      const extraBots = [];
+      visitors.forEach(v => {
+        if (botRx.test(v.ua || "")) {
+          extraBots.push({
+            botName: "Detected Crawler (" + (v.ua || "").slice(0, 35) + ")",
+            ua: v.ua || "",
+            lastSeen: v.lastSeen,
+            hits: v.pageViews || 1,
+            pages: v.pages || { [v.currentPath || "/"]: 1 }
+          });
+        } else {
+          cleanHumans.push(v);
+        }
+      });
+
+      const allCrawlers = crawlers.concat(extraBots);
+
+      // Update KPIs
+      let grandHumanSec = 0;
+      cleanHumans.forEach(v => { grandHumanSec += Number(v.totalSeconds || 0); });
+      const avgSec = cleanHumans.length > 0 ? Math.round(grandHumanSec / cleanHumans.length) : 0;
+
+      document.getElementById("kpi-humans").textContent = cleanHumans.length.toLocaleString();
+      document.getElementById("kpi-total-time").textContent = fmtDuration(grandHumanSec);
+      document.getElementById("kpi-avg-time").textContent = "Avg per visitor: " + fmtDuration(avgSec);
+      document.getElementById("kpi-today-views").textContent = Number(today.totalPageViews || 0).toLocaleString();
+      document.getElementById("kpi-today-time").textContent = "Today's dwell time: " + fmtDuration(today.totalSeconds || 0);
+
+      let totalBotHits = 0;
+      const botGroupMap = {};
+      allCrawlers.forEach(c => {
+        const h = Number(c.hits || 1);
+        totalBotHits += h;
+        const bName = c.botName || "Webcrawler";
+        botGroupMap[bName] = (botGroupMap[bName] || 0) + h;
+      });
+      document.getElementById("kpi-bots").textContent = totalBotHits.toLocaleString();
+      document.getElementById("kpi-bot-engines").textContent = "Unique crawler engines: " + Object.keys(botGroupMap).length;
+
+      // Render Real Humans Table
+      const hFilter = (document.getElementById("human-filter").value || "").toLowerCase().trim();
+      const filteredHumans = cleanHumans.filter(v => {
+        if (!hFilter) return true;
+        const blob = JSON.stringify(v).toLowerCase();
+        return blob.includes(hFilter);
+      });
+
+      const hTbody = document.getElementById("humans-tbody");
+      if (filteredHumans.length === 0) {
+        hTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#64748b;font-weight:800;">No human visitor records match your filter.</td></tr>';
+      } else {
+        hTbody.innerHTML = filteredHumans.map((v, idx) => {
+          const pagesObj = Object.assign({}, v.pages || {});
+          const pageHitsObj = Object.assign({}, v.pageHits || {});
+          const pageLastObj = Object.assign({}, v.pageLastSeen || {});
+          Object.keys(v).forEach(k => {
+            if (k.startsWith("pages.")) pagesObj[k.slice(6)] = (Number(pagesObj[k.slice(6)]) || 0) + Number(v[k] || 0);
+            if (k.startsWith("pageHits.")) pageHitsObj[k.slice(9)] = (Number(pageHitsObj[k.slice(9)]) || 0) + Number(v[k] || 0);
+            if (k.startsWith("pageLastSeen.")) pageLastObj[k.slice(13)] = Math.max(Number(pageLastObj[k.slice(13)]) || 0, Number(v[k] || 0));
+          });
+          const entries = Object.entries(pagesObj).sort((a, b) => Number(b[1]) - Number(a[1]));
+          let journeyHtml = "";
+          if (entries.length > 0) {
+            journeyHtml = '<div class="page-journey">' + entries.map(([k, sec]) => {
+              const cleanP = decodeSafePath(k);
+              const hits = pageHitsObj[k] ? ` (${pageHitsObj[k]}x)` : "";
+              const isCur = cleanP === v.currentPath ? ' <span class="badge badge-sky">Last Viewed</span>' : '';
+              return `<div class="page-pill"><span><code>${cleanP}</code>${hits}${isCur}</span><span class="dwell">⏱️ ${fmtDuration(sec)}</span></div>`;
+            }).join("") + '</div>';
+          } else {
+            journeyHtml = `<div class="page-pill"><code>${v.currentPath || "/"}</code><span class="dwell">⏱️ ${fmtDuration(v.totalSeconds || 0)}</span></div>`;
+          }
+
+          return `<tr>
+            <td><strong>#${idx + 1}</strong><br>${fmtTimeAgo(v.lastSeen)}<br><code style="font-size:0.7rem;color:#94a3b8;">ID: ${(v.vid || "").slice(0, 12)}</code></td>
+            <td>${fmtReferrer(v)}</td>
+            <td>
+              <span class="badge badge-sky">🌍 ${v.tz || "Unknown TZ"}</span>
+              <span class="badge badge-amber">🌐 ${(v.lang || "en").toUpperCase()}</span>
+              <div style="font-size:0.78rem;color:#334155;font-weight:700;margin-top:6px;">${parseDeviceSummary(v)}</div>
+            </td>
+            <td>${journeyHtml}</td>
+            <td><span class="badge badge-emerald" style="font-size:0.9rem;padding:6px 12px;">⏱️ ${fmtDuration(v.totalSeconds || 0)}</span></td>
+          </tr>`;
+        }).join("");
+      }
+
+      // Render Bot Summary Cards + Bot Table
+      const botSumBox = document.getElementById("bot-summary-box");
+      const sortedBotGroups = Object.entries(botGroupMap).sort((a, b) => b[1] - a[1]);
+      if (sortedBotGroups.length === 0) {
+        botSumBox.innerHTML = '<div style="grid-column:1/-1;background:#fffbeb;border:1.5px solid #fcd34d;border-radius:12px;padding:12px 16px;color:#92400e;font-weight:800;font-size:0.84rem;">🤖 Crawler tracking is active! Note: LIVE_SEO is currently False (robots.txt Disallow: /), so search crawlers that obey robots.txt are paused until you flip LIVE_SEO = True. Any bot/preview crawler that hits the site will appear right here immediately.</div>';
+      } else {
+        botSumBox.innerHTML = sortedBotGroups.map(([bName, cnt]) =>
+          `<div class="bot-sum-card"><span class="bot-sum-name">🤖 ${bName}</span><span class="bot-sum-hits">${cnt} hits</span></div>`
+        ).join("");
+      }
+
+      const bFilter = (document.getElementById("bot-filter").value || "").toLowerCase().trim();
+      const filteredBots = allCrawlers.filter(c => {
+        if (!bFilter) return true;
+        return JSON.stringify(c).toLowerCase().includes(bFilter);
+      });
+
+      const bTbody = document.getElementById("bots-tbody");
+      if (filteredBots.length === 0) {
+        bTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#64748b;font-weight:800;">No webcrawler visits recorded yet.</td></tr>';
+      } else {
+        bTbody.innerHTML = filteredBots.map((c, idx) => {
+          const pObj = Object.assign({}, c.pages || {});
+          Object.keys(c).forEach(k => {
+            if (k.startsWith("pages.")) pObj[k.slice(6)] = (Number(pObj[k.slice(6)]) || 0) + Number(c[k] || 0);
+          });
+          const pList = Object.entries(pObj).sort((a, b) => Number(b[1]) - Number(a[1])).map(([k, hits]) =>
+            `<div class="page-pill"><code>${decodeSafePath(k)}</code><span class="badge badge-amber">${hits} hits</span></div>`
+          ).join("");
+          return `<tr>
+            <td><strong>#${idx + 1}</strong><br>${fmtTimeAgo(c.lastSeen)}</td>
+            <td><span class="badge badge-amber" style="font-size:0.82rem;">🤖 ${c.botName || "Crawler"}</span></td>
+            <td><strong style="font-size:1.05rem;color:#082548;">${c.hits || 1}</strong></td>
+            <td><div class="page-journey">${pList || `<code>${c.lastPath || "/"}</code>`}</div></td>
+            <td><code style="font-size:0.74rem;color:#475569;word-break:break-all;">${c.ua || "Unknown UA"}</code></td>
+          </tr>`;
+        }).join("");
+      }
+    }
+
+    function toggleAutoRefresh() {
+      if (refreshTimer) clearInterval(refreshTimer);
+      if (document.getElementById("auto-refresh").checked) {
+        refreshTimer = setInterval(loadAnalytics, 15000);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedPin = localStorage.getItem("gat_admin_pin");
+      if (savedPin && (savedPin === "6130" || savedPin === "6130")) {
+        document.getElementById("admin-pin").value = savedPin;
+      } else {
+        document.getElementById("admin-pin").value = "6130";
+        localStorage.setItem("gat_admin_pin", "6130");
+      }
+      loadAnalytics();
+      toggleAutoRefresh();
+    });
+  </script>
+
+</body>
+</html>

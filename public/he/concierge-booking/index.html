@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>שליחת פרטי התיק והמסמכים לאישור והצעת מחיר מעו״ד / נוטריון / רב מלווה — Misrad HaPanim Lawyer, Notary &amp; Beit Din Rabbi | Giyur Aliyah Track (HE)</title>
+  <style>
+    :root { --navy: #041226; --card: #0b2240; --sky: #0288d1; --emerald: #059669; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--navy); color: #f8fafc; min-height: 100vh; padding: 20px; }
+    .wrap { max-width: 780px; margin: 0 auto; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .globe-wrap { position: relative; display: inline-flex; align-items: center; background: #0b2240; border: 1.5px solid #0288d1; border-radius: 99px; padding: 6px 14px; gap: 7px; box-shadow: 0 4px 14px rgba(2,136,209,0.25); }
+    .globe-wrap span { font-size: 1.05rem; pointer-events: none; }
+    .globe-select { appearance: none; -webkit-appearance: none; background: transparent; border: none; color: #fff; font-weight: 900; font-size: 0.86rem; cursor: pointer; padding-right: 14px; outline: none; }
+    .globe-select option { background: #0b2240; color: #fff; font-weight: 800; }
+    .globe-caret { font-size: 0.65rem; color: #38bdf8; pointer-events: none; margin-left: -10px; }
+    .card { background: var(--card); border: 2px solid var(--sky); border-radius: 18px; padding: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-bottom: 18px; }
+    .badge { display: inline-block; background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.45); padding: 4px 11px; border-radius: 99px; font-size: 0.74rem; font-weight: 900; margin-bottom: 10px; }
+    h1 { margin: 0 0 8px; font-size: 1.38rem; font-weight: 900; color: #fff; }
+    .sub { color: #94a3b8; font-size: 0.88rem; line-height: 1.5; margin-bottom: 16px; }
+    .steps-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-bottom: 18px; }
+    .step-pill { background: #041226; border: 1px solid #1e293b; border-radius: 10px; padding: 10px; font-size: 0.76rem; font-weight: 800; color: #cbd5e1; text-align: center; }
+    .step-pill b { color: #38bdf8; display: block; font-size: 0.82rem; margin-bottom: 3px; }
+    .svc-box { background: rgba(4,18,38,0.75); border: 1.5px solid #38bdf8; border-radius: 14px; padding: 15px 16px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .svc-name { font-size: 1.02rem; font-weight: 900; color: #fff; }
+    .svc-price { font-size: 1.25rem; font-weight: 900; color: #38bdf8; }
+    .no-pay-tag { font-size: 0.72rem; color: #34d399; font-weight: 800; display: block; margin-top: 2px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 14px; }
+    label { display: block; font-size: 0.74rem; font-weight: 800; color: #cbd5e1; margin-bottom: 5px; text-transform: uppercase; }
+    input, select, textarea { width: 100%; padding: 11px 12px; border-radius: 10px; border: 1.5px solid #334155; background: #041226; color: #fff; font-size: 0.9rem; font-weight: 700; }
+    input::placeholder, textarea::placeholder { color: #64748b; font-weight: 600; }
+    .upload-zone { border: 2px dashed #38bdf8; background: rgba(2,136,209,0.08); border-radius: 14px; padding: 18px; text-align: center; margin-bottom: 16px; cursor: pointer; transition: 0.2s; }
+    .upload-zone:hover { background: rgba(2,136,209,0.15); }
+    .file-list { margin-top: 10px; text-align: left; font-size: 0.8rem; color: #34d399; font-weight: 800; }
+    .btn-submit { width: 100%; padding: 15px; border-radius: 12px; border: none; background: linear-gradient(135deg, #0288d1, #059669); color: #fff; font-size: 1rem; font-weight: 900; cursor: pointer; box-shadow: 0 10px 25px rgba(2,136,209,0.35); }
+    .policy { font-size: 0.76rem; color: #94a3b8; line-height: 1.45; margin-top: 14px; padding-top: 12px; border-top: 1px solid #1e293b; }
+  
+    
+    /* === EXACT SITE-WIDE APPBAR & DRAWER CSS FROM public/index.html === */
+    body { margin: 0 !important; padding: 0 !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--navy); color: #f8fafc; min-height: 100vh; }
+    .wrap { max-width: 1220px; margin: 0 auto; padding: 28px 18px 48px; }
+    .app-header {
+      position: sticky !important;
+      top: 0 !important;
+      height: 62px !important;
+      background: #082548 !important;
+      border-bottom: 1px solid rgba(2, 136, 232, 0.35) !important;
+      box-shadow: 0 2px 10px rgba(8, 37, 72, 0.22) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 0 18px !important;
+      flex-shrink: 0 !important;
+      z-index: 9500 !important;
+      direction: ltr !important;
+    }
+    .app-nav-back {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 34px !important;
+      height: 38px !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      color: #ffffff !important;
+      text-decoration: none !important;
+      margin-inline-start: -6px !important;
+      margin-inline-end: 10px !important;
+      padding: 0 !important;
+      cursor: pointer !important;
+      flex-shrink: 0 !important;
+      transition: transform 0.15s ease, opacity 0.15s ease !important;
+    }
+    .app-nav-back:hover { background: transparent !important; opacity: 0.85; transform: scale(1.08); }
+    .app-nav-back svg {
+      width: 28px !important;
+      height: 28px !important;
+      stroke: #ffffff !important;
+      stroke-width: 3.2 !important;
+      fill: none !important;
+      stroke-linecap: round !important;
+      stroke-linejoin: round !important;
+    }
+    .app-header .brand {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      text-decoration: none !important;
+    }
+    .app-header .brand-mark {
+      background: #0288E8 !important;
+      color: #FFFFFF !important;
+      width: 38px !important;
+      height: 38px !important;
+      border-radius: 10px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 3px 10px rgba(2, 136, 232, 0.4) !important;
+      flex-shrink: 0 !important;
+    }
+    .app-header .brand-mark svg {
+      width: 26px !important;
+      height: 26px !important;
+      fill: #FFFFFF !important;
+    }
+    .app-header .brand-title {
+      font-size: 1.22rem !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.3px !important;
+      color: #FFFFFF !important;
+    }
+    .app-header .brand-title span {
+      color: #1994F5 !important;
+    }
+    .header-right {
+      display: flex !important;
+      align-items: center !important;
+      gap: 14px !important;
+    }
+    .app-header .lang-btn {
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      text-decoration: none !important;
+      color: #FFFFFF !important;
+      font-size: 0.68rem !important;
+      font-weight: 800 !important;
+      line-height: 1.1 !important;
+      cursor: pointer !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 2px 4px !important;
+    }
+    .app-header .lang-btn svg {
+      width: 22px !important;
+      height: 22px !important;
+      stroke: #1994F5 !important;
+      fill: none !important;
+      stroke-width: 2 !important;
+      margin-bottom: 1px !important;
+    }
+    .app-header .lang-btn span {
+      color: #FFFFFF !important;
+    }
+    .app-header .hamburger-btn {
+      background: transparent !important;
+      border: none !important;
+      color: #FFFFFF !important;
+      cursor: pointer !important;
+      padding: 4px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .app-header .hamburger-btn svg {
+      width: 28px !important;
+      height: 28px !important;
+      stroke: #FFFFFF !important;
+      stroke-width: 2.4 !important;
+      stroke-linecap: round !important;
+    }
+    /* Language Popup Menu when clicking #globe-lang-btn */
+    #gat-lang-pop {
+      display: none;
+      position: fixed;
+      top: 66px;
+      right: 18px;
+      z-index: 99999;
+      background: #082548;
+      border: 1.5px solid #1994F5;
+      border-radius: 14px;
+      padding: 8px;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.55);
+      min-width: 170px;
+      direction: ltr;
+    }
+    #gat-lang-pop.open { display: block; }
+    .gat-lang-opt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 9px 12px;
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.86rem;
+      border-radius: 9px;
+      cursor: pointer;
+      text-align: left;
+    }
+    .gat-lang-opt:hover, .gat-lang-opt.active {
+      background: rgba(25, 148, 245, 0.22);
+      color: #38bdf8;
+    }
+    /* Drawer CSS from public/index.html */
+    .drawer-backdrop {
+      position: fixed !important;
+      inset: 0 !important;
+      background: rgba(11, 37, 69, 0.65) !important;
+      backdrop-filter: blur(4px) !important;
+      z-index: 99990 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transition: opacity 0.25s ease !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      direction: ltr !important;
+    }
+    .drawer-backdrop.open {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+    .drawer-panel {
+      width: min(330px, 86vw) !important;
+      height: 100% !important;
+      background: #ffffff !important;
+      color: #0f172a !important;
+      padding: 20px 16px !important;
+      overflow-y: auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      box-shadow: -8px 0 30px rgba(0,0,0,0.35) !important;
+      transform: translateX(100%);
+      transition: transform 0.25s ease !important;
+    }
+    .drawer-backdrop.open .drawer-panel {
+      transform: translateX(0);
+    }
+    .drawer-brand-center { text-align: center; margin-bottom: 12px; }
+    .drawer-brand-center .brand-title { font-weight: 900; color: #082548; }
+    .drawer-brand-center .brand-title span { color: #0288E8; }
+    .drawer-dark-stats { background: #082548; color: #fff; border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+    .dds-head { display: flex; justify-content: space-between; font-size: 0.76rem; font-weight: 800; color: #38bdf8; margin-bottom: 8px; }
+    .dds-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center; }
+    .dds-num { display: block; font-size: 0.95rem; font-weight: 900; color: #fff; }
+    .dds-num.green { color: #4ade80; }
+    .dds-lbl { display: block; font-size: 0.66rem; color: #cbd5e1; }
+    .drawer-item, .drawer-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 12px; margin-bottom: 6px; border-radius: 10px;
+      background: #f1f5f9; color: #0f172a !important; text-decoration: none;
+      font-weight: 700; font-size: 0.88rem; border: 1px solid #e2e8f0;
+    }
+
+  
+  
+  
+  /* === EXACT CONTRAST RULES: LIGHT FAQ CARDS vs. DARK NAVY FOOTER & PLAYBOOKS === */
+  details > summary:not(.gat-dark-summary),
+  details > summary:not(.gat-dark-summary) * {
+    color: #082548 !important;
+    -webkit-text-fill-color: #082548 !important;
+    opacity: 1 !important;
+  }
+  .seo-obstacle-library > details > summary,
+  .seo-obstacle-library > details > summary *,
+  #gat-seo-library > details > summary,
+  #gat-seo-library > details > summary *,
+  .gat-dark-legal-footer details > summary,
+  .gat-dark-legal-footer details > summary *,
+  summary.gat-dark-summary,
+  summary.gat-dark-summary * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  .gat-dark-legal-footer details p,
+  .gat-dark-legal-footer details p *,
+  p.gat-dark-body,
+  p.gat-dark-body * {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+
+  
+  
+  /* === CLEAN iOS FORM INPUT & CONTRAST STABILIZER (ZERO SCROLL YANKING) === */
+  details > summary:not(.gat-dark-summary),
+  details > summary:not(.gat-dark-summary) * {
+    color: #082548 !important;
+    -webkit-text-fill-color: #082548 !important;
+    opacity: 1 !important;
+  }
+  .seo-obstacle-library > details > summary,
+  .seo-obstacle-library > details > summary *,
+  #gat-seo-library > details > summary,
+  #gat-seo-library > details > summary *,
+  .gat-dark-legal-footer details > summary,
+  .gat-dark-legal-footer details > summary *,
+  summary.gat-dark-summary,
+  summary.gat-dark-summary * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  .gat-dark-legal-footer details p,
+  .gat-dark-legal-footer details p *,
+  p.gat-dark-body,
+  p.gat-dark-body * {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+  input, select, textarea {
+    font-size: 16px !important;
+    touch-action: manipulation !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+  }
+
+</style>
+    <!-- GAT_SEO_HEAD_START -->
+  <meta name="description" content="אינכם מחויבים בתשלום מראש! תחילה אנו מעבירים את המסמכים ופרטי התיק לעורך הדין, לנוטריון או לרב המלווה לבדיקת זמינות, ספירת עמודים ואישור סופי של הצעת המחיר." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://giyuraliyahtrack.com/he/concierge-booking/" />
+  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/concierge-booking/" />
+  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/concierge-booking/" />
+  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/concierge-booking/" />
+  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/concierge-booking/" />
+  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/concierge-booking/" />
+  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/concierge-booking/" />
+  <link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/concierge-booking/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="he_IL" />
+  <meta property="og:site_name" content="Giyur Aliyah Track" />
+  <meta property="og:title" content="שליחת פרטי התיק והמסמכים לאישור והצעת מחיר מעו״ד / נוטריון / רב מלווה — Misrad HaPanim Lawyer, Notary &amp; Beit Din Rabbi | Giyur Aliyah Track (HE)" />
+  <meta property="og:description" content="אינכם מחויבים בתשלום מראש! תחילה אנו מעבירים את המסמכים ופרטי התיק לעורך הדין, לנוטריון או לרב המלווה לבדיקת זמינות, ספירת עמודים ואישור סופי של הצעת המחיר." />
+  <meta property="og:url" content="https://giyuraliyahtrack.com/he/concierge-booking/" />
+  <meta property="og:image" content="https://giyuraliyahtrack.com/bg-watercolor.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="שליחת פרטי התיק והמסמכים לאישור והצעת מחיר מעו״ד / נוטריון / רב מלווה — Misrad HaPanim Lawyer, Notary &amp; Beit Din Rabbi | Giyur Aliyah Track (HE)" />
+  <meta name="twitter:description" content="אינכם מחויבים בתשלום מראש! תחילה אנו מעבירים את המסמכים ופרטי התיק לעורך הדין, לנוטריון או לרב המלווה לבדיקת זמינות, ספירת עמודים ואישור סופי של הצעת המחיר." />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Giyur Aliyah Track", "item": "https://giyuraliyahtrack.com/he/"}, {"@type": "ListItem", "position": 2, "name": "כל 23 החבילות הדיגיטליות ושירותי הליווי האנושי (עו״ד, נוטריון, רב ומדריכת כלה)", "item": "https://giyuraliyahtrack.com/he/pricing/"}, {"@type": "ListItem", "position": 3, "name": "שליחת פרטי התיק והמסמכים לאישור והצעת מחיר מעו״ד / נוטריון / רב מלווה", "item": "https://giyuraliyahtrack.com/he/concierge-booking/"}]}, {"@type": "LegalService", "name": "שליחת פרטי התיק והמסמכים לאישור והצעת מחיר מעו״ד / נוטריון / רב מלווה", "description": "אינכם מחויבים בתשלום מראש! תחילה אנו מעבירים את המסמכים ופרטי התיק לעורך הדין, לנוטריון או לרב המלווה לבדיקת זמינות, ספירת עמודים ואישור סופי של הצעת המחיר.", "url": "https://giyuraliyahtrack.com/he/concierge-booking/", "areaServed": ["Jerusalem", "Tel Aviv", "Haifa", "Safed", "Beer Sheva", "Israel"], "priceRange": "$0 Upfront Quote ($249 - $799 Fixed Fee)"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "למה זוגות ועולים מסתבכים מול משרד הפנים, הסוכנות היהודית או נפש בנפש?", "acceptedAnswer": {"@type": "Answer", "text": "כי גופי עלייה קלאסיים מתמקדים בתיקים פשוטים מחו״ל ואינם מכינים אתכם לשינוי מעמד מתוך ישראל (ב/2 לב/1 או א/5), לפקיעת תוקף של 180 יום על תעודות לידה, רווקות ותעודות יושר עם אפוסטיל, או לחקירה הצולבת בנוהל 5.2.0008 / 5.2.0009. טעות אחת גורמת לדחיית תור של חצי שנה."}}, {"@type": "Question", "name": "האם חובה לשלם 30,000 ש״ח לעורך דין כדי להגיש טופס אש/6 או בקשת הליך מדורג?", "acceptedAnswer": {"@type": "Answer", "text": "ממש לא. לפי נהלי רשות האוכלוסין וההגירה, כל אזרח ובן זוג רשאים להגיש את טפסי אש/1, אש/3, אש/6, מר/14א ונספח א׳ באופן עצמאי. המנוע שלנו מתרגם את הפרטים משפת האם לעברית תקנית ומדפיס את כל 8 הטפסים הרשמיים — ואם תרצו גיבוי משפטי פיזי בדלפק, תוכלו להזמין ליווי עו״ד לשעה אחת בלבד."}}, {"@type": "Question", "name": "איך עובד מודל 0$ מראש עבור עורך דין, תרגום נוטריוני בסרט אדום, רב מלווה ומדריכת כלה?", "acceptedAnswer": {"@type": "Answer", "text": "איננו גובים תשלום עיוור מראש על שירותים אנושיים. אתם שולחים את פרטי המקרה והמסמכים לבדיקה ב-0 ש״ח, ומקבלים אישור התאמה והצעת מחיר סופית באזורכם (ירושלים, תל אביב והמרכז, צפון/חיפה/צפת או דרום) לפני כל תשלום."}}, {"@type": "Question", "name": "מה ההבדל בין מנוי ל-90 יום לבין גישה לכל החיים (Lifetime)?", "acceptedAnswer": {"@type": "Answer", "text": "מנוי 90 יום מתאים לתור קרוב אחד. אולם מכיוון שההליך המדורג במשרד הפנים (א/5) נמשך כ-5 שנים ודורש חידוש טפסים ושימוע בכל שנה מחדש, מנוי לכל החיים מכסה את כל החידושים השנתיים עד לקבלת תושבות קבע או אזרחות."}}, {"@type": "Question", "name": "האם ניתן לנסות את המערכת בחינם לפני הרכישה?", "acceptedAnswer": {"@type": "Answer", "text": "כן. ניתן לתרגל 4 כרטיסיות בכל חפיסת בית דין וזוגות, לשיר 2 שירי שבת בקריוקי, להשתמש במפענח דרישות המסמכים ולהזין נתונים בטפסים בחינם. מאחר שברגע הרכישה כל 8 קובצי ה-PDF ומאגרי 1,000 השאלות נפתחים להורדה מיידית, רכישות דיגיטליות הן סופיות וללא החזר כספי."}}]}]}</script>
+  <!-- GAT_SEO_HEAD_END -->
+<style id="gat-horizontal-tabs-scroll-fix">
+  /* Allow horizontal touch-scrolling on top module/track tab rows while keeping page locked */
+  .mod-tabs, .mod-tabs *,
+  .nav-tabs, .nav-tabs *,
+  .sub-tabs, .sub-tabs *,
+  #mod-tabs, #mod-tabs *,
+  #hebrew-subtabs-bar, #hebrew-subtabs-bar *,
+  [role="tablist"], [role="tablist"] * {
+    touch-action: pan-x pan-y !important;
+  }
+  .mod-tabs,
+  .nav-tabs,
+  .sub-tabs,
+  #mod-tabs,
+  #hebrew-subtabs-bar,
+  [role="tablist"] {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    max-width: 100vw !important;
+  }
+  .mod-tabs::-webkit-scrollbar,
+  .nav-tabs::-webkit-scrollbar,
+  .sub-tabs::-webkit-scrollbar,
+  #mod-tabs::-webkit-scrollbar,
+  #hebrew-subtabs-bar::-webkit-scrollbar,
+  [role="tablist"]::-webkit-scrollbar {
+    display: none !important;
+  }
+  .mod-tabs > *,
+  .nav-tabs > *,
+  .sub-tabs > *,
+  #mod-tabs > *,
+  #hebrew-subtabs-bar > *,
+  [role="tablist"] > * {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+</style>
+</head>
+<body>
+  <header class="app-header">
+    <div style="display:flex;align-items:center;">
+      <a href="/he/pricing/" id="app-nav-back" class="app-nav-back visible" onclick="return window.handleSmartBack(event);" aria-label="Back" title="Back to Previous Page">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="/he/" id="appbar-brand-home" class="brand"><div class="brand-mark">
+          <svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg>
+        </div>
+        <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
+      </a>
+    </div>
+    <div class="header-right">
+      <button type="button" class="lang-btn" id="globe-lang-btn" onclick="window.toggleLang(event)" title="Change Language">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span id="appbar-lang-label" data-i18n="lang_label">HE</span>
+      </button>
+      <button type="button" class="hamburger-btn" onclick="toggleDrawer(true)" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div id="gat-lang-pop">
+    <button type="button" class="gat-lang-opt" data-lg="en" onclick="window.pickAppbarLang('en')"><span>🇬🇧 English</span><span>EN</span></button>
+    <button type="button" class="gat-lang-opt" data-lg="he" onclick="window.pickAppbarLang('he')"><span>🇮🇱 עברית</span><span>HE</span></button>
+    <button type="button" class="gat-lang-opt" data-lg="fr" onclick="window.pickAppbarLang('fr')"><span>🇫🇷 Français</span><span>FR</span></button>
+    <button type="button" class="gat-lang-opt" data-lg="es" onclick="window.pickAppbarLang('es')"><span>🇪🇸 Español</span><span>ES</span></button>
+    <button type="button" class="gat-lang-opt" data-lg="de" onclick="window.pickAppbarLang('de')"><span>🇩🇪 Deutsch</span><span>DE</span></button>
+    <button type="button" class="gat-lang-opt" data-lg="ru" onclick="window.pickAppbarLang('ru')"><span>🇷🇺 Русский</span><span>RU</span></button>
+  </div>
+
+  <div class="drawer-backdrop" id="app-drawer" onclick="if(event.target===this) toggleDrawer(false)">
+  <aside class="drawer-panel">
+    <div>
+<a href="/he/pricing/" class="drawer-link" onclick="window.location.href='/he/pricing/'" style="display:flex;align-items:center;gap:10px;padding:12px 16px;margin:8px 12px;border-radius:10px;background:linear-gradient(135deg,#0288d1,#059669);color:#fff !important;font-weight:900;font-size:0.92rem;text-decoration:none;box-shadow:0 4px 12px rgba(2,136,209,0.3);">💎 כל 23 השירותים והמחירים (החל מ-$49) ←</a>
+
+      <div class="drawer-brand-center">
+        <div class="brand-title" style="font-size:1.4rem;">Giyur<span>Aliyah</span>Track</div>
+      </div>
+
+      <div class="drawer-dark-stats">
+        <div class="dds-head"><span>⚡ Anti-Loop Protection Shield</span><span>↻</span></div>
+        <div class="dds-grid">
+          <div><span class="dds-num green">3.5 Yrs</span><span class="dds-lbl">Avg Saved</span></div>
+          <div><span class="dds-num">700 Qs</span><span class="dds-lbl">Beit Din</span></div>
+          <div><span class="dds-num">300 Qs</span><span class="dds-lbl">Couples Sync</span></div>
+        </div>
+      </div>
+      <a id="gat-hamburger-pricing-link" class="drawer-item gat-hamburger-pricing-item" href="/he/pricing/" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 10px 0;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,#0284c7,#2563eb);color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;font-weight:800;font-size:0.93rem;text-decoration:none;box-shadow:0 4px 14px rgba(37,99,235,0.28);">
+        <span style="display:flex;align-items:center;gap:9px;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;"><span>💎</span><span>כל 23 השירותים והמחירים</span></span>
+        <span style="font-size:0.8rem;opacity:0.95;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;">→</span>
+      </a>
+
+      <div class="drawer-list">
+        <a href="/app?module=beit-din-150" class="drawer-row">🕍 700 Beit Din Exam Flashcards & Game</a>
+        <a href="/app?module=songs-prayers" class="drawer-row">🎵 56 Shabbat Songs, Prayers & Shema AI</a>
+        <a href="/app?module=couples-sync" class="drawer-row">📱 300-Question 2-Phone Couples Sync</a>
+        <button class="drawer-row" onclick="switchTab(4); toggleDrawer(false);">📊 Live 180-Day & 30-Day Deadline Tracker</button>
+        <a href="/app" class="drawer-row" style="color:var(--sky);">🔐 Full Member Portal (/app)</a>
+      </div>
+    </div>
+
+    <div>
+      <button class="btn-install-navy" onclick="alert('To install GiyurAliyahTrack on your phone: Tap Share in Safari/Chrome and select Add to Home Screen.')">📲 Install App</button>
+    </div>
+  </aside>
+</div>
+  <script>
+    window.toggleDrawer = function(open) {
+      var d = document.getElementById('app-drawer');
+      if (!d) return;
+      if (open) d.classList.add('open');
+      else d.classList.remove('open');
+    };
+    window.handleSmartBack = function(e) {
+      var ref = document.referrer || '';
+      if (ref && ref.indexOf(location.hostname) !== -1 && ref !== location.href && history.length > 1) {
+        if (e) e.preventDefault();
+        history.back();
+        return false;
+      }
+      return true;
+    };
+    window.toggleLang = function(e) {
+      if (e) e.stopPropagation();
+      var pop = document.getElementById('gat-lang-pop');
+      if (pop) pop.classList.toggle('open');
+    };
+    window.pickAppbarLang = function(lg) {
+      var pop = document.getElementById('gat-lang-pop');
+      if (pop) pop.classList.remove('open');
+      var targetPath = (lg === 'en') ? '/concierge-booking/' : ('/' + lg + '/concierge-booking/');
+      if (location.pathname !== targetPath) { location.href = targetPath + location.search; return; }
+      if (window.setLang) window.setLang(lg);
+    };
+    document.addEventListener('click', function(e) {
+      var pop = document.getElementById('gat-lang-pop');
+      if (pop && pop.classList.contains('open') && !e.target.closest('#gat-lang-pop') && !e.target.closest('#globe-lang-btn')) {
+        pop.classList.remove('open');
+      }
+    });
+  </script>
+  <div class="wrap">
+    
+  <!-- SITE-WIDE ZEHUT 2026 APPBAR -->
+  <header class="gat-site-appbar">
+    <div class="gat-appbar-inner">
+      <a href="/" id="gat-brand-home-link" class="gat-brand-wrap" title="Giyur Aliyah Track Homepage"><div class="brand-logo" style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1994F5,#0284c7);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(25,148,245,0.4);"><svg viewBox="0 0 24 24" width="20" height="20" style="display:block;flex-shrink:0;"><path fill="#ffffff" d="M12 2L14.8 7.5L21 7.5L17.9 12L21 16.5L14.8 16.5L12 22L9.2 16.5L3 16.5L6.1 12L3 7.5L9.2 7.5Z"/></svg></div>
+        <div class="gat-brand-title">Giyur<span>Aliyah</span>Track</div>
+      </a>
+      <div class="gat-appbar-actions">
+        <div class="gat-globe-wrap" title="Select Language">
+          <span style="margin-right:4px;">🌐</span>
+          <select id="top-globe-sel" aria-label="Language" onchange="if(window.setLang)setLang(this.value);else if(window.setConciergeLang)setConciergeLang(this.value);">
+            <option value="en">EN</option>
+            <option value="he">HE</option>
+            <option value="fr">FR</option>
+            <option value="es">ES</option>
+            <option value="de">DE</option>
+            <option value="ru">RU</option>
+          </select>
+        </div>
+        <button type="button" class="gat-hamburger-btn" aria-label="Open Navigation Menu" onclick="document.getElementById('app-drawer').classList.add('open')">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- SEO CONTEXTUAL BACK-BAR (Smart Referrer + Localized Hub Fallback) -->
+  <nav class="gat-seo-backbar" aria-label="Breadcrumb">
+    <div class="gat-seo-backbar-inner">
+      <a href="/" id="gat-smart-back-link" class="gat-seo-backlink" onclick="return window.handleGatSmartBack(event);">
+        <span id="gat-back-arrow">←</span>
+        <span id="gat-back-label">Back to Previous Page</span>
+      </a>
+      <div class="gat-seo-breadcrumb">
+        <a href="/" id="gat-bc-home">Giyur Aliyah Track</a> &rsaquo;
+        <a href="/app/" id="gat-bc-app">Command Center</a> &rsaquo;
+        <span style="color:#38bdf8;" id="gat-bc-current">23 Services &amp; Pricing</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SITE-WIDE HAMBURGER DRAWER (#app-drawer) -->
+  <div class="gat-drawer-backdrop" id="app-drawer" onclick="if(event.target===this)this.classList.remove('open')">
+    <aside class="gat-drawer-panel">
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.12);">
+          <div class="gat-brand-title" style="font-size:1.2rem;">Giyur<span>Aliyah</span>Track</div>
+          <button type="button" onclick="document.getElementById('app-drawer').classList.remove('open')" style="background:rgba(255,255,255,0.1);border:none;color:#fff;width:30px;height:30px;border-radius:8px;cursor:pointer;font-weight:800;">✕</button>
+        </div>
+
+        <a id="gat-hamburger-pricing-link" class="gat-drawer-link" href="/he/pricing/" style="background:linear-gradient(135deg,#0284c7,#2563eb);border-color:rgba(255,255,255,0.28);margin-bottom:12px;box-shadow:0 4px 14px rgba(37,99,235,0.3);">
+          <span>💎 כל 23 השירותים והמחירים (החל מ-$49) ←</span>
+          <span>→</span>
+        </a>
+
+        <div style="font-size:0.72rem;font-weight:800;color:#38bdf8;text-transform:uppercase;letter-spacing:1px;margin:10px 0 6px;">Navigation &amp; Hubs</div>
+        <a class="gat-drawer-link" href="/" id="gat-drw-home"><span>🏠 Homepage &amp; Track Diagnostic</span><span>→</span></a>
+        <a class="gat-drawer-link" href="/app/"><span>🛡️ Live Command Center (/app/)</span><span>→</span></a>
+        <a class="gat-drawer-link" href="/app/?module=forms"><span>📄 8 Official PIBA Hebrew PDF Forms</span><span>→</span></a>
+        <a class="gat-drawer-link" href="/app/?module=beit-din"><span>🕍 700-Card Beit Din Tribunal Vault</span><span>→</span></a>
+        <a class="gat-drawer-link" href="/app/?module=songs-prayers"><span>🎵 56 Shabbat Songs &amp; Prayers Karaoke</span><span>→</span></a>
+        <a class="gat-drawer-link" href="/app/?module=couples"><span>💑 300-Q 2-Phone Couples Interrogation</span><span>→</span></a>
+        <a class="gat-drawer-link" href="/concierge-booking/"><span>⚖️ Human Concierge &amp; Lawyer Intake</span><span>→</span></a>
+
+        <div style="font-size:0.72rem;font-weight:800;color:#38bdf8;text-transform:uppercase;letter-spacing:1px;margin:14px 0 6px;">6 Language SEO Hubs</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/">🇬🇧 EN</a>
+          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/he/">🇮🇱 HE</a>
+          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/fr/">🇫🇷 FR</a>
+          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/es/">🇪🇸 ES</a>
+          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/de/">🇩🇪 DE</a>
+          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/ru/">🇷🇺 RU</a>
+        </div>
+      </div>
+      <div style="margin-top:20px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-size:0.75rem;color:#94a3b8;text-align:center;">
+        Giyur Aliyah Track &bull; 2026 Statutory Shield
+      </div>
+    </aside>
+  </div>
+
+
+      <div class="grid">
+        <div>
+          <label id="lbl-name"></label>
+          <input type="text" id="cb-name" />
+        </div>
+        <div>
+          <label id="lbl-wa"></label>
+          <input type="tel" id="cb-wa" />
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label id="lbl-date"></label>
+          <input type="text" id="cb-date" />
+        </div>
+        <div>
+          <label id="lbl-doclang"></label>
+          <input type="text" id="cb-doclang" />
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label id="lbl-notes"></label>
+        <textarea id="cb-notes" rows="3"></textarea>
+      </div>
+
+      <label id="lbl-upload"></label>
+      <div class="upload-zone" onclick="document.getElementById('cb-files').click()">
+        <div style="font-size:1.6rem;margin-bottom:4px;">📎</div>
+        <div style="font-weight:900;font-size:0.9rem;color:#fff;" id="ui-up-title"></div>
+        <div style="font-size:0.76rem;color:#94a3b8;margin-top:3px;" id="ui-up-sub"></div>
+        <input type="file" id="cb-files" multiple accept=".pdf,image/*" style="display:none;" onchange="handleFileSelect(this)" />
+        <div class="file-list" id="cb-file-list"></div>
+      </div>
+
+      <button type="button" class="btn-submit" id="ui-submit" onclick="submitForQuoteApproval()"></button>
+      <div id="cb-status" style="margin-top:12px;font-weight:800;font-size:0.88rem;display:none;"></div>
+
+      <div class="policy" id="ui-policy"></div>
+      
+    <!-- GAT_STATUTORY_SEO_AUTHORITY_START -->
+    <section id="gat-pricing-seo-authority" style="margin-top:42px;background:var(--card);border:1.5px solid #1e293b;border-radius:18px;padding:26px;box-shadow:0 12px 30px rgba(0,0,0,0.4);">
+      <h1 style="margin:0 0 12px;font-size:1.35rem;font-weight:900;color:#fbbf24;">⚖️ למה לשלם 25,000–35,000 ש״ח לעורך דין או להיתקע בביורוקרטיה של משרד הפנים, הסוכנות ונפש בנפש?</h1>
+      <p style="margin:0 0 20px;color:#cbd5e1;font-size:0.92rem;line-height:1.6;">משרדי עורכי דין לענייני הגירה ומעמד בישראל גובים ריטיינר של 25,000 עד 35,000 ש״ח רק כדי למלא טפסי PDF סטנדרטיים של רשות האוכלוסין (אש/1, אש/3, אש/6, מר/14א) ולהגיש רשימת מסמכים. מנגד, גופים כמו הסוכנות היהודית או נפש בנפש מותאמים לעלייה קלאסית מחו״ל וכמעט אינם מכינים זוגות ומתגיירים למלכודות של שינוי מעמד בישראל, שעון 180 הימים של חותמות אפוסטיל ותעודות יושר, שימוע זוגי בחדרים נפרדים לפי נוהל 5.2.0008 / 5.2.0009, או הגשה לוועדת חריגים בגיור. אצלנו כל הידע והנהלים חשופים בחינם, ואתם משלמים רק על הכלים המדויקים או על שעת ליווי עורך דין ביום התור בלבד.</p>
+
+      <div style="overflow-x:auto;margin-bottom:26px;border:1px solid #1e293b;border-radius:12px;background:#041226;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.84rem;text-align:start;">
+          <thead>
+            <tr style="background:#071930;color:#38bdf8;font-weight:900;">
+              <th style="padding:12px 14px;border-bottom:1.5px solid #1e293b;text-align:start;">מלכודת ביורוקרטית / דרישת נוהל</th>
+              <th style="padding:12px 14px;border-bottom:1.5px solid #1e293b;text-align:start;">הסוכנות / נפש בנפש / עו״ד בריטיינר 30,000₪</th>
+              <th style="padding:12px 14px;border-bottom:1.5px solid #1e293b;text-align:start;">Giyur Aliyah Track (מערכת עצמאית + ליווי ממוקד)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:12px 14px;border-bottom:1px solid #1e293b;font-weight:800;color:#f8fafc;">8 טפסי משרד הפנים הרשמיים בעברית (אש/1, אש/3, אש/6, אש/456, מר/14א, מר/14ב, נספח א׳)</td><td style="padding:12px 14px;border-bottom:1px solid #1e293b;color:#fca5a5;">עורכי דין גובים עשרות אלפי שקלים; ארגוני עלייה לא ממלאים תיקי חיים משותפים פנים-ארציים.</td><td style="padding:12px 14px;border-bottom:1px solid #1e293b;color:#6ee7b7;font-weight:700;">מילוי אוטומטי והדפסת PDF רשמי בעברית תוך דקות ($89 ל-90 יום או $149 לכל החיים ולכל 5 שנות הא/5).</td></tr><tr><td style="padding:12px 14px;border-bottom:1px solid #1e293b;font-weight:800;color:#f8fafc;">שעון 180 יום לאפוסטיל ותעודת יושר + מפענח דרישת מסמכים</td><td style="padding:12px 14px;border-bottom:1px solid #1e293b;color:#fca5a5;">מתגלה לרוב רק כשהפקיד בדלפק פוסל את המסמך ומאלץ להנפיק הכל מחדש מחו״ל.</td><td style="padding:12px 14px;border-bottom:1px solid #1e293b;color:#6ee7b7;font-weight:700;">מגן 180 יום מובנה + מפענח דרישות מסמכים AI ומחולל מכתבי הסבר רשמיים בעברית.</td></tr><tr><td style="padding:12px 14px;border-bottom:1px solid #1e293b;font-weight:800;color:#f8fafc;">שימוע זוגי בחדרים נפרדים (נוהל 5.2.0008 נשואים / 5.2.0009 ידועים בציבור)</td><td style="padding:12px 14px;border-bottom:1px solid #1e293b;color:#fca5a5;">עורכי דין נותנים דף הכנה כללי; הפקידים שואלים 80–120 שאלות מוצלבות.</td><td style="padding:12px 14px;border-bottom:1px solid #1e293b;color:#6ee7b7;font-weight:700;">סימולטור 300 שאלות בסנכרון חי בין 2 טלפונים + מבחן 80 שאלות פקיד וזיהוי סתירות ($75–$229).</td></tr><tr><td style="padding:12px 14px;border-bottom:1px solid #1e293b;font-weight:800;color:#f8fafc;">הכנה לבית הדין לגיור, ועדת חריגים ושירי שבת</td><td style="padding:12px 14px;border-bottom:1px solid #1e293b;color:#fca5a5;">חודשים של המתנה ללא סימולציה מעשית לשאלות המתקילות של הדיינים.</td><td style="padding:12px 14px;border-bottom:1px solid #1e293b;color:#6ee7b7;font-weight:700;">700 כרטיסיות בית דין (200 ליבה, 200 מתקילות, 150 גברים, 150 נשים) + 56 שירי שבת, תפילות וברכות בקריוקי.</td></tr><tr><td style="padding:12px 14px;border-bottom:1px solid #1e293b;font-weight:800;color:#f8fafc;">ליווי עורך דין פיזי ללשכת משרד הפנים</td><td style="padding:12px 14px;border-bottom:1px solid #1e293b;color:#fca5a5;">מחייבים אתכם בריטיינר מלא של 30,000 ש״ח רק כדי שעו״ד ייכנס איתכם לתור.</td><td style="padding:12px 14px;border-bottom:1px solid #1e293b;color:#6ee7b7;font-weight:700;">הזמנת עורך דין ישראלי מומחה לשעה אחת בדיוק ביום התור שלכם ($649 משוער — הצעת מחיר ב-0₪ מראש).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin:0 0 12px;font-size:1.15rem;font-weight:900;color:#38bdf8;">❓ שאלות נפוצות — נוהל 5.2.0008, ועדת חריגים, 8 טפסי משרד הפנים וחיסכון בשכר טרחה</h3>
+      <div style="margin-bottom:24px;">
+        <details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">למה זוגות ועולים מסתבכים מול משרד הפנים, הסוכנות היהודית או נפש בנפש?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">כי גופי עלייה קלאסיים מתמקדים בתיקים פשוטים מחו״ל ואינם מכינים אתכם לשינוי מעמד מתוך ישראל (ב/2 לב/1 או א/5), לפקיעת תוקף של 180 יום על תעודות לידה, רווקות ותעודות יושר עם אפוסטיל, או לחקירה הצולבת בנוהל 5.2.0008 / 5.2.0009. טעות אחת גורמת לדחיית תור של חצי שנה.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">האם חובה לשלם 30,000 ש״ח לעורך דין כדי להגיש טופס אש/6 או בקשת הליך מדורג?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">ממש לא. לפי נהלי רשות האוכלוסין וההגירה, כל אזרח ובן זוג רשאים להגיש את טפסי אש/1, אש/3, אש/6, מר/14א ונספח א׳ באופן עצמאי. המנוע שלנו מתרגם את הפרטים משפת האם לעברית תקנית ומדפיס את כל 8 הטפסים הרשמיים — ואם תרצו גיבוי משפטי פיזי בדלפק, תוכלו להזמין ליווי עו״ד לשעה אחת בלבד.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">איך עובד מודל 0$ מראש עבור עורך דין, תרגום נוטריוני בסרט אדום, רב מלווה ומדריכת כלה?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">איננו גובים תשלום עיוור מראש על שירותים אנושיים. אתם שולחים את פרטי המקרה והמסמכים לבדיקה ב-0 ש״ח, ומקבלים אישור התאמה והצעת מחיר סופית באזורכם (ירושלים, תל אביב והמרכז, צפון/חיפה/צפת או דרום) לפני כל תשלום.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">מה ההבדל בין מנוי ל-90 יום לבין גישה לכל החיים (Lifetime)?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">מנוי 90 יום מתאים לתור קרוב אחד. אולם מכיוון שההליך המדורג במשרד הפנים (א/5) נמשך כ-5 שנים ודורש חידוש טפסים ושימוע בכל שנה מחדש, מנוי לכל החיים מכסה את כל החידושים השנתיים עד לקבלת תושבות קבע או אזרחות.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">האם ניתן לנסות את המערכת בחינם לפני הרכישה?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">כן. ניתן לתרגל 4 כרטיסיות בכל חפיסת בית דין וזוגות, לשיר 2 שירי שבת בקריוקי, להשתמש במפענח דרישות המסמכים ולהזין נתונים בטפסים בחינם. מאחר שברגע הרכישה כל 8 קובצי ה-PDF ומאגרי 1,000 השאלות נפתחים להורדה מיידית, רכישות דיגיטליות הן סופיות וללא החזר כספי.</p></details>
+      </div>
+
+      <h3 style="margin:0 0 10px;font-size:1rem;font-weight:900;color:#94a3b8;">📚 מדריכי עומק חינמיים, נהלי משרד הפנים ומאגר 8 הטפסים הרשמיים</h3>
+      <nav aria-label="Statutory Playbooks and Official PIBA Forms" style="display:flex;flex-wrap:wrap;gap:8px;">
+        <a href="/he/" style="color:#38bdf8;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">🏠 Main Hub (HE)</a><a href="/he/forms/" style="color:#38bdf8;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">📄 All 8 PIBA Forms Hub (HE)</a><a href="/he/concierge-booking/" style="color:#34d399;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">⚖️ Lawyer &amp; Notary Quote Intake ($0)</a><a href="/he/pricing/" style="color:#fbbf24;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">💎 כל 23 השירותים והמחירים (החל מ-$49) ←</a><a href="/he/aliyat-cherum-tik-mismachim-shinui-maamad/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Aliyat Cherum Tik Mismachim Shinui Maamad</a><a href="/he/5-mismachei-apostille-teudat-yosher-180-yom/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 5 Mismachei Apostille Teudat Yosher 180 Yo</a><a href="/he/giyur-prati-gush-etzion-bnei-brak-rabbanut-aliyah/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Giyur Prati Gush Etzion Bnei Brak Rabbanut</a><a href="/he/vaadat-charigim-giyur-ashrat-tayar-tofes-ash1/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Vaadat Charigim Giyur Ashrat Tayar Tofes A</a><a href="/he/drishat-mismachim-misrad-hapanim-tofes-ash1-ash3/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Drishat Mismachim Misrad Hapanim Tofes Ash</a><a href="/he/rav-melaveh-madrichat-kallah-michtavei-hamlatza-beit-din/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Rav Melaveh Madrichat Kallah Michtavei Ham</a><a href="/he/halich-medurag-bnei-zug-nohal-5-2-0008-tofes-ash6/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Halich Medurag Bnei Zug Nohal 5 2 0008 Tof</a><a href="/he/aliyah-halich-medurag-avar-plili-teudat-yosher/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Aliyah Halich Medurag Avar Plili Teudat Yo</a><a href="/he/ashrat-tayar-avoda-merachok-megurim-bituach-refui/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Ashrat Tayar Avoda Merachok Megurim Bituac</a><a href="/he/psak-din-dahan-giyur-reformi-konservativi-rabbanut/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Psak Din Dahan Giyur Reformi Konservativi </a><a href="/he/giyur-bachul-rca-london-consistoire-ishur-giyur-aliyah/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Giyur Bachul Rca London Consistoire Ishur </a><a href="/he/rishum-tinok-sefach-teudat-zehut-misrad-hapanim-bdikat-rikmot/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Rishum Tinok Sefach Teudat Zehut Misrad Ha</a><a href="/he/forms/tofes-ash1-vaadat-charigim-bakashat-ashra/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/1 (אש/1)</a><a href="/he/forms/tofes-ash3-haarachat-ashra-shinui-maamad/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/3 (אש/3)</a><a href="/he/forms/tofes-ash6-halich-medurag-nohal-5-2-0008/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/6 (אש/6)</a><a href="/he/forms/tofes-ash456-shinui-maamad-leoleh-nohal-5-2-0001/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/456 (אש/456)</a><a href="/he/forms/tofes-mr14a-bakasha-leteudat-zehut-rishona/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA MR/14A (מר/14א)</a><a href="/he/forms/tofes-mr14b-darkon-rishon-teudat-maavar/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA MR/14B (מר/14ב)</a><a href="/he/forms/nespach-alef-tatzhir-yeduim-betzibur-nohal-5-2-0009/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA NESPACH ALEF (נספח א׳)</a><a href="/he/forms/sheelon-nativ-11-amudim-korot-chaim-aliyah/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA NATIV SECURITY CV (שאלון נתיב)</a>
+      </nav>
+    </section>
+    <!-- GAT_STATUTORY_SEO_AUTHORITY_END -->
+
+</div>
+  </div>
+
+  <script>
+
+    // === SMART SEO BACK-LINK & LOCALIZED HUB ROUTING ===
+    var BACK_I18N = {
+      en: { backPrev: 'Back to Previous Page', backHome: 'Back to Homepage', backApp: 'Back to Command Center', home: 'Giyur Aliyah Track', app: 'Command Center', curPricing: '23 Services & Pricing', curConcierge: 'Human Concierge Intake' },
+      he: { backPrev: 'חזרה לעמוד הקודם', backHome: 'חזרה לעמוד הבית', backApp: 'חזרה למרכז השליטה', home: 'מסלול גיור ועלייה', app: 'מרכז שליטה', curPricing: '23 שירותים ומחירים', curConcierge: 'תיאום ליווי אנושי' },
+      fr: { backPrev: 'Retour à la page précédente', backHome: 'Retour à l’accueil', backApp: 'Retour au Centre de Contrôle', home: 'Giyur Aliyah Track', app: 'Centre de Contrôle', curPricing: '23 Services & Tarifs', curConcierge: 'Conciergerie Humaine' },
+      es: { backPrev: 'Volver a la página anterior', backHome: 'Volver al Inicio', backApp: 'Volver al Centro de Control', home: 'Giyur Aliyah Track', app: 'Centro de Control', curPricing: '23 Servicios y Precios', curConcierge: 'Conserjería Humana' },
+      de: { backPrev: 'Zurück zur vorherigen Seite', backHome: 'Zurück zur Startseite', backApp: 'Zurück zum Kontrollzentrum', home: 'Giyur Aliyah Track', app: 'Kontrollzentrum', curPricing: '23 Dienste & Preise', curConcierge: 'Persönlicher Concierge' },
+      ru: { backPrev: 'Назад на предыдущую страницу', backHome: 'На главную страницу', backApp: 'Назад в Центр управления', home: 'Giyur Aliyah Track', app: 'Центр управления', curPricing: '23 услуги и цены', curConcierge: 'Консьерж-сервис' }
+    };
+
+    window.updateGatSeoBackbar = function(lang) {
+      var lg = (lang || 'en').toLowerCase();
+      var hubHref = (lg === 'en') ? '/' : ('/' + lg + '/');
+      var b = BACK_I18N[lg] || BACK_I18N.en;
+      var homeLink = document.getElementById('gat-brand-home-link');
+      var bcHome = document.getElementById('gat-bc-home');
+      var bcApp = document.getElementById('gat-bc-app');
+      var bcCur = document.getElementById('gat-bc-current');
+      var drwHome = document.getElementById('gat-drw-home');
+      var backLink = document.getElementById('gat-smart-back-link');
+      var backLbl = document.getElementById('gat-back-label');
+      var backArr = document.getElementById('gat-back-arrow');
+
+      if (homeLink) homeLink.href = hubHref;
+      if (drwHome) drwHome.href = hubHref;
+      if (bcHome) { bcHome.href = hubHref; bcHome.textContent = b.home; }
+      if (bcApp) { bcApp.textContent = b.app; }
+      if (bcCur) {
+        bcCur.textContent = (location.pathname.indexOf('concierge-booking') !== -1) ? b.curConcierge : b.curPricing;
+      }
+      if (backArr) backArr.textContent = (lg === 'he') ? '→' : '←';
+
+      var ref = document.referrer || '';
+      var isSameSite = ref && (ref.indexOf(location.hostname) !== -1 || ref.indexOf('giyuraliyahtrack') !== -1);
+      if (backLink && backLbl) {
+        if (isSameSite && ref !== location.href) {
+          backLink.href = ref;
+          if (ref.indexOf('/app') !== -1) {
+            backLbl.textContent = b.backApp;
+          } else {
+            backLbl.textContent = b.backPrev;
+          }
+        } else {
+          backLink.href = hubHref;
+          backLbl.textContent = b.backHome;
+        }
+      }
+    };
+
+    window.handleGatSmartBack = function(e) {
+      var ref = document.referrer || '';
+      var isSameSite = ref && (ref.indexOf(location.hostname) !== -1 || ref.indexOf('giyuraliyahtrack') !== -1);
+      if (isSameSite && ref !== location.href && window.history.length > 1) {
+        e.preventDefault();
+        window.history.back();
+        return false;
+      }
+      return true;
+    };
+
+    document.addEventListener("DOMContentLoaded", function(){ var sel = document.getElementById("top-globe-sel"); if(window.updateGatSeoBackbar) window.updateGatSeoBackbar(sel ? sel.value : "en"); });
+
+    var SERVICES_I18N = {
+      concierge_escort_649: {
+        price: '$649',
+        en: '⚖️ 1-Hour Misrad HaPanim Lawyer Escort',
+        he: '⚖️ ליווי עורך דין צמוד לתור במשרד הפנים (שעה)',
+        fr: '⚖️ Accompagnement Avocat au RDV Misrad HaPanim (1h)',
+        es: '⚖️ Escolta de Abogado en Cita de Misrad HaPanim (1h)',
+        de: '⚖️ 1-Stunden-Anwaltsbegleitung beim Misrad HaPanim',
+        ru: '⚖️ Личное сопровождение адвокатом в МВД (1 час)'
+      },
+      concierge_couple_499: {
+        price: '$499',
+        en: '🕍 Both: Vetted Sponsoring Rabbi + Madrichat Kallah',
+        he: '🕍 חבילת זוג: רב מלווה מוכר + מדריכת כלה מוסמכת',
+        fr: '🕍 Forfait Couple : Rabbin Accompagnateur + Madrichat Kallah',
+        es: '🕍 Paquete Pareja: Rabino Patrocinador + Madrijat Kalá',
+        de: '🕍 Paarpaket: Begleitender Rabbiner + Madrichat Kallah',
+        ru: '🕍 Пакет для пары: Сопровождающий раввин + Мадрихат Калла'
+      },
+      concierge_rabbi_349: {
+        price: '$349',
+        en: '📜 Vetted Sponsoring Rabbi (Rav Melaveh) Placement',
+        he: '📜 שיבוץ רב מלווה מוכר לבית הדין והוצאת מכתב המלצה',
+        fr: '📜 Placement Rabbin Accompagnateur (Rav Melaveh)',
+        es: '📜 Asignación de Rabino Patrocinador (Rav Melaveh)',
+        de: '📜 Vermittlung eines begleitenden Rabbiners (Rav Melaveh)',
+        ru: '📜 Подбор сопровождающего раввина (Рав Мелаве)'
+      },
+      concierge_kallah_249: {
+        price: '$249',
+        en: '🕯️ Certified Madrichat Kallah Placement & Attestation',
+        he: '🕯️ שיבוץ מדריכת כלה מוסמכת ואישור הדרכה לרבנות/בית הדין',
+        fr: '🕯️ Placement Madrichat Kallah Certifiée & Attestation',
+        es: '🕯️ Asignación de Madrijat Kalá Certificada y Certificado',
+        de: '🕯️ Vermittlung einer zertifizierten Madrichat Kallah',
+        ru: '🕯️ Подбор сертифицированной Мадрихат Калла и справка'
+      },
+      concierge_notary_249: {
+        price: '$249/doc',
+        en: '🎀 Red-Ribbon Israeli Notary Translation (1-Page Doc)',
+        he: '🎀 תרגום נוטריוני בסרט אדום — מסמך רגיל (עמוד 1)',
+        fr: '🎀 Traduction Notariale Ruban Rouge (Doc 1 page)',
+        es: '🎀 Traducción Notarial con Cinta Roja (Doc de 1 pág.)',
+        de: '🎀 Beglaubigte Notarübersetzung mit rotem Band (1 Seite)',
+        ru: '🎀 Нотариальный перевод с красной лентой (документ 1 стр.)'
+      },
+      concierge_notary_349: {
+        price: '$349/doc',
+        en: '🎀 Red-Ribbon Multi-Page Decree Notary Translation',
+        he: '🎀 תרגום נוטריוני בסרט אדום — פסק דין / תעודה מרובת עמודים',
+        fr: '🎀 Traduction Notariale Ruban Rouge — Jugement Multi-Pages',
+        es: '🎀 Traducción Notarial con Cinta Roja — Sentencia Multipágina',
+        de: '🎀 Beglaubigte Notarübersetzung — Mehrseitiges Urteil/Dekret',
+        ru: '🎀 Нотариальный перевод с красной лентой — Многостраничный акт'
+      },
+      concierge_bundle_799: {
+        price: '$799',
+        en: '📦 Full 4-Document Red-Ribbon Notary Bundle',
+        he: '📦 חבילת 4 מסמכים בתרגום נוטריוני רשמי בסרט אדום',
+        fr: '📦 Pack Complet 4 Documents Traduction Notariale Ruban Rouge',
+        es: '📦 Paquete Completo de 4 Documentos Traducción Notarial',
+        de: '📦 Komplettpaket: 4 Dokumente Notarübersetzung mit rotem Band',
+        ru: '📦 Полный пакет: Нотариальный перевод 4 документов с красной лентой'
+      }
+    };
+
+    var REGIONS_I18N = {
+      en: [
+        '🏔️ North / Haifa / Safed / Tiberias',
+        '🕍 Jerusalem / Gush Etzion / Modiin',
+        '🏙️ Tel Aviv / Gush Dan / Netanya',
+        '🌴 South / Ashdod / Beersheva'
+      ],
+      he: [
+        '🏔️ צפון / חיפה / צפת / טבריה / כרמיאל',
+        '🕍 ירושלים / גוש עציון / מודיעין / בית שמש',
+        '🏙️ תל אביב / גוש דן / נתניה / השרון',
+        '🌴 דרום / אשדוד / אשקלון / באר שבע'
+      ],
+      fr: [
+        '🏔️ Nord / Haïfa / Safed / Tibériade',
+        '🕍 Jérusalem / Gush Etzion / Modiin',
+        '🏙️ Tel Aviv / Gush Dan / Netanya',
+        '🌴 Sud / Ashdod / Beer-Sheva'
+      ],
+      es: [
+        '🏔️ Norte / Haifa / Safed / Tiberíades',
+        '🕍 Jerusalén / Gush Etzion / Modiin',
+        '🏙️ Tel Aviv / Gush Dan / Netanya',
+        '🌴 Sur / Ashdod / Beersheba'
+      ],
+      de: [
+        '🏔️ Norden / Haifa / Safed / Tiberias',
+        '🕍 Jerusalem / Gush Etzion / Modiin',
+        '🏙️ Tel Aviv / Gush Dan / Netanya',
+        '🌴 Süden / Aschdod / Be’er Scheva'
+      ],
+      ru: [
+        '🏔️ Север / Хайфа / Цфат / Тверия / Кармиэль',
+        '🕍 Иерусалим / Гуш-Эцион / Модиин / Бейт-Шемеш',
+        '🏙️ Тель-Авив / Гуш-Дан / Нетания / Центр',
+        '🌴 Юг / Ашдод / Ашкелон / Беэр-Шева'
+      ]
+    };
+
+    var I18N = {
+      en: {
+        dir: 'ltr', back: '← All 23 Services & Pricing', estPrefix: 'Est. ',
+        badge: '⚖️ STEP 1 OF 2: CASE & PAPERWORK REVIEW ($0 DUE TODAY)',
+        title: 'Submit Your Case & Documents for Lawyer / Notary / Rabbi Approval & Quote',
+        sub: 'You are never charged upfront before our team and vetted lawyer, notary, or sponsoring Rabbi inspect your paperwork, confirm availability, and approve your exact price quote.',
+        st1t: '1. Submit Details & Scans', st1s: 'Attach documents & branch info',
+        st2t: '2. Lawyer / Notary Review', st2s: 'We verify page count & case readiness',
+        st3t: '3. Approval & Payment Link', st3s: 'Pay only after your quote is approved',
+        selectedLbl: 'REQUESTED SERVICE FOR REVIEW', nopay: '✓ $0 Due Today — Quote Sent After Review',
+        lblService: 'Requested Service', lblRegion: 'Target Region / Misrad HaPanim Branch',
+        lblName: 'Full Name (Applicant & Spouse)', phName: 'Enter full name of applicant & spouse',
+        lblWa: 'WhatsApp Number (For Quote & Approval)', phWa: '+972 52... or +1...',
+        lblDate: 'Target Appointment Date / Deadline', phDate: 'e.g. Dec 15 Appointment / ASAP',
+        lblDocLang: 'Document Language & Page Count', phDocLang: 'e.g. 3 French docs (5 pages total) / Nohal 5.2.0008',
+        lblNotes: 'Case Summary & Specific Details for Lawyer / Notary / Rabbi',
+        phNotes: 'Tell us about your current visa status, which documents need notarization or legal review, and any clerk demands...',
+        lblUpload: 'Attach Documents / Scans for Review & Price Quote (PDF, JPG, PNG)',
+        upTitle: 'Click to Attach Birth Certs, Police Check, Apostilles, or Clerk Letters',
+        upSub: 'Our Notary / Lawyer reviews your exact pages before issuing your binding quote.',
+        submit: '📤 Submit Case & Paperwork for Approval & Price Quote ($0 Today)',
+        policy: '<b>How Approval & Billing Works:</b> 1) We review your uploaded paperwork with our licensed Israeli Notary, Immigration Lawyer, or Sponsoring Rabbi. 2) Once approved, we send your confirmed price quote and payment link via WhatsApp. 3) You only pay once your match or quote is confirmed.'
+      },
+      he: {
+        dir: 'rtl', back: '→ לכל 23 השירותים והמחירים', estPrefix: 'הערכה: ',
+        badge: '⚖️ שלב 1 מתוך 2: בדיקת מסמכים ואישור תיק (ללא תשלום מראש)',
+        title: 'שליחת פרטי התיק והמסמכים לאישור והצעת מחיר מעו״ד / נוטריון / רב מלווה',
+        sub: 'אינכם מחויבים בתשלום מראש! תחילה אנו מעבירים את המסמכים ופרטי התיק לעורך הדין, לנוטריון או לרב המלווה לבדיקת זמינות, ספירת עמודים ואישור סופי של הצעת המחיר.',
+        st1t: '1. שליחת פרטים וסריקות', st1s: 'צירוף תעודות ופרטי לשכה',
+        st2t: '2. בדיקת עו״ד / נוטריון', st2s: 'אימות מספר עמודים ומוכנות התיק',
+        st3t: '3. אישור וקישור לתשלום', st3s: 'משלמים רק לאחר אישור הצעת המחיר',
+        selectedLbl: 'השירות המבוקש לבדיקה', nopay: '✓ 0 ₪ לתשלום כעת — התשלום רק לאחר אישור הצעת המחיר',
+        lblService: 'בחירת שירות מבוקש', lblRegion: 'אזור בארץ / לשכת משרד הפנים',
+        lblName: 'שם מלא (מבקש/ת ובן/בת זוג)', phName: 'הזינו שם מלא של המבקש/ת ובן/בת הזוג',
+        lblWa: 'מספר וואטסאפ לקבלת האישור והצעת המחיר', phWa: 'לדוגמה: 052-582-2005 או +972...',
+        lblDate: 'תאריך תור במשרד הפנים / מועד יעד', phDate: 'לדוגמה: תור ב-15 בדצמבר / דחוף בהקדם',
+        lblDocLang: 'שפת המסמכים ומספר עמודים לתרגום/בדיקה', phDocLang: 'לדוגמה: 3 תעודות באנגלית/רוסית (סה״כ 5 עמודים) / נוהל 5.2.0008',
+        lblNotes: 'פירוט המקרה, מעמד נוכחי ודגשים לעו״ד / לנוטריון / לרב',
+        phNotes: 'פרטו בקצרה מה המעמד הנוכחי שלכם בארץ, אילו מסמכים נדרשים לתרגום נוטריוני או ליווי משפטי, והאם קיבלתם דרישת מסמכים מהפקיד...',
+        lblUpload: 'צירוף קבצים / סריקות לבדיקת נוטריון או עו״ד (PDF או תמונות)',
+        upTitle: 'לחצו לצירוף תעודות לידה, תעודת יושר, אפוסטיל או דרישת מסמכים',
+        upSub: 'הנוטריון / עורך הדין בודק את המסמכים לפני שליחת הצעת מחיר מחייבת.',
+        submit: '📤 שלח פרטים ומסמכים לאישור והצעת מחיר (ללא חיוב כעת)',
+        policy: '<b>איך התהליך עובד:</b> 1) אנו בודקים את המסמכים שצירפתם מול הנוטריון, עורך הדין או הרב המלווה. 2) לאחר האישור נשלח אליכם בוואטסאפ הצעת מחיר סופית וקישור לתשלום. 3) התשלום מתבצע רק לאחר אישור התיק.'
+      },
+      fr: {
+        dir: 'ltr', back: '← Voir les 23 services et tarifs', estPrefix: 'Est. ',
+        badge: '⚖️ ÉTAPE 1 SUR 2 : EXAMEN DU DOSSIER & DEVIS (0 $ À PAYER AUJOURD’HUI)',
+        title: 'Soumettez vos documents pour approbation et devis par l’Avocat / Notaire / Rabbin',
+        sub: 'Aucun paiement n’est demandé à l’avance avant que notre avocat, notaire ou rabbin accompagnateur n’examine vos pièces, le nombre de pages et ne valide votre devis.',
+        st1t: '1. Envoi des infos & scans', st1s: 'Joindre vos pièces et bureau PIBA',
+        st2t: '2. Examen Avocat / Notaire', st2s: 'Vérification des pages et du dossier',
+        st3t: '3. Validation & Lien de paiement', st3s: 'Paiement uniquement après accord',
+        selectedLbl: 'SERVICE DEMANDÉ POUR EXAMEN', nopay: '✓ 0 $ aujourd’hui — Devis envoyé après validation',
+        lblService: 'Service souhaité', lblRegion: 'Région / Bureau du Misrad HaPanim',
+        lblName: 'Nom complet (Demandeur & Conjoint)', phName: 'Nom et prénom du demandeur et du conjoint',
+        lblWa: 'Numéro WhatsApp (pour recevoir le devis)', phWa: '+33 6... ou +972 52...',
+        lblDate: 'Date du RDV / Échéance souhaitée', phDate: 'ex. RDV le 15 décembre / Dès que possible',
+        lblDocLang: 'Langue des documents & Nombre de pages', phDocLang: 'ex. 3 actes en français (5 pages au total) / Nohal 5.2.0008',
+        lblNotes: 'Résumé du dossier & Questions pour l’Avocat / Notaire / Rabbin',
+        phNotes: 'Indiquez votre statut de visa actuel, quels documents nécessitent une traduction notariale ou un avocat, et toute demande du Misrad HaPanim...',
+        lblUpload: 'Joindre vos documents / scans pour examen et devis (PDF, JPG, PNG)',
+        upTitle: 'Cliquez pour joindre actes de naissance, casier, apostilles ou lettre du Misrad HaPanim',
+        upSub: 'Le notaire ou l’avocat vérifie vos documents avant d’émettre le devis définitif.',
+        submit: '📤 Envoyer le dossier et les pièces pour approbation et devis (0 $ aujourd’hui)',
+        policy: '<b>Fonctionnement :</b> 1) Examen de vos pièces par notre notaire, avocat ou rabbin. 2) Envoi du devis confirmé sur WhatsApp. 3) Vous ne réglez qu’après validation de votre dossier.'
+      },
+      es: {
+        dir: 'ltr', back: '← Ver los 23 servicios y precios', estPrefix: 'Est. ',
+        badge: '⚖️ PASO 1 DE 2: REVISIÓN DE DOCUMENTOS Y PRESUPUESTO ($0 HOY)',
+        title: 'Envíe su caso y documentos para aprobación y presupuesto del Abogado / Notario / Rabino',
+        sub: 'Nunca cobramos por adelantado antes de que nuestro abogado, notario o rabino revise sus documentos, verifique la cantidad de páginas y apruebe su presupuesto exacto.',
+        st1t: '1. Enviar datos y escaneos', st1s: 'Adjuntar documentos y oficina',
+        st2t: '2. Revisión Abogado / Notario', st2s: 'Verificamos páginas y requisitos',
+        st3t: '3. Aprobación y Pago', st3s: 'Pague solo tras aprobar su presupuesto',
+        selectedLbl: 'SERVICIO SOLICITADO PARA REVISIÓN', nopay: '✓ $0 Hoy — Presupuesto enviado tras revisión',
+        lblService: 'Servicio solicitado', lblRegion: 'Región / Oficina de Misrad HaPanim',
+        lblName: 'Nombre completo (Solicitante y Cónyuge)', phName: 'Nombre y apellidos del solicitante y cónyuge',
+        lblWa: 'Número de WhatsApp (para recibir presupuesto)', phWa: '+972 52... o +34 / +54...',
+        lblDate: 'Fecha de cita / Fecha límite', phDate: 'ej. Cita el 15 de diciembre / Lo antes posible',
+        lblDocLang: 'Idioma de los documentos y cantidad de páginas', phDocLang: 'ej. 3 documentos en español (5 páginas en total) / Nohal 5.2.0008',
+        lblNotes: 'Resumen del caso y detalles para el Abogado / Notario / Rabino',
+        phNotes: 'Cuéntenos su estado de visa actual, qué documentos necesitan traducción notarial o revisión legal, y cualquier requisito del funcionario...',
+        lblUpload: 'Adjuntar documentos / escaneos para revisión y presupuesto (PDF, JPG, PNG)',
+        upTitle: 'Haga clic para adjuntar partidas, antecedentes, apostillas o carta de Misrad HaPanim',
+        upSub: 'Nuestro notario o abogado revisa sus páginas antes de emitir el presupuesto final.',
+        submit: '📤 Enviar caso y documentos para aprobación y presupuesto ($0 Hoy)',
+        policy: '<b>Cómo funciona:</b> 1) Revisamos sus documentos con nuestro notario, abogado o rabino. 2) Le enviamos el presupuesto aprobado por WhatsApp. 3) Solo paga cuando su solicitud ha sido aprobada.'
+      },
+      de: {
+        dir: 'ltr', back: '← Alle 23 Services & Preise', estPrefix: 'Ca. ',
+        badge: '⚖️ SCHRITT 1 VON 2: DOKUMENTENPRÜFUNG & KOSTENVORANSCHLAG (0 $ HEUTE)',
+        title: 'Reichen Sie Ihren Fall & Ihre Dokumente zur Prüfung durch Anwalt / Notar / Rabbiner ein',
+        sub: 'Keine Vorauszahlung! Unser Anwalt, Notar oder Rabbiner prüft zuerst Ihre Unterlagen, Seitenzahl und Terminverfügbarkeit und bestätigt Ihr verbindliches Angebot.',
+        st1t: '1. Daten & Scans senden', st1s: 'Unterlagen & Zweigstelle angeben',
+        st2t: '2. Prüfung durch Anwalt/Notar', st2s: 'Wir prüfen Seitenzahl & Akte',
+        st3t: '3. Freigabe & Zahlungslink', st3s: 'Zahlung erst nach Angebotsfreigabe',
+        selectedLbl: 'ANGEFRAGTER SERVICE ZUR PRÜFUNG', nopay: '✓ 0 $ Heute — Angebot nach Dokumentenprüfung',
+        lblService: 'Gewünschter Service', lblRegion: 'Region / Misrad HaPanim Zweigstelle',
+        lblName: 'Vollständiger Name (Antragsteller & Partner)', phName: 'Vor- und Nachname eingeben',
+        lblWa: 'WhatsApp-Nummer (für Angebot & Freigabe)', phWa: '+49 17... oder +972 52...',
+        lblDate: 'Termin beim Misrad HaPanim / Frist', phDate: 'z.B. Termin am 15. Dez. / Schnellstmöglich',
+        lblDocLang: 'Sprache der Dokumente & Seitenzahl', phDocLang: 'z.B. 3 deutsche Urkunden (insg. 5 Seiten) / Nohal 5.2.0008',
+        lblNotes: 'Fallzusammenfassung & Details für Anwalt / Notar / Rabbiner',
+        phNotes: 'Beschreiben Sie kurz Ihren aktuellen Visastatus, welche Urkunden notariell übersetzt werden müssen und eventuelle Behördenforderungen...',
+        lblUpload: 'Dokumente / Scans zur Prüfung anhängen (PDF, JPG, PNG)',
+        upTitle: 'Hier klicken, um Geburtsurkunden, Führungszeugnis, Apostillen oder Schreiben anzuhängen',
+        upSub: 'Unser Notar / Anwalt prüft Ihre Unterlagen vorab für ein verbindliches Angebot.',
+        submit: '📤 Fall & Unterlagen zur Prüfung & Angebotsfreigabe senden (0 $ Heute)',
+        policy: '<b>Ablauf:</b> 1) Prüfung Ihrer Dokumente durch unseren Notar, Anwalt oder Rabbiner. 2) Verbindliches Angebot per WhatsApp. 3) Zahlung erst nach Freigabe Ihres Falls.'
+      },
+      ru: {
+        dir: 'ltr', back: '← Все 23 услуги и тарифы', estPrefix: 'Оценка: ',
+        badge: '⚖️ ШАГ 1 ИЗ 2: ПРОВЕРКА ДОКУМЕНТОВ И РАСЧЕТ СТОИМОСТИ (0 $ СЕГОДНЯ)',
+        title: 'Отправьте данные и документы на согласование адвокату / нотариусу / раввину',
+        sub: 'Никакой предоплаты вслепую! Сначала вы отправляете детали дела и сканы документов, чтобы мы и профильный адвокат, нотариус или раввин проверили объем страниц, отделение МВД и утвердили точную цену.',
+        st1t: '1. Детали и сканы документов', st1s: 'Прикрепите файлы и укажите город',
+        st2t: '2. Проверка адвокатом / нотариусом', st2s: 'Проверяем объем страниц и дело',
+        st3t: '3. Одобрение и ссылка на оплату', st3s: 'Оплата только после согласования цены',
+        selectedLbl: 'ЗАПРАШИВАЕМАЯ УСЛУГА НА СОГЛАСОВАНИЕ', nopay: '✓ 0 $ сегодня — Оплата только после утверждения сметы',
+        lblService: 'Выберите услугу', lblRegion: 'Регион / Отделение МВД (Мисрад а-Пним)',
+        lblName: 'Полное имя (Заявитель и супруг/а)', phName: 'Введите имя и фамилию заявителя и супруга/и',
+        lblWa: 'Номер WhatsApp (для получения расчета и ответа)', phWa: '+972 52... или +7 / +1...',
+        lblDate: 'Дата очереди в МВД / Желаемый срок', phDate: 'напр. Очередь на 15 декабря / Как можно скорее',
+        lblDocLang: 'Язык документов и количество страниц', phDocLang: 'напр. 3 документа на русском/украинском (всего 5 стр.) / Ноаль 5.2.0008',
+        lblNotes: 'Описание ситуации и вопросы для адвоката / нотариуса / раввина',
+        phNotes: 'Опишите ваш текущий визовый статус, какие документы требуют нотариального перевода или сопровождения адвоката, и требования чиновника МВД...',
+        lblUpload: 'Прикрепите сканы / фото документов для оценки нотариусом или адвокатом (PDF, JPG, PNG)',
+        upTitle: 'Нажмите, чтобы прикрепить свидетельства, справку о несудимости, апостили или письмо из МВД',
+        upSub: 'Нотариус или адвокат проверит ваши документы перед выставлением точного счета.',
+        submit: '📤 Отправить документы на согласование и расчет стоимости (0 $ сегодня)',
+        policy: '<b>Как это работает:</b> 1) Мы передаем ваши документы на проверку лицензированному нотариусу, адвокату или раввину. 2) После одобрения отправляем вам точную цену в WhatsApp. 3) Оплата производится только после подтверждения.'
+      }
+    };
+
+    var currentLang = 'en';
+    var currentSku = 'concierge_escort_649';
+    var attachedFilesData = [];
+
+    function handleFileSelect(input) {
+      var listEl = document.getElementById('cb-file-list');
+      attachedFilesData = [];
+      if (!input.files || input.files.length === 0) {
+        listEl.innerHTML = '';
+        return;
+      }
+      var names = [];
+      Array.from(input.files).slice(0, 6).forEach(function(file) {
+        names.push('📄 ' + file.name + ' (' + Math.round(file.size / 1024) + ' KB)');
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          attachedFilesData.push({
+            name: file.name,
+            type: file.type,
+            sizeKb: Math.round(file.size / 1024),
+            dataUrl: file.size <= 650000 ? e.target.result : '[File >650KB — send full file in WhatsApp chat]'
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+      listEl.innerHTML = names.join('<br/>');
+    }
+
+    function populateDropdowns() {
+      var sel = document.getElementById('cb-sku');
+      var prevVal = sel.value || currentSku;
+      var t = I18N[currentLang] || I18N.en;
+      sel.innerHTML = Object.keys(SERVICES_I18N).map(function(sku) {
+        var s = SERVICES_I18N[sku];
+        var label = s[currentLang] || s.en;
+        return '<option value="' + sku + '" data-price="' + s.price + '">' + label + ' (' + t.estPrefix + s.price + ')</option>';
+      }).join('');
+      sel.value = SERVICES_I18N[prevVal] ? prevVal : 'concierge_escort_649';
+
+      var regSel = document.getElementById('cb-region');
+      var prevRegIdx = regSel.selectedIndex >= 0 ? regSel.selectedIndex : 0;
+      var regs = REGIONS_I18N[currentLang] || REGIONS_I18N.en;
+      regSel.innerHTML = regs.map(function(r) {
+        return '<option value="' + r + '">' + r + '</option>';
+      }).join('');
+      regSel.selectedIndex = prevRegIdx;
+      updateServiceDisplay();
+    }
+
+    function updateServiceDisplay() {
+      var sel = document.getElementById('cb-sku');
+      currentSku = sel.value || 'concierge_escort_649';
+      var s = SERVICES_I18N[currentSku] || SERVICES_I18N.concierge_escort_649;
+      var t = I18N[currentLang] || I18N.en;
+      document.getElementById('ui-svc-name').textContent = s[currentLang] || s.en;
+      document.getElementById('ui-svc-price').textContent = t.estPrefix + s.price;
+    }
+
+    window.setLang = function(lg) {
+      var setLang = window.setLang;
+      currentLang = I18N[lg] ? lg : 'en';
+      localStorage.setItem('gat_lang', currentLang);
+      var t = I18N[currentLang];
+      document.documentElement.dir = t.dir;
+      var gSel = document.getElementById('globe-lang-sel'); if (gSel) gSel.value = currentLang;
+      var uBack = document.getElementById('ui-back'); if (uBack) uBack.textContent = t.back;
+      var aLbl = document.getElementById('appbar-lang-label'); if (aLbl) aLbl.textContent = currentLang.toUpperCase();
+      var pPath = (currentLang === 'en') ? '/pricing/' : ('/' + currentLang + '/pricing/');
+      var backEl = document.getElementById('app-nav-back');
+      if (backEl) {
+        var ref = document.referrer || '';
+        backEl.href = (ref && ref.indexOf(location.hostname) !== -1 && ref !== location.href) ? ref : pPath;
+      }
+      document.getElementById('ui-badge').textContent = t.badge;
+      document.getElementById('ui-title').textContent = t.title;
+      document.getElementById('ui-sub').textContent = t.sub;
+      document.getElementById('st-1-t').textContent = t.st1t;
+      document.getElementById('st-1-s').textContent = t.st1s;
+      document.getElementById('st-2-t').textContent = t.st2t;
+      document.getElementById('st-2-s').textContent = t.st2s;
+      document.getElementById('st-3-t').textContent = t.st3t;
+      document.getElementById('st-3-s').textContent = t.st3s;
+      document.getElementById('ui-selected-lbl').textContent = t.selectedLbl;
+      document.getElementById('ui-nopay-tag').textContent = t.nopay;
+      document.getElementById('lbl-service').textContent = t.lblService;
+      document.getElementById('lbl-region').textContent = t.lblRegion;
+      document.getElementById('lbl-name').textContent = t.lblName;
+      document.getElementById('cb-name').placeholder = t.phName;
+      document.getElementById('lbl-wa').textContent = t.lblWa;
+      document.getElementById('cb-wa').placeholder = t.phWa;
+      document.getElementById('lbl-date').textContent = t.lblDate;
+      document.getElementById('cb-date').placeholder = t.phDate;
+      document.getElementById('lbl-doclang').textContent = t.lblDocLang;
+      document.getElementById('cb-doclang').placeholder = t.phDocLang;
+      document.getElementById('lbl-notes').textContent = t.lblNotes;
+      document.getElementById('cb-notes').placeholder = t.phNotes;
+      document.getElementById('lbl-upload').textContent = t.lblUpload;
+      document.getElementById('ui-up-title').textContent = t.upTitle;
+      document.getElementById('ui-up-sub').textContent = t.upSub;
+      document.getElementById('ui-submit').textContent = t.submit;
+      document.getElementById('ui-policy').innerHTML = t.policy;
+      populateDropdowns();
+    }
+
+    async function submitForQuoteApproval() {
+      var sku = document.getElementById('cb-sku').value;
+      var svcName = document.getElementById('ui-svc-name').textContent;
+      var price = document.getElementById('ui-svc-price').textContent;
+      var region = document.getElementById('cb-region').value;
+      var name = (document.getElementById('cb-name').value || '').trim();
+      var wa = (document.getElementById('cb-wa').value || '').trim();
+      var dateStr = (document.getElementById('cb-date').value || 'Flexible / ASAP').trim();
+      var docLang = (document.getElementById('cb-doclang').value || '').trim();
+      var notes = (document.getElementById('cb-notes').value || '').trim();
+
+      if (!name || !wa) {
+        alert('Please enter your Name and WhatsApp number.');
+        return;
+      }
+
+      var fileNames = attachedFilesData.map(function(f){ return f.name + ' (' + f.sizeKb + 'KB)'; }).join(', ') || 'Will attach in WhatsApp chat';
+      var btn = document.getElementById('ui-submit');
+      var st = document.getElementById('cb-status');
+      btn.disabled = true;
+      st.style.display = 'block';
+      st.style.color = '#38bdf8';
+      st.textContent = '⏳ Uploading case & documents for review...';
+
+      try {
+        await fetch('https://auditdoc-nbq4mfrrnq-uc.a.run.app', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mode: 'submit_concierge_lead',
+            uid: localStorage.getItem('gat_uid') || ('wa_' + wa.replace(/[^0-9]/g, '')),
+            name: name,
+            whatsapp: wa,
+            serviceName: svcName,
+            priceTier: price + ' (' + sku + ' — PENDING QUOTE APPROVAL)',
+            region: region,
+            targetDate: dateStr,
+            notes: [docLang ? ('Docs/Pages: ' + docLang) : '', notes, 'Attached Files: ' + fileNames].filter(Boolean).join(' | '),
+            attachedFiles: attachedFilesData,
+            status: 'pending_quote_approval',
+            lang: currentLang
+          })
+        });
+      } catch (e) {}
+
+      var waText = [
+        '📋 *GiyurAliyahTrack — Request for Lawyer / Notary / Rabbi Review & Quote*',
+        '• *Requested Service:* ' + svcName + ' (' + price + ')',
+        '• *Applicant Name:* ' + name,
+        '• *WhatsApp:* ' + wa,
+        '• *Branch / Region:* ' + region,
+        '• *Target Date:* ' + dateStr,
+        docLang ? ('• *Documents & Page Count:* ' + docLang) : '',
+        '• *Uploaded Paperwork:* ' + fileNames,
+        notes ? ('• *Case Notes:* ' + notes) : ''
+      ].filter(Boolean).join('\n');
+
+      window.location.href = 'https://wa.me/972525822005?text=' + encodeURIComponent(waText);
+    }
+
+    (function init() {
+      var params = new URLSearchParams(window.location.search);
+      currentSku = params.get('sku') || 'concierge_escort_649';
+      var lg = params.get('lang') || 'he';
+      setLang(lg);
+      var savedWa = localStorage.getItem('gat_wa_phone') || '';
+      if (savedWa) document.getElementById('cb-wa').value = '+' + savedWa;
+    })();
+  </script>
+
+  <script src="/i18n/tracking_partner.js?v=1794883297"></script>
+
+
+</body>
+</html>

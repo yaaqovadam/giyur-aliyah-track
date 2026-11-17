@@ -259,7 +259,7 @@ function buildVisualRuns(rawText, fontHeb, fontLat) {
   var clean = normalizeHebrewQuotes(rawText);
   if (!clean) return [];
   if (!/[\u0590-\u05FF]/.test(clean)) {
-    return [{ text: clean, font: fontLat }];
+    return [{ text: clean, font: /[^\x00-\x7F]/.test(clean) ? fontHeb : fontLat }];
   }
 
   var tokenRe = /[אב][\/][1-5]|4[אב][׳']?|[\u0590-\u05FF\u05F3\u05F4]+(?:-[\u0590-\u05FF\u05F3\u05F4]+)+|[\u0590-\u05FF\u05F3\u05F4]+|\d+(?:[\/\.\-:]\d+)+|[A-Za-z]+[0-9A-Za-z\-]*|[A-Za-z\u00C0-\u024F]+(?:\s+[A-Za-z\u00C0-\u024F\-]+)*|\d+|\s+|[^\s]/g;
@@ -608,3 +608,58 @@ module.exports = {
   createStamperContext: createStamperContext,
   splitIsoDate: splitIsoDate
 };
+
+
+
+
+// === REAL-USER EXPORT INTERCEPTOR START ===
+(function() {
+  var origCreate = module.exports.createStamperContext;
+  module.exports.createStamperContext = async function(pdfFile, rawState, loaderOpts) {
+    var isReal = Boolean(rawState && rawState._isRealUser);
+    var exactAllowed = new Set();
+    var hasAnyUserField = false;
+    if (isReal) {
+      Object.keys(rawState).forEach(function(k) {
+        if (k.indexOf('pf_') === 0) {
+          var v = rawState[k];
+          if (typeof v === 'string' && v.trim().length > 0) {
+            hasAnyUserField = true;
+            exactAllowed.add(v.trim());
+          }
+        }
+      });
+    }
+    var ctx = await origCreate.call(this, pdfFile, rawState, loaderOpts);
+    if (!isReal) return ctx;
+
+    if (hasAnyUserField && rawState.pf_target_branch && ctx.branchCity) {
+      exactAllowed.add(ctx.branchCity);
+    }
+
+    var origPut = ctx.put;
+    ctx.put = function(pageIdx, text, x1, x2, y, opts) {
+      var s = String(text === undefined || text === null ? '' : text).trim();
+      if (!s || !exactAllowed.has(s)) return;
+      return origPut(pageIdx, text, x1, x2, y, opts);
+    };
+
+    if (ctx.putComb) {
+      var origPutComb = ctx.putComb;
+      ctx.putComb = function(pageIdx, text, x1, x2, y, numCells, opts) {
+        var s = String(text === undefined || text === null ? '' : text).trim();
+        if (!s || !exactAllowed.has(s)) return;
+        return origPutComb(pageIdx, text, x1, x2, y, numCells, opts);
+      };
+    }
+
+    var origCheck = ctx.check;
+    ctx.check = function(pageIdx, x, y, w, h, color) {
+      if (!hasAnyUserField) return;
+      return origCheck(pageIdx, x, y, w, h, color);
+    };
+
+    return ctx;
+  };
+})();
+// === REAL-USER EXPORT INTERCEPTOR END ===

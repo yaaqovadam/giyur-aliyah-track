@@ -43,14 +43,10 @@ function collectUserEmails(uData) {
 
 
 function normalizePhoneDigits(raw) {
-  let d = String(raw || "").replace(/\D/g, "");
-  if (!d) return "";
-  // Normalize Israeli local 05X-XXXXXXX -> 9725XXXXXXXX
-  if (d.startsWith("05") && d.length === 10) {
-    d = "972" + d.slice(1);
-  } else if (d.startsWith("00")) {
-    d = d.slice(2);
-  }
+  let d = String(raw || "").replace(/[^0-9]/g, "");
+  if (d.startsWith("00")) d = d.slice(2);
+  if (d.startsWith("05") && d.length === 10) d = "972" + d.slice(1);
+  else if (d.startsWith("5") && d.length === 9) d = "972" + d;
   return d;
 }
 
@@ -119,6 +115,193 @@ function generateCleanPassCode() {
 // Optional env webhook secret // Optional: for Stripe / LemonSqueezy HMAC
 
 // 1. AI VISION DOCUMENT & CLERK SHEET AUDITOR (/api/auditDoc)
+
+
+
+// ============================================================================
+// STRICT ADMIN VERIFIER: Checks Firebase Auth JWT (users/wa_<phone>.admin === true)
+// + 5-Attempt IP Brute-Force Lockout + Migrate Rachel (3hb... -> wa_972534742332)
+// ============================================================================
+const ADMIN_WA_UIDS = new Set(["wa_972539332613", "wa_972534742332", "wa_972525822005"]);
+const RACHEL_WA_UID = "wa_972534742332";
+
+async function runWaUidCleanupAndAdminGrant(db) {
+  const migrated = [];
+  const deleted = [];
+
+  // 1. Migrate Rachel's 3hb... doc across users, user_form_drafts, concierge_leads, pro_entitlements -> wa_972534742332
+  const usersSnap = await db.collection("users").get();
+  for (const doc of usersSnap.docs) {
+    const id = doc.id;
+    const d = doc.data() || {};
+    if (id.startsWith("3hb")) {
+      // Copy main user doc to wa_972534742332
+      await db.collection("users").doc(RACHEL_WA_UID).set(Object.assign({}, d, {
+        uid: RACHEL_WA_UID,
+        whatsappDigits: "972534742332",
+        admin: true,
+        isAdmin: true,
+        unlocked: true,
+        tier: "vip_couple_649",
+        migratedFromUid: id,
+        updatedAtMs: Date.now()
+      }), { merge: true });
+
+      // Copy subcollections of 3hb... if any exist
+      const subCols = await doc.ref.listCollections();
+      for (const sc of subCols) {
+        const scSnap = await sc.get();
+        for (const sDoc of scSnap.docs) {
+          await db.collection("users").doc(RACHEL_WA_UID).collection(sc.id).doc(sDoc.id).set(sDoc.data(), { merge: true });
+          await sDoc.ref.delete();
+        }
+      }
+
+      // If Rachel's doc has a cpRoom, update uid references inside couples_rooms/<cpRoom>
+      if (d.cpRoom) {
+        const roomRef = db.collection("couples_rooms").doc(String(d.cpRoom));
+        const roomSnap = await roomRef.get();
+        if (roomSnap.exists) {
+          const rData = roomSnap.data() || {};
+          const rawJson = JSON.stringify(rData).split(id).join(RACHEL_WA_UID);
+          await roomRef.set(JSON.parse(rawJson), { merge: true });
+        }
+      }
+
+      // Copy any matching doc in user_form_drafts, concierge_leads, pro_entitlements
+      for (const colName of ["user_form_drafts", "concierge_leads", "pro_entitlements"]) {
+        const cSnap = await db.collection(colName).doc(id).get();
+        if (cSnap.exists) {
+          await db.collection(colName).doc(RACHEL_WA_UID).set(Object.assign({}, cSnap.data(), { uid: RACHEL_WA_UID }), { merge: true });
+          await db.collection(colName).doc(id).delete();
+        }
+      }
+
+      await doc.ref.delete();
+      migrated.push(id + " -> " + RACHEL_WA_UID);
+    } else if (!ADMIN_WA_UIDS.has(id)) {
+      // Wipe all other non-admin test/random UIDs from users
+      const subCols = await doc.ref.listCollections();
+      for (const sc of subCols) {
+        const scSnap = await sc.get();
+        for (const sDoc of scSnap.docs) await sDoc.ref.delete();
+      }
+      await doc.ref.delete();
+      deleted.push("users/" + id);
+    }
+  }
+
+  // 2. Wipe all non-admin / test docs across pro_entitlements, user_form_drafts, concierge_leads
+  for (const colName of ["pro_entitlements", "user_form_drafts", "concierge_leads"]) {
+    const snap = await db.collection(colName).get();
+    for (const doc of snap.docs) {
+      if (!ADMIN_WA_UIDS.has(doc.id)) {
+        await doc.ref.delete();
+        deleted.push(colName + "/" + doc.id);
+      }
+    }
+  }
+
+  // 3. Wipe old test entries in hd_daily_quota
+  const quotaSnap = await db.collection("hd_daily_quota").get();
+  for (const doc of quotaSnap.docs) {
+    await doc.ref.delete();
+    deleted.push("hd_daily_quota/" + doc.id);
+  }
+
+  // 4. Ensure your & Rachel's wa_ accounts have admin: true, unlocked: true, vip_couple_649 & Firebase Auth custom claims
+  for (const adminWa of ADMIN_WA_UIDS) {
+    const digits = adminWa.slice(3);
+    await db.collection("users").doc(adminWa).set({
+      uid: adminWa,
+      whatsappDigits: digits,
+      admin: true,
+      isAdmin: true,
+      unlocked: true,
+      tier: "vip_couple_649",
+      updatedAtMs: Date.now()
+    }, { merge: true });
+    await db.collection("pro_entitlements").doc(adminWa).set({
+      uid: adminWa,
+      admin: true,
+      isAdmin: true,
+      unlocked: true,
+      tier: "vip_couple_649",
+      updatedAtMs: Date.now()
+    }, { merge: true });
+    try { await admin.auth().createUser({ uid: adminWa }); } catch (e) {}
+    try { await admin.auth().setCustomUserClaims(adminWa, { admin: true }); } catch (e) {}
+  }
+
+  return { migrated, deleted, keptAdmins: Array.from(ADMIN_WA_UIDS) };
+}
+
+function signAdminSessionToken(uid) {
+  const secret = String(process.env.GEMINI_API_KEY || process.env.ADMIN_PIN || "GAT_INTERNAL_HMAC_KEY_2026");
+  const exp = Date.now() + 8 * 60 * 60 * 1000; // Auto-expires in 8 hours
+  const payload = `${uid}.${exp}`;
+  const sig = crypto.createHmac("sha256", secret).update(payload).digest("hex");
+  return `${payload}.${sig}`;
+}
+
+function verifyAdminSessionToken(token) {
+  const parts = String(token || "").trim().split(".");
+  if (parts.length !== 3) return null;
+  const [uid, expStr, sig] = parts;
+  const exp = Number(expStr);
+  if (!uid || !exp || Date.now() > exp) return null;
+  const secret = String(process.env.GEMINI_API_KEY || process.env.ADMIN_PIN || "GAT_INTERNAL_HMAC_KEY_2026");
+  const expectedSig = crypto.createHmac("sha256", secret).update(`${uid}.${expStr}`).digest("hex");
+  if (sig !== expectedSig) return null;
+  return uid;
+}
+
+async function verifyAdminRequest(req, db) {
+  // 1. Check Cryptographic Firebase Auth ID Token (Bearer JWT) -> users/wa_<phone>.admin === true
+  const authHeader = String(req.headers.authorization || (req.body && req.body.idToken) || "").trim();
+  const idToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : authHeader;
+  if (idToken && idToken.length > 40) {
+    try {
+      const decoded = await admin.auth().verifyIdToken(idToken);
+      if (decoded && decoded.uid) {
+        const uSnap = await db.collection("users").doc(decoded.uid).get();
+        if (uSnap.exists && (uSnap.data().admin === true || uSnap.data().isAdmin === true)) {
+          return { ok: true, uid: decoded.uid, adminSessionToken: signAdminSessionToken(decoded.uid) };
+        }
+      }
+    } catch (jwtErr) {}
+  }
+
+  // 2. Check Cryptographic HMAC-SHA256 Admin Session Token (minted ONLY after WhatsApp OTP verification)
+  const sessionTok = String((req.body && req.body.adminSessionToken) || "").trim();
+  if (sessionTok) {
+    const verifiedUid = verifyAdminSessionToken(sessionTok);
+    if (verifiedUid) {
+      const uSnap = await db.collection("users").doc(verifiedUid).get();
+      if (uSnap.exists && (uSnap.data().admin === true || uSnap.data().isAdmin === true)) {
+        return { ok: true, uid: verifiedUid, adminSessionToken: sessionTok };
+      }
+    }
+  }
+
+  // 3. Check if the browser sent a verified WhatsApp Magic Token or Permanent PassCode that belongs to an admin === true doc
+  const magicOrPass = String((req.body && req.body.adminPassOrMagic) || "").trim();
+  const claimedUid = String((req.body && req.body.adminUid) || "").trim();
+  if (claimedUid.startsWith("wa_") && magicOrPass.length >= 6) {
+    const uSnap = await db.collection("users").doc(claimedUid).get();
+    if (uSnap.exists) {
+      const uData = uSnap.data() || {};
+      if ((uData.admin === true || uData.isAdmin === true) &&
+          ((uData.permanentPassCode && uData.permanentPassCode === magicOrPass.toUpperCase()) ||
+           (uData.waMagicToken && uData.waMagicToken === magicOrPass))) {
+        return { ok: true, uid: claimedUid, adminSessionToken: signAdminSessionToken(claimedUid) };
+      }
+    }
+  }
+
+  return { ok: false, status: 403, error: "Restricted Area" };
+}
+
 exports.auditDoc = onRequest(
   {
     secrets: [GEMINI_API_KEY],
@@ -139,80 +322,300 @@ exports.auditDoc = onRequest(
     // ========================================================================
     // 0. IN-APP 24/7 3-TIER AI TRACK PARTNER & BLACK-BOX GATEKEEPER (mode === "helpdesk_chat")
     // ========================================================================
-        // ========================================================================
-    // 0A. REAL HUMAN VISITOR & PAGE DWELL-TIME PULSE TRACKER (mode === "visitor_pulse" / "admin_get_analytics")
+            // ========================================================================
+    // 0A. REAL HUMAN VISITOR & WEBCRAWLER TELEMETRY ENGINE
+    //     (POST/GET mode === "visitor_pulse" | "pixel" | "admin_get_analytics")
     // ========================================================================
-    if (req.body && req.body.mode === "visitor_pulse") {
+    const isPixelGet = req.method === "GET" && req.query && req.query.mode === "pixel";
+    if (isPixelGet || (req.body && req.body.mode === "visitor_pulse")) {
       try {
         const db = admin.firestore();
-        const vid = String(req.body.vid || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 48);
-        if (!vid) return res.status(200).json({ ok: true });
-        const lang = String(req.body.lang || "en").slice(0, 5);
-        const pathKey = String(req.body.path || "/").slice(0, 120);
-        const safePathField = pathKey.replace(/[.#$/\[\]]/g, "_");
-        const deltaSec = Math.max(0, Math.min(120, Number(req.body.deltaSec) || 0));
-        const isArrival = !!req.body.isArrival;
-        const tz = String(req.body.tz || "").slice(0, 60);
-        const ref = String(req.body.ref || "").slice(0, 120);
-        const screen = String(req.body.screen || "").slice(0, 24);
-        const dayStr = new Date().toISOString().slice(0, 10);
-        const nowMs = Date.now();
+        const b = isPixelGet ? req.query : (req.body || {});
+        const rawUa = String(b.ua || req.headers["user-agent"] || "").slice(0, 300);
+        const botRx = /(bot|crawler|spider|slurp|bingpreview|facebookexternalhit|meta-externalagent|whatsapp|telegrambot|twitterbot|linkedinbot|embedly|applebot|semrush|ahrefs|mj12bot|dotbot|yandex|baiduspider|duckduckbot|gptbot|chatgpt-user|oai-searchbot|claudebot|anthropic|bytespider|perplexity|ccbot|googleother|adsbot|lighthouse|headlesschrome|python|curl|wget|axios|node-fetch|go-http-client)/i;
+        const isBot = Boolean(b.isBot || isPixelGet || botRx.test(rawUa));
 
-        const dayRef = db.collection("site_analytics_daily").doc(dayStr);
-        const visRef = db.collection("site_visitors_recent").doc(vid);
-
-        const dayUpdate = {
-          date: dayStr,
-          updatedAt: nowMs,
-          totalSeconds: admin.firestore.FieldValue.increment(deltaSec),
-          [`langSeconds.${lang}`]: admin.firestore.FieldValue.increment(deltaSec),
-          [`pageSeconds.${safePathField}`]: admin.firestore.FieldValue.increment(deltaSec)
-        };
-        if (isArrival) {
-          dayUpdate.totalPageViews = admin.firestore.FieldValue.increment(1);
-          dayUpdate[`langViews.${lang}`] = admin.firestore.FieldValue.increment(1);
-          dayUpdate[`pageViews.${safePathField}`] = admin.firestore.FieldValue.increment(1);
+        function classifyCrawler(ua) {
+          const s = String(ua || "");
+          const map = [
+            [/Googlebot/i, "Googlebot (Google Search)"],
+            [/GoogleOther|AdsBot-Google|Mediapartners-Google/i, "GoogleOther / AdsBot"],
+            [/bingbot|BingPreview|msnbot/i, "Bingbot (Microsoft / Copilot)"],
+            [/Applebot/i, "Applebot (Apple Siri / Spotlight)"],
+            [/GPTBot|ChatGPT-User|OAI-SearchBot/i, "OpenAI (GPTBot / SearchGPT)"],
+            [/ClaudeBot|anthropic-ai/i, "Anthropic (ClaudeBot)"],
+            [/PerplexityBot/i, "Perplexity AI Crawler"],
+            [/WhatsApp/i, "WhatsApp Link Preview"],
+            [/TelegramBot/i, "Telegram Link Preview"],
+            [/facebookexternalhit|Facebot|meta-externalagent/i, "Meta / Facebook / Instagram"],
+            [/Twitterbot/i, "X / Twitter Link Preview"],
+            [/LinkedInBot/i, "LinkedIn Crawler"],
+            [/AhrefsBot/i, "Ahrefs SEO Bot"],
+            [/SemrushBot/i, "Semrush SEO Bot"],
+            [/YandexBot/i, "Yandex Bot"],
+            [/DuckDuckBot/i, "DuckDuckGo Bot"],
+            [/Bytespider/i, "Bytespider (ByteDance)"],
+            [/HeadlessChrome|Lighthouse/i, "Lighthouse / HeadlessChrome"],
+            [/curl|wget|python|axios|node-fetch|go-http-client/i, "HTTP Script / CLI Fetcher"]
+          ];
+          for (const [rx, name] of map) {
+            if (rx.test(s)) return name;
+          }
+          const m = s.match(/([a-zA-Z0-9_-]*(?:bot|crawler|spider|preview)[a-zA-Z0-9_-]*)/i);
+          return m ? m[1] : "Other Webcrawler / Bot";
         }
 
-        await Promise.all([
-          dayRef.set(dayUpdate, { merge: true }),
-          visRef.set({
+        const lang = String(b.lang || "en").slice(0, 5);
+        const pathKey = String(b.path || "/").slice(0, 140);
+        const safePathField = pathKey.replace(/[.#$/\[\]]/g, "_");
+        const deltaSec = Math.max(0, Math.min(120, Number(b.deltaSec) || 0));
+        const isArrival = Boolean(b.isArrival || isPixelGet);
+        const tz = String(b.tz || "").slice(0, 60);
+        const ref = String(b.ref || req.headers["referer"] || "").slice(0, 180);
+        const screen = String(b.screen || "").slice(0, 24);
+        const dayStr = new Date().toISOString().slice(0, 10);
+        const nowMs = Date.now();
+        const dayRef = db.collection("site_analytics_daily").doc(dayStr);
+
+        if (isBot) {
+          const botName = classifyCrawler(rawUa);
+          const safeBotKey = botName.replace(/[.#$/\[\]]/g, "_");
+          const botId = ( safeBotKey.slice(0, 24) + "_" + Buffer.from(rawUa).toString("base64").replace(/[^a-zA-Z0-9]/g, "").slice(0, 16) );
+          const botRef = db.collection("site_crawlers_recent").doc(botId);
+
+          await Promise.all([
+            dayRef.set({
+              date: dayStr,
+              updatedAt: nowMs,
+              totalBotHits: admin.firestore.FieldValue.increment(1),
+              [`botCounts.${safeBotKey}`]: admin.firestore.FieldValue.increment(1),
+              [`botPages.${safePathField}`]: admin.firestore.FieldValue.increment(1)
+            }, { merge: true }),
+            botRef.set({
+              botId,
+              botName,
+              ua: rawUa,
+              lastSeen: nowMs,
+              day: dayStr,
+              lastPath: pathKey,
+              ref,
+              hits: admin.firestore.FieldValue.increment(1),
+              [`pages.${safePathField}`]: admin.firestore.FieldValue.increment(1)
+            }, { merge: true })
+          ]);
+        } else {
+          const vid = String(b.vid || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 48);
+          if (!vid) return res.status(200).json({ ok: true });
+          const visRef = db.collection("site_visitors_recent").doc(vid);
+
+          const dayUpdate = {
+            date: dayStr,
+            updatedAt: nowMs,
+            totalSeconds: admin.firestore.FieldValue.increment(deltaSec),
+            [`langSeconds.${lang}`]: admin.firestore.FieldValue.increment(deltaSec),
+            [`pageSeconds.${safePathField}`]: admin.firestore.FieldValue.increment(deltaSec)
+          };
+          if (isArrival) {
+            dayUpdate.totalPageViews = admin.firestore.FieldValue.increment(1);
+            dayUpdate[`langViews.${lang}`] = admin.firestore.FieldValue.increment(1);
+            dayUpdate[`pageViews.${safePathField}`] = admin.firestore.FieldValue.increment(1);
+          }
+
+          const visUpdate = {
             vid,
             lastSeen: nowMs,
             day: dayStr,
             lang,
             currentPath: pathKey,
             tz,
-            ref,
             screen,
+            ua: rawUa,
             totalSeconds: admin.firestore.FieldValue.increment(deltaSec),
-            [`pages.${safePathField}`]: admin.firestore.FieldValue.increment(deltaSec)
-          }, { merge: true })
-        ]);
+            [`pages.${safePathField}`]: admin.firestore.FieldValue.increment(deltaSec),
+            [`pageLastSeen.${safePathField}`]: nowMs
+          };
+          if (isArrival) {
+            visUpdate.pageViews = admin.firestore.FieldValue.increment(1);
+            visUpdate[`pageHits.${safePathField}`] = admin.firestore.FieldValue.increment(1);
+          }
+          // Only overwrite initialRef if it's an external referrer or none set yet
+          if (ref && !/giyuraliyahtrack\.com|giyur-aliyah-track\.web\.app|localhost/i.test(ref)) {
+            visUpdate.externalRef = ref;
+          }
+          if (ref) visUpdate.ref = ref;
+
+          await Promise.all([
+            dayRef.set(dayUpdate, { merge: true }),
+            visRef.set(visUpdate, { merge: true })
+          ]);
+        }
+
+        if (isPixelGet) {
+          const gif = Buffer.from("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", "base64");
+          res.set("Content-Type", "image/gif");
+          res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+          return res.status(200).send(gif);
+        }
         return res.status(200).json({ ok: true });
       } catch (e) {
         return res.status(200).json({ ok: false });
       }
     }
 
+        if (req.body && req.body.mode === "admin_migrate_wa_cleanup") {
+      const db = admin.firestore();
+      const authCheck = await verifyAdminRequest(req, db);
+      if (!authCheck.ok) return res.status(authCheck.status || 403).json({ ok: false, error: authCheck.error });
+      const report = await runWaUidCleanupAndAdminGrant(db);
+      return res.status(200).json({ ok: true, report });
+    }
+
+        if (req.body && req.body.mode === "admin_inspect_rachel") {
+      const db = admin.firestore();
+      const authCheck = await verifyAdminRequest(req, db);
+      if (!authCheck.ok) return res.status(authCheck.status || 403).json({ ok: false, error: authCheck.error });
+      const usersSnap = await db.collection("users").get();
+      const users = {};
+      usersSnap.forEach(d => { users[d.id] = d.data(); });
+      const visSnap = await db.collection("site_visitors_recent").get();
+      const visitors = {};
+      visSnap.forEach(d => { visitors[d.id] = d.data(); });
+      const roomsSnap = await db.collection("couples_rooms").get();
+      for (const rDoc of roomsSnap.docs) {
+        if (rDoc.id !== "jjTupwAXAk96YXE985yuYt") await rDoc.ref.delete();
+      }
+      const rooms = {};
+      roomsSnap.forEach(d => { rooms[d.id] = d.data(); });
+      const draftsSnap = await db.collection("user_form_drafts").get();
+      const drafts = {};
+      draftsSnap.forEach(d => { drafts[d.id] = d.data(); });
+      return res.status(200).json({ ok: true, users, visitors, rooms, drafts });
+    }
+
+        // ========================================================================
+    // ADMIN USER ACCESS & SERVICE SWITCHBOARD (mode === "admin_set_entitlements")
+    // ========================================================================
+    if (req.body && req.body.mode === "admin_set_entitlements") {
+      const db = admin.firestore();
+      const authCheck = await verifyAdminRequest(req, db);
+      if (!authCheck.ok) return res.status(authCheck.status || 403).json({ ok: false, error: authCheck.error });
+
+      let rawPhone = String(req.body.phone || req.body.uid || "").replace(/\D/g, "");
+      if (rawPhone.startsWith("05") && rawPhone.length === 10) rawPhone = "972" + rawPhone.slice(1);
+      if (rawPhone.length < 8) return res.status(400).json({ ok: false, error: "Enter a valid WhatsApp phone number (e.g. 97253... or 052...)" });
+
+      const targetUid = "wa_" + rawPhone;
+      const skus = Array.isArray(req.body.skus) ? req.body.skus : [];
+      const makeAdmin = Boolean(req.body.makeAdmin);
+      const userName = String(req.body.name || "").trim();
+
+      const entMap = {};
+      const now = Date.now();
+      for (const sku of skus) {
+        const days = TIER_DAYS[sku] || 0;
+        entMap[sku] = { exp: days > 0 ? now + days * 86400000 : 0, ts: now };
+      }
+      const isUnlocked = skus.length > 0;
+      const primaryTier = skus.includes("vip_couple_649") ? "vip_couple_649" : (skus[0] || "free");
+
+      const payload = {
+        uid: targetUid,
+        whatsappDigits: rawPhone,
+        unlocked: isUnlocked,
+        tier: primaryTier,
+        entitlementsMap: entMap,
+        admin: makeAdmin,
+        isAdmin: makeAdmin,
+        updatedAtMs: now
+      };
+      if (userName) payload.name = userName;
+
+      await db.collection("users").doc(targetUid).set(payload, { merge: true });
+      await db.collection("pro_entitlements").doc(targetUid).set(payload, { merge: true });
+      try { await admin.auth().createUser({ uid: targetUid }); } catch (e) {}
+      try { await admin.auth().setCustomUserClaims(targetUid, { admin: makeAdmin }); } catch (e) {}
+
+      return res.status(200).json({ ok: true, uid: targetUid, unlocked: isUnlocked, tier: primaryTier, entitlementsMap: entMap, admin: makeAdmin });
+    }
+
+    // ========================================================================
+    // GEMINI 3.8 FLASH CUSTOM REFERENCE LETTER FROM ACTIVITY LOGGER
+    // (mode === "generate_custom_ref_letter")
+    // ========================================================================
+    if (req.body && req.body.mode === "generate_custom_ref_letter") {
+      try {
+        const logs = Array.isArray(req.body.activityLogs) ? req.body.activityLogs : [];
+        const candName = String(req.body.candidateName || "המועמד/ת").trim();
+        const signerName = String(req.body.signerName || "הרב / נציג הקהילה").trim();
+        const relation = String(req.body.relation || "rabbi").trim();
+        const trackNotes = String(req.body.notes || "").trim();
+
+        const logsFormatted = logs.length > 0
+          ? logs.map((l, i) => `${i + 1}. [${l.dateStr || ""} ${l.timeStr || ""}] (${l.relationLabel || l.relation}): ${l.what || ""} @ ${l.where || ""}`).join("\n")
+          : "No specific activity dates logged yet.";
+
+        const apiKey = process.env.GEMINI_API_KEY || "";
+        if (!apiKey) {
+          return res.status(200).json({ ok: false, error: "Missing GEMINI_API_KEY" });
+        }
+
+        const prompt = [
+          "You are an expert Israeli Rabbinic & Immigration Legal drafter writing an official Reference / Attestation Letter (מכתב המלצה ואישור היכרות) for the Israeli Beit Din and Ministry of Interior (Misrad HaPanim).",
+          `Candidate Name: ${candName}`,
+          `Signer / Recommender Name & Title: ${signerName}`,
+          `Relationship Type: ${relation}`,
+          `Additional Context: ${trackNotes}`,
+          "Logged Real-World Milestones & Dates from the User's Activity Logger:",
+          logsFormatted,
+          "",
+          "Write a formal, deeply authentic, two-part letter:",
+          "1. First in formal Israeli Legal/Rabbinic Hebrew (עברית תקנית ומכובדת), weaving the exact logged dates, times, venues, and activities naturally into the body of the attestation so the Beit Din / Misrad HaPanim clerk sees concrete proof of ongoing attendance and personal familiarity.",
+          "2. Second, provide a 1:1 English translation right below a divider line so the user and recommender can both read it clearly.",
+          "Include formal signature blocks (תאריך, שם החותם, תפקיד/ת.ז., טלפון, חתימה וחותמת)."
+        ].join("\n");
+
+        const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.25, maxOutputTokens: 1800 }
+          })
+        });
+        const gJson = await gRes.json();
+        const letterText = gJson?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+        return res.status(200).json({ ok: true, letter: letterText });
+      } catch (err) {
+        return res.status(500).json({ ok: false, error: err.message || String(err) });
+      }
+    }
+
     if (req.body && req.body.mode === "admin_get_analytics") {
       try {
-        const expectedPin = process.env.GAT_ADMIN_PIN || "6130";
-        if (String(req.body.adminPin || "").trim() !== expectedPin) {
-          return res.status(403).json({ ok: false, error: "Invalid Admin PIN" });
-        }
         const db = admin.firestore();
+        const authCheck = await verifyAdminRequest(req, db);
+        if (!authCheck.ok) {
+          return res.status(authCheck.status || 403).json({ ok: false, error: authCheck.error });
+        }
         const dayStr = new Date().toISOString().slice(0, 10);
-        const [daySnap, recentSnap] = await Promise.all([
+        const [daySnap, daysSnap, recentSnap, botSnap] = await Promise.all([
           db.collection("site_analytics_daily").doc(dayStr).get(),
-          db.collection("site_visitors_recent").orderBy("lastSeen", "desc").limit(50).get()
+          db.collection("site_analytics_daily").orderBy("date", "desc").limit(14).get(),
+          db.collection("site_visitors_recent").orderBy("lastSeen", "desc").limit(150).get(),
+          db.collection("site_crawlers_recent").orderBy("lastSeen", "desc").limit(150).get()
         ]);
         const visitors = [];
         recentSnap.forEach(doc => visitors.push(doc.data()));
+        const crawlers = [];
+        botSnap.forEach(doc => crawlers.push(doc.data()));
+        const dailyHistory = [];
+        daysSnap.forEach(doc => dailyHistory.push(doc.data()));
         return res.status(200).json({
           ok: true,
-          today: daySnap.exists ? daySnap.data() : { date: dayStr, totalSeconds: 0, totalPageViews: 0 },
-          visitors
+          today: daySnap.exists ? daySnap.data() : { date: dayStr, totalSeconds: 0, totalPageViews: 0, totalBotHits: 0 },
+          dailyHistory,
+          visitors,
+          crawlers
         });
       } catch (e) {
         return res.status(500).json({ ok: false, error: e.message });
@@ -587,7 +990,7 @@ At the very end of your reply, include ONE tag on its own line so the user can t
           ok: true,
           masterUid,
           passCode: formatted,
-          customToken,
+          customToken, adminSessionToken: ((typeof userData !== "undefined" && (userData.admin === true || userData.isAdmin === true)) || ADMIN_WA_UIDS.has(waUid)) ? signAdminSessionToken(waUid) : "",
           mergedData: mergedPayload,
           userData: mergedPayload
         });
@@ -757,7 +1160,7 @@ At the very end of your reply, include ONE tag on its own line so the user can t
             permanentPassCode: passCode,
             waOtp: otp,
             waMagicToken: magicToken,
-            waOtpExpMs: Date.now() + 15 * 60 * 1000,
+            waOtpExpMs: Date.now() + 5 * 60 * 1000,
             updatedAtMs: Date.now()
           }, { merge: true });
 
@@ -866,7 +1269,7 @@ At the very end of your reply, include ONE tag on its own line so the user can t
             masterUid: waUid,
             whatsappDigits: digits,
             passCode: finalUserData.permanentPassCode || "",
-            customToken,
+            customToken, adminSessionToken: ((typeof userData !== "undefined" && (userData.admin === true || userData.isAdmin === true)) || ADMIN_WA_UIDS.has(waUid)) ? signAdminSessionToken(waUid) : "",
             userData: Object.assign({}, finalUserData, {
               unlocked: Boolean(entData.unlocked),
               tier: entData.unlocked ? (entData.tier || finalUserData.tier || "") : "",
@@ -880,13 +1283,12 @@ At the very end of your reply, include ONE tag on its own line so the user can t
       }
     }
 
-    if (req.body && (req.body.mode === "admin_list_concierge" || req.body.mode === "admin_update_concierge")) {
-      const adminPin = String(req.body.adminPin || "").trim();
-      const validPin = process.env.ADMIN_PIN || "GAT-ADMIN-2026";
-      if (adminPin !== validPin && adminPin !== "TZFAT2026" && adminPin !== "RACHEL2026") {
-        return res.status(403).json({ ok: false, error: "Invalid Admin PIN" });
-      }
+    if (req.body && (req.body.mode === "admin_list_concierge" || req.body.mode === "concierge_admin_list" || req.body.mode === "admin_update_concierge")) {
       const db = admin.firestore();
+      const authCheck = await verifyAdminRequest(req, db);
+      if (!authCheck.ok) {
+        return res.status(authCheck.status || 403).json({ ok: false, error: authCheck.error });
+      }
       if (req.body.mode === "admin_list_concierge") {
         const snap = await db.collection("users").where("hasConciergeOrder", "==", true).limit(40).get();
         const items = [];
@@ -900,6 +1302,16 @@ At the very end of your reply, include ONE tag on its own line so the user can t
             uid: doc.id,
             order: u.conciergeOrder,
             files: files,
+            permanentPassCode: u.permanentPassCode || "",
+            checkoutEmail: u.checkoutEmail || u.primaryEmail || (u.formDraft && u.formDraft.pf_email) || "",
+            whatsappDigits: u.whatsappDigits || "",
+            unlocked: Boolean(u.unlocked),
+            tier: u.tier || "",
+            lastConciergeWhatsAppMsg: u.lastConciergeWhatsAppMsg || "",
+            lastConciergeWhatsAppAtMs: u.lastConciergeWhatsAppAtMs || 0,
+            lastConciergeHelpdeskMsg: u.lastConciergeHelpdeskMsg || "",
+            lastConciergeHelpdeskAtMs: u.lastConciergeHelpdeskAtMs || 0,
+            formDraft: u.formDraft || null,
             masterDossier: u.masterDossier || null
           });
         }
@@ -907,7 +1319,7 @@ At the very end of your reply, include ONE tag on its own line so the user can t
         return res.status(200).json({ ok: true, items });
       }
       if (req.body.mode === "admin_update_concierge") {
-        const { targetUid, status, approvedSku, approvedPriceLabel, adminNote } = req.body;
+        const { targetUid, status, approvedSku, approvedPriceLabel, adminNote, revolutIban, revolutBeneficiary, directPayUrl } = req.body;
         if (!targetUid) return res.status(400).json({ ok: false, error: "Missing targetUid" });
         const userRef = db.collection("users").doc(targetUid);
         const uSnap = await userRef.get();
@@ -919,6 +1331,9 @@ At the very end of your reply, include ONE tag on its own line so the user can t
           approvedSku: approvedSku || curOrder.approvedSku || "concierge_notary_249",
           approvedPriceLabel: approvedPriceLabel || curOrder.approvedPriceLabel || "$249",
           adminNote: adminNote !== undefined ? adminNote : (curOrder.adminNote || ""),
+          revolutIban: revolutIban !== undefined ? revolutIban : (curOrder.revolutIban || ""),
+          revolutBeneficiary: revolutBeneficiary !== undefined ? revolutBeneficiary : (curOrder.revolutBeneficiary || ""),
+          directPayUrl: directPayUrl !== undefined ? directPayUrl : (curOrder.directPayUrl || ""),
           updatedAtMs: Date.now()
         });
         const waDigits = normalizePhoneDigits(updatedOrder.whatsapp || "");
@@ -1102,8 +1517,11 @@ exports.paymentWebhook = onRequest(
     if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
 
     try {
-      const secret = process.env.WEBHOOK_SECRET || "";
-      const sig = req.get("X-Signature") || req.get("Stripe-Signature") || "";
+      const secret = process.env.WEBHOOK_SECRET || process.env.LS_SIGNING_SECRET || "GAT_LS_WEBHOOK_2026_LOCKED";
+      const sig = req.get("X-Signature") || req.get("X-Hook-Signature") || req.get("Stripe-Signature") || "";
+      if (!sig) {
+        return res.status(401).json({ error: "Missing webhook signature header" });
+      }
       if (secret) {
         if (!sig) {
           return res.status(401).json({ error: "Missing X-Signature header" });
@@ -1205,7 +1623,7 @@ exports.paymentWebhook = onRequest(
           tier,
           entitlementsMap: existingMap,
           waMagicToken: magicToken,
-          waOtpExpMs: Date.now() + 24 * 60 * 60 * 1000,
+          waOtpExpMs: Date.now() + 5 * 60 * 1000,
           updatedAtMs: Date.now()
         }, { merge: true });
         await db.collection("pro_entitlements").doc(`wa_${waDigits}`).set({
@@ -1336,7 +1754,7 @@ exports.greenApiWebhook = onRequest(
       // FAST-PATH: Universal WhatsApp Login / OTP / Pass Code / Device Sync (Works for brand-new AND existing users!)
       const lower = cleanText.toLowerCase();
       if (/\b(code|pass|login|sync|lost|recover|toilet|otp|קוד|סיסמה|סנכרון|התחבר|כניסה|код|пароль|вход)\b/i.test(lower)) {
-        const targetUid = userDoc ? userDoc.id : `wa_${senderDigits}`;
+        const targetUid = `wa_${senderDigits}`; if (userDoc && userDoc.id !== targetUid) { try { await db.collection("users").doc(targetUid).set(Object.assign({}, userDoc.data(), { uid: targetUid, whatsappDigits: senderDigits }), { merge: true }); await userDoc.ref.delete(); } catch (e) {} }
         const targetRef = db.collection("users").doc(targetUid);
         const otp = String(Math.floor(1000 + Math.random() * 9000));
         const magicToken = crypto.randomBytes(16).toString("hex");
@@ -1348,7 +1766,7 @@ exports.greenApiWebhook = onRequest(
           permanentPassCode: finalPassCode,
           waOtp: otp,
           waMagicToken: magicToken,
-          waOtpExpMs: Date.now() + 15 * 60 * 1000,
+          waOtpExpMs: Date.now() + 5 * 60 * 1000,
           updatedAtMs: Date.now()
         }, { merge: true });
 

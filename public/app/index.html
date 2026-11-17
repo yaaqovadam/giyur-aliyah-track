@@ -11,6 +11,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Interactive Command Center & Vetted Concierge | Giyur Aliyah Track</title>
+  <link rel="canonical" href="https://giyuraliyahtrack.com/app/">
+  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/app/">
+  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/app/">
+  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/app/">
+  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/app/">
+  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/app/">
+  <link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/app/">
+  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/app/">
+  <meta name="description" content="Giyur Aliyah Track Interactive Command Center — Auto-fill all 8 official Hebrew Misrad HaPanim (PIBA) forms, practice 700 Beit Din tribunal flashcards, sync 300 separated-room couples questions, and master 56 Shabbat songs & prayers.">
   <script src="/i18n/jurisdiction.js?v=1794732270"></script>
   <style>
     :root, html, body {
@@ -181,7 +190,65 @@
       overflow: hidden !important;
     }
 
-  </style>
+  
+/* Urgent Bold Red Styling for POINT-OF-NO-RETURN • 7-DAY PRE-FLIGHT GO-BAG Card */
+#seo-obs-golink,
+#seo-obs-golink details,
+details.gat-ponr-red-card {
+  border-top: 4px solid #dc2626 !important;
+  border: 2px solid #ef4444 !important;
+  background: linear-gradient(180deg, #fef2f2 0%, #fff5f5 100%) !important;
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.16) !important;
+}
+#seo-obs-golink summary,
+#seo-obs-golink summary span,
+details.gat-ponr-red-card summary,
+details.gat-ponr-red-card summary span,
+span[data-ponr="1"] {
+  color: #dc2626 !important;
+  font-weight: 900 !important;
+}
+
+
+    #left-edge-handle {
+      position: fixed; left: 0; top: 50%; transform: translate3d(0, -50%, 0);
+      z-index: 9991; width: 24px; height: 82px; background: #082548;
+      border: 2px solid #03A9F4; border-left: none; border-radius: 0 12px 12px 0;
+      box-shadow: 3px 0 14px rgba(8, 37, 72, 0.35);
+      display: flex; align-items: center; justify-content: center;
+      color: #4FC3F7; font-weight: 900; font-size: 0.95rem; cursor: pointer;
+    }
+    html[dir="rtl"] #left-edge-handle {
+      left: auto; right: 0; border-right: none; border-left: 2px solid #03A9F4;
+      border-radius: 12px 0 0 12px;
+    }
+    #left-drawer {
+      position: fixed; inset: 0; background: rgba(8, 37, 72, 0.55);
+      z-index: 9996; display: flex; justify-content: flex-start;
+      opacity: 0; pointer-events: none; transition: opacity 0.24s ease;
+      backdrop-filter: blur(2px);
+    }
+    html[dir="rtl"] #left-drawer { justify-content: flex-end; }
+    #left-drawer.open { opacity: 1; pointer-events: auto; }
+    #left-drawer-panel {
+      background: #ffffff; width: 310px; max-width: 85vw; height: 100%;
+      padding: 18px 14px; display: flex; flex-direction: column; gap: 10px;
+      overflow-y: auto; transform: translateX(-100%);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 10px 0 30px rgba(0,0,0,0.25);
+    }
+    html[dir="rtl"] #left-drawer-panel { transform: translateX(100%); }
+    #left-drawer.open #left-drawer-panel { transform: translateX(0); }
+    .gat-ld-item {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 12px 12px; border: none; border-bottom: 1px solid #f1f5f9;
+      background: transparent; color: #082548; font-size: 0.92rem;
+      font-weight: 800; text-align: start; cursor: pointer; border-radius: 10px;
+      text-decoration: none;
+    }
+    .gat-ld-item:hover { background: #f0f9ff; }
+    
+</style>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));}</script>
 <script type="application/ld+json">
 {
@@ -222,6 +289,119 @@
   ]
 }
 </script>
+<style id="gat-static-app-drawer-css">
+  #app-drawer {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 37, 72, 0.55);
+    backdrop-filter: blur(2px);
+    z-index: 9997;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.24s ease;
+  }
+  #app-drawer.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #app-drawer .drawer-panel {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 310px;
+    max-width: 85vw;
+    height: 100%;
+    background: #ffffff;
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* LTR: Hamburger is on physical RIGHT -> Drawer slides from physical RIGHT */
+  html:not([dir="rtl"]) #app-drawer .drawer-panel {
+    right: 0 !important;
+    left: auto !important;
+    transform: translateX(105%) !important;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.25) !important;
+  }
+  /* RTL (Hebrew): Hamburger is on physical LEFT -> Drawer slides from physical LEFT */
+  html[dir="rtl"] #app-drawer .drawer-panel {
+    left: 0 !important;
+    right: auto !important;
+    transform: translateX(-105%) !important;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.25) !important;
+    direction: rtl !important;
+    text-align: right !important;
+  }
+  html:not([dir="rtl"]) #app-drawer.open .drawer-panel,
+  html[dir="rtl"] #app-drawer.open .drawer-panel {
+    transform: translateX(0) !important;
+  }
+  #app-drawer .gat-ld-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 12px;
+    border: none;
+    border-bottom: 1px solid #f1f5f9;
+    background: transparent;
+    color: #082548;
+    font-size: 0.92rem;
+    font-weight: 800;
+    text-align: start;
+    cursor: pointer;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+  #app-drawer .gat-ld-item:hover {
+    background: #f0f9ff;
+  }
+</style>
+<style id="gat-horizontal-tabs-scroll-fix">
+  /* Allow horizontal touch-scrolling on top module/track tab rows while keeping page locked */
+  .mod-tabs, .mod-tabs *,
+  .nav-tabs, .nav-tabs *,
+  .sub-tabs, .sub-tabs *,
+  #mod-tabs, #mod-tabs *,
+  #hebrew-subtabs-bar, #hebrew-subtabs-bar *,
+  [role="tablist"], [role="tablist"] * {
+    touch-action: pan-x pan-y !important;
+  }
+  .mod-tabs,
+  .nav-tabs,
+  .sub-tabs,
+  #mod-tabs,
+  #hebrew-subtabs-bar,
+  [role="tablist"] {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    max-width: 100vw !important;
+  }
+  .mod-tabs::-webkit-scrollbar,
+  .nav-tabs::-webkit-scrollbar,
+  .sub-tabs::-webkit-scrollbar,
+  #mod-tabs::-webkit-scrollbar,
+  #hebrew-subtabs-bar::-webkit-scrollbar,
+  [role="tablist"]::-webkit-scrollbar {
+    display: none !important;
+  }
+  .mod-tabs > *,
+  .nav-tabs > *,
+  .sub-tabs > *,
+  #mod-tabs > *,
+  #hebrew-subtabs-bar > *,
+  [role="tablist"] > * {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+</style>
 </head>
 <body>
   <header class="topbar">
@@ -237,12 +417,12 @@
       </a>
     </div>
     <div style="display:flex;align-items:center;gap:8px;">
-            <button type="button" class="hamburger-btn" onclick="if(typeof window.toggleLeftDrawer==='function') window.toggleLeftDrawer();" aria-label="Menu" style="background:rgba(255,255,255,0.12);border:1.5px solid rgba(56,189,248,0.45);color:#fff;width:38px;height:38px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;">
-        <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#ffffff;stroke-width:2.5;stroke-linecap:round;"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-      <button type="button" id="globe-lang-btn" class="globe-btn" onclick="window.toggleLang(event)" aria-label="Change Language">
+            <button type="button" id="globe-lang-btn" class="globe-btn" onclick="window.toggleLang(event)" aria-label="Change Language">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         <span id="globe-lang-lbl">EN</span>
+      </button>
+      <button type="button" class="hamburger-btn" onclick="document.getElementById('app-drawer').classList.toggle('open');" aria-label="Menu" style="background:rgba(255,255,255,0.12);border:1.5px solid rgba(56,189,248,0.45);color:#fff;width:38px;height:38px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;">
+        <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#ffffff;stroke-width:2.5;stroke-linecap:round;"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
   </header>
@@ -257,7 +437,10 @@
     <button class="mod-tab" data-mod="songs-prayers" onclick="openMod('songs-prayers')">🎵 56 Songs &amp; Prayers</button>
   </div>
 
-  <div class="container" id="app-container"></div>
+  <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;">Giyur Aliyah Track — Interactive Israeli Ministry of Interior (PIBA) 8-Form Stamper, 700 Beit Din Flashcards, 300 Spousal Visa Questions &amp; 56 Shabbat Songs</h1>
+      <div class="container" id="app-container"></div>
+
+  
 
 
   <!-- CROSS-DEVICE SYNC & UNIVERSAL SIGN-IN MODAL -->
@@ -445,64 +628,18 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script src="/app/bd_vault.js?v=1794732270"></script>
-  <script src="/app/cp_vault.js?v=1794732270"></script>
-  <script src="/app/songs_vault.js?v=1794732270"></script>
-  <script src="/app/app.js?v=1794732270"></script>
+  <script src="/app/bd_vault.js?v=1794883974"></script>
+  <script src="/app/cp_vault.js?v=1794883974"></script>
+  <script src="/app/songs_vault.js?v=1794883974"></script>
+  <script src="/app/app.js?v=1794883974"></script>
   <script src="/app/vendor/pdf-lib.min.js?v=1794732270"></script>
   <script src="/app/vendor/fontkit.umd.min.js?v=1794732270"></script>
   <script src="/app/stampers/gat_modular_stampers_bundle.js?v=1794732270"></script>
-  <script src="/app/forms_vault.js?v=1794732270"></script>
+  <script src="/app/forms_vault.js?v=1794883974"></script>
 
 
         <!-- VISIBLE FAQ, TRANSPARENT PRICING & TERMS / REFUND POLICY (SEO + LEMON SQUEEZY COMPLIANCE) -->
-        <section id="gat-faq-pricing-legal" style="margin-top:26px;padding-top:20px;border-top:2px solid #cbd5e1;">
-          <div class="section-kicker" style="margin-bottom:10px;">
-            <h2>❓ Frequently Asked Questions & Transparent Pricing</h2>
-            <span>Statutory & Software Guide</span>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px;">
-            <details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:12px;padding:12px 14px;">
-              <summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;">1. What does Giyur Aliyah Track do, and how does it save 25,000₪+ in lawyer retainers?</summary>
-              <p style="margin-top:8px;font-size:0.84rem;color:#334155;line-height:1.55;">Giyur Aliyah Track is an interactive legal-tech & rabbinic preparation platform for Israel's Ministry of Interior (Misrad HaPanim / PIBA) and Orthodox Beit Din conversion tribunals. Our self-serve digital engines stamp all 8 official Hebrew PIBA government forms (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, Security CV), decode Hebrew clerk deficiency sheets using AI Vision, train conversion candidates on all 700 Beit Din questions and 56 Shabbat Songs/Prayers, and synchronize couples across 2 phones on 300 separated-room interrogation questions (Nohal 5.2.0008 / 5.2.0009).</p>
-            </details>
-            <details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:12px;padding:12px 14px;">
-              <summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;">2. How does the Modular Pricing work (90-Day Sprint vs. Lifetime Ownership)?</summary>
-              <p style="margin-top:8px;font-size:0.84rem;color:#334155;line-height:1.55;">There are zero recurring monthly subscriptions. You only unlock the exact engine you need:<br>• <strong>Statutory Hebrew Forms & Clerk Engine:</strong> $89 (90-Day Pass) or $149 (Lifetime All-Filings & Annual Renewals Pass).<br>• <strong>Beit Din 700-Question & 56 Shabbat Songs/Prayers Mastery Suite:</strong> $149 (90-Day Cram Pass) or $249 (Lifetime Mastery Pass), or individual decks from $49–$65.<br>• <strong>Spousal Visa 300-Question 2-Phone Sync + AI Packet Audit:</strong> $129 (90-Day Pass) or $229 (5-Year Graduated Residency Pass), or $75 standalone sync.<br>• <strong>Full Dual-Track VIP Suite (All 3 Digital Engines):</strong> $249 (90-Day Solo), $399 (Lifetime Solo), or $649 (VIP Couple 2-Phone Lifetime + AI Packet Audit).</p>
-            </details>
-            <details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:12px;padding:12px 14px;">
-              <summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;">3. Are Human Concierge Services (Red-Ribbon Notary, Sponsoring Rabbi, Madrichat Kallah, Lawyer Escort) separate from software passes?</summary>
-              <p style="margin-top:8px;font-size:0.84rem;color:#334155;line-height:1.55;">Yes. Software passes unlock instant 24/7 digital access. Optional human concierge placements—including Israeli Ministry of Justice Red-Ribbon Notarial Translations ($249–$799), Vetted Sponsoring Rabbi (Rav Melaveh) placement ($349), Vetted Madrichat Kallah placement ($249), Rabbi + Kallah Couple Package ($499), and 1-Hour Licensed Israeli Immigration Lawyer Branch Escort ($649–$799)—are booked via our Vetted Concierge Desk after document verification.</p>
-            </details>
-            <details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:12px;padding:12px 14px;">
-              <summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;">4. Can I run the Spousal Visa track (Nohal 5.2.0008) and Orthodox Conversion at the same time?</summary>
-              <p style="margin-top:8px;font-size:0.84rem;color:#334155;line-height:1.55;">Yes! Under Misrad HaPanim Procedure 5.2.0008 Section ג.10, couples have the statutory right to lock in immediate legal status and a B/1 work permit on the Spousal Track while simultaneously studying for state-recognized Rabbanut conversion. Remember: when living with a partner, the Beit Din requires both partners to attend classes and keep Shabbat and Kashrut together.</p>
-            </details>
-          </div>
-
-          <!-- TERMS OF SERVICE, REFUND POLICY & PRIVACY POLICY FOOTER -->
-          <div style="background:#082548;color:#e2e8f0;border-radius:16px;padding:16px 18px;font-size:0.78rem;line-height:1.55;margin-top:12px;">
-            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.15);">
-              <div><strong style="color:#ffffff;font-size:0.88rem;">GiyurAliyahTrack.com</strong> • Statutory Legal-Tech & Rabbinic Command Center</div>
-              <div>📩 <a href="mailto:concierge@giyuraliyahtrack.com" style="color:#38bdf8;text-decoration:none;font-weight:800;">concierge@giyuraliyahtrack.com</a> • 📲 WhatsApp: <a href="https://wa.me/972525822005" style="color:#4ade80;text-decoration:none;font-weight:800;">+972-52-582-2005</a></div>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:10px;">
-              <details>
-                <summary style="color:#38bdf8;font-weight:800;cursor:pointer;">📜 Terms of Service & Disclaimer</summary>
-                <p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">Giyur Aliyah Track provides automated document preparation software, statutory translation tools, and educational study vaults. Software engines do not constitute formal legal representation; licensed Israeli attorney representation and notarial seals are provided exclusively through our Vetted Human Concierge Desk.</p>
-              </details>
-              <details>
-                <summary style="color:#38bdf8;font-weight:800;cursor:pointer;">💳 Digital Finality & No-Refund Policy</summary>
-                <p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">All passes are one-time payments with zero recurring charges. Because we provide a free preview tier upfront (free sample flashcards, songs, and form previews) and purchasing a pass grants immediate access to downloadable government PDFs, AI scanner credits, and full study vaults, ALL DIGITAL SOFTWARE SALES ARE FINAL AND NON-REFUNDABLE upon unlock (except for accidental duplicate billing). Human concierge placement fees are non-refundable once translation or professional matching begins (refundable only if we cannot match you in your region within 7 business days).</p>
-              </details>
-              <details>
-                <summary style="color:#38bdf8;font-weight:800;cursor:pointer;">🔒 Privacy & Zero-Leakage Data Policy</summary>
-                <p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">Form drafts and 2-phone couples interrogation rooms are encrypted and tied strictly to your personal WhatsApp session UID. We never sell or share personal dossier data with third parties.</p>
-              </details>
-            </div>
-          </div>
-        </section>
+        <section id="gat-faq-pricing-legal" style="margin-top:26px;padding-top:20px;border-top:2px solid #cbd5e1;"><div class="section-kicker" style="margin-bottom:12px;"><h2>❓ 180-Day Apostille Clock & 8 PIBA Forms FAQ</h2><span>Statutory & Software Guide</span></div><div style="display:flex;flex-direction:column;gap:10px;"><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">1. Which documents expire after 180 days (6 months)?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">Misrad HaPanim strictly enforces a 180-day freshness limit on foreign Police Clearances (FBI, ACRO, RCMP, etc.) and Single Status Proofs (Tamtzit Rishum / Celibacy Affidavit) from the date of issuance.</p></details><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">2. What is the '3-Bucket' Police Check rule?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">Clerks require apostilled federal/national police checks from: (1) every country of citizenship, (2) your country of birth, and (3) any country where you resided for 12+ months after age 18.</p></details><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">3. Why must PIBA forms (Ash/1, Ash/3, Ash/6, Ash/456) be stamped in Hebrew?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">Misrad HaPanim branch clerks reject handwritten Latin-script forms. Our stamper engine maps your inputs in 6 languages into pixel-accurate Hebrew PDFs alongside a Red-X Signing Guide.</p></details></div><div style="background:#082548;color:#e2e8f0;border-radius:16px;padding:18px 18px;font-size:0.78rem;line-height:1.55;margin-top:18px;box-shadow:0 8px 24px rgba(8,37,72,0.18);"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.15);"><div><strong style="color:#ffffff;font-size:0.9rem;">GiyurAliyahTrack.com</strong> • Statutory Legal-Tech & Rabbinic Command Center</div><div>📩 <a href="mailto:concierge@giyuraliyahtrack.com" style="color:#38bdf8;text-decoration:none;font-weight:800;">concierge@giyuraliyahtrack.com</a> • 📲 WhatsApp: <a href="https://wa.me/972525822005" style="color:#4ade80;text-decoration:none;font-weight:800;">+972-52-582-2005</a></div></div><div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;"><details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">📜 Terms of Service & Disclaimer</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">Giyur Aliyah Track provides statutory software automation, educational preparation vaults, and administrative routing. We are not a law firm or government agency; optional legal representation is provided strictly through independent licensed Israeli attorneys.</p></details><details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">💳 Digital Finality & No-Refund Policy</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">Because digital passes immediately unlock proprietary PDF stampers, AI credits, and full study vaults, ALL DIGITAL SOFTWARE SALES ARE FINAL AND NON-REFUNDABLE upon unlock (except for accidental duplicate billing). Human concierge placement fees are non-refundable once translation or professional matching begins (refundable only if we cannot match you in your region within 7 business days).</p></details><details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">🔒 Privacy & Zero-Leakage Data Security</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">All form drafts and 2-phone couples rooms are encrypted and isolated to your personal WhatsApp UID. We never sell or share applicant data with third parties.</p></details></div></div></section>
 
 <!-- GAT_SEO_LITURGY_START -->
 <section id="gat-seo-liturgy-directory" aria-label="Complete Jewish Songs, Morning Prayers & Essential Brachot Text Reference" style="margin-top:18px;border-top:2px dashed #cbd5e1;padding-top:14px;">
@@ -542,5 +679,38 @@
 <details id="seo-prayer-brachot-108" style="background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:8px 11px;margin-bottom:6px;"><summary style="font-weight:800;font-size:0.83rem;color:#0f172a;cursor:pointer;">8. הַבְדָּלָה לְמוֹצָאֵי שַׁבָּת — Havdalah (יבנ״ה)</summary><article style="margin-top:8px;"><div style="margin-bottom:6px;"><a href="?module=songs-prayers&amp;tab=brachot&amp;track=108" onclick="window.selectAndPlayTrack(7, true, 'brachot'); return false;" style="display:inline-block;background:#0284c7;color:#fff;text-decoration:none;padding:4px 10px;border-radius:999px;font-size:0.74rem;font-weight:800;">▶️ Load &amp; Auto-Play in Karaoke Trainer</a></div><p dir="rtl" lang="he" style="font-size:0.98rem;font-weight:700;line-height:1.75;color:#0f172a;margin:0 0 6px;">בּוֹרֵא פְּרִי הַגָּפֶן / בּוֹרֵא מִינֵי בְשָׂמִים / בּוֹרֵא מְאוֹרֵי הָאֵשׁ / הַמַּבְדִּיל בֵּין קֹדֶשׁ לְחֹל בֵּין אוֹר לְחֹשֶׁךְ בֵּין יִשְׂרָאֵל לָעַמִּים.</p><p style="font-size:0.82rem;font-style:italic;line-height:1.6;color:#334155;margin:0 0 6px;">Borei Periy Hagafen / Borei Miyneiy Besamiym / Borei Meoreiy Haeish / Hamavediyl Beiyn Kodesh Lechol Beiyn Or Lechosheche Beiyn Yiseraeil Laamiym</p><p style="font-size:0.78rem;color:#475569;margin:0;">💡 Order: Wine, Spices, Multi-wick Torch, Havdalah (יבנ״ה).</p></article></details>
 </div></details></section>
 <!-- GAT_SEO_LITURGY_END -->
+
+
+
+
+
+
+
+
+<!-- STATIC SEO HAMBURGER DRAWER -->
+<div id="app-drawer" onclick="if(event.target===this) this.classList.remove('open');">
+  <nav class="drawer-panel" aria-label="Main Navigation">
+    <div class="drawer-brand-center" style="margin: 0 0 8px 0; padding: 4px 10px 14px 10px; border-bottom: 1.5px solid #e2e8f0; text-align: center;">
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;white-space:nowrap;font-size:1.28rem;font-weight:900;letter-spacing:-0.02em;color:#082548;line-height:1.1;direction:ltr;">
+        <span>Giyur<span style="color:#03A9F4;">Aliyah</span>Track</span>
+      </div>
+    </div>
+    <a href="/app/?sync=1" id="app-drawer-sync-btn" onclick="if(typeof window.openDeviceSyncModal==='function'){ event.preventDefault(); document.getElementById('app-drawer').classList.remove('open'); window.openDeviceSyncModal(); }" style="width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#ffffff;border:2.5px solid #4FC3F7;padding:13px 14px;border-radius:12px;font-size:0.92rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin:2px 0 4px 0;text-decoration:none;box-shadow:0 6px 18px rgba(3,169,244,0.42);">
+      <span>📲 Sync Devices &amp; Pass Code</span>
+    </a>
+    <a href="/pricing/" id="gat-hamburger-pricing-link" class="drawer-item gat-hamburger-pricing-item" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 6px 0;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,#0284c7,#2563eb);color:#ffffff !important;font-weight:800;font-size:0.93rem;text-decoration:none;box-shadow:0 4px 14px rgba(37,99,235,0.28);">
+      <span style="display:flex;align-items:center;gap:9px;"><span>💎</span><span>All 23 Services &amp; Pricing</span></span>
+      <span style="font-size:0.8rem;opacity:0.95;">→</span>
+    </a>
+    <a href="/" class="gat-ld-item">🏠 Home &amp; Track Guide</a>
+    <a href="/app/?module=hebrew-engine" class="gat-ld-item">📸 Statutory Hebrew &amp; 8 Forms</a>
+    <a href="/app/?module=beit-din-150" class="gat-ld-item">🕍 700 Beit Din Flashcards</a>
+    <a href="/app/?module=couples-sync" class="gat-ld-item">📱 300 Couples 2-Phone Sync</a>
+    <a href="/app/?module=songs-prayers" class="gat-ld-item">🎵 56 Songs, Prayers &amp; Brachot</a>
+    <a href="/app/?module=rabbi-letters" class="gat-ld-item">✍️ Rabbi &amp; Host Family Letters</a>
+    <a href="/app/?module=vetted-team" class="gat-ld-item">🤝 Vetted Notary, Rabbi &amp; Lawyer</a>
+    <a href="/pricing/" class="gat-ld-item" style="color:#0288D1;">🔓 View Passes &amp; Pricing</a>
+  </nav>
+</div>
 </body>
 </html>

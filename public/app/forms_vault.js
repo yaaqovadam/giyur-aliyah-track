@@ -828,10 +828,24 @@
   function loadScans() { try { return JSON.parse(localStorage.getItem(SCANNED_KEY) || '[]') || []; } catch (e) { return []; } }
 
   window.gatFormsState = loadDraft();
+  window.setGatFormOption = function(key, v) {
+    window.gatFormsState[key] = v;
+    try {
+      var d = loadDraft();
+      d[key] = v;
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+    } catch (e) {}
+    window.mountUnifiedPibaFormsEngine();
+  };
   function val(id, defVal) {
+    if (window.gatFormsState && window.gatFormsState[id] !== undefined && window.gatFormsState[id] !== null && window.gatFormsState[id] !== '') {
+      return window.gatFormsState[id];
+    }
     var d = loadDraft();
-    if (d[id] !== undefined && d[id] !== null && d[id] !== '') return d[id];
-    if (window.gatFormsState[id] !== undefined && window.gatFormsState[id] !== '') return window.gatFormsState[id];
+    if (d[id] !== undefined && d[id] !== null && d[id] !== '') {
+      window.gatFormsState[id] = d[id];
+      return d[id];
+    }
     return defVal !== undefined ? defVal : '';
   }
 
@@ -1111,7 +1125,7 @@
     if (btn) { btn.disabled = true; btn.innerText = c.btnConverting; }
 
     try {
-      var res = await fetch('/api/auditDoc', {
+      var res = await fetch((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc"), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mode: 'translate_form_hebrew', fields: toTranslate, lang: lang() })
@@ -1193,7 +1207,7 @@
     }
     try {
       var payload = await window.fileToCompressedBase64(file);
-      var res = await fetch('/api/auditDoc', {
+      var res = await fetch((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc"), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1250,7 +1264,7 @@
 
     try {
       var payload = await window.fileToCompressedBase64(file);
-      var res = await fetch('/api/auditDoc', {
+      var res = await fetch((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc"), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1451,36 +1465,123 @@
     var s = window.collectCurrentFormDraft();
     var unlocked = (typeof window.canUnlockForms === 'function' && window.canUnlockForms());
 
-    // If unlocked and real-PDF stamper is loaded for forms mode, stamp exact Gov.il PDF directly!
-    if (unlocked && mode === 'forms' && typeof window.stampOfficialGovPdf === 'function') {
-      await window.stampOfficialGovPdf(curForm, s, !!window.stamperCalibrationMode);
-      return;
-    }
-
     var branch = val('pf_target_branch', window.PIBA_BRANCHES[0].v);
     var todayHe = new Date().toLocaleDateString('he-IL');
+    var uLang = (window.appLang || 'en').toLowerCase();
+    var langNames = { en: 'ENGLISH', es: 'ESPAÑOL', fr: 'FRANÇAIS', de: 'DEUTSCH', ru: 'РУССКИЙ', he: 'עברית' };
+    var guideBannerI18n = {
+      en: {
+        hdr: '🔍 SIDE-BY-SIDE CROSS-REFERENCE & SIGNING GUIDE (ENGLISH ↔ OFFICIAL HEBREW)',
+        sub: 'Compare every field in your language on the left with the exact Hebrew stamped into your official Misrad HaPanim PDF on the right. DO NOT hand this reference sheet to the clerk — hand only the Official Royal-Blue Hebrew PDF!',
+        colMother: '1. YOUR LANGUAGE (ENGLISH FIELD & MEANING)',
+        colHeField: '2. OFFICIAL HEBREW BOX ON PDF (עברית)',
+        colHeVal: '3. EXACT STAMPED HEBREW VALUE (ROYAL BLUE INK)',
+        signWarn: '✍️ WET-INK SIGNING RULE: Sign in blue pen ONLY in the applicant/spouse signature boxes when standing in front of the Misrad HaPanim clerk or Israeli lawyer. Leave all "לשימוש המשרד" (Official Clerk Use Only) boxes 100% blank!',
+        btnDownloadPdf: '📥 Download Official Royal-Blue Hebrew PDF (Submit to Misrad HaPanim)',
+        btnPrintGuide: '🖨️ Print / Save Side-by-Side Reference Guide (For Your Verification Only)'
+      },
+      es: {
+        hdr: '🔍 GUÍA DE REFERENCIA CRUZADA LADO A LADO (ESPAÑOL ↔ HEBREO OFICIAL)',
+        sub: 'Compare cada campo en español a la izquierda con el texto exacto en hebreo estampado en su PDF oficial de Misrad HaPanim a la derecha. ¡NO entregue esta hoja guía al funcionario; entregue únicamente el PDF Oficial en Hebreo!',
+        colMother: '1. TU IDIOMA (CAMPO Y SIGNIFICADO EN ESPAÑOL)',
+        colHeField: '2. CASILLA OFICIAL EN EL PDF HEBREO (עברית)',
+        colHeVal: '3. VALOR EXACTO ESTAMPADO EN HEBREO (TINTA AZUL)',
+        signWarn: '✍️ REGLA DE FIRMA EN TINTA AZUL: Firme con bolígrafo azul ÚNICAMENTE en las casillas de firma del solicitante/pareja frente al funcionario de Misrad HaPanim o abogado israelí. ¡Deje todas las casillas "לשימוש המשרד" (Uso Oficial) 100% en blanco!',
+        btnDownloadPdf: '📥 Descargar PDF Oficial en Hebreo (Para Entregar en Misrad HaPanim)',
+        btnPrintGuide: '🖨️ Imprimir / Guardar Guía Lado a Lado Español ↔ Hebreo (Solo Para Tu Control)'
+      },
+      fr: {
+        hdr: '🔍 GUIDE DE RÉFÉRENCE CROISÉE CÔTE À CÔTE (FRANÇAIS ↔ HÉBREU OFFICIEL)',
+        sub: 'Comparez chaque champ en français à gauche avec l’hébreu exact imprimé sur votre PDF officiel du Misrad HaPanim à droite. NE remettez PAS cette feuille guide à l’agent — remettez uniquement le PDF Officiel en Hébreu !',
+        colMother: '1. VOTRE LANGUE (CHAMP EN FRANÇAIS)',
+        colHeField: '2. CASE OFFICIELLE SUR LE PDF HÉBREU (עברית)',
+        colHeVal: '3. VALEUR EXACTE IMPRIMÉE EN HÉBREU (ENCRE BLEUE)',
+        signWarn: '✍️ RÈGLE DE SIGNATURE : Signez au stylo bleu UNIQUEMENT devant l’agent du Misrad HaPanim ou l’avocat israélien. Laissez toutes les cases "לשימוש המשרד" (Réservé à l’Administration) 100% vierges !',
+        btnDownloadPdf: '📥 Télécharger le PDF Officiel en Hébreu (À Remettre au Misrad HaPanim)',
+        btnPrintGuide: '🖨️ Imprimer / Enregistrer le Guide Côte à Côte Français ↔ Hébreu'
+      },
+      de: {
+        hdr: '🔍 SEITE-AN-SEITE ABGLEICH & UNTERSCHRIFTEN-GUIDE (DEUTSCH ↔ OFFIZIELLES HEBRÄISCH)',
+        sub: 'Vergleichen Sie jedes Feld auf Deutsch (links) mit dem exakten hebräischen Eintrag in Ihrem offiziellen Misrad HaPanim PDF (rechts). Geben Sie dieses Kontrollblatt NICHT beim Beamten ab — reichen Sie nur das offizielle hebräische PDF ein!',
+        colMother: '1. IHRE SPRACHE (FELD AUF DEUTSCH)',
+        colHeField: '2. OFFIZIELLES FELD IM HEBRÄISCHEN PDF (עברית)',
+        colHeVal: '3. EXAKTER EINTRAG AUF HEBRÄISCH (BLAUE TINTE)',
+        signWarn: '✍️ UNTERSCHRIFTEN-REGEL: Unterschreiben Sie mit blauem Stift NUR vor dem Misrad HaPanim Beamten oder Anwalt. Lassen Sie alle "לשימוש המשרד" (Nur für den Dienstgebrauch) Felder 100% leer!',
+        btnDownloadPdf: '📥 Offizielles Hebräisches PDF Herunterladen (Für Misrad HaPanim)',
+        btnPrintGuide: '🖨️ Seite-an-Seite Kontrollblatt Drucken / Speichern (Deutsch ↔ Hebräisch)'
+      },
+      ru: {
+        hdr: '🔍 ПОСТРОЧНАЯ СВЕРКА НА ДВУХ ЯЗЫКАХ (РУССКИЙ ↔ ОФИЦИАЛЬНЫЙ ИВРИТ)',
+        sub: 'Сверьте каждое поле на русском языке слева с точным текстом на иврите, вписанным в ваш официальный бланк МВД Израиля справа. НЕ подавайте этот проверочный лист чиновнику — подавайте только официальный PDF на иврите!',
+        colMother: '1. ВАШ ЯЗЫК (ПОЛЕ И ЗНАЧЕНИЕ НА РУССКОМ)',
+        colHeField: '2. ГРАФА В ОФИЦИАЛЬНОМ БЛАНКЕ НА ИВРИТЕ (עברית)',
+        colHeVal: '3. ТОЧНОЕ ЗНАЧЕНИЕ НА ИВРИТЕ В БЛАНКЕ (СИНИЕ ЧЕРНИЛА)',
+        signWarn: '✍️ ПРАВИЛО ПОДПИСИ: Подписывайте синей ручкой ТОЛЬКО в присутствии чиновника МВД или адвоката. Все блоки "לשימוש המשרד" (Только для служебного пользования) оставляйте на 100% пустыми!',
+        btnDownloadPdf: '📥 Скачать официальный PDF на иврите (Для подачи в МВД Израиля)',
+        btnPrintGuide: '🖨️ Распечатать / Сохранить двуязычную сверку (Русский ↔ Иврит)'
+      }
+    };
+    var gb = guideBannerI18n[uLang] || guideBannerI18n.en;
 
     var htmlOut = '';
     if (mode === 'letters') {
       htmlOut = window.buildStatutoryHebrewLetterHtml();
     } else {
       var fDef = FORMS[curForm] || FORMS.ash3;
-      var rows = fDef.fields.map(function(fid) {
+      var rows = fDef.fields.map(function(fid, idx) {
         var meta = F[fid];
         if (!meta) return '';
         var rawV = s[fid];
-        var disp = meta.t === 'checkbox' ? (rawV ? '☑ מוצהר ומאושר' : '☐ לא סומן') : (meta.t === 'date' ? fmtIsraeliDate(rawV) : (rawV || '—'));
-        return '<tr><td style="width:42%;font-weight:700;background:#f8fafc;padding:6px 8px;border:1px solid #cbd5e1;">' + esc(meta.l.he) + '</td>' +
-          '<td dir="auto" style="padding:6px 8px;border:1px solid #cbd5e1;font-weight:700;">' + esc(disp) + '</td></tr>';
+        var motherLabel = (meta.l && (meta.l[uLang] || meta.l.en || meta.l.he)) || fid;
+        var heLabel = (meta.l && meta.l.he) || fid;
+        var dispHe = meta.t === 'checkbox' ? (rawV ? '☑ כן / מוצהר ומאושר' : '☐ לא סומן') : (meta.t === 'date' ? fmtIsraeliDate(rawV) : (rawV || '—'));
+        var dispMother = meta.t === 'checkbox' ? (rawV ? '☑ YES / CHECKED' : '☐ Unchecked') : (meta.t === 'date' ? fmtIsraeliDate(rawV) : (rawV || '—'));
+        return '<tr>' +
+          '<td dir="ltr" style="width:36%;text-align:left;font-weight:700;background:#f0f9ff;color:#082548;padding:7px 9px;border:1px solid #94a3b8;">' +
+            '<span style="color:#0284c7;font-weight:900;">#' + (idx + 1) + '</span> ' + esc(motherLabel) +
+            '<div style="font-size:11px;color:#475569;font-weight:600;margin-top:2px;">Input: ' + esc(dispMother) + '</div>' +
+          '</td>' +
+          '<td dir="rtl" style="width:32%;text-align:right;font-weight:800;background:#f8fafc;color:#0f172a;padding:7px 9px;border:1px solid #94a3b8;">' + esc(heLabel) + '</td>' +
+          '<td dir="rtl" style="width:32%;text-align:right;padding:7px 9px;border:1px solid #94a3b8;font-weight:900;color:#0047c2;background:#fff;">' + esc(dispHe) + '</td>' +
+        '</tr>';
       }).join('');
-      htmlOut = '<div dir="rtl" style="text-align:right;font-family:Arial,sans-serif;color:#0f172a;background:#fff;padding:14px;">' +
-        '<div style="display:flex;justify-content:space-between;border-bottom:3px solid #0f172a;padding-bottom:8px;margin-bottom:12px;">' +
-          '<div><div style="font-size:17px;font-weight:900;">מדינת ישראל — רשות האוכלוסין וההגירה (' + esc(fDef.code) + ')</div>' +
-          '<div style="font-size:13px;color:#0369a1;font-weight:700;">' + esc(fDef.t.he) + '</div></div>' +
-          '<div style="font-size:12px;"><strong>לשכה:</strong> ' + esc(branch) + '<br><strong>תאריך:</strong> ' + todayHe + '</div></div>' +
-        '<table style="width:100%;border-collapse:collapse;font-size:12.5px;">' + rows + '</table>' +
-        '<div style="margin-top:22px;display:flex;justify-content:space-between;border-top:1px solid #334155;padding-top:12px;font-size:12.5px;">' +
-          '<div>תאריך: _____________</div><div>חתימת המבקש/ת: _____________________</div><div>חתימת המזמין/בן הזוג: _____________________</div></div></div>';
+
+      var topActionBtns = unlocked
+        ? '<div class="no-print" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">' +
+            '<button type="button" class="btn" style="flex:1;background:linear-gradient(135deg,#082548 0%,#0288D1 100%);color:#fff;font-weight:900;padding:12px 16px;border-radius:12px;border:2px solid #4FC3F7;cursor:pointer;" onclick="window.stampOfficialGovPdf(\'' + esc(curForm) + '\', window.collectCurrentFormDraft(), !!window.stamperCalibrationMode)">' + esc(gb.btnDownloadPdf) + '</button>' +
+            '<button type="button" class="btn" style="flex:1;background:#fffbeb;color:#92400e;font-weight:900;padding:12px 16px;border-radius:12px;border:2px solid #f59e0b;cursor:pointer;" onclick="window.print()">' + esc(gb.btnPrintGuide) + '</button>' +
+          '</div>'
+        : '';
+
+      htmlOut = topActionBtns +
+        '<div style="font-family:Arial,sans-serif;color:#0f172a;background:#fff;padding:14px;border:2px solid #0284c7;border-radius:12px;">' +
+          '<div style="background:#fffbeb;border:2px solid #f59e0b;color:#92400e;padding:10px 12px;border-radius:10px;margin-bottom:12px;text-align:left;" dir="ltr">' +
+            '<div style="font-size:14px;font-weight:900;margin-bottom:3px;">' + esc(gb.hdr) + '</div>' +
+            '<div style="font-size:12px;font-weight:700;line-height:1.4;">' + esc(gb.sub) + '</div>' +
+            '<div style="font-size:12px;font-weight:900;color:#b91c1c;margin-top:6px;">' + esc(gb.signWarn) + '</div>' +
+          '</div>' +
+          '<div dir="rtl" style="display:flex;justify-content:space-between;border-bottom:3px solid #0f172a;padding-bottom:8px;margin-bottom:12px;text-align:right;">' +
+            '<div><div style="font-size:17px;font-weight:900;">מדינת ישראל — רשות האוכלוסין וההגירה (' + esc(fDef.code) + ')</div>' +
+            '<div style="font-size:13px;color:#0369a1;font-weight:700;">' + esc((fDef.t && (fDef.t[uLang] || fDef.t.en)) || '') + ' &nbsp;|&nbsp; ' + esc(fDef.t.he) + '</div></div>' +
+            '<div style="font-size:12px;"><strong>לשכה:</strong> ' + esc(branch) + '<br><strong>תאריך:</strong> ' + todayHe + '</div>' +
+          '</div>' +
+          '<table style="width:100%;border-collapse:collapse;font-size:12.5px;">' +
+            '<thead><tr>' +
+              '<th dir="ltr" style="background:#082548;color:#fff;padding:8px;text-align:left;border:1px solid #082548;">' + esc(gb.colMother) + '</th>' +
+              '<th dir="rtl" style="background:#082548;color:#fff;padding:8px;text-align:right;border:1px solid #082548;">' + esc(gb.colHeField) + '</th>' +
+              '<th dir="rtl" style="background:#0284c7;color:#fff;padding:8px;text-align:right;border:1px solid #0284c7;">' + esc(gb.colHeVal) + '</th>' +
+            '</tr></thead>' +
+            '<tbody>' + rows + '</tbody>' +
+          '</table>' +
+          '<div dir="rtl" style="margin-top:22px;display:flex;justify-content:space-between;border-top:2px solid #dc2626;padding-top:12px;font-size:12.5px;color:#b91c1c;font-weight:900;">' +
+            '<div>❌ [X] תאריך (בפני הפקיד): _____________</div><div>❌ [X] חתימת המבקש/ת (דיו כחול): _____________________</div><div>❌ [X] חתימת בן/בת הזוג: _____________________</div>' +
+          '</div>' +
+        '</div>';
+    }
+
+    // If unlocked and in forms mode, ALSO trigger the Official Royal-Blue Hebrew PDF download automatically!
+    if (unlocked && mode === 'forms' && typeof window.stampOfficialGovPdf === 'function') {
+      window.stampOfficialGovPdf(curForm, s, !!window.stamperCalibrationMode);
     }
 
     var prev = document.getElementById('pf-live-packet-preview');
@@ -1611,7 +1712,7 @@
       }).join('');
       host.innerHTML = modeTabs +
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:10px;margin-bottom:10px;">' +
-          '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selLetter) + '</label><select id="pf_active_letter" class="pf-bound-input" style="margin:0;" onchange="window.gatFormsState.pf_active_letter=this.value;window.mountUnifiedPibaFormsEngine();">' + lOpts + '</select></div>' +
+          '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selLetter) + '</label><select id="pf_active_letter" class="pf-bound-input" style="margin:0;" onchange="window.setGatFormOption(this.id, this.value);">' + lOpts + '</select></div>' +
           '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selBranch) + '</label><select id="pf_target_branch" class="pf-bound-input" style="margin:0;">' + brOpts + '</select></div></div>' +
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;">' +
           renderField('pf_given_he') + renderField('pf_surname_he') + renderField('pf_pass_num') + renderField('pf_sp_name_he') + renderField('pf_sp_tz') +
@@ -1634,7 +1735,7 @@
 
       host.innerHTML = modeTabs +
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:10px;margin-bottom:10px;">' +
-          '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selForm) + '</label><select id="pf_active_form" class="pf-bound-input" style="margin:0;" onchange="window.gatFormsState.pf_active_form=this.value;window.mountUnifiedPibaFormsEngine();">' + fOpts + '</select></div>' +
+          '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selForm) + '</label><select id="pf_active_form" class="pf-bound-input" style="margin:0;" onchange="window.setGatFormOption(this.id, this.value);">' + fOpts + '</select></div>' +
           '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selBranch) + '</label><select id="pf_target_branch" class="pf-bound-input" style="margin:0;">' + brOpts + '</select></div></div>' +
         '<div style="background:#f0f9ff;border:2px dashed #0284c7;border-radius:12px;padding:10px 12px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;">' +
           '<div style="flex:1;min-width:210px;"><div style="font-size:0.82rem;font-weight:900;color:#0c4a6e;">' + esc(c.afTitle || '📸 1-Tap Document Auto-Fill') + '</div><div style="font-size:0.74rem;color:#334155;">' + esc(c.afSub || '') + '</div></div>' +
