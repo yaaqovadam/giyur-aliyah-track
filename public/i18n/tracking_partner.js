@@ -3516,7 +3516,7 @@ if (typeof document !== 'undefined') {
 
     // Also include metadata entries from gat_scanned_docs if any were scanned before Vault was added
     try {
-      const legacyScans = JSON.parse(localStorage.getItem("gat_scanned_docs") || "[]");
+      const legacyScans = JSON.parse(localStorage.getItem("gat_scanned_docs_v1") || localStorage.getItem("gat_scanned_docs") || "[]");
       if (Array.isArray(legacyScans)) {
         legacyScans.forEach(function(sc, idx) {
           if (!sc) return;
@@ -6830,4 +6830,1614 @@ if (typeof document !== 'undefined') {
     // Return null so `window.sendGatHelpdeskMsg` routes the question to Gemini 3.8 Sales Closer!
     return null;
   };
+})();
+
+
+// ============================================================================
+// UNIFIED DOCUMENT VAULT BRIDGE (100% 6-LANGUAGE LOCALIZED: EN/HE/FR/ES/DE/RU)
+// ============================================================================
+(function initUnifiedDocumentVaultBridge() {
+  const IDB_NAME = "gat_doc_vault_idb_v1";
+  const LEGACY_IDB_NAMES = ["gat_doc_vault_v1", "gat_vault_idb", "gat_docs_vault"];
+  const STORE_NAME = "docs";
+  const TOMBSTONE_KEY = "gat_deleted_vault_slots_v1";
+  window._gatProfileUploadOwner = window._gatProfileUploadOwner || "me";
+
+  const LOCK_I18N = {
+    en: {
+      lockedSuffix: "🔒 Already Uploaded (Delete in Vault First to Re-Upload)",
+      lockedAlertTitle: "🔒 Document Already Uploaded",
+      lockedAlertBody: "You already uploaded this document. To replace it with a new file, please delete the existing document (🗑️) in your Vault above or in your Profile (👤) first, then re-upload.",
+      openProfileBtn: "👤 Open My Profile Vault to Delete",
+      cancelBtn: "Close",
+      incWarn: "⚠️ FLAGGED INCOMPLETE (Clerk Rejection Risk)",
+      seeWhyBtn: "🔎 See Why",
+      addPageBtn: "➕ Add Missing Page",
+      meOpt: "👤 Me (Applicant)",
+      partnerOpt: "👥 Partner / Spouse",
+      bothOpt: "💑 Both (Couple)",
+      profPartyLbl: "1. Select Who You Are Uploading For:",
+      profUploadBtn: "➕ Upload / Scan New Document to Vault",
+      tapSwitchHint: "Tap 👤 Me / 👥 Partner on any card to reassign owner",
+      spinTitle: "🤖 AI Forensic Scanner Analyzing Document...",
+      spinSub: "Extracting Hebrew/Latin fields & checking Misrad HaPanim rules",
+      spinRem: "⏱️ {s}s remaining...",
+      vaultBannerHdr: "📂 Uploaded Documents in Your Vault ({n}) — View, Download or Delete:",
+      profVaultHdr: "📂 Uploaded Documents ({n}):",
+      delAllBtn: "🗑️ Delete All ({n}) & Reset",
+      emptyVaultMsg: "No documents uploaded yet. Select who you are uploading for below and tap Upload:",
+      incBadgeBtn: "⚠️ INCOMPLETE — Tap Why",
+      compBadge: "✅ Complete",
+      viewBtn: "👁️ View",
+      saveBtn: "📥 Save",
+      pageBtn: "➕ Page",
+      delToReup: "Delete (🗑️) to Re-Upload",
+      whyModalTitle: "⚠️ Why This Document Is Flagged Incomplete",
+      upMissingBtn: "➕ Upload Missing Page / Unfolded Sefach",
+      viewScanBtn: "👁️ View Scan",
+      confirmDelOne: "Delete this uploaded document from your Vault?",
+      confirmDelAll: "Delete ALL uploaded documents from your Vault and clear auto-filled form fields?",
+      legacyReupAlert: "This document was scanned before Vault file storage was enabled. Delete it (🗑️) and re-upload once to store its full pages in your Vault.",
+      pageOf: "Page {i} of {n}",
+      rsnSefach: "Folded or Partial Sefach (ספח): Misrad HaPanim requires the ENTIRE unfolded 6–8 square paper Sefach (showing Registered Address, Marital Status, Spouse Name/ID, and the unfolded Children grid) + the main ID card.",
+      rsnMarBody: "Standalone Apostille Cover Page Only — Actual Marriage Certificate Missing: You uploaded the Hague Apostille page (e.g. Page 1), but the underlying Marriage Certificate page itself (showing both spouses' names and the marriage date) is missing! Misrad HaPanim requires BOTH the Certificate page AND the Apostille page. Tap '+ Page' to attach the Marriage Certificate page(s).",
+      rsnMarApos: "Missing Hague Apostille Page: Foreign marriage certificates require an attached 10-point Hague Apostille ('Convention de La Haye du 5 octobre 1961') page (a county/state seal alone is rejected by Misrad HaPanim). Tap '+ Page' to attach the Apostille.",
+      rsnBirthShort: "Short-Form Birth Certificate Rejected: Must be an unabridged Long-Form Birth Certificate listing BOTH Father's and Mother's full names.",
+      rsnBirthApos: "Missing Hague Apostille on Birth Certificate: Foreign birth certificates require an attached Hague Apostille."
+    },
+    he: {
+      lockedSuffix: "🔒 כבר הועלה (כדי להעלות מחדש יש למחוק תחילה בכספת 🗑️)",
+      lockedAlertTitle: "🔒 מסמך זה כבר הועלה למערכת",
+      lockedAlertBody: "כבר העליתם מסמך זה. כדי להחליף אותו בקובץ חדש, יש למחוק את המסמך הקיים (🗑️) בכספת המסמכים למעלה או בפרופיל האישי (👤) ואז להעלות מחדש.",
+      openProfileBtn: "👤 פתיחת כספת המסמכים בפרופיל למחיקה",
+      cancelBtn: "סגור",
+      incWarn: "⚠️ סומן כחלקי / חסר (סיכון לדחייה בלשכה)",
+      seeWhyBtn: "🔎 למה סומן כחסר?",
+      addPageBtn: "➕ הוספת עמוד חסר / ספח פתוח",
+      meOpt: "👤 אני (מבקש/ת)",
+      partnerOpt: "👥 בן/בת זוג",
+      bothOpt: "💑 שני בני הזוג",
+      profPartyLbl: "1. בחרו עבור מי אתם מעלים את המסמך:",
+      profUploadBtn: "➕ העלאה / סריקת מסמך חדש לכספת",
+      tapSwitchHint: "לחצו על 👤 אני / 👥 בן זוג בכל כרטיס כדי לשנות שיוך",
+      spinTitle: "🤖 סורק ה-AI בודק ומחלץ נתונים מהמסמך...",
+      spinSub: "מחלץ שדות בעברית ובאנגלית ובודק תקינות מול נהלי משרד הפנים",
+      spinRem: "⏱️ נותרו {s} שניות...",
+      vaultBannerHdr: "📂 מסמכים שהועלו לכספת ({n}) — צפייה, הורדה או מחיקה:",
+      profVaultHdr: "📂 מסמכים שמורים בכספת ({n}):",
+      delAllBtn: "🗑️ מחיקת הכל ({n}) ואיפוס",
+      emptyVaultMsg: "טרם הועלו מסמכים לכספת. בחרו עבור מי המסמך למטה ולחצו על העלאה:",
+      incBadgeBtn: "⚠️ חסר / חלקי — לחצו לפירוט",
+      compBadge: "✅ תקין ומלא",
+      viewBtn: "👁️ צפייה",
+      saveBtn: "📥 שמירה",
+      pageBtn: "➕ עמוד",
+      delToReup: "מחקו (🗑️) להעלאה מחדש",
+      whyModalTitle: "⚠️ מדוע מסמך זה סומן כחסר / חלקי",
+      upMissingBtn: "➕ העלאת עמוד חסר / ספח פתוח",
+      viewScanBtn: "👁️ צפייה בקובץ",
+      confirmDelOne: "האם למחוק מסמך זה מכספת המסמכים?",
+      confirmDelAll: "האם למחוק את כל המסמכים מהכספת ולאפס את השדות שמולאו אוטומטית?",
+      legacyReupAlert: "מסמך זה נסרק לפני הפעלת שמירת הקבצים המלאה. מחקו אותו (🗑️) והעלו מחדש כדי לשמור את כל העמודים בכספת.",
+      pageOf: "עמוד {i} מתוך {n}",
+      rsnSefach: "ספח תעודת זהות מקופל או חלקי: משרד הפנים דורש צילום של הספח פתוח לחלוטין (כל 6–8 המשבצות: כתובת, מצב אישי, בן/בת זוג וילדים) יחד עם תעודת הזהות.",
+      rsnMarBody: "הועלה דף אפוסטיל בלבד — תעודת הנישואין עצמה חסרה: העליתם את דף האפוסטיל (למשל עמוד 1), אך דף תעודת הנישואין עצמו (עם שמות שני בני הזוג ותאריך הנישואין) חסר! לחצו על '+ עמוד' לצירוף התעודה.",
+      rsnMarApos: "חסר דף אפוסטיל (Hague Apostille): תעודת נישואין זרה חייבת לכלול דף אפוסטיל רשמי לפי אמנת האג 1961 (חותמת מחוז/רשם בלבד נדחית במשרד הפנים). לחצו על '+ עמוד' להוספת האפוסטיל.",
+      rsnBirthShort: "תעודת לידה מקוצרת נדחית: חובה לצרף תעודת לידה מלאה (Long-Form) המציינת את שם האב המלא ושם האם המלא.",
+      rsnBirthApos: "חסר אפוסטיל על תעודת הלידה: תעודת לידה זרה חייבת לשאת חותמת אפוסטיל."
+    },
+    fr: {
+      lockedSuffix: "🔒 Déjà Téléversé (Supprimez d'abord 🗑️ pour remplacer)",
+      lockedAlertTitle: "🔒 Document Déjà Téléversé",
+      lockedAlertBody: "Vous avez déjà téléversé ce document. Pour le remplacer, supprimez-le d'abord (🗑️) dans votre Coffre, puis téléversez le nouveau fichier.",
+      openProfileBtn: "👤 Ouvrir Mon Coffre Profil pour Supprimer",
+      cancelBtn: "Fermer",
+      incWarn: "⚠️ DOCUMENT INCOMPLET (Risque de Rejet)",
+      seeWhyBtn: "🔎 Voir Pourquoi",
+      addPageBtn: "➕ Ajouter Page Manquante",
+      meOpt: "👤 Moi",
+      partnerOpt: "👥 Conjoint(e)",
+      bothOpt: "💑 Couple",
+      profPartyLbl: "1. Sélectionnez pour qui vous téléversez :",
+      profUploadBtn: "➕ Téléverser / Scanner un Document",
+      tapSwitchHint: "Touchez 👤 Moi / 👥 Conjoint pour réattribuer",
+      spinTitle: "🤖 Analyse IA du document en cours...",
+      spinSub: "Extraction des champs et vérification des règles PIBA",
+      spinRem: "⏱️ {s}s restantes...",
+      vaultBannerHdr: "📂 Documents dans votre Coffre ({n}) — Voir, Télécharger ou Supprimer :",
+      profVaultHdr: "📂 Documents Téléversés ({n}) :",
+      delAllBtn: "🗑️ Tout Supprimer ({n}) & Réinitialiser",
+      emptyVaultMsg: "Aucun document téléversé. Sélectionnez la personne ci-dessous et cliquez sur Téléverser :",
+      incBadgeBtn: "⚠️ INCOMPLET — Voir Pourquoi",
+      compBadge: "✅ Complet",
+      viewBtn: "👁️ Voir",
+      saveBtn: "📥 Enregistrer",
+      pageBtn: "➕ Page",
+      delToReup: "Supprimer (🗑️) pour remplacer",
+      whyModalTitle: "⚠️ Pourquoi ce document est signalé incomplet",
+      upMissingBtn: "➕ Ajouter la Page Manquante / Sefach Déplié",
+      viewScanBtn: "👁️ Voir le Scan",
+      confirmDelOne: "Supprimer ce document de votre Coffre ?",
+      confirmDelAll: "Supprimer TOUS les documents de votre Coffre et réinitialiser les champs pré-remplis ?",
+      legacyReupAlert: "Supprimez ce document (🗑️) et téléversez-le à nouveau pour stocker toutes ses pages dans votre Coffre.",
+      pageOf: "Page {i} sur {n}",
+      rsnSefach: "Sefach plié ou partiel (ספח) : Le Misrad HaPanim exige le Sefach entièrement déplié (les 6 à 8 cases : adresse, statut marital, conjoint et enfants) + la carte d'identité.",
+      rsnMarBody: "Page d'Apostille seule — Acte de Mariage manquant : Vous avez téléversé la page d'Apostille, mais l'acte de mariage lui-même (avec les noms des deux époux et la date) est manquant ! Touchez '+ Page' pour l'ajouter.",
+      rsnMarApos: "Apostille de La Haye manquante : Les actes de mariage étrangers exigent une Apostille officielle ('Convention de La Haye du 5 octobre 1961'). Touchez '+ Page' pour ajouter l'Apostille.",
+      rsnBirthShort: "Extrait de naissance abrégé rejeté : Doit être une copie intégrale (Long-Form) mentionnant les noms complets du père ET de la mère.",
+      rsnBirthApos: "Apostille de La Haye manquante sur l'acte de naissance."
+    },
+    es: {
+      lockedSuffix: "🔒 Ya Subido (Elimínelo primero 🗑️ para reemplazar)",
+      lockedAlertTitle: "🔒 Documento Ya Subido",
+      lockedAlertBody: "Ya subió este documento. Para reemplazarlo, elimínelo primero (🗑️) en su Bóveda y luego vuelva a subirlo.",
+      openProfileBtn: "👤 Abrir Bóveda de Perfil para Eliminar",
+      cancelBtn: "Cerrar",
+      incWarn: "⚠️ MARCADO INCOMPLETO (Riesgo de Rechazo)",
+      seeWhyBtn: "🔎 Ver Por Qué",
+      addPageBtn: "➕ Añadir Página Faltante",
+      meOpt: "👤 Yo",
+      partnerOpt: "👥 Pareja / Cónyuge",
+      bothOpt: "💑 Ambos (Pareja)",
+      profPartyLbl: "1. Seleccione para quién sube el documento:",
+      profUploadBtn: "➕ Subir / Escanear Nuevo Documento",
+      tapSwitchHint: "Toque 👤 Yo / 👥 Pareja para cambiar titular",
+      spinTitle: "🤖 Escáner IA analizando documento...",
+      spinSub: "Extrayendo campos y verificando requisitos de Misrad HaPanim",
+      spinRem: "⏱️ {s}s restantes...",
+      vaultBannerHdr: "📂 Documentos en su Bóveda ({n}) — Ver, Descargar o Eliminar:",
+      profVaultHdr: "📂 Documentos Subidos ({n}):",
+      delAllBtn: "🗑️ Eliminar Todo ({n}) y Reiniciar",
+      emptyVaultMsg: "Aún no hay documentos subidos. Seleccione para quién sube abajo y toque Subir:",
+      incBadgeBtn: "⚠️ INCOMPLETO — Ver Por Qué",
+      compBadge: "✅ Completo",
+      viewBtn: "👁️ Ver",
+      saveBtn: "📥 Guardar",
+      pageBtn: "➕ Pág.",
+      delToReup: "Eliminar (🗑️) para resubir",
+      whyModalTitle: "⚠️ Por qué este documento está marcado como incompleto",
+      upMissingBtn: "➕ Subir Página Faltante / Sefaj Desplegado",
+      viewScanBtn: "👁️ Ver Escaneo",
+      confirmDelOne: "¿Eliminar este documento de su Bóveda?",
+      confirmDelAll: "¿Eliminar TODOS los documentos de su Bóveda y limpiar los campos autocompletados?",
+      legacyReupAlert: "Elimine este documento (🗑️) y vuelva a subirlo una vez para guardar todas sus páginas en su Bóveda.",
+      pageOf: "Página {i} de {n}",
+      rsnSefach: "Sefaj doblado o parcial (ספח): Misrad HaPanim exige el Sefaj completamente desplegado (las 6–8 casillas: dirección, estado civil, cónyuge e hijos) + la tarjeta de identidad.",
+      rsnMarBody: "Solo portada de Apostilla — Falta el Certificado de Matrimonio: Subió la hoja de Apostilla, pero falta la página del Certificado de Matrimonio (con los nombres de ambos cónyuges y la fecha). Toque '+ Pág.' para adjuntarlo.",
+      rsnMarApos: "Falta la página de Apostilla de La Haya: Los certificados de matrimonio extranjeros requieren una Apostilla oficial ('Convention de La Haye du 5 octobre 1961'). Toque '+ Pág.' para añadir la Apostilla.",
+      rsnBirthShort: "Certificado de nacimiento abreviado rechazado: Debe ser una copia literal completa (Long-Form) con los nombres completos del padre Y de la madre.",
+      rsnBirthApos: "Falta la Apostilla de La Haya en el Certificado de Nacimiento."
+    },
+    de: {
+      lockedSuffix: "🔒 Bereits Hochgeladen (Zum Ersetzen erst löschen 🗑️)",
+      lockedAlertTitle: "🔒 Dokument Bereits Hochgeladen",
+      lockedAlertBody: "Sie haben dieses Dokument bereits hochgeladen. Um es zu ersetzen, löschen Sie es bitte zuerst (🗑️) im Dokumenten-Tresor.",
+      openProfileBtn: "👤 Profil-Tresor zum Löschen Öffnen",
+      cancelBtn: "Schließen",
+      incWarn: "⚠️ UNVOLLSTÄNDIG (Ablehnungsrisiko)",
+      seeWhyBtn: "🔎 Warum?",
+      addPageBtn: "➕ Fehlende Seite Hinzufügen",
+      meOpt: "👤 Ich",
+      partnerOpt: "👥 Partner / Ehepartner",
+      bothOpt: "💑 Beide (Paar)",
+      profPartyLbl: "1. Wählen Sie, für wen Sie hochladen:",
+      profUploadBtn: "➕ Neues Dokument Hochladen / Scannen",
+      tapSwitchHint: "Tippen Sie auf 👤 Ich / 👥 Partner zum Ändern",
+      spinTitle: "🤖 KI-Scanner analysiert Dokument...",
+      spinSub: "Felder werden extrahiert & PIBA-Vorgaben geprüft",
+      spinRem: "⏱️ Noch {s}s...",
+      vaultBannerHdr: "📂 Dokumente in Ihrem Tresor ({n}) — Ansehen, Speichern oder Löschen:",
+      profVaultHdr: "📂 Hochgeladene Dokumente ({n}):",
+      delAllBtn: "🗑️ Alle Löschen ({n}) & Zurücksetzen",
+      emptyVaultMsg: "Noch keine Dokumente hochgeladen. Wählen Sie unten die Person aus und tippen Sie auf Hochladen:",
+      incBadgeBtn: "⚠️ UNVOLLSTÄNDIG — Warum?",
+      compBadge: "✅ Vollständig",
+      viewBtn: "👁️ Ansehen",
+      saveBtn: "📥 Speichern",
+      pageBtn: "➕ Seite",
+      delToReup: "Löschen (🗑️) zum Neu-Hochladen",
+      whyModalTitle: "⚠️ Warum dieses Dokument als unvollständig markiert ist",
+      upMissingBtn: "➕ Fehlende Seite / Aufgeklappten Sefach Hochladen",
+      viewScanBtn: "👁️ Scan Ansehen",
+      confirmDelOne: "Dieses Dokument aus Ihrem Tresor löschen?",
+      confirmDelAll: "ALLE Dokumente aus Ihrem Tresor löschen und automatisch ausgefüllte Formularfelder zurücksetzen?",
+      legacyReupAlert: "Bitte löschen Sie dieses Dokument (🗑️) und laden Sie es erneut hoch, um alle Seiten im Tresor zu speichern.",
+      pageOf: "Seite {i} von {n}",
+      rsnSefach: "Gefalteter oder unvollständiger Sefach (ספח): Misrad HaPanim verlangt den komplett aufgeklappten Papier-Sefach (alle 6–8 Felder: Adresse, Familienstand, Ehepartner und Kinder) + den Hauptausweis.",
+      rsnMarBody: "Nur Apostille-Deckblatt — Heiratsurkunde fehlt: Sie haben das Apostille-Blatt hochgeladen, aber die eigentliche Heiratsurkunde (mit beiden Namen und Hochzeitsdatum) fehlt! Tippen Sie auf '+ Seite', um die Urkunde hinzuzufügen.",
+      rsnMarApos: "Haager Apostille fehlt: Ausländische Heiratsurkunden benötigen eine offizielle 10-Punkte Haager Apostille ('Convention de La Haye du 5 octobre 1961'). Tippen Sie auf '+ Seite', um die Apostille hinzuzufügen.",
+      rsnBirthShort: "Kurzform-Geburtsurkunde abgelehnt: Muss eine vollständige Geburtsurkunde (Long-Form) mit den Namen von Vater UND Mutter sein.",
+      rsnBirthApos: "Haager Apostille auf der Geburtsurkunde fehlt."
+    },
+    ru: {
+      lockedSuffix: "🔒 Уже загружено (Сначала удалите 🗑️ для замены)",
+      lockedAlertTitle: "🔒 Документ уже загружен",
+      lockedAlertBody: "Вы уже загрузили этот документ. Чтобы заменить его, сначала удалите текущий документ (🗑️) в Хранилище.",
+      openProfileBtn: "👤 Открыть Профиль для удаления",
+      cancelBtn: "Закрыть",
+      incWarn: "⚠️ ДОКУМЕНТ НЕПОЛНЫЙ (Риск отказа в МВД)",
+      seeWhyBtn: "🔎 Подробнее",
+      addPageBtn: "➕ Добавить страницу",
+      meOpt: "👤 Я (Заявитель)",
+      partnerOpt: "👥 Супруг(а) / Партнёр",
+      bothOpt: "💑 Оба супруга",
+      profPartyLbl: "1. Выберите, чей документ вы загружаете:",
+      profUploadBtn: "➕ Загрузить / Сканировать документ",
+      tapSwitchHint: "Нажмите 👤 Я / 👥 Партнёр на карточке для смены",
+      spinTitle: "🤖 ИИ-сканер проверяет документ...",
+      spinSub: "Извлечение данных и проверка требований МВД Израиля",
+      spinRem: "⏱️ Осталось {s} сек...",
+      vaultBannerHdr: "📂 Документы в Хранилище ({n}) — Просмотр, Скачивание или Удаление:",
+      profVaultHdr: "📂 Загруженные документы ({n}):",
+      delAllBtn: "🗑️ Удалить все ({n}) и сбросить",
+      emptyVaultMsg: "Документы еще не загружены. Выберите получателя ниже и нажмите Загрузить:",
+      incBadgeBtn: "⚠️ НЕПОЛНЫЙ — Почему?",
+      compBadge: "✅ Полный",
+      viewBtn: "👁️ Вид",
+      saveBtn: "📥 Скачать",
+      pageBtn: "➕ Стр.",
+      delToReup: "Удалите (🗑️) для перезагрузки",
+      whyModalTitle: "⚠️ Почему документ помечен как неполный",
+      upMissingBtn: "➕ Добавить страницу / развернутый Сефах",
+      viewScanBtn: "👁️ Посмотреть скан",
+      confirmDelOne: "Удалить этот документ из вашего Хранилища?",
+      confirmDelAll: "Удалить ВСЕ документы из Хранилища и очистить заполненные поля анкет?",
+      legacyReupAlert: "Удалите этот документ (🗑️) и загрузите заново, чтобы сохранить все его страницы в Хранилище.",
+      pageOf: "Стр. {i} из {n}",
+      rsnSefach: "Сложенный или неполный Сефах (ספח): МВД Израиля требует полностью развернутый бумажный Сефах (все 6–8 секций: адрес, семейное положение, супруг и дети) + основное удостоверение.",
+      rsnMarBody: "Загружен только лист Апостиля — само Свидетельство о браке отсутствует: Вы загрузили страницу Апостиля, но само Свидетельство о браке (с именами супругов и датой брака) отсутствует! Нажмите '+ Стр.', чтобы добавить свидетельство.",
+      rsnMarApos: "Отсутствует страница Гаагского Апостиля: Иностранные свидетельства о браке требуют официальный 10-пунктный Апостиль ('Convention de La Haye du 5 octobre 1961'). Нажмите '+ Стр.', чтобы добавить Апостиль.",
+      rsnBirthShort: "Краткая форма свидетельства о рождении отклонена: Требуется полное свидетельство (Long-Form) с полными именами ОТЦА и МАТЕРИ.",
+      rsnBirthApos: "Отсутствует Гаагский Апостиль на свидетельстве о рождении."
+    }
+  };
+
+  function getCurLang() {
+    if (typeof window.getUnifiedGatLang === "function") return window.getUnifiedGatLang();
+    const l = String(window.appLang || window.lang || localStorage.getItem("gat_lang") || "en").slice(0, 2).toLowerCase();
+    return ["en", "he", "fr", "es", "de", "ru"].includes(l) ? l : "en";
+  }
+
+  let _spinInterval = null;
+  window.showGatUploadSpinner = function(customTitle, maxSeconds) {
+    window.hideGatUploadSpinner();
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    const totalSec = Number(maxSeconds) || 35;
+    let remSec = totalSec;
+
+    if (!document.getElementById("gat-topmost-spin-keyframes")) {
+      const st = document.createElement("style");
+      st.id = "gat-topmost-spin-keyframes";
+      st.textContent = "@keyframes gatTopSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }";
+      document.head.appendChild(st);
+    }
+
+    const ov = document.createElement("div");
+    ov.id = "gat-upload-spinner-overlay";
+    ov.dir = l === "he" ? "rtl" : "ltr";
+    ov.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:rgba(4,18,38,0.86);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;pointer-events:all;user-select:none;";
+    ov.innerHTML =
+      '<div style="background:#ffffff;border:3px solid #0284c7;border-radius:18px;max-width:420px;width:100%;padding:24px 22px;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.55);color:#0f172a;">' +
+        '<div style="width:54px;height:54px;border:5px solid #e0f2fe;border-top-color:#0284c7;border-radius:50%;margin:0 auto 14px;animation:gatTopSpin 0.85s linear infinite;"></div>' +
+        '<div id="gat-spin-title-txt" style="font-size:0.98rem;font-weight:900;color:#082548;margin-bottom:6px;line-height:1.35;">' + (customTitle || lt.spinTitle) + '</div>' +
+        '<div style="font-size:0.79rem;font-weight:700;color:#475569;margin-bottom:14px;line-height:1.4;">' + lt.spinSub + '</div>' +
+        '<div style="width:100%;height:9px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-bottom:10px;">' +
+          '<div id="gat-spin-prog-bar" style="width:8%;height:100%;background:linear-gradient(90deg,#0284c7,#10b981);transition:width 0.9s linear;"></div>' +
+        '</div>' +
+        '<div id="gat-spin-countdown-txt" style="font-size:0.82rem;font-weight:900;color:#0369a1;background:#f0f9ff;border:1.5px solid #bae6fd;display:inline-block;padding:4px 14px;border-radius:999px;">' + lt.spinRem.replace("{s}", String(remSec)) + '</div>' +
+      '</div>';
+    document.body.appendChild(ov);
+
+    _spinInterval = setInterval(function() {
+      remSec = Math.max(1, remSec - 1);
+      const cdEl = document.getElementById("gat-spin-countdown-txt");
+      const barEl = document.getElementById("gat-spin-prog-bar");
+      if (cdEl) cdEl.textContent = lt.spinRem.replace("{s}", String(remSec));
+      if (barEl) {
+        const pct = Math.min(96, Math.round(((totalSec - remSec) / totalSec) * 95) + 8);
+        barEl.style.width = pct + "%";
+      }
+    }, 1000);
+  };
+
+  window.hideGatUploadSpinner = function() {
+    if (_spinInterval) {
+      clearInterval(_spinInterval);
+      _spinInterval = null;
+    }
+    const existing = document.getElementById("gat-upload-spinner-overlay");
+    if (existing) existing.remove();
+  };
+
+  function getApiUrl() {
+    return (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc";
+  }
+  function getAllActiveUids() {
+    if (typeof window.syncAllGatAuthStorageKeys === "function") window.syncAllGatAuthStorageKeys();
+    const set = new Set();
+    const wa = localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "";
+    if (wa && wa.length >= 8) set.add("wa_" + wa.replace(/\D/g, ""));
+    const guid = localStorage.getItem("gat_uid") || window.gatUid || "";
+    if (guid && guid !== "anon") set.add(guid);
+    return Array.from(set);
+  }
+  function getActiveUid() {
+    const arr = getAllActiveUids();
+    return arr.length ? arr[0] : "anon";
+  }
+
+  function normalizeSlotKey(rawSlotOrType) {
+    const s = String(rawSlotOrType || "").toLowerCase().replace(/^(me|partner)_/, "");
+    if (/marriage|נישואין|single|רווקות|divorce|גירושין|ketubah|כתובה|apostille/.test(s)) return "marriage";
+    if (/tz|zehut|israeli_id|תעודת זהות|ספח|biometric/.test(s)) return "tz";
+    if (/birth|לידה|naissance|nacimiento|geburt/.test(s)) return "birth";
+    if (/police|יושר|criminal/.test(s)) return "police";
+    if (/passport|דרכון|passeport|pasaporte|reisepass|netherlands/.test(s)) return "passport";
+    return s || "doc";
+  }
+
+  function canonicalSlotId(ownerParty, slotOrType) {
+    const nSlot = normalizeSlotKey(slotOrType);
+    if (nSlot === "marriage") return "me_marriage";
+    const owner = (String(ownerParty || "").toLowerCase() === "partner") ? "partner" : "me";
+    return owner + "_" + nSlot;
+  }
+
+  function computeDocumentIncompleteState(d) {
+    if (!d) return { isInc: false, reasons: [] };
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    const slot = normalizeSlotKey(d.slotKey || d.docType || d.docTitle || d.docId);
+    const r = d.rawScanResult || {};
+    const titleStr = String(r.doc_title_detected || d.docTitle || d.docType || "");
+    const titleLower = titleStr.toLowerCase();
+    const isIl = /israel|ישראל|רבנות/i.test(String(d.issuingCountry || r.issuing_country || "") + " " + titleLower);
+
+    const titleSaysFolded = /\bfolded\b|partial|מקופל|חלקי|without sefach|missing sefach/i.test(titleLower);
+    const titleSaysFullUnfolded = !titleSaysFolded && (/\bunfolded\b|full sefach|full appendix|ספח פתוח|ספח מלא/i.test(titleLower) || Number(d.pageCount || 1) >= 2);
+    const titleSaysMarriage = /marriage|נישואין|mariage|matrimonio|heirat|брак/i.test(titleLower);
+    const titleSaysApostille = /apostille|אפוסטיל|апостил/i.test(titleLower);
+
+    if (slot === "tz") {
+      const hasSefachProof = Boolean(
+        !titleSaysFolded && (
+          titleSaysFullUnfolded ||
+          d.hasSefach === true ||
+          (r.israeli_address_he && ((Array.isArray(r.sefach_children) && r.sefach_children.length > 0) || r.has_full_sefach_visible === true))
+        )
+      );
+      if (hasSefachProof) {
+        d.hasSefach = true;
+        d.isComplete = true;
+        d.incompleteReasons = [];
+        return { isInc: false, reasons: [] };
+      }
+      return { isInc: true, reasons: [lt.rsnSefach] };
+    }
+
+    if (slot === "marriage") {
+      if (r.doc_title_detected && (!d.docTitle || /apostille certificate - state of utah/i.test(d.docTitle))) {
+        d.docTitle = r.doc_title_detected;
+      }
+      const hasBodyProof = Boolean(
+        titleSaysMarriage ||
+        r.marriage_date_iso ||
+        (r.marriage_party1 && (r.marriage_party1.surname_en || r.marriage_party1.surname_he)) ||
+        r.spouse_full_name_he ||
+        r.spouse_surname_en
+      );
+      const hasAposProof = Boolean(isIl || titleSaysApostille || d.hasApostille === true || r.has_apostille_visible === true);
+
+      if (hasBodyProof && hasAposProof) {
+        d.hasUnderlyingBody = true;
+        d.hasApostille = true;
+        d.isComplete = true;
+        d.incompleteReasons = [];
+        return { isInc: false, reasons: [] };
+      }
+      if (!hasBodyProof) {
+        return { isInc: true, reasons: [lt.rsnMarBody] };
+      }
+      return { isInc: true, reasons: [lt.rsnMarApos] };
+    }
+
+    if (slot === "birth") {
+      const reasons = [];
+      if (d.isLongForm === false && !(r.father_full_name && r.mother_full_name)) reasons.push(lt.rsnBirthShort);
+      if (!isIl && d.hasApostille === false && !titleSaysApostille && r.has_apostille_visible !== true) reasons.push(lt.rsnBirthApos);
+      return { isInc: reasons.length > 0, reasons: reasons };
+    }
+
+    const fallbackReasons = Array.isArray(d.incompleteReasons) ? d.incompleteReasons.filter(Boolean) : [];
+    return {
+      isInc: (d.isComplete === false) && fallbackReasons.length > 0,
+      reasons: fallbackReasons
+    };
+  }
+
+  function getTombstones() {
+    try { return JSON.parse(localStorage.getItem(TOMBSTONE_KEY) || "{}"); } catch (e) { return {}; }
+  }
+  function addTombstone(ownerParty, slotOrType, docId) {
+    const t = getTombstones();
+    const cid = canonicalSlotId(ownerParty, slotOrType || docId);
+    t[cid] = Date.now();
+    if (docId) t[String(docId)] = Date.now();
+    try { localStorage.setItem(TOMBSTONE_KEY, JSON.stringify(t)); } catch (e) {}
+  }
+  function clearTombstone(ownerParty, slotOrType, docId) {
+    const t = getTombstones();
+    const cid = canonicalSlotId(ownerParty, slotOrType || docId);
+    delete t[cid];
+    if (docId) delete t[String(docId)];
+    try { localStorage.setItem(TOMBSTONE_KEY, JSON.stringify(t)); } catch (e) {}
+  }
+  function clearAllTombstonesMarkAllDeleted() {
+    const t = { __all_deleted_at: Date.now() };
+    ["me_passport", "partner_passport", "me_tz", "partner_tz", "me_birth", "partner_birth", "me_marriage", "me_police", "partner_police"].forEach(function(k) {
+      t[k] = Date.now();
+    });
+    try { localStorage.setItem(TOMBSTONE_KEY, JSON.stringify(t)); } catch (e) {}
+  }
+
+  function openVaultIdb() {
+    return new Promise(function(resolve) {
+      if (!window.indexedDB) return resolve(null);
+      try {
+        const req = window.indexedDB.open(IDB_NAME, 1);
+        req.onupgradeneeded = function(e) {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) db.createObjectStore(STORE_NAME, { keyPath: "docId" });
+        };
+        req.onsuccess = function(e) { resolve(e.target.result); };
+        req.onerror = function() { resolve(null); };
+      } catch (e) { resolve(null); }
+    });
+  }
+  async function idbGetDoc(docId) {
+    const db = await openVaultIdb();
+    if (!db) return null;
+    return new Promise(function(resolve) {
+      try {
+        const tx = db.transaction(STORE_NAME, "readonly");
+        const req = tx.objectStore(STORE_NAME).get(docId);
+        req.onsuccess = function() { db.close(); resolve(req.result || null); };
+        req.onerror = function() { db.close(); resolve(null); };
+      } catch (e) { db.close(); resolve(null); }
+    });
+  }
+  async function idbGetAllDocs() {
+    const db = await openVaultIdb();
+    if (!db) return [];
+    return new Promise(function(resolve) {
+      try {
+        const tx = db.transaction(STORE_NAME, "readonly");
+        const req = tx.objectStore(STORE_NAME).getAll();
+        req.onsuccess = function() { db.close(); resolve(req.result || []); };
+        req.onerror = function() { db.close(); resolve([]); };
+      } catch (e) { db.close(); resolve([]); }
+    });
+  }
+  async function idbPutDoc(record) {
+    const db = await openVaultIdb();
+    if (!db) return false;
+    return new Promise(function(resolve) {
+      try {
+        const tx = db.transaction(STORE_NAME, "readwrite");
+        tx.objectStore(STORE_NAME).put(record);
+        tx.oncomplete = function() { db.close(); resolve(true); };
+        tx.onerror = function() { db.close(); resolve(false); };
+      } catch (e) { db.close(); resolve(false); }
+    });
+  }
+  async function idbDeleteMatchingSlot(docId, targetOwner, targetSlot, deleteAll) {
+    const db = await openVaultIdb();
+    if (db) {
+      await new Promise(function(resolve) {
+        try {
+          const tx = db.transaction(STORE_NAME, "readwrite");
+          const st = tx.objectStore(STORE_NAME);
+          if (deleteAll) {
+            st.clear();
+          } else {
+            const getAllReq = st.getAll();
+            getAllReq.onsuccess = function() {
+              const items = getAllReq.result || [];
+              items.forEach(function(item) {
+                if (!item) return;
+                const iSlot = normalizeSlotKey(item.slotKey || item.docType || item.docTitle || item.docId);
+                const iOwner = (String(item.ownerParty || "").toLowerCase() === "partner" || String(item.docId || "").startsWith("partner_")) ? "partner" : "me";
+                if (item.docId === docId || (targetSlot === "marriage" && iSlot === "marriage") || (targetSlot && iSlot === targetSlot && iOwner === targetOwner)) {
+                  st.delete(item.docId);
+                }
+              });
+            };
+          }
+          tx.oncomplete = function() { db.close(); resolve(true); };
+          tx.onerror = function() { db.close(); resolve(false); };
+        } catch (e) { db.close(); resolve(false); }
+      });
+    }
+    if (window.indexedDB) {
+      for (let i = 0; i < LEGACY_IDB_NAMES.length; i++) {
+        try { window.indexedDB.deleteDatabase(LEGACY_IDB_NAMES[i]); } catch (e) {}
+      }
+    }
+  }
+
+  // Helper for `handleDocUpload` in `forms_vault.js`:
+  // When adding a page (`isAppend`) or uploading to a slot that is currently Incomplete,
+  // return existing pages from IndexedDB so `/api/auditDoc` scans ALL pages together!
+  window.getExistingVaultPagesForSlot = async function(ownerParty, slotKey, isAppend) {
+    try {
+      const cid = canonicalSlotId(ownerParty, slotKey);
+      const existing = await idbGetDoc(cid);
+      if (!existing || !Array.isArray(existing.pages) || !existing.pages.length) return [];
+      const incState = computeDocumentIncompleteState(existing);
+      if (isAppend || incState.isInc) {
+        return existing.pages.map(function(p) {
+          return { mimeType: p.mimeType || "image/jpeg", base64Data: p.base64Data };
+        });
+      }
+    } catch (e) {}
+    return [];
+  };
+
+  window.reconcileCoupleRolesAcrossForms = async function() {
+    try {
+      const docs = await window.fetchMergedVaultDocsList();
+      const scans = JSON.parse(localStorage.getItem("gat_scanned_docs_v1") || "[]");
+      const draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}");
+      const state = window.gatFormsState || {};
+
+      function setBoth(k, v) {
+        if (v !== undefined && v !== null && String(v).trim() !== "") {
+          const clean = String(v).trim();
+          draft[k] = clean;
+          state[k] = clean;
+        }
+      }
+      function delBoth(k) {
+        delete draft[k];
+        delete state[k];
+      }
+
+      const hasMePassport = docs.some(function(d) { return d && d.ownerParty !== "partner" && normalizeSlotKey(d.slotKey || d.docType || d.docTitle) === "passport"; });
+      const hasPartnerPassport = docs.some(function(d) { return d && d.ownerParty === "partner" && normalizeSlotKey(d.slotKey || d.docType || d.docTitle) === "passport"; });
+
+      if (!hasMePassport) {
+        if (state.pf_pass_num || draft.pf_pass_num) {
+          const leakedPass = state.pf_pass_num || draft.pf_pass_num;
+          if (hasPartnerPassport && !state.pf_sp_pass_num && !draft.pf_sp_pass_num) {
+            setBoth("pf_sp_pass_num", leakedPass);
+          }
+          delBoth("pf_pass_num");
+          delBoth("pf_pass_issue_date");
+          delBoth("pf_pass_exp_date");
+        }
+      }
+
+      const ownerBySlot = {};
+      docs.forEach(function(d) {
+        if (!d) return;
+        const nSlot = normalizeSlotKey(d.slotKey || d.docType || d.docTitle);
+        ownerBySlot[nSlot] = d.ownerParty || "me";
+      });
+
+      scans.forEach(function(sc) {
+        if (!sc) return;
+        const nSlot = normalizeSlotKey(sc.slotKey || sc.docType || sc.docTitle);
+        if (ownerBySlot[nSlot] && nSlot !== "marriage") {
+          sc.ownerParty = ownerBySlot[nSlot];
+          sc.tzRole = sc.ownerParty === "partner" ? "spouse" : "applicant";
+        }
+        const isPartner = (sc.ownerParty === "partner");
+        const fullHe = [sc.givenHe, sc.surnameHe].filter(Boolean).join(" ").trim() || sc.fullName || "";
+
+        if (nSlot === "passport") {
+          if (isPartner) {
+            setBoth("pf_sp_surname_en", sc.surnameEn);
+            setBoth("pf_sp_given_en", sc.givenEn);
+            if (sc.surnameHe) setBoth("pf_sp_surname_he", sc.surnameHe);
+            if (sc.givenHe) setBoth("pf_sp_given_he", sc.givenHe);
+            if (fullHe) setBoth("pf_sp_name_he", fullHe);
+            setBoth("pf_sp_dob", sc.dob);
+            setBoth("pf_sp_pass_num", sc.passportNumber);
+            setBoth("pf_sp_pass_issue", sc.issueDateIso);
+            setBoth("pf_sp_pass_exp", sc.expiryDateIso);
+            setBoth("pf_sp_citizenship_he", sc.citizenship);
+            setBoth("pf_sp_birth_country_he", sc.birthCountry);
+            if (sc.passportNumber && (state.pf_pass_num === sc.passportNumber || draft.pf_pass_num === sc.passportNumber)) {
+              delBoth("pf_pass_num");
+              delBoth("pf_pass_issue_date");
+              delBoth("pf_pass_exp_date");
+            }
+          } else {
+            setBoth("pf_surname_en", sc.surnameEn);
+            setBoth("pf_given_en", sc.givenEn);
+            if (sc.surnameHe) setBoth("pf_surname_he", sc.surnameHe);
+            if (sc.givenHe) setBoth("pf_given_he", sc.givenHe);
+            setBoth("pf_dob", sc.dob);
+            setBoth("pf_pass_num", sc.passportNumber);
+            setBoth("pf_pass_issue_date", sc.issueDateIso);
+            setBoth("pf_pass_exp_date", sc.expiryDateIso);
+            setBoth("pf_birth_country", sc.birthCountry);
+            setBoth("pf_citizenship", sc.citizenship);
+            if (sc.passportNumber && (state.pf_sp_pass_num === sc.passportNumber || draft.pf_sp_pass_num === sc.passportNumber)) {
+              delBoth("pf_sp_pass_num");
+              delBoth("pf_sp_pass_issue");
+              delBoth("pf_sp_pass_exp");
+            }
+          }
+        } else if (nSlot === "tz") {
+          if (isPartner) {
+            setBoth("pf_sp_tz", sc.israeliIdNumber);
+            if (fullHe) setBoth("pf_sp_name_he", fullHe);
+            setBoth("pf_sp_surname_he", sc.surnameHe);
+            setBoth("pf_sp_given_he", sc.givenHe);
+            setBoth("pf_sp_dob", sc.dob);
+            setBoth("pf_sp_citizenship_he", "ישראלית");
+            if (sc.israeliAddrHe) setBoth("pf_il_addr_he", sc.israeliAddrHe);
+            if (sc.israeliIdNumber && (state.pf_tz === sc.israeliIdNumber || draft.pf_tz === sc.israeliIdNumber)) {
+              delBoth("pf_tz");
+              delBoth("pf_id_num");
+            }
+          } else {
+            setBoth("pf_tz", sc.israeliIdNumber);
+            setBoth("pf_id_num", sc.israeliIdNumber);
+            setBoth("pf_surname_he", sc.surnameHe);
+            setBoth("pf_given_he", sc.givenHe);
+            setBoth("pf_dob", sc.dob);
+            if (sc.hebrewDob) setBoth("pf_hebrew_dob", sc.hebrewDob);
+            if (sc.israeliAddrHe) setBoth("pf_il_addr_he", sc.israeliAddrHe);
+          }
+        } else if (nSlot === "marriage") {
+          if (sc.marriageDate) {
+            setBoth("pf_marriage_date", sc.marriageDate);
+            setBoth("pf_marital", "נשוי/אה");
+          }
+          if (sc.marriagePlaceHe) setBoth("pf_marriage_place_he", sc.marriagePlaceHe);
+        }
+      });
+
+      docs.forEach(function(d) {
+        if (!d || !d.rawScanResult) return;
+        const r = d.rawScanResult;
+        const nSlot = normalizeSlotKey(d.slotKey || d.docType || d.docTitle);
+        const isPartner = (d.ownerParty === "partner");
+        const rawIdDigits = String(r.israeli_id_number || r.teudat_zehut || r.id_number || "").replace(/\D/g, "");
+
+        if (nSlot === "passport") {
+          if (isPartner) {
+            setBoth("pf_sp_surname_en", r.surname_en);
+            setBoth("pf_sp_given_en", r.given_en);
+            setBoth("pf_sp_surname_he", r.surname_he);
+            setBoth("pf_sp_given_he", r.given_he);
+            const spFull = [r.given_he, r.surname_he].filter(Boolean).join(" ").trim() || [r.given_en, r.surname_en].filter(Boolean).join(" ").trim();
+            if (spFull) setBoth("pf_sp_name_he", spFull);
+            setBoth("pf_sp_dob", r.date_of_birth);
+            setBoth("pf_sp_pass_num", r.passport_number);
+            setBoth("pf_sp_pass_issue", r.passport_issue_date || r.issue_date_iso);
+            setBoth("pf_sp_pass_exp", r.passport_expiry_date || r.expiry_date_iso);
+            setBoth("pf_sp_citizenship_he", r.citizenship_he || r.citizenship);
+            setBoth("pf_sp_birth_country_he", r.birth_country_city_he || r.country_or_city_of_birth);
+            if (r.passport_number && (state.pf_pass_num === r.passport_number || draft.pf_pass_num === r.passport_number)) {
+              delBoth("pf_pass_num");
+              delBoth("pf_pass_issue_date");
+              delBoth("pf_pass_exp_date");
+            }
+          } else {
+            setBoth("pf_surname_en", r.surname_en);
+            setBoth("pf_given_en", r.given_en);
+            setBoth("pf_surname_he", r.surname_he || r.surname_en);
+            setBoth("pf_given_he", r.given_he || r.given_en);
+            setBoth("pf_dob", r.date_of_birth);
+            setBoth("pf_pass_num", r.passport_number);
+            setBoth("pf_pass_issue_date", r.passport_issue_date || r.issue_date_iso);
+            setBoth("pf_pass_exp_date", r.passport_expiry_date || r.expiry_date_iso);
+            setBoth("pf_birth_country", r.birth_country_city_he || r.country_or_city_of_birth);
+            setBoth("pf_citizenship", r.citizenship_he || r.citizenship);
+          }
+        } else if (nSlot === "tz") {
+          const fullHe = [r.given_he, r.surname_he].filter(Boolean).join(" ").trim() || r.person_full_name || "";
+          if (isPartner) {
+            if (rawIdDigits) setBoth("pf_sp_tz", rawIdDigits);
+            if (fullHe) setBoth("pf_sp_name_he", fullHe);
+            setBoth("pf_sp_surname_he", r.surname_he);
+            setBoth("pf_sp_given_he", r.given_he);
+            setBoth("pf_sp_dob", r.date_of_birth);
+            setBoth("pf_sp_citizenship_he", "ישראלית");
+            if (r.father_full_name) setBoth("pf_sp_father_he", r.father_full_name);
+            if (r.mother_full_name) setBoth("pf_sp_mother_he", r.mother_full_name);
+            if (r.israeli_address_he) {
+              setBoth("pf_il_addr_he", r.israeli_address_he);
+              setBoth("pf_address_il", r.israeli_address_he);
+            }
+          } else {
+            if (rawIdDigits) {
+              setBoth("pf_tz", rawIdDigits);
+              setBoth("pf_id_num", rawIdDigits);
+            }
+            setBoth("pf_surname_he", r.surname_he);
+            setBoth("pf_given_he", r.given_he);
+            setBoth("pf_dob", r.date_of_birth);
+            if (r.hebrew_date_of_birth) setBoth("pf_hebrew_dob", r.hebrew_date_of_birth);
+            if (r.gender_he) setBoth("pf_gender", r.gender_he);
+            if (r.marital_he) setBoth("pf_marital", r.marital_he);
+            if (r.father_full_name) setBoth("pf_father_he", r.father_full_name);
+            if (r.mother_full_name) setBoth("pf_mother_he", r.mother_full_name);
+            if (r.israeli_address_he) {
+              setBoth("pf_il_addr_he", r.israeli_address_he);
+              setBoth("pf_address_il", r.israeli_address_he);
+            }
+          }
+          if (Array.isArray(r.sefach_children) && r.sefach_children.length > 0) {
+            const mappedKids = r.sefach_children.map(function(ch) {
+              return {
+                id_num: String(ch.tz || "").replace(/\D/g, ""),
+                tz: String(ch.tz || "").replace(/\D/g, ""),
+                surname_he: ch.surname_he || r.surname_he || "",
+                given_he: ch.given_he || "",
+                given: ch.given_he || "",
+                other_parent_he: fullHe,
+                country: "ישראל",
+                country_en: "ISRAEL",
+                dob: ch.dob_iso || "",
+                gender: ch.gender_he || "נקבה"
+              };
+            }).filter(function(ch) { return ch.given_he || ch.id_num; });
+            if (mappedKids.length > 0) {
+              state.pf_children_rows = mappedKids;
+              draft.pf_children_rows = mappedKids;
+              setBoth("pf_ll_children_count", String(mappedKids.length));
+            }
+          }
+        } else if (nSlot === "marriage") {
+          if (r.marriage_date_iso) {
+            setBoth("pf_marriage_date", r.marriage_date_iso);
+            setBoth("pf_marital", "נשוי/אה");
+          }
+          if (r.marriage_place_he) setBoth("pf_marriage_place_he", r.marriage_place_he);
+          if (r.marriage_date_iso || r.marriage_place_he) {
+            setBoth("pf_marriage_details", [r.marriage_date_iso || "", r.marriage_place_he || ""].filter(Boolean).join(" • "));
+          }
+          const p1 = r.marriage_party1 || {};
+          const p2 = r.marriage_party2 || {};
+          const curMeSurnameEn = String(state.pf_surname_en || draft.pf_surname_en || "").toLowerCase();
+          const curMeSurnameHe = String(state.pf_surname_he || draft.pf_surname_he || "");
+          let meParty = p1, spParty = p2;
+          if ((curMeSurnameEn && String(p2.surname_en || "").toLowerCase() === curMeSurnameEn) || (curMeSurnameHe && p2.surname_he === curMeSurnameHe)) {
+            meParty = p2;
+            spParty = p1;
+          }
+          if (meParty) {
+            if (meParty.father_he && !state.pf_father_he) setBoth("pf_father_he", meParty.father_he);
+            if (meParty.mother_he && !state.pf_mother_he) setBoth("pf_mother_he", meParty.mother_he);
+            if (meParty.prior_surname_he) setBoth("pf_prior_names", meParty.prior_surname_he);
+          }
+          if (spParty) {
+            const spComb = [spParty.given_he, spParty.surname_he].filter(Boolean).join(" ").trim() || r.spouse_full_name_he || [spParty.given_en, spParty.surname_en].filter(Boolean).join(" ").trim();
+            if (spComb && !state.pf_sp_name_he) setBoth("pf_sp_name_he", spComb);
+            if (spParty.surname_en && !state.pf_sp_surname_en) setBoth("pf_sp_surname_en", spParty.surname_en);
+            if (spParty.given_en && !state.pf_sp_given_en) setBoth("pf_sp_given_en", spParty.given_en);
+            if (spParty.surname_he && !state.pf_sp_surname_he) setBoth("pf_sp_surname_he", spParty.surname_he);
+            if (spParty.given_he && !state.pf_sp_given_he) setBoth("pf_sp_given_he", spParty.given_he);
+            if (spParty.dob_iso && !state.pf_sp_dob) setBoth("pf_sp_dob", spParty.dob_iso);
+            if (spParty.father_he && !state.pf_sp_father_he) setBoth("pf_sp_father_he", spParty.father_he);
+            if (spParty.mother_he && !state.pf_sp_mother_he) setBoth("pf_sp_mother_he", spParty.mother_he);
+          }
+        }
+      });
+
+      localStorage.setItem("gat_scanned_docs_v1", JSON.stringify(scans));
+      localStorage.setItem("gat_form_draft_v1", JSON.stringify(draft));
+      window.gatFormsState = state;
+      if (typeof window.syncCrossFormFields === "function") window.syncCrossFormFields(true);
+    } catch (e) {
+      console.warn("reconcileCoupleRolesAcrossForms error:", e);
+    }
+  };
+
+  window.changeVaultDocOwner = async function(oldDocId, newOwnerParty) {
+    const newOwner = (String(newOwnerParty || "").toLowerCase() === "partner") ? "partner" : "me";
+    const docs = await window.fetchMergedVaultDocsList();
+    const targetDoc = docs.find(function(x) { return x && x.docId === oldDocId; });
+    if (!targetDoc) return;
+
+    const slot = normalizeSlotKey(targetDoc.slotKey || targetDoc.docType || targetDoc.docTitle || oldDocId);
+    const newDocId = canonicalSlotId(newOwner, slot);
+    if (newDocId === oldDocId && targetDoc.ownerParty === newOwner) return;
+
+    const oldIdbRec = await idbGetDoc(oldDocId);
+    try {
+      const draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}");
+      const state = window.gatFormsState || {};
+      if (oldIdbRec && oldIdbRec.contributedFields) {
+        Object.keys(oldIdbRec.contributedFields).forEach(function(fk) {
+          delete draft[fk];
+          delete state[fk];
+        });
+      }
+      if (slot === "passport" && newOwner === "partner") {
+        ["pf_pass_num", "pf_pass_issue_date", "pf_pass_exp_date"].forEach(function(fk) {
+          delete draft[fk];
+          delete state[fk];
+        });
+      }
+      localStorage.setItem("gat_form_draft_v1", JSON.stringify(draft));
+      window.gatFormsState = state;
+    } catch (e) {}
+
+    if (oldIdbRec) {
+      const updatedRec = Object.assign({}, oldIdbRec, {
+        docId: newDocId,
+        slotKey: slot,
+        ownerParty: newOwner,
+        updatedAt: Date.now()
+      });
+      clearTombstone(newOwner, slot, newDocId);
+      addTombstone(targetDoc.ownerParty, slot, oldDocId);
+      await idbPutDoc(updatedRec);
+      const db = await openVaultIdb();
+      if (db && oldDocId !== newDocId) {
+        await new Promise(function(res) {
+          try {
+            const tx = db.transaction(STORE_NAME, "readwrite");
+            tx.objectStore(STORE_NAME).delete(oldDocId);
+            tx.oncomplete = function() { db.close(); res(true); };
+            tx.onerror = function() { db.close(); res(false); };
+          } catch (e) { db.close(); res(false); }
+        });
+      }
+    }
+
+    ["gat_scanned_docs_v1", "gat_scanned_docs"].forEach(function(k) {
+      try {
+        const arr = JSON.parse(localStorage.getItem(k) || "[]");
+        if (Array.isArray(arr)) {
+          arr.forEach(function(sc) {
+            if (!sc) return;
+            const scSlot = normalizeSlotKey(sc.slotKey || sc.docType || sc.docTitle);
+            if (scSlot === slot) {
+              sc.ownerParty = newOwner;
+              sc.tzRole = newOwner === "partner" ? "spouse" : "applicant";
+            }
+          });
+          localStorage.setItem(k, JSON.stringify(arr));
+        }
+      } catch (e) {}
+    });
+
+    await window.reconcileCoupleRolesAcrossForms();
+
+    const uid = getActiveUid();
+    if (uid && uid !== "anon" && oldIdbRec && Array.isArray(oldIdbRec.pages) && oldIdbRec.pages.length) {
+      fetch(getApiUrl(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "save_uploaded_doc",
+          uid: uid,
+          docId: newDocId,
+          slotKey: slot,
+          ownerParty: newOwner,
+          docType: targetDoc.docType || slot,
+          docTitle: targetDoc.docTitle || slot.toUpperCase(),
+          issuingCountry: targetDoc.issuingCountry || "",
+          isComplete: targetDoc.isComplete !== false,
+          incompleteReasons: targetDoc.incompleteReasons || [],
+          hasApostille: Boolean(targetDoc.hasApostille),
+          hasSefach: Boolean(targetDoc.hasSefach),
+          isLongForm: targetDoc.isLongForm !== false,
+          expiryDateIso: targetDoc.expiryDateIso || "",
+          files: oldIdbRec.pages
+        })
+      }).catch(function() {});
+      if (oldDocId !== newDocId) {
+        fetch(getApiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: "delete_uploaded_doc", uid: uid, docId: oldDocId })
+        }).catch(function() {});
+      }
+    }
+
+    if (typeof window.renderGatProfileVaultList === "function") window.renderGatProfileVaultList();
+    if (typeof window.renderModalVaultListIfOpen === "function") window.renderModalVaultListIfOpen();
+    const openModal = document.getElementById("gat-new-user-doc-modal");
+    if (openModal && typeof window.showNewUserDocUploadModal === "function") {
+      const curF = (window.gatFormsState && window.gatFormsState.pf_active_form) || "ash3";
+      window.showNewUserDocUploadModal(curF, null, true);
+    }
+    if (typeof window.mountUnifiedPibaFormsEngine === "function") {
+      window.mountUnifiedPibaFormsEngine();
+    }
+  };
+
+  window.showSlotLockedDeleteFirstModal = function(docTitle) {
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    let old = document.getElementById("gat-slot-locked-modal");
+    if (old) old.remove();
+    const m = document.createElement("div");
+    m.id = "gat-slot-locked-modal";
+    m.dir = l === "he" ? "rtl" : "ltr";
+    m.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:rgba(15,23,42,0.82);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;";
+    m.onclick = function(e) { if (e.target === m) m.remove(); };
+    m.innerHTML =
+      '<div style="background:#ffffff;border:3px solid #64748b;border-radius:16px;max-width:450px;width:100%;padding:20px;box-shadow:0 20px 45px rgba(0,0,0,0.4);color:#0f172a;">' +
+        '<div style="font-weight:900;font-size:1rem;color:#0f172a;margin-bottom:8px;">' + lt.lockedAlertTitle + '</div>' +
+        (docTitle ? '<div style="font-size:0.83rem;font-weight:800;color:#0284c7;margin-bottom:8px;">📄 ' + docTitle + '</div>' : '') +
+        '<div style="font-size:0.83rem;color:#334155;font-weight:700;line-height:1.48;margin-bottom:14px;">' + lt.lockedAlertBody + '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:8px;">' +
+          '<button type="button" onclick="document.getElementById(\'gat-slot-locked-modal\').remove();if(document.getElementById(\'gat-new-user-doc-modal\'))document.getElementById(\'gat-new-user-doc-modal\').remove();if(typeof window.openGatProfileModal===\'function\')window.openGatProfileModal();" style="width:100%;background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;border:none;border-radius:10px;padding:11px 14px;font-size:0.84rem;font-weight:900;cursor:pointer;">' + lt.openProfileBtn + '</button>' +
+          '<button type="button" onclick="document.getElementById(\'gat-slot-locked-modal\').remove()" style="width:100%;background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;border-radius:10px;padding:9px 14px;font-size:0.82rem;font-weight:800;cursor:pointer;">' + lt.cancelBtn + '</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(m);
+  };
+
+  function applyGreyLockToButton(btn, docObj, lt) {
+    if (!btn || !docObj) return;
+    if (!btn.dataset.origLabel) {
+      btn.dataset.origLabel = String(btn.textContent || "").replace(/✓/g, "").replace(/🔒.*$/, "").trim();
+      btn.dataset.origStyle = btn.getAttribute("style") || "";
+    }
+    const baseText = btn.dataset.origLabel;
+    btn.style.cssText = "width:100%;padding:11px 13px;border-radius:10px;border:2px solid #cbd5e1;background:#e2e8f0;color:#64748b;font-size:0.81rem;font-weight:800;cursor:not-allowed;text-align:start;display:flex;flex-direction:column;gap:3px;box-shadow:none;opacity:0.92;";
+    btn.innerHTML =
+      '<div style="text-decoration:line-through;color:#64748b;font-weight:800;">' + baseText + '</div>' +
+      '<div style="font-size:0.73rem;color:#475569;font-weight:900;">' + lt.lockedSuffix + '</div>';
+    btn.onclick = function(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      window.showSlotLockedDeleteFirstModal(docObj.docTitle || baseText);
+      return false;
+    };
+    const incState = computeDocumentIncompleteState(docObj);
+    if (incState.isInc && btn.parentNode) {
+      const safeId = String(docObj.docId || "").replace(/'/g, "\\'");
+      const subBar = document.createElement("div");
+      subBar.className = "gat-slot-inc-subbar";
+      subBar.style.cssText = "background:#fef2f2;border:2px solid #dc2626;border-radius:9px;padding:7px 10px;margin-top:4px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px;";
+      subBar.innerHTML =
+        '<span style="font-size:0.73rem;font-weight:900;color:#b91c1c;">' + lt.incWarn + '</span>' +
+        '<div style="display:flex;gap:6px;">' +
+          '<button type="button" onclick="window.showIncompleteDocDetails(\'' + safeId + '\')" style="background:#fff;color:#dc2626;border:1.5px solid #dc2626;border-radius:6px;padding:4px 8px;font-size:0.7rem;font-weight:900;cursor:pointer;">' + lt.seeWhyBtn + '</button>' +
+          '<button type="button" onclick="window.triggerGatVaultUpload(\'' + safeId + '\', true)" style="background:#dc2626;color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:0.7rem;font-weight:900;cursor:pointer;">' + lt.addPageBtn + '</button>' +
+        '</div>';
+      btn.insertAdjacentElement("afterend", subBar);
+    }
+  }
+
+  window.lockUploadedDocButtonsInModal = async function(selectedParty) {
+    const modal = document.getElementById("gat-new-user-doc-modal");
+    if (!modal) return;
+    const party = selectedParty || window._gatActiveUploadOwner || "me";
+    const docs = await window.fetchMergedVaultDocsList();
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    const uploadedBySlot = {};
+
+    docs.forEach(function(d) {
+      if (!d) return;
+      const nSlot = normalizeSlotKey(d.slotKey || d.docType || d.docTitle || d.docId);
+      const dOwner = (String(d.ownerParty || "").toLowerCase() === "partner" || String(d.docId || "").startsWith("partner_")) ? "partner" : "me";
+      if (nSlot === "marriage") uploadedBySlot["marriage"] = d;
+      else if (dOwner === party) uploadedBySlot[nSlot] = d;
+    });
+
+    modal.querySelectorAll(".gat-slot-inc-subbar").forEach(function(el) { el.remove(); });
+    const btnsWrap = document.getElementById("gat-nu-buttons-wrap");
+    if (btnsWrap) {
+      Array.from(btnsWrap.querySelectorAll("button")).forEach(function(btn, idx) {
+        const txt = String(btn.dataset.origLabel || btn.textContent || "").toLowerCase();
+        let bSlot = "";
+        if (/teudat|zehut|תעודת זהות|ספח|sefach/.test(txt)) bSlot = "tz";
+        else if (/birth|לידה|naissance|nacimiento|geburt|рожд/.test(txt)) bSlot = "birth";
+        else if (/passport|דרכון|passeport|pasaporte|reisepass|паспорт/.test(txt) || idx === 0) bSlot = "passport";
+        if (bSlot && uploadedBySlot[bSlot]) applyGreyLockToButton(btn, uploadedBySlot[bSlot], lt);
+      });
+    }
+    const marWrap = document.getElementById("gat-nu-marriage-wrap");
+    if (marWrap) {
+      const mBtn = marWrap.querySelector("button");
+      if (mBtn && uploadedBySlot["marriage"]) applyGreyLockToButton(mBtn, uploadedBySlot["marriage"], lt);
+    }
+  };
+
+  window.saveScannedDocToVault = async function(meta, encodedFiles, isAppend) {
+    if (!meta) return;
+    const rawFiles = Array.isArray(encodedFiles) ? encodedFiles : (Array.isArray(meta.files) ? meta.files : []);
+    if (!rawFiles.length) return;
+    const owner = (String(meta.ownerParty || "").toLowerCase() === "partner") ? "partner" : "me";
+    const slot = normalizeSlotKey(meta.slotKey || meta.docType || meta.docTitle || "doc");
+    const docId = canonicalSlotId(owner, slot);
+
+    clearTombstone(owner, slot, docId);
+
+    const cleanPages = rawFiles.map(function(f, idx) {
+      return { idx: idx, mimeType: f.mimeType || "image/jpeg", base64Data: String(f.base64Data || "").replace(/^data:[^;]+;base64,/, "") };
+    }).filter(function(p) { return Boolean(p.base64Data); });
+
+    let existing = await idbGetDoc(docId);
+    let mergedPages = cleanPages;
+    if (existing && Array.isArray(existing.pages) && existing.pages.length > 0 && (isAppend || cleanPages.length > existing.pages.length)) {
+      const seenB64 = new Set();
+      mergedPages = (isAppend ? existing.pages.concat(cleanPages) : cleanPages).filter(function(p) {
+        const sig = String(p.base64Data || "").slice(0, 120);
+        if (seenB64.has(sig)) return false;
+        seenB64.add(sig);
+        return true;
+      }).map(function(p, i) { return Object.assign({}, p, { idx: i }); });
+    }
+
+    const mergedFields = Object.assign({}, (existing && existing.contributedFields) || {}, meta.contributedFields || {});
+    const incCheck = computeDocumentIncompleteState(Object.assign({}, meta, { slotKey: slot, pageCount: mergedPages.length }));
+
+    const record = {
+      docId: docId, slotKey: slot, ownerParty: owner,
+      docType: meta.docType || slot,
+      docTitle: meta.docTitle || slot.toUpperCase(),
+      issuingCountry: meta.issuingCountry || "",
+      pageCount: mergedPages.length,
+      isComplete: !incCheck.isInc,
+      incompleteReasons: incCheck.reasons,
+      hasApostille: Boolean(meta.hasApostille || (!incCheck.isInc && slot === "marriage")),
+      hasUnderlyingBody: meta.hasUnderlyingBody !== false,
+      hasSefach: Boolean(meta.hasSefach || (!incCheck.isInc && slot === "tz")),
+      isLongForm: meta.isLongForm !== false,
+      expiryDateIso: meta.expiryDateIso || "",
+      contributedFields: mergedFields,
+      rawScanResult: meta.rawScanResult || (existing && existing.rawScanResult) || null,
+      updatedAt: Date.now(),
+      pages: mergedPages
+    };
+    await idbPutDoc(record);
+
+    const uid = getActiveUid();
+    if (uid && uid !== "anon") {
+      try {
+        await fetch(getApiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mode: "save_uploaded_doc", uid: uid, docId: docId, slotKey: record.slotKey, ownerParty: record.ownerParty,
+            docType: record.docType, docTitle: record.docTitle, issuingCountry: record.issuingCountry,
+            isComplete: record.isComplete, incompleteReasons: record.incompleteReasons,
+            hasApostille: record.hasApostille, hasSefach: record.hasSefach, isLongForm: record.isLongForm,
+            expiryDateIso: record.expiryDateIso, appendPages: false, files: mergedPages
+          })
+        });
+      } catch (e) {}
+    }
+    await window.reconcileCoupleRolesAcrossForms();
+    if (typeof window.renderGatProfileVaultList === "function") window.renderGatProfileVaultList();
+    if (typeof window.renderModalVaultListIfOpen === "function") window.renderModalVaultListIfOpen();
+    if (typeof window.lockUploadedDocButtonsInModal === "function") window.lockUploadedDocButtonsInModal(owner);
+  };
+
+  window.saveDocToGatVault = function(meta) {
+    if (!meta) return;
+    return window.saveScannedDocToVault(meta, meta.files || [], false);
+  };
+
+  window.fetchMergedVaultDocsList = async function() {
+    const tombstones = getTombstones();
+    const allDeletedAt = Number(tombstones.__all_deleted_at || 0);
+    const idbList = await idbGetAllDocs();
+    const map = {};
+
+    function considerDoc(item, isMetaOnly) {
+      if (!item) return;
+      const owner = (String(item.ownerParty || "").toLowerCase() === "partner" || String(item.docId || "").startsWith("partner_")) ? "partner" : "me";
+      const slot = normalizeSlotKey(item.slotKey || item.docType || item.docTitle || item.docId);
+      const cid = canonicalSlotId(owner, slot);
+      const itemTs = Number(item.updatedAt || (item.ts ? new Date(item.ts).getTime() : 0) || 0);
+
+      const delTs = Math.max(Number(tombstones[cid] || 0), Number(tombstones[item.docId] || 0), allDeletedAt);
+      if (delTs && (!itemTs || itemTs <= delTs + 60000)) return;
+
+      const incState = computeDocumentIncompleteState(Object.assign({}, item, { slotKey: slot }));
+      const normalized = Object.assign({}, item, {
+        docId: cid,
+        slotKey: slot,
+        ownerParty: owner,
+        isComplete: !incState.isInc,
+        incompleteReasons: incState.reasons,
+        metadataOnly: Boolean(isMetaOnly && (!map[cid] || map[cid].metadataOnly))
+      });
+      if (!map[cid] || !isMetaOnly || (itemTs > (map[cid].updatedAt || 0))) {
+        map[cid] = Object.assign({}, map[cid] || {}, normalized);
+      }
+    }
+
+    idbList.forEach(function(item) { considerDoc(item, false); });
+
+    try {
+      const scans = JSON.parse(localStorage.getItem("gat_scanned_docs_v1") || "[]");
+      if (Array.isArray(scans)) {
+        scans.forEach(function(sc) {
+          if (!sc) return;
+          considerDoc({
+            docId: canonicalSlotId(sc.ownerParty || "me", sc.docType || sc.docTitle),
+            slotKey: normalizeSlotKey(sc.docType || sc.docTitle),
+            ownerParty: sc.ownerParty || "me",
+            docType: sc.docType || "certificate",
+            docTitle: sc.docTitle || sc.docType || "",
+            pageCount: 1,
+            isComplete: sc.isComplete !== false,
+            incompleteReasons: sc.incompleteReasons || [],
+            hasApostille: sc.hasApostille === true,
+            hasSefach: Boolean(sc.hasSefach),
+            isLongForm: sc.isLongFormBothParents !== false,
+            expiryDateIso: sc.expiryDateIso || "",
+            updatedAt: sc.ts ? new Date(sc.ts).getTime() : 0
+          }, true);
+        });
+      }
+    } catch (e) {}
+
+    const uid = getActiveUid();
+    if (uid && uid !== "anon") {
+      try {
+        const res = await fetch(getApiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: "list_uploaded_docs", uid: uid })
+        });
+        const data = await res.json();
+        if (data && data.ok && Array.isArray(data.items)) {
+          data.items.forEach(function(srvItem) {
+            considerDoc(srvItem, srvItem.storageEngine !== "r2");
+          });
+        }
+      } catch (e) {}
+    }
+
+    return Object.values(map).sort(function(a, b) { return (b.updatedAt || 0) - (a.updatedAt || 0); });
+  };
+
+  window.deleteGatVaultDoc = async function(docId, slotKey, ownerParty, skipConfirm) {
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    if (!skipConfirm && !confirm(lt.confirmDelOne)) return;
+    const targetOwner = (String(ownerParty || "").toLowerCase() === "partner" || String(docId || "").startsWith("partner_")) ? "partner" : "me";
+    const targetSlot = normalizeSlotKey(slotKey || docId);
+    const cid = canonicalSlotId(targetOwner, targetSlot);
+
+    addTombstone(targetOwner, targetSlot, docId);
+
+    const deletedRec = (await idbGetDoc(cid)) || (await idbGetDoc(docId));
+    await idbDeleteMatchingSlot(docId, targetOwner, targetSlot, false);
+
+    ["gat_scanned_docs_v1", "gat_scanned_docs", "gat_vault_docs_meta"].forEach(function(k) {
+      try {
+        const arr = JSON.parse(localStorage.getItem(k) || "[]");
+        if (Array.isArray(arr)) {
+          const filtered = arr.filter(function(sc) {
+            if (!sc) return false;
+            const scOwner = (String(sc.ownerParty || "").toLowerCase() === "partner" || sc.tzRole === "spouse") ? "partner" : "me";
+            const scSlot = normalizeSlotKey(sc.slotKey || sc.docType || sc.docTitle || sc.docId);
+            if (targetSlot === "marriage" && scSlot === "marriage") return false;
+            if (scSlot === targetSlot && scOwner === targetOwner) return false;
+            if (sc.docId && (sc.docId === docId || sc.docId === cid)) return false;
+            return true;
+          });
+          localStorage.setItem(k, JSON.stringify(filtered));
+        }
+      } catch (e) {}
+    });
+
+    try {
+      const remainingIdbDocs = await idbGetAllDocs();
+      const remainingScans = JSON.parse(localStorage.getItem("gat_scanned_docs_v1") || "[]");
+      const draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}");
+      const state = window.gatFormsState || {};
+
+      if (remainingIdbDocs.length === 0 && remainingScans.length === 0) {
+        Object.keys(draft).forEach(function(fk) {
+          if (fk !== "pf_active_form" && fk !== "pf_target_branch") {
+            delete draft[fk];
+            delete state[fk];
+          }
+        });
+        localStorage.setItem("gat_form_draft_v1", JSON.stringify(draft));
+        window.gatFormsState = state;
+      } else {
+        if (deletedRec && deletedRec.contributedFields) {
+          Object.keys(deletedRec.contributedFields).forEach(function(fk) { delete draft[fk]; delete state[fk]; });
+        }
+        if (targetSlot === "marriage") {
+          ["pf_marriage_date", "pf_marriage_place_he", "pf_marriage_details", "pf_marital"].forEach(function(fk) { delete draft[fk]; delete state[fk]; });
+        } else if (targetSlot === "tz") {
+          ["pf_tz", "pf_id_num", "pf_hebrew_dob", "pf_il_addr_he", "pf_sp_tz"].forEach(function(fk) { delete draft[fk]; delete state[fk]; });
+        } else if (targetSlot === "passport") {
+          ["pf_surname_en", "pf_given_en", "pf_pass_num", "pf_pass_issue_date", "pf_pass_exp_date", "pf_sp_surname_en", "pf_sp_given_en", "pf_sp_pass_num"].forEach(function(fk) { delete draft[fk]; delete state[fk]; });
+        }
+        localStorage.setItem("gat_form_draft_v1", JSON.stringify(draft));
+        window.gatFormsState = state;
+        await window.reconcileCoupleRolesAcrossForms();
+      }
+    } catch (recErr) {}
+
+    if (typeof window.renderGatProfileVaultList === "function") window.renderGatProfileVaultList();
+    if (typeof window.renderModalVaultListIfOpen === "function") window.renderModalVaultListIfOpen();
+
+    const allUids = getAllActiveUids();
+    if (allUids.length) {
+      try {
+        await fetch(getApiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mode: "delete_uploaded_doc",
+            uid: allUids[0],
+            uids: allUids,
+            docId: docId || cid,
+            slotKey: targetSlot,
+            ownerParty: targetOwner
+          })
+        });
+      } catch (e) {}
+    }
+
+    const openModal = document.getElementById("gat-new-user-doc-modal");
+    if (openModal && typeof window.showNewUserDocUploadModal === "function") {
+      const curF = (window.gatFormsState && window.gatFormsState.pf_active_form) || "ash3";
+      window.showNewUserDocUploadModal(curF, null, true);
+    } else if (typeof window.mountUnifiedPibaFormsEngine === "function") {
+      window.mountUnifiedPibaFormsEngine();
+    }
+  };
+
+  window.deleteAllGatVaultDocs = async function() {
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    if (!confirm(lt.confirmDelAll)) return;
+    clearAllTombstonesMarkAllDeleted();
+    await idbDeleteMatchingSlot("", "me", "", true);
+    ["gat_scanned_docs_v1", "gat_scanned_docs", "gat_vault_docs_meta"].forEach(function(k) {
+      try { localStorage.removeItem(k); } catch (e) {}
+    });
+    try {
+      const draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}");
+      const cleanDraft = {};
+      if (draft.pf_active_form) cleanDraft.pf_active_form = draft.pf_active_form;
+      if (draft.pf_target_branch) cleanDraft.pf_target_branch = draft.pf_target_branch;
+      localStorage.setItem("gat_form_draft_v1", JSON.stringify(cleanDraft));
+      window.gatFormsState = Object.assign({}, cleanDraft);
+    } catch (e) {}
+
+    const allUids = getAllActiveUids();
+    if (allUids.length) {
+      try {
+        await fetch(getApiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: "delete_uploaded_doc", uid: allUids[0], uids: allUids, docId: "all", deleteAll: true })
+        });
+      } catch (e) {}
+    }
+
+    if (typeof window.renderGatProfileVaultList === "function") window.renderGatProfileVaultList();
+    if (typeof window.renderModalVaultListIfOpen === "function") window.renderModalVaultListIfOpen();
+    const openModal = document.getElementById("gat-new-user-doc-modal");
+    if (openModal && typeof window.showNewUserDocUploadModal === "function") {
+      const curF = (window.gatFormsState && window.gatFormsState.pf_active_form) || "ash3";
+      window.showNewUserDocUploadModal(curF, null, true);
+    }
+    if (typeof window.mountUnifiedPibaFormsEngine === "function") {
+      window.mountUnifiedPibaFormsEngine();
+    }
+  };
+
+  window.setProfileUploadOwner = function(party) {
+    window._gatProfileUploadOwner = (party === "partner") ? "partner" : "me";
+    if (typeof window.renderGatProfileVaultList === "function") window.renderGatProfileVaultList();
+  };
+
+  window.triggerGatVaultUpload = function(targetDocId, isAppend) {
+    let inp = document.getElementById("gat-prof-vault-file-inp");
+    if (!inp) {
+      inp = document.createElement("input");
+      inp.type = "file"; inp.id = "gat-prof-vault-file-inp"; inp.accept = "image/*,.pdf"; inp.multiple = true; inp.style.display = "none";
+      document.body.appendChild(inp);
+    }
+    inp.onchange = async function() {
+      if (!inp.files || !inp.files.length) return;
+      const l = getCurLang();
+      const lt = LOCK_I18N[l] || LOCK_I18N.en;
+      window.showGatUploadSpinner(lt.spinTitle, 35);
+
+      try {
+        const newFilesArr = [];
+        for (let i = 0; i < Math.min(inp.files.length, 6); i++) {
+          const f = inp.files[i];
+          if (typeof window.fileToCompressedBase64 === "function") newFilesArr.push(await window.fileToCompressedBase64(f));
+          else {
+            const b64 = await new Promise(function(res, rej) {
+              const r = new FileReader();
+              r.onload = function() { res(String(r.result).split(",")[1] || ""); };
+              r.onerror = rej; r.readAsDataURL(f);
+            });
+            newFilesArr.push({ mimeType: f.type || "image/jpeg", base64Data: b64 });
+          }
+        }
+        const parsedTarget = targetDocId ? String(targetDocId).split("_") : [];
+        const hintOwner = parsedTarget.length >= 2 ? parsedTarget[0] : (window._gatProfileUploadOwner || "me");
+        const hintSlot = parsedTarget.length >= 2 ? parsedTarget.slice(1).join("_") : "";
+        window._gatActiveUploadOwner = hintOwner;
+
+        let combinedFilesForAudit = newFilesArr.slice();
+        if (isAppend && targetDocId) {
+          const existingDoc = await idbGetDoc(targetDocId);
+          if (existingDoc && Array.isArray(existingDoc.pages) && existingDoc.pages.length > 0) {
+            combinedFilesForAudit = existingDoc.pages.map(function(p) {
+              return { mimeType: p.mimeType || "image/jpeg", base64Data: p.base64Data };
+            }).concat(newFilesArr).slice(0, 6);
+          }
+        }
+
+        const res = await fetch(getApiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mimeType: combinedFilesForAudit[0].mimeType,
+            base64Data: combinedFilesForAudit[0].base64Data,
+            files: combinedFilesForAudit,
+            mode: "audit_and_autofill",
+            slotKey: hintSlot,
+            ownerParty: hintOwner,
+            uid: getActiveUid(),
+            lang: l
+          })
+        });
+        const data = await res.json();
+        window.hideGatUploadSpinner();
+
+        if (data && data.ok && data.result) {
+          const r = data.result;
+          const detectedSlot = normalizeSlotKey(hintSlot || r.doc_type || "doc");
+          const detectedOwner = hintOwner;
+          const finalDocId = canonicalSlotId(detectedOwner, detectedSlot);
+          if (!isAppend && !targetDocId) {
+            const existingDocs = await window.fetchMergedVaultDocsList();
+            const alreadyThere = existingDocs.find(function(x) { return x && x.docId === finalDocId && !x.metadataOnly; });
+            if (alreadyThere) {
+              window.showSlotLockedDeleteFirstModal(alreadyThere.docTitle || finalDocId);
+              window.renderGatProfileVaultList();
+              return;
+            }
+          }
+          await window.saveScannedDocToVault({
+            docId: finalDocId, slotKey: detectedSlot, ownerParty: detectedOwner,
+            docType: r.doc_type || detectedSlot, docTitle: r.doc_title_detected || detectedSlot.toUpperCase(),
+            issuingCountry: r.issuing_country || "", isComplete: r.is_complete !== false,
+            incompleteReasons: Array.isArray(r.incomplete_reasons) ? r.incomplete_reasons : [],
+            hasApostille: r.has_apostille_visible === true,
+            hasUnderlyingBody: r.has_underlying_certificate_body !== false,
+            hasSefach: Boolean(r.has_full_sefach_visible === true && r.sefach_unfolded_all_squares !== false),
+            isLongForm: r.is_long_form_both_parents !== false,
+            expiryDateIso: r.expiry_date_iso || r.passport_expiry_date || "",
+            rawScanResult: r
+          }, combinedFilesForAudit, false);
+
+          const openModal = document.getElementById("gat-new-user-doc-modal");
+          if (openModal && typeof window.showNewUserDocUploadModal === "function") {
+            const curF = (window.gatFormsState && window.gatFormsState.pf_active_form) || "ash3";
+            window.showNewUserDocUploadModal(curF, null, true);
+          } else if (typeof window.mountUnifiedPibaFormsEngine === "function") {
+            window.mountUnifiedPibaFormsEngine();
+          }
+        }
+      } catch (e) {
+        window.hideGatUploadSpinner();
+        console.warn("Smart Vault upload error:", e);
+      }
+      inp.value = "";
+      if (typeof window.renderGatProfileVaultList === "function") window.renderGatProfileVaultList();
+      if (typeof window.renderModalVaultListIfOpen === "function") window.renderModalVaultListIfOpen();
+    };
+    inp.click();
+  };
+
+  window.showIncompleteDocDetails = async function(docId) {
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    const docs = await window.fetchMergedVaultDocsList();
+    const d = docs.find(function(x) { return x && x.docId === docId; });
+    const incState = computeDocumentIncompleteState(d);
+    const reasons = incState.reasons.length ? incState.reasons : [lt.rsnMarApos];
+    let old = document.getElementById("gat-incomplete-doc-modal");
+    if (old) old.remove();
+    const m = document.createElement("div");
+    m.id = "gat-incomplete-doc-modal";
+    m.dir = l === "he" ? "rtl" : "ltr";
+    m.style.cssText = "position:fixed;inset:0;z-index:2147483646;background:rgba(15,23,42,0.82);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;";
+    m.onclick = function(e) { if (e.target === m) m.remove(); };
+    const safeId = String(docId || "").replace(/'/g, "\\'");
+    m.innerHTML =
+      '<div style="background:#fff;border:3px solid #dc2626;border-radius:16px;max-width:480px;width:100%;padding:20px;box-shadow:0 20px 45px rgba(0,0,0,0.4);color:#0f172a;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">' +
+          '<div style="font-weight:900;font-size:0.98rem;color:#b91c1c;">' + lt.whyModalTitle + '</div>' +
+          '<button type="button" onclick="document.getElementById(\'gat-incomplete-doc-modal\').remove()" style="background:none;border:none;font-size:1.2rem;font-weight:900;cursor:pointer;color:#64748b;">✕</button>' +
+        '</div>' +
+        '<div style="font-size:0.84rem;font-weight:800;color:#0f172a;margin-bottom:8px;">📄 ' + ((d && d.docTitle) || docId) + '</div>' +
+        '<ul style="margin:0 0 12px 18px;padding:0;font-size:0.81rem;color:#991b1b;font-weight:700;line-height:1.45;">' +
+          reasons.map(function(r) { return '<li style="margin-bottom:6px;">' + r + '</li>'; }).join("") +
+        '</ul>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+          '<button type="button" onclick="document.getElementById(\'gat-incomplete-doc-modal\').remove();window.triggerGatVaultUpload(\'' + safeId + '\', true)" style="flex:1;background:#dc2626;color:#fff;border:none;border-radius:9px;padding:10px 14px;font-size:0.82rem;font-weight:900;cursor:pointer;">' + lt.upMissingBtn + '</button>' +
+          '<button type="button" onclick="document.getElementById(\'gat-incomplete-doc-modal\').remove();window.viewGatVaultDoc(\'' + safeId + '\')" style="background:#0284c7;color:#fff;border:none;border-radius:9px;padding:10px 14px;font-size:0.82rem;font-weight:900;cursor:pointer;">' + lt.viewScanBtn + '</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(m);
+  };
+
+  async function getFullDocPagesWithR2Fallback(docId) {
+    let rec = await idbGetDoc(docId);
+    if (rec && Array.isArray(rec.pages) && rec.pages.length > 0) return rec;
+    const allUids = getAllActiveUids();
+    for (let i = 0; i < allUids.length; i++) {
+      try {
+        const res = await fetch(getApiUrl(), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ mode: "get_uploaded_doc", uid: allUids[i], docId: docId }) });
+        const data = await res.json();
+        if (data && data.ok && Array.isArray(data.pages) && data.pages.length > 0) {
+          rec = Object.assign({}, data.meta || { docId: docId }, { pages: data.pages });
+          await idbPutDoc(rec);
+          return rec;
+        }
+      } catch (e) {}
+    }
+    return rec;
+  }
+
+  window.viewGatVaultDoc = async function(docId) {
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    const rec = await getFullDocPagesWithR2Fallback(docId);
+    if (!rec || !Array.isArray(rec.pages) || !rec.pages.length) {
+      alert(lt.legacyReupAlert);
+      return;
+    }
+    let old = document.getElementById("gat-vault-viewer-modal");
+    if (old) old.remove();
+    const m = document.createElement("div");
+    m.id = "gat-vault-viewer-modal";
+    m.dir = l === "he" ? "rtl" : "ltr";
+    m.style.cssText = "position:fixed;inset:0;z-index:2147483645;background:rgba(4,18,38,0.88);backdrop-filter:blur(5px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;";
+    m.onclick = function(e) { if (e.target === m) m.remove(); };
+    const pagesHtml = rec.pages.map(function(p, idx) {
+      const mime = p.mimeType || "image/jpeg";
+      const src = "data:" + mime + ";base64," + p.base64Data;
+      const pLbl = lt.pageOf.replace("{i}", String(idx + 1)).replace("{n}", String(rec.pages.length));
+      if (mime.indexOf("pdf") !== -1) return '<div style="margin-bottom:14px;"><div style="font-size:0.76rem;font-weight:800;color:#94a3b8;margin-bottom:4px;">' + pLbl + ' (PDF)</div><iframe src="' + src + '" style="width:100%;height:70vh;border:none;border-radius:10px;background:#fff;"></iframe></div>';
+      return '<div style="margin-bottom:14px;"><div style="font-size:0.76rem;font-weight:800;color:#94a3b8;margin-bottom:4px;">' + pLbl + '</div><img src="' + src + '" style="max-width:100%;height:auto;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,0.4);" /></div>';
+    }).join("");
+    m.innerHTML =
+      '<div style="width:100%;max-width:680px;max-height:90dvh;background:#082548;border:2px solid #0284c7;border-radius:18px;display:flex;flex-direction:column;overflow:hidden;">' +
+        '<div style="padding:12px 16px;background:#04152d;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;">' +
+          '<div style="font-weight:900;font-size:0.92rem;">📄 ' + (rec.docTitle || rec.docType || "") + ' (' + rec.pages.length + 'p)</div>' +
+          '<div style="display:flex;gap:8px;">' +
+            '<button type="button" onclick="window.downloadGatVaultDoc(\'' + String(docId).replace(/'/g, "\\'") + '\')" style="background:#0f766e;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:0.76rem;font-weight:900;cursor:pointer;">' + lt.saveBtn + '</button>' +
+            '<button type="button" onclick="document.getElementById(\'gat-vault-viewer-modal\').remove()" style="background:rgba(255,255,255,0.15);color:#fff;border:none;width:30px;height:30px;border-radius:50%;font-weight:900;cursor:pointer;">✕</button>' +
+          '</div>' +
+        '</div>' +
+        '<div style="padding:14px;overflow-y:auto;text-align:center;-webkit-overflow-scrolling:touch;">' + pagesHtml + '</div>' +
+      '</div>';
+    document.body.appendChild(m);
+  };
+
+  window.downloadGatVaultDoc = async function(docId) {
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    const rec = await getFullDocPagesWithR2Fallback(docId);
+    if (!rec || !Array.isArray(rec.pages) || !rec.pages.length) {
+      alert(lt.legacyReupAlert);
+      return;
+    }
+    rec.pages.forEach(function(p, idx) {
+      const mime = p.mimeType || "image/jpeg";
+      const ext = mime.indexOf("pdf") !== -1 ? "pdf" : (mime.indexOf("png") !== -1 ? "png" : "jpg");
+      const a = document.createElement("a");
+      a.href = "data:" + mime + ";base64," + p.base64Data;
+      a.download = String(rec.docTitle || rec.docId || "document").replace(/[^a-zA-Z0-9_-]/g, "_") + "_p" + (idx + 1) + "." + ext;
+      document.body.appendChild(a); a.click(); a.remove();
+    });
+  };
+
+  function buildUnifiedVaultCardsHtml(docs, lt) {
+    let html = '<div style="font-size:0.71rem;font-weight:800;color:#0369a1;margin-bottom:6px;">💡 ' + lt.tapSwitchHint + '</div>';
+    html += '<div style="display:flex;flex-direction:column;gap:7px;">';
+    docs.forEach(function(d) {
+      const safeId = String(d.docId || "").replace(/'/g, "\\'");
+      const safeSlot = String(d.slotKey || d.docType || "").replace(/'/g, "\\'");
+      const safeOwner = String(d.ownerParty || "me").replace(/'/g, "\\'");
+      const nSlot = normalizeSlotKey(d.slotKey || d.docType || d.docTitle || d.docId);
+      const incState = computeDocumentIncompleteState(d);
+      const isInc = incState.isInc;
+
+      const ownerSelectHtml = (nSlot === "marriage")
+        ? '<span style="background:#f3e8ff;color:#6b21a8;border:1px solid #d8b4fe;padding:2px 7px;border-radius:6px;font-size:0.69rem;font-weight:900;">' + lt.bothOpt + '</span>'
+        : '<select onchange="window.changeVaultDocOwner(\'' + safeId + '\', this.value)" style="background:#e0f2fe;color:#0369a1;border:1.5px solid #0284c7;padding:3px 8px;border-radius:7px;font-size:0.74rem;font-weight:900;cursor:pointer;width:auto;display:inline-block;">' +
+            '<option value="me"' + (d.ownerParty !== "partner" ? ' selected' : '') + '>' + lt.meOpt + '</option>' +
+            '<option value="partner"' + (d.ownerParty === "partner" ? ' selected' : '') + '>' + lt.partnerOpt + '</option>' +
+          '</select>';
+
+      const statusBadge = isInc
+        ? '<button type="button" onclick="window.showIncompleteDocDetails(\'' + safeId + '\')" style="background:#fef2f2;color:#dc2626;border:1.5px solid #dc2626;padding:2px 7px;border-radius:999px;font-size:0.68rem;font-weight:900;cursor:pointer;">' + lt.incBadgeBtn + '</button>'
+        : '<span style="background:#dcfce7;color:#166534;padding:2px 7px;border-radius:999px;font-size:0.68rem;font-weight:900;">' + lt.compBadge + '</span>';
+
+      html += '<div style="background:' + (isInc ? '#fff5f5' : '#ffffff') + ';border:1.5px solid ' + (isInc ? '#fca5a5' : '#cbd5e1') + ';border-radius:9px;padding:8px 10px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;">' +
+        '<div style="font-size:0.78rem;font-weight:800;color:#0f172a;display:flex;flex-wrap:wrap;align-items:center;gap:6px;">' +
+          ownerSelectHtml +
+          '<span>' + (d.docTitle || d.docType || "") + '</span><span style="color:#64748b;font-size:0.7rem;">(' + (d.pageCount || 1) + 'p)</span>' + statusBadge +
+        '</div><div style="display:flex;align-items:center;gap:5px;">' +
+          (d.metadataOnly ? '<span style="font-size:0.68rem;color:#64748b;font-weight:800;">' + lt.delToReup + '</span>' :
+            '<button type="button" onclick="window.viewGatVaultDoc(\'' + safeId + '\')" style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:0.7rem;font-weight:800;cursor:pointer;">' + lt.viewBtn + '</button>' +
+            '<button type="button" onclick="window.downloadGatVaultDoc(\'' + safeId + '\')" style="background:#0f766e;color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:0.7rem;font-weight:800;cursor:pointer;">' + lt.saveBtn + '</button>' +
+            '<button type="button" onclick="window.triggerGatVaultUpload(\'' + safeId + '\', true)" style="background:' + (isInc ? '#dc2626' : '#e2e8f0') + ';color:' + (isInc ? '#fff' : '#0f172a') + ';border:none;border-radius:6px;padding:4px 8px;font-size:0.7rem;font-weight:800;cursor:pointer;">' + lt.pageBtn + '</button>'
+          ) +
+          '<button type="button" onclick="window.deleteGatVaultDoc(\'' + safeId + '\', \'' + safeSlot + '\', \'' + safeOwner + '\')" style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:6px;padding:4px 8px;font-size:0.7rem;font-weight:800;cursor:pointer;">🗑️</button>' +
+        '</div></div>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  window.renderGatProfileVaultList = async function() {
+    const listBox = document.getElementById("gat-prof-docs-list");
+    if (!listBox) return;
+    const docs = await window.fetchMergedVaultDocsList();
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    const curProfParty = window._gatProfileUploadOwner || "me";
+
+    let html = "";
+    if (docs.length > 0) {
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;flex-wrap:wrap;">' +
+        '<div style="font-size:0.78rem;font-weight:900;color:#082548;">' + lt.profVaultHdr.replace("{n}", String(docs.length)) + '</div>' +
+        '<button type="button" onclick="window.deleteAllGatVaultDocs()" style="background:#fef2f2;color:#dc2626;border:1.5px solid #fca5a5;border-radius:7px;padding:4px 9px;font-size:0.7rem;font-weight:900;cursor:pointer;">' + lt.delAllBtn.replace("{n}", String(docs.length)) + '</button>' +
+      '</div>';
+      html += buildUnifiedVaultCardsHtml(docs, lt);
+    } else {
+      html += '<div style="padding:12px;background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:10px;text-align:center;font-size:0.79rem;color:#64748b;font-weight:700;">' + lt.emptyVaultMsg + '</div>';
+    }
+
+    html += '<div style="margin-top:12px;padding-top:10px;border-top:1.5px solid #e2e8f0;">' +
+      '<div style="font-size:0.76rem;font-weight:900;color:#0f172a;margin-bottom:6px;">👤 ' + lt.profPartyLbl + '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+        '<button type="button" onclick="window.setProfileUploadOwner(\'me\')" style="padding:9px 10px;border-radius:9px;border:2px solid ' + (curProfParty === "me" ? "#0284c7" : "#cbd5e1") + ';background:' + (curProfParty === "me" ? "#e0f2fe" : "#f8fafc") + ';color:' + (curProfParty === "me" ? "#0369a1" : "#475569") + ';font-size:0.78rem;font-weight:900;cursor:pointer;">' + (curProfParty === "me" ? "☑️ " : "⬜ ") + lt.meOpt + '</button>' +
+        '<button type="button" onclick="window.setProfileUploadOwner(\'partner\')" style="padding:9px 10px;border-radius:9px;border:2px solid ' + (curProfParty === "partner" ? "#0284c7" : "#cbd5e1") + ';background:' + (curProfParty === "partner" ? "#e0f2fe" : "#f8fafc") + ';color:' + (curProfParty === "partner" ? "#0369a1" : "#475569") + ';font-size:0.78rem;font-weight:900;cursor:pointer;">' + (curProfParty === "partner" ? "☑️ " : "⬜ ") + lt.partnerOpt + '</button>' +
+      '</div>' +
+    '</div>';
+
+    listBox.innerHTML = html;
+  };
+
+  window.renderModalVaultListIfOpen = async function() {
+    const banner = document.getElementById("gat-nu-already-banner");
+    if (!banner || typeof window.fetchMergedVaultDocsList !== "function") return;
+    const docs = await window.fetchMergedVaultDocsList();
+    if (!docs || !docs.length) { banner.style.display = "none"; return; }
+    const l = getCurLang();
+    const lt = LOCK_I18N[l] || LOCK_I18N.en;
+    banner.style.display = "block";
+    banner.style.cssText = "background:#f8fafc;border:2px solid #0284c7;border-radius:12px;padding:10px 12px;margin-bottom:12px;";
+    let html = '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;flex-wrap:wrap;">' +
+      '<div style="font-size:0.8rem;font-weight:900;color:#082548;">' + lt.vaultBannerHdr.replace("{n}", String(docs.length)) + '</div>' +
+      '<button type="button" onclick="window.deleteAllGatVaultDocs()" style="background:#fef2f2;color:#dc2626;border:1.5px solid #fca5a5;border-radius:7px;padding:4px 9px;font-size:0.7rem;font-weight:900;cursor:pointer;">' + lt.delAllBtn.replace("{n}", String(docs.length)) + '</button>' +
+    '</div>';
+    html += buildUnifiedVaultCardsHtml(docs, lt);
+    banner.innerHTML = html;
+  };
+
+  setTimeout(function() {
+    window.reconcileCoupleRolesAcrossForms().then(function() {
+      if (typeof window.mountUnifiedPibaFormsEngine === "function" && !document.getElementById("gat-new-user-doc-modal")) {
+        window.mountUnifiedPibaFormsEngine();
+      }
+    });
+  }, 400);
 })();

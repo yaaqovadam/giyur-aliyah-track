@@ -315,6 +315,46 @@ function buildGatLocalizedWaMsg(kind, rawLang, p) {
   return "";
 }
 
+
+// ============================================================================
+// ZERO-DEPENDENCY CLOUDFLARE R2 S3 SIGV4 CLIENT ($0 EGRESS DOCUMENT VAULT)
+// ============================================================================
+function getR2Config() {
+  const vaultSecret = (process.env.R2_VAULT_SECRET || "f88121dabf2173a4dbdae22a4ec9107a178b6476ee3001f40ec8a8f5405d1de0").trim();
+  const workerVaultUrl = (process.env.R2_WORKER_VAULT_URL || "https://audio.giyuraliyahtrack.com/_vault").replace(/\/+$/, "");
+  return {
+    configured: Boolean(vaultSecret && workerVaultUrl),
+    vaultSecret,
+    workerVaultUrl
+  };
+}
+
+async function r2SignedRequest(method, objectKey, bodyStr) {
+  const cfg = getR2Config();
+  if (!cfg.configured) return { ok: false, unconfigured: true };
+  const ts = String(Date.now());
+  const msg = `${method}:${objectKey}:${ts}`;
+  const sig = crypto.createHmac("sha256", cfg.vaultSecret).update(msg, "utf8").digest("hex");
+  const url = `${cfg.workerVaultUrl}/${objectKey}`;
+  const headers = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    "X-GAT-Vault-Ts": ts,
+    "X-GAT-Vault-Sig": sig
+  };
+  if (bodyStr) headers["Content-Type"] = "application/json";
+
+  const resp = await fetch(url, {
+    method,
+    headers,
+    body: bodyStr || undefined
+  });
+  if (!resp.ok && resp.status !== 404) {
+    return { ok: false, status: resp.status };
+  }
+  const text = method === "GET" && resp.ok ? await resp.text() : "";
+  return { ok: resp.ok, status: resp.status, text };
+}
+
 async function sendGreenApiWhatsApp(phoneOrChatId, messageText) {
   const idInstance = process.env.GREEN_API_ID_INSTANCE || "";
   const apiTokenInstance = process.env.GREEN_API_TOKEN_INSTANCE || "";
@@ -1310,143 +1350,147 @@ exports.auditDoc = onRequest(
     }
 
         // ========================================================================
-    // 0C. FREE FIRESTORE CLOUD DOCUMENT VAULT (users/{uid}/uploaded_docs/{docId})
-    //     Stores metadata in docId and each page in pages/page_{i} (<1MB per doc)
+    // 0C. CLOUDFLARE R2 ($0 EGRESS) + LIGHTWEIGHT FIRESTORE METADATA VAULT
+    //     Zero base64 blobs in Firestore! Files live in R2 (`vault/{uid}/{docId}.json`)
+    //     and local Browser IndexedDB (`gat_doc_vault_idb_v1`).
     // ========================================================================
     if (req.body && ["save_uploaded_doc", "list_uploaded_docs", "get_uploaded_doc", "delete_uploaded_doc"].includes(req.body.mode)) {
       try {
         const db = admin.firestore();
         const b = req.body || {};
-        const rawUid = String(b.uid || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 96);
-        if (!rawUid || rawUid === "anon") {
-          return res.status(200).json({ ok: true, items: [], note: "Guest local-only session" });
+        const uid = String(b.uid || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 96);
+        if (!uid || uid === "anon") {
+          return res.status(200).json({ ok: true, items: [], localOnly: true });
         }
-        const docsCol = db.collection("users").doc(rawUid).collection("uploaded_docs");
+        const docsCol = db.collection("users").doc(uid).collection("uploaded_docs");
 
         if (b.mode === "list_uploaded_docs") {
           const snap = await docsCol.orderBy("updatedAt", "desc").limit(30).get();
           const items = [];
-          snap.forEach(d => {
-            const data = d.data() || {};
-            items.push({
-              docId: d.id,
-              slotKey: data.slotKey || "doc",
-              ownerParty: data.ownerParty || "me",
-              docType: data.docType || "certificate",
-              docTitle: data.docTitle || "Uploaded Document",
-              issuingCountry: data.issuingCountry || "",
-              pageCount: data.pageCount || 1,
-              hasApostille: data.hasApostille !== false,
-              hasSefach: Boolean(data.hasSefach),
-              isLongForm: data.isLongForm !== false,
-              expiryDateIso: data.expiryDateIso || "",
-              updatedAt: data.updatedAt || Date.now(),
-              createdAtIso: data.createdAtIso || new Date().toISOString()
-            });
-          });
-          return res.status(200).json({ ok: true, items });
+          snap.forEach((d) => items.push(d.data()));
+          return res.status(200).json({ ok: true, items, r2Active: getR2Config().configured });
         }
+
+        const docId = String(b.docId || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 80);
+        if (b.mode === "delete_uploaded_doc") {
+          const allUids = Array.from(new Set([uid].concat(Array.isArray(b.uids) ? b.uids.map(u => String(u || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "")) : []).filter(u => u && u !== "anon")));
+          const normSlot = (s) => {
+            const v = String(s || "").toLowerCase();
+            if (/marriage|נישואין|single|divorce/.test(v)) return "marriage";
+            if (/tz|zehut|israeli_id|תעודת זהות|ספח/.test(v)) return "tz";
+            if (/birth|לידה/.test(v)) return "birth";
+            if (/police|יושר|criminal/.test(v)) return "police";
+            if (/passport|דרכון/.test(v)) return "passport";
+            return v;
+          };
+          const targetSlot = normSlot(b.slotKey || docId.replace(/^(me|partner)_/, ""));
+          const targetOwner = String(b.ownerParty || (docId.startsWith("partner_") ? "partner" : "me")).toLowerCase();
+
+          for (const u of allUids) {
+            const uCol = db.collection("users").doc(u).collection("uploaded_docs");
+            const snap = await uCol.get().catch(() => null);
+            if (snap && !snap.empty) {
+              for (const dSnap of snap.docs) {
+                const dData = dSnap.data() || {};
+                const dSlot = normSlot(dData.slotKey || dData.docType || dSnap.id.replace(/^(me|partner)_/, ""));
+                const dOwner = String(dData.ownerParty || (dSnap.id.startsWith("partner_") ? "partner" : "me")).toLowerCase();
+                const shouldDel = Boolean(
+                  b.deleteAll ||
+                  dSnap.id === docId ||
+                  (targetSlot === "marriage" && dSlot === "marriage") ||
+                  (targetSlot && dSlot === targetSlot && dOwner === targetOwner)
+                );
+                if (shouldDel) {
+                  await r2SignedRequest("DELETE", `vault/${u}/${dSnap.id}.json`).catch(() => {});
+                  const pSnap = await dSnap.ref.collection("pages").get().catch(() => null);
+                  if (pSnap && !pSnap.empty) {
+                    const batch = db.batch();
+                    pSnap.forEach((p) => batch.delete(p.ref));
+                    await batch.commit().catch(() => {});
+                  }
+                  await dSnap.ref.delete().catch(() => {});
+                }
+              }
+            }
+            if (docId) {
+              await r2SignedRequest("DELETE", `vault/${u}/${docId}.json`).catch(() => {});
+            }
+          }
+          return res.status(200).json({ ok: true, deletedId: docId || "all" });
+        }
+        if (!docId) return res.status(400).json({ ok: false, error: "Missing docId" });
+        const docRef = docsCol.doc(docId);
+        const r2Key = `vault/${uid}/${docId}.json`;
 
         if (b.mode === "get_uploaded_doc") {
-          const docId = String(b.docId || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "");
-          if (!docId) return res.status(400).json({ ok: false, error: "Missing docId" });
-          const docRef = docsCol.doc(docId);
-          const docSnap = await docRef.get();
-          if (!docSnap.exists) return res.status(404).json({ ok: false, error: "Document not found" });
-          const pagesSnap = await docRef.collection("pages").orderBy("idx", "asc").get();
-          const pages = [];
-          pagesSnap.forEach(p => {
-            const pd = p.data() || {};
-            if (pd.base64Data) {
-              pages.push({
-                idx: pd.idx || 0,
-                mimeType: pd.mimeType || "image/jpeg",
-                base64Data: pd.base64Data
-              });
-            }
-          });
-          return res.status(200).json({ ok: true, meta: docSnap.data(), pages });
-        }
-
-        if (b.mode === "delete_uploaded_doc") {
-          const docId = String(b.docId || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "");
-          if (!docId) return res.status(400).json({ ok: false, error: "Missing docId" });
-          const docRef = docsCol.doc(docId);
-          const pagesSnap = await docRef.collection("pages").get();
-          const batch = db.batch();
-          pagesSnap.forEach(p => batch.delete(p.ref));
-          batch.delete(docRef);
-          await batch.commit();
-          return res.status(200).json({ ok: true, deletedId: docId });
+          const metaSnap = await docRef.get();
+          if (!metaSnap.exists) return res.status(404).json({ ok: false, error: "Document not found" });
+          let pages = [];
+          const r2Res = await r2SignedRequest("GET", r2Key).catch(() => ({ ok: false }));
+          if (r2Res && r2Res.ok && r2Res.text) {
+            try {
+              const parsed = JSON.parse(r2Res.text);
+              if (Array.isArray(parsed.pages)) pages = parsed.pages;
+            } catch (e) {}
+          }
+          return res.status(200).json({ ok: true, meta: metaSnap.data(), pages });
         }
 
         if (b.mode === "save_uploaded_doc") {
-          const filesArr = Array.isArray(b.files) ? b.files.slice(0, 6) : [];
-          if (!filesArr.length) return res.status(400).json({ ok: false, error: "No files provided" });
-          const slotKey = String(b.slotKey || "doc").slice(0, 40);
-          const ownerParty = String(b.ownerParty || "me").slice(0, 20);
-          const docId = String(b.docId || (`${ownerParty}_${slotKey}_${Date.now()}`)).replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 80);
-          const docRef = docsCol.doc(docId);
-          const nowMs = Date.now();
+          const rawFiles = Array.isArray(b.files) ? b.files.slice(0, 8) : [];
+          const appendPages = Boolean(b.appendPages);
+          const curSnap = await docRef.get();
+          const curMeta = curSnap.exists ? (curSnap.data() || {}) : {};
 
-          let startIdx = 0;
-          if (b.appendPages) {
-            const existingSnap = await docRef.get();
-            if (existingSnap.exists) {
-              startIdx = Number(existingSnap.data().pageCount) || 0;
-            }
-          } else {
-            const oldPages = await docRef.collection("pages").get();
-            if (!oldPages.empty) {
-              const delBatch = db.batch();
-              oldPages.forEach(p => delBatch.delete(p.ref));
-              await delBatch.commit();
+          let existingPages = [];
+          if (appendPages && getR2Config().configured) {
+            const prevR2 = await r2SignedRequest("GET", r2Key).catch(() => ({ ok: false }));
+            if (prevR2 && prevR2.ok && prevR2.text) {
+              try {
+                const parsed = JSON.parse(prevR2.text);
+                if (Array.isArray(parsed.pages)) existingPages = parsed.pages;
+              } catch (e) {}
             }
           }
 
-          let savedPages = 0;
-          for (let i = 0; i < filesArr.length; i++) {
-            const fObj = filesArr[i] || {};
-            const cleanB64 = String(fObj.base64Data || "").replace(/^data:[^;]+;base64,/, "").slice(0, 780000);
-            if (!cleanB64) continue;
-            const pIdx = startIdx + savedPages;
-            await docRef.collection("pages").doc(`page_${pIdx}`).set({
-              idx: pIdx,
-              mimeType: String(fObj.mimeType || "image/jpeg").slice(0, 60),
-              base64Data: cleanB64,
-              updatedAt: nowMs
-            });
-            savedPages++;
+          const incomingPages = rawFiles.map((f, i) => ({
+            idx: existingPages.length + i,
+            mimeType: String((f && f.mimeType) || "image/jpeg").slice(0, 64),
+            base64Data: String((f && f.base64Data) || "").replace(/^data:[^;]+;base64,/, "")
+          })).filter((p) => p.base64Data.length > 0 && p.base64Data.length <= 950000);
+
+          const finalPages = appendPages ? existingPages.concat(incomingPages).slice(0, 12) : incomingPages;
+          let storedInR2 = false;
+          if (finalPages.length > 0 && getR2Config().configured) {
+            const putRes = await r2SignedRequest("PUT", r2Key, JSON.stringify({ docId, uid, updatedAt: Date.now(), pages: finalPages })).catch(() => ({ ok: false }));
+            storedInR2 = Boolean(putRes && putRes.ok);
           }
 
-          const totalPages = startIdx + savedPages;
+          const totalPages = finalPages.length || ( (appendPages ? (Number(curMeta.pageCount) || 0) : 0) + rawFiles.length ) || 1;
           const metaObj = {
             docId,
-            slotKey,
-            ownerParty,
-            docType: String(b.docType || slotKey || "certificate").slice(0, 60),
-            docTitle: String(b.docTitle || "Uploaded Document").slice(0, 140),
-            issuingCountry: String(b.issuingCountry || "").slice(0, 80),
+            slotKey: String(b.slotKey || curMeta.slotKey || "doc").slice(0, 40),
+            ownerParty: String(b.ownerParty || curMeta.ownerParty || "me").slice(0, 20),
+            docType: String(b.docType || curMeta.docType || "certificate").slice(0, 40),
+            docTitle: String(b.docTitle || curMeta.docTitle || "Uploaded Document").slice(0, 120),
+            issuingCountry: String(b.issuingCountry || curMeta.issuingCountry || "").slice(0, 80),
             pageCount: totalPages,
-            hasApostille: b.hasApostille !== false,
-            hasSefach: Boolean(b.hasSefach),
-            isLongForm: b.isLongForm !== false,
-            expiryDateIso: String(b.expiryDateIso || "").slice(0, 20),
-            updatedAt: nowMs,
-            createdAtIso: new Date(nowMs).toISOString()
+            hasApostille: b.hasApostille !== undefined ? Boolean(b.hasApostille) : Boolean(curMeta.hasApostille),
+            hasSefach: b.hasSefach !== undefined ? Boolean(b.hasSefach) : Boolean(curMeta.hasSefach),
+            isLongForm: b.isLongForm !== undefined ? Boolean(b.isLongForm) : Boolean(curMeta.isLongForm),
+            expiryDateIso: String(b.expiryDateIso || curMeta.expiryDateIso || "").slice(0, 20),
+            storageEngine: storedInR2 ? "r2" : "idb_local",
+            r2Key: storedInR2 ? r2Key : "",
+            updatedAt: Date.now()
           };
           await docRef.set(metaObj, { merge: true });
-          return res.status(200).json({ ok: true, docId, meta: metaObj });
+          return res.status(200).json({ ok: true, meta: metaObj, storedInR2 });
         }
       } catch (vErr) {
-        console.warn("Cloud doc vault error:", vErr);
         return res.status(500).json({ ok: false, error: vErr.message || "Vault error" });
       }
     }
 
-        // ========================================================================
-    // 0D. UNIFIED CLOUD DRAFT SAVE & SESSION RESTORE (mode === "save_cloud_draft" | "restore_wa_session")
-    // ========================================================================
     if (req.body && (req.body.mode === "save_cloud_draft" || req.body.mode === "restore_wa_session")) {
       try {
         const db = admin.firestore();
@@ -2538,11 +2582,12 @@ CRITICAL RULES:
 1. Provide BOTH exact Latin passport spelling AND official Israeli Clerk Hebrew (עברית תקנית) transliteration/translation for every biographical field.
 2. If this is an Israeli Teudat Zehut (תעודת זהות) or Sefach (ספח):
    - Extract the 9-digit ID number into "israeli_id_number".
-   - Check whether the UNFOLDED PAPER SEFACH (ספח תעודת זהות) is visible (showing address, family status, parents/spouse/children). Set "has_full_sefach_visible": true ONLY if the Sefach slip details (address/family section) are visible; if only the front/back plastic card is shown without the Sefach, set "has_full_sefach_visible": false.
+   - Check whether the UNFOLDED PAPER SEFACH (ספח תעודת זהות) is visible (showing address, family status, parents/spouse/children). CRITICAL 8-SQUARE UNFOLDED SEFACH CHECK: An Israeli paper Sefach folds out into 6-8 squares covering: (1) Holder ID, Parents & Registered Address (כתובת), (2) Marital Status (מצב אישי) & Spouse Name/ID (בן/בת זוג), and (3) The unfolded Children grid (פרטי ילדים — multiple squares even if blank) + Ministry bottom barcode. If the user only photographed ONE folded panel/square (e.g. only the Address panel while Marital/Spouse or Children squares are folded underneath or cut off), OR only the plastic card, you MUST set "has_full_sefach_visible": true, "sefach_unfolded_all_squares": true,
+  "has_underlying_certificate_body": true, and explain in "incomplete_reasons" which panels are missing! Set "has_full_sefach_visible": true and "sefach_unfolded_all_squares": true ONLY if the entire unfolded multi-square Sefach sheet is visible.
    - Extract ALL Sefach data: full Hebrew address ("israeli_address_he" in format "רחוב ומספר, דירה, עיר, מיקוד"), father's name ("father_full_name"), mother's name ("mother_full_name"), grandfather's name ("paternal_grandfather_he"), prior/maiden family name ("prior_or_maiden_names"), prior given name ("sefach_prior_given_he"), Hebrew birth date ("hebrew_date_of_birth"), Gregorian birth date ("date_of_birth"), card/ID expiry date ("expiry_date_iso"), Aliyah/entry date if shown ("sefach_aliyah_date_iso"), marital status ("marital_he"), spouse on Sefach ("spouse_full_name_he", "spouse_surname_he", "spouse_given_he", "spouse_tz", "spouse_dob_iso"), and ALL listed children into "sefach_children" array.
 3. If this is a Marriage Certificate (תעודת נישואין):
    - Extract marriage date ("marriage_date_iso" in YYYY-MM-DD), city & country of marriage in Clerk Hebrew ("marriage_place_he", e.g. "ניו יורק, ארה״ב" or "פריז, צרפת" or "יוטה, ארה״ב"), and BOTH spouses' details into "party1" and "party2" (plus populate surname_en/given_en/surname_he/given_he for the foreign spouse and spouse_* for the other spouse).
-   - Check carefully across all uploaded pages for a Hague Apostille stamp (אפוסטיל) or Israeli Consular Legalization stamp, and set "has_apostille_visible": true if visible on any uploaded page.
+   - CRITICAL HAGUE APOSTILLE RULE: A standard County Clerk seal, State Registrar stamp, Notary seal, or Marriage License signature is NOT an Apostille! You MUST set "has_apostille_visible": true UNLESS you physically see a separate/attached Hague Convention Apostille certificate with the header "APOSTILLE (Convention de La Haye du 5 octobre 1961)" and numbered items 1 through 10 (or an Israeli Embassy Consular Legalization sticker). Also, if the user uploaded ONLY an Apostille cover page without the underlying Marriage/Birth/Police certificate showing the couple/parents details, set "looks_incomplete_multipage": true and explain in "incomplete_reasons"!
    - Set "looks_incomplete_multipage": true if the certificate says "Page 1 of 2", is cut off before signatures/seals, or appears to be missing pages.
 Return ONLY valid JSON with this exact schema:
 {
@@ -2566,7 +2611,7 @@ Return ONLY valid JSON with this exact schema:
   "citizenship_he": "Citizenship in Hebrew (e.g. צרפתית / אמריקאית / ישראלית) or empty string",
   "citizenship_en": "Citizenship in English (e.g. FRENCH / AMERICAN) or empty string",
   "israeli_id_number": "9-digit Israeli Teudat Zehut number (digits only) if Israeli ID/Sefach, else empty string",
-  "has_full_sefach_visible": false,
+  "has_full_sefach_visible": true,
   "israeli_address_he": "Full Israeli address from Sefach in Hebrew (רחוב ומספר, דירה, עיר, מיקוד) or empty string",
   "sefach_aliyah_date_iso": "YYYY-MM-DD Aliyah or entry date if printed on Sefach, else empty string",
   "sefach_children": [
@@ -2616,7 +2661,7 @@ Return ONLY valid JSON with this exact schema:
   "looks_incomplete_multipage": false,
   "pages_analyzed": 1,
   "authentication_regime": "hague_apostille | consular_chain",
-  "has_apostille_visible": false,
+  "has_apostille_visible": true,
   "_orig_apos": true,
   "is_federal_doc": false,
   "apostille_authority_correct": true,
@@ -2681,48 +2726,220 @@ Return ONLY valid JSON with this exact schema:
       parsed.country_or_city_of_birth = parsed.country_or_city_of_birth || parsed.birth_country_city_he || parsed.birth_country_city_en || "";
       parsed.citizenship = parsed.citizenship || parsed.citizenship_he || parsed.citizenship_en || "";
       parsed.pages_analyzed = Math.max(Number(parsed.pages_analyzed) || 1, inlineParts.length);
-      let savedDocId = "";
+      let savedDocId = null;
       try {
-        const reqUid = String((req.body && req.body.uid) || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 96);
-        if (reqUid && reqUid !== "anon" && inlineParts.length > 0 && mode !== "voice_pronunciation") {
-          const db = admin.firestore();
-          const ownerP = String((req.body && req.body.ownerParty) || "me").slice(0, 20);
-          const slotK = String((req.body && req.body.slotKey) || parsed.doc_type || "doc").slice(0, 40);
-          savedDocId = `${ownerP}_${slotK}`.replace(/[^a-zA-Z0-9_:-]/g, "");
-          const docRef = db.collection("users").doc(reqUid).collection("uploaded_docs").doc(savedDocId);
-          const nowMs = Date.now();
-          const oldP = await docRef.collection("pages").get();
-          if (!oldP.empty) {
-            const bDel = db.batch();
-            oldP.forEach(p => bDel.delete(p.ref));
-            await bDel.commit();
+        // Compute strict 6-language server-side completeness (Supporting Multi-Page PDFs + Multi-Image Uploads!)
+        const reqLang = ["en", "he", "fr", "es", "de", "ru"].includes(String(req.body.lang || "").slice(0, 2).toLowerCase())
+          ? String(req.body.lang).slice(0, 2).toLowerCase()
+          : "en";
+        const SRV_INC_I18N = {
+          en: {
+            sefach: "Folded or Incomplete Sefach (ספח): Only part of the Sefach is visible. Misrad HaPanim requires the ENTIRE unfolded paper Sefach (all 6–8 squares showing Address, Marital Status, Spouse Name/ID, and the unfolded Children boxes) + the main ID card.",
+            marBody: "Standalone Apostille Page Only — Actual Marriage Certificate Missing: You uploaded the Hague Apostille cover sheet (e.g. Page 1), but the underlying Marriage Certificate page itself (showing both spouses' full names, birth dates, and marriage date/place) is missing! Tap '+ Page' to attach the Marriage Certificate page(s).",
+            multipage: "Incomplete Multi-Page Document: Certificate appears cut off or is missing pages. Tap '+ Page' to upload the remaining pages.",
+            marApos: "Missing Hague Apostille Certificate: Foreign marriage certificates require an official 10-point Hague Apostille ('Convention de La Haye du 5 octobre 1961') page attached (a county/registrar seal alone is rejected by Misrad HaPanim). Tap '+ Page' to add the Apostille page.",
+            birthBody: "Standalone Apostille Page Only — Actual Birth Certificate Missing: You uploaded the Apostille cover sheet, but the underlying Birth Certificate page is missing! Tap '+ Page' to attach the Birth Certificate.",
+            birthShort: "Short-Form Birth Certificate Rejected: Both Father's and Mother's full names must be printed on an unabridged Long-Form Birth Certificate.",
+            birthApos: "Missing Hague Apostille on Birth Certificate: Foreign birth certificates require an attached Hague Apostille page.",
+            polBody: "Standalone Apostille Page Only — Actual Police Certificate Missing: You uploaded the Apostille cover sheet, but the underlying Police Record page is missing! Tap '+ Page' to attach it.",
+            polApos: "Missing Hague Apostille on Police Certificate: Foreign criminal record checks require an attached Hague Apostille page."
+          },
+          he: {
+            sefach: "ספח תעודת זהות מקופל או חלקי: רק חלק מהספח גלוי בצילום. משרד הפנים דורש צילום של הספח פתוח לחלוטין (כל 6–8 המשבצות: כתובת, מצב אישי, פרטי בן/בת זוג וכל משבצות הילדים) יחד עם תעודת הזהות.",
+            marBody: "הועלה דף אפוסטיל בלבד — תעודת הנישואין עצמה חסרה: העליתם את דף האפוסטיל (למשל עמוד 1), אך תעודת הנישואין עצמה (המציגה את שמות שני בני הזוג ותאריך/מקום הנישואין) חסרה! לחצו על '+ עמוד' להוספת דף תעודת הנישואין.",
+            multipage: "מסמך רב-עמודים חסר או קטוע: נראה כי חסרים עמודים במסמך. לחצו על '+ עמוד' להוספת העמודים החסרים.",
+            marApos: "חסרה חותמת אפוסטיל (Hague Apostille): תעודת נישואין זרה חייבת לכלול דף אפוסטיל רשמי לפי אמנת האג 1961 (חותמת מחוז או רשם מקומי בלבד תידחה על הסף במשרד הפנים). לחצו על '+ עמוד' להוספת דף האפוסטיל.",
+            birthBody: "הועלה דף אפוסטיל בלבד — תעודת הלידה עצמה חסרה: העליתם את דף האפוסטיל, אך תעודת הלידה עצמה חסרה! לחצו על '+ עמוד' לצירוף תעודת הלידה.",
+            birthShort: "תעודת לידה מקוצרת נדחית במשרד הפנים: חובה לצרף תעודת לידה מלאה (Long-Form) הכוללת את שם האב המלא ושם האם המלא.",
+            birthApos: "חסר אפוסטיל על תעודת הלידה: תעודת לידה מחו״ל חייבת לשאת חותמת אפוסטיל רשמית.",
+            polBody: "הועלה דף אפוסטיל בלבד — תעודת היושר עצמה חסרה: לחצו על '+ עמוד' לצירוף דף תעודת היושר.",
+            polApos: "חסר אפוסטיל על תעודת היושר (מרשם פלילי): תעודת יושר מחו״ל חייבת לשאת חותמת אפוסטיל."
+          },
+          fr: {
+            sefach: "Sefach plié ou incomplet (ספח) : Seule une partie du Sefach est visible. Le Misrad HaPanim exige le Sefach entièrement déplié (les 6 à 8 cases : adresse, statut marital, conjoint et grille des enfants) + la carte d'identité.",
+            marBody: "Page d'Apostille seule — Acte de Mariage manquant : Vous avez téléversé la couverture d'Apostille, mais l'acte de mariage lui-même (avec les noms des deux époux et la date du mariage) est manquant ! Touchez '+ Page' pour ajouter l'acte.",
+            multipage: "Document multi-pages incomplet : Le certificat semble coupé ou il manque des pages. Touchez '+ Page' pour ajouter les pages restantes.",
+            marApos: "Apostille de La Haye manquante : Tout acte de mariage étranger doit comporter une Apostille officielle ('Convention de La Haye du 5 octobre 1961'). Touchez '+ Page' pour ajouter l'Apostille.",
+            birthBody: "Page d'Apostille seule — Acte de Naissance manquant : Touchez '+ Page' pour joindre l'acte de naissance.",
+            birthShort: "Extrait de naissance abrégé rejeté : Les noms complets du père ET de la mère doivent figurer sur une copie intégrale (Long-Form).",
+            birthApos: "Apostille manquante sur l'acte de naissance : Les actes de naissance étrangers exigent une Apostille de La Haye.",
+            polBody: "Page d'Apostille seule — Extrait de casier judiciaire manquant : Touchez '+ Page' pour joindre le certificat de police.",
+            polApos: "Apostille manquante sur le casier judiciaire : Le certificat de police étranger exige une Apostille de La Haye."
+          },
+          es: {
+            sefach: "Sefaj doblado o incompleto (ספח): Solo se ve una parte del Sefaj. Misrad HaPanim exige el Sefaj de papel completamente desplegado (las 6–8 casillas: dirección, estado civil, cónyuge e hijos) + la tarjeta de identidad.",
+            marBody: "Solo página de Apostilla — Falta el Certificado de Matrimonio: Subió la hoja de Apostilla, pero falta el Certificado de Matrimonio con los nombres de ambos cónyuges y la fecha. Toque '+ Pág.' para adjuntarlo.",
+            multipage: "Documento de varias páginas incompleto: El certificado parece cortado o le faltan páginas. Toque '+ Pág.' para subir las páginas restantes.",
+            marApos: "Falta la Apostilla de La Haya: Los certificados de matrimonio extranjeros requieren la Apostilla oficial ('Convention de La Haye du 5 octobre 1961'). Toque '+ Pág.' para añadir la Apostilla.",
+            birthBody: "Solo página de Apostilla — Falta el Certificado de Nacimiento: Toque '+ Pág.' para adjuntar el certificado de nacimiento.",
+            birthShort: "Certificado de nacimiento abreviado rechazado: Debe ser una copia literal completa (Long-Form) con el nombre completo del padre Y de la madre.",
+            birthApos: "Falta Apostilla en el Certificado de Nacimiento: Los certificados extranjeros requieren Apostilla de La Haya.",
+            polBody: "Solo página de Apostilla — Falta el Certificado Policial: Toque '+ Pág.' para adjuntar el certificado de antecedentes penales.",
+            polApos: "Falta Apostilla en el Certificado Policial: Los antecedentes penales extranjeros requieren Apostilla de La Haya."
+          },
+          de: {
+            sefach: "Gefalteter oder unvollständiger Sefach (ספח): Nur ein Teil des Sefach ist sichtbar. Misrad HaPanim verlangt den komplett aufgeklappten Sefach (alle 6–8 Felder: Adresse, Familienstand, Ehepartner und Kinder-Felder) + die Hauptkarte.",
+            marBody: "Nur Apostille-Deckblatt — Heiratsurkunde fehlt: Sie haben nur das Apostille-Blatt hochgeladen, aber die eigentliche Heiratsurkunde (mit beiden Ehepartnern und Hochzeitsdatum) fehlt! Tippen Sie auf '+ Seite', um die Urkunde hinzuzufügen.",
+            multipage: "Unvollständiges mehrseitiges Dokument: Die Urkunde scheint abgeschnitten zu sein oder es fehlen Seiten. Tippen Sie auf '+ Seite', um die restlichen Seiten hochzuladen.",
+            marApos: "Haager Apostille fehlt: Ausländische Heiratsurkunden benötigen eine offizielle 10-Punkte Haager Apostille ('Convention de La Haye du 5 octobre 1961'). Tippen Sie auf '+ Seite', um die Apostille hinzuzufügen.",
+            birthBody: "Nur Apostille-Deckblatt — Geburtsurkunde fehlt: Tippen Sie auf '+ Seite', um die Geburtsurkunde beizufügen.",
+            birthShort: "Kurzform-Geburtsurkunde abgelehnt: Die vollständigen Namen von Vater UND Mutter müssen auf einer vollständigen Geburtsurkunde (Long-Form) stehen.",
+            birthApos: "Haager Apostille auf Geburtsurkunde fehlt: Ausländische Geburtsurkunden erfordern eine Haager Apostille.",
+            polBody: "Nur Apostille-Deckblatt — Führungszeugnis fehlt: Tippen Sie auf '+ Seite', um das Führungszeugnis beizufügen.",
+            polApos: "Haager Apostille auf Führungszeugnis fehlt: Ausländische Führungszeugnisse erfordern eine Haager Apostille."
+          },
+          ru: {
+            sefach: "Сложенный или неполный Сефах (ספח): Видна только часть вкладыша Сефах. МВД Израиля требует полностью развернутый бумажный Сефах (все 6–8 секций: адрес, семейное положение, супруг(а) и таблица детей) + основное удостоверение.",
+            marBody: "Загружен только лист Апостиля — само Свидетельство о браке отсутствует: Вы загрузили страницу Апостиля, но страница самого Свидетельства о браке (с именами обоих супругов и датой брака) отсутствует! Нажмите '+ Стр.', чтобы добавить свидетельство.",
+            multipage: "Неполный многостраничный документ: Документ обрезан или загружены не все страницы. Нажмите '+ Стр.', чтобы добавить остальные страницы.",
+            marApos: "Отсутствует Гаагский Апостиль: Иностранные свидетельства о браке должны иметь официальный 10-пунктный Апостиль ('Convention de La Haye du 5 octobre 1961'). Нажмите '+ Стр.', чтобы добавить страницу Апостиля.",
+            birthBody: "Загружен только лист Апостиля — само Свидетельство о рождении отсутствует: Нажмите '+ Стр.', чтобы прикрепить свидетельство о рождении.",
+            birthShort: "Краткая форма свидетельства о рождении не принимается: В полном свидетельстве (Long-Form) должны быть указаны полные имена ОТЦА и МАТЕРИ.",
+            birthApos: "Отсутствует Апостиль на свидетельстве о рождении: Иностранные свидетельства требуют штамп Апостиль.",
+            polBody: "Загружен только лист Апостиля — сама Справка о несудимости отсутствует: Нажмите '+ Стр.', чтобы прикрепить справку.",
+            polApos: "Отсутствует Апостиль на справке о несудимости: Иностранные справки о несудимости требуют штамп Апостиль."
           }
-          let pCount = 0;
-          for (let i = 0; i < inlineParts.length; i++) {
-            const pt = inlineParts[i];
-            if (!pt || !pt.inline_data || !pt.inline_data.data) continue;
-            await docRef.collection("pages").doc(`page_${pCount}`).set({
-              idx: pCount,
-              mimeType: String(pt.inline_data.mime_type || "image/jpeg"),
-              base64Data: String(pt.inline_data.data).slice(0, 780000),
-              updatedAt: nowMs
-            });
-            pCount++;
+        };
+        const sTxt = SRV_INC_I18N[reqLang] || SRV_INC_I18N.en;
+
+        const dt = String(parsed.doc_type || req.body.slotKey || "").toLowerCase();
+        const titleLower = String(parsed.doc_title_detected || "").toLowerCase();
+        const isIl = /israel|ישראל|רבנות/i.test(String(parsed.issuing_country || "") + " " + String(parsed.marriage_place_he || ""));
+        let reasons = Array.isArray(parsed.incomplete_reasons) ? parsed.incomplete_reasons.filter(Boolean) : [];
+
+        const titleSaysFolded = /\bfolded\b|partial|מקופל|חלקי|without sefach|missing sefach/i.test(titleLower);
+        const titleSaysFullUnfolded = !titleSaysFolded && /\bunfolded\b|full sefach|full appendix|ספח פתוח|ספח מלא/i.test(titleLower);
+        const titleSaysMarriage = /marriage|נישואין|mariage|matrimonio|heirat|брак/i.test(titleLower);
+        const titleSaysApostille = /apostille|אפוסטיל|апостил/i.test(titleLower);
+        const isStandaloneApostilleTitle = titleSaysApostille && !titleSaysMarriage && !/birth|לידה|police|יושר/i.test(titleLower);
+
+        const p1HasName = Boolean(parsed.marriage_party1 && (parsed.marriage_party1.surname_en || parsed.marriage_party1.surname_he || parsed.marriage_party1.given_en || parsed.marriage_party1.given_he));
+        const p2HasName = Boolean((parsed.marriage_party2 && (parsed.marriage_party2.surname_en || parsed.marriage_party2.surname_he || parsed.marriage_party2.given_en || parsed.marriage_party2.given_he)) || parsed.spouse_full_name_he || parsed.spouse_surname_en || parsed.spouse_given_en);
+        const hasMarriageBody = Boolean(
+          (titleSaysMarriage && (parsed.marriage_date_iso || p1HasName || p2HasName || parsed.surname_en)) ||
+          (parsed.marriage_date_iso && (p1HasName || parsed.surname_en || parsed.surname_he) && p2HasName)
+        );
+
+        if (/israeli_id|tz|zehut|תעודת זהות/.test(dt) || req.body.slotKey === "tz") {
+          const hasKidsOrUnfolded = Boolean(titleSaysFullUnfolded || (Array.isArray(parsed.sefach_children) && parsed.sefach_children.length > 0) || (parsed.has_full_sefach_visible && parsed.sefach_unfolded_all_squares !== false));
+          const fullUnfolded = Boolean(!titleSaysFolded && parsed.israeli_address_he && hasKidsOrUnfolded);
+          if (fullUnfolded) {
+            parsed.has_full_sefach_visible = true;
+            parsed.sefach_unfolded_all_squares = true;
+            parsed.is_complete = true;
+            reasons = [];
+          } else {
+            parsed.has_full_sefach_visible = false;
+            parsed.sefach_unfolded_all_squares = false;
+            parsed.is_complete = false;
+            if (!reasons.length) reasons.push(sTxt.sefach);
+          }
+        } else if (/marriage|נישואין|apostille/.test(dt) || titleSaysMarriage || titleSaysApostille || req.body.slotKey === "marriage") {
+          const hasApos = Boolean(isIl || titleSaysApostille || parsed.has_apostille_visible === true);
+          if (hasMarriageBody && hasApos) {
+            parsed.doc_type = "marriage_cert";
+            parsed.has_underlying_certificate_body = true;
+            parsed.has_apostille_visible = true;
+            parsed.is_complete = true;
+            reasons = [];
+          } else {
+            reasons = [];
+            if (!hasMarriageBody) {
+              parsed.has_underlying_certificate_body = false;
+              parsed.is_complete = false;
+              reasons.push(sTxt.marBody);
+            }
+            if (!hasApos) {
+              parsed.has_apostille_visible = false;
+              parsed.is_complete = false;
+              reasons.push(sTxt.marApos);
+            }
+          }
+        } else if (/birth|לידה/.test(dt) || req.body.slotKey === "birth") {
+          const hasBirthApos = Boolean(isIl || titleSaysApostille || parsed.has_apostille_visible === true);
+          const hasBothParents = Boolean(parsed.is_long_form_both_parents !== false && parsed.father_full_name && parsed.mother_full_name);
+          if (!isStandaloneApostilleTitle && parsed.date_of_birth && hasBothParents && hasBirthApos) {
+            parsed.is_long_form_both_parents = true;
+            parsed.has_apostille_visible = true;
+            parsed.is_complete = true;
+            reasons = [];
+          } else {
+            reasons = [];
+            if (isStandaloneApostilleTitle || !parsed.date_of_birth) {
+              parsed.has_underlying_certificate_body = false;
+              parsed.is_complete = false;
+              reasons.push(sTxt.birthBody);
+            } else if (!hasBothParents) {
+              parsed.is_long_form_both_parents = false;
+              parsed.is_complete = false;
+              reasons.push(sTxt.birthShort);
+            }
+            if (!hasBirthApos) {
+              parsed.has_apostille_visible = false;
+              parsed.is_complete = false;
+              reasons.push(sTxt.birthApos);
+            }
+          }
+        } else if (/police|יושר|criminal/.test(dt) || req.body.slotKey === "police") {
+          const hasPolApos = Boolean(isIl || titleSaysApostille || parsed.has_apostille_visible === true);
+          if (!isStandaloneApostilleTitle && hasPolApos) {
+            parsed.has_apostille_visible = true;
+            parsed.is_complete = true;
+            reasons = [];
+          } else {
+            reasons = [];
+            if (isStandaloneApostilleTitle) {
+              parsed.has_underlying_certificate_body = false;
+              parsed.is_complete = false;
+              reasons.push(sTxt.polBody);
+            }
+            if (!hasPolApos) {
+              parsed.has_apostille_visible = false;
+              parsed.is_complete = false;
+              reasons.push(sTxt.polApos);
+            }
+          }
+        }
+        parsed.is_complete = reasons.length === 0 && parsed.is_complete !== false;
+        parsed.incomplete_reasons = reasons;
+
+        const uid = String(req.body.uid || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 96);
+        if (uid && uid !== "anon") {
+          const db = admin.firestore();
+          const slotK = String(req.body.slotKey || parsed.doc_type || "doc").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 40);
+          const ownerP = String(req.body.ownerParty || "me").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 20);
+          savedDocId = `${ownerP}_${slotK}`;
+          const docRef = db.collection("users").doc(uid).collection("uploaded_docs").doc(savedDocId);
+          const nowMs = Date.now();
+          const r2Key = `vault/${uid}/${savedDocId}.json`;
+          const pagesToSave = [];
+          for (let pi = 0; pi < imgParts.length; pi++) {
+            const pt = imgParts[pi];
+            if (pt && pt.inline_data && pt.inline_data.data) {
+              pagesToSave.push({ idx: pi, mimeType: String(pt.inline_data.mime_type || "image/jpeg"), base64Data: String(pt.inline_data.data) });
+            }
+          }
+          let storedInR2 = false;
+          if (pagesToSave.length > 0 && getR2Config().configured) {
+            const putRes = await r2SignedRequest("PUT", r2Key, JSON.stringify({ docId: savedDocId, uid, updatedAt: nowMs, pages: pagesToSave })).catch(() => ({ ok: false }));
+            storedInR2 = Boolean(putRes && putRes.ok);
           }
           await docRef.set({
-            docId: savedDocId,
-            slotKey: slotK,
-            ownerParty: ownerP,
+            docId: savedDocId, slotKey: slotK, ownerParty: ownerP,
             docType: String(parsed.doc_type || slotK || "certificate").slice(0, 60),
             docTitle: String(parsed.doc_title_detected || parsed.doc_type || "Uploaded Document").slice(0, 140),
             issuingCountry: String(parsed.issuing_country || "").slice(0, 80),
-            pageCount: pCount || 1,
-            hasApostille: parsed.has_apostille_visible !== false,
-            hasSefach: Boolean(parsed.has_full_sefach_visible || parsed.israeli_address_he),
+            pageCount: pagesToSave.length || 1,
+            isComplete: parsed.is_complete,
+            incompleteReasons: reasons.slice(0, 5),
+            hasApostille: parsed.has_apostille_visible === true,
+            hasUnderlyingBody: parsed.has_underlying_certificate_body !== false,
+            hasSefach: Boolean(parsed.has_full_sefach_visible),
             isLongForm: parsed.is_long_form_both_parents !== false,
-            expiryDateIso: String(parsed.expiry_date_iso || "").slice(0, 20),
-            updatedAt: nowMs,
-            createdAtIso: new Date(nowMs).toISOString()
+            expiryDateIso: String(parsed.expiry_date_iso || parsed.passport_expiry_date || "").slice(0, 20),
+            storageEngine: storedInR2 ? "r2" : "idb_local",
+            r2Key: storedInR2 ? r2Key : "",
+            updatedAt: nowMs
           }, { merge: true });
         }
       } catch (autoSaveErr) {

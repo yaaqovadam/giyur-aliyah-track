@@ -100,8 +100,81 @@ function parseByteRange(rangeHeader, totalSize) {
   return { offset: start, length: end - start + 1, end };
 }
 
+// === BEGIN GAT R2 VAULT ===
+const GAT_R2_VAULT_SECRET = "f88121dabf2173a4dbdae22a4ec9107a178b6476ee3001f40ec8a8f5405d1de0";
+
+async function verifyVaultHmac(method, pathKey, timestampStr, sigHex) {
+  if (!timestampStr || !sigHex) return false;
+  const ts = Number(timestampStr) || 0;
+  if (Math.abs(Date.now() - ts) > 10 * 60 * 1000) return false;
+  const msg = `${method}:${pathKey}:${ts}`;
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(GAT_R2_VAULT_SECRET),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const sigBuf = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(msg));
+  const expectedHex = Array.from(new Uint8Array(sigBuf)).map(b => b.toString(16).padStart(2, "0")).join("");
+  return expectedHex === sigHex.toLowerCase();
+}
+
+async function handleR2VaultRequest(request, env, url) {
+  const pathKey = url.pathname.replace(/^\/_vault\/+/, "");
+  if (!pathKey || !pathKey.startsWith("vault/")) {
+    return new Response("Invalid vault key", { status: 400 });
+  }
+  const ts = request.headers.get("X-GAT-Vault-Ts") || "";
+  const sig = request.headers.get("X-GAT-Vault-Sig") || "";
+  const valid = await verifyVaultHmac(request.method, pathKey, ts, sig);
+  if (!valid) {
+    return new Response("Unauthorized vault signature", { status: 403 });
+  }
+
+  const bucket = env.AUDIO_BUCKET;
+  if (!bucket) {
+    return new Response("AUDIO_BUCKET binding missing", { status: 500 });
+  }
+
+  if (request.method === "PUT") {
+    const bodyText = await request.text();
+    await bucket.put(pathKey, bodyText, {
+      httpMetadata: { contentType: "application/json; charset=utf-8" }
+    });
+    return new Response(JSON.stringify({ ok: true, key: pathKey }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  if (request.method === "GET") {
+    const obj = await bucket.get(pathKey);
+    if (!obj) return new Response("Not Found", { status: 404 });
+    return new Response(obj.body, {
+      status: 200,
+      headers: { "Content-Type": "application/json; charset=utf-8" }
+    });
+  }
+
+  if (request.method === "DELETE") {
+    await bucket.delete(pathKey);
+    return new Response(JSON.stringify({ ok: true, deleted: pathKey }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  return new Response("Method Not Allowed", { status: 405 });
+}
+// === END GAT R2 VAULT ===
+
 export default {
   async fetch(request, env) {
+    const _vUrl = new URL(request.url);
+    if (_vUrl.pathname.startsWith("/_vault/")) {
+      return handleR2VaultRequest(request, env, _vUrl);
+    }
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: CORS_HEADERS });
     }
