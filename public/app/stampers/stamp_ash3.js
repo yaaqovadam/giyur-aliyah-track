@@ -191,7 +191,10 @@ async function stampAsh3(rawState, loaderOpts) {
 
   // Spouse 9-Digit Identity / Passport Comb (9 cells from x=107.66 to 222.41, step=12.75pt, y=585.2)
   if (s.pf_sp_tz) {
-    putComb(1, s.pf_sp_tz, 107.66, 12.75, 585.2, 9, true);
+    var is9DigitTz = /^\d{5,9}$/.test(String(s.pf_sp_tz).trim());
+    putComb(1, s.pf_sp_tz, 107.66, 12.75, 585.2, 9, is9DigitTz);
+  } else if (s.pf_sp_pass_num) {
+    putComb(1, s.pf_sp_pass_num, 107.66, 12.75, 585.2, 9, false);
   }
 
   // Table 3: Children Under the Age of 18 (3 rows: y = 505.3, 491.1, 476.9)

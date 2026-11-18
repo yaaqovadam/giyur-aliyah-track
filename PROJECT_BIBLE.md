@@ -23,3 +23,14 @@
 - **App Header (`.app-header`):** Styled in deep navy (`#082548`) with ocean blue (`#0288E8` / `#1994F5`) brand accents, white typography, and high-contrast language/menu controls.
 - **Brand Mark (`.brand-mark`):** Replaced the 5-pointed star with a bold 6-pointed Magen David SVG path (`26px` inside a `38px` `#0288E8` squircle).
 - **Hero Shield Emblem (`.hero-emblem`):** Unified to a single `#0288E8` squircle (`border-radius: 19px`) featuring a white shield with a 6-pointed Magen David cutout and ambient blue glow.
+
+
+### 7.29 November 2026 Vault & Pre-Crawl SEO Overhaul (Live)
+- **700 Beit Din Vault (`public/app/bd_vault.js`):** 100% unique 6-language cards across `BD_PACK1` (1–200 Core), `BD_PACK2` (201–400 Curveballs & Sincerity), `BD_PACK3` (401–550 Men's Gerim), and `BD_PACK4` (551–700 Women's Giyorot). Zero bracketed templates or clones.
+- **300 Couples Sync Vault (`public/app/cp_vault.js`):** 100% unique 6-language PIBA separated-room questions & question-specific clerk tips across 10 statutory categories (`exam80` = IDs 1–80, 8 per category).
+- **156-URL Multilingual SEO Architecture (`build_seo.py`):** `trailingSlash: true` in `firebase.json`, compressed `bg-watercolor.jpg`, front-loaded `<65c` SEO titles, HTML-escaped meta descriptions, dedicated `Nohal 5.2.0004` Newborn Sefach + translated `overseas_giyur`, and 2 vault-powered pillar spokes (`beit-din-conversion-questions-israel` & `misrad-hapanim-couples-interview-questions`). `LIVE_SEO = False` safety gate remains locked until launch.
+
+### 7.30 Compact App Bar Share Icon & Restored Homepage Particle Intro (Live)
+- **Compact App Bar Layout:** Removed `.brand-mark` Star of David from `.app-header` / `.topbar` so `GiyurAliyahTrack` sits directly beside `#app-nav-back`, with borderless `21px` `#appbar-share-btn` placed on the right side of the bar adjacent to `#globe-lang-btn` and `.hamburger-btn` across all 157 user-facing pages.
+- **Exact-Page 6-Language Share (`#gat-exact-page-share`):** Shares the exact native `hreflang` URL on static pages or `/app/?module=...&form=...&lang=...` inside the SPA while stripping private Couples Sync room keys.
+- **Homepage Intro Movie (`public/splash.js`):** Loaded directly via `<script src="/splash.js">` (no `document.write` throttling); plays once per browsing session on root hubs and replays cleanly on explicit homepage reloads.

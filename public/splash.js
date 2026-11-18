@@ -5,13 +5,24 @@
       document.documentElement.classList.remove("gat-pre-curtain");
       return;
     }
-    var isRootHub = (location.pathname === '/' || /^\/(he|fr|es|de|ru)\/?$/.test(location.pathname));
+    var p = location.pathname;
+    var isRootHub = (p === '/' || p === '/index.html' || /^\/(he|fr|es|de|ru)(\/|\/index\.html)?$/.test(p));
     var isIntroParam = location.search.indexOf('intro=1') !== -1;
     if (!isRootHub && !isIntroParam) {
       document.documentElement.classList.remove('gat-pre-curtain');
       return;
     }
-    if (sessionStorage.getItem('gat_splash_shown_session') === '1' && !isIntroParam) {
+    var navEntry = (window.performance && performance.getEntriesByType) ? performance.getEntriesByType('navigation')[0] : null;
+    var isReload = navEntry ? (navEntry.type === 'reload') : (window.performance && performance.navigation && performance.navigation.type === 1);
+    var sameHostRef = false;
+    try {
+      if (document.referrer) sameHostRef = (new URL(document.referrer).hostname === location.hostname);
+    } catch(e) {}
+    if (sessionStorage.getItem('gat_splash_shown_session') === '1' && !isIntroParam && !(isReload && !sameHostRef) && !isReload) {
+      document.documentElement.classList.remove('gat-pre-curtain');
+      return;
+    }
+    if (sessionStorage.getItem('gat_splash_shown_session') === '1' && !isIntroParam && !isReload) {
       document.documentElement.classList.remove('gat-pre-curtain');
       return;
     }
@@ -24,11 +35,11 @@
   var s=document.createElement("style");
   var whitePng="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=";
   s.textContent="#gat-sp{position:fixed;inset:0;width:100vw;height:100dvh;z-index:2147483647;background:#082548;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:opacity .6s ease;user-select:none;color-scheme:only light!important}#gat-sp.hide{opacity:0;pointer-events:none}#gat-txt{position:absolute;top:43%;left:50%;transform:translate(-50%,-50%);font-size:clamp(26px,5.8vw,40px);font-weight:800;color:#fff;white-space:nowrap;transition:opacity .45s,filter .5s,transform .5s;z-index:3;font-family:system-ui,-apple-system,sans-serif}#gat-txt span{color:#1994F5}#gat-txt.out{opacity:0;filter:blur(8px);transform:translate(-50%,-50%) scale(1.06)}#gat-txt.reborn{top:53%;opacity:1;filter:blur(0);transform:translate(-50%,-50%) scale(1);text-shadow:0 0 18px rgba(25,148,245,.45)}#gat-star{position:absolute;top:33%;left:50%;transform:translate(-50%,-50%);width:136px;height:136px;opacity:0;transition:opacity .45s ease;z-index:3;overflow:visible}#gat-star.in{opacity:1}#gat-tri-w{fill:none;stroke:#FFF;stroke-width:2.6;stroke-linejoin:round;filter:drop-shadow(0 0 10px rgba(255,255,255,.8))}#gat-tri-b{fill:none;stroke:#1994F5;stroke-width:2.6;stroke-linejoin:round;filter:drop-shadow(0 0 12px rgba(25,148,245,.95))}#gat-btn{position:absolute;top:68%;left:50%;transform:translate(-50%,10px);padding:15px 46px;border-radius:999px;border:2px solid #ffffff!important;background:url("+whitePng+") repeat!important;background-color:#ffffff!important;color:#082548!important;-webkit-text-fill-color:#082548!important;font:800 15px/1 system-ui,-apple-system,sans-serif;letter-spacing:2.4px;cursor:pointer;opacity:0;transition:all .55s ease;z-index:4;box-shadow:0 0 28px rgba(255,255,255,.85),0 0 50px rgba(25,148,245,.55)}#gat-btn.in,#gat-btn.glow{opacity:1;transform:translate(-50%,0);background:url("+whitePng+") repeat!important;background-color:#ffffff!important;color:#082548!important;-webkit-text-fill-color:#082548!important;border-color:#ffffff!important}";
-  document.head.appendChild(s);
+  (document.head||document.documentElement).appendChild(s);
   var d=document.createElement("div");d.id="gat-sp";
   d.innerHTML='<canvas id="gat-cv" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none"></canvas><div id="gat-txt">Giyur <span>Aliyah</span> Track</div><svg id="gat-star" viewBox="0 0 100 100"><polygon id="gat-tri-w" points="50,10 85,72 15,72"/><polygon id="gat-tri-b" points="50,90 85,28 15,28"/></svg><button id="gat-btn">ENTER SITE</button>';
   document.documentElement.appendChild(d);document.documentElement.classList.remove("gat-pre-curtain");
-  var c=document.getElementById("gat-cv"),x=c.getContext("2d"),W=c.width=innerWidth,H=c.height=innerHeight,cx=W/2,cy=H*.43,sy=H*.33,ty2=H*.53,S=1.36,pts=[],st=0,af,txt=document.getElementById("gat-txt");
+  var c=document.getElementById("gat-cv"),x=c.getContext("2d"),W=c.width=(window.innerWidth||document.documentElement.clientWidth||390),H=c.height=(window.innerHeight||document.documentElement.clientHeight||844),cx=W/2,cy=H*.43,sy=H*.33,ty2=H*.53,S=1.36,pts=[],st=0,af,txt=document.getElementById("gat-txt");
   var wV=[[0,-40],[35,22],[-35,22]],bV=[[0,40],[35,-22],[-35,-22]];
   function ep(V,idx,tot){var s=tot/3,e=Math.floor(idx/s),t=(idx%s)/s,a=V[e],b=V[(e+1)%3];return[cx+(a[0]+(b[0]-a[0])*t)*S,sy+(a[1]+(b[1]-a[1])*t)*S];}
   for(var i=0;i<460;i++){var ex=i>=300,bl=ex?(i>=350&&i<410):(i%2===0),rx=bl?(Math.random()-.5)*90:((i%4<2?1:-1)*(55+Math.random()*95)),lx=bl?(Math.random()-.5)*85:((i%2?1:-1)*(55+Math.random()*95)),tg=ex?[cx+lx,ty2+(Math.random()-.5)*14]:ep(bl?bV:wV,Math.floor(i/2),150);pts.push({x:cx+rx,y:cy+(Math.random()-.5)*20,vx:(Math.random()-.5)*6.5,vy:(Math.random()-.5)*5.5,tx:tg[0],ty:tg[1],r:ex?.85:.75,a:0,c:bl?"#1994F5":"#FFF",ex:ex});}

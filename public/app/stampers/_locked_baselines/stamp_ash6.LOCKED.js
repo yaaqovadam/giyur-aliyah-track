@@ -6,7 +6,7 @@ async function stampAsh6(rawState, loaderOpts) {
   var ctx = await core.createStamperContext('ash6_spousal_status.pdf', rawState, loaderOpts);
   var s = ctx.s;
   var put = ctx.put;
-  var check = ctx.check;
+  var check = function(p, x, y, w, h, c) { if (s._isRealUser && p >= 3) return; if (s._isRealUser && p === 1 && y < 440 && y !== 350.8 && y !== 318.2) return; return ctx.check(p, x, y, w, h, c); };
   var dob = ctx.dob;
   var pExp = ctx.pExp;
   var today = ctx.today;
@@ -20,6 +20,7 @@ async function stampAsh6(rawState, loaderOpts) {
 
   // Exact cell-by-cell comb helper using true PDF vertical divider coordinates
   function putExactComb(pageIdx, strVal, vLines, y, padZeros) {
+    if (s._isRealUser && (!strVal || !String(strVal).trim() || ['012345674','FR98765432','000412330'].includes(String(strVal).trim()))) return;
     var numCells = vLines.length - 1;
     var clean = padZeros
       ? String(strVal || '').replace(/\D/g, '').padStart(numCells, '0').slice(0, numCells)
@@ -57,7 +58,7 @@ async function stampAsh6(rawState, loaderOpts) {
 
   var p1RowsY = [487.5, 467.0, 446.5, 426.0, 405.5, 385.0, 364.5, 344.5, 324.0, 303.5, 283.0, 262.5, 242.0, 221.5, 201.0, 180.5];
   var p1LeftBoxSkip = { 446.5: true, 385.0: true, 364.5: true, 324.0: true };
-  p1RowsY.forEach(function(ry) {
+  if (s._stressAllCheckboxes) p1RowsY.forEach(function(ry) {
     check(0, 509.5, ry, 7.1, 7.1, 'blue');
     if (!p1LeftBoxSkip[ry]) check(0, 461.2, ry, 7.1, 7.1, 'blue');
   });

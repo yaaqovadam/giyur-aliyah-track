@@ -20,7 +20,7 @@ async function stampSecurityCv(rawState, loaderOpts) {
   var maidenHe  = (s.pf_maiden_he  || 'גולדשטיין-לוי').replace(/,/g, '');
 
   var tzNum     = s.pf_sp_tz || s.pf_tz || '012345674';
-  var passNum   = s.pf_pass_num || 'FR9876543';
+  var passNum   = (s.pf_pass_num || s.pf_tz) || 'FR9876543';
   var dobStr    = (dob && dob.full) || '23/11/1994';
   var spDobStr = core.splitIsoDate(ctx.spDobFull || s.pf_sp_dob).full || '15/07/1991';
   var marDate = core.splitIsoDate(s.pf_marriage_date).full || '14/06/2025';

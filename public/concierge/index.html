@@ -438,6 +438,32 @@
   <script type="application/ld+json">
   {"@context": "https://schema.org", "@type": "WebPage", "name": "Concierge, Lawyer & Notary Desk | Giyur Aliyah Track", "description": "Vetted Israeli Legal-Tech & Rabbinic Concierge Desk — Book Red-Ribbon Israeli Notary translations, Rabbanut-recognized Sponsoring Rabbis (Rav Melaveh), Madrichat Kallah, and 1-Hour Misrad HaPanim Lawyer Escorts.", "url": "https://giyuraliyahtrack.com/concierge/", "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "Giyur Aliyah Track", "url": "https://giyuraliyahtrack.com/"}}
   </script>
+<style id="gat-dark-faq-white-pop">
+  details[style*="#071930"] > summary,
+  details[style*="#071930"] > summary *,
+  details[style*="#082548"] > summary,
+  details[style*="#082548"] > summary *,
+  summary.gat-dark-summary,
+  summary.gat-dark-summary * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+</style>
+<style id="gat-head-deepnavy-bnav">
+  nav.bottom-nav, .bottom-nav, nav.gat-injected-bottom-nav {
+    background: #082548 !important;
+    background-color: #082548 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 -6px 24px rgba(4, 18, 38, 0.45), 0 80px 0 80px #082548 !important;
+  }
+  nav.bottom-nav .nav-tab, .bottom-nav .nav-tab { color: rgba(255, 255, 255, 0.72) !important; }
+  nav.bottom-nav .nav-tab.active, .bottom-nav .nav-tab.active { color: #38bdf8 !important; font-weight: 800 !important; }
+  nav.bottom-nav .nt-pill, .bottom-nav .nt-pill { width: 56px !important; height: 34px !important; border-radius: 12px !important; background: transparent !important; }
+  nav.bottom-nav .nav-tab.active .nt-pill, .bottom-nav .nav-tab.active .nt-pill { background: #ffffff !important; background-color: #ffffff !important; }
+  nav.bottom-nav .nt-pill svg, .bottom-nav .nt-pill svg { fill: rgba(255, 255, 255, 0.78) !important; width: 20px !important; height: 20px !important; }
+  nav.bottom-nav .nav-tab.active .nt-pill svg, .bottom-nav .nav-tab.active .nt-pill svg { fill: #0288E8 !important; }
+</style>
 </head>
 <body>
 <!-- RESTRICTED ACCESS GATE (SHARED ACROSS /analytics AND /concierge, 8-HR AUTO-DELETE) -->
@@ -707,10 +733,19 @@
       <div style="font-size:0.82rem;font-weight:900;color:#065f46;">🏦 Revolut Direct Settlement Defaults (Bypassing Lemon Squeezy):</div>
       <input type="text" id="default-beneficiary" class="form-control" style="width:230px;margin:0;" placeholder="Beneficiary Name" value="Rachel Hadassah Einy" oninput="saveRevolutDefaults()" />
       <input type="text" id="default-iban" class="form-control" style="width:270px;margin:0;font-family:monospace;" placeholder="Revolut IBAN (e.g. LT... or ES...)" oninput="saveRevolutDefaults()" />
-      <input type="text" id="default-paylink" class="form-control" style="width:250px;margin:0;" placeholder="Optional revolut.me/... or Stripe Link" oninput="saveRevolutDefaults()" />
+      <input type="text" id="default-paylink" class="form-control" style="width:250px;margin:0;" placeholder="Optional checkout.revolut.com/pay/... or Stripe Link" oninput="saveRevolutDefaults()" />
       <span style="font-size:0.75rem;color:#047857;font-weight:800;">Auto-attached when you click Approve!</span>
     </div>
 
+    <!-- PENDING REVOLUT INTENTS BANNER START -->
+    <div id="pending-revolut-intents-box" style="display:none;background:#fffbeb;border:2.5px solid #f59e0b;border-radius:16px;padding:16px 18px;margin-bottom:18px;box-shadow:0 8px 24px rgba(245,158,11,0.15);">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+        <div style="font-size:1rem;font-weight:900;color:#78350f;">⚡ Pending Revolut Digital Checkouts &amp; "I've Paid" Pings</div>
+        <span style="font-size:0.78rem;color:#92400e;font-weight:800;">Click 1-Tap Unlock to activate buyer's pass + send WhatsApp Magic Link</span>
+      </div>
+      <div id="pending-revolut-intents-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+    <!-- PENDING REVOLUT INTENTS BANNER END -->
     <!-- STATUS TABS -->
     <div class="tabs-bar">
       <button type="button" class="tab-btn active" id="tab-open" onclick="setTab('open')">
@@ -730,7 +765,7 @@
         <span class="tab-count" id="cnt-all">0</span>
       </button>
       <button type="button" class="tab-btn" id="tab-catalog" onclick="setTab('catalog')" style="border-color:#f59e0b;background:#fffbeb;">
-        <span>🍋 All 23 Payment Links</span>
+        <span>💳 All 23 Revolut & Concierge Links</span>
         <span class="tab-count" style="background:#f59e0b;color:#fff;">23</span>
       </button>
     </div>
@@ -759,22 +794,22 @@
     let ACTIVE_TAB = "open";
 
 const LEMON_23_CATALOG = [
-      { sku: "forms_90d_89", title: "Statutory Hebrew Forms & Clerk Engine \u2014 90-Day Pass", desc: "90-Day Unlimited Edits & Prints for all 8 official PIBA Hebrew dossiers (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, Security CV) + Clerk Deficiency Sheet Decoder. Instant digital access; all sales final.", price: "$89", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/1dcd8419-9756-4799-a7f9-aa190baef217?signature=85e790da7c3c7c155e4bf726490dc6ba8e6788dcc29c3341d286a35341e583d7" },
-      { sku: "forms_life_149", title: "Statutory Hebrew Forms & Clerk Engine \u2014 Lifetime Pass", desc: "Lifetime All-Filings & 5-Year Annual Renewals Pass for all 8 official PIBA Hebrew dossiers + formal Hebrew Michtav Hesber generator + Clerk Sheet Decoder. Instant digital access; all sales final.", price: "$149", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/cbd71e26-f075-401b-9f7f-22b1d2f3bcf6?signature=3e3d7010c42ac042f17a43868f0c5bf8778b9dc42f6195af17c10b4e0439caa8" },
-      { sku: "bd_suite_90d_149", title: "Beit Din 700-Q & 56 Songs Suite \u2014 90-Day Cram Pass", desc: "90-Day access to all 700 curated Beit Din tribunal questions across 6 languages + all 56 Shabbat Songs, Morning Prayers & Brachot with Live AI Pronunciation Grader. Instant digital access; all sales final.", price: "$149", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/dc92a7d8-a00f-4bde-b813-be350ef8b269?signature=bd60c72c155f77e68beaf776d3212b85ef8a25764547bc0eba10052ead0623ea" },
-      { sku: "bd_suite_life_249", title: "Beit Din 700-Q & 56 Songs Suite \u2014 Lifetime Mastery Pass", desc: "Lifetime access until Mikvah & Ishur Giyur: all 700 Beit Din tribunal questions + all 56 Shabbat Songs, Shacharit Prayers & Brachot (Sephardi & Ashkenazi) + AI Grader. Instant digital access; all sales final.", price: "$249", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/3c78ca8d-57f3-489a-baa3-278ae64e06e4?signature=fbfd4aabcf1e901f5010186ed47c722598d1bd4f97c6a435c3780139d620625c" },
-      { sku: "bd_pack1_65", title: "Beit Din Tribunal \u2014 Core 200 Deck", desc: "Lifetime access to the Core 200 Beit Din Tribunal flashcard deck across 6 languages. Instant digital access; all sales final.", price: "$65", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/5e8eb9a3-3e66-42e8-8abb-622b7eb4bf17?signature=182ffa82d0202d8103a307ed634f8e7e8c84cea38ddb7eb904633ad5c469b0d4" },
-      { sku: "bd_pack2_65", title: "Beit Din Tribunal \u2014 +200 Curveballs Deck", desc: "Lifetime access to the +200 Dayanim Curveballs & Halachic Traps deck across 6 languages. Instant digital access; all sales final.", price: "$65", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/d7c77664-9e71-414a-9fd4-470425c62a7e?signature=b1056d5cdccea9ef8dcf6606c0f8925a38e1b51ec2dc93f0b2ce7ccde26fb46c" },
-      { sku: "bd_pack3_49", title: "Beit Din Tribunal \u2014 Men's 150 Deck", desc: "Lifetime access to the Men's 150 Beit Din Honours, Synagogue & Halacha deck across 6 languages. Instant digital access; all sales final.", price: "$49", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/53442aab-269a-474f-a4e6-bd6b3d85c878?signature=f878bbbf736327a9c0aac0e94b010894f41c7f200b838e5f1ed32800a8408a40" },
-      { sku: "bd_pack4_49", title: "Beit Din Tribunal \u2014 Women's 150 Deck", desc: "Lifetime access to the Women's 150 Taharat HaMishpacha, Mikvah & Shabbat Home deck across 6 languages. Instant digital access; all sales final.", price: "$49", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/d97aa484-28b6-4dfb-b854-905e42e0c811?signature=f7bc812d54f2552f3484a47e52547085012c142a9f964d542276c33601562d5b" },
-      { sku: "bd_all700_179", title: "Beit Din Tribunal \u2014 All 700 Questions Complete Deck", desc: "Lifetime access to all 700 Beit Din Tribunal flashcards (Core 200 + 200 Curveballs + Men's 150 + Women's 150) across 6 languages. Instant digital access; all sales final.", price: "$179", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/8b4fb26f-2444-4262-a524-a8ec8fbffb9c?signature=3e4a8252615251862c2a30d77a8d8a5e7efcca64454d2151d56bac416b013905" },
-      { sku: "songs_65", title: "56 Shabbat Songs, Prayers & Brachot + Live AI Grader", desc: "Lifetime access to all 56 Shabbat Zemirot, Shacharit Morning Prayers & Essential Brachot (Sephardi & Ashkenazi audio) with 1:1 karaoke sync and AI pronunciation grading. Instant digital access; all sales final.", price: "$65", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/c0423ec1-2ab3-4dc7-bc90-0c801ea9bb38?signature=37bc3c1c82dd318d7150983c8f1403ec22e19843dcf15937d60d530484eb85c4" },
-      { sku: "couples_sync_75", title: "Spousal Visa 300-Q 2-Phone Couples Sync Pass", desc: "90-Day access to the 300-question separated-room Misrad HaPanim interrogation vault across 2 phones with live contradiction detection. Instant digital access; all sales final.", price: "$75", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/dd89332a-2fea-4de0-a1d1-cf03130c6d23?signature=19599491ea9301a0feff76c283c47f0134fc2da9d9ea7b6a073c39ed3d27fcbc" },
-      { sku: "couples_90d_129", title: "Spousal Visa 300-Q + AI Packet Audit \u2014 90-Day Pass", desc: "1 Annual Interview Pass (90-Day, 2 Phones): 300-question separated-room interrogation vault + 80-question live clerk exam mode + automated AI Apostille & packet inspector. Instant digital access; all sales final.", price: "$129", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/56670492-9141-4e56-9d97-08c156c43157?signature=7d549b7eb97047ac77409e591f84d8c042add7cdc0e8489e2d7ccb6bff15a0da" },
-      { sku: "couples_life_229", title: "Spousal Visa 300-Q + AI Packet Audit \u2014 5-Year Lifetime Pass", desc: "Lifetime 5-Year Graduated Residency Pass (B/1 to A/5 to Citizenship): unlimited annual interview prep on 2 phones + AI document & Apostille pre-flight inspector. Instant digital access; all sales final.", price: "$229", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/e2efd140-f7fa-49c5-af97-ee1211c5a016?signature=980f9215cf85c6acc8aa58441c99757a5669e00d103f8a74358fd5c8dd09914b" },
-      { sku: "suite_solo_90d_249", title: "Full Dual-Track Solo Suite \u2014 90-Day Sprint Pass", desc: "90-Day access to all 3 digital engines (8 PIBA Hebrew Forms + 700 Beit Din Questions + 56 Songs/Prayers + 300 Couples Questions + AI Packet Inspector). Instant digital access; all sales final.", price: "$249", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/97be2b0d-d0d2-41a1-ac0a-c95b2100d94c?signature=dc0bca26928dc97a93582cb3e367c8f4c3713dba7071bc02b1b963c7376f7e2b" },
-      { sku: "suite_solo_life_399", title: "Full Dual-Track Solo Suite \u2014 Complete Lifetime Shield", desc: "Lifetime access to all 3 digital engines (8 PIBA Hebrew Forms + 700 Beit Din Questions + 56 Songs/Prayers + 300 Couples Questions + AI Packet Inspector). Instant digital access; all sales final.", price: "$399", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/f21829f2-8195-4235-a439-e013ad13be8f?signature=fd7433cf297bf7a1c87511348eb92b351c5f11942e62373a3a544d35a3de96ea" },
-      { sku: "vip_couple_649", title: "VIP Couple 2-Phone Lifetime Suite + AI Pre-Flight Packet Audit", desc: "Complete 2-Phone Lifetime Suite unlocking all 8 PIBA Hebrew Forms, 700 Beit Din Cards, 56 Liturgical Audio Tracks, 300 Couples Sync Vault, and automated AI Pre-Flight Dossier & Apostille Audit. Instant digital access; all sales final.", price: "$649", kind: "software", url: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/f4b49eda-62b2-4560-9a95-9da3bd12ac86?signature=aaea5f7f750f189f66b1ada7d30d36f9eecc036ad89ca39b2b6297e596546871" },
+      { sku: "forms_90d_89", title: "Statutory Hebrew Forms & Clerk Engine \u2014 90-Day Pass", desc: "90-Day Unlimited Edits & Prints for all 8 official PIBA Hebrew dossiers (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, Security CV) + Clerk Deficiency Sheet Decoder. Instant digital access; all sales final.", price: "$89", kind: "software", url: "https://checkout.revolut.com/pay/78d2462b-7dde-4d64-8b2f-778b019cb26b" },
+      { sku: "forms_life_149", title: "Statutory Hebrew Forms & Clerk Engine \u2014 Lifetime Pass", desc: "Lifetime All-Filings & 5-Year Annual Renewals Pass for all 8 official PIBA Hebrew dossiers + formal Hebrew Michtav Hesber generator + Clerk Sheet Decoder. Instant digital access; all sales final.", price: "$149", kind: "software", url: "https://checkout.revolut.com/pay/cdb63113-bae2-43d5-bdc0-fd07c27a8d9f" },
+      { sku: "bd_suite_90d_149", title: "Beit Din 700-Q & 56 Songs Suite \u2014 90-Day Cram Pass", desc: "90-Day access to all 700 curated Beit Din tribunal questions across 6 languages + all 56 Shabbat Songs, Morning Prayers & Brachot with Live AI Pronunciation Grader. Instant digital access; all sales final.", price: "$149", kind: "software", url: "https://checkout.revolut.com/pay/5a870a0c-408f-444e-83eb-0b261e43374d" },
+      { sku: "bd_suite_life_249", title: "Beit Din 700-Q & 56 Songs Suite \u2014 Lifetime Mastery Pass", desc: "Lifetime access until Mikvah & Ishur Giyur: all 700 Beit Din tribunal questions + all 56 Shabbat Songs, Shacharit Prayers & Brachot (Sephardi & Ashkenazi) + Pronunciation Grader. Instant digital access; all sales final.", price: "$249", kind: "software", url: "https://checkout.revolut.com/pay/e8e82a6d-3617-4729-9654-d03ef22de8ff" },
+      { sku: "bd_pack1_65", title: "Beit Din Tribunal \u2014 Core 200 Deck", desc: "Lifetime access to the Core 200 Beit Din Tribunal flashcard deck across 6 languages. Instant digital access; all sales final.", price: "$65", kind: "software", url: "https://checkout.revolut.com/pay/77176ac0-d40d-42ec-8efb-be16c5b7126c" },
+      { sku: "bd_pack2_65", title: "Beit Din Tribunal \u2014 +200 Curveballs Deck", desc: "Lifetime access to the +200 Dayanim Curveballs & Halachic Traps deck across 6 languages. Instant digital access; all sales final.", price: "$65", kind: "software", url: "https://checkout.revolut.com/pay/1bca96a5-59f8-4187-b0a5-76089868cbf4" },
+      { sku: "bd_pack3_49", title: "Beit Din Tribunal \u2014 Men's 150 Deck", desc: "Lifetime access to the Men's 150 Beit Din Honours, Synagogue & Halacha deck across 6 languages. Instant digital access; all sales final.", price: "$49", kind: "software", url: "https://checkout.revolut.com/pay/f6512ace-8482-4428-86bb-8ae76e94bb23" },
+      { sku: "bd_pack4_49", title: "Beit Din Tribunal \u2014 Women's 150 Deck", desc: "Lifetime access to the Women's 150 Taharat HaMishpacha, Mikvah & Shabbat Home deck across 6 languages. Instant digital access; all sales final.", price: "$49", kind: "software", url: "https://checkout.revolut.com/pay/1dc80102-0a20-4021-8c24-c39735458a5c" },
+      { sku: "bd_all700_179", title: "Beit Din Tribunal \u2014 All 700 Questions Complete Deck", desc: "Lifetime access to all 700 Beit Din Tribunal flashcards (Core 200 + 200 Curveballs + Men's 150 + Women's 150) across 6 languages. Instant digital access; all sales final.", price: "$179", kind: "software", url: "https://checkout.revolut.com/pay/6da4f9f2-6c74-4ba3-95af-2fa98c8e978f" },
+      { sku: "songs_65", title: "56 Shabbat Songs, Prayers & Brachot + Live Pronunciation Grader", desc: "Lifetime access to all 56 Shabbat Zemirot, Shacharit Morning Prayers & Essential Brachot (Sephardi & Ashkenazi audio) with 1:1 karaoke sync and AI pronunciation grading. Instant digital access; all sales final.", price: "$65", kind: "software", url: "https://checkout.revolut.com/pay/4e188df0-7759-46d4-a4ad-40269a76dd52" },
+      { sku: "couples_sync_75", title: "Spousal Visa 300-Q 2-Phone Couples Sync Pass", desc: "90-Day access to the 300-question separated-room Misrad HaPanim interrogation vault across 2 phones with live contradiction detection. Instant digital access; all sales final.", price: "$75", kind: "software", url: "https://checkout.revolut.com/pay/f006fac4-d95a-4a5a-964e-4b2a80d9a5c7" },
+      { sku: "couples_90d_129", title: "Spousal Visa 300-Q + Pre-Flight Packet Audit \u2014 90-Day Pass", desc: "1 Annual Interview Pass (90-Day, 2 Phones): 300-question separated-room interrogation vault + 80-question live clerk exam mode + automated AI Apostille & packet inspector. Instant digital access; all sales final.", price: "$129", kind: "software", url: "https://checkout.revolut.com/pay/8590749b-9660-4064-abe1-71edb735cbe6" },
+      { sku: "couples_life_229", title: "Spousal Visa 300-Q + Pre-Flight Packet Audit \u2014 5-Year Lifetime Pass", desc: "Lifetime 5-Year Graduated Residency Pass (B/1 to A/5 to Citizenship): unlimited annual interview prep on 2 phones + AI document & Apostille pre-flight inspector. Instant digital access; all sales final.", price: "$229", kind: "software", url: "https://checkout.revolut.com/pay/aa99535d-7221-482e-9754-6a4d449d69cc" },
+      { sku: "suite_solo_90d_249", title: "Full Dual-Track Solo Suite \u2014 90-Day Sprint Pass", desc: "90-Day access to all 3 digital engines (8 PIBA Hebrew Forms + 700 Beit Din Questions + 56 Songs/Prayers + 300 Couples Questions + AI Packet Inspector). Instant digital access; all sales final.", price: "$249", kind: "software", url: "https://checkout.revolut.com/pay/10949078-5a74-439e-9adb-81dcb7c23ae8" },
+      { sku: "suite_solo_life_399", title: "Full Dual-Track Solo Suite \u2014 Complete Lifetime Shield", desc: "Lifetime access to all 3 digital engines (8 PIBA Hebrew Forms + 700 Beit Din Questions + 56 Songs/Prayers + 300 Couples Questions + AI Packet Inspector). Instant digital access; all sales final.", price: "$399", kind: "software", url: "https://checkout.revolut.com/pay/760df7ae-705e-417c-a7b7-7b40c02e134b" },
+      { sku: "vip_couple_649", title: "VIP Couple 2-Phone Lifetime Suite + Automated Pre-Flight Packet Audit", desc: "Complete 2-Phone Lifetime Suite unlocking all 8 PIBA Hebrew Forms, 700 Beit Din Cards, 56 Liturgical Audio Tracks, 300 Couples Sync Vault, and automated Automated Pre-Flight Dossier & Apostille Audit. Instant digital access; all sales final.", price: "$649", kind: "software", url: "https://checkout.revolut.com/pay/b056f712-fd60-4eb1-9812-5c344b21a297" },
       { sku: "concierge_notary_249", title: "Red-Ribbon Notarial Translation \u2014 1-Page Standard Certificate", desc: "Statutory Israeli Ministry of Justice notarial Hebrew translation + red-ribbon certification for 1 standard single-page civil certificate (Birth, Marriage, Criminal Record, or Single Status).", price: "$249", kind: "concierge", url: "https://giyuraliyahtrack.com/concierge-booking/?sku=concierge_notary_249" },
       { sku: "concierge_notary_349", title: "Red-Ribbon Notarial Translation \u2014 Multi-Page Decree / Judgment", desc: "Statutory Israeli Ministry of Justice notarial Hebrew translation + red-ribbon certification for a multi-page divorce decree, court judgment, or adoption file.", price: "$349", kind: "concierge", url: "https://giyuraliyahtrack.com/concierge-booking/?sku=concierge_notary_349" },
       { sku: "concierge_bundle_799", title: "Red-Ribbon Notarial Translation \u2014 4-Document Homeland Bundle", desc: "Complete 4-document statutory Israeli Ministry of Justice notarial Hebrew translation bundle (Birth + FBI/Police Check + Marital Status + Marriage/Divorce).", price: "$799", kind: "concierge", url: "https://giyuraliyahtrack.com/concierge-booking/?sku=concierge_bundle_799" },
@@ -832,6 +867,77 @@ const LEMON_23_CATALOG = [
       renderDossiers();
     }
 
+    
+    window.loadPendingRevolutIntents = async function() {
+      try {
+        const res = await fetch("/api/auditDoc", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: "admin_list_checkout_intents" })
+        });
+        const d = await res.json();
+        if (d && d.ok) window.renderPendingRevolutIntents(d.checkoutIntents || []);
+      } catch (e) {}
+    };
+
+    window.renderPendingRevolutIntents = function(list) {
+      const box = document.getElementById("pending-revolut-intents-box");
+      const wrap = document.getElementById("pending-revolut-intents-list");
+      if (!box || !wrap) return;
+      if (!Array.isArray(list) || list.length === 0) {
+        box.style.display = "none";
+        wrap.innerHTML = "";
+        return;
+      }
+      box.style.display = "block";
+      wrap.innerHTML = list.map(it => {
+        const isPing = it.status === "paid_pinged";
+        const isReview = it.status === "receipt_review_needed";
+        const ts = it.updatedAtMs ? new Date(it.updatedAtMs).toLocaleString() : "";
+        return `<div style="background:${isPing ? '#fef2f2' : '#ffffff'};border:2px solid ${isPing ? '#ef4444' : '#fcd34d'};border-radius:12px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+          <div style="font-size:0.85rem;color:#0f172a;">
+            <span class="badge ${isPing ? 'badge-priority' : 'badge-amber'}">${isPing ? '🚨 PAID CLAIM SUBMITTED' : (isReview ? '🧾 RECEIPT CHECK NEEDED' : '🟡 CHECKOUT OPENED')}</span>
+            <strong style="margin-left:6px;">+${it.waPhone}</strong> (<code>wa_${it.waPhone}</code>) &nbsp;•&nbsp; SKU: <code>${it.sku}</code> (<strong>$${it.priceUsd || ''}</strong>)
+            ${it.payerName ? `<div style="margin-top:4px;font-size:0.84rem;color:#082548;">💳 Cardholder: <strong>${it.payerName}</strong> &nbsp;|&nbsp; 🔢 Last 4 / Email: <code style="background:#e2e8f0;padding:2px 6px;border-radius:5px;font-weight:900;">${it.cardLast4 || 'N/A'}</code> &nbsp;•&nbsp; <span style="color:#64748b;font-size:0.75rem;">${ts}</span></div>` : `<span style="color:#64748b;font-size:0.76rem;"> • ${ts}</span>`}
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <a href="https://wa.me/${it.waPhone}" target="_blank" rel="noopener" class="btn" style="background:#475569;border-color:#475569;">💬 WhatsApp</a>
+            <button type="button" class="btn btn-emerald" onclick="window.unlockPendingRevolutIntent('${it.waPhone}', '${it.sku}', this)">🔓 1-Tap Unlock</button>
+            <button type="button" onclick="window.dismissPendingRevolutIntent('${it.waPhone}')" style="background:transparent;border:1px solid #cbd5e1;color:#64748b;border-radius:8px;padding:6px 10px;font-weight:800;cursor:pointer;" title="Dismiss">✕</button>
+          </div>
+        </div>`;
+      }).join("");
+    };
+
+    window.unlockPendingRevolutIntent = async function(waPhone, sku, btnEl) {
+      if (!confirm("Unlock " + sku + " for +" + waPhone + " and send their WhatsApp Magic Link?")) return;
+      if (btnEl) { btnEl.disabled = true; btnEl.textContent = "Unlocking..."; }
+      try {
+        const res = await fetch("/api/auditDoc", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: "admin_1tap_unlock", phone: waPhone, sku: sku })
+        });
+        const d = await res.json();
+        if (!d.ok) throw new Error(d.error || "Unlock failed");
+        await window.loadPendingRevolutIntents();
+      } catch (e) {
+        alert("⚠️ " + e.message);
+        if (btnEl) { btnEl.disabled = false; btnEl.textContent = "🔓 1-Tap Unlock"; }
+      }
+    };
+
+    window.dismissPendingRevolutIntent = async function(waPhone) {
+      try {
+        await fetch("/api/auditDoc", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: "admin_dismiss_checkout_intent", phone: waPhone })
+        });
+        await window.loadPendingRevolutIntents();
+      } catch (e) {}
+    };
+
     async function loadDossiers() {
       const pinEl = document.getElementById("admin-pin");
       const pin = (pinEl ? pinEl.value : "6130").trim();
@@ -848,6 +954,7 @@ const LEMON_23_CATALOG = [
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || "Failed to load dossiers");
         ALL_ITEMS = data.items || [];
+        window.loadPendingRevolutIntents();
         updateTabCounts();
         renderDossiers();
       } catch (e) {
@@ -888,9 +995,9 @@ const LEMON_23_CATALOG = [
         const filteredCat = LEMON_23_CATALOG.filter(it => !q || JSON.stringify(it).toLowerCase().includes(q));
         container.innerHTML = `
           <div style="background:#fffbeb;border:2px solid #f59e0b;border-radius:16px;padding:16px 20px;margin-bottom:8px;">
-            <div style="font-size:1.02rem;font-weight:900;color:#78350f;margin-bottom:4px;">🍋 All 23 Cryptographically Signed Lemon Squeezy Checkouts (Store #524305 • Variant #2377975)</div>
+            <div style="font-size:1.02rem;font-weight:900;color:#78350f;margin-bottom:4px;">🍋 All 23 Official Fixed-Price Revolut Pro & Concierge Links (100% Live • Variant #2377975)</div>
             <div style="font-size:0.84rem;color:#92400e;font-weight:700;">
-              Because Lemon Squeezy's API generates signed custom checkouts on top of your master product (#1528612), all 23 SKUs live right here and in <code>public/app/app.js?v=1794883974>. Currently in <strong>🧪 TEST MODE</strong> until Lemon Squeezy Compliance unlocks your bottom-left Test Mode toggle.
+              All 16 fixed-price Revolut Pro digital links and 7 $0-today Vetted Concierge intake links live right here and in <code>public/app/app.js?v=1794993382>. Currently in <strong>🧪 TEST MODE</strong> until Lemon Squeezy Compliance unlocks your bottom-left Test Mode toggle.
             </div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:14px;">

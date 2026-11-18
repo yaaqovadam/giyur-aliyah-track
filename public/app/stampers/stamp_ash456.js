@@ -173,7 +173,11 @@ async function stampAsh456(rawState, loaderOpts) {
   // Section 1.ב: פרטי בן הזוג
   put(0, spSurHe || s.pf_sp_surname_en, 484, 556, 82.5, { align: 'center', bold: true, size: 8.2, yWrapCenter: 84.0, lineShift: 3.8, wrapSize: 7.4 });
   put(0, spGivenHe || s.pf_sp_given_en, 398, 479, 82.5, { align: 'center', bold: true, size: 8.2, yWrapCenter: 84.0, lineShift: 3.8, wrapSize: 7.4 });
-  putComb(0, s.pf_sp_tz || '012345674', 269.2, 14.35, 82.5, 9, true);
+  if (s.pf_sp_tz || !s._isRealUser) {
+    putComb(0, s.pf_sp_tz || '012345674', 269.2, 14.35, 82.5, 9, true);
+  } else if (s.pf_sp_pass_num) {
+    putComb(0, s.pf_sp_pass_num, 269.2, 14.35, 82.5, 9, false);
+  }
   put(0, s.pf_sp_pass_exp || '14/07/2031', 182, 260, 82.5, { align: 'center', size: 8.0, bold: true, noWrap: true });
   put(0, s.pf_sp_citizenship_he || 'ישראלית', 110, 178, 82.5, { align: 'center', bold: true, size: 8.2, yWrapCenter: 84.0, lineShift: 3.6, wrapSize: 7.4 });
   put(0, spDobFull || '15/07/1991', 38, 105, 82.5, { align: 'center', size: 8.0, bold: true, noWrap: true });

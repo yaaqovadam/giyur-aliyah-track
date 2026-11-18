@@ -772,13 +772,13 @@ function renderAll() {
       <div class="card">
         <h2>${u.m3_h2}</h2>
         <p>${u.m3_p}</p>
-        <div id="bd-pack-bar" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"></div>
+        <div id="bd-pack-bar" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:10px;"></div>
         <div id="bd-cat-bar" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;"></div>
         <div id="bd-score-bar" style="display:flex;justify-content:space-between;align-items:center;background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:0.78rem;font-weight:800;color:#0f172a;flex-wrap:wrap;gap:6px;"></div>
         <div class="flashcard" onclick="flipBdCard()">
-          <div style="display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:8px;gap:8px;">
-            <div class="fc-cat" id="bd-cat" style="margin:0;"></div>
-            <button type="button" onclick="speakBdTerm(event)" style="background:rgba(56,189,248,0.2);color:#7dd3fc;border:1px solid rgba(56,189,248,0.45);border-radius:999px;padding:4px 10px;font-size:0.73rem;font-weight:800;cursor:pointer;flex-shrink:0;">🔊 <span id="bd-pron-lbl">HE</span></button>
+          <div id="bd-card-header-stack" style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;margin-bottom:12px;gap:7px;">
+            <div class="fc-cat" id="bd-cat" style="margin:0;width:100%;text-align:center;line-height:1.35;word-break:normal;overflow-wrap:break-word;"></div>
+            <button type="button" onclick="speakBdTerm(event)" style="background:rgba(56,189,248,0.2);color:#7dd3fc;border:1px solid rgba(56,189,248,0.45);border-radius:999px;padding:5px 12px;font-size:0.76rem;font-weight:800;cursor:pointer;max-width:100%;white-space:normal;line-height:1.3;text-align:center;">🔊 <span id="bd-pron-lbl">HE</span></button>
           </div>
           <div class="fc-q" id="bd-q"></div>
           <div class="fc-a" id="bd-a"></div>
@@ -833,7 +833,11 @@ function renderAll() {
   updateBdCard();
   updateCpCard();
   window.renderSongs12();
-  if (typeof window.mountUnifiedPibaFormsEngine === 'function') window.mountUnifiedPibaFormsEngine();
+  if (typeof window.mountUnifiedPibaFormsEngine === 'function' && !document.getElementById('gat-new-user-doc-modal') && !(document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName))) {
+      var _savedY = window.scrollY || window.pageYOffset || 0;
+      window.mountUnifiedPibaFormsEngine();
+      if (_savedY > 0) window.scrollTo(0, _savedY);
+    }
 }
 
 window.FREE_CP_LIMIT = window.FREE_CP_LIMIT || window.FREE_CARD_LIMIT || 4;
@@ -948,31 +952,32 @@ function setAppLang(lang, btn) {
 // STEP 2 & STEP 3: VETTED CONCIERGE / NOTARY INTAKE + PRO PAYWALL GATE
 // ============================================================================
 
-window.LEMON_CHECKOUT_URLS = {
-  forms_90d_89: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/1dcd8419-9756-4799-a7f9-aa190baef217?signature=85e790da7c3c7c155e4bf726490dc6ba8e6788dcc29c3341d286a35341e583d7",
-  forms_life_149: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/cbd71e26-f075-401b-9f7f-22b1d2f3bcf6?signature=3e3d7010c42ac042f17a43868f0c5bf8778b9dc42f6195af17c10b4e0439caa8",
-  bd_suite_90d_149: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/dc92a7d8-a00f-4bde-b813-be350ef8b269?signature=bd60c72c155f77e68beaf776d3212b85ef8a25764547bc0eba10052ead0623ea",
-  bd_suite_life_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/3c78ca8d-57f3-489a-baa3-278ae64e06e4?signature=fbfd4aabcf1e901f5010186ed47c722598d1bd4f97c6a435c3780139d620625c",
-  bd_pack1_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/5e8eb9a3-3e66-42e8-8abb-622b7eb4bf17?signature=182ffa82d0202d8103a307ed634f8e7e8c84cea38ddb7eb904633ad5c469b0d4",
-  bd_pack2_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/d7c77664-9e71-414a-9fd4-470425c62a7e?signature=b1056d5cdccea9ef8dcf6606c0f8925a38e1b51ec2dc93f0b2ce7ccde26fb46c",
-  bd_pack3_49: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/53442aab-269a-474f-a4e6-bd6b3d85c878?signature=f878bbbf736327a9c0aac0e94b010894f41c7f200b838e5f1ed32800a8408a40",
-  bd_pack4_49: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/d97aa484-28b6-4dfb-b854-905e42e0c811?signature=f7bc812d54f2552f3484a47e52547085012c142a9f964d542276c33601562d5b",
-  bd_all700_179: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/8b4fb26f-2444-4262-a524-a8ec8fbffb9c?signature=3e4a8252615251862c2a30d77a8d8a5e7efcca64454d2151d56bac416b013905",
-  songs_65: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/c0423ec1-2ab3-4dc7-bc90-0c801ea9bb38?signature=37bc3c1c82dd318d7150983c8f1403ec22e19843dcf15937d60d530484eb85c4",
-  couples_sync_75: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/dd89332a-2fea-4de0-a1d1-cf03130c6d23?signature=19599491ea9301a0feff76c283c47f0134fc2da9d9ea7b6a073c39ed3d27fcbc",
-  couples_90d_129: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/56670492-9141-4e56-9d97-08c156c43157?signature=7d549b7eb97047ac77409e591f84d8c042add7cdc0e8489e2d7ccb6bff15a0da",
-  couples_life_229: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/e2efd140-f7fa-49c5-af97-ee1211c5a016?signature=980f9215cf85c6acc8aa58441c99757a5669e00d103f8a74358fd5c8dd09914b",
-  suite_solo_90d_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/97be2b0d-d0d2-41a1-ac0a-c95b2100d94c?signature=dc0bca26928dc97a93582cb3e367c8f4c3713dba7071bc02b1b963c7376f7e2b",
-  suite_solo_life_399: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/f21829f2-8195-4235-a439-e013ad13be8f?signature=fd7433cf297bf7a1c87511348eb92b351c5f11942e62373a3a544d35a3de96ea",
-  vip_couple_649: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/f4b49eda-62b2-4560-9a95-9da3bd12ac86?signature=aaea5f7f750f189f66b1ada7d30d36f9eecc036ad89ca39b2b6297e596546871",
-  concierge_notary_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/8404ace1-d5a8-4c06-8ddf-a9ea09ce98d0?signature=f7b4939e69e9c99ed24df45137dc7466feed83d58ae75bfabaeea4241678a928",
-  concierge_notary_349: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/8ff9a979-4bc0-409b-90d2-7fad2b9c6de2?signature=f9b1caf1c2817cfb27cacf8f349ee0ea53a7b01e1d848a4b26fa5e265054b930",
-  concierge_bundle_799: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/ec42070c-8cd2-45cc-be5c-f208852ce0a5?signature=3bb05a004db4f5b2ee38dd30646b78c4696291de8e307f055d1bb23f0c55d30f",
-  concierge_kallah_249: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/0c7ef2ee-6b20-445c-9a65-351ae6571519?signature=4ecc179bdfd4af0995f67043a69518c0cd7791340fcb67c607de8b70a1938157",
-  concierge_rabbi_349: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/86e349af-69b2-41dd-8a34-a5ecb30560d5?signature=da20b9b62d632c6bcba470cf9bcb94eb1fe9fd3ddff703a5cb5bb80b0f589240",
-  concierge_couple_499: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/48bd2b44-7390-4acb-9de2-40be017704f0?signature=08a7286dc2479fbab287ea0b2f813b1b26caa6514ba9acc995ab67c9a1c23e05",
-  concierge_escort_649: "https://giyuraliyahtrack.lemonsqueezy.com/checkout/custom/61375b39-aa6c-4694-ad67-9c2f3d2eb9be?signature=b63d3bac518ba116255afc215db4e6f2fccf8199a090b64474a8c67dc4672d8b"
+window.REVOLUT_CHECKOUT_URLS = {
+  "bd_pack3_49": "https://checkout.revolut.com/pay/f6512ace-8482-4428-86bb-8ae76e94bb23",
+  "bd_pack4_49": "https://checkout.revolut.com/pay/1dc80102-0a20-4021-8c24-c39735458a5c",
+  "bd_pack1_65": "https://checkout.revolut.com/pay/77176ac0-d40d-42ec-8efb-be16c5b7126c",
+  "bd_pack2_65": "https://checkout.revolut.com/pay/1bca96a5-59f8-4187-b0a5-76089868cbf4",
+  "songs_65": "https://checkout.revolut.com/pay/4e188df0-7759-46d4-a4ad-40269a76dd52",
+  "couples_sync_75": "https://checkout.revolut.com/pay/f006fac4-d95a-4a5a-964e-4b2a80d9a5c7",
+  "forms_90d_89": "https://checkout.revolut.com/pay/78d2462b-7dde-4d64-8b2f-778b019cb26b",
+  "couples_90d_129": "https://checkout.revolut.com/pay/8590749b-9660-4064-abe1-71edb735cbe6",
+  "forms_life_149": "https://checkout.revolut.com/pay/cdb63113-bae2-43d5-bdc0-fd07c27a8d9f",
+  "bd_suite_90d_149": "https://checkout.revolut.com/pay/5a870a0c-408f-444e-83eb-0b261e43374d",
+  "bd_all700_179": "https://checkout.revolut.com/pay/6da4f9f2-6c74-4ba3-95af-2fa98c8e978f",
+  "couples_life_229": "https://checkout.revolut.com/pay/aa99535d-7221-482e-9754-6a4d449d69cc",
+  "bd_suite_life_249": "https://checkout.revolut.com/pay/e8e82a6d-3617-4729-9654-d03ef22de8ff",
+  "suite_solo_90d_249": "https://checkout.revolut.com/pay/10949078-5a74-439e-9adb-81dcb7c23ae8",
+  "suite_solo_life_399": "https://checkout.revolut.com/pay/760df7ae-705e-417c-a7b7-7b40c02e134b",
+  "vip_couple_649": "https://checkout.revolut.com/pay/b056f712-fd60-4eb1-9812-5c344b21a297",
+  "concierge_notary_249": "https://giyuraliyahtrack.com/concierge-booking/?sku=concierge_notary_249&lang=en",
+  "concierge_notary_349": "https://giyuraliyahtrack.com/concierge-booking/?sku=concierge_notary_349&lang=en",
+  "concierge_bundle_799": "https://giyuraliyahtrack.com/concierge-booking/?sku=concierge_bundle_799&lang=en",
+  "concierge_kallah_249": "https://giyuraliyahtrack.com/concierge-booking/?sku=concierge_kallah_249&lang=en",
+  "concierge_rabbi_349": "https://giyuraliyahtrack.com/concierge-booking/?sku=concierge_rabbi_349&lang=en",
+  "concierge_couple_499": "https://giyuraliyahtrack.com/concierge-booking/?sku=concierge_couple_499&lang=en",
+  "concierge_escort_649": "https://giyuraliyahtrack.com/concierge-booking/?sku=concierge_escort_649&lang=en"
 };
+window.LEMON_CHECKOUT_URLS = window.REVOLUT_CHECKOUT_URLS;
 
 window.CONCIERGE_WHATSAPP = "972559664357";
 window.CONCIERGE_EMAIL = "concierge@giyuraliyahtrack.com";
@@ -1124,7 +1129,7 @@ window.PW_I18N = {
     pack2_pw: "🔥 Unlock Pack 2: +200 Advanced Dayanim Curveballs ($65 standalone, or $149 for the complete 700-Q + Shabbat Suite):",
     pack3_pw: "🧔 Unlock Pack 3: Men's 150 Halacha Deck ($49 standalone, or $149 for the complete 700-Q + Shabbat Suite):",
     pack4_pw: "👩 Unlock Pack 4: Women's 150 Halacha Deck ($49 standalone, or $149 for the complete 700-Q + Shabbat Suite):",
-    cp_limit_pw: "📱 You just finished the 4 free Nohal 5.2.0008 Couples Interrogation questions! Unlock all 80 separated-room questions + live 2-Phone Matcher:"
+    cp_limit_pw: "📱 You just finished the 4 free Nohal 5.2.0008 Couples Interrogation questions! Unlock all 300 separated-room questions + live 2-Phone Matcher:"
   },
   he: {
     badge: "🛡️ מגן המסלול המלא — גיור, רבנות ומשרד הפנים",
@@ -1238,7 +1243,7 @@ window.PW_I18N = {
     pack2_pw: "🔥 Débloquez le Pack 2 : +200 Questions Pièges des Dayanim (65$ seul, ou 149$ pour la Suite 700-Q + Chabbat) :",
     pack3_pw: "🧔 Débloquez le Pack 3 : 150 Questions Hommes (49$ seul, ou 149$ pour la Suite 700-Q + Chabbat) :",
     pack4_pw: "👩 Débloquez le Pack 4 : 150 Questions Femmes (49$ seul, ou 149$ pour la Suite 700-Q + Chabbat) :",
-    cp_limit_pw: "📱 Vous avez terminé les 4 questions gratuites Nohal 5.2.0008 ! Débloquez les 80 questions + Sync 2 Téléphones :"
+    cp_limit_pw: "📱 Vous avez terminé les 4 questions gratuites Nohal 5.2.0008 ! Débloquez les 300 questions + Sync 2 Téléphones :"
   },
   es: {
     badge: "🛡️ Escudo Completo Giyur Aliyah Track",
@@ -1295,7 +1300,7 @@ window.PW_I18N = {
     pack2_pw: "🔥 Desbloquee Mazo 2: +200 Preguntas Avanzadas de Dayanim ($65 individual, o $149 por la Suite 700-P + Shabat):",
     pack3_pw: "🧔 Desbloquee Mazo 3: 150 Preguntas Hombres ($49 individual, o $149 por la Suite 700-P + Shabat):",
     pack4_pw: "👩 Desbloquee Mazo 4: 150 Preguntas Mujeres ($49 individual, o $149 por la Suite 700-P + Shabat):",
-    cp_limit_pw: "📱 ¡Terminó las 4 preguntas gratuitas Nohal 5.2.0008! Desbloquee las 80 preguntas + Sync en vivo para 2 teléfonos:"
+    cp_limit_pw: "📱 ¡Terminó las 4 preguntas gratuitas Nohal 5.2.0008! Desbloquee las 300 preguntas + Sync en vivo para 2 teléfonos:"
   },
   de: {
     badge: "🛡️ Giyur Aliyah Track Komplett-Schutzschild",
@@ -1352,7 +1357,7 @@ window.PW_I18N = {
     pack2_pw: "🔥 Deck 2 freischalten: +200 Fortgeschrittene Dajanim-Fragen ($65 einzeln, oder $149 für die 700-F + Schabbat-Suite):",
     pack3_pw: "🧔 Deck 3 freischalten: 150 Halacha-Fragen Männer ($49 einzeln, oder $149 für die 700-F + Schabbat-Suite):",
     pack4_pw: "👩 Deck 4 freischalten: 150 Halacha-Fragen Frauen ($49 einzeln, oder $149 für die 700-F + Schabbat-Suite):",
-    cp_limit_pw: "📱 Sie haben die 4 kostenlosen Nohal 5.2.0008 Fragen beendet! Schalten Sie alle 80 Fragen + 2-Handy-Sync frei:"
+    cp_limit_pw: "📱 Sie haben die 4 kostenlosen Nohal 5.2.0008 Fragen beendet! Schalten Sie alle 300 Fragen + 2-Handy-Sync frei:"
   }
   ,
   ru: {
@@ -1601,7 +1606,7 @@ window.syncProEntitlementFromCloud = function(retryCount) {
     cleanUrl.searchParams.delete('order_id');
     cleanUrl.searchParams.delete('tier');
     window.history.replaceState({}, '', cleanUrl.toString());
-    if (window.showCpToast) window.showCpToast('⏳ Verifying your payment with Lemon Squeezy...', true);
+    if (window.showCpToast) window.showCpToast('⏳ Verifying your GiyurAliyahTrack pass...', true);
   }
 
   if (!window.gatDb || !window.gatUid) return;
@@ -1615,9 +1620,15 @@ window.syncProEntitlementFromCloud = function(retryCount) {
         window.showCpToast('✅ Payment Verified! Unlocked: ' + def.label, true);
       }
     } else {
-      // Zero-Trust Enforcement: If server says NOT unlocked, wipe any spoofed localStorage keys!
+      // Zero-Trust Enforcement: Only clear if user does NOT have a verified WhatsApp/PassCode session pending restore!
       if (isCheckoutReturn && attempt < 6) {
         setTimeout(function() { window.syncProEntitlementFromCloud(attempt + 1); }, 2000);
+        return;
+      }
+      const hasVerifiedSession = Boolean(localStorage.getItem('gat_permanent_pass_code') || localStorage.getItem('gat_verified_wa_phone'));
+      const curAuthUser = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth().currentUser : null;
+      if (hasVerifiedSession && (!curAuthUser || curAuthUser.isAnonymous)) {
+        if (typeof window.restoreGatSessionFromServerIfNeeded === 'function') window.restoreGatSessionFromServerIfNeeded();
         return;
       }
       localStorage.removeItem('gat_entitlements_v2');
@@ -1691,27 +1702,24 @@ window.redeemProCode = window.redeemCode = async function() {
 };
 
 window.startCheckout = function(tierKey) {
-  const baseUrl = window.LEMON_CHECKOUT_URLS[tierKey];
+  const lg = (window.appLang || localStorage.getItem('gat_lang') || 'en').slice(0, 2).toLowerCase();
+  if (String(tierKey || '').indexOf('concierge_') === 0) {
+    window.location.href = '/concierge-booking/?sku=' + encodeURIComponent(tierKey) + '&lang=' + encodeURIComponent(lg);
+    return;
+  }
+  const baseUrl = window.REVOLUT_CHECKOUT_URLS[tierKey];
   if (!baseUrl) return;
   try {
     localStorage.setItem('gat_pending_tier', tierKey);
     localStorage.setItem('gat_pending_checkout_ts', String(Date.now()));
-  } catch(e){}
-  const waPhone = localStorage.getItem('gat_verified_wa_phone') || ((window.gatFormsState && (window.gatFormsState.pf_phone_il || window.gatFormsState.pf_phone)) || '').replace(/\D/g, '');
-  const activeConciergeOrderId = localStorage.getItem('gat_active_concierge_order') || '';
-  const sep = baseUrl.indexOf('?') === -1 ? '?' : '&';
-  const returnUrl = 'https://giyuraliyahtrack.com/app/?checkout_success=1&tier=' + encodeURIComponent(tierKey);
-  let fullUrl = baseUrl + sep
-    + 'checkout[custom][uid]=' + encodeURIComponent(window.gatUid || 'anon')
-    + '&checkout[custom][tier]=' + encodeURIComponent(tierKey)
-    + (waPhone ? '&checkout[custom][wa_phone]=' + encodeURIComponent(waPhone) : '')
-    + (activeConciergeOrderId ? '&checkout[custom][concierge_order_id]=' + encodeURIComponent(activeConciergeOrderId) : '')
-    + '&checkout[redirect_url]=' + encodeURIComponent(returnUrl);
-  if (window.LemonSqueezy && window.LemonSqueezy.Url && typeof window.LemonSqueezy.Url.Open === 'function') {
-    window.LemonSqueezy.Url.Open(fullUrl);
-  } else {
-    window.open(fullUrl, '_blank', 'noopener,noreferrer');
-  }
+    const verifiedPh = localStorage.getItem('gat_verified_wa_phone') || '';
+    if (verifiedPh.length >= 8) {
+      localStorage.setItem('gat_wa_phone', verifiedPh);
+      localStorage.setItem('gat_uid', 'wa_' + verifiedPh);
+    }
+  } catch (e) {}
+  const pricingPrefix = (lg && lg !== 'en' && ['he','fr','es','de','ru'].indexOf(lg) !== -1) ? ('/' + lg) : '';
+  window.location.href = pricingPrefix + '/pricing/?sku=' + encodeURIComponent(tierKey) + '&lang=' + encodeURIComponent(lg);
 };
 
 const VETTED_I18N = {
@@ -2315,21 +2323,70 @@ window.showDraftSavedBadge = function(customText, isOfflineWarn) {
   if (!b) {
     b = document.createElement('div');
     b.id = 'gat-draft-saved-pill';
-    b.style.cssText = 'position:fixed;bottom:16px;right:16px;border-radius:999px;padding:7px 14px;font-size:0.75rem;font-weight:800;z-index:9999;box-shadow:0 8px 20px rgba(0,0,0,0.25);opacity:0;transition:opacity 0.25s;pointer-events:none;';
+    b.style.cssText = 'position:fixed;bottom:76px;right:16px;border-radius:999px;padding:8px 14px;font-size:0.76rem;font-weight:800;z-index:9999;box-shadow:0 8px 20px rgba(0,0,0,0.28);opacity:0;transition:opacity 0.25s;cursor:pointer;';
+    b.onclick = function() {
+      if (typeof window.openDeviceSyncModal === 'function') window.openDeviceSyncModal();
+    };
     document.body.appendChild(b);
   }
   const offline = (typeof navigator !== 'undefined' && navigator.onLine === false) || isOfflineWarn;
-  b.style.background = offline ? '#78350f' : '#0f172a';
-  b.style.color = offline ? '#fde68a' : '#38bdf8';
-  b.style.border = offline ? '1.5px solid #f59e0b' : '1.5px solid #0284c7';
+  const isLogged = (typeof window.isGatUserLoggedIn === 'function') ? window.isGatUserLoggedIn() : Boolean(localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_permanent_pass_code'));
+  const acctLbl = (typeof window.getGatUserDisplayLabel === 'function') ? window.getGatUserDisplayLabel() : '';
   const ct = window.getCpSyncT();
-  b.innerText = customText || (offline ? ct.saved_offline : ct.saved_online);
+
+  const SAVE_TOAST_I18N = {
+    en: { synced: '✅ Saved & Cloud Synced', guest: '💾 Saved on This Device Only — Tap to Link WhatsApp / Cloud Sync' },
+    he: { synced: '✅ נשמר וסונכרן לענן', guest: '💾 נשמר במכשיר זה בלבד — לחצו לחיבור וואטסאפ / גיבוי בענן' },
+    fr: { synced: '✅ Enregistré et synchronisé dans le Cloud', guest: '💾 Enregistré sur cet appareil uniquement — Appuyez pour synchroniser' },
+    es: { synced: '✅ Guardado y sincronizado en la nube', guest: '💾 Guardado solo en este dispositivo — Toque para vincular WhatsApp' },
+    de: { synced: '✅ Gespeichert & in der Cloud synchronisiert', guest: '💾 Nur auf diesem Gerät gespeichert — Tippen für Cloud-Sync' },
+    ru: { synced: '✅ Сохранено и синхронизировано в облаке', guest: '💾 Сохранено только на этом устройстве — нажмите для синхронизации' }
+  };
+  const curL = String(window.appLang || localStorage.getItem('gat_lang') || 'en').slice(0, 2).toLowerCase();
+  const stL = SAVE_TOAST_I18N[curL] || SAVE_TOAST_I18N.en;
+  if (offline) {
+    b.style.background = '#78350f';
+    b.style.color = '#fde68a';
+    b.style.border = '1.5px solid #f59e0b';
+    b.innerText = customText || ct.saved_offline;
+  } else if (isLogged) {
+    b.style.background = '#064e3b';
+    b.style.color = '#6ee7b7';
+    b.style.border = '1.5px solid #10b981';
+    b.innerText = customText || (stL.synced + (acctLbl ? ' (' + acctLbl.split('•')[0].trim() + ')' : ''));
+  } else {
+    b.style.background = '#78350f';
+    b.style.color = '#fde68a';
+    b.style.border = '1.5px solid #f59e0b';
+    b.innerText = customText || stL.guest;
+  }
   b.style.opacity = '1';
   clearTimeout(window._draftPillTimer);
-  window._draftPillTimer = setTimeout(function() { b.style.opacity = '0'; }, 2400);
+  window._draftPillTimer = setTimeout(function() { b.style.opacity = '0'; }, 3200);
 };
 
 window.pushDraftToFirestore = function(draft, nowMs, forceLeadStatus) {
+  if (typeof window.syncAllGatAuthStorageKeys === 'function') window.syncAllGatAuthStorageKeys();
+  const waDigits = localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_wa_phone') || '';
+  const passCode = localStorage.getItem('gat_permanent_pass_code') || '';
+  if ((waDigits || passCode) && draft && typeof draft === 'object') {
+    const apiUrl = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc";
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mode: 'save_cloud_draft',
+        uid: window.gatUid || localStorage.getItem('gat_uid') || '',
+        waPhone: waDigits,
+        passCode: passCode,
+        draft: draft
+      })
+    }).then(r => r.json()).then(d => {
+      if (d && d.ok && d.passCode && typeof window.syncAllGatAuthStorageKeys === 'function') {
+        window.syncAllGatAuthStorageKeys({ uid: d.uid, waPhone: d.whatsappDigits, passCode: d.passCode });
+      }
+    }).catch(function(){});
+  }
   if (!window.gatDb || !window.gatUid) {
     localStorage.setItem('gat_form_dirty_cloud', '1');
     return;
@@ -2604,7 +2661,7 @@ window.startConciergeApprovedCheckout = function(orderId, skuOrUrl, customPriceU
     return;
   }
   const tierKey = skuOrUrl || 'concierge_notary_249';
-  const baseUrl = window.LEMON_CHECKOUT_URLS[tierKey] || window.LEMON_CHECKOUT_URLS.concierge_notary_249;
+  const baseUrl = window.REVOLUT_CHECKOUT_URLS[tierKey] || window.REVOLUT_CHECKOUT_URLS.concierge_notary_249;
   const sep = baseUrl.indexOf('?') === -1 ? '?' : '&';
   const returnUrl = 'https://giyuraliyahtrack.com/app/?module=vetted-team&concierge_paid=1&order=' + encodeURIComponent(orderId);
   const fullUrl = baseUrl + sep + 'checkout[custom][uid]=' + encodeURIComponent(uid) + '&checkout[custom][tier]=' + encodeURIComponent(tierKey) + '&checkout[custom][concierge_order_id]=' + encodeURIComponent(orderId) + '&checkout[redirect_url]=' + encodeURIComponent(returnUrl);
@@ -3144,7 +3201,7 @@ updateBdCard = function() {
   if (bm) bm.innerText = ui.m; if (br) br.innerText = ui.r; if (pl) pl.innerText = item.he || 'HE';
 
   const catLbl = (window.BD_CATS_I18N && window.BD_CATS_I18N[item.cat]) ? (window.BD_CATS_I18N[item.cat][l] || item.cat) : (item.c || '');
-  catEl.innerText = `${catLbl} • ${item.he || ''}`;
+  catEl.innerText = catLbl;
   qEl.innerText = (item.q && item.q[l]) ? item.q[l] : (item.q || '');
   aEl.style.display = 'none';
   const ansTxt = (item.a && item.a[l]) ? item.a[l] : (item.a || '');
@@ -3309,9 +3366,24 @@ window.initCpFirebase = function() {
       window.gatDb.enablePersistence({ synchronizeTabs: true }).catch(function(){});
     } catch(e) {}
     firebase.auth(appInstance).onAuthStateChanged(function(user) {
+      if (typeof window.syncAllGatAuthStorageKeys === 'function') window.syncAllGatAuthStorageKeys();
+      const savedWa = localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_wa_phone') || '';
+      const savedMasterUid = (savedWa && savedWa.length >= 8) ? ('wa_' + savedWa) : (localStorage.getItem('gat_uid') || '');
       if (user) {
-        window.gatUid = user.uid;
-      if (typeof window.refreshSyncAccountBadge === 'function') window.refreshSyncAccountBadge();
+        if (user.isAnonymous && savedMasterUid && savedMasterUid.indexOf('wa_') === 0) {
+          window.gatUid = savedMasterUid;
+          if (typeof window.restoreGatSessionFromServerIfNeeded === 'function') {
+            window.restoreGatSessionFromServerIfNeeded();
+          }
+        } else {
+          window.gatUid = user.uid;
+          if (!user.isAnonymous) {
+            localStorage.setItem('gat_uid', user.uid);
+            if (user.email) localStorage.setItem('gat_user_email', user.email);
+          }
+        }
+        if (typeof window.refreshSyncAccountBadge === 'function') window.refreshSyncAccountBadge();
+        if (typeof window.refreshAllGatAuthIndicators === 'function') window.refreshAllGatAuthIndicators();
         window.cpDbError = '';
         window.connectCpRoom(window.cpRoom);
         if (window.pullCloudFormDraftOnce) window.pullCloudFormDraftOnce();
@@ -3670,7 +3742,7 @@ updateCpCard = function() {
         <span>${ct.room_tag}${shortTag}</span>
         ${presenceBadge}
         <button type="button" onclick="toggleCpRole()" style="background:#0c4a6e;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-size:0.72rem;font-weight:800;cursor:pointer;">${ct.you_role.replace('{r}', window.cpRole)}</button>
-        <span>• ✅ ${mCnt}/80</span>
+        <span>• ✅ ${mCnt}/300</span>
       </div>
       <div style="display:flex;gap:6px;">
         <button type="button" onclick="resetCpRoom()" style="background:#e2e8f0;color:#1e293b;border:none;border-radius:6px;padding:4px 8px;font-size:0.73rem;font-weight:800;cursor:pointer;">${ct.new_room}</button>
@@ -4277,7 +4349,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ============================================================================
 window.VISION_UI_I18N = {
   en: {
-    btn_clerk: "📸 Snap Photo / Upload Clerk Hebrew Sheet (AI Vision Decoder)",
+    btn_clerk: "📸 Snap Photo / Upload Clerk Hebrew Sheet (Smart Scan Decoder)",
     btn_doc: "📸 Snap Photo / Upload Certificate or Apostille (AI Forensic Check)",
     scanning: "🔍 Gemini 3.8 Flash Vision analyzing document...",
     err: "⚠️ Could not analyze file: ",
@@ -4318,11 +4390,11 @@ window.VISION_UI_I18N = {
   },
   ru: {
     btn_clerk: "📸 Сфотографировать / Загрузить бланк МВД на иврите (ИИ-декодер)",
-    btn_doc: "📸 Загрузить свидетельство / Апостиль / Паспорт (ИИ-проверка)",
+    btn_doc: "📸 Загрузить свидетельство / Апостиль / Паспорт (Авто-проверка)",
     scanning: "🔍 Gemini 3.8 Flash Vision анализирует документ...",
     err: "⚠️ Не удалось проанализировать файл: ",
     done_clerk: "✅ Бланк чиновника МВД распознан и переведён ниже:",
-    done_doc: "🔬 Криминалистическая ИИ-проверка документа завершена:"
+    done_doc: "🔬 Криминалистическая Авто-проверка документа завершена:"
   }
 };
 
@@ -5129,7 +5201,7 @@ if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) {
 (function() {
   var RU_DOM_MAP = {
     'Track Selection & Readiness': 'Выбор маршрута и готовность досье',
-    'AI Document & Apostille Auditor': 'ИИ-Аудитор документов и апостилей',
+    'Automated Document & Apostille Auditor': 'ИИ-Аудитор документов и апостилей',
     'Hebrew Forms & Clerk Shield': 'Анкеты МВД на иврите и защита от отказов',
     'Vetted Legal & Rabbinic Desk': 'Проверенный юридический и раввинский отдел',
     'Upload or snap a photo of any certificate': 'Загрузите или сфотографируйте любое свидетельство (рождение, несудимость, брак, гиюр)',
@@ -5249,10 +5321,12 @@ window.refreshSyncAccountBadge = function() {
   const user = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth().currentUser : null;
   const hasData = window.deviceHasActiveDataOrPass();
   const isPro = (typeof window.isProUnlocked === 'function' && window.isProUnlocked());
+  const isLogged = (typeof window.isGatUserLoggedIn === 'function') ? window.isGatUserLoggedIn() : Boolean((user && !user.isAnonymous) || localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_permanent_pass_code'));
+  const acctLabel = (typeof window.getGatUserDisplayLabel === 'function' && window.getGatUserDisplayLabel()) || (user && user.email) || localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_permanent_pass_code') || '';
 
-  if (user && !user.isAnonymous && user.email) {
-    if (badge) badge.innerHTML = s.badgeSigned.replace('{email}', user.email) + (isPro ? ' <span style="background:#059669;color:#fff;padding:2px 8px;border-radius:999px;font-size:0.72rem;margin-inline-start:6px;">PRO</span>' : '');
-    if (topLbl) topLbl.textContent = user.email.split('@')[0];
+  if (isLogged && acctLabel) {
+    if (badge) badge.innerHTML = s.badgeSigned.replace('{email}', acctLabel) + (isPro ? ' <span style="background:#059669;color:#fff;padding:2px 8px;border-radius:999px;font-size:0.72rem;margin-inline-start:6px;">PRO</span>' : '');
+    if (topLbl) topLbl.textContent = acctLabel.split('•')[0].trim();
   } else if (hasData) {
     if (badge) badge.innerHTML = s.badgeActive;
     if (topLbl) topLbl.textContent = isPro ? s.topPro : s.topBtn;
@@ -5260,6 +5334,7 @@ window.refreshSyncAccountBadge = function() {
     if (badge) badge.innerHTML = s.badgeEmpty;
     if (topLbl) topLbl.textContent = s.topBtn;
   }
+  if (typeof window.refreshAllGatAuthIndicators === 'function') window.refreshAllGatAuthIndicators();
 };
 
 window.renderMaskedEmailChoices = function(maskedEmails) {
@@ -5380,6 +5455,21 @@ window.printOrSaveAllAccessPassCard = function() {
 window.applyMergedServerDossierToLocal = function(mergedData) {
   if (!mergedData || typeof mergedData !== 'object') return;
   try {
+    if (mergedData.uid && String(mergedData.uid).indexOf('wa_') === 0) {
+      window.gatUid = mergedData.uid;
+      localStorage.setItem('gat_uid', mergedData.uid);
+      localStorage.setItem('gat_verified_wa_phone', String(mergedData.uid).slice(3));
+      localStorage.setItem('gat_wa_phone', String(mergedData.uid).slice(3));
+    } else if (mergedData.whatsappDigits) {
+      localStorage.setItem('gat_verified_wa_phone', String(mergedData.whatsappDigits));
+      localStorage.setItem('gat_wa_phone', String(mergedData.whatsappDigits));
+      localStorage.setItem('gat_uid', 'wa_' + String(mergedData.whatsappDigits));
+      window.gatUid = 'wa_' + String(mergedData.whatsappDigits);
+    }
+    if (mergedData.permanentPassCode) {
+      localStorage.setItem('gat_permanent_pass_code', mergedData.permanentPassCode);
+      localStorage.setItem('gat_pass_code', mergedData.permanentPassCode);
+    }
     const draft = mergedData.formDraft || mergedData.draft || {};
     if (Object.keys(draft).length) {
       localStorage.setItem('gat_form_draft_v1', JSON.stringify(draft));
@@ -5443,6 +5533,17 @@ window.claimUnifiedPassCode = async function(optionalCode) {
 
     await firebase.auth().signInWithCustomToken(data.customToken);
     window.gatUid = data.masterUid;
+    localStorage.setItem('gat_uid', data.masterUid || '');
+    localStorage.setItem('gat_permanent_pass_code', clean);
+    localStorage.setItem('gat_pass_code', clean);
+    if (typeof window.syncAllGatAuthStorageKeys === 'function') {
+      window.syncAllGatAuthStorageKeys({
+        uid: data.masterUid,
+        passCode: clean,
+        waPhone: (data.userData && data.userData.whatsappDigits) || (String(data.masterUid || '').indexOf('wa_') === 0 ? String(data.masterUid).slice(3) : ''),
+        customToken: data.customToken
+      });
+    }
     if (data.userData) window.applyMergedServerDossierToLocal(data.userData);
     if (typeof window.listenToUserConciergeOrder === 'function') window.listenToUserConciergeOrder();
     window.refreshSyncAccountBadge();
@@ -5545,7 +5646,7 @@ window.signInOrLinkGoogle = async function() {
   }
 };
 
-// Auto-handle ?pass=K7M-9P4 (or ?pair=...) when user scans the QR code, or ?checkout_success=1 after Lemon Squeezy payment!
+// Auto-handle ?pass=K7M-9P4 (or ?pair=...) when user scans the QR code, or ?checkout_success=1 after Revolut Pro payment!
 (function initAutoUnifiedPassParams() {
   try {
     const sp = new URLSearchParams(window.location.search);
@@ -6006,7 +6107,7 @@ window.requestWhatsAppLoginCode = async function() {
     const res = await fetch((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc"), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mode: 'wa_send_login', phone: rawPhone })
+      body: JSON.stringify({ mode: 'wa_send_login', phone: rawPhone, lang: (typeof window.getUnifiedGatLang === 'function' ? window.getUnifiedGatLang() : (window.appLang || localStorage.getItem('gat_lang') || 'en')) })
     });
     const data = await res.json();
     if (!res.ok || !data.ok) throw new Error(data.error || 'Could not send WhatsApp code');
@@ -6039,7 +6140,8 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
         phone: rawPhone,
         code: code,
         token: token,
-        prevAnonUid: prevAnonUid
+        prevAnonUid: prevAnonUid,
+        lang: (typeof window.getUnifiedGatLang === 'function' ? window.getUnifiedGatLang() : (window.appLang || localStorage.getItem('gat_lang') || 'en'))
       })
     });
     const data = await res.json();
@@ -6049,8 +6151,22 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
       try { await firebase.auth().signInWithCustomToken(data.customToken); } catch (e) { console.warn('CustomToken sign-in note:', e); }
     }
     window.gatUid = data.masterUid;
+    localStorage.setItem('gat_uid', data.masterUid || '');
     if (data.whatsappDigits) {
       localStorage.setItem('gat_verified_wa_phone', data.whatsappDigits);
+      localStorage.setItem('gat_wa_phone', data.whatsappDigits);
+    }
+    if (data.userData && data.userData.permanentPassCode) {
+      localStorage.setItem('gat_permanent_pass_code', data.userData.permanentPassCode);
+      localStorage.setItem('gat_pass_code', data.userData.permanentPassCode);
+    }
+    if (typeof window.syncAllGatAuthStorageKeys === 'function') {
+      window.syncAllGatAuthStorageKeys({
+        uid: data.masterUid,
+        waPhone: data.whatsappDigits,
+        passCode: data.userData && data.userData.permanentPassCode,
+        customToken: data.customToken
+      });
     }
     if (data.userData) {
       window.applyMergedServerDossierToLocal(data.userData);
@@ -6990,7 +7106,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
     return null;
   }
 
-  window.sendGatHelpdeskMsg = async function(optionalText, overrideMod, overrideForm) {
+  if (!window.sendGatHelpdeskMsg) window.sendGatHelpdeskMsg = async function(optionalText, overrideMod, overrideForm) {
     mountDom();
     const t = HD_I18N[getLang()] || HD_I18N.en;
     const inp = document.getElementById("gat-hd-input");
@@ -7010,7 +7126,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
     msgs.appendChild(loadingBub);
     msgs.scrollTop = msgs.scrollHeight;
 
-    const preAiHit = matchPreAiInstantRoute(text, getLang());
+    const preAiHit = (window.matchPreAiInstantRoute || matchPreAiInstantRoute)(text, getLang());
     if (preAiHit) {
       const cleanUserText = text.replace(/^(FIANCE_IL:|FIANCE_FJ:|FIANCE_OT:|\[fiance_[^\]]+\])\s*/i, "");
       uBub.textContent = cleanUserText;
@@ -7152,7 +7268,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
       document.head.appendChild(style);
 
       const handle = document.createElement("div");
-      handle.id = "left-edge-handle";
+      handle.id = "left-edge-handle"; handle.style.display = "none";
       handle.innerHTML = "<span>❯</span>";
       handle.onclick = function() { window.toggleLeftDrawer(true); };
       document.body.appendChild(handle);
@@ -7403,8 +7519,8 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
     if (!vv) return;
 
     // Prevent iOS Safari from panning the document when keyboard opens
-    if (window.scrollX !== 0 || window.scrollY !== 0) {
-      window.scrollTo(0, 0);
+    if (window.scrollX !== 0) {
+      window.scrollTo(0, window.scrollY || window.pageYOffset || 0);
     }
 
     const availH = Math.round(vv.height);
@@ -7440,7 +7556,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
   document.addEventListener("focusout", function() {
     lockViewportMeta();
     setTimeout(function() {
-      window.scrollTo(0, 0);
+      if (window.scrollX !== 0) window.scrollTo(0, window.scrollY || window.pageYOffset || 0);
       syncDrawerToVisualViewport();
     }, 80);
   });
@@ -7626,8 +7742,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
       });
       const anyVisible = allSections.some(function(el) { return el.style.display !== "none"; });
       if (!anyVisible) allSections.forEach(function(el) { el.style.display = ""; });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+      };
 
     setTimeout(function() { window.switchHebrewEngineSubTab("forms"); }, 60);
   }
@@ -7740,7 +7855,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
     "tos_t": "📜 Terms of Service & Disclaimer",
     "tos_b": "Giyur Aliyah Track provides statutory software automation, educational preparation vaults, and administrative routing. We are not a law firm or government agency; optional legal representation is provided strictly through independent licensed Israeli attorneys.",
     "ref_t": "💳 Digital Finality & No-Refund Policy",
-    "ref_b": "Because digital passes immediately unlock proprietary PDF stampers, AI credits, and full study vaults, ALL DIGITAL SOFTWARE SALES ARE FINAL AND NON-REFUNDABLE upon unlock (except for accidental duplicate billing). Human concierge placement fees are non-refundable once translation or professional matching begins (refundable only if we cannot match you in your region within 7 business days).",
+    "ref_b": "Because digital passes immediately unlock proprietary PDF stampers, system credits, and full study vaults, ALL DIGITAL SOFTWARE SALES ARE FINAL AND NON-REFUNDABLE upon unlock (except for accidental duplicate billing). Human concierge placement fees are non-refundable once translation or professional matching begins (refundable only if we cannot match you in your region within 7 business days).",
     "priv_t": "🔒 Privacy & Zero-Leakage Data Security",
     "priv_b": "All form drafts and 2-phone couples rooms are encrypted and isolated to your personal WhatsApp UID. We never sell or share applicant data with third parties.",
     "tabs": {
@@ -7749,7 +7864,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
         "items": [
           [
             "1. Why is a 15,000₪–40,000₪ lawyer retainer 'just the starting fee'—and how does Giyur Aliyah Track save you from hidden billing?",
-            "Our self-serve digital engines stamp all 8 official Hebrew PIBA government forms (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, Security CV), decode Hebrew clerk letters via AI Vision, train you on 700 Beit Din questions & 56 Shabbat Songs/Prayers, and sync couples on 300 separated-room questions."
+            "Our self-serve digital engines stamp all 8 official Hebrew PIBA government forms (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, Security CV), decode Hebrew clerk letters via Smart Scan, train you on 700 Beit Din questions & 56 Shabbat Songs/Prayers, and sync couples on 300 separated-room questions."
           ],
           [
             "2. How does Modular Pricing work (90-Day Sprint vs. Lifetime)?",
@@ -8717,3 +8832,33 @@ if (typeof document !== 'undefined') {
     }
   } catch (e) {}
 })();
+
+// Auto-apply ?lang=, ?module=, and ?form= from shared exact-page links
+(function applySharedAppParams() {
+  try {
+    var sp = new URLSearchParams(window.location.search);
+    var qLang = (sp.get('lang') || '').toLowerCase();
+    if (['en','he','fr','es','de','ru'].indexOf(qLang) !== -1) {
+      localStorage.setItem('gat_lang', qLang);
+      window.appLang = qLang;
+      window.curLang = qLang;
+      setTimeout(function() {
+        if (typeof window.selectLang === 'function') window.selectLang(qLang);
+        else if (typeof window.applyAppLang === 'function') window.applyAppLang(qLang);
+      }, 60);
+    }
+    var qMod = sp.get('module') || sp.get('mod');
+    if (qMod === 'beit-din') qMod = 'beit-din-150';
+    var qForm = sp.get('form');
+    if (qMod || qForm) {
+      setTimeout(function() {
+        if (qMod && typeof window.openMod === 'function') window.openMod(qMod);
+        if (qForm && window.gatFormsState) {
+          window.gatFormsState.activeForm = qForm;
+          if (typeof window.mountUnifiedPibaFormsEngine === 'function') window.mountUnifiedPibaFormsEngine();
+        }
+      }, 140);
+    }
+  } catch (e) {}
+})();
+

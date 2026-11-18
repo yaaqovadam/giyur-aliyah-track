@@ -1,9 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+<script id="gat-cb-early-lang-sync">
+  (function() {
+    try {
+      var valid = ['en','he','fr','es','de','ru'];
+      var qL = (new URLSearchParams(location.search).get('lang') || '').toLowerCase();
+      var sL = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').toLowerCase();
+      var pathM = location.pathname.match(/^\/(he|fr|es|de|ru)(\/|$)/);
+      var pathL = pathM ? pathM[1].toLowerCase() : '';
+      var activeL = (valid.indexOf(qL) !== -1) ? qL : ((valid.indexOf(sL) !== -1) ? sL : (pathL || 'en'));
+      localStorage.setItem('gat_lang', activeL);
+      localStorage.setItem('zehut_lang', activeL);
+      window.lang = activeL;
+      window.appLang = activeL;
+      window.gatLang = activeL;
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof window.setLang === 'function') window.setLang(activeL);
+      });
+    } catch (e) {}
+  })();
+</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Submit Your Case &amp; Documents for Lawyer / Notary / Rabbi Approval &amp; Quote — Misrad HaPanim Lawyer, Notary &amp; Beit Din Rabbi | Giyur Aliyah Track (EN)</title>
+  <title>Book Vetted Israeli Lawyer, Notary or Sponsoring Rabbi</title>
   <style>
     :root { --navy: #041226; --card: #0b2240; --sky: #0288d1; --emerald: #059669; }
     * { box-sizing: border-box; }
@@ -158,8 +178,8 @@
       justify-content: center !important;
     }
     .app-header .hamburger-btn svg {
-      width: 28px !important;
-      height: 28px !important;
+      width: 33px !important;
+      height: 33px !important;
       stroke: #FFFFFF !important;
       stroke-width: 2.4 !important;
       stroke-linecap: round !important;
@@ -383,6 +403,110 @@
     white-space: nowrap !important;
   }
 </style>
+
+<style id="gat-appbar-compact-share-css">
+  .app-header .brand-mark, .topbar .brand-mark { display: none !important; }
+  .app-header .app-nav-back, .topbar .app-nav-back {
+    width: 28px !important; height: 36px !important;
+    margin-inline-start: -6px !important; margin-inline-end: 4px !important;
+  }
+  .app-header .brand, .topbar .brand { gap: 0 !important; flex-shrink: 0 !important; }
+  .app-header .brand-title, .topbar .brand-title { white-space: nowrap !important; }
+  .app-header .header-right, .topbar > div:last-child { display: flex !important; align-items: center !important; gap: 10px !important; }
+  .appbar-share-btn {
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    width: 41px !important; height: 41px !important; margin: 0 !important; padding: 4px !important;
+    background: transparent !important; border: none !important; box-shadow: none !important;
+    outline: none !important; color: #ffffff !important; cursor: pointer !important; flex-shrink: 0 !important;
+    transition: transform 0.15s ease, opacity 0.15s ease !important;
+  }
+  .appbar-share-btn:hover, .appbar-share-btn:active {
+    background: transparent !important; border: none !important; opacity: 0.82 !important; transform: scale(1.1);
+  }
+  .appbar-share-btn svg {
+    width: 26px !important; height: 26px !important;
+    stroke: #ffffff !important; stroke-width: 2.2 !important; fill: none !important;
+  }
+  .app-header .hamburger-btn, .topbar .hamburger-btn {
+    width: 41px !important; height: 41px !important;
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    padding: 4px !important; flex-shrink: 0 !important;
+    background: transparent !important; border: none !important; border-width: 0 !important;
+    box-shadow: none !important; outline: none !important; color: #ffffff !important;
+  }
+  .app-header .hamburger-btn svg, .topbar .hamburger-btn svg {
+    width: 33px !important; height: 33px !important;
+    stroke: #ffffff !important;
+  }
+  /* For pages with .app-shell (Homepage & Spokes): lock 100dvh flex shell so top header & bottom-nav are permanently pinned */
+  .app-shell {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+  .app-shell > .app-header {
+    position: relative !important;
+    flex-shrink: 0 !important;
+  }
+  .app-shell > .app-viewport {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .app-shell > .bottom-nav {
+    position: relative !important;
+    flex-shrink: 0 !important;
+    display: grid !important;
+    z-index: 60 !important;
+  }
+  /* For pages without .app-shell (/app/ and /pricing/): pin header at top: 0 and offset body by header height */
+  header.topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 9500 !important;
+  }
+  @media (max-width: 390px) {
+    .app-header, .topbar { padding: 0 12px !important; }
+    .app-header .brand-title, .topbar .brand-title { font-size: 1.12rem !important; letter-spacing: -0.4px !important; }
+    .appbar-share-btn { width: 39px !important; height: 39px !important; }
+    .appbar-share-btn svg { width: 25px !important; height: 25px !important; }
+    .app-header .hamburger-btn, .topbar .hamburger-btn { width: 39px !important; height: 39px !important; }
+    .app-header .hamburger-btn svg, .topbar .hamburger-btn svg { width: 31px !important; height: 31px !important; }
+  }
+</style>
+
+
+<style id="gat-dark-faq-white-pop">
+  details[style*="#071930"] > summary,
+  details[style*="#071930"] > summary *,
+  details[style*="#082548"] > summary,
+  details[style*="#082548"] > summary *,
+  summary.gat-dark-summary,
+  summary.gat-dark-summary * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+</style>
+<style id="gat-head-deepnavy-bnav">
+  nav.bottom-nav, .bottom-nav, nav.gat-injected-bottom-nav {
+    background: #082548 !important;
+    background-color: #082548 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 -6px 24px rgba(4, 18, 38, 0.45), 0 80px 0 80px #082548 !important;
+  }
+  nav.bottom-nav .nav-tab, .bottom-nav .nav-tab { color: rgba(255, 255, 255, 0.72) !important; }
+  nav.bottom-nav .nav-tab.active, .bottom-nav .nav-tab.active { color: #38bdf8 !important; font-weight: 800 !important; }
+  nav.bottom-nav .nt-pill, .bottom-nav .nt-pill { width: 56px !important; height: 34px !important; border-radius: 12px !important; background: transparent !important; }
+  nav.bottom-nav .nav-tab.active .nt-pill, .bottom-nav .nav-tab.active .nt-pill { background: #ffffff !important; background-color: #ffffff !important; }
+  nav.bottom-nav .nt-pill svg, .bottom-nav .nt-pill svg { fill: rgba(255, 255, 255, 0.78) !important; width: 20px !important; height: 20px !important; }
+  nav.bottom-nav .nav-tab.active .nt-pill svg, .bottom-nav .nav-tab.active .nt-pill svg { fill: #0288E8 !important; }
+</style>
 </head>
 <body>
   <header class="app-header">
@@ -390,18 +514,17 @@
       <a href="/pricing/" id="app-nav-back" class="app-nav-back visible" onclick="return window.handleSmartBack(event);" aria-label="Back" title="Back to Previous Page">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </a>
-      <a href="/" id="appbar-brand-home" class="brand"><div class="brand-mark">
-          <svg viewBox="0 0 24 24"><path d="M12 1.5L15.1 6.9H21.3L18.2 12L21.3 17.1H15.1L12 22.5L8.9 17.1H2.7L5.8 12L2.7 6.9H8.9L12 1.5Z"/></svg>
-        </div>
-        <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
+      <a href="/" id="appbar-brand-home" class="brand"><div class="brand-title">Giyur<span>Aliyah</span>Track</div>
       </a>
     </div>
     <div class="header-right">
-      <button type="button" class="lang-btn" id="globe-lang-btn" onclick="window.toggleLang(event)" title="Change Language">
+      
+      <button type="button" id="appbar-share-btn" class="appbar-share-btn" onclick="return window.shareExactCurrentPage(event);" title="Share this exact page" aria-label="Share this exact page"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button>
+            <button type="button" id="globe-lang-btn" class="lang-btn" onclick="window.toggleLang(event)" title="Change Language">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         <span id="appbar-lang-label" data-i18n="lang_label">EN</span>
       </button>
-      <button type="button" class="hamburger-btn" onclick="toggleDrawer(true)" aria-label="Menu">
+      <button type="button" class="hamburger-btn" onclick="return window.toggleDrawer(true);" aria-label="Menu">
         <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
@@ -416,42 +539,7 @@
     <button type="button" class="gat-lang-opt" data-lg="ru" onclick="window.pickAppbarLang('ru')"><span>🇷🇺 Русский</span><span>RU</span></button>
   </div>
 
-  <div class="drawer-backdrop" id="app-drawer" onclick="if(event.target===this) toggleDrawer(false)">
-  <aside class="drawer-panel">
-    <div>
-<a href="/pricing/" class="drawer-link" onclick="window.location.href='/pricing/'" style="display:flex;align-items:center;gap:10px;padding:12px 16px;margin:8px 12px;border-radius:10px;background:linear-gradient(135deg,#0288d1,#059669);color:#fff !important;font-weight:900;font-size:0.92rem;text-decoration:none;box-shadow:0 4px 12px rgba(2,136,209,0.3);">💎 All 23 Services &amp; Pricing</a>
-
-      <div class="drawer-brand-center">
-        <div class="brand-title" style="font-size:1.4rem;">Giyur<span>Aliyah</span>Track</div>
-      </div>
-
-      <div class="drawer-dark-stats">
-        <div class="dds-head"><span>⚡ Anti-Loop Protection Shield</span><span>↻</span></div>
-        <div class="dds-grid">
-          <div><span class="dds-num green">3.5 Yrs</span><span class="dds-lbl">Avg Saved</span></div>
-          <div><span class="dds-num">700 Qs</span><span class="dds-lbl">Beit Din</span></div>
-          <div><span class="dds-num">300 Qs</span><span class="dds-lbl">Couples Sync</span></div>
-        </div>
-      </div>
-      <a id="gat-hamburger-pricing-link" class="drawer-item gat-hamburger-pricing-item" href="/pricing/" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 10px 0;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,#0284c7,#2563eb);color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;font-weight:800;font-size:0.93rem;text-decoration:none;box-shadow:0 4px 14px rgba(37,99,235,0.28);">
-        <span style="display:flex;align-items:center;gap:9px;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;"><span>💎</span><span>All 23 Services &amp; Pricing</span></span>
-        <span style="font-size:0.8rem;opacity:0.95;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;">→</span>
-      </a>
-
-      <div class="drawer-list">
-        <a href="/app?module=beit-din-150" class="drawer-row">🕍 700 Beit Din Exam Flashcards & Game</a>
-        <a href="/app?module=songs-prayers" class="drawer-row">🎵 56 Shabbat Songs, Prayers & Shema AI</a>
-        <a href="/app?module=couples-sync" class="drawer-row">📱 300-Question 2-Phone Couples Sync</a>
-        <button class="drawer-row" onclick="switchTab(4); toggleDrawer(false);">📊 Live 180-Day & 30-Day Deadline Tracker</button>
-        <a href="/app" class="drawer-row" style="color:var(--sky);">🔐 Full Member Portal (/app)</a>
-      </div>
-    </div>
-
-    <div>
-      <button class="btn-install-navy" onclick="alert('To install GiyurAliyahTrack on your phone: Tap Share in Safari/Chrome and select Add to Home Screen.')">📲 Install App</button>
-    </div>
-  </aside>
-</div>
+  
   <script>
     window.toggleDrawer = function(open) {
       var d = document.getElementById('app-drawer');
@@ -507,7 +595,7 @@
             <option value="ru">RU</option>
           </select>
         </div>
-        <button type="button" class="gat-hamburger-btn" aria-label="Open Navigation Menu" onclick="document.getElementById('app-drawer').classList.add('open')">
+        <button type="button" class="gat-hamburger-btn" aria-label="Open Navigation Menu" onclick="return window.toggleDrawer(true);'app-drawer').classList.add('open')">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -530,43 +618,7 @@
   </nav>
 
   <!-- SITE-WIDE HAMBURGER DRAWER (#app-drawer) -->
-  <div class="gat-drawer-backdrop" id="app-drawer" onclick="if(event.target===this)this.classList.remove('open')">
-    <aside class="gat-drawer-panel">
-      <div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.12);">
-          <div class="gat-brand-title" style="font-size:1.2rem;">Giyur<span>Aliyah</span>Track</div>
-          <button type="button" onclick="document.getElementById('app-drawer').classList.remove('open')" style="background:rgba(255,255,255,0.1);border:none;color:#fff;width:30px;height:30px;border-radius:8px;cursor:pointer;font-weight:800;">✕</button>
-        </div>
-
-        <a id="gat-hamburger-pricing-link" class="gat-drawer-link" href="/pricing/" style="background:linear-gradient(135deg,#0284c7,#2563eb);border-color:rgba(255,255,255,0.28);margin-bottom:12px;box-shadow:0 4px 14px rgba(37,99,235,0.3);">
-          <span>💎 All 23 Services &amp; Pricing</span>
-          <span>→</span>
-        </a>
-
-        <div style="font-size:0.72rem;font-weight:800;color:#38bdf8;text-transform:uppercase;letter-spacing:1px;margin:10px 0 6px;">Navigation &amp; Hubs</div>
-        <a class="gat-drawer-link" href="/" id="gat-drw-home"><span>🏠 Homepage &amp; Track Diagnostic</span><span>→</span></a>
-        <a class="gat-drawer-link" href="/app/"><span>🛡️ Live Command Center (/app/)</span><span>→</span></a>
-        <a class="gat-drawer-link" href="/app/?module=forms"><span>📄 8 Official PIBA Hebrew PDF Forms</span><span>→</span></a>
-        <a class="gat-drawer-link" href="/app/?module=beit-din"><span>🕍 700-Card Beit Din Tribunal Vault</span><span>→</span></a>
-        <a class="gat-drawer-link" href="/app/?module=songs-prayers"><span>🎵 56 Shabbat Songs &amp; Prayers Karaoke</span><span>→</span></a>
-        <a class="gat-drawer-link" href="/app/?module=couples"><span>💑 300-Q 2-Phone Couples Interrogation</span><span>→</span></a>
-        <a class="gat-drawer-link" href="/concierge-booking/"><span>⚖️ Human Concierge &amp; Lawyer Intake</span><span>→</span></a>
-
-        <div style="font-size:0.72rem;font-weight:800;color:#38bdf8;text-transform:uppercase;letter-spacing:1px;margin:14px 0 6px;">6 Language SEO Hubs</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
-          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/">🇬🇧 EN</a>
-          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/he/">🇮🇱 HE</a>
-          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/fr/">🇫🇷 FR</a>
-          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/es/">🇪🇸 ES</a>
-          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/de/">🇩🇪 DE</a>
-          <a class="gat-drawer-link" style="justify-content:center;padding:8px;margin:0;" href="/ru/">🇷🇺 RU</a>
-        </div>
-      </div>
-      <div style="margin-top:20px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-size:0.75rem;color:#94a3b8;text-align:center;">
-        Giyur Aliyah Track &bull; 2026 Statutory Shield
-      </div>
-    </aside>
-  </div>
+  
 
 
       <div class="grid">
@@ -632,12 +684,12 @@
 
       <h3 style="margin:0 0 12px;font-size:1.15rem;font-weight:900;color:#38bdf8;">❓ Frequently Asked Questions — Nohal 5.2.0008, Va'adat Charigim, PIBA Forms &amp; Legal Fees</h3>
       <div style="margin-bottom:24px;">
-        <details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">Why do applicants get jammed up with the Jewish Agency, Nefesh B&#x27;Nefesh, or Misrad HaPanim?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Because overseas Aliyah agencies focus on standard out-of-country files and rarely prepare couples for in-Israel Shinui Ma&#x27;amad (Change of Status), the strict 180-day validity clock on apostilled birth, single-status, and FBI/police certificates, or the Nohal 5.2.0008 / 5.2.0009 separated-room interrogation. One expired apostille or unverified B/2 tourist entry statement can freeze a file for 6 to 18 months.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">Do I need a 30,000 NIS Israeli immigration lawyer to file Form Ash/6 or Nohal 5.2.0008 / 5.2.0009?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">No. Under Israeli Population and Immigration Authority (PIBA) regulations, any couple or applicant can submit forms Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, and Nespach Alef directly. Our Statutory Hebrew Forms Engine translates your mother-tongue answers into formal bureaucratic Hebrew and stamps all 8 official government PDFs accurately—and if you want legal muscle at your branch appointment, you can book a 1-hour Lawyer Escort without a 30,000 NIS retainer.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">How does the $0 Upfront Human Concierge (Lawyer, Red-Ribbon Notary, Sponsoring Rabbi &amp; Madrichat Kallah) work?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">We never charge blind upfront retainers for human professionals. You select your service, upload your documents or case summary on our intake page for $0, and receive a verified fixed-price quote and regional match (Jerusalem, Tel Aviv, Center, North/Haifa/Safed, or South) before paying a single shekel.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">What is the difference between the 90-Day Sprint Pass and the Lifetime Ownership Pass?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">A 90-Day Sprint Pass is built for a single upcoming Misrad HaPanim appointment or Beit Din tribunal date. However, because Israel&#x27;s graduated residency procedure (StuPro under Nohal 5.2.0008 / 5.2.0009) requires annual A/5 renewals and separated-room interviews for 4.5 to 5 years, our Lifetime Passes cover every annual renewal until permanent residency or citizenship.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">Can I test the 700 Beit Din cards, 300 Couples questions, 56 Shabbat songs, and PIBA forms before paying?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Yes. You can test 4 flashcards in every Beit Din and Couples deck, practice 2 full karaoke Shabbat songs, use the Clerk Sheet Decoder, and enter your family data into the PIBA form builder for free before purchasing. Because all 8 stamped PDFs and 1,000-card vaults unlock for instant download upon payment, all digital software passes are 100% final and non-refundable.</p></details>
+        <details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary class="gat-dark-summary" style="font-weight:900;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;cursor:pointer;font-size:0.96rem;">Why do applicants get jammed up with the Jewish Agency, Nefesh B&#x27;Nefesh, or Misrad HaPanim?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Because overseas Aliyah agencies focus on standard out-of-country files and rarely prepare couples for in-Israel Shinui Ma&#x27;amad (Change of Status), the strict 180-day validity clock on apostilled birth, single-status, and FBI/police certificates, or the Nohal 5.2.0008 / 5.2.0009 separated-room interrogation. One expired apostille or unverified B/2 tourist entry statement can freeze a file for 6 to 18 months.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary class="gat-dark-summary" style="font-weight:900;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;cursor:pointer;font-size:0.96rem;">Do I need a 30,000 NIS Israeli immigration lawyer to file Form Ash/6 or Nohal 5.2.0008 / 5.2.0009?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">No. Under Israeli Population and Immigration Authority (PIBA) regulations, any couple or applicant can submit forms Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, and Nespach Alef directly. Our Statutory Hebrew Forms Engine translates your mother-tongue answers into formal bureaucratic Hebrew and stamps all 8 official government PDFs accurately—and if you want legal muscle at your branch appointment, you can book a 1-hour Lawyer Escort without a 30,000 NIS retainer.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary class="gat-dark-summary" style="font-weight:900;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;cursor:pointer;font-size:0.96rem;">How does the $0 Upfront Human Concierge (Lawyer, Red-Ribbon Notary, Sponsoring Rabbi &amp; Madrichat Kallah) work?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">We never charge blind upfront retainers for human professionals. You select your service, upload your documents or case summary on our intake page for $0, and receive a verified fixed-price quote and regional match (Jerusalem, Tel Aviv, Center, North/Haifa/Safed, or South) before paying a single shekel.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary class="gat-dark-summary" style="font-weight:900;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;cursor:pointer;font-size:0.96rem;">What is the difference between the 90-Day Sprint Pass and the Lifetime Ownership Pass?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">A 90-Day Sprint Pass is built for a single upcoming Misrad HaPanim appointment or Beit Din tribunal date. However, because Israel&#x27;s graduated residency procedure (StuPro under Nohal 5.2.0008 / 5.2.0009) requires annual A/5 renewals and separated-room interviews for 4.5 to 5 years, our Lifetime Passes cover every annual renewal until permanent residency or citizenship.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary class="gat-dark-summary" style="font-weight:900;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;cursor:pointer;font-size:0.96rem;">Can I test the 700 Beit Din cards, 300 Couples questions, 56 Shabbat songs, and PIBA forms before paying?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Yes. You can test 4 flashcards in every Beit Din and Couples deck, practice 2 full karaoke Shabbat songs, use the Clerk Sheet Decoder, and enter your family data into the PIBA form builder for free before purchasing. Because all 8 stamped PDFs and 1,000-card vaults unlock for instant download upon payment, all digital software passes are 100% final and non-refundable.</p></details>
       </div>
 
       <h3 style="margin:0 0 10px;font-size:1rem;font-weight:900;color:#94a3b8;">📚 Free Statutory Playbooks, Nohal Guides &amp; Official PIBA Form Hubs</h3>
       <nav aria-label="Statutory Playbooks and Official PIBA Forms" style="display:flex;flex-wrap:wrap;gap:8px;">
-        <a href="/" style="color:#38bdf8;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">🏠 Main Hub (EN)</a><a href="/forms/" style="color:#38bdf8;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">📄 All 8 PIBA Forms Hub (EN)</a><a href="/concierge-booking/" style="color:#34d399;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">⚖️ Lawyer &amp; Notary Quote Intake ($0)</a><a href="/pricing/" style="color:#fbbf24;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">💎 All 23 Services &amp; Pricing</a><a href="/emergency-aliyah-go-bag-shinui-maamad/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Emergency Aliyah Go Bag Shinui Maamad</a><a href="/apostille-180-day-clock-fbi-police-check-israel/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Apostille 180 Day Clock Fbi Police Check I</a><a href="/gush-etzion-private-conversion-aliyah/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Gush Etzion Private Conversion Aliyah</a><a href="/vaadat-charigim-tourist-conversion-israel/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Vaadat Charigim Tourist Conversion Israel</a><a href="/hebrew-clerk-letter-translator-form-ash1-ash3/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Hebrew Clerk Letter Translator Form Ash1 A</a><a href="/israeli-rabbi-community-letters-beit-din/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Israeli Rabbi Community Letters Beit Din</a><a href="/misrad-hapanim-spousal-visa-nohal-5-2-0008/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Misrad Hapanim Spousal Visa Nohal 5 2 0008</a><a href="/aliyah-spousal-visa-criminal-record-rehabilitation/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Aliyah Spousal Visa Criminal Record Rehabi</a><a href="/tourist-visa-israel-remote-work-housing-giyur/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Tourist Visa Israel Remote Work Housing Gi</a><a href="/dahan-ruling-non-orthodox-conversion-aliyah-truth/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Dahan Ruling Non Orthodox Conversion Aliya</a><a href="/overseas-conversion-aliyah-ishur-giyur/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Overseas Conversion Aliyah Ishur Giyur</a><a href="/newborn-baby-teudat-zehut-sefach-registration-israel/" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📖 Newborn Baby Teudat Zehut Sefach Registrat</a><a href="/forms/form-ash1-vaadat-charigim-visa-application-israel/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/1 (אש/1)</a><a href="/forms/form-ash3-visa-extension-change-of-status-israel/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/3 (אש/3)</a><a href="/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/6 (אש/6)</a><a href="/forms/form-ash456-in-israel-aliyah-shinui-maamad/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/456 (אש/456)</a><a href="/forms/form-mr14a-first-biometric-teudat-zehut-application/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA MR/14A (מר/14א)</a><a href="/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA MR/14B (מר/14ב)</a><a href="/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA NESPACH ALEF (נספח א׳)</a><a href="/forms/nativ-11-page-security-family-cv-questionnaire-israel/" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA NATIV SECURITY CV (שאלון נתיב)</a>
+        <a href="/" style="color:#38bdf8;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">🏠 Main Hub (EN)</a><a href="/app/?module=hebrew-engine" style="color:#38bdf8;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">📄 All 8 PIBA Forms Hub (EN)</a><a href="/concierge-booking/" style="color:#34d399;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">⚖️ Lawyer &amp; Notary Quote Intake ($0)</a><a href="/pricing/" style="color:#fbbf24;font-weight:800;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:7px 12px;border-radius:8px;font-size:0.78rem;">💎 All 23 Services &amp; Pricing</a><a href="/?term=go_bag" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">🚨 Emergency Aliyah Go-Bag &amp; Shinui Ma'amad</a><a href="/?obs=1" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📜 5 Apostilled Docs &amp; 180-Day Clock (FBI / Police Check)</a><a href="/?obs=0" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">🕍 Gush Etzion &amp; Private Conversion Aliyah Trap</a><a href="/?obs=3" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">🏛️ Va'adat Charigim Tourist Conversion Playbook</a><a href="/?obs=4" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📸 Hebrew Clerk Letter Decoder &amp; Forms Ash/1–Ash/3</a><a href="/?term=community_letters" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">✍️ Sponsoring Rabbi &amp; 5–8+ Community Letters</a><a href="/?term=spousal_deep_dive" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">💍 Misrad HaPanim Spousal Visa (Nohal 5.2.0008 / 5.2.0009)</a><a href="/?obs=7" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">🛡️ Criminal Record Rehabilitation Dossier</a><a href="/?obs=8" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">💼 Tourist Visa Survival: Remote Work &amp; Housing</a><a href="/?term=dahan_truth" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">⚖️ Dahan Ruling Non-Orthodox Conversion vs. Rabbanut</a><a href="/?term=overseas_giyur" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">🌍 Overseas Conversion Aliyah &amp; Ishur Giyur</a><a href="/?term=newborn_sefach" style="color:#cbd5e1;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">👶 Newborn Baby Teudat Zehut Sefach (300-Day Rule)</a><a href="/app/?module=hebrew-engine&amp;form=ash1" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/1 (אש/1)</a><a href="/app/?module=hebrew-engine&amp;form=ash3" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/3 (אש/3)</a><a href="/app/?module=hebrew-engine&amp;form=ash6" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/6 (אש/6)</a><a href="/app/?module=hebrew-engine&amp;form=ash456" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA ASH/456 (אש/456)</a><a href="/app/?module=hebrew-engine&amp;form=mr14a" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA MR/14A (מר/14א)</a><a href="/app/?module=hebrew-engine&amp;form=mr14b" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA MR/14B (מר/14ב)</a><a href="/app/?module=hebrew-engine&amp;form=nespach_alef" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA NESPACH ALEF (נספח א׳)</a><a href="/app/?module=hebrew-engine&amp;form=sec_cv" style="color:#93c5fd;text-decoration:none;background:#071930;border:1px solid #1e293b;padding:6px 10px;border-radius:8px;font-size:0.75rem;">📝 PIBA NATIV SECURITY CV (שאלון נתיב)</a>
       </nav>
     </section>
     <!-- GAT_STATUTORY_SEO_AUTHORITY_END -->
@@ -1010,7 +1062,11 @@
     window.setLang = function(lg) {
       var setLang = window.setLang;
       currentLang = I18N[lg] ? lg : 'en';
+      window.lang = currentLang;
+      window.appLang = currentLang;
+      window.gatLang = currentLang;
       localStorage.setItem('gat_lang', currentLang);
+      localStorage.setItem('zehut_lang', currentLang);
       var t = I18N[currentLang];
       document.documentElement.dir = t.dir;
       var gSel = document.getElementById('globe-lang-sel'); if (gSel) gSel.value = currentLang;
@@ -1116,15 +1172,416 @@
     (function init() {
       var params = new URLSearchParams(window.location.search);
       currentSku = params.get('sku') || 'concierge_escort_649';
-      var lg = params.get('lang') || 'en';
+      var pathM = location.pathname.match(/^\/(he|fr|es|de|ru)(\/|$)/);
+      var savedLg = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').toLowerCase();
+      var lg = params.get('lang') || (['en','he','fr','es','de','ru'].indexOf(savedLg) !== -1 ? savedLg : (pathM ? pathM[1] : 'en'));
       setLang(lg);
       var savedWa = localStorage.getItem('gat_wa_phone') || '';
       if (savedWa) document.getElementById('cb-wa').value = '+' + savedWa;
     })();
   </script>
 
-  <script src="/i18n/tracking_partner.js?v=1794883297"></script>
+  <script src="/i18n/tracking_partner.js?v=1794993382"></script>
 
 
+<script id="gat-exact-page-share">
+(function(){
+  var LANGS = ['en','he','fr','es','de','ru'];
+  var UI = {
+    en: { modal: "Share This Exact Page", sub: "Send this exact guide or tool in English:", wa: "💬 Share via WhatsApp", tg: "✈️ Share via Telegram", cp: "📋 Copy Page Link", ok: "✅ Page link copied!", cl: "Close", tip: "Share this exact page" },
+    he: { modal: "שיתוף עמוד זה", sub: "שלחו את העמוד או הכלי המדויק הזה בעברית:", wa: "💬 שלח בוואטסאפ", tg: "✈️ שלח בטלגרם", cp: "📋 העתק קישור לעמוד", ok: "✅ הקישור הועתק!", cl: "סגור", tip: "שתף עמוד זה" },
+    fr: { modal: "Partager cette page", sub: "Envoyer cette page ou cet outil précis en français :", wa: "💬 Envoyer sur WhatsApp", tg: "✈️ Envoyer sur Telegram", cp: "📋 Copier le lien", ok: "✅ Lien copié !", cl: "Fermer", tip: "Partager cette page" },
+    es: { modal: "Compartir esta página", sub: "Enviar esta guía o herramienta exacta en español:", wa: "💬 Enviar por WhatsApp", tg: "✈️ Enviar por Telegram", cp: "📋 Copiar enlace", ok: "✅ ¡Enlace copiado!", cl: "Cerrar", tip: "Compartir esta página" },
+    de: { modal: "Diese Seite teilen", sub: "Genau diese Seite auf Deutsch teilen:", wa: "💬 Per WhatsApp senden", tg: "✈️ Per Telegram senden", cp: "📋 Link kopieren", ok: "✅ Link kopiert!", cl: "Schließen", tip: "Diese Seite teilen" },
+    ru: { modal: "Поделиться этой страницей", sub: "Отправить именно эту страницу или инструмент на русском:", wa: "💬 Отправить в WhatsApp", tg: "✈️ Отправить в Telegram", cp: "📋 Скопировать ссылку", ok: "✅ Ссылка скопирована!", cl: "Закрыть", tip: "Поделиться страницей" }
+  };
+  var MOD_TITLES = {
+    'hebrew-engine': { en:'Official Hebrew PIBA Forms & Clerk Letter Translator', he:'מילוי טפסי משרד הפנים בעברית ותרגום מכתבי פקיד', fr:'Formulaires Officiels PIBA en Hébreu & Traducteur', es:'Formularios Oficiales PIBA en Hebreo y Traductor', de:'Offizielle PIBA-Formulare auf Hebräisch & Übersetzer', ru:'Официальные бланки МВД (PIBA) на иврите и переводчик' },
+    'rabbi-letters': { en:'Sponsoring Rabbi & Community Recommendation Letters', he:'מכתבי המלצה מרב מלווה וקהילה לבית הדין', fr:'Lettres du Rabbin Accompagnateur & Communauté', es:'Cartas de Rabino Patrocinador y Comunidad', de:'Empfehlungsbriefe von Rabbiner & Gemeinde', ru:'Письма от сопровождающего раввина и общины' },
+    'beit-din-150': { en:'700 Real Beit Din Conversion Questions & Flashcards', he:'סימולטור 700 שאלות בית הדין לגיור', fr:'700 Questions Réelles du Beit Din (Conversion)', es:'700 Preguntas Reales del Beit Din (Conversión)', de:'700 Echte Beit-Din-Fragen (Giur-Simulator)', ru:'700 реальных вопросов Бейт-Дина (Тренажёр гиюра)' },
+    'couples-sync': { en:'300 Misrad HaPanim Separated-Room Couples Questions', he:'300 שאלות השימוע הזוגי במשרד הפנים (נוהל 5.2.0008)', fr:'300 Questions Entretien Couple Misrad HaPanim', es:'300 Preguntas Entrevista de Pareja Misrad HaPanim', de:'300 Fragen Paar-Interview Misrad HaPanim', ru:'300 вопросов перекрёстного допроса пар МВД (СТУПРО)' },
+    'songs-prayers': { en:'56 Shabbat Songs, Prayers & Brachot Karaoke Trainer', he:'מאמן קריוקי ל-56 שירי שבת, תפילות וברכות', fr:'Karaoké 56 Chants de Chabbat, Prières & Brakhot', es:'Karaoke de 56 Canciones de Shabat, Rezos y Brajot', de:'Karaoke-Trainer: 56 Schabbat-Lieder, Gebete & Brachot', ru:'Караоке-тренажёр: 56 песен Шаббата, молитв и брахот' }
+  };
+
+  function detectActiveLang() {
+    var badge = document.querySelector('#globe-lang-btn span, #globe-lang-lbl, #appbar-lang-label');
+    if (badge && badge.textContent) {
+      var b = badge.textContent.trim().toLowerCase();
+      if (LANGS.indexOf(b) !== -1) return b;
+    }
+    if (window.appLang && LANGS.indexOf(window.appLang) !== -1) return window.appLang;
+    if (window.gatLang && LANGS.indexOf(window.gatLang) !== -1) return window.gatLang;
+    var m = location.pathname.match(/^\/(he|fr|es|de|ru)(\/|$)/);
+    if (m) return m[1];
+    var spL = new URLSearchParams(location.search).get('lang');
+    if (spL && LANGS.indexOf(spL.toLowerCase()) !== -1) return spL.toLowerCase();
+    var docL = (document.documentElement.lang || '').toLowerCase().slice(0,2);
+    return LANGS.indexOf(docL) !== -1 ? docL : 'en';
+  }
+
+  function resolveExactPageData() {
+    var lang = detectActiveLang();
+    var origin = 'https://giyuraliyahtrack.com';
+    var url = '';
+    var title = '';
+
+    if (location.pathname.indexOf('/app') === 0) {
+      var sp = new URLSearchParams(location.search);
+      var mod = window.currentMod || sp.get('module') || sp.get('mod') || '';
+      var formKey = (window.gatFormsState && window.gatFormsState.activeForm) || sp.get('form') || '';
+      var outSp = new URLSearchParams();
+      if (mod) outSp.set('module', mod);
+      if (formKey && (!mod || mod === 'hebrew-engine')) outSp.set('form', formKey);
+      outSp.set('lang', lang);
+      url = origin + '/app/?' + outSp.toString();
+      if (MOD_TITLES[mod]) {
+        title = MOD_TITLES[mod][lang] || MOD_TITLES[mod].en;
+        if (formKey && mod === 'hebrew-engine') title = formKey.toUpperCase() + ' — ' + title;
+      }
+    } else {
+      var hl = document.querySelector('link[rel="alternate"][hreflang="' + lang + '"]');
+      if (hl && hl.getAttribute('href')) {
+        url = hl.getAttribute('href');
+      } else {
+        var cn = document.querySelector('link[rel="canonical"]');
+        url = (cn && cn.getAttribute('href')) ? cn.getAttribute('href') : (origin + location.pathname);
+      }
+      var curSp = new URLSearchParams(location.search);
+      var keep = new URLSearchParams();
+      if (curSp.get('sku')) keep.set('sku', curSp.get('sku'));
+      var qs = keep.toString();
+      if (qs) url += (url.indexOf('?') === -1 ? '?' : '&') + qs;
+    }
+
+    if (!title) {
+      var h1 = document.querySelector('.seo-spoke-article h1, main h1, h1');
+      if (h1 && h1.textContent.trim()) {
+        title = h1.textContent.replace(/\s+/g, ' ').trim();
+      } else {
+        title = (document.title || 'Giyur Aliyah Track').replace(/\s+/g, ' ').trim();
+      }
+    }
+    return { lang: lang, url: url, title: title };
+  }
+
+  function syncShareTooltip() {
+    var btn = document.getElementById('appbar-share-btn');
+    if (!btn) return;
+    var u = UI[detectActiveLang()] || UI.en;
+    btn.setAttribute('title', u.tip);
+    btn.setAttribute('aria-label', u.tip);
+  }
+
+  window.shareExactCurrentPage = function(ev) {
+    if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+    var info = resolveExactPageData();
+    var u = UI[info.lang] || UI.en;
+    var fullText = info.title + ' — ' + info.url;
+
+    if (navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '')) {
+      navigator.share({ title: info.title, text: info.title, url: info.url }).catch(function(){});
+      return false;
+    }
+
+    var old = document.getElementById('gat-exact-share-modal');
+    if (old) old.remove();
+    var m = document.createElement('div');
+    m.id = 'gat-exact-share-modal';
+    m.style.cssText = 'position:fixed;inset:0;z-index:2147483646;background:rgba(8,37,72,0.78);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:16px;';
+    var waUrl = 'https://wa.me/?text=' + encodeURIComponent(fullText);
+    var tgUrl = 'https://t.me/share/url?url=' + encodeURIComponent(info.url) + '&text=' + encodeURIComponent(info.title);
+    var dir = info.lang === 'he' ? 'rtl' : 'ltr';
+    var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+
+    m.innerHTML =
+      '<div dir="' + dir + '" style="background:#0f172a;border:1.5px solid #38bdf8;border-radius:18px;max-width:430px;width:100%;padding:22px;color:#f8fafc;box-shadow:0 20px 50px rgba(0,0,0,0.6);font-family:-apple-system,BlinkMacSystemFont,sans-serif;text-align:center;">' +
+        '<div style="font-size:1.12rem;font-weight:850;margin-bottom:6px;color:#fff;">' + esc(u.modal) + '</div>' +
+        '<div style="font-size:0.84rem;color:#94a3b8;margin-bottom:12px;">' + esc(u.sub) + '</div>' +
+        '<div style="background:#082548;border:1px solid rgba(56,189,248,0.35);border-radius:12px;padding:11px 12px;margin-bottom:16px;text-align:' + (dir==='rtl'?'right':'left') + ';word-break:break-word;">' +
+          '<div style="font-size:0.86rem;font-weight:800;color:#fff;margin-bottom:4px;">' + esc(info.title) + '</div>' +
+          '<div style="font-size:0.76rem;color:#38bdf8;direction:ltr;text-align:left;">' + esc(info.url) + '</div>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:9px;">' +
+          '<a href="' + waUrl + '" target="_blank" rel="noopener" style="display:block;background:#25D366;color:#052e16;font-weight:850;text-decoration:none;padding:12px 14px;border-radius:11px;font-size:0.92rem;">' + esc(u.wa) + '</a>' +
+          '<a href="' + tgUrl + '" target="_blank" rel="noopener" style="display:block;background:#0288E8;color:#fff;font-weight:800;text-decoration:none;padding:12px 14px;border-radius:11px;font-size:0.92rem;">' + esc(u.tg) + '</a>' +
+          '<button type="button" id="gat-exact-copy-btn" style="background:#1e293b;color:#fff;border:1px solid #475569;font-weight:800;padding:12px 14px;border-radius:11px;font-size:0.92rem;cursor:pointer;">' + esc(u.cp) + '</button>' +
+          '<button type="button" id="gat-exact-close-btn" style="background:transparent;color:#94a3b8;border:none;padding:8px;font-size:0.85rem;font-weight:700;cursor:pointer;">' + esc(u.cl) + '</button>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(m);
+    m.addEventListener('click', function(e){ if (e.target === m) m.remove(); });
+    document.getElementById('gat-exact-close-btn').onclick = function(){ m.remove(); };
+    document.getElementById('gat-exact-copy-btn').onclick = function(){
+      var btn = this;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(info.url);
+      }
+      btn.textContent = u.ok;
+      btn.style.background = '#059669';
+      btn.style.borderColor = '#10b981';
+    };
+    return false;
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncShareTooltip);
+  } else {
+    syncShareTooltip();
+  }
+  document.addEventListener('click', function(){ setTimeout(syncShareTooltip, 80); });
+})();
+</script>
+<!-- SLIDE-OUT HAMBURGER DRAWER (EXACT ZEHUT 2026 STYLE FROM INDEX.HTML) -->
+<style id="gat-pricing-zehut-drawer-css">
+  header.app-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 62px !important;
+    background: #082548 !important;
+    border-bottom: 1px solid rgba(2, 136, 232, 0.35) !important;
+    box-shadow: 0 2px 10px rgba(8, 37, 72, 0.22) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 18px !important;
+    z-index: 9500 !important;
+  }
+  body {
+    padding-top: 64px !important;
+  }
+  header.app-header .header-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+  header.app-header .hamburger-btn {
+    width: 41px !important;
+    height: 41px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 4px !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+  }
+  header.app-header .hamburger-btn svg {
+    width: 33px !important;
+    height: 33px !important;
+    min-width: 33px !important;
+    min-height: 33px !important;
+    stroke: #ffffff !important;
+    stroke-width: 2.4 !important;
+    stroke-linecap: round !important;
+    fill: none !important;
+    display: block !important;
+  }
+  #app-drawer {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    background: rgba(11, 59, 89, 0.55) !important;
+    backdrop-filter: blur(2px) !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    direction: ltr !important;
+    overflow: hidden !important;
+  }
+  html[dir="rtl"] #app-drawer {
+    justify-content: flex-start !important;
+  }
+  #app-drawer.open {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  #app-drawer .drawer-panel {
+    background: #ffffff !important;
+    color: #0b3b59 !important;
+    width: 320px !important;
+    max-width: 86vw !important;
+    height: 100% !important;
+    padding: 22px 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    overflow-y: auto !important;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.25) !important;
+    transform: translateX(100%) !important;
+    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    direction: ltr !important;
+    text-align: left !important;
+  }
+  html[dir="rtl"] #app-drawer .drawer-panel {
+    transform: translateX(-100%) !important;
+    direction: rtl !important;
+    text-align: right !important;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.25) !important;
+  }
+  #app-drawer.open .drawer-panel {
+    transform: translateX(0) !important;
+  }
+  #app-drawer .drawer-brand-center {
+    text-align: center !important;
+    padding: 6px 0 12px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    margin-bottom: 14px !important;
+  }
+  #app-drawer .drawer-brand-center .brand-title {
+    font-size: 1.4rem !important;
+    font-weight: 850 !important;
+    letter-spacing: -0.4px !important;
+    color: #0b3b59 !important;
+  }
+  #app-drawer .drawer-brand-center .brand-title span {
+    color: #0298ec !important;
+  }
+  #app-drawer .drawer-dark-stats {
+    background: #091e2c !important;
+    color: #ffffff !important;
+    padding: 12px 10px !important;
+    border-radius: 14px !important;
+    margin-bottom: 12px !important;
+    border: 1.5px solid #eab308 !important;
+  }
+  #app-drawer .dds-head {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    color: #facc15 !important;
+    margin-bottom: 10px !important;
+    padding: 0 4px !important;
+  }
+  #app-drawer .dds-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    text-align: center !important;
+    gap: 6px !important;
+    align-items: center !important;
+  }
+  #app-drawer .dds-num {
+    display: block !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    color: #38bdf8 !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
+    margin-bottom: 3px !important;
+  }
+  #app-drawer .dds-lbl {
+    display: block !important;
+    font-size: 11px !important;
+    color: #94a3b8 !important;
+    white-space: nowrap !important;
+    line-height: 1.15 !important;
+  }
+  #app-drawer .drawer-list {
+    list-style: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #app-drawer .drawer-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    padding: 13px 12px !important;
+    border: none !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    background: transparent !important;
+    color: #0b3b59 !important;
+    font-size: 0.95rem !important;
+    font-weight: 750 !important;
+    text-align: start !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    border-radius: 0 !important;
+  }
+  html[dir="rtl"] #app-drawer .drawer-row {
+    text-align: right !important;
+    direction: rtl !important;
+  }
+  #app-drawer .drawer-row:hover {
+    background: #f1f5f8 !important;
+    border-radius: 10px !important;
+  }
+  #app-drawer .btn-install-navy {
+    width: 100% !important;
+    background: #0b3b59 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 15px !important;
+    border-radius: 12px !important;
+    font-size: 0.96rem !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin-top: 14px !important;
+  }
+</style>
+<div class="drawer-backdrop" id="app-drawer" onclick="if(event.target===this) window.toggleDrawer(false)">
+  <aside class="drawer-panel">
+    <div>
+      <div class="drawer-brand-center">
+        <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
+      </div>
+
+      <div class="drawer-dark-stats">
+        <div class="dds-head"><span>⚡ Anti-Loop Protection Shield</span><span>↻</span></div>
+        <div class="dds-grid">
+          <div><span class="dds-num green">3.5 Yrs</span><span class="dds-lbl">Avg Saved</span></div>
+          <div><span class="dds-num">700 Qs</span><span class="dds-lbl">Beit Din</span></div>
+          <div><span class="dds-num">300 Qs</span><span class="dds-lbl">Couples Sync</span></div>
+        </div>
+      </div>
+
+      <div class="drawer-list">
+        <a href="/" class="drawer-row">🏠 Home & Track Playbooks</a>
+        <a href="/app/?module=hebrew-engine" class="drawer-row">📸 Statutory Hebrew & 8 Forms</a>
+        <a href="/app/?module=beit-din-150" class="drawer-row">🕍 700 Beit Din Exam Flashcards & Game</a>
+        <a href="/app/?module=songs-prayers" class="drawer-row">🎵 56 Shabbat Songs, Prayers & Shema Grader</a>
+        <a href="/app/?module=couples-sync" class="drawer-row">📱 300-Question 2-Phone Couples Sync</a>
+        <a href="/?tab=4" class="drawer-row">📊 Live 180-Day & 30-Day Deadline Tracker</a>
+        <a href="/concierge-booking/" class="drawer-row">🤝 Vetted Notary, Rabbi & Lawyer Desk</a>
+        <a href="/app/" class="drawer-row" style="color:#0298ec !important;">🔐 Full Member Portal (/app)</a>
+      </div>
+    </div>
+
+    <div>
+      <button type="button" class="btn-install-navy" onclick="alert('To install GiyurAliyahTrack on your phone: Tap Share in Safari/Chrome and select Add to Home Screen.')">📲 Install App</button>
+    </div>
+  </aside>
+</div>
+<script id="gat-pricing-zehut-drawer-js">
+  window.toggleDrawer = function(forceOpen) {
+    var drw = document.getElementById('app-drawer');
+    if (!drw) return false;
+    var next = typeof forceOpen === 'boolean' ? forceOpen : !drw.classList.contains('open');
+    drw.classList.toggle('open', next);
+    return false;
+  };
+</script>
 </body>
 </html>

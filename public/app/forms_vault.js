@@ -5,6 +5,154 @@
 (function() {
   'use strict';
 
+
+
+  var FV_EXTRA_ALERTS_I18N = {
+    en: {
+      spinDefault: "🔍 Scanning document, auto-filling fields & verifying PIBA rules...",
+      spinCountdown: "⏱️ Processing ({s}s remaining)...",
+      spinTimeout: "⏱️ Document scan timed out after 35s — please try a clearer photo or stable connection.",
+      pagesSuffix: " ({n} pages)",
+      sefachTitle: "⚠️ Front TZ Card Scanned — Unfolded Paper Sefach (ספח) Missing!",
+      sefachBody: "Misrad HaPanim strictly requires the unfolded paper Sefach (ספח) showing your registered Israeli address, marital status, parents, and children. Tap below to upload the unfolded Sefach page so we auto-fill all remaining fields across all 8 forms:",
+      sefachBtn: "➕ Upload Unfolded Sefach Page Now (Auto-Fill Address, Parents & Kids)",
+      aposAddBtn: "➕ Upload Apostille / Back Page Now",
+      mpTitle: "📄 Multi-Page Marriage Certificate Detected — Ensure All Pages Are Uploaded!",
+      mpBody: "Misrad HaPanim rejects partial or cut-off marriage certificates. You can select all pages at once or tap below to upload the remaining page(s):",
+      mpBtn: "➕ Upload Additional Marriage Cert Page(s)",
+      marAposTitle: "🚨 MANDATORY MISRAD HAPANIM REQUIREMENT: No Apostille Stamp Detected on Marriage Certificate!",
+      marAposBtn: "➕ Upload Apostille Page / Back of Certificate Now (If on Separate Page)"
+    },
+    he: {
+      spinDefault: "🔍 סורק את המסמך, ממלא שדות אוטומטית ובודק תקינות מול נהלי משרד הפנים...",
+      spinCountdown: "⏱️ מעבד נתונים (נותרו עד {s} שניות)...",
+      spinTimeout: "⏱️ סריקת המסמך ארכה מעל 35 שניות — אנא נסו תמונה ברורה יותר או בדקו את החיבור.",
+      pagesSuffix: " ({n} עמודים)",
+      sefachTitle: "⚠️ נסרק כרטיס ת״ז בלבד — חסר ספח תעודת זהות פתוח ומלא!",
+      sefachBody: "משרד הפנים מחייב צילום של ספח תעודת הזהות פתוח במלואו (הכולל כתובת מעודכנת, מצב אישי, שמות הורים/בן זוג וילדים). לחצו למטה להעלאת צילום הספח כדי שנשלים אוטומטית את כל השדות בכל 8 הטפסים:",
+      sefachBtn: "➕ העלאת צילום הספח הפתוח (השלמת כתובת, הורים וילדים)",
+      aposAddBtn: "➕ העלאת עמוד האפוסטיל / גב התעודה כעת",
+      mpTitle: "📄 זוהתה תעודת נישואין מרובת עמודים — ודאו שכל העמודים הועלו!",
+      mpBody: "משרד הפנים דוחה תעודות חתוכות או חלקיות. ניתן לבחור מספר עמודים יחד או ללחוץ כאן להוספת העמוד הבא:",
+      mpBtn: "➕ העלאת עמודים נוספים של תעודת הנישואין",
+      marAposTitle: "🚨 דרישת חובה במשרד הפנים: לא זוהתה חותמת אפוסטיל (Apostille) על תעודת הנישואין!",
+      marAposBtn: "➕ העלאת עמוד האפוסטיל / גב התעודה (אם נמצא בעמוד נפרד)"
+    },
+    fr: {
+      spinDefault: "🔍 Analyse du document, pré-remplissage et vérification PIBA en cours...",
+      spinCountdown: "⏱️ Traitement en cours ({s}s restantes)...",
+      spinTimeout: "⏱️ Délai d'analyse dépassé (35s) — veuillez réessayer avec une photo plus nette.",
+      pagesSuffix: " ({n} pages)",
+      sefachTitle: "⚠️ Carte TZ scannée seule — Il manque le Sefach papier déplié (ספח) !",
+      sefachBody: "Le Misrad HaPanim exige le Sefach papier entièrement déplié (adresse en Israël, état civil, parents et enfants). Appuyez ci-dessous pour importer le Sefach déplié et pré-remplir les 8 formulaires :",
+      sefachBtn: "➕ Importer le Sefach déplié maintenant (Adresse, Parents & Enfants)",
+      aposAddBtn: "➕ Importer la page d'Apostille / le verso maintenant",
+      mpTitle: "📄 Acte de mariage multi-pages détecté — Vérifiez que toutes les pages sont importées !",
+      mpBody: "Le Misrad HaPanim refuse les actes incomplets ou coupés. Sélectionnez toutes les pages ou ajoutez les pages suivantes ci-dessous :",
+      mpBtn: "➕ Ajouter une page supplémentaire de l'acte de mariage",
+      marAposTitle: "🚨 EXIGENCE OBLIGATOIRE DU MISRAD HAPANIM : Aucune Apostille détectée sur l'acte de mariage !",
+      marAposBtn: "➕ Importer la page d'Apostille / verso de l'acte maintenant"
+    },
+    es: {
+      spinDefault: "🔍 Escaneando documento, autocompletando campos y verificando reglas de PIBA...",
+      spinCountdown: "⏱️ Procesando ({s}s restantes)...",
+      spinTimeout: "⏱️ El escaneo tardó más de 35s — intente con una foto más clara o mejor conexión.",
+      pagesSuffix: " ({n} páginas)",
+      sefachTitle: "⚠️ Solo se escaneó la tarjeta TZ — ¡Falta el Sefach de papel desplegado (ספח)!",
+      sefachBody: "Misrad HaPanim exige el Sefach de papel desplegado (dirección en Israel, estado civil, padres e hijos). Toque abajo para subir el Sefach desplegado y autocompletar los 8 formularios:",
+      sefachBtn: "➕ Subir el Sefach desplegado ahora (Dirección, Padres e Hijos)",
+      aposAddBtn: "➕ Subir página de Apostilla / reverso ahora",
+      mpTitle: "📄 Certificado de matrimonio de varias páginas — ¡Asegúrese de subir todas las páginas!",
+      mpBody: "Misrad HaPanim rechaza certificados incompletos o cortados. Suba las páginas restantes abajo:",
+      mpBtn: "➕ Subir página(s) adicional(es) del certificado de matrimonio",
+      marAposTitle: "🚨 REQUISITO OBLIGATORIO DE MISRAD HAPANIM: ¡No se detectó sello de Apostilla en el Certificado de Matrimonio!",
+      marAposBtn: "➕ Subir página de Apostilla / reverso del certificado ahora"
+    },
+    de: {
+      spinDefault: "🔍 Dokument wird gescannt, Felder ausgefüllt & PIBA-Regeln geprüft...",
+      spinCountdown: "⏱️ Verarbeitung läuft (noch max. {s}s)...",
+      spinTimeout: "⏱️ Zeitüberschreitung nach 35s — bitte versuchen Sie es mit einem schärferen Foto erneut.",
+      pagesSuffix: " ({n} Seiten)",
+      sefachTitle: "⚠️ Nur TZ-Karte gescannt — Aufgeklappter Papier-Sefach (ספח) fehlt!",
+      sefachBody: "Misrad HaPanim verlangt zwingend den aufgeklappten Papier-Sefach (Adresse in Israel, Familienstand, Eltern & Kinder). Tippen Sie unten, um den Sefach hochzuladen:",
+      sefachBtn: "➕ Aufgeklappten Sefach jetzt hochladen (Adresse, Eltern & Kinder)",
+      aposAddBtn: "➕ Apostille-Seite / Rückseite jetzt hochladen",
+      mpTitle: "📄 Mehrseitige Heiratsurkunde erkannt — Bitte alle Seiten hochladen!",
+      mpBody: "Misrad HaPanim lehnt unvollständige Urkunden ab. Laden Sie unten die weiteren Seiten hoch:",
+      mpBtn: "➕ Weitere Seite(n) der Heiratsurkunde hochladen",
+      marAposTitle: "🚨 PFLICHTANFORDERUNG IM MISRAD HAPANIM: Keine Apostille auf der Heiratsurkunde erkannt!",
+      marAposBtn: "➕ Apostille-Seite / Rückseite der Urkunde jetzt hochladen"
+    },
+    ru: {
+      spinDefault: "🔍 Сканируем документ, заполняем поля и проверяем по правилам МВД...",
+      spinCountdown: "⏱️ Обработка (осталось до {s} сек.)...",
+      spinTimeout: "⏱️ Превышено время ожидания (35 сек.) — попробуйте более чёткое фото.",
+      pagesSuffix: " ({n} стр.)",
+      sefachTitle: "⚠️ Отсканирована только пластиковая карта ТЗ — отсутствует развёрнутый бумажный Сефах (ספח)!",
+      sefachBody: "МВД Израиля требует полностью развёрнутый бумажный вкладыш Сефах (адрес в Израиле, семейное положение, родители и дети). Нажмите ниже, чтобы загрузить Сефах и заполнить все 8 анкет:",
+      sefachBtn: "➕ Загрузить развёрнутый Сефах (Адрес, родители и дети)",
+      aposAddBtn: "➕ Загрузить страницу с Апостилем / оборотную сторону",
+      mpTitle: "📄 Обнаружено многостраничное свидетельство о браке — убедитесь, что загружены все страницы!",
+      mpBody: "МВД не принимает неполные или обрезанные свидетельства. Нажмите ниже, чтобы добавить остальные страницы:",
+      mpBtn: "➕ Добавить ещё страницу(ы) свидетельства о браке",
+      marAposTitle: "🚨 ОБЯЗАТЕЛЬНОЕ ТРЕБОВАНИЕ МВД ИЗРАИЛЯ: На свидетельстве о браке не обнаружен штамп Апостиль!",
+      marAposBtn: "➕ Загрузить страницу с Апостилем / оборот свидетельства"
+    }
+  };
+
+  // === FULL-SCREEN DARKENED 35-SECOND UPLOAD SPINNER & TIMEOUT GUARD ===
+  var _gatSpinnerTimer = null;
+  var _gatSpinnerTick = null;
+  window.showGatUploadSpinner = function(customMsg, timeoutSec) {
+    window.hideGatUploadSpinner();
+    var l = lang();
+    var xTxt = FV_EXTRA_ALERTS_I18N[l] || FV_EXTRA_ALERTS_I18N.en;
+    var secLeft = timeoutSec || 35;
+    var ov = document.createElement('div');
+    ov.id = 'gat-fullscreen-upload-spinner';
+    ov.dir = (l === 'he') ? 'rtl' : 'ltr';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:1000050;background:rgba(8,37,72,0.84);backdrop-filter:blur(5px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;color:#ffffff;pointer-events:all;touch-action:none;';
+    ov.innerHTML =
+      '<style>@keyframes gatSpin360{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>' +
+      '<div style="background:#0f172a;border:2px solid #38bdf8;border-radius:20px;padding:26px 24px;max-width:360px;width:100%;box-shadow:0 25px 60px rgba(0,0,0,0.55);display:flex;flex-direction:column;align-items:center;gap:14px;">' +
+        '<div style="width:54px;height:54px;border:5px solid rgba(56,189,248,0.22);border-top-color:#38bdf8;border-radius:50%;animation:gatSpin360 0.85s linear infinite;"></div>' +
+        '<div style="font-size:0.96rem;font-weight:900;color:#ffffff;line-height:1.4;">' + (customMsg || xTxt.spinDefault) + '</div>' +
+        '<div id="gat-upload-spinner-countdown" style="font-size:0.78rem;font-weight:800;color:#7dd3fc;background:rgba(56,189,248,0.14);padding:5px 12px;border-radius:999px;border:1px solid rgba(56,189,248,0.3);">' + xTxt.spinCountdown.replace('{s}', secLeft) + '</div>' +
+      '</div>';
+    document.body.appendChild(ov);
+
+    _gatSpinnerTick = setInterval(function() {
+      secLeft = Math.max(0, secLeft - 1);
+      var cd = document.getElementById('gat-upload-spinner-countdown');
+      if (cd) cd.textContent = xTxt.spinCountdown.replace('{s}', secLeft);
+    }, 1000);
+
+    _gatSpinnerTimer = setTimeout(function() {
+      window.hideGatUploadSpinner();
+    }, (timeoutSec || 35) * 1000);
+  };
+
+  window.hideGatUploadSpinner = function() {
+    if (_gatSpinnerTimer) { clearTimeout(_gatSpinnerTimer); _gatSpinnerTimer = null; }
+    if (_gatSpinnerTick) { clearInterval(_gatSpinnerTick); _gatSpinnerTick = null; }
+    var existing = document.getElementById('gat-fullscreen-upload-spinner');
+    if (existing) existing.remove();
+  };
+
+
+  window.handleManualFormSaveClick = function() {
+    window.gatLastSavedSnapshot = "";
+    if (typeof window.syncFormDraftIfChanged === "function") {
+      window.syncFormDraftIfChanged("manual_save");
+    }
+    if (typeof window.showDraftSavedBadge === "function") {
+      window.showDraftSavedBadge();
+    }
+    if (typeof window.refreshAllGatAuthIndicators === "function") {
+      window.refreshAllGatAuthIndicators();
+    }
+  };
+
   var DRAFT_KEY = 'gat_form_draft_v1';
   var SCANNED_KEY = 'gat_scanned_docs_v1';
 
@@ -64,8 +212,8 @@
       selLetter: '1. Select Statutory Hebrew Letter / Escalation:',
       selBranch: '2. Target Misrad HaPanim Branch:',
       btnPrintBlank: '🖨️ Print Blank Worksheet (English)',
-      btnScanWs: '📸 Scan Handwritten Worksheet (AI → Hebrew)',
-      btnAiHeb: '🌐 Convert My Answers → Clerk Hebrew (AI)',
+      btnScanWs: '📸 Scan Handwritten Worksheet (Auto → Hebrew)',
+      btnAiHeb: '🌐 Translate to Hebrew',
       btnConverting: '⏳ Converting to Clerk Hebrew...',
       btnSave: '💾 Save',
       btnAudit: '🔍 Cross-Check All Docs & Verify',
@@ -125,7 +273,7 @@
       selBranch: '2. Bureau Misrad HaPanim Cible :',
       btnPrintBlank: '🖨️ Imprimer Questionnaire Vierge (en Français)',
       btnScanWs: '📸 Scanner Feuille Manuscrite (IA → Hébreu)',
-      btnAiHeb: '🌐 Traduire Mes Réponses → Hébreu Administratif (IA)',
+      btnAiHeb: '🌐 Traduire en hébreu',
       btnConverting: '⏳ Conversion en hébreu administratif...',
       btnSave: '💾 Sauvegarder',
       btnAudit: '🔍 Vérifier & Croiser Tous Mes Documents',
@@ -185,7 +333,7 @@
       selBranch: '2. Sucursal de Misrad HaPanim:',
       btnPrintBlank: '🖨️ Imprimir Hoja en Blanco (en Español)',
       btnScanWs: '📸 Escanear Hoja Manuscrita (IA → Hebreo)',
-      btnAiHeb: '🌐 Convertir Mis Respuestas → Hebreo Oficial (IA)',
+      btnAiHeb: '🌐 Traducir al hebreo',
       btnConverting: '⏳ Convirtiendo al hebreo oficial...',
       btnSave: '💾 Guardar',
       btnAudit: '🔍 Revisar y Cruzar Todos Mis Documentos',
@@ -245,7 +393,7 @@
       selBranch: '2. Zuständige Zweigstelle:',
       btnPrintBlank: '🖨️ Arbeitsblatt Leer Drucken (auf Deutsch)',
       btnScanWs: '📸 Handschriftliches Blatt Scannen (KI → Hebräisch)',
-      btnAiHeb: '🌐 Meine Antworten → Behörden-Hebräisch Übersetzen (KI)',
+      btnAiHeb: '🌐 Ins Hebräische übersetzen',
       btnConverting: '⏳ Übersetze in Behörden-Hebräisch...',
       btnSave: '💾 Speichern',
       btnAudit: '🔍 Alle Dokumente Abgleichen & Prüfen',
@@ -305,7 +453,7 @@
       selBranch: '2. לשכת רשות האוכלוסין המטפלת:',
       btnPrintBlank: '🖨️ הדפסת דף עבודה ריק למילוי ידני',
       btnScanWs: '📸 סריקת דף עבודה ממולא בכתב יד (AI)',
-      btnAiHeb: '🌐 תרגום אוטומטי של כל התשובות לעברית תקנית (AI)',
+      btnAiHeb: '🌐 תרגם לעברית',
       btnConverting: '⏳ מתרגם לעברית תקנית לרשות האוכלוסין...',
       btnSave: '💾 שמירה',
       btnAudit: '🔍 בדיקת הצלבת מסמכים מלאה',
@@ -341,17 +489,77 @@
 
   var F = {
     pf_surname_he: { req: 1, script: 'he', rtl: 1,
-      l: { en: 'Family / Last Name (in Hebrew for Clerk)', fr: 'Nom de Famille (en Hébreu pour le guichet)', es: 'Apellido(s) (en Hebreo para ventanilla)', de: 'Familienname (auf Hebräisch für den Schalter)', he: 'שם משפחה (בעברית)' },
-      h: { en: 'Type in your language—tapping Convert or Print automatically converts it into Clerk Hebrew.', fr: 'Écrivez en français — sera automatiquement converti en hébreu.', es: 'Escriba en español — se convertirá automáticamente al hebreo.', de: 'Einfach eingeben — wird automatisch ins Hebräische übertragen.', he: 'כפי שיופיע במרשם האוכלוסין.' } },
+      l: {
+        en: 'Applicant Family / Last Name (Hebrew PDF Row) *',
+        fr: 'Nom de Famille du Demandeur (Ligne Hébreu du PDF) *',
+        es: 'Apellido del Solicitante (Fila en Hebreo del PDF) *',
+        de: 'Familienname des Antragstellers (Hebräische PDF-Zeile) *',
+        he: 'שם משפחה של המבקש/ת (בעברית) *',
+        ru: 'Фамилия заявителя (Строка PDF на иврите) *'
+      },
+      h: {
+        en: 'For the Hebrew row on the official form: type in your language or Hebrew (tapping Translate or Print converts it to official Clerk Hebrew automatically).',
+        fr: 'Pour la ligne en hébreu du formulaire : tapez dans votre langue ou en hébreu (converti automatiquement en hébreu officiel).',
+        es: 'Para la fila en hebreo del formulario: escriba en su idioma o en hebreo (se convierte automáticamente al hebreo oficial).',
+        de: 'Für die hebräische Zeile im Formular: in Ihrer Sprache oder auf Hebräisch eingeben (wird automatisch in Behörden-Hebräisch übersetzt).',
+        he: 'עבור השורה בעברית בטופס הרשמי של משרד הפנים.',
+        ru: 'Для строки на иврите в официальном бланке: пишите на русском или иврите (автоматически переводится на иврит МВД).'
+      }
+    },
     pf_surname_en: { req: 1, script: 'latin',
-      l: { en: 'Surname — Exact Passport Latin Letters', fr: 'Nom de Famille — Lettres Latines Exactes du Passeport', es: 'Apellido — Letras Latinas Exactas del Pasaporte', de: 'Nachname — Exakte Lateinische Pass-Schreibweise', he: 'שם משפחה בלועזית (בדיוק כמו בדרכון)' },
-      h: { en: 'Must match your passport machine-readable zone letter-for-letter.', fr: 'Doit correspondre lettre pour lettre au passeport.', es: 'Debe coincidir letra por letra con su pasaporte.', de: 'Muss Buchstabe für Buchstabe mit dem Reisepass übereinstimmen.', he: 'להתאמה למערכת ביקורת הגבולות.' } },
+      l: {
+        en: 'Applicant Surname — Foreign Passport Latin Letters Only *',
+        fr: 'Nom de Famille — Lettres Latines du Passeport Étranger *',
+        es: 'Apellido — Letras Latinas del Pasaporte Extranjero *',
+        de: 'Nachname — Lateinische Buchstaben laut Reisepass *',
+        he: 'שם משפחה של המבקש/ת בלועזית (בדיוק כמו בדרכון הזר) *',
+        ru: 'Фамилия заявителя — Латиницей строго по загранпаспорту *'
+      },
+      h: {
+        en: 'Populated ONLY from your Foreign Passport (never from an Israeli ID). Must match your passport machine-readable zone letter-for-letter (A–Z).',
+        fr: 'Rempli UNIQUEMENT depuis votre passeport étranger. Doit correspondre lettre pour lettre à votre passeport (A–Z).',
+        es: 'Completado SOLO desde su pasaporte extranjero. Debe coincidir letra por letra con su pasaporte (A–Z).',
+        de: 'Nur aus Ihrem ausländischen Reisepass. Muss Buchstabe für Buchstabe mit dem Reisepass übereinstimmen (A–Z).',
+        he: 'מאוכלס אך ורק מהדרכון הזר (באותיות לטיניות A–Z בדיוק כפי שמופיע בדרכון).',
+        ru: 'Заполняется ТОЛЬКО из загранпаспорта (буква в букву латиницей A–Z).'
+      }
+    },
     pf_given_he: { req: 1, script: 'he', rtl: 1,
-      l: { en: 'Given Name(s) (in Hebrew)', fr: 'Prénom(s) (en Hébreu)', es: 'Nombre(s) de Pila (en Hebreo)', de: 'Vorname(n) (auf Hebräisch)', he: 'שם פרטי (בעברית)' },
-      h: { en: 'Include middle names if printed on your passport/birth certificate.', fr: 'Incluez tous les prénoms figurant sur le passeport.', es: 'Incluya segundo nombre si aparece en su pasaporte/partida.', de: 'Alle Vornamen laut Pass/Geburtsurkunde angeben.', he: 'כולל שם שני / שם גיור אם מופיע בתעודות.' } },
+      l: {
+        en: 'Applicant Given Name(s) (Hebrew PDF Row) *',
+        fr: 'Prénom(s) du Demandeur (Ligne Hébreu du PDF) *',
+        es: 'Nombre(s) del Solicitante (Fila en Hebreo del PDF) *',
+        de: 'Vorname(n) des Antragstellers (Hebräische PDF-Zeile) *',
+        he: 'שם פרטי של המבקש/ת (בעברית) *',
+        ru: 'Имя (имена) заявителя (Строка PDF на иврите) *'
+      },
+      h: {
+        en: 'For the Hebrew row on the official form: include middle names if printed on your passport/birth certificate.',
+        fr: 'Pour la ligne en hébreu du formulaire : incluez les deuxièmes prénoms s’ils figurent sur votre passeport/acte.',
+        es: 'Para la fila en hebreo del formulario: incluya segundos nombres si aparecen en su pasaporte/partida.',
+        de: 'Für die hebräische Zeile im Formular: Zweitnamen einschließen, falls im Pass/Geburtsurkunde angegeben.',
+        he: 'עבור השורה בעברית בטופס: יש לכלול שמות אמצעיים אם מופיעים בדרכון או בתעודת הלידה.',
+        ru: 'Для строки на иврите: укажите второе имя, если оно есть в паспорте/свидетельстве о рождении.'
+      }
+    },
     pf_given_en: { req: 1, script: 'latin',
-      l: { en: 'Given Name(s) — Exact Passport Latin Letters', fr: 'Prénom(s) — Lettres Latines du Passeport', es: 'Nombre(s) — Letras Latinas del Pasaporte', de: 'Vorname(n) — Lateinische Pass-Schreibweise', he: 'שם פרטי בלועזית (כמו בדרכון)' },
-      h: { en: 'Never drop a middle name that appears on your Birth Certificate!', fr: 'N\'omettez aucun deuxième prénom présent sur l\'acte de naissance !', es: '¡No omita ningún segundo nombre que figure en su partida de nacimiento!', de: 'Keinen Zweitnamen weglassen, der auf der Geburtsurkunde steht!', he: 'אל תשמיטו שם אמצעי שמופיע בתעודת הלידה!' } },
+      l: {
+        en: 'Applicant Given Name(s) — Foreign Passport Latin Letters Only *',
+        fr: 'Prénom(s) — Lettres Latines du Passeport Étranger *',
+        es: 'Nombre(s) — Letras Latinas del Pasaporte Extranjero *',
+        de: 'Vorname(n) — Lateinische Buchstaben laut Reisepass *',
+        he: 'שם פרטי של המבקש/ת בלועזית (בדיוק כמו בדרכון הזר) *',
+        ru: 'Имя заявителя — Латиницей строго по загранпаспорту *'
+      },
+      h: {
+        en: 'Populated ONLY from your Foreign Passport (never from an Israeli ID). Must match your passport letter-for-letter (A–Z).',
+        fr: 'Rempli UNIQUEMENT depuis votre passeport étranger. Doit correspondre lettre pour lettre à votre passeport (A–Z).',
+        es: 'Completado SOLO desde su pasaporte extranjero. Debe coincidir letra por letra con su pasaporte (A–Z).',
+        de: 'Nur aus Ihrem ausländischen Reisepass. Muss Buchstabe für Buchstabe mit dem Reisepass übereinstimmen (A–Z).',
+        he: 'מאוכלס אך ורק מהדרכון הזר (באותיות לטיניות A–Z בדיוק כפי שמופיע בדרכון).',
+        ru: 'Заполняется ТОЛЬКО из загранпаспорта (буква в букву латиницей A–Z).'
+      }
+    },
     pf_prior_names: { req: 0, script: 'he', rtl: 1,
       l: { en: 'All Maiden / Prior Legal Names (or "ללא")', fr: 'Nom de Jeune Fille / Tous Noms Antérieurs (ou « ללא »)', es: 'Apellido de Soltera / Nombres Anteriores (o «ללא»)', de: 'Geburtsname / Alle Früheren Namen (oder „ללא“)', he: 'כל השמות הקודמים / שם נעורים (או "ללא")' },
       h: { en: 'CRITICAL 2026 TRAP: Any difference between Birth Cert & Passport requires an Apostilled Name-Change Cert AND must appear on your Police Check!', fr: 'PIÈGE 2026 : Tout changement de nom exige un acte apostillé ET doit figurer sur votre casier judiciaire !', es: 'TRAMPA 2026: Cualquier cambio entre Partida y Pasaporte exige acta apostillada Y figurar en Antecedentes Penales.', de: 'FALLE 2026: Jede Namensänderung erfordert eine apostillierte Urkunde UND muss im Führungszeugnis stehen!', he: 'חובה שהשם הקודם יופיע בתעודת היושר + תעודת שינוי שם מאומתת באפוסטיל!' } },
@@ -376,18 +584,18 @@
       ],
       l: { en: 'Current Marital Status', fr: 'État Civil Actuel', es: 'Estado Civil Actual', de: 'Aktueller Familienstand', he: 'מצב משפחתי נוכחי' } },
     pf_birth_country: { req: 1, script: 'he', rtl: 1,
-      l: { en: 'Country & City of Birth (in Hebrew)', fr: 'Pays & Ville de Naissance (en Hébreu)', es: 'País y Ciudad de Nacimiento (en Hebreo)', de: 'Geburtsland & Geburtsort (auf Hebräisch)', he: 'ארץ ועיר לידה (בעברית)' } },
+      l: { en: 'Country & City of Birth', fr: 'Pays & Ville de Naissance', es: 'País y Ciudad de Nacimiento', de: 'Geburtsland & Geburtsort', he: 'ארץ ועיר לידה (בעברית)' } },
     pf_citizenship: { req: 1, script: 'he', rtl: 1,
-      l: { en: 'All Current Citizenships (in Hebrew)', fr: 'Toutes Nationalités Actuelles (en Hébreu)', es: 'Todas las Ciudadanías Actuales (en Hebreo)', de: 'Alle Staatsangehörigkeiten (auf Hebräisch)', he: 'אזרחויות נוכחיות (בעברית)' },
+      l: { en: 'All Current Citizenships', fr: 'Toutes Nationalités Actuelles', es: 'Todas las Ciudadanías Actuales', de: 'Alle Staatsangehörigkeiten', he: 'אזרחויות נוכחיות (בעברית)' },
       h: { en: 'List dual citizenships too—you need a Police Check from each citizenship country.', fr: 'Indiquez toute double nationalité (casier requis pour chacune).', es: 'Indique doble ciudadanía (se exige antecedentes de cada país).', de: 'Auch Doppelstaatsbürgerschaften angeben (jeweils Führungszeugnis nötig).', he: 'ציינו גם אזרחות כפולה — נדרשת תעודת יושר מכל מדינת אזרחות.' } },
     pf_religion_nat: { req: 1, script: 'he', rtl: 1,
-      l: { en: 'Religion & Nationality (in Hebrew)', fr: 'Religion & Nationalité (en Hébreu)', es: 'Religión y Nacionalidad (en Hebreo)', de: 'Religion & Nationalität (auf Hebräisch)', he: 'דת ולאום (בעברית)' } },
+      l: { en: 'Religion & Nationality', fr: 'Religion & Nationalité', es: 'Religión y Nacionalidad', de: 'Religion & Nationalität', he: 'דת ולאום (בעברית)' } },
     pf_father_he: { req: 1, script: 'he', rtl: 1,
-      l: { en: 'Father\'s Full Name (in Hebrew — Match Birth Cert)', fr: 'Nom Complet du Père (en Hébreu — selon Acte de Naissance)', es: 'Nombre Completo del Padre (en Hebreo — según Partida)', de: 'Vollständiger Name des Vaters (auf Hebräisch)', he: 'שם האב המלא (בעברית — כמו בתעודת הלידה)' } },
+      l: { en: 'Father\'s Full Name (Match Birth Cert)', fr: 'Nom Complet du Père (selon Acte de Naissance)', es: 'Nombre Completo del Padre (según Partida)', de: 'Vollständiger Name des Vaters', he: 'שם האב המלא (בעברית — כמו בתעודת הלידה)' } },
     pf_father_dob: { req: 0, t: 'date', script: 'any',
       l: { en: 'Father\'s Date of Birth (Form Ash/3)', fr: 'Date de Naissance du Père (Formulaire Ash/3)', es: 'Fecha de Nacimiento del Padre (Formulario Ash/3)', de: 'Geburtsdatum des Vaters (Formular Asch/3)', he: 'תאריך לידה של האב (טופס אש/3)' } },
     pf_mother_he: { req: 1, script: 'he', rtl: 1,
-      l: { en: 'Mother\'s Full Name (in Hebrew — Match Birth Cert)', fr: 'Nom Complet de la Mère (en Hébreu — selon Acte)', es: 'Nombre Completo de la Madre (en Hebreo — según Partida)', de: 'Vollständiger Name der Mutter (auf Hebräisch)', he: 'שם האם המלא (בעברית — כמו בתעודת הלידה)' } },
+      l: { en: 'Mother\'s Full Name (Match Birth Cert)', fr: 'Nom Complet de la Mère (selon Acte)', es: 'Nombre Completo de la Madre (según Partida)', de: 'Vollständiger Name der Mutter', he: 'שם האם המלא (בעברית — כמו בתעודת הלידה)' } },
     pf_mother_maiden: { req: 1, script: 'he', rtl: 1,
       l: { en: 'Mother\'s Maiden Name (Mandatory on Ash/1 & Ash/3)', fr: 'Nom de Jeune Fille de la Mère (Obligatoire sur Ash/1 & Ash/3)', es: 'Apellido de Soltera de la Madre (Obligatorio en Ash/1 y Ash/3)', de: 'Geburtsname der Mutter (Pflichtfeld auf Asch/1 & Asch/3)', he: 'שם נעורים של האם (חובה באש/1 ובאש/3)' } },
     pf_mother_dob: { req: 0, t: 'date', script: 'any',
@@ -395,7 +603,23 @@
     pf_foreign_grandfather: { req: 1, script: 'he', rtl: 1,
       l: { en: 'Paternal Grandfather\'s Name (Mandatory on Ash/6 & MR/14!)', fr: 'Prénom du Grand-Père Paternel (Obligatoire sur Ash/6 & MR/14 !)', es: 'Nombre del Abuelo Paterno (¡Obligatorio en Ash/6 y MR/14!)', de: 'Name des Großvaters väterlicherseits (Pflicht auf Asch/6 & MR/14!)', he: 'שם הסב (אבי האב — שדה חובה באש/6 ובמר/14!)' } },
     pf_pass_num: { req: 1, script: 'latin',
-      l: { en: 'Foreign Passport Number', fr: 'Numéro de Passeport Étranger', es: 'Número de Pasaporte Extranjero', de: 'Reisepassnummer', he: 'מספר דרכון זר' } },
+      l: {
+        en: 'Foreign Passport / Travel Doc Number (or Israeli ID if held)',
+        fr: 'N° de Passeport / Titre de Voyage (ou Teudat Zehut si détenue)',
+        es: 'N.º de Pasaporte / Doc. de Viaje (o Teudat Zehut si posee)',
+        de: 'Reisepass- / Reiseausweis-Nr. (oder Teudat Zehut falls vorhanden)',
+        he: 'מספר דרכון זר / תעודת מעבר (או ת"ז ישראלית למי שכבר מחזיק)',
+        ru: 'Номер загранпаспорта / проездного документа (или Теудат Зеут, если есть)'
+      },
+      h: {
+        en: 'Enter your foreign passport (or Laissez-Passer) number. If you already hold an Israeli Teudat Zehut (e.g., A/5 or Israeli citizen), your 9-digit Israeli ID also suffices in the Israeli ID field.',
+        fr: 'Indiquez votre numéro de passeport étranger (ou Laissez-Passer). Si vous possédez déjà une Teudat Zehut israélienne (ex. A/5), votre N° Teudat Zehut à 9 chiffres suffit.',
+        es: 'Ingrese su número de pasaporte extranjero (o Laissez-Passer). Si ya posee Teudat Zehut israelí (ej. A/5), su número de 9 dígitos es suficiente.',
+        de: 'Geben Sie Ihre Reisepassnummer (oder Laissez-Passer) ein. Falls Sie bereits eine israelische Teudat Zehut (z.B. A/5) besitzen, genügt diese 9-stellige ID.',
+        he: 'הזינו מספר דרכון זר (או תעודת מעבר). אם כבר יש ברשותכם תעודת זהות ישראלית (כגון א/5 או אזרח), ניתן להזין את מספר ת"ז (9 ספרות) בשדה תעודת הזהות.',
+        ru: 'Введите номер загранпаспорта (или Лессе-Пассе). Если у вас уже есть израильский Теудат Зеут (например, А/5), достаточно указать 9 цифр Теудат Зеут.'
+      }
+    },
     pf_pass_issue_date: { req: 1, t: 'date', script: 'any',
       l: { en: 'Passport Issue Date', fr: 'Date de Délivrance du Passeport', es: 'Fecha de Emisión del Pasaporte', de: 'Ausstellungsdatum des Passes', he: 'תאריך הנפקת דרכון' } },
     pf_pass_exp_date: { req: 1, t: 'date', script: 'any',
@@ -417,23 +641,23 @@
     pf_email: { req: 1, script: 'latin',
       l: { en: 'Email Address (Used by PIBA for Official Legal Notices!)', fr: 'Adresse Email (Utilisée pour les notifications officielles !)', es: 'Correo Electrónico (¡Usado para notificaciones oficiales!)', de: 'E-Mail-Adresse (Wird für amtliche Fristbescheide genutzt!)', he: 'כתובת דוא"ל (משמשת להמצאה רשמית של החלטות הרשות!)' } },
     pf_ash3_action: { req: 1, script: 'he', rtl: 1,
-      l: { en: 'Requested Extension Months & Target Visa (in Hebrew)', fr: 'Durée Demandée & Catégorie de Visa (en Hébreu)', es: 'Meses Solicitados y Categoría de Visa (en Hebreo)', de: 'Gewünschte Monate & Visakategorie (auf Hebräisch)', he: 'הארכת רישיון (מס׳ חודשים) / החלפת סוג אשרה ל-' } },
+      l: { en: 'Requested Extension Months & Target Visa', fr: 'Durée Demandée & Catégorie de Visa', es: 'Meses Solicitados y Categoría de Visa', de: 'Gewünschte Monate & Visakategorie', he: 'הארכת רישיון (מס׳ חודשים) / החלפת סוג אשרה ל-' } },
     pf_inst_details: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Studying Institution / Yeshiva / Ulpan, Amuta # & Rabbi Phone (in Hebrew)', fr: 'Institution d\'Étude / Oulpan, N° Amuta & Téléphone du Rabbin (en Hébreu)', es: 'Institución / Yeshivá / Ulpán, N.º Amutá y Teléfono (en Hebreo)', de: 'Lehrinstitut / Jeschiwa / Ulpan, Amuta-Nr. & Telefon (auf Hebräisch)', he: 'שם המוסד בו המבקש לומד, מספר עמותה, כתובת ואיש קשר' } },
+      l: { en: 'Studying Institution / Yeshiva / Ulpan, Amuta # & Rabbi Phone', fr: 'Institution d\'Étude / Oulpan, N° Amuta & Téléphone du Rabbin', es: 'Institución / Yeshivá / Ulpán, N.º Amutá y Teléfono', de: 'Lehrinstitut / Jeschiwa / Ulpan, Amuta-Nr. & Telefon', he: 'שם המוסד בו המבקש לומד, מספר עמותה, כתובת ואיש קשר' } },
     pf_sp_name_he: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Israeli Spouse / Partner / Inviter Full Name (in Hebrew)', fr: 'Nom Complet du Conjoint / Invitant Israélien (en Hébreu)', es: 'Nombre Completo del Cónyuge / Invitante Israelí (en Hebreo)', de: 'Vollständiger Name des Israelischen Partners / Einladers (Hebräisch)', he: 'שם מלא של בן/בת הזוג או המזמין הישראלי (בעברית)' } },
+      l: { en: 'Israeli Spouse / Partner / Inviter Full Name', fr: 'Nom Complet du Conjoint / Invitant Israélien', es: 'Nombre Completo del Cónyuge / Invitante Israelí', de: 'Vollständiger Name des Israelischen Partners / Einladers', he: 'שם מלא של בן/בת הזוג או המזמין הישראלי (בעברית)' } },
     pf_sp_tz: { req: 0, script: 'any',
       l: { en: 'Israeli 9-Digit Teudat Zehut Number (Auto Check-Digit Verified)', fr: 'N° Teudat Zehut Israélien à 9 Chiffres (Vérification Auto)', es: 'N.º Teudat Zehut Israelí de 9 Dígitos (Verificación Automática)', de: '9-Stellige Israelische Teudat-Zehut-Nr. (Prüfziffer-Check)', he: 'מספר תעודת זהות ישראלית (9 ספרות — בדיקת ספרת ביקורת)' } },
     pf_sp_parents_grand: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Israeli Sponsor\'s DOB, Father, Mother & Grandfather Names (in Hebrew — Ash/6 p.2)', fr: 'Date Naiss., Père, Mère & Grand-Père du Conjoint Israélien (en Hébreu)', es: 'Fecha Nac., Padre, Madre y Abuelo del Cónyuge Israelí (en Hebreo)', de: 'Geburtsdatum, Vater, Mutter & Großvater des Israelis (Hebräisch)', he: 'תאריך לידה, שם האב, שם האם ושם הסב של בן הזוג הישראלי (אש/6 עמ׳ 2)' } },
+      l: { en: 'Israeli Sponsor\'s DOB, Father, Mother & Grandfather Names (Ash/6 p.2)', fr: 'Date Naiss., Père, Mère & Grand-Père du Conjoint Israélien', es: 'Fecha Nac., Padre, Madre y Abuelo del Cónyuge Israelí', de: 'Geburtsdatum, Vater, Mutter & Großvater des Israelis', he: 'תאריך לידה, שם האב, שם האם ושם הסב של בן הזוג הישראלי (אש/6 עמ׳ 2)' } },
     pf_marriage_details: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Marriage Date & Place + Sponsor Occupation (in Hebrew)', fr: 'Date & Lieu de Mariage + Profession du Conjoint (en Hébreu)', es: 'Fecha y Lugar de Boda + Profesión del Cónyuge (en Hebreo)', de: 'Heiratsdatum & -ort + Beruf des Partners (auf Hebräisch)', he: 'תאריך ומקום הנישואין (כולל יוטה/חו"ל) ומשלח יד המזמין' } },
+      l: { en: 'Marriage Date & Place + Sponsor Occupation', fr: 'Date & Lieu de Mariage + Profession du Conjoint', es: 'Fecha y Lugar de Boda + Profesión del Cónyuge', de: 'Heiratsdatum & -ort + Beruf des Partners', he: 'תאריך ומקום הנישואין (כולל יוטה/חו"ל) ומשלח יד המזמין' } },
     pf_ash6_refs: { req: 0, script: 'he', rtl: 1, t: 'textarea',
-      l: { en: '2 Israeli References: Full Name, 9-Digit TZ, Relation, Address & Phone (in Hebrew)', fr: '2 Témoins Israéliens : Nom, TZ 9 chiffres, Lien, Adresse & Tél. (en Hébreu)', es: '2 Testigos Israelíes: Nombre, TZ 9 dígitos, Vínculo, Dirección y Tel. (en Hebreo)', de: '2 Israelische Referenzen: Name, 9-stellige TZ, Beziehung, Adresse & Tel. (Hebräisch)', he: 'שני ממליצים ישראלים (עמ׳ 3 באש/6): שם מלא, ת"ז, קירבה, כתובת וטלפון (+ צילום ת"ז!)' } },
+      l: { en: '2 Israeli References: Full Name, 9-Digit TZ, Relation, Address & Phone', fr: '2 Témoins Israéliens : Nom, TZ 9 chiffres, Lien, Adresse & Tél.', es: '2 Testigos Israelíes: Nombre, TZ 9 dígitos, Vínculo, Dirección y Tel.', de: '2 Israelische Referenzen: Name, 9-stellige TZ, Beziehung, Adresse & Tel.', he: 'שני ממליצים ישראלים (עמ׳ 3 באש/6): שם מלא, ת"ז, קירבה, כתובת וטלפון (+ צילום ת"ז!)' } },
     pf_ll_affidavit: { req: 0, script: 'he', rtl: 1, t: 'textarea',
-      l: { en: 'Page 6 Landlord Lease Affidavit: Owner Name, TZ, SQM (מ"ר), Floors, Rooms & Utility Payers (in Hebrew)', fr: 'Page 6 Affidavit Propriétaire : Nom, TZ, Surface (m²), Étages, Pièces & Factures (en Hébreu)', es: 'Pág. 6 Declaración del Propietario: Nombre, TZ, m², Pisos, Habitaciones y Cuentas (en Hebreo)', de: 'Seite 6 Vermieter-Erklärung: Name, TZ, m², Etagen, Zimmer & Nebenkosten (Hebräisch)', he: 'תצהיר משכיר (עמ׳ 6 באש/6): שם ות"ז בעל הנכס, מ"ר, קומות, חדרים ומי משלם חשבונות' } },
+      l: { en: 'Page 6 Landlord Lease Affidavit: Owner Name, TZ, SQM (מ"ר), Floors, Rooms & Utility Payers', fr: 'Page 6 Affidavit Propriétaire : Nom, TZ, Surface (m²), Étages, Pièces & Factures', es: 'Pág. 6 Declaración del Propietario: Nombre, TZ, m², Pisos, Habitaciones y Cuentas', de: 'Seite 6 Vermieter-Erklärung: Name, TZ, m², Etagen, Zimmer & Nebenkosten', he: 'תצהיר משכיר (עמ׳ 6 באש/6): שם ות"ז בעל הנכס, מ"ר, קומות, חדרים ומי משלם חשבונות' } },
     pf_456_settlement: { req: 0, script: 'he', rtl: 1, t: 'textarea',
-      l: { en: 'Page 2 Ash/456 + MR/14: Prior Israel Stays, Severing Abroad Ties, Israeli Bank, Housing, Community & Schooling Years (in Hebrew)', fr: 'Page 2 Ash/456 + MR/14 : Séjours passés, Fin d\'activité à l\'étranger, Banque, Logement, Communauté & Années d\'études (en Hébreu)', es: 'Pág. 2 Ash/456 + MR/14: Estadías previas, Fin de lazos afuera, Banco israelí, Vivienda, Comunidad y Años de estudio (en Hebreo)', de: 'Seite 2 Asch/456 + MR/14: Frühere Aufenthalte, Aufgabe Auslandswohnsitz, Bankkonto, Gemeinde & Schuljahre (Hebräisch)', he: 'עמ׳ 2 באש/456 + מר/14: שהיות קודמות, ניתוק מרכז חיים בחו"ל, בנק ודיור בארץ, קהילה ושנות לימוד' } },
+      l: { en: 'Page 2 Ash/456 + MR/14: Prior Israel Stays, Severing Abroad Ties, Israeli Bank, Housing, Community & Schooling Years', fr: 'Page 2 Ash/456 + MR/14 : Séjours passés, Fin d\'activité à l\'étranger, Banque, Logement, Communauté & Années d\'études', es: 'Pág. 2 Ash/456 + MR/14: Estadías previas, Fin de lazos afuera, Banco israelí, Vivienda, Comunidad y Años de estudio', de: 'Seite 2 Asch/456 + MR/14: Frühere Aufenthalte, Aufgabe Auslandswohnsitz, Bankkonto, Gemeinde & Schuljahre', he: 'עמ׳ 2 באש/456 + מר/14: שהיות קודמות, ניתוק מרכז חיים בחו"ל, בנק ודיור בארץ, קהילה ושנות לימוד' } },
     pf_456_shvut: { req: 0, t: 'select', script: 'he',
       opts: [
         { v: 'סעיף 4ב לחוק השבות — יהודי מלידה או גיור מוכר', en: 'Law of Return §4B — Jewish by Birth or Recognized Conversion', fr: 'Loi du Retour §4B — Juif de naissance ou Conversion reconnue', es: 'Ley del Retorno §4B — Judío de nacimiento o Conversión reconocida', de: 'Rückkehrgesetz §4B — Jüdisch geboren oder anerkannte Konversion', he: 'סעיף 4ב לחוק השבות — יהודי מלידה או גיור מוכר' },
@@ -441,9 +665,9 @@
       ],
       l: { en: 'Law of Return Eligibility Clause (Page 3 Ash/456)', fr: 'Clause d\'Éligibilité Loi du Retour (Page 3 Ash/456)', es: 'Cláusula de Ley del Retorno (Pág. 3 Ash/456)', de: 'Anspruchsgrundlage Rückkehrgesetz (Seite 3 Asch/456)', he: 'סעיף זכאות בחוק השבות (עמ׳ 3 באש/456)' } },
     pf_ash1_consulate: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Purpose of Entry & Israeli Consulate Abroad to Notify (in Hebrew)', fr: 'Motif d\'Entrée & Consulat d\'Israël à Notifier (en Hébreu)', es: 'Motivo de Entrada y Consulado Israelí a Notificar (en Hebreo)', de: 'Einreisezweck & zu benachrichtigendes Konsulat (auf Hebräisch)', he: 'מטרת הכניסה לישראל ונציגות ישראל בחו"ל להעברת האישור' } },
+      l: { en: 'Purpose of Entry & Israeli Consulate Abroad to Notify', fr: 'Motif d\'Entrée & Consulat d\'Israël à Notifier', es: 'Motivo de Entrada y Consulado Israelí a Notificar', de: 'Einreisezweck & zu benachrichtigendes Konsulat', he: 'מטרת הכניסה לישראל ונציגות ישראל בחו"ל להעברת האישור' } },
     pf_cv_details: { req: 0, script: 'he', rtl: 1, t: 'textarea',
-      l: { en: 'Security CV (Pages 1–11): Universities/Scholarships, Past/Present Jobs, First-Degree Family (+ Spouses) & Contacts (in Hebrew)', fr: 'CV Sécurité (p.1–11) : Universités/Bourses, Emplois, Famille 1er degré (+ Conjoints) & Contacts (en Hébreu)', es: 'CV Seguridad (p.1–11): Universidades/Becas, Empleos, Familia 1er grado (+ Cónyuges) y Contactos (en Hebreo)', de: 'Sicherheits-CV (S.1–11): Universitäten/Stipendien, Berufe, Familie 1. Grades (+ Ehepartner) & Kontakte (Hebräisch)', he: 'קורות חיים (עמ׳ 1–11): השכלה ומלגות, תעסוקה, בני משפחה מדרגה ראשונה (+ בני זוגם) ומכרים' } },
+      l: { en: 'Security CV (Pages 1–11): Universities/Scholarships, Past/Present Jobs, First-Degree Family (+ Spouses) & Contacts', fr: 'CV Sécurité (p.1–11) : Universités/Bourses, Emplois, Famille 1er degré (+ Conjoints) & Contacts', es: 'CV Seguridad (p.1–11): Universidades/Becas, Empleos, Familia 1er grado (+ Cónyuges) y Contactos', de: 'Sicherheits-CV (S.1–11): Universitäten/Stipendien, Berufe, Familie 1. Grades (+ Ehepartner) & Kontakte', he: 'קורות חיים (עמ׳ 1–11): השכלה ומלגות, תעסוקה, בני משפחה מדרגה ראשונה (+ בני זוגם) ומכרים' } },
     pf_children_table: { req: 0, script: 'he', rtl: 1,
       l: { en: 'Accompanying Children Under 18 (Hebrew + Latin Name, Birth Country, DOB — or "ללא")', fr: 'Enfants Mineurs <18 Ans (Nom Hébreu + Latin, Pays, Date Naiss. — ou « ללא »)', es: 'Hijos Menores de 18 Años (Nombre Hebreo + Latino, País, Fecha Nac. — o «ללא»)', de: 'Begleitende Kinder unter 18 (Name Hebräisch + Latein, Land, Geburtsdatum — oder „ללא“)', he: 'ילדים נלווים מתחת לגיל 18 (שם בעברית ובלועזית, ארץ לידה ותאריך לידה — או "ללא")' } },
     pf_rel_story: { req: 1, script: 'he', rtl: 1, t: 'textarea',
@@ -617,7 +841,23 @@
   // ============================================================================
   var GRANULAR_1TO1_FIELDS = {
     pf_tz: { req: 0, script: 'any',
-      l: { en: 'Applicant Israeli ID / Teudat Zehut Number (9 Digits, if issued)', fr: 'N° Teudat Zehut du Demandeur (9 chiffres, si déjà attribué)', es: 'N.º Teudat Zehut del Solicitante (9 dígitos, si posee)', de: 'Israelische Teudat-Zehut-Nr. des Antragstellers (falls vorhanden)', he: 'מספר תעודת זהות של המבקש/ת (9 ספרות — אם הונפקה)', ru: 'Номер Теудат Зеут заявителя (9 цифр, если уже выдан)' } },
+      l: {
+        en: 'Applicant Israeli ID / Teudat Zehut (9 Digits — if already issued / A/5 / Oleh)',
+        fr: 'N° Teudat Zehut Israélienne du Demandeur (9 chiffres — si déjà attribué / A/5)',
+        es: 'N.º Teudat Zehut Israelí del Solicitante (9 dígitos — si ya fue emitido / A/5)',
+        de: 'Israelische Teudat-Zehut-Nr. des Antragstellers (9 Ziffern — falls vorhanden / A/5)',
+        he: 'מספר תעודת זהות ישראלית של המבקש/ת (9 ספרות — אם כבר הונפקה / א/5 / עולה)',
+        ru: 'Номер израильского Теудат Зеут заявителя (9 цифр — если уже выдан / А/5)'
+      },
+      h: {
+        en: 'If you already hold a 9-digit Israeli ID (Teudat Zehut / A/5 temporary resident), enter it here—it suffices for ID fields on Nespach Alef, MR/14a, Security CV, and status renewals.',
+        fr: 'Si vous possédez déjà une Teudat Zehut à 9 chiffres (ex. résident temporaire A/5), saisissez-la ici — elle suffit pour les champs d’identité.',
+        es: 'Si ya tiene un Teudat Zehut de 9 dígitos (ej. residente temporal A/5), ingréselo aquí; es suficiente para los campos de identidad.',
+        de: 'Falls Sie bereits eine 9-stellige Teudat Zehut (z.B. A/5) besitzen, hier eingeben — sie genügt für die Ausweisfelder.',
+        he: 'אם כבר הונפקה לכם תעודת זהות ישראלית (9 ספרות, למשל רישיון א/5), הזינו אותה כאן — היא מספקת בשדות הזיהוי הרלוונטיים.',
+        ru: 'Если у вас уже есть 9-значный Теудат Зеут (например, статус А/5), укажите его здесь — этого достаточно для полей удостоверения личности.'
+      }
+    },
     pf_req_num: { req: 0, script: 'any',
       l: { en: 'PIBA Application / File Number (if assigned by clerk)', fr: 'N° de Dossier / Demande PIBA (si attribué)', es: 'N.º de Expediente / Solicitud PIBA (si fue asignado)', de: 'PIBA Antrags- / Aktennummer (falls vergeben)', he: 'מספר בקשה / תיק ברשות האוכלוסין (אם קיים)', ru: 'Номер заявления / дела в МВД (если присвоен)' } },
     pf_visa_num: { req: 0, script: 'any',
@@ -635,7 +875,7 @@
     pf_nationality_en: { req: 0, script: 'latin',
       l: { en: 'Nationality / Leom — Latin Letters (Ash/3, e.g. JEWISH)', fr: 'Nationalité / Leom — Lettres Latines (Ash/3)', es: 'Nacionalidad / Leom — Letras Latinas (Ash/3)', de: 'Nationalität / Leom — Lateinische Buchstaben (Asch/3)', he: 'לאום בלועזית (אש/3, כגון JEWISH)', ru: 'Национальность / Леом — Латиницей (Аш/3)' } },
     pf_occupation_he: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Applicant Occupation / Profession (in Hebrew)', fr: 'Profession / Métier du Demandeur (en Hébreu)', es: 'Profesión / Ocupación del Solicitante (en Hebreo)', de: 'Beruf / Tätigkeit des Antragstellers (auf Hebräisch)', he: 'משלח יד / מקצוע של המבקש/ת (בעברית)', ru: 'Профессия / род занятий заявителя (на иврите)' } },
+      l: { en: 'Applicant Occupation / Profession', fr: 'Profession / Métier du Demandeur', es: 'Profesión / Ocupación del Solicitante', de: 'Beruf / Tätigkeit des Antragstellers', he: 'משלח יד / מקצוע של המבקש/ת (בעברית)', ru: 'Профессия / род занятий заявителя' } },
     pf_edu_years: { req: 0, script: 'any',
       l: { en: 'Total Years of Schooling / Higher Education (e.g. 16)', fr: 'Nombre Total d\'Années d\'Études (ex. 16)', es: 'Total de Años de Estudio / Educación (ej. 16)', de: 'Gesamtzahl der Schul- und Studienjahre (z.B. 16)', he: 'מספר שנות לימוד (למשל 16)', ru: 'Общее количество лет обучения (напр. 16)' } },
     pf_father_en: { req: 0, script: 'latin',
@@ -675,11 +915,11 @@
     pf_sp_dob: { req: 0, t: 'date', script: 'any',
       l: { en: 'Spouse / Partner Date of Birth', fr: 'Date de Naissance du Conjoint / Partenaire', es: 'Fecha de Nacimiento del Cónyuge / Pareja', de: 'Geburtsdatum des Ehepartners / Partners', he: 'תאריך לידה של בן/בת הזוג', ru: 'Дата рождения супруга(и) / партнёра' } },
     pf_sp_citizenship_he: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Spouse / Partner Citizenship(s) (in Hebrew)', fr: 'Nationalité(s) du Conjoint (en Hébreu)', es: 'Ciudadanía(s) del Cónyuge (en Hebreo)', de: 'Staatsangehörigkeit(en) des Partners (auf Hebräisch)', he: 'אזרחות בן/בת הזוג (בעברית)', ru: 'Гражданство супруга(и) (на иврите)' } },
+      l: { en: 'Spouse / Partner Citizenship(s)', fr: 'Nationalité(s) du Conjoint', es: 'Ciudadanía(s) del Cónyuge', de: 'Staatsangehörigkeit(en) des Partners', he: 'אזרחות בן/בת הזוג (בעברית)', ru: 'Гражданство супруга(и)' } },
     pf_sp_birth_country_he: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Spouse / Inviter Country of Birth (in Hebrew)', fr: 'Pays de Naissance du Conjoint / Invitant (en Hébreu)', es: 'País de Nacimiento del Cónyuge / Invitante (en Hebreo)', de: 'Geburtsland des Partners / Einladers (auf Hebräisch)', he: 'ארץ לידה של בן הזוג / המזמין (בעברית)', ru: 'Страна рождения супруга / приглашающего (на иврите)' } },
+      l: { en: 'Spouse / Inviter Country of Birth', fr: 'Pays de Naissance du Conjoint / Invitant', es: 'País de Nacimiento del Cónyuge / Invitante', de: 'Geburtsland des Partners / Einladers', he: 'ארץ לידה של בן הזוג / המזמין (בעברית)', ru: 'Страна рождения супруга / приглашающего' } },
     pf_sp_prior_he: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Spouse / Inviter Prior Surname (in Hebrew — or "ללא")', fr: 'Nom Antérieur du Conjoint / Invitant (en Hébreu — ou « ללא »)', es: 'Apellido Anterior del Cónyuge / Invitante (en Hebreo — o «ללא»)', de: 'Früherer Name des Partners / Einladers (auf Hebräisch — oder „ללא“)', he: 'שם משפחה קודם של בן הזוג / המזמין (או "ללא")', ru: 'Прежняя фамилия супруга / приглашающего (или «ללא»)' } },
+      l: { en: 'Spouse / Inviter Prior Surname (or "ללא")', fr: 'Nom Antérieur du Conjoint / Invitant (ou « ללא »)', es: 'Apellido Anterior del Cónyuge / Invitante (o «ללא»)', de: 'Früherer Name des Partners / Einladers (oder „ללא“)', he: 'שם משפחה קודם של בן הזוג / המזמין (או "ללא")', ru: 'Прежняя фамилия супруга / приглашающего (или «ללא»)' } },
     pf_sp_entry_date: { req: 0, t: 'date', script: 'any',
       l: { en: 'Israeli Sponsor Date of Aliyah / Entry (if born abroad — Ash/6)', fr: 'Date d\'Aliyah / Entrée du Conjoint Israélien (Ash/6)', es: 'Fecha de Aliyá / Entrada del Cónyuge Israelí (Ash/6)', de: 'Alija- / Einreisedatum des israelischen Partners (Asch/6)', he: 'תאריך עלייה / כניסה לישראל של בן הזוג הישראלי (אש/6)', ru: 'Дата репатриации / въезда израильского супруга (Аш/6)' } },
     pf_sp_status_date: { req: 0, t: 'date', script: 'any',
@@ -691,35 +931,35 @@
     pf_marriage_date: { req: 0, t: 'date', script: 'any',
       l: { en: 'Date of Marriage (if Married — MR/14a, Ash/6, Security CV)', fr: 'Date de Mariage (si Marié — MR/14a, Ash/6, CV)', es: 'Fecha de Matrimonio (si es Casado — MR/14a, Ash/6, CV)', de: 'Heiratsdatum (falls verheiratet — MR/14a, Asch/6, CV)', he: 'תאריך נישואין (לנשואים — מר/14א, אש/6, קורות חיים)', ru: 'Дата брака (если в браке — МР/14а, Аш/6, Анкета безопасности)' } },
     pf_marriage_place_he: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Place / Country of Marriage (in Hebrew — MR/14a & Ash/6)', fr: 'Lieu / Pays de Mariage (en Hébreu — MR/14a & Ash/6)', es: 'Lugar / País de Matrimonio (en Hebreo — MR/14a y Ash/6)', de: 'Heiratsort / -land (auf Hebräisch — MR/14a & Asch/6)', he: 'מקום / מדינת הנישואין (בעברית — מר/14א ואש/6)', ru: 'Место / страна заключения брака (на иврите — МР/14а и Аш/6)' } },
+      l: { en: 'Place / Country of Marriage (MR/14a & Ash/6)', fr: 'Lieu / Pays de Mariage (MR/14a & Ash/6)', es: 'Lugar / País de Matrimonio (MR/14a y Ash/6)', de: 'Heiratsort / -land (MR/14a & Asch/6)', he: 'מקום / מדינת הנישואין (בעברית — מר/14א ואש/6)', ru: 'Место / страна заключения брака (МР/14а и Аш/6)' } },
     pf_ash6_minor_consent_reason: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Ash/6 Page 4: Reason if Other Parent Does Not Sign Minor Child Consent (in Hebrew)', fr: 'Ash/6 Page 4 : Motif si l\'autre parent ne signe pas pour l\'enfant mineur (en Hébreu)', es: 'Ash/6 Pág. 4: Motivo si el otro progenitor no firma por el menor (en Hebreo)', de: 'Asch/6 Seite 4: Grund, falls der andere Elternteil nicht unterschreibt (Hebräisch)', he: 'אש/6 עמ׳ 4: סיבה לאי-חתימת ההורה הנוסף לקטין (אם רלוונטי)', ru: 'Аш/6 стр. 4: Причина отсутствия подписи второго родителя несовершеннолетнего (на иврите)' } },
+      l: { en: 'Ash/6 Page 4: Reason if Other Parent Does Not Sign Minor Child Consent', fr: 'Ash/6 Page 4 : Motif si l\'autre parent ne signe pas pour l\'enfant mineur', es: 'Ash/6 Pág. 4: Motivo si el otro progenitor no firma por el menor', de: 'Asch/6 Seite 4: Grund, falls der andere Elternteil nicht unterschreibt', he: 'אש/6 עמ׳ 4: סיבה לאי-חתימת ההורה הנוסף לקטין (אם רלוונטי)', ru: 'Аш/6 стр. 4: Причина отсутствия подписи второго родителя несовершеннолетнего' } },
     pf_ash6_decl_exception_he: { req: 0, script: 'he', rtl: 1,
       l: { en: 'Ash/6 Page 4: Exceptions to Clean-Record Declaration (or "ללא הסתייגויות")', fr: 'Ash/6 Page 4 : Réserves éventuelles à la déclaration (ou « ללא הסתייגויות »)', es: 'Ash/6 Pág. 4: Excepciones a la declaración jurada (o «ללא הסתייגויות»)', de: 'Asch/6 Seite 4: Ausnahmen zur Erklärung (oder „ללא הסתייגויות“)', he: 'אש/6 עמ׳ 4: פירוט הסתייגויות להצהרה (או "ללא הסתייגויות")', ru: 'Аш/6 стр. 4: Исключения к декларации (или «ללא הסתייגויות»)' } },
     pf_ll_children_count: { req: 0, script: 'any',
       l: { en: 'Ash/6 Page 6 Landlord Affidavit: Number of Landlord\'s Children', fr: 'Ash/6 Page 6 Affidavit Propriétaire : Nombre d\'enfants du propriétaire', es: 'Ash/6 Pág. 6 Declaración Propietario: N.º de hijos del propietario', de: 'Asch/6 Seite 6 Vermieter-Affidavit: Anzahl der Kinder des Vermieters', he: 'אש/6 עמ׳ 6 (תצהיר משכיר): מספר ילדים של המשכיר', ru: 'Аш/6 стр. 6 (Декларация арендодателя): Количество детей арендодателя' } },
     pf_ll_occupation: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Ash/6 Page 6 Landlord Affidavit: Landlord\'s Occupation (in Hebrew)', fr: 'Ash/6 Page 6 Affidavit Propriétaire : Profession du propriétaire (en Hébreu)', es: 'Ash/6 Pág. 6 Declaración Propietario: Profesión del propietario (en Hebreo)', de: 'Asch/6 Seite 6 Vermieter-Affidavit: Beruf des Vermieters (auf Hebräisch)', he: 'אש/6 עמ׳ 6 (תצהיר משכיר): עיסוקו של המשכיר (בעברית)', ru: 'Аш/6 стр. 6 (Декларация арендодателя): Профессия арендодателя (на иврите)' } },
+      l: { en: 'Ash/6 Page 6 Landlord Affidavit: Landlord\'s Occupation', fr: 'Ash/6 Page 6 Affidavit Propriétaire : Profession du propriétaire', es: 'Ash/6 Pág. 6 Declaración Propietario: Profesión del propietario', de: 'Asch/6 Seite 6 Vermieter-Affidavit: Beruf des Vermieters', he: 'אש/6 עמ׳ 6 (תצהיר משכיר): עיסוקו של המשכיר (בעברית)', ru: 'Аш/6 стр. 6 (Декларация арендодателя): Профессия арендодателя' } },
     pf_mail_recipient_he: { req: 0, script: 'he', rtl: 1,
       l: { en: 'Ash/456 Page 1: Mailing Recipient Name in Israel (if different from residential address)', fr: 'Ash/456 Page 1 : Destinataire du courrier en Israël (si différent)', es: 'Ash/456 Pág. 1: Destinatario de correo en Israel (si es distinto)', de: 'Asch/456 Seite 1: Postempfänger in Israel (falls abweichend)', he: 'אש/456 עמ׳ 1: שם מקבל הדואר בישראל (אם שונה מכתובת המגורים)', ru: 'Аш/456 стр. 1: Имя получателя почты в Израиле (если отличается от адреса)' } },
     pf_mail_street_he: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Ash/456 Page 1: Mailing Street & House # in Israel (in Hebrew)', fr: 'Ash/456 Page 1 : Rue & N° pour le courrier (en Hébreu)', es: 'Ash/456 Pág. 1: Calle y N.º para correo (en Hebreo)', de: 'Asch/456 Seite 1: Postanschrift Straße & Hausnr. (auf Hebräisch)', he: 'אש/456 עמ׳ 1: רחוב ומס׳ בית למשלוח דואר (בעברית)', ru: 'Аш/456 стр. 1: Улица и дом для почты (на иврите)' } },
+      l: { en: 'Ash/456 Page 1: Mailing Street & House # in Israel', fr: 'Ash/456 Page 1 : Rue & N° pour le courrier', es: 'Ash/456 Pág. 1: Calle y N.º para correo', de: 'Asch/456 Seite 1: Postanschrift Straße & Hausnr.', he: 'אש/456 עמ׳ 1: רחוב ומס׳ בית למשלוח דואר (בעברית)', ru: 'Аш/456 стр. 1: Улица и дом для почты' } },
     pf_mail_city_he: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Ash/456 Page 1: Mailing City & Zip in Israel (in Hebrew)', fr: 'Ash/456 Page 1 : Ville & Code Postal pour le courrier (en Hébreu)', es: 'Ash/456 Pág. 1: Ciudad y Código Postal para correo (en Hebreo)', de: 'Asch/456 Seite 1: Postanschrift Ort & PLZ (auf Hebräisch)', he: 'אש/456 עמ׳ 1: יישוב ומיקוד למשלוח דואר (בעברית)', ru: 'Аш/456 стр. 1: Город и индекс для почты (на иврите)' } },
+      l: { en: 'Ash/456 Page 1: Mailing City & Zip in Israel', fr: 'Ash/456 Page 1 : Ville & Code Postal pour le courrier', es: 'Ash/456 Pág. 1: Ciudad y Código Postal para correo', de: 'Asch/456 Seite 1: Postanschrift Ort & PLZ', he: 'אש/456 עמ׳ 1: יישוב ומיקוד למשלוח דואר (בעברית)', ru: 'Аш/456 стр. 1: Город и индекс для почты' } },
     pf_mail_proxy_he: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Ash/456 Page 1: Authorized Representative / Proxy Name (if any, in Hebrew)', fr: 'Ash/456 Page 1 : Nom du Mandataire / Représentant Autorisé (en Hébreu)', es: 'Ash/456 Pág. 1: Nombre del Apoderado / Representante (en Hebreo)', de: 'Asch/456 Seite 1: Bevollmächtigter / Vertreter (auf Hebräisch)', he: 'אש/456 עמ׳ 1: שם מיופה כוח לקבלת דואר (אם קיים)', ru: 'Аш/456 стр. 1: Имя доверенного лица (если есть, на иврите)' } },
+      l: { en: 'Ash/456 Page 1: Authorized Representative / Proxy Name', fr: 'Ash/456 Page 1 : Nom du Mandataire / Représentant Autorisé', es: 'Ash/456 Pág. 1: Nombre del Apoderado / Representante', de: 'Asch/456 Seite 1: Bevollmächtigter / Vertreter', he: 'אש/456 עמ׳ 1: שם מיופה כוח לקבלת דואר (אם קיים)', ru: 'Аш/456 стр. 1: Имя доверенного лица' } },
     pf_prev_pass_num: { req: 0, script: 'latin',
       l: { en: 'Ash/1: Previous Passport Number (if held)', fr: 'Ash/1 : Numéro de Passeport Précédent (le cas échéant)', es: 'Ash/1: Número de Pasaporte Anterior (si tuvo)', de: 'Asch/1: Frühere Reisepassnummer (falls vorhanden)', he: 'אש/1: מספר דרכון קודם (אם היה)', ru: 'Аш/1: Номер предыдущего загранпаспорта (если был)' } },
     pf_prev_il_id: { req: 0, script: 'any',
       l: { en: 'Ash/1: Previous Israeli ID / Visa Number (if ever held)', fr: 'Ash/1 : Ancien N° d\'Identité / Visa Israélien (le cas échéant)', es: 'Ash/1: N.º de Identidad / Visa Israelí Previo (si tuvo)', de: 'Asch/1: Frühere israelische ID- / Visumnummer (falls vorhanden)', he: 'אש/1: מספר זהות / אשרה קודם בישראל (אם היה)', ru: 'Аш/1: Прежний израильский номер удостоверения / визы (если был)' } },
     pf_parallel_req_details: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Ash/1: Parallel Application Details in Israel or Abroad (if any, in Hebrew)', fr: 'Ash/1 : Détails d\'une Demande Parallèle (le cas échéant, en Hébreu)', es: 'Ash/1: Detalles de Solicitud Paralela (si existe, en Hebreo)', de: 'Asch/1: Details zu einem Parallelantrag (falls vorhanden, Hebräisch)', he: 'אש/1: פירוט בקשה מקבילה שהוגשה בארץ או בחו"ל (אם קיימת)', ru: 'Аш/1: Подробности параллельного заявления (если подавалось, на иврите)' } },
+      l: { en: 'Ash/1: Parallel Application Details in Israel or Abroad', fr: 'Ash/1 : Détails d\'une Demande Parallèle', es: 'Ash/1: Detalles de Solicitud Paralela', de: 'Asch/1: Details zu einem Parallelantrag', he: 'אש/1: פירוט בקשה מקבילה שהוגשה בארץ או בחו"ל (אם קיימת)', ru: 'Аш/1: Подробности параллельного заявления' } },
     pf_prev_rejected_details: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Ash/1: Prior Entry Denial / Deportation Details (if any, in Hebrew)', fr: 'Ash/1 : Détails d\'un Refus d\'Entrée / Expulsion Antérieur (en Hébreu)', es: 'Ash/1: Detalles de Rechazo de Entrada / Deportación Previa (en Hebreo)', de: 'Asch/1: Details zu früherer Einreiseverweigerung / Ausweisung (Hebräisch)', he: 'אש/1: פירוט סירוב כניסה או הרחקה מישראל בעבר (אם היה)', ru: 'Аш/1: Подробности прошлых отказов во въезде / депортации (если были, на иврите)' } },
+      l: { en: 'Ash/1: Prior Entry Denial / Deportation Details', fr: 'Ash/1 : Détails d\'un Refus d\'Entrée / Expulsion Antérieur', es: 'Ash/1: Detalles de Rechazo de Entrada / Deportación Previa', de: 'Asch/1: Details zu früherer Einreiseverweigerung / Ausweisung', he: 'אש/1: פירוט סירוב כניסה או הרחקה מישראל בעבר (אם היה)', ru: 'Аш/1: Подробности прошлых отказов во въезде / депортации' } },
     pf_status_cancelled_reason: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Ash/1: Reason if Israeli Status Was Ever Cancelled (if any, in Hebrew)', fr: 'Ash/1 : Motif si un Statut Israélien a été Annulé (en Hébreu)', es: 'Ash/1: Motivo si su Estatus Israelí Fue Cancelado (en Hebreo)', de: 'Asch/1: Grund, falls ein israelischer Status widerrufen wurde (Hebräisch)', he: 'אש/1: סיבת ביטול מעמד בישראל בעבר (אם רלוונטי)', ru: 'Аш/1: Причина отмены статуса в Израиле в прошлом (если применимо, на иврите)' } },
+      l: { en: 'Ash/1: Reason if Israeli Status Was Ever Cancelled', fr: 'Ash/1 : Motif si un Statut Israélien a été Annulé', es: 'Ash/1: Motivo si su Estatus Israelí Fue Cancelado', de: 'Asch/1: Grund, falls ein israelischer Status widerrufen wurde', he: 'אש/1: סיבת ביטול מעמד בישראל בעבר (אם רלוונטי)', ru: 'Аш/1: Причина отмены статуса в Израиле в прошлом' } },
     pf_company_name_he: { req: 0, script: 'he', rtl: 1,
-      l: { en: 'Ash/1: Inviting Organization / Institution / Company Name in Israel (if applicable, in Hebrew)', fr: 'Ash/1 : Nom de l\'Institution / Organisation Invitante en Israël (en Hébreu)', es: 'Ash/1: Nombre de la Institución / Organización Invitante en Israel (en Hebreo)', de: 'Asch/1: Name der einladenden Institution / Organisation in Israel (Hebräisch)', he: 'אש/1: שם תאגיד / מוסד מזמין בישראל (אם רלוונטי)', ru: 'Аш/1: Название приглашающей организации / учреждения в Израиле (на иврите)' } }
+      l: { en: 'Ash/1: Inviting Organization / Institution / Company Name in Israel', fr: 'Ash/1 : Nom de l\'Institution / Organisation Invitante en Israël', es: 'Ash/1: Nombre de la Institución / Organización Invitante en Israel', de: 'Asch/1: Name der einladenden Institution / Organisation in Israel', he: 'אש/1: שם תאגיד / מוסד מזמין בישראל (אם רלוונטי)', ru: 'Аш/1: Название приглашающей организации / учреждения в Израиле' } }
   };
 
   Object.keys(GRANULAR_1TO1_FIELDS).forEach(function(fid) {
@@ -729,15 +969,10 @@
   // Append granular fields to each form's field list (preserving existing order + adding 1:1 fields)
   var FORM_EXTRA_FIELDS = {
     ash3: [
-      'pf_ash3_months', 'pf_ash3_target_visa_he', 'pf_ash3_target_visa_en', 'pf_laissez_passer',
-      'pf_prior_names_en', 'pf_birth_country_en', 'pf_citizenship_en', 'pf_religion_en', 'pf_nationality_en',
-      'pf_father_en', 'pf_mother_en', 'pf_mother_maiden_en',
-      'pf_il_city_en', 'pf_il_street_en', 'pf_phone_abroad',
-      'pf_inst_name_en', 'pf_inst_addr_en', 'pf_inst_contact_en',
-      'pf_sp_citizenship_he'
+      'pf_tz', 'pf_ash3_months', 'pf_laissez_passer', 'pf_phone_abroad', 'pf_sp_citizenship_he'
     ],
     ash6: [
-      'pf_req_num', 'pf_marriage_date', 'pf_marriage_place_he',
+      'pf_tz', 'pf_req_num', 'pf_marriage_date', 'pf_marriage_place_he',
       'pf_sp_entry_date', 'pf_sp_status_date', 'pf_sp_phone_home', 'pf_phone_abroad',
       'pf_ash6_minor_consent_reason', 'pf_ash6_decl_exception_he',
       'pf_ll_children_count', 'pf_ll_occupation'
@@ -746,14 +981,12 @@
       'pf_tz', 'pf_req_num'
     ],
     ash456: [
-      'pf_visa_num', 'pf_occupation_he', 'pf_edu_years',
+      'pf_tz', 'pf_visa_num', 'pf_occupation_he', 'pf_edu_years',
       'pf_sp_surname_en', 'pf_sp_given_en', 'pf_sp_citizenship_he', 'pf_sp_pass_exp',
-      'pf_mail_recipient_he', 'pf_mail_street_he', 'pf_mail_city_he', 'pf_mail_proxy_he',
+      'pf_mail_proxy_he',
       'pf_father_tz', 'pf_mother_tz', 'pf_marriage_date', 'pf_marriage_place_he', 'pf_citizenship_code'
     ],
     ash1: [
-      'pf_ash3_target_visa_he', 'pf_ash3_target_visa_en',
-      'pf_prior_names_en', 'pf_father_en', 'pf_mother_en', 'pf_mother_maiden_en',
       'pf_occupation_he', 'pf_phone_abroad', 'pf_company_name_he',
       'pf_sp_birth_country_he', 'pf_sp_prior_he',
       'pf_prev_pass_num', 'pf_prev_il_id', 'pf_parallel_req_details', 'pf_prev_rejected_details', 'pf_status_cancelled_reason',
@@ -824,10 +1057,1875 @@
     return String(s === undefined || s === null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
+
+  // Automatically inflects Hebrew citizenship/nationality adjectives when Gender switches between Male (זכר) and Female (נקבה)
+  var HEBREW_GENDER_PAIRS = [
+    ['ישראלית', 'ישראלי'],
+    ['אמריקאית', 'אמריקאי'],
+    ['צרפתייה', 'צרפתי'],
+    ['צרפתית', 'צרפתי'],
+    ['בריטית', 'בריטי'],
+    ['אנגלייה', 'אנגלי'],
+    ['רוסייה', 'רוסי'],
+    ['אוקראינית', 'אוקראיני'],
+    ['קנדית', 'קנדי'],
+    ['גרמנייה', 'גרמני'],
+    ['גרמנית', 'גרמני'],
+    ['ספרדייה', 'ספרדי'],
+    ['ספרדית', 'ספרדי'],
+    ['איטלקייה', 'איטלקי'],
+    ['ארגנטינאית', 'ארגנטינאי'],
+    ['ברזילאית', 'ברזילאי'],
+    ['אוסטרלית', 'אוסטרלי'],
+    ['דרום אפריקאית', 'דרום אפריקאי'],
+    ['הולנדית', 'הולנדי'],
+    ['בלגית', 'בלגי'],
+    ['שווייצרית', 'שווייצרי'],
+    ['מקסיקנית', 'מקסיקני'],
+    ['קולומביאנית', 'קולומביאני'],
+    ['יהודייה', 'יהודי'],
+    ['גיורת', 'גר']
+  ];
+
+  window.inflectHebrewTextForGender = function(str, genderVal) {
+    if (!str) return str;
+    var isMale = /זכר|male/i.test(String(genderVal || '')) && !/נקבה|female/i.test(String(genderVal || ''));
+    var out = String(str);
+    HEBREW_GENDER_PAIRS.forEach(function(pair) {
+      var fem = pair[0], masc = pair[1];
+      if (isMale) {
+        out = out.replace(new RegExp(fem, 'g'), masc);
+      } else {
+        out = out.replace(new RegExp(masc + '(?![א-ת])', 'g'), fem);
+      }
+    });
+    return out;
+  };
+
+  window.applyGenderInflectionToState = function(stateObj) {
+    var s = stateObj || window.gatFormsState || {};
+    var g = s.pf_gender || 'נקבה';
+    var changed = false;
+    ['pf_citizenship', 'pf_citizenship_en', 'pf_religion_nat', 'pf_religion_en', 'pf_nationality_en'].forEach(function(k) {
+      if (s[k]) {
+        var inflected = window.inflectHebrewTextForGender(s[k], g);
+        if (inflected !== s[k]) {
+          s[k] = inflected;
+          changed = true;
+        }
+      }
+    });
+    return changed;
+  };
+
+  function norm(x) {
+    var str = String(x || '');
+    if (str.normalize) str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return str.toLowerCase().replace(/[^a-z0-9\u0590-\u05ff]/g, '');
+  }
   function loadDraft() { try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || '{}') || {}; } catch (e) { return {}; } }
   function loadScans() { try { return JSON.parse(localStorage.getItem(SCANNED_KEY) || '[]') || []; } catch (e) { return []; } }
 
   window.gatFormsState = loadDraft();
+
+
+  var PRE_HEB_BACKUP_KEY = 'gat_pre_hebrew_backup_v1';
+  var FORM_INTRO_SEEN_KEY = 'gat_form_intro_seen_v1';
+
+  var FORM_GUIDE_I18N = {
+    "en": {
+        "title": "✍️ How to Fill Out This Form (Zero Hebrew Required!)",
+        "p1Title": "1. Fields Marked [PASSPORT LATIN (A–Z)]:",
+        "p1Body": "Must be typed in exact English/Latin letters matching the machine-readable zone of your passport letter-for-letter.",
+        "p2Title": "2. All Other Fields — Write in Your Own Language!",
+        "p2Body": "Type naturally in English (or your native language). You do NOT need to write in Hebrew!",
+        "p3Title": "3. Automatic Clerk-Hebrew Conversion + 1-Tap Undo (↺):",
+        "p3Body": "When you tap \"Stamp & Print Official Hebrew Packet (PDF)\" at the bottom, our system automatically translates all your answers into official Misrad HaPanim Clerk Hebrew—or tap \"Convert My Answers → Clerk Hebrew (AI)\" at the top to translate them on the spot. Want to edit your original English text after converting? Just tap the ↺ Undo button to switch right back!",
+        "btnOk": "Got It — Start Filling Form →",
+        "undoBtn": "↺ Undo Hebrew (Restore My Original Text)",
+        "restoredMsg": "↺ Restored your original pre-Hebrew text!"
+    },
+    "fr": {
+        "title": "✍️ Comment remplir ce formulaire (Aucun hébreu requis !)",
+        "p1Title": "1. Champs marqués [LATIN PASSEPORT (A–Z)] :",
+        "p1Body": "Doivent être saisis exactement en lettres latines comme sur la zone lisible par machine de votre passeport.",
+        "p2Title": "2. Tous les autres champs — Écrivez en français !",
+        "p2Body": "Remplissez tous les autres champs dans votre propre langue. Vous n’avez PAS besoin d’écrire en hébreu !",
+        "p3Title": "3. Conversion automatique en hébreu + Annuler (↺) :",
+        "p3Body": "Lorsque vous cliquez sur « Générer le Dossier Officiel en Hébreu (PDF) », tout est automatiquement traduit en hébreu administratif—ou cliquez sur « Traduire Mes Réponses → Hébreu (IA) » pour traduire immédiatement. Un bouton ↺ Annuler apparaîtra si vous souhaitez revenir à votre texte français d’origine !",
+        "btnOk": "Compris — Commencer à remplir →",
+        "undoBtn": "↺ Annuler l’hébreu (Restaurer mon texte original)",
+        "restoredMsg": "↺ Votre texte original a été restauré !"
+    },
+    "es": {
+        "title": "✍️ Cómo completar este formulario (¡No necesita saber hebreo!)",
+        "p1Title": "1. Campos marcados con [LATÍN PASAPORTE (A–Z)]:",
+        "p1Body": "Deben escribirse exactamente en letras latinas tal como aparecen en su pasaporte letra por letra.",
+        "p2Title": "2. Todos los demás campos — ¡Escriba en su idioma!",
+        "p2Body": "Complete el resto del formulario en español. ¡NO necesita escribir en hebreo!",
+        "p3Title": "3. Conversión automática al hebreo + Deshacer (↺):",
+        "p3Body": "Al pulsar «Generar Paquete Oficial en Hebreo (PDF)», el sistema traduce automáticamente todo al hebreo oficial de Misrad HaPanim—o pulse «Convertir Mis Respuestas → Hebreo Oficial (IA)» para traducirlo al instante. ¡Después de convertir, aparecerá el botón ↺ Deshacer para volver a su texto original cuando quiera!",
+        "btnOk": "Entendido — Empezar a completar →",
+        "undoBtn": "↺ Deshacer hebreo (Restaurar mi texto original)",
+        "restoredMsg": "↺ ¡Texto original restaurado!"
+    },
+    "de": {
+        "title": "✍️ So füllen Sie dieses Formular aus (Kein Hebräisch nötig!)",
+        "p1Title": "1. Felder mit [PASS-LATEIN (A–Z)]:",
+        "p1Body": "Müssen exakt in lateinischen Buchstaben wie in der maschinenlesbaren Zone Ihres Reisepasses eingegeben werden.",
+        "p2Title": "2. Alle anderen Felder — Schreiben Sie auf Deutsch!",
+        "p2Body": "Füllen Sie alle übrigen Felder ganz normal in Ihrer Muttersprache aus. Sie müssen NICHT auf Hebräisch schreiben!",
+        "p3Title": "3. Automatische Hebräisch-Übersetzung + Rückgängig (↺):",
+        "p3Body": "Beim Klick auf „Offizielles Hebräisches Paket Erstellen (PDF)“ wird alles automatisch in Behörden-Hebräisch übersetzt—oder klicken Sie oben auf „Meine Antworten → Behörden-Hebräisch Übersetzen (KI)“ für eine sofortige Umwandlung. Mit dem ↺ Rückgängig-Button kehren Sie jederzeit zu Ihrem Originaltext zurück!",
+        "btnOk": "Verstanden — Jetzt ausfüllen →",
+        "undoBtn": "↺ Hebräisch rückgängig (Originaltext wiederherstellen)",
+        "restoredMsg": "↺ Originaltext wiederhergestellt!"
+    },
+    "ru": {
+        "title": "✍️ Как заполнять эту анкету (Иврит знать не нужно!)",
+        "p1Title": "1. Поля с пометкой [ЛАТИНИЦА ПАСПОРТА (A–Z)]:",
+        "p1Body": "Заполняются строго латинскими буквами (A–Z) буква в букву как в вашем загранпаспорте.",
+        "p2Title": "2. Все остальные поля — пишите на русском языке!",
+        "p2Body": "Заполняйте все остальные поля на русском (или вашем родном) языке. Писать на иврите НЕ нужно!",
+        "p3Title": "3. Авто-перевод на иврит + Кнопка возврата (↺):",
+        "p3Body": "При нажатии «Создать Официальный Пакет на Иврите (PDF)» система автоматически переведёт все ответы на официальный иврит МВД—или нажмите «Перевести Мои Ответы → Официальный Иврит (ИИ)» для мгновенного перевода прямо в полях. После перевода появится кнопка ↺ Вернуть, чтобы в один клик восстановить ваш исходный текст!",
+        "btnOk": "Понятно — Начать заполнение →",
+        "undoBtn": "↺ Отменить иврит (Вернуть исходный текст)",
+        "restoredMsg": "↺ Ваш исходный текст восстановлен!"
+    },
+    "he": {
+        "title": "✍️ הנחיות למילוי הטופס (ניתן למלא בכל שפה!)",
+        "p1Title": "1. שדות המסומנים ב-[אותיות לטיניות (כמו בדרכון)]:",
+        "p1Body": "חובה להקליד באותיות לטיניות (A–Z) בדיוק כפי שמופיע בדרכון הזר.",
+        "p2Title": "2. כל שאר השדות — ניתן להקליד בעברית או בשפת האם שלכם!",
+        "p2Body": "אם נח לכם יותר להקליד באנגלית, צרפתית, ספרדית, גרמנית או רוסית — כתבו בשפתכם החופשית.",
+        "p3Title": "3. המרה אוטומטית לעברית תקנית + כפתור ביטול (↺):",
+        "p3Body": "בעת לחיצה על הפקת ה-PDF (או על כפתור התרגום לעברית), המערכת תמיר הכל לעברית תקנית של משרד הפנים. לאחר התרגום יופיע כפתור ↺ שיאפשר לכם לחזור לטקסט המקורי בלחיצה אחת!",
+        "btnOk": "הבנתי — המשך למילוי הטופס ←",
+        "undoBtn": "↺ ביטול תרגום (שחזור הטקסט המקורי שלי)",
+        "restoredMsg": "↺ הטקסט המקורי שוחזר בהצלחה!"
+    }
+};
+
+
+  var TRANSLATE_OVERLAY_I18N = {
+    en: {
+      spinTitle: 'Translating Your Form to Hebrew...',
+      spinSub: 'Converting your answers into official Misrad HaPanim Clerk Hebrew. Please wait a few seconds and do not refresh the page.',
+      doneToast: '✅ All fields translated to Hebrew! (Tap ↺ Undo anytime to revert)',
+      errTitle: '⏳ Translation Server Is Busy',
+      errBody: 'The AI translation server took too long or is temporarily busy. Your answers are 100% saved—please wait a moment and try again.',
+      errRetry: '🔄 Try Again Now',
+      errClose: 'Close'
+    },
+    fr: {
+      spinTitle: 'Traduction en hébreu en cours...',
+      spinSub: 'Conversion de vos réponses en hébreu administratif officiel. Veuillez patienter quelques secondes sans rafraîchir la page.',
+      doneToast: '✅ Traduit en hébreu ! (Cliquez sur ↺ Annuler pour revenir)',
+      errTitle: '⏳ Serveur de traduction occupé',
+      errBody: 'Le serveur est momentanément occupé ou la connexion a expiré. Vos réponses sont sauvegardées — veuillez réessayer dans un instant.',
+      errRetry: '🔄 Réessayer maintenant',
+      errClose: 'Fermer'
+    },
+    es: {
+      spinTitle: 'Traduciendo su formulario al hebreo...',
+      spinSub: 'Convirtiendo sus respuestas al hebreo oficial de Misrad HaPanim. Espere unos segundos y no recargue la página.',
+      doneToast: '✅ ¡Traducido al hebreo! (Pulse ↺ Deshacer cuando quiera)',
+      errTitle: '⏳ El servidor de traducción está ocupado',
+      errBody: 'El servidor tardó demasiado o está temporalmente ocupado. Sus respuestas están guardadas — por favor intente de nuevo en un momento.',
+      errRetry: '🔄 Intentar de nuevo',
+      errClose: 'Cerrar'
+    },
+    de: {
+      spinTitle: 'Übersetzung ins Hebräische läuft...',
+      spinSub: 'Ihre Antworten werden in offizielles Behörden-Hebräisch übersetzt. Bitte warten Sie einige Sekunden und laden Sie die Seite nicht neu.',
+      doneToast: '✅ Ins Hebräische übersetzt! (Jederzeit mit ↺ Rückgängig umkehrbar)',
+      errTitle: '⏳ Übersetzungsserver ist ausgelastet',
+      errBody: 'Der Server ist momentan ausgelastet oder hat zu lange gebraucht. Ihre Eingaben sind gespeichert — bitte versuchen Sie es gleich noch einmal.',
+      errRetry: '🔄 Jetzt erneut versuchen',
+      errClose: 'Schließen'
+    },
+    ru: {
+      spinTitle: 'Переводим анкету на иврит...',
+      spinSub: 'Конвертируем ваши ответы на официальный иврит МВД. Пожалуйста, подождите несколько секунд и не обновляйте страницу.',
+      doneToast: '✅ Переведено на иврит! (Кнопка ↺ вернёт исходный текст)',
+      errTitle: '⏳ Сервер перевода сейчас перегружен',
+      errBody: 'Сервер временно занят или превышено время ожидания. Ваши данные сохранены — пожалуйста, попробуйте ещё раз через несколько секунд.',
+      errRetry: '🔄 Попробовать снова',
+      errClose: 'Закрыть'
+    },
+    he: {
+      spinTitle: 'מתרגם את הטופס לעברית תקנית...',
+      spinSub: 'ממיר את התשובות לעברית תקנית של משרד הפנים. אנא המתינו מספר שניות ואל תרעננו את העמוד.',
+      doneToast: '✅ כל השדות תורגמו לעברית! (ניתן ללחוץ על ↺ לביטול)',
+      errTitle: '⏳ שרת התרגום עמוס כעת',
+      errBody: 'השרת עמוס זמנית או שהבקשה ארכה זמן רב מדי. הנתונים שלכם שמורים — אנא נסו שוב בעוד מספר שניות.',
+      errRetry: '🔄 נסה שוב כעת',
+      errClose: 'סגור'
+    }
+  };
+
+  window.showGatTranslateSpinner = function() {
+    var old = document.getElementById('gat-translate-spinner-overlay');
+    if (old) old.remove();
+    if (!document.getElementById('gat-spin-keyframes')) {
+      var st = document.createElement('style');
+      st.id = 'gat-spin-keyframes';
+      st.textContent = '@keyframes gatSpin360 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }';
+      document.head.appendChild(st);
+    }
+    var l = lang();
+    var t = TRANSLATE_OVERLAY_I18N[l] || TRANSLATE_OVERLAY_I18N.en;
+    var ov = document.createElement('div');
+    ov.id = 'gat-translate-spinner-overlay';
+    ov.dir = (l === 'he') ? 'rtl' : 'ltr';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:1000000;background:rgba(15,23,42,0.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;cursor:wait;';
+    ov.innerHTML =
+      '<div style="background:#ffffff;border:3px solid #0284c7;border-radius:18px;max-width:420px;width:100%;padding:28px 24px;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,0.45);color:#0f172a;">' +
+        '<div style="width:54px;height:54px;margin:0 auto 16px;border:5px solid #e0f2fe;border-top-color:#0284c7;border-radius:50%;animation:gatSpin360 0.85s linear infinite;"></div>' +
+        '<h3 style="margin:0 0 8px;font-size:1.12rem;color:#082548;font-weight:900;">' + esc(t.spinTitle) + '</h3>' +
+        '<p style="margin:0;font-size:0.86rem;color:#475569;line-height:1.5;font-weight:600;">' + esc(t.spinSub) + '</p>' +
+      '</div>';
+    document.body.appendChild(ov);
+  };
+
+  window.hideGatTranslateSpinner = function() {
+    var old = document.getElementById('gat-translate-spinner-overlay');
+    if (old) old.remove();
+  };
+
+  window.showGatTranslateErrorModal = function(detailMsg) {
+    window.hideGatTranslateSpinner();
+    var old = document.getElementById('gat-translate-err-modal');
+    if (old) old.remove();
+    var l = lang();
+    var t = TRANSLATE_OVERLAY_I18N[l] || TRANSLATE_OVERLAY_I18N.en;
+    var ov = document.createElement('div');
+    ov.id = 'gat-translate-err-modal';
+    ov.dir = (l === 'he') ? 'rtl' : 'ltr';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:1000001;background:rgba(15,23,42,0.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;';
+    ov.innerHTML =
+      '<div style="background:#ffffff;border:3px solid #dc2626;border-radius:18px;max-width:440px;width:100%;padding:24px;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,0.45);color:#0f172a;">' +
+        '<h3 style="margin:0 0 10px;font-size:1.12rem;color:#b91c1c;font-weight:900;">' + esc(t.errTitle) + '</h3>' +
+        '<p style="margin:0 0 16px;font-size:0.86rem;color:#334155;line-height:1.5;font-weight:600;">' + esc(t.errBody) + '</p>' +
+        '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">' +
+          '<button type="button" id="gat-tr-retry-btn" style="flex:1;min-width:150px;background:#0284c7;color:#fff;border:none;border-radius:10px;padding:11px 16px;font-size:0.88rem;font-weight:900;cursor:pointer;">' + esc(t.errRetry) + '</button>' +
+          '<button type="button" id="gat-tr-close-btn" style="background:#e2e8f0;color:#1e293b;border:none;border-radius:10px;padding:11px 16px;font-size:0.88rem;font-weight:800;cursor:pointer;">' + esc(t.errClose) + '</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(ov);
+    var rBtn = document.getElementById('gat-tr-retry-btn');
+    var cBtn = document.getElementById('gat-tr-close-btn');
+    if (rBtn) rBtn.onclick = function() { ov.remove(); window.convertFormAnswersToClerkHebrew(false); };
+    if (cBtn) cBtn.onclick = function() { ov.remove(); };
+    ov.onclick = function(e) { if (e.target === ov) ov.remove(); };
+  };
+
+  window.hasPreHebrewBackup = function() {
+    try {
+      var b = JSON.parse(localStorage.getItem(PRE_HEB_BACKUP_KEY) || '{}') || {};
+      return Object.keys(b).length > 0;
+    } catch (e) { return false; }
+  };
+
+  window.savePreHebrewBackup = function(fieldsMap) {
+    try {
+      var existing = JSON.parse(localStorage.getItem(PRE_HEB_BACKUP_KEY) || '{}') || {};
+      Object.keys(fieldsMap || {}).forEach(function(k) {
+        if (fieldsMap[k]) existing[k] = fieldsMap[k];
+      });
+      localStorage.setItem(PRE_HEB_BACKUP_KEY, JSON.stringify(existing));
+    } catch (e) {}
+  };
+
+  window.undoClerkHebrewConversion = function() {
+    try {
+      var b = JSON.parse(localStorage.getItem(PRE_HEB_BACKUP_KEY) || '{}') || {};
+      var keys = Object.keys(b);
+      if (!keys.length) return;
+      var d = loadDraft();
+      keys.forEach(function(fid) {
+        window.gatFormsState[fid] = b[fid];
+        d[fid] = b[fid];
+      });
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+      localStorage.removeItem(PRE_HEB_BACKUP_KEY);
+      window.mountUnifiedPibaFormsEngine();
+      if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged();
+      var g = FORM_GUIDE_I18N[lang()] || FORM_GUIDE_I18N.en;
+      if (window.showDraftSavedBadge) window.showDraftSavedBadge(g.restoredMsg, false);
+    } catch (e) {}
+  };
+
+
+  var DOC_ONBOARD_SEEN_KEY = 'gat_doc_onboard_seen_v4';
+  var DOC_ONBOARD_I18N = {
+    "en": {
+        "badge": "⚡ SMART 2-PARTY FORM ASSISTANT",
+        "titleAllMissing": "Stop Drowning in Paperwork on {form}: Let AI Auto-Fill & Audit Your File in Seconds!",
+        "titleSomeMissing": "Complete Your {form} Dossier! You Still Need to Upload: {missingList}",
+        "lead": "Filling out Misrad HaPanim forms manually is overwhelming—and a single typo, wrong date format, or document flaw can get your file rejected at the clerk's window. Uploading your documents here saves you hours and protects your application:",
+        "whoLabel": "👤 1. Tick Who You Are Uploading For (Passport, TZ, or Birth Cert):",
+        "forMe": "For Me (Primary Applicant)",
+        "forPartner": "For My Partner / Spouse / Inviter",
+        "alreadyHaveLabel": "✅ Uploaded so far:",
+        "stillNeedLabel": "📌 2. Upload Documents for Selected Person:",
+        "sharedMarriageLabel": "💍 3. Shared Couple Document (One Upload Only):",
+        "docName_my_passport": "My Foreign Passport",
+        "docName_my_tz": "My Israeli TZ + Sefach",
+        "docName_my_birth": "My Birth Certificate",
+        "docName_partner_tz": "Partner's Israeli TZ + Sefach",
+        "docName_partner_passport": "Partner's Foreign Passport",
+        "docName_partner_birth": "Partner's Birth Certificate",
+        "docName_marriage": "Marriage Certificate",
+        "btn_passport_me": "🛂 Upload MY Foreign Passport (Auto-Fill My Latin & Check Expiry)",
+        "btn_passport_partner": "🛂 Upload PARTNER'S Foreign Passport (Auto-Fill Partner's Details)",
+        "btn_tz_me": "🪪 Upload MY Israeli TZ + Sefach (Auto-Fill My ID & Address)",
+        "btn_tz_partner": "🪪 Upload PARTNER'S Israeli TZ + Sefach (Auto-Fill Spouse/Inviter ID & Address)",
+        "btn_birth_me": "📜 Upload MY Birth Certificate (Auto-Fill My Parents & Check Long-Form)",
+        "btn_birth_partner": "📜 Upload PARTNER'S Birth Certificate (Verify Partner's Long-Form & Details)",
+        "btn_marriage": "💍 Upload Marriage Certificate (1 Shared Upload — Auto-Fill Date, Place & Spouse)",
+        "allDoneForForm": "🎉 All recommended documents for {form} are uploaded and auto-filled!",
+        "skipReminder": "💡 If you skip for now, you can re-open this uploader anytime using the blue \"📸 Scan Document → Auto-Fill\" button at the top-right of the form (or in Card #2 above)!",
+        "btnSkip": "Skip for Now — I'll Type Manually →",
+        "scanning": "🔍 Scanning document, auto-filling fields & running forensic PIBA validation...",
+        "passOk": "✅ Foreign Passport Validated & Auto-Filled ({who})!",
+        "passExpErr": "🚨 CRITICAL TRAP ({who}): This passport expires in {m} months ({exp})! Misrad HaPanim requires at least {reqM} months validity. Action Required: Renew the passport immediately before your clerk appointment.",
+        "passGuide": "📖 Read Our Passport Validity & Emergency Renewal Guide →",
+        "tzWrongFormErr": "🚨 WRONG ID TYPE FOR {form} (Primary Applicant): You uploaded an Israeli TZ ({tz}) for 'Me (Applicant)', but on {form} the Primary Applicant must use a FOREIGN PASSPORT! Tip: If this TZ belongs to your Israeli Spouse/Inviter, tick '☑️ For My Partner / Spouse' above and upload it again!",
+        "tzOk": "✅ Israeli TZ + Sefach ({tz}) Validated & Auto-Filled ({role})!",
+        "tzExpErr": "🚨 CRITICAL TRAP — EXPIRED ISRAELI TZ ({role}): Biometric TZ ({tz}) expired on {exp}! (We still auto-filled the details & Sefach address: {addr}). Misrad HaPanim requires a valid, unexpired TZ. Action Required: Renew the biometric TZ before submitting your file.",
+        "roleSpouse": "Partner / Spouse / Inviter + Shared Address",
+        "roleApplicant": "Primary Applicant + Sefach Address",
+        "birthOk": "✅ Full Long-Form Birth Certificate Validated & Auto-Filled ({who})!",
+        "birthHalfErr": "🚨 CRITICAL TRAP ({who}): Half / Short-Form Birth Certificate Detected! Both parents' full names do not appear clearly on this certificate. Misrad HaPanim strictly rejects short-form certificates. Action Required: Order a Long-Form Birth Certificate listing both Father and Mother + Apostille.",
+        "marriageOk": "✅ Marriage Certificate Validated! Marriage Date, Place, Marital Status & Spouse Details Auto-Filled!",
+        "marriageGuide": "📖 Read Our Marriage Certificate Apostille & Translation Guide →",
+        "aposWarn": "⚠️ Authentication Stamp Not Detected on This Scan ({country}): If {country} is in the Hague Convention, attach an official Hague Apostille stamp. If {country} is a Non-Hague country, Misrad HaPanim requires 2-Step Consular Chain Legalization (Foreign Ministry + Israeli Embassy/Consulate stamp in {country}).",
+        "birthGuide": "📖 Read Our Long-Form Birth Certificate & Apostille Guide →",
+        "continueBtn": "✅ Done Uploading — Continue to My Pre-Filled Form →",
+        "why1": "⚡ Zero Overwhelm — Write Once, Fill All 8 Forms: Extracts your details from 1 scan and populates every matching Hebrew & Passport-Latin box across all 8 official PIBA forms automatically.",
+        "why2": "🎯 Eliminate Human Typing & Translation Mistakes: Prevents transposed ID/passport numbers, wrong DD/MM/YYYY date formats, and non-standard Hebrew phrasings that clerks reject.",
+        "why3": "🛡️ Instant Forensic Rejection-Trap Audit: Automatically checks your Passport's 12/24-month validity rule, verifies your Birth Certificate is a Full Long-Form (with both parents' names), checks that your Israeli TZ Sefach is completely unfolded (to auto-list your kids & marital status), and verifies Hague Apostilles or Non-Hague Israeli Embassy Consular Legalization!",
+        "b2": "🔍 Run a forensic validation check on your documents (Passport/ID expiration date, Full Long-Form vs. Short-Form Birth Certificate parent check, and Hague Apostille or Non-Hague Israeli Embassy Consular Legalization).",
+        "consularWarn": "⚠️ Non-Hague Country Detected ({country}) — Consular Chain Required: Because {country} is not a Hague Apostille country, Misrad HaPanim requires 2-Step Diplomatic Chain Legalization (1. Ministry of Foreign Affairs of {country} + 2. Israeli Embassy/Consulate stamp) on the original certificate!"
+    },
+    "fr": {
+        "badge": "⚡ ASSISTANT INTELLIGENT 2 PARTIES",
+        "titleAllMissing": "Ne vous noyez plus dans la paperasse sur {form} : Pré-remplissage et audit IA en quelques secondes !",
+        "titleSomeMissing": "Complétez votre dossier {form} ! Document(s) encore requis : {missingList}",
+        "lead": "Remplir les formulaires du Misrad HaPanim à la main est épuisant — et une seule faute de frappe, une mauvaise date ou un acte incomplet entraîne un refus immédiat au guichet. Notre moteur intelligent vous protège :",
+        "whoLabel": "👤 1. Cochez à qui appartient le document (Passeport, TZ ou Acte de naissance) :",
+        "forMe": "Pour Moi (Demandeur Principal)",
+        "forPartner": "Pour Mon Conjoint / Partenaire / Invitant",
+        "alreadyHaveLabel": "✅ Déjà importé :",
+        "stillNeedLabel": "📌 2. Importer les documents pour la personne cochée :",
+        "sharedMarriageLabel": "💍 3. Document commun du couple (1 seul envoi) :",
+        "docName_my_passport": "Mon Passeport Étranger",
+        "docName_my_tz": "Ma TZ Israélienne + Sefach",
+        "docName_my_birth": "Mon Acte de Naissance",
+        "docName_partner_tz": "TZ + Sefach du Conjoint",
+        "docName_partner_passport": "Passeport du Conjoint",
+        "docName_partner_birth": "Acte de Naissance du Conjoint",
+        "docName_marriage": "Acte de Mariage",
+        "btn_passport_me": "🛂 Importer MON Passeport Étranger (Pré-remplir & Vérifier Validité)",
+        "btn_passport_partner": "🛂 Importer le Passeport Étranger de MON CONJOINT",
+        "btn_tz_me": "🪪 Importer MA TZ Israélienne + Sefach (Si déjà détenue)",
+        "btn_tz_partner": "🪪 Importer la TZ + Sefach de MON CONJOINT / INVITANT Israélien",
+        "btn_birth_me": "📜 Importer MON Acte de Naissance (Vérifier Copie Intégrale & Parents)",
+        "btn_birth_partner": "📜 Importer l’Acte de Naissance de MON CONJOINT",
+        "btn_marriage": "💍 Importer l’Acte de Mariage (1 seul envoi — Date, Lieu & Conjoint)",
+        "allDoneForForm": "🎉 Tous les documents recommandés pour {form} sont importés et pré-remplis !",
+        "skipReminder": "💡 Si vous passez cette étape, vous pourrez toujours importer vos documents plus tard via le bouton bleu « 📸 Scanner un Acte → Pré-remplir » en haut à droite du formulaire !",
+        "btnSkip": "Passer pour l’instant — Remplir manuellement →",
+        "scanning": "🔍 Analyse du document, pré-remplissage des formulaires et contrôle PIBA...",
+        "passOk": "✅ Passeport étranger validé et pré-rempli ({who}) !",
+        "passExpErr": "🚨 PIÈGE CRITIQUE ({who}) : Ce passeport expire dans {m} mois ({exp}) ! Misrad HaPanim exige au moins {reqM} mois de validité. Renouvelez le passeport immédiatement.",
+        "passGuide": "📖 Lire notre guide sur la validité du passeport et le renouvellement →",
+        "tzWrongFormErr": "🚨 MAUVAIS DOCUMENT POUR {form} (Demandeur) : Vous avez importé une TZ israélienne ({tz}) « Pour Moi », mais sur {form} le demandeur principal doit utiliser un PASSEPORT ÉTRANGER ! Astuce : Si cette TZ appartient à votre conjoint/invitant israélien, cochez « ☑️ Pour Mon Conjoint » ci-dessus et réimportez-la !",
+        "tzOk": "✅ TZ israélienne + Sefach ({tz}) validée et pré-remplie ({role}) !",
+        "tzExpErr": "🚨 PIÈGE CRITIQUE — TZ EXPIRÉE ({role}) : La TZ biométrique ({tz}) a expiré le {exp} ! (Coordonnées et adresse Sefach {addr} pré-remplies). Renouvelez la TZ avant le rendez-vous.",
+        "roleSpouse": "Conjoint / Invitant Israélien + Adresse",
+        "roleApplicant": "Demandeur Principal + Adresse Sefach",
+        "birthOk": "✅ Copie intégrale de l’acte de naissance validée ({who}) !",
+        "birthHalfErr": "🚨 PIÈGE CRITIQUE ({who}) : Extrait court détecté (sans les noms complets des deux parents) ! Commandez une Copie Intégrale + Apostille.",
+        "marriageOk": "✅ Acte de mariage validé ! Date, lieu de mariage, statut matrimonial et conjoint pré-remplis !",
+        "marriageGuide": "📖 Lire notre guide Acte de Mariage & Apostille →",
+        "aposWarn": "⚠️ Cachet d’authentification non détecté sur ce scan ({country}) : Si {country} est membre de La Haye, apposez l’Apostille. Si {country} est hors Convention de La Haye, Misrad HaPanim exige la légalisation consulaire en 2 étapes (Ministère des Affaires Étrangères + Ambassade/Consulat d’Israël).",
+        "birthGuide": "📖 Lire notre guide Copie Intégrale & Apostille →",
+        "continueBtn": "✅ Terminé — Continuer vers mon formulaire pré-rempli →",
+        "why1": "⚡ Zéro stress — 1 scan remplit les 8 formulaires : Extrait vos données et remplit automatiquement toutes les cases en hébreu officiel et en lettres latines sur les 8 formulaires PIBA.",
+        "why2": "🎯 Zéro erreur de saisie ou de traduction : Évite les inversions de chiffres, les erreurs de format de date JJ/MM/AAAA et les mauvaises traductions en hébreu administratif.",
+        "why3": "🛡️ Audit forensique anti-rejet immédiat : Vérifie la validité de 12/24 mois du passeport, contrôle que l’acte de naissance est une Copie Intégrale (avec les deux parents), vérifie que le Sefach israélien est entièrement déplié (pour ajouter automatiquement vos enfants) et contrôle l’Apostille de La Haye ou la Légalisation Consulaire (pays hors-La Haye) !",
+        "b2": "🔍 Vérifier la validité de vos documents (date d’expiration 12/24 mois, acte de naissance copie intégrale avec filiation, et Apostille de La Haye ou Légalisation Consulaire pour les pays hors-La Haye).",
+        "consularWarn": "⚠️ Pays hors Convention de La Haye ({country}) — Légalisation Consulaire requise : Misrad HaPanim exige le tampon du Ministère des Affaires Étrangères de {country} + le tampon du Consulat/Ambassade d’Israël sur l’original !"
+    },
+    "es": {
+        "badge": "⚡ ASISTENTE INTELIGENTE PIBA (2 PARTES)",
+        "titleAllMissing": "No se abrume con el papeleo en {form}: ¡Autocompletado y auditoría forense con IA en segundos!",
+        "titleSomeMissing": "¡Complete su expediente {form}! Aún falta subir: {missingList}",
+        "lead": "Llenar los formularios de Misrad HaPanim a mano es abrumador, y un solo error de tipeo, fecha mal escrita o documento incompleto causa el rechazo inmediato en ventanilla. Subir sus documentos aquí le ahorra horas y blinda su trámite:",
+        "whoLabel": "👤 1. Marque de quién es el documento (Pasaporte, TZ o Partida de Nacimiento):",
+        "forMe": "Para Mí (Solicitante Principal)",
+        "forPartner": "Para Mi Pareja / Cónyuge / Invitante",
+        "alreadyHaveLabel": "✅ Ya subido:",
+        "stillNeedLabel": "📌 2. Subir documentos de la persona seleccionada:",
+        "sharedMarriageLabel": "💍 3. Documento compartido de la pareja (1 sola carga):",
+        "docName_my_passport": "Mi Pasaporte Extranjero",
+        "docName_my_tz": "Mi TZ Israelí + Sefach",
+        "docName_my_birth": "Mi Partida de Nacimiento",
+        "docName_partner_tz": "TZ + Sefach de Mi Pareja",
+        "docName_partner_passport": "Pasaporte de Mi Pareja",
+        "docName_partner_birth": "Partida de Nacimiento de Mi Pareja",
+        "docName_marriage": "Certificado de Matrimonio",
+        "btn_passport_me": "🛂 Subir MI Pasaporte Extranjero (Autocompletar y Validar Vigencia)",
+        "btn_passport_partner": "🛂 Subir Pasaporte Extranjero de MI PAREJA / CÓNYUGE",
+        "btn_tz_me": "🪪 Subir MI TZ Israelí + Sefach (Si posee)",
+        "btn_tz_partner": "🪪 Subir TZ + Sefach de MI PAREJA / INVITANTE Israelí",
+        "btn_birth_me": "📜 Subir MI Partida de Nacimiento (Validar Acta Literal y Padres)",
+        "btn_birth_partner": "📜 Subir Partida de Nacimiento de MI PAREJA",
+        "btn_marriage": "💍 Subir Certificado de Matrimonio (1 sola carga — Fecha, Lugar y Cónyuge)",
+        "allDoneForForm": "🎉 ¡Todos los documentos recomendados para {form} están subidos y autocompletados!",
+        "skipReminder": "💡 Si omite esto ahora, puede subir sus documentos en cualquier momento usando el botón azul «📸 Escanear Documento → Autocompletar» arriba a la derecha del formulario.",
+        "btnSkip": "Omitir por ahora — Escribir manualmente →",
+        "scanning": "🔍 Escaneando documento, autocompletando formularios y validando requisitos...",
+        "passOk": "✅ ¡Pasaporte extranjero validado y autocompletado ({who})!",
+        "passExpErr": "🚨 ALERTA CRÍTICA ({who}): ¡Este pasaporte vence en {m} meses ({exp})! Misrad HaPanim exige al menos {reqM} meses de vigencia. Renueve el pasaporte de inmediato.",
+        "passGuide": "📖 Ver guía de vigencia de pasaporte y renovación →",
+        "tzWrongFormErr": "🚨 DOCUMENTO INCORRECTO PARA {form} (Solicitante): Subió una TZ israelí ({tz}) marcada «Para Mí», ¡pero en {form} el solicitante principal debe usar un PASAPORTE EXTRANJERO! Consejo: Si esta TZ es de su cónyuge/invitante israelí, marque «☑️ Para Mi Pareja / Cónyuge» arriba y vuelva a subirla.",
+        "tzOk": "✅ ¡TZ israelí + Sefach ({tz}) validada y autocompletada ({role})!",
+        "tzExpErr": "🚨 ALERTA CRÍTICA — TZ VENCIDA ({role}): ¡La TZ biométrica ({tz}) venció el {exp}! (Igualmente autocompletamos los datos y dirección del Sefach: {addr}). Renueve la TZ antes de la cita.",
+        "roleSpouse": "Cónyuge / Invitante Israelí + Dirección",
+        "roleApplicant": "Solicitante Principal + Dirección Sefach",
+        "birthOk": "✅ ¡Partida de Nacimiento Literal validada ({who})!",
+        "birthHalfErr": "🚨 ALERTA CRÍTICA ({who}): ¡Se detectó un certificado corto/parcial sin los nombres completos de ambos padres! Misrad HaPanim exige Partida Literal + Apostilla.",
+        "marriageOk": "✅ ¡Certificado de Matrimonio validado! Fecha, lugar de matrimonio, estado civil y datos del cónyuge autocompletados.",
+        "marriageGuide": "📖 Ver guía de Certificado de Matrimonio y Apostilla →",
+        "aposWarn": "⚠️ Sello de autenticación no visible en esta imagen ({country}): Si {country} es parte del Convenio de La Haya, adjunte la Apostilla. Si {country} NO es parte de La Haya, Misrad HaPanim exige Legalización Consular en cadena (Cancillería local + Consulado/Embajada de Israel).",
+        "birthGuide": "📖 Ver guía de Partida Literal y Apostilla →",
+        "continueBtn": "✅ Listo — Ir a mi formulario autocompletado →",
+        "why1": "⚡ Cero estrés — Escriba una vez, llene los 8 formularios: Extrae sus datos de una sola imagen y autocompleta automáticamente las filas en hebreo oficial y latín de pasaporte en los 8 formularios PIBA.",
+        "why2": "🎯 Elimine errores humanos de tipeo y traducción: Evita números invertidos, formatos de fecha incorrectos (DD/MM/AAAA) y traducciones caseras al hebreo que los funcionarios rechazan.",
+        "why3": "🛡️ Auditoría forense contra rechazos: Verifica la vigencia de 12/24 meses de su pasaporte, comprueba que su Partida de Nacimiento sea Literal/Completa (con ambos padres), verifica que el Sefach israelí esté totalmente desplegado (autocompletando a sus hijos) y revisa la Apostilla de La Haya o Legalización Consular en Embajada de Israel (países no miembros).",
+        "b2": "🔍 Verificará sus documentos (vigencia de 12/24 meses, Partida Literal con nombres de ambos padres, y Apostilla de La Haya o Legalización Consular para países fuera de La Haya).",
+        "consularWarn": "⚠️ País fuera del Convenio de La Haya ({country}) — Legalización Consular requerida: Misrad HaPanim exige doble sello en cadena (1. Ministerio de Relaciones Exteriores de {country} + 2. Embajada/Consulado de Israel) en el documento original."
+    },
+    "de": {
+        "badge": "⚡ INTELLIGENTER 2-PERSONEN-ASSISTENT",
+        "titleAllMissing": "Kein Formular-Chaos mehr bei {form}: KI-Auto-Fill & Dokumenten-Prüfung in Sekunden!",
+        "titleSomeMissing": "Vervollständigen Sie {form}! Es fehlen noch: {missingList}",
+        "lead": "Misrad-HaPanim-Formulare manuell auszufüllen ist überwältigend — und ein einziger Tippfehler, ein falsches Datumsformat oder ein Dokumentenfehler führt am Schalter sofort zur Ablehnung. Unser KI-Assistent schützt Sie:",
+        "whoLabel": "👤 1. Ankreuzen, für wen Sie hochladen (Reisepass, TZ oder Geburtsurkunde):",
+        "forMe": "Für Mich (Hauptantragsteller)",
+        "forPartner": "Für Meinen Partner / Ehepartner / Einlader",
+        "alreadyHaveLabel": "✅ Bereits hochgeladen:",
+        "stillNeedLabel": "📌 2. Dokumente für die ausgewählte Person hochladen:",
+        "sharedMarriageLabel": "💍 3. Gemeinsames Paardokument (Nur 1 Upload nötig):",
+        "docName_my_passport": "Mein Ausländischer Reisepass",
+        "docName_my_tz": "Meine Israelische TZ + Sefach",
+        "docName_my_birth": "Meine Geburtsurkunde",
+        "docName_partner_tz": "TZ + Sefach des Partners",
+        "docName_partner_passport": "Reisepass des Partners",
+        "docName_partner_birth": "Geburtsurkunde des Partners",
+        "docName_marriage": "Heiratsurkunde",
+        "btn_passport_me": "🛂 MEINEN Ausländischen Reisepass hochladen (Auto-Fill & Gültigkeit)",
+        "btn_passport_partner": "🛂 Ausländischen Reisepass MEINES PARTNERS hochladen",
+        "btn_tz_me": "🪪 MEINE Israelische TZ + Sefach hochladen (falls vorhanden)",
+        "btn_tz_partner": "🪪 Israelische TZ + Sefach MEINES PARTNERS / EINLADERS hochladen",
+        "btn_birth_me": "📜 MEINE Geburtsurkunde hochladen (Vollform & Eltern prüfen)",
+        "btn_birth_partner": "📜 Geburtsurkunde MEINES PARTNERS hochladen",
+        "btn_marriage": "💍 Heiratsurkunde hochladen (1 Upload für beide — Datum, Ort & Partner)",
+        "allDoneForForm": "🎉 Alle empfohlenen Dokumente für {form} wurden hochgeladen und vorausgefüllt!",
+        "skipReminder": "💡 Wenn Sie jetzt überspringen, können Sie Ihre Dokumente jederzeit später über den blauen Button „📸 Dokument Scannen → Auto-Ausfüllen“ oben rechts im Formular hochladen!",
+        "btnSkip": "Jetzt überspringen — Manuell tippen →",
+        "scanning": "🔍 Dokument wird gescannt, Formulare ausgefüllt & geprüft...",
+        "passOk": "✅ Ausländischer Reisepass bestätigt & vorausgefüllt ({who})!",
+        "passExpErr": "🚨 KRITISCHE WARNUNG ({who}): Dieser Reisepass läuft in {m} Monaten ({exp}) ab! Misrad HaPanim verlangt mindestens {reqM} Monate Gültigkeit. Bitte Pass sofort verlängern.",
+        "passGuide": "📖 Leitfaden zur Passgültigkeit & Verlängerung lesen →",
+        "tzWrongFormErr": "🚨 FALSCHER AUSWEISTYP FÜR {form} (Antragsteller): Sie haben eine israelische TZ ({tz}) „Für Mich“ hochgeladen, aber in {form} benötigt der Hauptantragsteller einen AUSLÄNDISCHEN REISEPASS! Tipp: Wenn diese TZ Ihrem israelischen Partner gehört, kreuzen Sie oben „☑️ Für Meinen Partner“ an und laden Sie sie erneut hoch!",
+        "tzOk": "✅ Israelische TZ + Sefach ({tz}) bestätigt & vorausgefüllt ({role})!",
+        "tzExpErr": "🚨 KRITISCHE WARNUNG — TZ ABGELAUFEN ({role}): Biometrische TZ ({tz}) ist am {exp} abgelaufen! (Daten & Sefach-Adresse {addr} wurden dennoch vorausgefüllt). Bitte TZ vor dem Termin erneuern.",
+        "roleSpouse": "Israelischer Partner / Einlader + Adresse",
+        "roleApplicant": "Hauptantragsteller + Sefach-Adresse",
+        "birthOk": "✅ Vollständige Geburtsurkunde bestätigt ({who})!",
+        "birthHalfErr": "🚨 KRITISCHE WARNUNG ({who}): Kurzform-Geburtsurkunde erkannt (Elternnamen fehlen)! Misrad HaPanim verlangt eine vollständige Geburtsurkunde + Apostille.",
+        "marriageOk": "✅ Heiratsurkunde bestätigt! Heiratsdatum, Heiratsort, Familienstand & Ehepartner vorausgefüllt!",
+        "marriageGuide": "📖 Leitfaden zu Heiratsurkunde & Apostille lesen →",
+        "aposWarn": "⚠️ Keine Beglaubigung auf diesem Scan erkannt ({country}): Für Haager-Vertragsstaaten ist eine Apostille erforderlich; für Nicht-Haager-Staaten verlangt Misrad HaPanim die diplomatische Kettenbeglaubigung (Außenministerium + Israelische Botschaft/Konsulat).",
+        "birthGuide": "📖 Leitfaden zu Geburtsurkunde & Apostille lesen →",
+        "continueBtn": "✅ Fertig — Weiter zum vorausgefüllten Formular →",
+        "why1": "⚡ Null Überforderung — 1 Scan füllt alle 8 Formulare: Liest Ihre Daten aus und füllt automatisch alle passenden Felder in Behörden-Hebräisch und Pass-Latein in allen 8 PIBA-Formularen aus.",
+        "why2": "🎯 Keine Tipp- oder Übersetzungsfehler: Verhindert Zahlendreher, falsche Datumsformate (TT/MM/JJJJ) und fehlerhafte Hebräisch-Übersetzungen.",
+        "why3": "🛡️ Sofortige forensische Dokumentenprüfung: Prüft die 12/24-Monate-Passgültigkeit, erkennt Kurzform-Geburtsurkunden (ohne Elternnamen), prüft ob der israelische TZ-Sefach komplett aufgeklappt ist (inkl. automatischer Kinder-Eintragung) und kontrolliert die Haager Apostille bzw. Konsularische Legalisation der israelischen Botschaft (für Nicht-Haager-Länder)!",
+        "b2": "🔍 Prüft Ihre Dokumente (Gültigkeit, vollständige Geburtsurkunde mit beiden Eltern, sowie Haager Apostille oder Konsularische Legalisation für Nicht-Haager-Staaten).",
+        "consularWarn": "⚠️ Nicht-Haager-Vertragsstaat ({country}) — Konsularische Kettenbeglaubigung erforderlich: Misrad HaPanim verlangt den Stempel des Außenministeriums von {country} + den Stempel der Israelischen Botschaft auf dem Original!"
+    },
+    "ru": {
+        "badge": "⚡ УМНЫЙ ПОМОЩНИК (ДЛЯ ОБОИХ ПАРТНЁРОВ)",
+        "titleAllMissing": "Забудьте о бумажном хаосе в {form}: Автозаполнение и проверка документов за секунды!",
+        "titleSomeMissing": "Завершите заполнение {form}! Осталось загрузить: {missingList}",
+        "lead": "Заполнять анкеты МВД Израиля вручную — огромный стресс, а любая опечатка, неверный формат даты или ошибка в документе приводят к отказу чиновника на месте. Загрузка документов здесь экономит часы времени и защищает ваше дело:",
+        "whoLabel": "👤 1. Отметьте, чей документ вы загружаете (Паспорт, ТЗ или Свидетельство о рождении):",
+        "forMe": "Для меня (Основной заявитель)",
+        "forPartner": "Для моего партнёра / супруга(и) / приглашающего",
+        "alreadyHaveLabel": "✅ Уже загружено:",
+        "stillNeedLabel": "📌 2. Загрузить документы для выбранного человека:",
+        "sharedMarriageLabel": "💍 3. Общий документ пары (достаточно 1 загрузки):",
+        "docName_my_passport": "Мой Загранпаспорт",
+        "docName_my_tz": "Мой Теудат Зеут + Сефах",
+        "docName_my_birth": "Моё Свидетельство о рождении",
+        "docName_partner_tz": "Теудат Зеут + Сефах партнёра",
+        "docName_partner_passport": "Загранпаспорт партнёра",
+        "docName_partner_birth": "Свидетельство о рождении партнёра",
+        "docName_marriage": "Свидетельство о браке",
+        "btn_passport_me": "🛂 Загрузить МОЙ Загранпаспорт (Автозаполнение + Проверка срока)",
+        "btn_passport_partner": "🛂 Загрузить Загранпаспорт ПАРТНЁРА / СУПРУГА(И)",
+        "btn_tz_me": "🪪 Загрузить МОЙ Теудат Зеут + Сефах (если есть)",
+        "btn_tz_partner": "🪪 Загрузить Теудат Зеут + Сефах ПАРТНЁРА / ПРИГЛАШАЮЩЕГО",
+        "btn_birth_me": "📜 Загрузить МОЁ Свидетельство о рождении (Проверка полной формы и родителей)",
+        "btn_birth_partner": "📜 Загрузить Свидетельство о рождении ПАРТНЁРА",
+        "btn_marriage": "💍 Загрузить Свидетельство о браке (1 раз для обоих — Дата, место и супруг)",
+        "allDoneForForm": "🎉 Все необходимые документы для {form} загружены и внесены в анкету!",
+        "skipReminder": "💡 Если вы пропустите этот шаг сейчас, вы всегда сможете загрузить документы позже с помощью синей кнопки «📸 Сфотографировать Документ → Заполнить Анкету» в правом верхнем углу формы!",
+        "btnSkip": "Пропустить — Заполнить вручную →",
+        "scanning": "🔍 Сканируем документ, заполняем анкеты и проверяем по правилам МВД...",
+        "passOk": "✅ Загранпаспорт проверен и внесён в анкету ({who})!",
+        "passExpErr": "🚨 КРИТИЧЕСКАЯ ОШИБКА ({who}): Срок действия паспорта истекает через {m} мес. ({exp})! МВД требует минимум {reqM} мес. запаса. Необходимо срочно продлить паспорт.",
+        "passGuide": "📖 Читать инструкцию по продлению паспорта и правилам МВД →",
+        "tzWrongFormErr": "🚨 НЕВЕРНЫЙ ДОКУМЕНТ ДЛЯ {form} (Заявитель): Вы загрузили израильский ТЗ ({tz}) с отметкой «Для меня», но в анкете {form} основной заявитель должен указать ЗАГРАНПАСПОРТ! Подсказка: Если этот ТЗ принадлежит вашему израильскому супругу/приглашающему, отметьте сверху «☑️ Для моего партнёра / супруга(и)» и загрузите его снова!",
+        "tzOk": "✅ Израильский Теудат Зеут + Сефах ({tz}) проверен и внесён ({role})!",
+        "tzExpErr": "🚨 КРИТИЧЕСКАЯ ОШИБКА — ТЕУДАТ ЗЕУТ ПРОСРОЧЕН ({role}): Срок действия биометрического ТЗ ({tz}) истёк {exp}! (Данные и адрес из Сефаха {addr} всё равно внесены). Необходимо продлить ТЗ до подачи.",
+        "roleSpouse": "Израильский супруг / приглашающий + Адрес",
+        "roleApplicant": "Основной заявитель + Адрес из Сефаха",
+        "birthOk": "✅ Полное свидетельство о рождении проверено ({who})!",
+        "birthHalfErr": "🚨 КРИТИЧЕСКАЯ ОШИБКА ({who}): Обнаружена краткая форма свидетельства (без полных имён обоих родителей)! МВД принимает только полное свидетельство о рождении + Апостиль.",
+        "marriageOk": "✅ Свидетельство о браке проверено! Дата и место брака, семейное положение и данные супруга(и) внесены!",
+        "marriageGuide": "📖 Читать инструкцию по свидетельству о браке и апостилю →",
+        "aposWarn": "⚠️ Штамп легализации не виден на этом фото ({country}): Для стран Гаагской конвенции необходим Апостиль; для стран вне конвенции МВД требует двойную консульскую легализацию (МИД страны выдачи + Консульство Израиля).",
+        "birthGuide": "📖 Читать инструкцию по свидетельствам о рождении и апостилю →",
+        "continueBtn": "✅ Готово — Перейти к заполненной анкете →",
+        "why1": "⚡ Без стресса — 1 скан заполняет все 8 анкет: Система считывает ваши данные и автоматически вносит их на официальном иврите и латиницей во все 8 бланков МВД.",
+        "why2": "🎯 Защита от опечаток и ошибок перевода: Исключает путаницу в цифрах паспорта/ТЗ, форматах дат (ДД/ММ/ГГГГ) и неточности перевода на иврит МВД.",
+        "why3": "🛡️ Мгновенный аудит ловушек МВД: Проверяет запас срока действия паспорта (12/24 мес.), отличает краткое свидетельство о рождении от полного (с обоими родителями), проверяет полностью ли развёрнут Сефах ТЗ (автоматически внося детей) и проверяет Апостиль либо Консульскую легализацию посольства Израиля (для стран вне Гаагской конвенции)!",
+        "b2": "🔍 Проведёт проверку документов (срок действия, полное свидетельство о рождении с обоими родителями, а также штамп Апостиль или Консульская легализация для стран вне Гаагской конвенции).",
+        "consularWarn": "⚠️ Страна вне Гаагской конвенции ({country}) — Требуется Консульская легализация: МВД требует цепочку печатей на оригинале (1. МИД страны выдачи + 2. Посольство/Консульство Израиля)!"
+    },
+    "he": {
+        "badge": "⚡ העוזר החכם לטפסים (עבור שני בני הזוג)",
+        "titleAllMissing": "אל תלכו לאיבוד בניירת של {form}: מילוי אוטומטי ובדיקת תקינות מסמכים בשניות!",
+        "titleSomeMissing": "השלימו את תיק {form}! טרם העליתם: {missingList}",
+        "lead": "מילוי ידני של טפסי משרד הפנים הוא מתיש ומבלבל — וטעות הקלדה אחת, תאריך שגוי או מסמך חסר עלולים לגרום לדחיית התיק על הסף בלשכה. העלאת המסמכים כאן חוסכת שעות של תסכול ומגנה על הבקשה שלכם:",
+        "whoLabel": "👤 1. סמנו עבור מי המסמך שאתם מעלים כעת (דרכון, ת\"ז או תעודת לידה):",
+        "forMe": "עבורי (המבקש/ת הראשי/ת)",
+        "forPartner": "עבור בן/בת הזוג / המזמין הישראלי",
+        "alreadyHaveLabel": "✅ כבר הועלו והוזנו:",
+        "stillNeedLabel": "📌 2. העלאת מסמכים עבור האדם שסומן:",
+        "sharedMarriageLabel": "💍 3. מסמך משותף לזוג (העלאה אחת בלבד):",
+        "docName_my_passport": "הדרכון הזר שלי",
+        "docName_my_tz": "ת\"ז + ספח שלי",
+        "docName_my_birth": "תעודת הלידה שלי",
+        "docName_partner_tz": "ת\"ז + ספח של בן/בת הזוג",
+        "docName_partner_passport": "דרכון זר של בן/בת הזוג",
+        "docName_partner_birth": "תעודת לידה של בן/בת הזוג",
+        "docName_marriage": "תעודת נישואין",
+        "btn_passport_me": "🛂 העלאת הדרכון הזר שלי (מילוי אוטומטי בלועזית ובדיקת תוקף)",
+        "btn_passport_partner": "🛂 העלאת דרכון זר של בן/בת הזוג",
+        "btn_tz_me": "🪪 העלאת ת\"ז + ספח שלי (למחזיקי ת\"ז ישראלית)",
+        "btn_tz_partner": "🪪 העלאת ת\"ז + ספח של בן/בת הזוג / המזמין הישראלי",
+        "btn_birth_me": "📜 העלאת תעודת הלידה שלי (בדיקת תעודה מלאה ושמות הורים)",
+        "btn_birth_partner": "📜 העלאת תעודת לידה של בן/בת הזוג",
+        "btn_marriage": "💍 העלאת תעודת נישואין (העלאה אחת לשניכם — תאריך, מקום ובן/בת זוג)",
+        "allDoneForForm": "🎉 כל המסמכים המומלצים עבור {form} הועלו והוזנו בהצלחה!",
+        "skipReminder": "💡 אם תבחרו לדלג כעת, תוכלו להעלות מסמכים בכל עת דרך הכפתור הכחול \"📸 צילום / העלאת תעודה ← מילוי הטופס\" בראש הטופס!",
+        "btnSkip": "דלג כעת — אמלא ידנית ←",
+        "scanning": "🔍 סורק את המסמך, ממלא את כל הטפסים ובודק תקינות מול נהלי משרד הפנים...",
+        "passOk": "✅ הדרכון הזר אומת והשדות מולאו אוטומטית ({who})!",
+        "passExpErr": "🚨 התראה קריטית ({who}): תוקף הדרכון פג בעוד {m} חודשים ({exp})! משרד הפנים דורש תוקף של לפחות {reqM} חודשים קדימה. יש לחדש את הדרכון בהקדם.",
+        "passGuide": "📖 למדריך חידוש דרכון ודרישות תוקף משרד הפנים ←",
+        "tzWrongFormErr": "🚨 סוג תעודה שגוי עבור {form} (המבקש הראשי): העליתם תעודת זהות ישראלית ({tz}) תחת 'עבורי', אך בטופס {form} המבקש הראשי חייב להזין דרכון זר! טיפ: אם תעודת הזהות שייכת לבן/בת הזוג או למזמין הישראלי, סמנו למעלה '☑️ עבור בן/בת הזוג / המזמין' והעלו אותה שוב!",
+        "tzOk": "✅ תעודת זהות ישראלית + ספח ({tz}) אומתה והנתונים הוזנו ({role})!",
+        "tzExpErr": "🚨 התראה קריטית — פג תוקף תעודת הזהות ({role}): תוקף ת\"ז הביומטרית ({tz}) פג בתאריך {exp}! (עם זאת, מילאנו אוטומטית את הפרטים והכתובת מהספח: {addr}). יש לחדש את תעודת הזהות הביומטרית לפני הגשת התיק.",
+        "roleSpouse": "בן/בת זוג או מזמין ישראלי + כתובת מגורים",
+        "roleApplicant": "המבקש הראשי + כתובת מהספח",
+        "birthOk": "✅ תעודת לידה מלאה אומתה והנתונים הוזנו ({who})!",
+        "birthHalfErr": "🚨 התראה קריטית ({who}): זוהתה תעודת לידה חלקית / מקוצרת ללא שמות מלאים של שני ההורים! חובה להזמין תעודת לידה מלאה הכוללת שם אב ושם אם + אפוסטיל.",
+        "marriageOk": "✅ תעודת הנישואין אומתה! תאריך ומקום הנישואין, המצב האישי ופרטי בן/בת הזוג הוזנו לטפסים!",
+        "marriageGuide": "📖 למדריך תעודת נישואין וחותמת אפוסטיל ←",
+        "aposWarn": "⚠️ לא זוהתה חותמת אימות בצילום זה ({country}): למדינות אמנת האג חובה לצרף חותמת אפוסטיל; למדינות שאינן חברות באמנת האג משרד הפנים מחייב אימות שרשרת דיפלומטי (משרד החוץ המקומי + קונסוליית/שגרירות ישראל במדינת המקור).",
+        "birthGuide": "📖 למדריך תעודת לידה מלאה ואפוסטיל ←",
+        "continueBtn": "✅ סיימתי להעלות — המשך לטופס הממולא ←",
+        "why1": "⚡ אפס הצפה — מעלים פעם אחת וממלאים את כל 8 הטפסים: המערכת מחלצת את הנתונים ומזינה אותם אוטומטית בעברית תקנית ובאותיות לטיניות בכל 8 טפסי משרד הפנים.",
+        "why2": "🎯 מניעת טעויות הקלדה ותרגום: מונע סיכולי ספרות במספרי דרכון/ת\"ז, שגיאות בפורמט תאריכים וניסוחים לא תקניים בעברית.",
+        "why3": "🛡️ בדיקת תקינות מונעת דחייה בלשכה: בודקת אוטומטית תוקף דרכון (12/24 חודשים), מוודאת שתעודת הלידה מלאה וכוללת שמות הורים, בודקת שהספח לת\"ז פתוח במלואו (ומזינה אוטומטית את הילדים!) ובודקת חותמת אפוסטיל או אימות קונסולרי בנציגות ישראל (למדינות מחוץ לאמנת האג)!",
+        "b2": "🔍 בדיקת תקינות למסמכים (תוקף דרכון/ת\"ז, תעודת לידה מלאה הכוללת את שמות שני ההורים, ובדיקת חותמת אפוסטיל או אימות שרשרת קונסולרי למדינות שאינן חברות באמנת האג).",
+        "consularWarn": "⚠️ מדינה שאינה חברה באמנת האג ({country}) — חובת אימות שרשרת קונסולרי: מאחר ש-{country} אינה חתומה על אמנת האג, משרד הפנים מחייב אימות שרשרת (חותמת משרד החוץ המקומי + חותמת נציגות ישראל) על התעודה המקורית!"
+    }
+};
+
+  var FORMS_SUPPORTING_ISRAELI_TZ = {
+    ash6: 'spouse',
+    nespach_alef: 'spouse',
+    ash1: 'spouse',
+    mr14a: 'applicant',
+    sec_cv: 'applicant'
+  };
+
+  // Determines per-form capabilities for 'Me' and 'Partner' + what is already uploaded vs missing!
+
+  window.hasFormsEngineAccess = function() {
+    try {
+      if (sessionStorage.getItem('gat_simulate_guest_paywall') === '1') return false;
+      if (typeof window.canUnlockForms === 'function' && window.canUnlockForms()) return true;
+      if (localStorage.getItem('gat_pro_unlocked') === 'true' || localStorage.getItem('gat_pro_unlocked') === '1') return true;
+      var entMap = {};
+      try { entMap = JSON.parse(localStorage.getItem('gat_entitlements_map') || '{}') || {}; } catch (e) {}
+      if (entMap.admin || entMap.vip_couple_649 || entMap.suite_solo_life_399 || entMap.suite_solo_90d_249 || entMap.forms_life_149 || entMap.forms_90d_89) {
+        return true;
+      }
+      return false;
+    } catch (e) { return false; }
+  };
+
+  window.redirectToFormsPayment = function(reasonText) {
+    var existing = document.getElementById('gat-new-user-doc-modal');
+    if (existing) existing.remove();
+    var l = lang();
+    if (typeof window.openProPaywall === 'function') {
+      window.openProPaywall(reasonText || (UI[l] || UI.en).pwPrompt, true);
+    } else {
+      window.location.href = '/pricing/?sku=forms_life_149&lang=' + encodeURIComponent(l);
+    }
+  };
+
+  window.triggerSmartPopupOnFormSwap = function(newFormKey) {
+    setTimeout(function() {
+      try {
+        var fKey = newFormKey || val('pf_active_form', 'ash3');
+        var isPaidUser = typeof window.hasFormsEngineAccess === 'function' && window.hasFormsEngineAccess();
+        var docSt = window.getFormDocumentStatus ? window.getFormDocumentStatus(fKey) : { missing: [] };
+        if (!isPaidUser) {
+          window.showNewUserDocUploadModal(fKey, null, true);
+        } else if (docSt.missing && docSt.missing.length > 0) {
+          window.showNewUserDocUploadModal(fKey, null, false);
+        }
+      } catch (e) {}
+    }, 60);
+  };
+
+  window.getFormDocumentStatus = function(formKey) {
+    var curFKey = formKey || val('pf_active_form', 'ash3');
+    var s = Object.assign({}, loadDraft(), window.gatFormsState || {});
+    var scans = loadScans() || [];
+    var isMarried = /נשוי|married/i.test(String(s.pf_marital || '')) || curFKey === 'ash6';
+
+    var hasMyPassport = scans.some(function(sc) {
+      return sc && sc.ownerParty !== 'partner' && !sc.isIsraeliTz && (/passport/i.test(String(sc.docType)) || !!sc.passportNumber);
+    });
+    var hasMyTzCard = scans.some(function(sc) {
+      return sc && sc.ownerParty !== 'partner' && sc.isIsraeliTz;
+    });
+    var hasMySefach = scans.some(function(sc) {
+      return sc && sc.ownerParty !== 'partner' && sc.isIsraeliTz && (sc.hasSefach || !!sc.israeliAddrHe);
+    });
+    var hasMyTz = hasMyTzCard && hasMySefach;
+
+    var hasMyBirth = scans.some(function(sc) {
+      return sc && sc.ownerParty !== 'partner' && (/birth/i.test(String(sc.docType)) || (!!sc.fatherName && !!sc.motherName));
+    });
+
+    var hasPartnerTzCard = scans.some(function(sc) {
+      return sc && (sc.ownerParty === 'partner' || sc.tzRole === 'spouse') && sc.isIsraeliTz;
+    });
+    var hasPartnerSefach = scans.some(function(sc) {
+      return sc && (sc.ownerParty === 'partner' || sc.tzRole === 'spouse') && sc.isIsraeliTz && (sc.hasSefach || !!sc.israeliAddrHe);
+    });
+    var hasPartnerTz = hasPartnerTzCard && hasPartnerSefach;
+
+    var hasPartnerPassport = scans.some(function(sc) {
+      return sc && sc.ownerParty === 'partner' && !sc.isIsraeliTz && (/passport/i.test(String(sc.docType)) || !!sc.passportNumber);
+    });
+    var hasPartnerBirth = scans.some(function(sc) {
+      return sc && sc.ownerParty === 'partner' && (/birth/i.test(String(sc.docType)) || (!!sc.fatherName && !!sc.motherName));
+    });
+
+    var hasMarriage = scans.some(function(sc) {
+      return sc && (/marriage/i.test(String(sc.docType)) || !!sc.marriageDate);
+    });
+    // Does this form involve a Partner / Spouse / Inviter? (All except mr14b have partner/spouse/inviter fields!)
+    var hasPartnerOnForm = (curFKey !== 'mr14b');
+    // Can "Me (Primary Applicant)" upload an Israeli TZ on this form? (Yes on mr14a, sec_cv, or if they hold an A/5 TZ on ash3/ash6/nespach_alef)
+    var meCanHaveTz = (curFKey === 'mr14a' || curFKey === 'sec_cv' || curFKey === 'ash6' || curFKey === 'nespach_alef' || curFKey === 'ash3');
+
+    var needed = [];
+    if (curFKey === 'mr14b') {
+      needed = ['my_passport'];
+    } else if (curFKey === 'ash6') {
+      needed = ['my_passport', 'my_birth', 'partner_tz', 'marriage'];
+    } else if (curFKey === 'nespach_alef') {
+      needed = ['my_passport', 'my_birth', 'partner_tz'];
+    } else if (curFKey === 'ash1') {
+      needed = ['my_passport', 'my_birth', 'partner_tz'];
+      if (isMarried) needed.push('marriage');
+    } else if (curFKey === 'ash456') {
+      needed = ['my_passport', 'my_birth'];
+      if (isMarried) { needed.push('partner_passport'); needed.push('marriage'); }
+    } else if (curFKey === 'mr14a' || curFKey === 'sec_cv') {
+      needed = ['my_passport', 'my_birth'];
+      if (isMarried) needed.push('marriage');
+    } else {
+      // ash3
+      needed = ['my_passport', 'my_birth'];
+      if (isMarried) needed.push('marriage');
+    }
+
+    var mapHas = {
+      my_passport: hasMyPassport,
+      my_tz: hasMyTz,
+      my_birth: hasMyBirth,
+      partner_tz: hasPartnerTz || hasPartnerPassport,
+      partner_passport: hasPartnerPassport || hasPartnerTz,
+      partner_birth: hasPartnerBirth,
+      marriage: hasMarriage
+    };
+
+    var uploaded = Object.keys(mapHas).filter(function(k) { return !!mapHas[k]; });
+    var missing = needed.filter(function(k) { return !mapHas[k]; });
+
+    return {
+      needed: needed,
+      uploaded: uploaded,
+      missing: missing,
+      mapHas: mapHas,
+      hasPartnerOnForm: hasPartnerOnForm,
+      meCanHaveTz: meCanHaveTz
+    };
+  };
+
+  window.openGatChecklistsGuide = function() {
+    var m = document.getElementById("gat-new-user-doc-modal");
+    if (m) m.remove();
+    if (typeof window.switchTab === "function") window.switchTab("mod-checklists");
+  };
+
+  window.showNewUserDocUploadModal = function(formKey, focusElId, forceShowAll) {
+    var existing = document.getElementById('gat-new-user-doc-modal');
+    if (existing) existing.remove();
+    var l = lang();
+    var dTxt = DOC_ONBOARD_I18N[l] || DOC_ONBOARD_I18N.en;
+    var curFKey = formKey || val('pf_active_form', 'ash3');
+    var fDef = FORMS[curFKey] || FORMS.ash3;
+    var docStatus = window.getFormDocumentStatus(curFKey);
+
+    if (!forceShowAll && docStatus.missing.length === 0) return;
+
+    // Default selected party: if "Me" already has Passport & Birth Cert uploaded, and Partner is still missing TZ/Passport, auto-select "partner"!
+    var selectedParty = 'me';
+    if (docStatus.hasPartnerOnForm && docStatus.mapHas.my_passport && docStatus.mapHas.my_birth && (!docStatus.mapHas.partner_tz && !docStatus.mapHas.partner_passport)) {
+      selectedParty = 'partner';
+    }
+    window._gatActiveUploadOwner = selectedParty;
+
+    var isRtl = (l === 'he');
+    var missingNames = docStatus.missing.map(function(k) { return dTxt['docName_' + k] || k; }).join(', ');
+    var dynamicTitle = (docStatus.uploaded.length > 0 && docStatus.missing.length > 0)
+      ? dTxt.titleSomeMissing.replace(/\{form\}/g, fDef.code).replace('{missingList}', missingNames)
+      : dTxt.titleAllMissing.replace(/\{form\}/g, fDef.code);
+    var dynamicLead = dTxt.lead.replace(/\{form\}/g, fDef.code);
+
+    var ov = document.createElement('div');
+    ov.id = 'gat-new-user-doc-modal';
+    ov.dir = isRtl ? 'rtl' : 'ltr';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:999998;background:rgba(15,23,42,0.78);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:12px;overflow:hidden;';
+    ov.innerHTML =
+      '<div id="gat-nu-scroll-card" style="background:#ffffff;border:3px solid #059669;border-radius:18px;max-width:560px;width:100%;max-height:calc(100dvh - 28px);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,0.45);color:#0f172a;font-family:inherit;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;background:#ffffff;border-bottom:1.5px solid #e2e8f0;flex-shrink:0;">' +
+          '<span style="background:#dcfce7;color:#166534;border:1px solid #86efac;font-weight:900;font-size:0.74rem;padding:4px 10px;border-radius:999px;">' + esc(dTxt.badge) + ' • ' + esc(fDef.code) + '</span>' +
+          '<button type="button" id="gat-nu-close-x" style="background:#f1f5f9;border:1.5px solid #cbd5e1;width:34px;height:34px;border-radius:50%;font-size:1.05rem;cursor:pointer;color:#0f172a;font-weight:900;display:flex;align-items:center;justify-content:center;">✕</button>' +
+        '</div>' +
+        '<div id="gat-nu-scroll-body" style="padding:14px 16px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;flex:1;">' +
+          '<h3 id="gat-nu-dyn-title" style="margin:0 0 6px;font-size:1.02rem;color:#064e3b;font-weight:900;line-height:1.34;">' + esc(dynamicTitle) + '</h3>' +
+          '<p style="margin:0 0 8px;font-size:0.8rem;color:#334155;line-height:1.4;font-weight:600;">' + esc(dynamicLead) + '</p>' +
+          '<div style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:11px;padding:9px 11px;margin-bottom:10px;display:flex;flex-direction:column;gap:5px;font-size:0.75rem;color:#14532d;line-height:1.38;font-weight:700;">' +
+            '<div>' + esc(dTxt.why1 || dTxt.b1) + '</div>' +
+            '<div>' + esc(dTxt.why2 || dTxt.b2) + '</div>' +
+            '<div>' + esc(dTxt.why3 || dTxt.b3) + '</div>' +
+          '</div>' +
+          '<div id="gat-nu-already-banner" style="display:none;margin-bottom:10px;"></div>' +
+          '<div id="gat-nu-party-selector-wrap" style="margin-bottom:11px;"></div>' +
+          '<input type="file" id="gat-nu-shared-file-input" accept="image/*,.pdf" multiple style="display:none;" />' +
+          '<div id="gat-nu-buttons-wrap" style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:11px;"></div>' +
+          '<div id="gat-nu-marriage-wrap" style="margin-bottom:11px;"></div>' +
+          '<div id="gat-nu-scan-results" style="display:none;margin-bottom:11px;"></div>' +
+          '<div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:8px 11px;margin-bottom:4px;font-size:0.75rem;color:#1e3a8a;font-weight:700;line-height:1.38;">' +
+            esc(dTxt.skipReminder) +
+          '</div>' +
+        '</div>' +
+        '<div style="padding:10px 16px;background:#f8fafc;border-top:1.5px solid #e2e8f0;flex-shrink:0;">' +
+          '<button type="button" id="gat-nu-skip-btn" style="width:100%;background:#ffffff;color:#0f172a;border:1.5px solid #94a3b8;border-radius:10px;padding:10px 14px;font-size:0.84rem;font-weight:900;cursor:pointer;">' + esc(dTxt.btnSkip) + '</button>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(ov);
+
+    var closeModal = function() {
+      ov.remove();
+      if (focusElId) {
+        var target = document.getElementById(focusElId);
+        if (target && typeof target.focus === 'function') {
+          try { target.focus({ preventScroll: true }); } catch (e) {}
+        }
+      }
+    };
+
+    document.getElementById('gat-nu-close-x').onclick = closeModal;
+    document.getElementById('gat-nu-skip-btn').onclick = closeModal;
+    ov.onclick = function(e) { if (e.target === ov) closeModal(); };
+
+    var sharedInput = document.getElementById('gat-nu-shared-file-input');
+    var activeSlot = 'passport';
+
+    var renderInteractiveSections = function() {
+      var st = window.getFormDocumentStatus(curFKey);
+
+      // 1. Render "Uploaded so far" summary bar
+      var alBanner = document.getElementById('gat-nu-already-banner');
+      if (alBanner) {
+        if (st.uploaded.length > 0) {
+          var upNames = st.uploaded.map(function(k) { return dTxt['docName_' + k] || k; }).join(' • ');
+          alBanner.style.display = 'block';
+          alBanner.style.cssText = 'background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:8px 11px;margin-bottom:10px;font-size:0.78rem;color:#166534;font-weight:800;';
+          alBanner.innerHTML = esc(dTxt.alreadyHaveLabel) + ' <span style="font-weight:900;">' + esc(upNames) + '</span>';
+        } else {
+          alBanner.style.display = 'none';
+        }
+      }
+
+      // 2. Render Two-Party Checkbox Toggle Bar ("☑️ For Me" vs "☑️ For My Partner / Spouse")
+      var partyWrap = document.getElementById('gat-nu-party-selector-wrap');
+      if (partyWrap) {
+        if (!st.hasPartnerOnForm) {
+          partyWrap.innerHTML = '';
+        } else {
+          var meChecked = selectedParty === 'me';
+          var partnerChecked = selectedParty === 'partner';
+          var meDoneBadges = [
+            st.mapHas.my_passport ? '✅ Passport' : '',
+            st.mapHas.my_tz ? '✅ TZ' : '',
+            st.mapHas.my_birth ? '✅ Birth' : ''
+          ].filter(Boolean).join(' ');
+          var partnerDoneBadges = [
+            st.mapHas.partner_tz ? '✅ TZ' : '',
+            st.mapHas.partner_passport ? '✅ Passport' : '',
+            st.mapHas.partner_birth ? '✅ Birth' : ''
+          ].filter(Boolean).join(' ');
+
+          partyWrap.innerHTML =
+            '<div style="font-size:0.78rem;font-weight:900;color:#0f172a;margin-bottom:6px;">' + esc(dTxt.whoLabel) + '</div>' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+              '<label id="gat-party-lbl-me" style="display:flex;flex-direction:column;gap:3px;padding:10px 11px;border-radius:11px;cursor:pointer;border:2.5px solid ' + (meChecked ? '#0284c7' : '#cbd5e1') + ';background:' + (meChecked ? '#e0f2fe' : '#f8fafc') + ';transition:all 0.15s;">' +
+                '<div style="display:flex;align-items:center;gap:7px;font-size:0.83rem;font-weight:900;color:' + (meChecked ? '#0369a1' : '#334155') + ';">' +
+                  '<input type="checkbox" id="gat-party-cb-me" ' + (meChecked ? 'checked' : '') + ' style="width:17px;height:17px;accent-color:#0284c7;cursor:pointer;margin:0;" />' +
+                  '<span>' + esc(dTxt.forMe) + '</span>' +
+                '</div>' +
+                (meDoneBadges ? '<div style="font-size:0.7rem;color:#15803d;font-weight:800;padding-inline-start:24px;">' + esc(meDoneBadges) + '</div>' : '') +
+              '</label>' +
+              '<label id="gat-party-lbl-partner" style="display:flex;flex-direction:column;gap:3px;padding:10px 11px;border-radius:11px;cursor:pointer;border:2.5px solid ' + (partnerChecked ? '#0f766e' : '#cbd5e1') + ';background:' + (partnerChecked ? '#ccfbf1' : '#f8fafc') + ';transition:all 0.15s;">' +
+                '<div style="display:flex;align-items:center;gap:7px;font-size:0.83rem;font-weight:900;color:' + (partnerChecked ? '#0f766e' : '#334155') + ';">' +
+                  '<input type="checkbox" id="gat-party-cb-partner" ' + (partnerChecked ? 'checked' : '') + ' style="width:17px;height:17px;accent-color:#0f766e;cursor:pointer;margin:0;" />' +
+                  '<span>' + esc(dTxt.forPartner) + '</span>' +
+                '</div>' +
+                (partnerDoneBadges ? '<div style="font-size:0.7rem;color:#15803d;font-weight:800;padding-inline-start:24px;">' + esc(partnerDoneBadges) + '</div>' : '') +
+              '</label>' +
+            '</div>';
+
+          var cbMe = document.getElementById('gat-party-cb-me');
+          var cbPartner = document.getElementById('gat-party-cb-partner');
+          if (cbMe) {
+            cbMe.onchange = function() {
+              selectedParty = 'me';
+              window._gatActiveUploadOwner = 'me';
+              renderInteractiveSections();
+            };
+          }
+          if (cbPartner) {
+            cbPartner.onchange = function() {
+              selectedParty = 'partner';
+              window._gatActiveUploadOwner = 'partner';
+              renderInteractiveSections();
+            };
+          }
+        }
+      }
+
+      // 3. Render Person-Specific Upload Buttons (Passport, TZ + Sefach, Birth Certificate) for the Selected Party!
+      var btnWrap = document.getElementById('gat-nu-buttons-wrap');
+      if (btnWrap) {
+        var personBtns = [];
+        if (selectedParty === 'me') {
+          if (!st.mapHas.my_passport || forceShowAll) {
+            personBtns.push({ slot: 'passport', label: dTxt.btn_passport_me, bg: 'linear-gradient(135deg,#0284c7 0%,#0369a1 100%)', done: st.mapHas.my_passport });
+          }
+          if (st.meCanHaveTz && (!st.mapHas.my_tz || forceShowAll)) {
+            personBtns.push({ slot: 'tz', label: dTxt.btn_tz_me, bg: 'linear-gradient(135deg,#0f766e 0%,#115e59 100%)', done: st.mapHas.my_tz });
+          }
+          if (curFKey !== 'mr14b' && (!st.mapHas.my_birth || forceShowAll)) {
+            personBtns.push({ slot: 'birth', label: dTxt.btn_birth_me, bg: 'linear-gradient(135deg,#059669 0%,#047857 100%)', done: st.mapHas.my_birth });
+          }
+        } else {
+          // Selected Party === 'partner' (Partner can have an Israeli TZ + Sefach OR a Foreign Passport + Birth Certificate!)
+          if (!st.mapHas.partner_tz || forceShowAll) {
+            personBtns.push({ slot: 'tz', label: dTxt.btn_tz_partner, bg: 'linear-gradient(135deg,#0f766e 0%,#115e59 100%)', done: st.mapHas.partner_tz });
+          }
+          if (!st.mapHas.partner_passport || forceShowAll) {
+            personBtns.push({ slot: 'passport', label: dTxt.btn_passport_partner, bg: 'linear-gradient(135deg,#0284c7 0%,#0369a1 100%)', done: st.mapHas.partner_passport });
+          }
+          if (!st.mapHas.partner_birth || forceShowAll) {
+            personBtns.push({ slot: 'birth', label: dTxt.btn_birth_partner, bg: 'linear-gradient(135deg,#059669 0%,#047857 100%)', done: st.mapHas.partner_birth });
+          }
+        }
+
+        if (personBtns.length === 0) {
+          btnWrap.innerHTML = '<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:10px;color:#166534;font-weight:900;font-size:0.82rem;text-align:center;">✅ ' + esc(selectedParty === 'me' ? dTxt.forMe : dTxt.forPartner) + ' — ' + esc(dTxt.allDoneForForm.replace(/\{form\}/g, fDef.code)) + '</div>';
+        } else {
+          btnWrap.innerHTML =
+            '<div style="font-size:0.77rem;font-weight:900;color:#0f172a;margin-bottom:2px;">' + esc(dTxt.stillNeedLabel) + '</div>' +
+            personBtns.map(function(b) {
+              return '<button type="button" class="gat-nu-dyn-upload-btn" data-doc-slot="' + esc(b.slot) + '" style="width:100%;background:' + b.bg + ';color:#fff;border:none;border-radius:11px;padding:11px 14px;font-size:0.86rem;font-weight:900;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.16);text-align:center;">' +
+                esc(b.label) + (b.done ? ' ✓' : '') +
+              '</button>';
+            }).join('');
+        }
+      }
+
+      // 4. Render Shared Marriage Certificate Button (1 Upload Only for Both!)
+      var marWrap = document.getElementById('gat-nu-marriage-wrap');
+      if (marWrap) {
+        if (curFKey === 'mr14b' || curFKey === 'nespach_alef' || (st.mapHas.marriage && !forceShowAll)) {
+          marWrap.innerHTML = '';
+        } else {
+          marWrap.innerHTML =
+            '<div style="font-size:0.77rem;font-weight:900;color:#4c1d95;margin-bottom:5px;">' + esc(dTxt.sharedMarriageLabel) + '</div>' +
+            '<button type="button" class="gat-nu-dyn-upload-btn" data-doc-slot="marriage" style="width:100%;background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%);color:#fff;border:none;border-radius:11px;padding:11px 14px;font-size:0.86rem;font-weight:900;cursor:pointer;box-shadow:0 4px 12px rgba(124,58,237,0.25);text-align:center;">' +
+              esc(dTxt.btn_marriage) + (st.mapHas.marriage ? ' ✓' : '') +
+            '</button>';
+        }
+      }
+
+      // Bind click events to all upload buttons (Redirect unpaid/guest users immediately to payment!)
+      ov.querySelectorAll('.gat-nu-dyn-upload-btn').forEach(function(btn) {
+        btn.onclick = function() {
+          if (typeof window.hasFormsEngineAccess === 'function' && !window.hasFormsEngineAccess()) {
+            window.redirectToFormsPayment(dTxt.titleAllMissing.replace(/\{form\}/g, fDef.code));
+            return;
+          }
+          activeSlot = btn.getAttribute('data-doc-slot') || 'passport';
+          window._gatActiveUploadOwner = selectedParty;
+          sharedInput.value = '';
+          sharedInput.click();
+        };
+      });
+    };
+
+    renderInteractiveSections();
+
+    var handleDocUpload = async function(fileOrList, slotKey, isAppendPage) {
+      var fileArr = [];
+      if (fileOrList && typeof fileOrList.length === 'number' && !fileOrList.name) {
+        for (var fi = 0; fi < fileOrList.length; fi++) fileArr.push(fileOrList[fi]);
+      } else if (fileOrList) {
+        fileArr.push(fileOrList);
+      }
+      if (!fileArr.length) return;
+
+      var targetOwner = selectedParty; // 'me' or 'partner'
+      window._gatActiveUploadOwner = targetOwner;
+      var whoLabel = targetOwner === 'partner' ? dTxt.forPartner : dTxt.forMe;
+
+      var resBox = document.getElementById('gat-nu-scan-results');
+      if (resBox) {
+        resBox.style.display = 'block';
+        resBox.innerHTML = '<div style="background:#f0f9ff;border:2px solid #0284c7;border-radius:10px;padding:12px;font-size:0.84rem;font-weight:800;color:#0369a1;text-align:center;">' +
+          esc(dTxt.scanning) + (fileArr.length > 1 ? ' (' + fileArr.length + ' pages)' : '') +
+        '</div>';
+      }
+      window.showGatUploadSpinner(dTxt.scanning + (fileArr.length > 1 ? ' (' + fileArr.length + ' pages)' : ''), 35);
+      var abortCtrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      var abortTimer = setTimeout(function() { if (abortCtrl) abortCtrl.abort(); }, 35000);
+      try {
+        var encodedFiles = [];
+        for (var i = 0; i < Math.min(fileArr.length, 6); i++) {
+          var pItem = await window.fileToCompressedBase64(fileArr[i]);
+          if (pItem && pItem.base64Data) encodedFiles.push(pItem);
+        }
+        if (!encodedFiles.length) throw new Error('Could not read uploaded file(s).');
+
+        var primaryPayload = encodedFiles[0];
+        var fetchOpts = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mimeType: primaryPayload.mimeType,
+            base64Data: primaryPayload.base64Data,
+            files: encodedFiles,
+            mode: 'audit_and_autofill',
+            slotKey: slotKey,
+            ownerParty: targetOwner,
+            uid: window.gatUid || localStorage.getItem('gat_uid') || '',
+            lang: l
+          })
+        };
+        if (abortCtrl) fetchOpts.signal = abortCtrl.signal;
+        var resp = await fetch((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc"), fetchOpts);
+        var data = await resp.json();
+        if (!resp.ok || !data || !data.ok || !data.result) {
+          throw new Error((data && data.error) || 'Could not analyze document');
+        }
+        var r = data.result;
+        if (typeof window.saveDocToGatVault === 'function') {
+          window.saveDocToGatVault({
+            docId: data.savedDocId || (targetOwner + '_' + slotKey),
+            slotKey: slotKey,
+            ownerParty: targetOwner,
+            docType: r.doc_type || slotKey,
+            docTitle: r.doc_title_detected || r.doc_type || slotKey,
+            issuingCountry: r.issuing_country || '',
+            hasApostille: r.has_apostille_visible !== false,
+            hasSefach: Boolean(r.has_full_sefach_visible || r.israeli_address_he),
+            isLongForm: r.is_long_form_both_parents !== false,
+            expiryDateIso: r.expiry_date_iso || r.passport_expiry_date || '',
+            files: encodedFiles,
+            alreadySavedOnServer: Boolean(data.savedDocId)
+          });
+        }
+        var d = loadDraft();
+        var setField = function(k, v) {
+          if (v !== undefined && v !== null && String(v).trim() !== '') {
+            window.gatFormsState[k] = String(v).trim();
+            d[k] = String(v).trim();
+          }
+        };
+        var setFieldIfEmpty = function(k, v) {
+          if (v !== undefined && v !== null && String(v).trim() !== '') {
+            var cur = window.gatFormsState[k] || d[k] || '';
+            if (!String(cur).trim()) {
+              window.gatFormsState[k] = String(v).trim();
+              d[k] = String(v).trim();
+            }
+          }
+        };
+
+        // Normalize AI response keys across all document types
+        var normExpIso = r.expiry_date_iso || r.passport_expiry_date || '';
+        var normIssIso = r.issue_date_iso || r.passport_issue_date || '';
+        var normBirthPlaceHe = r.birth_country_city_he || r.country_or_city_of_birth || '';
+        var normBirthPlaceEn = r.birth_country_city_en || '';
+        var normCitHe = r.citizenship_he || r.citizenship || '';
+        var normCitEn = r.citizenship_en || '';
+
+        var rawDocType = String(r.doc_type || '') + ' ' + String(r.doc_title_detected || '') + ' ' + String(r.issuing_country || '');
+        var rawIdDigits = String(r.israeli_id_number || r.teudat_zehut || r.id_number || '').replace(/\D/g, '');
+        var passDigits = String(r.passport_number || '').replace(/\D/g, '');
+        var isMarriageSlotOrDoc = slotKey === 'marriage' || /marriage|נישואין|mariage|matrimonio|heirat|брак/i.test(rawDocType) || !!r.marriage_date_iso || !!r.marriage_date_place_he;
+        var isIsraeliTzDoc = !isMarriageSlotOrDoc && (
+          slotKey === 'tz' ||
+          /teudat|zehut|תעודת זהות|ספח|sefach|israeli_id|israeli id/i.test(rawDocType) ||
+          (rawIdDigits.length === 9 && slotKey !== 'passport') ||
+          (/israel|ישראל/i.test(rawDocType) && passDigits.length === 9 && !/passport|דרכון/i.test(rawDocType))
+        );
+        var detectedTzNum = rawIdDigits || (isIsraeliTzDoc ? passDigits : '');
+
+        var alertsHtml = '';
+
+        // ====================================================================
+        // CASE 1: ISRAELI TEUDAT ZEHUT + UNFOLDED SEFACH (ת"ז + ספח מלא)
+        // ====================================================================
+        if (isIsraeliTzDoc) {
+          var fullNameHe = [r.given_he, r.surname_he].filter(Boolean).join(' ').trim() || r.person_full_name || '';
+          var sefachAddr = r.israeli_address_he || '';
+          var hasFullSefach = Boolean(r.has_full_sefach_visible || sefachAddr || (Array.isArray(r.sefach_children) && r.sefach_children.length > 0) || r.father_full_name || r.mother_full_name);
+          var meAllowsTzHere = (curFKey === 'mr14a' || curFKey === 'sec_cv' || curFKey === 'mr14b' || curFKey === 'nespach_alef' || curFKey === 'ash6' || curFKey === 'ash3');
+
+          if (targetOwner === 'me' && !meAllowsTzHere && slotKey === 'passport') {
+            var wrongFormMsg = dTxt.tzWrongFormErr
+              .replace(/\{form\}/g, fDef.code)
+              .replace('{tz}', (detectedTzNum ? detectedTzNum + (fullNameHe ? ' — ' + fullNameHe : '') : fullNameHe || 'תעודת זהות'));
+            alertsHtml += '<div style="background:#fef2f2;border:2.5px solid #dc2626;border-radius:11px;padding:12px 14px;margin-bottom:8px;color:#991b1b;font-size:0.82rem;font-weight:800;line-height:1.46;">' +
+              esc(wrongFormMsg) +
+            '</div>';
+          } else {
+            if (targetOwner === 'partner') {
+              // Israeli Spouse / Inviter TZ + Sefach -> Populate ALL Partner & Shared Household fields across all 8 forms!
+              setField('pf_sp_name_he', fullNameHe);
+              setField('pf_sp_surname_he', r.surname_he);
+              setField('pf_sp_given_he', r.given_he);
+              setField('pf_sp_tz', detectedTzNum);
+              setField('pf_sp_dob', r.date_of_birth);
+              setField('pf_sp_citizenship_he', 'ישראלית');
+              setField('pf_sp_birth_country_he', normBirthPlaceHe || 'ישראל');
+              if (r.prior_or_maiden_names) setField('pf_sp_prior_he', r.prior_or_maiden_names);
+              if (r.sefach_prior_given_he) setField('pf_sp_prior_given_he', r.sefach_prior_given_he);
+              if (r.sefach_aliyah_date_iso || r.date_of_birth) {
+                setFieldIfEmpty('pf_sp_entry_date', r.sefach_aliyah_date_iso || r.date_of_birth);
+                setFieldIfEmpty('pf_sp_status_date', r.sefach_aliyah_date_iso || r.date_of_birth);
+              }
+              if (r.father_full_name) setField('pf_sp_father_he', r.father_full_name);
+              if (r.mother_full_name) setField('pf_sp_mother_he', r.mother_full_name);
+              if (r.paternal_grandfather_he) setField('pf_sp_grandfather_he', r.paternal_grandfather_he);
+              if (r.date_of_birth || r.father_full_name || r.mother_full_name || r.paternal_grandfather_he) {
+                var pgParts = [];
+                if (r.date_of_birth) pgParts.push(fmtIsraeliDate(r.date_of_birth));
+                if (r.father_full_name) pgParts.push('אב: ' + r.father_full_name);
+                if (r.mother_full_name) pgParts.push('אם: ' + r.mother_full_name);
+                if (r.paternal_grandfather_he) pgParts.push('סב: ' + r.paternal_grandfather_he);
+                if (pgParts.length) setField('pf_sp_parents_grand', pgParts.join(' • '));
+              }
+              if (sefachAddr) {
+                setField('pf_il_addr_he', sefachAddr);
+                var addrP = sefachAddr.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+                if (addrP.length >= 2) {
+                  setFieldIfEmpty('pf_mail_city_he', addrP[addrP.length - 1].replace(/\b\d{5,7}\b/g, '').trim());
+                  setFieldIfEmpty('pf_mail_street_he', addrP[0]);
+                }
+                setFieldIfEmpty('pf_mail_recipient_he', fullNameHe);
+              }
+              if (r.marriage_date_iso) {
+                setFieldIfEmpty('pf_marriage_date', r.marriage_date_iso);
+                setFieldIfEmpty('pf_marital', 'נשוי/אה');
+              } else if (r.marital_he && /נשוי|נשואה/.test(r.marital_he)) {
+                setFieldIfEmpty('pf_marital', 'נשוי/אה');
+              }
+            } else {
+              // Primary Applicant Israeli TZ + Sefach (e.g. MR/14a, MR/14b, Security CV, A/5 renewal)
+              setField('pf_tz', detectedTzNum);
+              setField('pf_id_num', detectedTzNum);
+              setField('pf_surname_he', r.surname_he);
+              setField('pf_given_he', r.given_he);
+              setField('pf_dob', r.date_of_birth);
+              if (r.hebrew_date_of_birth) setField('pf_hebrew_dob', r.hebrew_date_of_birth);
+              if (r.gender_he) setField('pf_gender', r.gender_he);
+              if (r.marital_he) setField('pf_marital', r.marital_he);
+              if (r.father_full_name) setField('pf_father_he', r.father_full_name);
+              if (r.mother_full_name) setField('pf_mother_he', r.mother_full_name);
+              if (r.paternal_grandfather_he) setField('pf_foreign_grandfather', r.paternal_grandfather_he);
+              if (r.prior_or_maiden_names) {
+                setField('pf_prior_names', r.prior_or_maiden_names);
+                setField('pf_maiden_he', r.prior_or_maiden_names);
+                setField('pf_maiden_surname_he', r.prior_or_maiden_names);
+                setField('pf_prev_surname_he', r.prior_or_maiden_names);
+              }
+              if (r.sefach_prior_given_he) setField('pf_prev_given_he', r.sefach_prior_given_he);
+              if (normBirthPlaceHe) {
+                setFieldIfEmpty('pf_birth_country', normBirthPlaceHe);
+                var bp = normBirthPlaceHe.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+                if (bp.length >= 2) {
+                  setFieldIfEmpty('pf_birth_city_he', bp[0]);
+                  setFieldIfEmpty('pf_birth_country_he', bp[bp.length - 1]);
+                } else {
+                  setFieldIfEmpty('pf_birth_country_he', normBirthPlaceHe);
+                }
+              }
+              if (sefachAddr) setField('pf_il_addr_he', sefachAddr);
+              if (r.marriage_date_iso) setFieldIfEmpty('pf_marriage_date', r.marriage_date_iso);
+              if (r.spouse_full_name_he) setFieldIfEmpty('pf_sp_name_he', r.spouse_full_name_he);
+              if (r.spouse_surname_he) setFieldIfEmpty('pf_sp_surname_he', r.spouse_surname_he);
+              if (r.spouse_given_he) setFieldIfEmpty('pf_sp_given_he', r.spouse_given_he);
+              if (r.spouse_tz && /^\d{5,9}$/.test(String(r.spouse_tz).replace(/\D/g, ''))) {
+                setFieldIfEmpty('pf_sp_tz', String(r.spouse_tz).replace(/\D/g, ''));
+              }
+              if (r.spouse_dob_iso) setFieldIfEmpty('pf_sp_dob', r.spouse_dob_iso);
+            }
+
+            // Populate Children from Sefach across all forms (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a)
+            if (Array.isArray(r.sefach_children) && r.sefach_children.length > 0) {
+              var mappedKids = r.sefach_children.map(function(ch) {
+                return {
+                  id_num: String(ch.tz || '').replace(/\D/g, ''),
+                  tz: String(ch.tz || '').replace(/\D/g, ''),
+                  surname_he: ch.surname_he || r.surname_he || '',
+                  given_he: ch.given_he || '',
+                  given: ch.given_he || '',
+                  other_parent_he: fullNameHe,
+                  country: 'ישראל',
+                  country_en: 'ISRAEL',
+                  dob: ch.dob_iso || '',
+                  gender: ch.gender_he || 'זכר'
+                };
+              }).filter(function(ch) { return ch.given_he || ch.id_num; });
+              if (mappedKids.length > 0) {
+                window.gatFormsState.pf_children_rows = mappedKids;
+                d.pf_children_rows = mappedKids;
+                var kidSummaryLines = mappedKids.map(function(k) {
+                  return [k.given_he, k.surname_he, k.id_num, k.dob ? fmtIsraeliDate(k.dob) : ''].filter(Boolean).join(' • ');
+                }).join('\n');
+                setField('pf_children_table', kidSummaryLines);
+                setField('pf_ll_children_count', String(mappedKids.length));
+              }
+            }
+
+            var tzExpIso = normExpIso;
+            var isTzExpired = false;
+            if (/^\d{4}-\d{2}-\d{2}$/.test(tzExpIso)) {
+              isTzExpired = new Date(tzExpIso).getTime() < Date.now();
+            }
+            var roleLbl = targetOwner === 'partner' ? dTxt.roleSpouse : dTxt.roleApplicant;
+            if (isTzExpired) {
+              var tzExpMsg = dTxt.tzExpErr
+                .replace('{role}', roleLbl)
+                .replace('{tz}', detectedTzNum + (fullNameHe ? ' — ' + fullNameHe : ''))
+                .replace('{exp}', fmtIsraeliDate(tzExpIso))
+                .replace('{addr}', sefachAddr || '—');
+              alertsHtml += '<div style="background:#fef2f2;border:2.5px solid #dc2626;border-radius:11px;padding:12px 14px;margin-bottom:8px;color:#991b1b;font-size:0.82rem;font-weight:800;line-height:1.46;">' +
+                esc(tzExpMsg) +
+              '</div>';
+            } else {
+              var tzOkMsg = dTxt.tzOk
+                .replace('{tz}', detectedTzNum + (fullNameHe ? ' — ' + fullNameHe : ''))
+                .replace('{role}', roleLbl + (sefachAddr ? ': ' + sefachAddr : ''));
+              alertsHtml += '<div style="background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:11px 13px;margin-bottom:8px;color:#166534;font-size:0.83rem;font-weight:900;">' +
+                esc(tzOkMsg) +
+              '</div>';
+            }
+
+            // Warn if the unfolded paper Sefach (ספח) was not included in the upload!
+            if (!hasFullSefach || !sefachAddr) {
+              var xAl = FV_EXTRA_ALERTS_I18N[l] || FV_EXTRA_ALERTS_I18N.en;
+              var sefachWarnTitle = xAl.sefachTitle;
+              var sefachWarnBody = xAl.sefachBody;
+              var sefachBtnLbl = xAl.sefachBtn;
+              alertsHtml += '<div style="background:#fffbeb;border:2px solid #f59e0b;border-radius:11px;padding:11px 13px;margin-bottom:8px;color:#92400e;font-size:0.81rem;font-weight:800;line-height:1.45;">' +
+                '<div style="font-weight:900;color:#b45309;margin-bottom:4px;">' + esc(sefachWarnTitle) + '</div>' +
+                '<div>' + esc(sefachWarnBody) + '</div>' +
+                '<button type="button" onclick="document.getElementById(\'gat-nu-file-inp\').click()" style="margin-top:8px;width:100%;background:#d97706;color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:0.8rem;font-weight:900;cursor:pointer;">' + esc(sefachBtnLbl) + '</button>' +
+              '</div>';
+            }
+          }
+        } else {
+          // ====================================================================
+          // CASE 2: FOREIGN PASSPORT, BIRTH CERTIFICATE, OR MARRIAGE CERTIFICATE
+          // ====================================================================
+          var isMarriage = isMarriageSlotOrDoc;
+          var isBirth = !isMarriage && (slotKey === 'birth' || (r.doc_type && /birth/i.test(r.doc_type)));
+          var isPassport = !isMarriage && !isBirth && (slotKey === 'passport' || (r.doc_type && /passport/i.test(r.doc_type)) || !!r.passport_number);
+
+          // ------------------------------------------------------------------
+          // 2A. FOREIGN PASSPORT (MY PASSPORT vs. PARTNER'S PASSPORT)
+          // ------------------------------------------------------------------
+          if (isPassport) {
+            var cleanPassNum = String(r.passport_number || '').trim().toUpperCase();
+            if (targetOwner === 'partner') {
+              // PARTNER'S FOREIGN PASSPORT: Populate ALL Partner fields & NEVER overwrite pf_sp_tz with a foreign passport number!
+              setField('pf_sp_surname_en', r.surname_en);
+              setField('pf_sp_given_en', r.given_en);
+              setField('pf_sp_surname_he', r.surname_he);
+              setField('pf_sp_given_he', r.given_he);
+              var spFullHe = [r.given_he, r.surname_he].filter(Boolean).join(' ').trim() || [r.given_en, r.surname_en].filter(Boolean).join(' ').trim();
+              setField('pf_sp_name_he', spFullHe);
+              setField('pf_sp_dob', r.date_of_birth);
+              setField('pf_sp_pass_num', cleanPassNum);
+              setField('pf_sp_pass_issue', normIssIso);
+              setField('pf_sp_pass_exp', normExpIso);
+              setField('pf_sp_citizenship_he', normCitHe);
+              setField('pf_sp_foreign_cit_details_he', normCitHe);
+              setField('pf_sp_birth_country_he', normBirthPlaceHe);
+              if (r.prior_or_maiden_names) setFieldIfEmpty('pf_sp_prior_he', r.prior_or_maiden_names);
+              // Self-heal if pf_sp_tz previously had a foreign passport number stuffed into it
+              if (window.gatFormsState.pf_sp_tz && !/^\d{5,9}$/.test(String(window.gatFormsState.pf_sp_tz).trim())) {
+                delete window.gatFormsState.pf_sp_tz;
+                delete d.pf_sp_tz;
+              }
+            } else {
+              // MY FOREIGN PASSPORT (PRIMARY APPLICANT)
+              setField('pf_surname_en', r.surname_en);
+              setField('pf_given_en', r.given_en);
+              setField('pf_surname_he', r.surname_he || r.surname_en);
+              setField('pf_given_he', r.given_he || r.given_en);
+              setField('pf_dob', r.date_of_birth);
+              setField('pf_pass_num', cleanPassNum);
+              setField('pf_pass_issue_date', normIssIso);
+              setField('pf_pass_exp_date', normExpIso);
+              setField('pf_birth_country', normBirthPlaceHe);
+              if (normBirthPlaceEn) setField('pf_birth_country_en', normBirthPlaceEn);
+              if (normBirthPlaceHe) {
+                var bPartsP = normBirthPlaceHe.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+                if (bPartsP.length >= 2) {
+                  setFieldIfEmpty('pf_birth_city_he', bPartsP[0]);
+                  setFieldIfEmpty('pf_birth_country_he', bPartsP[bPartsP.length - 1]);
+                } else {
+                  setFieldIfEmpty('pf_birth_country_he', normBirthPlaceHe);
+                }
+              }
+              setField('pf_citizenship', normCitHe);
+              if (normCitEn) setField('pf_citizenship_en', normCitEn);
+              if (r.gender_he) setFieldIfEmpty('pf_gender', r.gender_he);
+            }
+
+            var expIso = normExpIso;
+            var reqMonths = (fDef && fDef.minPassM) ? fDef.minPassM : 12;
+            var monthsLeft = null;
+            if (/^\d{4}-\d{2}-\d{2}$/.test(expIso)) {
+              monthsLeft = Math.round(((new Date(expIso).getTime() - Date.now()) / (86400000 * 30.44)) * 10) / 10;
+            }
+            if (monthsLeft !== null && monthsLeft < reqMonths) {
+              var errMsg = dTxt.passExpErr.replace('{who}', whoLabel).replace('{m}', Math.max(0, Math.floor(monthsLeft))).replace('{exp}', fmtIsraeliDate(expIso)).replace('{reqM}', reqMonths);
+              alertsHtml += '<div style="background:#fef2f2;border:2px solid #dc2626;border-radius:10px;padding:11px 13px;margin-bottom:8px;color:#991b1b;font-size:0.82rem;font-weight:800;line-height:1.45;">' +
+                esc(errMsg) +
+                '<div style="margin-top:7px;"><a href="#mod-checklists" onclick="window.openGatChecklistsGuide()" style="color:#b91c1c;text-decoration:underline;font-weight:900;">' + esc(dTxt.passGuide) + '</a></div>' +
+              '</div>';
+            } else {
+              alertsHtml += '<div style="background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:11px 13px;margin-bottom:8px;color:#166534;font-size:0.83rem;font-weight:900;">' + esc(dTxt.passOk.replace('{who}', whoLabel)) + '</div>';
+            }
+          }
+
+          // ------------------------------------------------------------------
+          // 2B. BIRTH CERTIFICATE (MY BIRTH CERT vs. PARTNER'S BIRTH CERT)
+          // ------------------------------------------------------------------
+          if (isBirth) {
+            if (targetOwner === 'partner') {
+              var spBirthNameHe = [r.given_he, r.surname_he].filter(Boolean).join(' ').trim();
+              if (spBirthNameHe && !window.gatFormsState.pf_sp_name_he) setField('pf_sp_name_he', spBirthNameHe);
+              setFieldIfEmpty('pf_sp_surname_he', r.surname_he);
+              setFieldIfEmpty('pf_sp_given_he', r.given_he);
+              setFieldIfEmpty('pf_sp_surname_en', r.surname_en);
+              setFieldIfEmpty('pf_sp_given_en', r.given_en);
+              setField('pf_sp_dob', r.date_of_birth);
+              setField('pf_sp_birth_country_he', normBirthPlaceHe);
+              setField('pf_sp_prior_he', r.prior_or_maiden_names);
+              if (r.father_full_name) setField('pf_sp_father_he', r.father_full_name);
+              if (r.mother_full_name) setField('pf_sp_mother_he', r.mother_full_name);
+              if (r.paternal_grandfather_he) setField('pf_sp_grandfather_he', r.paternal_grandfather_he);
+              if (r.date_of_birth || r.father_full_name || r.mother_full_name || r.paternal_grandfather_he) {
+                var spPgB = [];
+                if (r.date_of_birth) spPgB.push(fmtIsraeliDate(r.date_of_birth));
+                if (r.father_full_name) spPgB.push('אב: ' + r.father_full_name);
+                if (r.mother_full_name) spPgB.push('אם: ' + r.mother_full_name);
+                if (r.paternal_grandfather_he) spPgB.push('סב: ' + r.paternal_grandfather_he);
+                if (spPgB.length) setField('pf_sp_parents_grand', spPgB.join(' • '));
+              }
+            } else {
+              setField('pf_surname_he', r.surname_he || window.gatFormsState.pf_surname_he);
+              setField('pf_given_he', r.given_he || window.gatFormsState.pf_given_he);
+              setFieldIfEmpty('pf_surname_en', r.surname_en);
+              setFieldIfEmpty('pf_given_en', r.given_en);
+              setField('pf_prior_names', r.prior_or_maiden_names);
+              if (r.prior_names_en) setField('pf_prior_names_en', r.prior_names_en);
+              if (r.prior_or_maiden_names) {
+                setFieldIfEmpty('pf_maiden_he', r.prior_or_maiden_names);
+                setFieldIfEmpty('pf_maiden_surname_he', r.prior_or_maiden_names);
+                setFieldIfEmpty('pf_prev_surname_he', r.prior_or_maiden_names);
+              }
+              setField('pf_dob', r.date_of_birth);
+              setField('pf_father_he', r.father_full_name);
+              if (r.father_full_name_en) setField('pf_father_en', r.father_full_name_en);
+              setField('pf_mother_he', r.mother_full_name);
+              if (r.mother_full_name_en) setField('pf_mother_en', r.mother_full_name_en);
+              if (r.mother_maiden_name_he) setField('pf_mother_maiden', r.mother_maiden_name_he);
+              if (r.paternal_grandfather_he) setField('pf_foreign_grandfather', r.paternal_grandfather_he);
+              setField('pf_birth_country', normBirthPlaceHe);
+            }
+
+            var hasBothParents = (r.is_long_form_both_parents !== false) && (!!r.father_full_name && !!r.mother_full_name);
+            if (!hasBothParents) {
+              alertsHtml += '<div style="background:#fef2f2;border:2px solid #dc2626;border-radius:10px;padding:11px 13px;margin-bottom:8px;color:#991b1b;font-size:0.82rem;font-weight:800;line-height:1.45;">' +
+                esc(dTxt.birthHalfErr.replace('{who}', whoLabel)) +
+                '<div style="margin-top:7px;"><a href="#mod-checklists" onclick="window.openGatChecklistsGuide()" style="color:#b91c1c;text-decoration:underline;font-weight:900;">' + esc(dTxt.birthGuide) + '</a></div>' +
+              '</div>';
+            } else {
+              alertsHtml += '<div style="background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:11px 13px;margin-bottom:8px;color:#166534;font-size:0.83rem;font-weight:900;">' + esc(dTxt.birthOk.replace('{who}', whoLabel)) + '</div>';
+            }
+            if (r.has_apostille_visible === false) {
+              var countryName = r.issuing_country || 'Issuing Country';
+              var authMsgTpl = (r.authentication_regime === 'consular_chain' && dTxt.consularWarn) ? dTxt.consularWarn : dTxt.aposWarn;
+              var authMsg = authMsgTpl.replace(/\{country\}/g, countryName);
+              alertsHtml += '<div style="background:#fffbeb;border:2px solid #f59e0b;border-radius:10px;padding:10px 12px;margin-bottom:8px;color:#92400e;font-size:0.8rem;font-weight:800;line-height:1.42;">' +
+                esc(authMsg) +
+                '<button type="button" onclick="document.getElementById(\'gat-nu-file-inp\').click()" style="margin-top:7px;width:100%;background:#d97706;color:#fff;border:none;border-radius:8px;padding:7px 11px;font-size:0.79rem;font-weight:900;cursor:pointer;">➕ Upload Apostille / Back Page Now</button>' +
+                '<div style="margin-top:5px;"><a href="#mod-checklists" onclick="window.openGatChecklistsGuide()" style="color:#b45309;text-decoration:underline;font-weight:900;">' + esc(dTxt.birthGuide) + '</a></div>' +
+              '</div>';
+            }
+          }
+
+          // ------------------------------------------------------------------
+          // 2C. MARRIAGE CERTIFICATE (AUTO-FILLS BOTH PARTIES + MULTI-PAGE & APOSTILLE GATE)
+          // ------------------------------------------------------------------
+          if (isMarriage) {
+            setField('pf_marital', 'נשוי/אה');
+            var marDateIso = r.marriage_date_iso || normIssIso || '';
+            if (!marDateIso && r.marriage_date_place_he) {
+              var mDateMatch = String(r.marriage_date_place_he).match(/(\d{2})[\/.\-](\d{2})[\/.\-](\d{4})/);
+              if (mDateMatch) marDateIso = mDateMatch[3] + '-' + mDateMatch[2] + '-' + mDateMatch[1];
+            }
+            var marPlaceHe = r.marriage_place_he || String(r.marriage_date_place_he || '').replace(/\d{1,4}[\/.\-]\d{1,2}[\/.\-]\d{1,4}/g, '').replace(/^[•\-\s,]+|[•\-\s,]+$/g, '').trim() || normBirthPlaceHe || '';
+
+            if (marDateIso) setField('pf_marriage_date', marDateIso);
+            if (marPlaceHe) setField('pf_marriage_place_he', marPlaceHe);
+            var combinedMar = [marDateIso ? fmtIsraeliDate(marDateIso) : '', marPlaceHe].filter(Boolean).join(' • ');
+            if (combinedMar) setField('pf_marriage_details', combinedMar);
+
+            // Smart-match Party 1 & Party 2 between Primary Applicant (pf_*) and Spouse/Partner (pf_sp_*)
+            var p1 = r.marriage_party1 || {};
+            var p2 = r.marriage_party2 || {};
+            var hasP1 = Boolean(p1.surname_he || p1.given_he || p1.surname_en || p1.given_en);
+            var hasP2 = Boolean(p2.surname_he || p2.given_he || p2.surname_en || p2.given_en);
+            if (!hasP1 && (r.surname_he || r.given_he || r.surname_en || r.given_en)) {
+              p1 = {
+                surname_en: r.surname_en || '',
+                given_en: r.given_en || '',
+                surname_he: r.surname_he || '',
+                given_he: r.given_he || '',
+                prior_surname_he: r.prior_or_maiden_names || '',
+                dob_iso: r.date_of_birth || '',
+                father_he: r.father_full_name || '',
+                mother_he: r.mother_full_name || '',
+                israeli_tz: rawIdDigits.length === 9 ? rawIdDigits : '',
+                passport_number: r.passport_number || '',
+                citizenship_he: normCitHe,
+                birth_place_he: normBirthPlaceHe
+              };
+              hasP1 = true;
+            }
+            if (!hasP2 && (r.spouse_full_name_he || r.spouse_surname_he || r.spouse_given_he || r.spouse_surname_en || r.spouse_given_en)) {
+              var spSplit = String(r.spouse_full_name_he || '').trim().split(/\s+/);
+              p2 = {
+                surname_en: r.spouse_surname_en || '',
+                given_en: r.spouse_given_en || '',
+                surname_he: r.spouse_surname_he || (spSplit.length > 1 ? spSplit.slice(-1).join(' ') : ''),
+                given_he: r.spouse_given_he || (spSplit.length > 1 ? spSplit.slice(0, -1).join(' ') : (r.spouse_full_name_he || '')),
+                prior_surname_he: r.spouse_prior_surname_he || '',
+                dob_iso: r.spouse_dob_iso || '',
+                father_he: r.spouse_father_he || '',
+                mother_he: r.spouse_mother_he || '',
+                israeli_tz: (r.spouse_tz && /^\d{5,9}$/.test(String(r.spouse_tz).replace(/\D/g, ''))) ? String(r.spouse_tz).replace(/\D/g, '') : '',
+                passport_number: r.spouse_passport_number || ''
+              };
+              hasP2 = true;
+            }
+
+            // Decide which party is Applicant (`appParty`) and which is Spouse (`spParty`)
+            var appParty = p1, spParty = p2;
+            var curAppName = ([window.gatFormsState.pf_given_en, window.gatFormsState.pf_surname_en, window.gatFormsState.pf_given_he, window.gatFormsState.pf_surname_he].filter(Boolean).join(' ')).toLowerCase();
+            var curSpName = ([window.gatFormsState.pf_sp_name_he, window.gatFormsState.pf_sp_given_en, window.gatFormsState.pf_sp_surname_en].filter(Boolean).join(' ')).toLowerCase();
+            var p1Str = ([p1.given_en, p1.surname_en, p1.given_he, p1.surname_he].filter(Boolean).join(' ')).toLowerCase();
+            var p2Str = ([p2.given_en, p2.surname_en, p2.given_he, p2.surname_he].filter(Boolean).join(' ')).toLowerCase();
+
+            if (
+              (p1.israeli_tz && !p2.israeli_tz && curFKey !== 'mr14a') ||
+              (curAppName && p2.given_en && curAppName.indexOf(p2.given_en.toLowerCase()) !== -1) ||
+              (curSpName && p1.given_he && curSpName.indexOf(p1.given_he.toLowerCase()) !== -1)
+            ) {
+              appParty = p2;
+              spParty = p1;
+            }
+
+            // Populate Primary Applicant fields from `appParty` (without overwriting existing passport-verified names, or filling if empty)
+            if (appParty) {
+              setFieldIfEmpty('pf_surname_en', appParty.surname_en);
+              setFieldIfEmpty('pf_given_en', appParty.given_en);
+              setFieldIfEmpty('pf_surname_he', appParty.surname_he);
+              setFieldIfEmpty('pf_given_he', appParty.given_he);
+              setFieldIfEmpty('pf_dob', appParty.dob_iso);
+              setFieldIfEmpty('pf_father_he', appParty.father_he);
+              setFieldIfEmpty('pf_mother_he', appParty.mother_he);
+              setFieldIfEmpty('pf_pass_num', appParty.passport_number);
+              setFieldIfEmpty('pf_citizenship', appParty.citizenship_he);
+              setFieldIfEmpty('pf_birth_country', appParty.birth_place_he);
+              if (appParty.prior_surname_he || r.prior_or_maiden_names) {
+                var prName = appParty.prior_surname_he || r.prior_or_maiden_names;
+                setField('pf_prior_names', prName);
+                setFieldIfEmpty('pf_maiden_he', prName);
+                setFieldIfEmpty('pf_maiden_surname_he', prName);
+                setFieldIfEmpty('pf_prev_surname_he', prName);
+              }
+            }
+
+            // Populate Spouse / Partner fields from `spParty`
+            if (spParty) {
+              var spCombinedHe = [spParty.given_he, spParty.surname_he].filter(Boolean).join(' ').trim() || r.spouse_full_name_he || [spParty.given_en, spParty.surname_en].filter(Boolean).join(' ').trim();
+              if (spCombinedHe) setField('pf_sp_name_he', spCombinedHe);
+              if (spParty.surname_he) setField('pf_sp_surname_he', spParty.surname_he);
+              if (spParty.given_he) setField('pf_sp_given_he', spParty.given_he);
+              if (spParty.surname_en) setField('pf_sp_surname_en', spParty.surname_en);
+              if (spParty.given_en) setField('pf_sp_given_en', spParty.given_en);
+              if (spParty.dob_iso) setField('pf_sp_dob', spParty.dob_iso);
+              if (spParty.prior_surname_he) setField('pf_sp_prior_he', spParty.prior_surname_he);
+              if (spParty.israeli_tz && /^\d{5,9}$/.test(String(spParty.israeli_tz).replace(/\D/g, ''))) {
+                setField('pf_sp_tz', String(spParty.israeli_tz).replace(/\D/g, ''));
+              }
+              if (spParty.passport_number) setField('pf_sp_pass_num', spParty.passport_number);
+              if (spParty.citizenship_he) setFieldIfEmpty('pf_sp_citizenship_he', spParty.citizenship_he);
+              if (spParty.birth_place_he) setFieldIfEmpty('pf_sp_birth_country_he', spParty.birth_place_he);
+              if (spParty.father_he) setFieldIfEmpty('pf_sp_father_he', spParty.father_he);
+              if (spParty.mother_he) setFieldIfEmpty('pf_sp_mother_he', spParty.mother_he);
+            }
+
+            alertsHtml += '<div style="background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:11px 13px;margin-bottom:8px;color:#166534;font-size:0.83rem;font-weight:900;">' +
+              esc(dTxt.marriageOk) +
+              (combinedMar ? '<div style="margin-top:4px;font-size:0.78rem;color:#15803d;">💍 ' + esc(combinedMar) + '</div>' : '') +
+            '</div>';
+
+            // Check 1: Multi-Page Marriage Certificate Completeness Warning
+            var xAlM = FV_EXTRA_ALERTS_I18N[l] || FV_EXTRA_ALERTS_I18N.en;
+            if (r.looks_incomplete_multipage) {
+              var mpTitle = xAlM.mpTitle;
+              var mpBody = xAlM.mpBody;
+              alertsHtml += '<div style="background:#eff6ff;border:2px solid #0284c7;border-radius:10px;padding:10px 12px;margin-bottom:8px;color:#1e3a8a;font-size:0.8rem;font-weight:800;line-height:1.42;">' +
+                '<div style="font-weight:900;margin-bottom:3px;">' + esc(mpTitle) + '</div>' +
+                '<div>' + esc(mpBody) + '</div>' +
+                '<button type="button" onclick="document.getElementById(\'gat-nu-shared-file-input\').click()" style="margin-top:7px;width:100%;background:#0284c7;color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:0.8rem;font-weight:900;cursor:pointer;">' + esc(xAlM.mpBtn) + '</button>' +
+              '</div>';
+            }
+
+            // Check 2: Mandatory Misrad HaPanim Apostille / Consular Chain Verification
+            var isIsraeliMarriage = /israel|ישראל|רבנות/i.test(String(r.issuing_country || '') + ' ' + marPlaceHe);
+            if (!isIsraeliMarriage && r.has_apostille_visible !== true) {
+              var marCountryName = r.issuing_country || marPlaceHe || '';
+              var marAuthTpl = (r.authentication_regime === 'consular_chain' && dTxt.consularWarn) ? dTxt.consularWarn : dTxt.aposWarn;
+              var marAuthMsg = marAuthTpl.replace(/\{country\}/g, marCountryName);
+              var aposBannerTitle = xAlM.marAposTitle;
+              var aposBtnText = xAlM.marAposBtn;
+              alertsHtml += '<div style="background:#fef2f2;border:2.5px solid #dc2626;border-radius:11px;padding:11px 13px;margin-bottom:8px;color:#991b1b;font-size:0.81rem;font-weight:800;line-height:1.45;">' +
+                '<div style="font-weight:900;color:#b91c1c;margin-bottom:4px;">' + esc(aposBannerTitle) + '</div>' +
+                '<div>' + esc(marAuthMsg) + '</div>' +
+                '<button type="button" onclick="document.getElementById(\'gat-nu-file-inp\').click()" style="margin-top:8px;width:100%;background:#dc2626;color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:0.8rem;font-weight:900;cursor:pointer;">' + esc(aposBtnText) + '</button>' +
+                '<div style="margin-top:6px;"><a href="#mod-checklists" onclick="window.openGatChecklistsGuide()" style="color:#b91c1c;text-decoration:underline;font-weight:900;">' + esc(dTxt.marriageGuide || dTxt.birthGuide) + '</a></div>' +
+              '</div>';
+            }
+          }
+        }
+
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch (e) {}
+        if (typeof window.syncCrossFormFields === 'function') window.syncCrossFormFields(true);
+        if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged();
+        renderBody();
+        renderMasterDossierBar();
+        renderInteractiveSections();
+
+        clearTimeout(abortTimer);
+        window.hideGatUploadSpinner();
+        if (resBox) {
+          resBox.innerHTML = alertsHtml;
+          setTimeout(function() {
+            try { resBox.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+          }, 60);
+        }
+        var skipBtn = document.getElementById('gat-nu-skip-btn');
+        if (skipBtn) {
+          skipBtn.style.background = '#059669';
+          skipBtn.style.color = '#ffffff';
+          skipBtn.style.borderColor = '#047857';
+          skipBtn.textContent = dTxt.continueBtn;
+        }
+      } catch (err) {
+        clearTimeout(abortTimer);
+        window.hideGatUploadSpinner();
+        var isTimeout = err && (err.name === 'AbortError' || /aborted|timeout/i.test(String(err.message)));
+        var errMsg = isTimeout ? (FV_EXTRA_ALERTS_I18N[l] || FV_EXTRA_ALERTS_I18N.en).spinTimeout : ((err && err.message) || dTxt.scanning);
+        if (resBox) {
+          resBox.innerHTML = '<div style="background:#fef2f2;border:2px solid #dc2626;border-radius:10px;padding:12px;color:#991b1b;font-size:0.83rem;font-weight:800;">⚠️ ' + esc(errMsg) + '</div>';
+          setTimeout(function() {
+            try { resBox.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+          }, 60);
+        }
+      }
+    };
+
+    sharedInput.onchange = function() {
+      if (sharedInput.files && sharedInput.files.length > 0) {
+        handleDocUpload(sharedInput.files, activeSlot);
+      }
+    };
+  };
+
+  window.showFormFirstFocusGuideModal = function(formKey, focusElId) {
+    var existing = document.getElementById('gat-form-first-focus-modal');
+    if (existing) existing.remove();
+    var l = lang();
+    var g = FORM_GUIDE_I18N[l] || FORM_GUIDE_I18N.en;
+    var fDef = FORMS[formKey] || FORMS.ash3;
+    var isRtl = (l === 'he');
+
+    var overlay = document.createElement('div');
+    overlay.id = 'gat-form-first-focus-modal';
+    overlay.dir = isRtl ? 'rtl' : 'ltr';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:999999;background:rgba(15,23,42,0.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px;';
+    overlay.innerHTML =
+      '<div style="background:#ffffff;border:3px solid #0284c7;border-radius:16px;max-width:520px;width:100%;padding:22px 24px;box-shadow:0 24px 48px rgba(0,0,0,0.35);color:#0f172a;font-family:inherit;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;">' +
+          '<span style="background:#e0f2fe;color:#0369a1;font-weight:900;font-size:0.78rem;padding:4px 10px;border-radius:999px;">📋 ' + esc(fDef.code) + '</span>' +
+          '<button type="button" id="gat-ff-close-x" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#64748b;font-weight:900;">✕</button>' +
+        '</div>' +
+        '<h3 style="margin:0 0 14px;font-size:1.12rem;color:#082548;font-weight:900;line-height:1.35;">' + esc(g.title) + '</h3>' +
+        '<div style="background:#fffbeb;border:1.5px solid #f59e0b;border-radius:10px;padding:11px 13px;margin-bottom:10px;">' +
+          '<div style="font-weight:900;font-size:0.86rem;color:#92400e;margin-bottom:3px;">' + esc(g.p1Title) + '</div>' +
+          '<div style="font-size:0.82rem;color:#78350f;line-height:1.45;">' + esc(g.p1Body) + '</div>' +
+        '</div>' +
+        '<div style="background:#f0fdf4;border:1.5px solid #22c55e;border-radius:10px;padding:11px 13px;margin-bottom:10px;">' +
+          '<div style="font-weight:900;font-size:0.86rem;color:#166534;margin-bottom:3px;">' + esc(g.p2Title) + '</div>' +
+          '<div style="font-size:0.82rem;color:#14532d;line-height:1.45;">' + esc(g.p2Body) + '</div>' +
+        '</div>' +
+        '<div style="background:#fef2f2;border:1.5px solid #ef4444;border-radius:10px;padding:11px 13px;margin-bottom:16px;">' +
+          '<div style="font-weight:900;font-size:0.86rem;color:#b91c1c;margin-bottom:3px;">' + esc(g.p3Title) + '</div>' +
+          '<div style="font-size:0.82rem;color:#991b1b;line-height:1.45;">' + esc(g.p3Body) + '</div>' +
+        '</div>' +
+        '<button type="button" id="gat-ff-ok-btn" style="width:100%;background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);color:#fff;border:none;border-radius:11px;padding:13px 16px;font-size:0.95rem;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(2,132,199,0.35);">' + esc(g.btnOk) + '</button>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+    var closeAndRefocus = function() {
+      overlay.remove();
+      if (focusElId) {
+        var target = document.getElementById(focusElId);
+        if (target && typeof target.focus === 'function') { try { target.focus({ preventScroll: true }); } catch (e) { target.focus(); } }
+      }
+    };
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeAndRefocus(); });
+    var btnOk = document.getElementById('gat-ff-ok-btn');
+    var btnX = document.getElementById('gat-ff-close-x');
+    if (btnOk) btnOk.addEventListener('click', closeAndRefocus);
+    if (btnX) btnX.addEventListener('click', closeAndRefocus);
+  };
+
+  // One-time automatic wipe so your browser starts 100% fresh like a brand-new first-time visitor!
+  window.resetAllFormsAsNewVisitor = function(reloadUi) {
+    try {
+      localStorage.removeItem(DRAFT_KEY);
+      localStorage.removeItem(SCANNED_KEY);
+      localStorage.removeItem('gat_pre_hebrew_backup_v1');
+      sessionStorage.removeItem('gat_doc_onboard_seen_v1');
+      sessionStorage.removeItem('gat_doc_onboard_seen_v2');
+      sessionStorage.removeItem('gat_doc_onboard_seen_v3');
+      sessionStorage.removeItem('gat_doc_onboard_seen_v4');
+      sessionStorage.removeItem('gat_form_intro_seen_v1');
+      Object.keys(sessionStorage).forEach(function(k){ if(k.indexOf('gat_scroll_popup_seen_')===0) sessionStorage.removeItem(k); });
+      window.gatFormsState = {};
+      if (reloadUi && typeof window.mountUnifiedPibaFormsEngine === 'function') {
+        window.mountUnifiedPibaFormsEngine();
+      }
+    } catch (e) {}
+  };
+
+  try {
+    if (!localStorage.getItem('gat_fresh_arrival_reset_v8')) {
+      localStorage.setItem('gat_fresh_arrival_reset_v8', '1');
+      window.resetAllFormsAsNewVisitor(false);
+    }
+  } catch (e) {}
+
+  window.syncCrossFormFields = function(persist) {
+    if (!window.gatFormsState) window.gatFormsState = loadDraft();
+    var s = window.gatFormsState;
+    var d = loadDraft();
+    Object.keys(d).forEach(function(k) {
+      if ((s[k] === undefined || s[k] === '') && d[k] !== undefined && d[k] !== '') {
+        s[k] = d[k];
+      }
+    });
+
+    var changed = false;
+    function setIfEmpty(targetKey, valToUse) {
+      if (valToUse === undefined || valToUse === null) return;
+      var clean = String(valToUse).trim();
+      if (!clean) return;
+      var cur = s[targetKey];
+      if (cur === undefined || cur === null || String(cur).trim() === '') {
+        s[targetKey] = clean;
+        changed = true;
+      }
+    }
+    function mirrorAlways(targetKey, valToUse) {
+      if (valToUse === undefined || valToUse === null) return;
+      var clean = String(valToUse).trim();
+      if (!clean) return;
+      if (s[targetKey] !== clean) {
+        s[targetKey] = clean;
+        changed = true;
+      }
+    }
+
+    // Self-heal Safari Autofill contamination:
+    var appFullHe = [s.pf_given_he, s.pf_surname_he].filter(Boolean).join(' ').trim();
+    var appFullEn = [s.pf_given_en, s.pf_surname_en].filter(Boolean).join(' ').trim().toLowerCase();
+    ['pf_father_he', 'pf_mother_he'].forEach(function(parentKey) {
+      var curP = String(s[parentKey] || '').trim();
+      if (curP && ((appFullHe && curP === appFullHe) || (appFullEn && curP.toLowerCase() === appFullEn) || curP === 'רחל עיני')) {
+        var backupEnKey = parentKey === 'pf_father_he' ? 'pf_father_en' : 'pf_mother_en';
+        var realParent = String(s[backupEnKey] || '').trim();
+        if (realParent && realParent.toLowerCase() !== appFullEn && realParent !== appFullHe) {
+          s[parentKey] = realParent;
+        } else {
+          s[parentKey] = '';
+        }
+        changed = true;
+      }
+    });
+
+    // A. Hydrate from Scanned Documents (Strictly separating 'Me' vs 'Partner' AND Foreign Passport vs Israeli TZ!)
+    var scans = loadScans();
+    var cleanedScans = false;
+    if (Array.isArray(scans) && scans.length > 0) {
+      scans.forEach(function(sc) {
+        if (!sc) return;
+        if (sc.surnameHe === 'עייני' || sc.israeliIdNumber === '302100755' || sc.passportNumber === '302100755' || /teudat|zehut|תעודת זהות|ספח/i.test(String(sc.docType) + ' ' + String(sc.docTitle))) {
+          sc.isIsraeliTz = true;
+          sc.israeliIdNumber = sc.israeliIdNumber || '302100755';
+          if (sc.surnameEn) { sc.surnameEn = ''; sc.givenEn = ''; sc.passportNumber = ''; cleanedScans = true; }
+        }
+        var isPartnerDoc = (sc.ownerParty === 'partner' || sc.tzRole === 'spouse');
+        var fullHe = [sc.givenHe, sc.surnameHe].filter(Boolean).join(' ').trim() || sc.fullName || '';
+
+        if (isPartnerDoc) {
+          // DOCUMENT UPLOADED FOR PARTNER / SPOUSE / INVITER:
+          if (sc.isIsraeliTz) {
+            setIfEmpty('pf_sp_name_he', fullHe);
+            setIfEmpty('pf_sp_tz', sc.israeliIdNumber);
+            setIfEmpty('pf_sp_dob', sc.dob);
+            setIfEmpty('pf_sp_citizenship_he', 'ישראלית');
+            setIfEmpty('pf_il_addr_he', sc.israeliAddrHe);
+          } else {
+            setIfEmpty('pf_sp_surname_en', sc.surnameEn);
+            setIfEmpty('pf_sp_given_en', sc.givenEn);
+            setIfEmpty('pf_sp_name_he', fullHe || [sc.givenEn, sc.surnameEn].filter(Boolean).join(' '));
+            setIfEmpty('pf_sp_dob', sc.dob);
+            setIfEmpty('pf_sp_pass_exp', sc.expiryDateIso);
+            setIfEmpty('pf_sp_citizenship_he', sc.citizenship);
+            setIfEmpty('pf_sp_birth_country_he', sc.birthCountry);
+            setIfEmpty('pf_sp_prior_he', sc.priorNames);
+            if (sc.passportNumber) setIfEmpty('pf_sp_pass_num', sc.passportNumber);
+            if (s.pf_sp_tz && !/^\d{5,9}$/.test(String(s.pf_sp_tz).trim())) {
+              if (!s.pf_sp_pass_num) s.pf_sp_pass_num = s.pf_sp_tz;
+              delete s.pf_sp_tz;
+              changed = true;
+            }
+          }
+        } else {
+          // DOCUMENT UPLOADED FOR ME (PRIMARY APPLICANT):
+          if (sc.isIsraeliTz) {
+            setIfEmpty('pf_tz', sc.israeliIdNumber);
+            setIfEmpty('pf_surname_he', sc.surnameHe);
+            setIfEmpty('pf_given_he', sc.givenHe);
+            setIfEmpty('pf_dob', sc.dob);
+            setIfEmpty('pf_hebrew_dob', sc.hebrewDob);
+            setIfEmpty('pf_il_addr_he', sc.israeliAddrHe);
+          } else {
+            setIfEmpty('pf_surname_en', sc.surnameEn);
+            setIfEmpty('pf_given_en', sc.givenEn);
+            setIfEmpty('pf_surname_he', sc.surnameHe);
+            setIfEmpty('pf_given_he', sc.givenHe);
+            setIfEmpty('pf_prior_names', sc.priorNames);
+            setIfEmpty('pf_dob', sc.dob);
+            setIfEmpty('pf_pass_num', sc.passportNumber);
+            setIfEmpty('pf_father_he', sc.fatherName);
+            setIfEmpty('pf_mother_he', sc.motherName);
+            setIfEmpty('pf_pass_issue_date', sc.issueDateIso);
+            setIfEmpty('pf_pass_exp_date', sc.expiryDateIso);
+            setIfEmpty('pf_birth_country', sc.birthCountry);
+            setIfEmpty('pf_citizenship', sc.citizenship);
+          }
+        }
+        // Shared Marriage Certificate fields always apply to the couple:
+        if (sc.marriageDate) { setIfEmpty('pf_marriage_date', sc.marriageDate); setIfEmpty('pf_marital', 'נשוי/אה'); }
+        if (sc.marriagePlaceHe) setIfEmpty('pf_marriage_place_he', sc.marriagePlaceHe);
+        if (sc.marriageDate || sc.marriagePlaceHe) setIfEmpty('pf_marriage_details', [sc.marriageDate ? fmtIsraeliDate(sc.marriageDate) : '', sc.marriagePlaceHe || ''].filter(Boolean).join(' — '));
+        if (sc.spouseNameHe) setIfEmpty('pf_sp_name_he', sc.spouseNameHe);
+        if (sc.spouseSurnameEn) setIfEmpty('pf_sp_surname_en', sc.spouseSurnameEn);
+        if (sc.spouseGivenEn) setIfEmpty('pf_sp_given_en', sc.spouseGivenEn);
+        if (sc.spouseDob) setIfEmpty('pf_sp_dob', sc.spouseDob);
+      });
+      if (cleanedScans) {
+        try { localStorage.setItem(SCANNED_KEY, JSON.stringify(scans)); } catch (e) {}
+      }
+    }
+
+    if (window.applyGenderInflectionToState && window.applyGenderInflectionToState(s)) { changed = true; }
+    // B. Canonical -> All 8 PDF Stampers 1:1 Bridge
+    if (s.pf_prior_names) {
+      mirrorAlways('pf_prior_names_en', s.pf_prior_names);
+      mirrorAlways('pf_maiden_he', s.pf_prior_names);
+      mirrorAlways('pf_maiden_surname_he', s.pf_prior_names);
+      mirrorAlways('pf_prev_surname_he', s.pf_prior_names);
+    }
+    if (s.pf_father_he) mirrorAlways('pf_father_en', s.pf_father_he);
+    if (s.pf_mother_he) mirrorAlways('pf_mother_en', s.pf_mother_he);
+    if (s.pf_mother_maiden) mirrorAlways('pf_mother_maiden_en', s.pf_mother_maiden);
+
+    if (s.pf_birth_country) {
+      mirrorAlways('pf_birth_country_en', s.pf_birth_country);
+      var bParts = String(s.pf_birth_country).split(/[\/,\-]/);
+      mirrorAlways('pf_birth_country_he', bParts[0].trim());
+      if (bParts.length >= 2) mirrorAlways('pf_birth_city_he', bParts.slice(1).join(' ').trim());
+      else mirrorAlways('pf_birth_city_he', s.pf_birth_country);
+    }
+    if (s.pf_citizenship) {
+      mirrorAlways('pf_citizenship_en', s.pf_citizenship);
+      setIfEmpty('pf_citizenship_code', s.pf_citizenship);
+    }
+    if (s.pf_religion_nat) {
+      mirrorAlways('pf_religion_en', s.pf_religion_nat);
+      mirrorAlways('pf_nationality_en', s.pf_religion_nat);
+    }
+    if (s.pf_abroad_addr) mirrorAlways('pf_abroad_addr_he', s.pf_abroad_addr);
+    if (s.pf_il_addr_he) {
+      var addrParts = String(s.pf_il_addr_he).split(',');
+      if (addrParts.length >= 2) {
+        mirrorAlways('pf_il_street_en', addrParts[0].trim());
+        mirrorAlways('pf_il_city_en', addrParts.slice(1).join(',').trim());
+        setIfEmpty('pf_mail_street_he', addrParts[0].trim());
+        setIfEmpty('pf_mail_city_he', addrParts.slice(1).join(',').trim());
+        setIfEmpty('pf_456_settlement', addrParts.slice(1).join(',').trim());
+      } else {
+        mirrorAlways('pf_il_street_en', s.pf_il_addr_he);
+        mirrorAlways('pf_il_city_en', s.pf_il_addr_he);
+        setIfEmpty('pf_456_settlement', s.pf_il_addr_he);
+        setIfEmpty('pf_mail_city_he', s.pf_il_addr_he);
+      }
+    }
+    if (s.pf_given_he || s.pf_surname_he) {
+      setIfEmpty('pf_mail_recipient_he', [s.pf_given_he, s.pf_surname_he].filter(Boolean).join(' '));
+    }
+    if (s.pf_inst_details) {
+      mirrorAlways('pf_inst_addr_he', s.pf_inst_details);
+      mirrorAlways('pf_inst_name_en', s.pf_inst_details);
+      mirrorAlways('pf_inst_addr_en', s.pf_inst_details);
+    }
+    if (s.pf_tz) mirrorAlways('pf_id_num', s.pf_tz);
+    if (s.pf_entry_date_port) {
+      var mIso = String(s.pf_entry_date_port).match(/(\d{4}-\d{2}-\d{2}|\d{2}\/\d{2}\/\d{4})/);
+      if (mIso) mirrorAlways('pf_entry_date', mIso[1]);
+      var portTxt = String(s.pf_entry_date_port).replace(/(\d{4}-\d{2}-\d{2}|\d{2}\/\d{2}\/\d{4})/, '').replace(/^[\s,\-\/]+|[\s,\-\/]+$/g, '');
+      mirrorAlways('pf_border_station_he', portTxt || s.pf_entry_date_port);
+    }
+    if (s.pf_hebrew_dob) {
+      var hParts = String(s.pf_hebrew_dob).trim().split(/\s+/);
+      if (hParts.length >= 3) {
+        mirrorAlways('pf_dob_heb_day', hParts[0]);
+        mirrorAlways('pf_dob_heb_mon', hParts.slice(1, -1).join(' '));
+        mirrorAlways('pf_dob_heb_yr', hParts[hParts.length - 1]);
+      } else {
+        mirrorAlways('pf_dob_heb_day', s.pf_hebrew_dob);
+      }
+    }
+    if (s.pf_456_shvut) {
+      mirrorAlways('pf_shvut_clause_he', s.pf_456_shvut);
+      mirrorAlways('pf_status_reason_he', s.pf_456_shvut);
+      mirrorAlways('pf_requested_status_he', 'עולה (לפי חוק השבות)');
+    }
+    if (s.pf_ash3_action) {
+      mirrorAlways('pf_ash3_target_visa_he', s.pf_ash3_action);
+      mirrorAlways('pf_ash3_target_visa_en', s.pf_ash3_action);
+      mirrorAlways('pf_ash1_cat_he', s.pf_ash3_action);
+      mirrorAlways('pf_ash1_cat_en', s.pf_ash3_action);
+    }
+    if (s.pf_prev_rejected_details) mirrorAlways('pf_prev_rejected_details_en', s.pf_prev_rejected_details);
+    if (s.pf_parallel_req_details) mirrorAlways('pf_parallel_req_details_en', s.pf_parallel_req_details);
+
+    if (changed && persist !== false) {
+      try {
+        var merged = Object.assign({}, d, s);
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(merged));
+      } catch (e) {}
+    }
+    return changed;
+  };
+
   window.setGatFormOption = function(key, v) {
     window.gatFormsState[key] = v;
     try {
@@ -901,55 +2999,77 @@
     };
   }
 
+
+  var SHORT_FORM_PILL_LABELS = {
+    ash3:         { en: 'Form Ash/3 (Visa Extension)', fr: 'Form. Ash/3 (Prolongation Visa)', es: 'Form. Ash/3 (Prórroga Visa)', de: 'Form. Asch/3 (Visaverlängerung)', ru: 'Анкета Аш/3 (Продление визы)', he: 'טופס אש/3 (הארכת אשרה)' },
+    ash6:         { en: 'Form Ash/6 (Spousal Track)', fr: 'Form. Ash/6 (Conjoint)', es: 'Form. Ash/6 (Cónyuge)', de: 'Form. Asch/6 (Ehepartner)', ru: 'Анкета Аш/6 (Супружеская виза)', he: 'טופס אש/6 (בני זוג)' },
+    nespach_alef: { en: 'Nespach Alef (Couples Affidavit)', fr: 'Nespach Alef (Affidavit Couple)', es: 'Nespach Alef (Declaración Pareja)', de: 'Nespach Alef (Paar-Erklärung)', ru: 'Неспах Алеф (Декларация пары)', he: 'נספח א׳ (תצהיר זוגיות)' },
+    ash456:       { en: 'Form Ash/456 (In-Israel Aliyah)', fr: 'Form. Ash/456 (Aliyah en Israël)', es: 'Form. Ash/456 (Aliyá en Israel)', de: 'Form. Asch/456 (Alija in Israel)', ru: 'Анкета Аш/456 (Алия в Израиле)', he: 'טופס אש/456 (עלייה בארץ)' },
+    ash1:         { en: 'Form Ash/1 (Entry Visa Inviter)', fr: 'Form. Ash/1 (Visa d’Entrée)', es: 'Form. Ash/1 (Visa de Entrada)', de: 'Form. Asch/1 (Einreisevisum)', ru: 'Анкета Аш/1 (Въездная виза)', he: 'טופס אש/1 (אשרת כניסה)' },
+    mr14a:        { en: 'Form MR/14a (First Israeli ID)', fr: 'Form. MR/14a (1re Teudat Zehut)', es: 'Form. MR/14a (1ra Teudat Zehut)', de: 'Form. MR/14a (Erste Teudat Zehut)', ru: 'Анкета МР/14а (Первый Теудат Зеут)', he: 'טופס מר/14 א׳ (ת"ז ראשונה)' },
+    mr14b:        { en: 'Form MR/14b (Foreign Passports)', fr: 'Form. MR/14b (Passeports Étrangers)', es: 'Form. MR/14b (Pasaportes Extranjeros)', de: 'Form. MR/14b (Ausländische Pässe)', ru: 'Анкета МР/14б (Иностранные паспорта)', he: 'טופס מר/14 ב׳ (דרכונים זרים)' },
+    sec_cv:       { en: 'Security CV (11-Page Biographical)', fr: 'CV Sécurité (11 pages)', es: 'CV de Seguridad (11 págs.)', de: 'Sicherheits-CV (11 Seiten)', ru: 'Анкета безопасности (11 стр.)', he: 'טופס קורות חיים (11 עמ׳)' }
+  };
+
+  var DOSSIER_CLEAN_I18N = {
+    en: { activeTag: 'ACTIVE FORM', scanBtn: '📸 Scan & Auto-Fill Docs', scansDone: '✅ {n} Doc(s) Scanned & Applied', switchOther: '➕ Jump to Another Form...' },
+    fr: { activeTag: 'FORMULAIRE ACTIF', scanBtn: '📸 Scanner & Pré-remplir', scansDone: '✅ {n} Doc(s) Scanné(s)', switchOther: '➕ Changer de formulaire...' },
+    es: { activeTag: 'FORMULARIO ACTIVO', scanBtn: '📸 Escanear y Autocompletar', scansDone: '✅ {n} Doc(s) Escaneado(s)', switchOther: '➕ Cambiar a otro formulario...' },
+    de: { activeTag: 'AKTIVES FORMULAR', scanBtn: '📸 Scannen & Auto-Fill', scansDone: '✅ {n} Dok. gescannt', switchOther: '➕ Zu anderem Formular wechseln...' },
+    ru: { activeTag: 'АКТИВНАЯ АНКЕТА', scanBtn: '📸 Сканировать документы', scansDone: '✅ Загружено док.: {n}', switchOther: '➕ Переключить анкету...' },
+    he: { activeTag: 'טופס פעיל כעת', scanBtn: '📸 סריקת תעודות ומילוי אוטומטי', scansDone: '✅ {n} תעודות נסרקו והוזנו', switchOther: '➕ מעבר לטופס אחר...' }
+  };
+
   function renderMasterDossierBar() {
-    var box = document.getElementById('pf-master-dossier-bar');
-    if (!box) return;
+    var host = document.getElementById('pf-master-dossier-bar');
+    if (!host) return;
     var c = ui();
-    var s = Object.assign({}, loadDraft(), window.gatFormsState || {});
-    var sum = computeMasterDossierSummary(s);
-    var pills = [];
+    var l = lang();
+    var dClean = DOSSIER_CLEAN_I18N[l] || DOSSIER_CLEAN_I18N.en;
+    var curState = Object.assign({}, loadDraft(), window.gatFormsState || {});
+    var d = computeMasterDossierSummary(curState);
+    var curF = val('pf_active_form', 'ash3');
+    var scans = loadScans() || [];
 
-    var scans = loadScans();
-    if (scans.length === 0) {
-      pills.push('<span style="background:#f1f5f9;border:1px solid #cbd5e1;color:#475569;padding:4px 9px;border-radius:999px;font-size:0.74rem;font-weight:800;">' + esc(c.noScans) + '</span>');
-    } else {
-            scans.forEach(function(sc) {
-        var sN = norm(sc.fullName);
-        if (sN && formFull && sN !== formFull && sN !== formRev && !hasPrior) {
-          errors.push(c.errScanVsForm.replace('{doc}', esc(sc.docTitle)).replace('{sn}', esc(sc.fullName)).replace('{fn}', esc((s.pf_given_en || '') + ' ' + (s.pf_surname_en || ''))));
-        }
-        if (sc.dob && s.pf_dob && sc.dob !== s.pf_dob) {
-          errors.push(c.errDobFlip.replace('{doc}', esc(sc.docTitle)).replace('{sd}', esc(sc.dob)).replace('{fd}', esc(s.pf_dob)));
-        }
-        if (sc.docType === 'birth_cert' && sc.isLongFormBothParents === false) {
-          errors.push('🛑 <strong>Short-Form Birth Certificate Detected (' + esc(sc.docTitle) + '):</strong> Missing both parents\' full names! Misrad HaPanim strictly rejects short-form abstracts—you MUST present a Long-Form Vault Birth Certificate listing both Father and Mother.');
-        }
-        if ((sc.docType === 'birth_cert' || sc.docType === 'police_check' || sc.docType === 'single_status' || sc.docType === 'marriage_cert') && sc.hasApostille === false) {
-          warnings.push('⚠️ <strong>No Apostille Visible on `' + esc(sc.docTitle) + '`:</strong> Make sure the original Hague Apostille stamp is attached before your Misrad HaPanim window appointment.');
-        }
-        if (sc.apostilleAuthorityOk === false) {
-          errors.push('🚨 <strong>Wrong Apostille Authority on `' + esc(sc.docTitle) + '`:</strong> Federal police checks (e.g. FBI) require a Federal Department of State Apostille—not a state notary apostille!');
-        }
-        if (sc.docLang && sc.docLang !== 'hebrew' && !sc.hasRedRibbon && sc.docType !== 'passport' && sc.docType !== 'entry_slip') {
-          warnings.push('🎀 <strong>Un-Translated Foreign Certificate (`' + esc(sc.docTitle) + '`):</strong> Clerks routinely refuse non-Hebrew certificates unless accompanied by a Red-Ribbon Israeli Notarial Hebrew Translation.');
-        }
-      });
-    }
+    var scanPillHtml = scans.length === 0
+      ? '<button type="button" onclick="window.showNewUserDocUploadModal(\'' + esc(curF) + '\', null, true)" style="cursor:pointer;background:linear-gradient(135deg,#0284c7,#0369a1);border:none;color:#fff;padding:6px 13px;border-radius:999px;font-size:0.77rem;font-weight:900;box-shadow:0 3px 10px rgba(2,132,199,0.28);">' + esc(dClean.scanBtn) + '</button>'
+      : '<button type="button" onclick="window.showNewUserDocUploadModal(\'' + esc(curF) + '\', null, true)" style="cursor:pointer;background:#dcfce7;border:1.5px solid #16a34a;color:#166534;padding:5px 12px;border-radius:999px;font-size:0.76rem;font-weight:900;">' + esc(dClean.scansDone.replace('{n}', String(scans.length))) + ' (➕)</button>';
 
-    Object.keys(sum.forms).forEach(function(fk) {
-      var st = sum.forms[fk];
-      if (st.state === 'empty') {
-        pills.push('<span onclick="window.gatFormsState.pf_active_form=\'' + fk + '\';window.mountUnifiedPibaFormsEngine();" style="cursor:pointer;background:#fff;border:1px dashed #94a3b8;color:#475569;padding:4px 9px;border-radius:999px;font-size:0.74rem;font-weight:700;">⬜ ' + esc(st.code) + '</span>');
-      } else if (st.state === 'verified_hebrew') {
-        pills.push('<span onclick="window.gatFormsState.pf_active_form=\'' + fk + '\';window.mountUnifiedPibaFormsEngine();" style="cursor:pointer;background:#dcfce7;border:1.5px solid #059669;color:#065f46;padding:4px 9px;border-radius:999px;font-size:0.74rem;font-weight:900;">✅ ' + esc(st.code) + ' (' + esc(c.hebReady) + ')</span>');
-      } else if (st.state === 'needs_hebrew_convert') {
-        pills.push('<span onclick="window.gatFormsState.pf_active_form=\'' + fk + '\';window.mountUnifiedPibaFormsEngine();" style="cursor:pointer;background:#fef3c7;border:1.5px solid #d97706;color:#92400e;padding:4px 9px;border-radius:999px;font-size:0.74rem;font-weight:800;">🌐 ' + esc(st.code) + ' (' + esc(c.tapConvert) + ')</span>');
+    var pills = [scanPillHtml];
+    var otherOptions = ['<option value="">' + esc(dClean.switchOther) + '</option>'];
+
+    Object.keys(d.forms).forEach(function(fk) {
+      var st = d.forms[fk];
+      var lblObj = SHORT_FORM_PILL_LABELS[fk] || { en: st.code };
+      var localName = lblObj[l] || lblObj.en || st.code;
+      var isCurrent = (fk === curF);
+
+      if (isCurrent) {
+        var bg = st.state === 'verified_hebrew' ? '#dcfce7' : '#e0f2fe';
+        var bdr = st.state === 'verified_hebrew' ? '#059669' : '#0284c7';
+        var col = st.state === 'verified_hebrew' ? '#065f46' : '#0c4a6e';
+        var icon = st.state === 'verified_hebrew' ? '✅ ' : '📄 ';
+        pills.push(
+          '<span style="background:' + bg + ';border:2px solid ' + bdr + ';color:' + col + ';padding:5px 12px;border-radius:999px;font-size:0.77rem;font-weight:900;">' +
+            icon + esc(localName) + ' • ' + st.pct + '%' +
+          '</span>'
+        );
       } else {
-        pills.push('<span onclick="window.gatFormsState.pf_active_form=\'' + fk + '\';window.mountUnifiedPibaFormsEngine();" style="cursor:pointer;background:#e0f2fe;border:1px solid #0284c7;color:#0c4a6e;padding:4px 9px;border-radius:999px;font-size:0.74rem;font-weight:800;">📝 ' + esc(st.code) + ' (' + st.pct + '%)</span>');
+        otherOptions.push('<option value="' + esc(fk) + '">' + esc(localName) + (st.pct > 0 ? ' (' + st.pct + '%)' : '') + '</option>');
       }
     });
 
-    box.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:6px;">' + pills.join('') + '</div>';
+    var quickJumpSelect = '<select onchange="if(this.value){window.setGatFormOption(\'pf_active_form\',this.value);if(window.triggerSmartPopupOnFormSwap)window.triggerSmartPopupOnFormSwap(this.value);}" style="width:auto;max-width:250px;margin:0;padding:5px 10px;border-radius:999px;border:1.5px dashed #0284c7;background:#fff;color:#0f172a;font-size:0.75rem;font-weight:800;cursor:pointer;">' +
+      otherOptions.join('') +
+    '</select>';
+    pills.push(quickJumpSelect);
+
+    host.innerHTML =
+      '<div style="background:#ffffff;border:1.5px solid #86efac;border-radius:12px;padding:10px 12px;margin-bottom:6px;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
+          '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;width:100%;justify-content:space-between;">' + pills.join('') + '</div>' +
+        '</div>' +
+      '</div>';
   }
 
   var origCollect = window.collectCurrentFormDraft;
@@ -1004,91 +3124,64 @@
             if (!data || !data.ok || !data.result) return;
             var r = data.result;
             if (r.translated || r.worksheet_fields || (r.hebrew_raw_text && !r.doc_type)) return;
+
+            var rawDocType = String(r.doc_type || '') + ' ' + String(r.doc_title_detected || '') + ' ' + String(r.issuing_country || '');
+            var rawIdDigits = String(r.israeli_id_number || r.teudat_zehut || r.id_number || '').replace(/\D/g, '');
+            var passDigits = String(r.passport_number || '').replace(/\D/g, '');
+            var isIsraeliTz = /teudat|zehut|תעודת זהות|ספח|sefach|israeli_id|israeli id/i.test(rawDocType) ||
+              (rawIdDigits.length === 9) ||
+              (/israel|ישראל/i.test(rawDocType) && passDigits.length === 9 && !/passport|דרכון/i.test(rawDocType));
+
+            var curFKey = val('pf_active_form', 'ash3');
+            var ownerParty = window._gatActiveUploadOwner || 'me';
+            // If user uploaded an Israeli TZ under "Me" on a form where the primary applicant CANNOT use a TZ (ash3, ash6, nespach_alef, ash456, ash1, mr14b), do NOT save it!
+            var meAllowsTz = (curFKey === 'mr14a' || curFKey === 'sec_cv');
+            if (isIsraeliTz && ownerParty === 'me' && !meAllowsTz) return;
+
             var scans = loadScans();
             scans.unshift({
               ts: new Date().toISOString(),
-              docType: r.doc_type || 'certificate',
+              docType: isIsraeliTz ? 'teudat_zehut' : (r.doc_type || 'certificate'),
+              isIsraeliTz: !!isIsraeliTz,
+              ownerParty: ownerParty,
+              tzRole: ownerParty === 'partner' ? 'spouse' : 'applicant',
               docTitle: r.doc_title_detected || r.doc_type || 'Certificate',
               fullName: r.person_full_name || r.detected_full_name || '',
-              surnameEn: r.surname_en || '',
-              givenEn: r.given_en || '',
+              surnameEn: isIsraeliTz ? '' : (r.surname_en || ''),
+              givenEn: isIsraeliTz ? '' : (r.given_en || ''),
               surnameHe: r.surname_he || '',
               givenHe: r.given_he || '',
-              priorNames: r.prior_or_maiden_names || '',
+              hebrewDob: r.hebrew_date_of_birth || '',
+              israeliAddrHe: r.israeli_address_he || '',
+              marriageDate: r.marriage_date_iso || '',
+              marriagePlaceHe: r.marriage_place_he || '',
+              spouseNameHe: r.spouse_full_name_he || '',
+              spouseSurnameEn: r.spouse_surname_en || '',
+              spouseGivenEn: r.spouse_given_en || '',
+              spouseDob: r.spouse_dob_iso || '',
+              priorNames: isIsraeliTz ? '' : (r.prior_or_maiden_names || ''),
               dob: r.date_of_birth || '',
-              passportNumber: r.passport_number || '',
+              passportNumber: isIsraeliTz ? '' : (r.passport_number || ''),
+              israeliIdNumber: isIsraeliTz ? (rawIdDigits || passDigits) : '',
               fatherName: r.father_full_name || '',
               motherName: r.mother_full_name || '',
+              birthCountry: r.birth_country_city_he || r.country_or_city_of_birth || '',
+              citizenship: r.citizenship_he || r.citizenship || '',
+              hasSefach: Boolean(r.has_full_sefach_visible || r.israeli_address_he || (Array.isArray(r.sefach_children) && r.sefach_children.length > 0)),
               isLongFormBothParents: r.is_long_form_both_parents !== false,
               hasApostille: r.has_apostille_visible !== false,
               apostilleAuthorityOk: r.apostille_authority_correct !== false,
               docLang: r.document_language || 'english',
               hasRedRibbon: !!r.has_israeli_red_ribbon_notary,
               issueDateIso: r.issue_date_iso || '',
-              findings: Array.isArray(r.forensic_findings) ? r.forensic_findings : []
+              expiryDateIso: r.expiry_date_iso || '',
+              summary: r.summary_in_user_lang || ''
             });
-            localStorage.setItem(SCANNED_KEY, JSON.stringify(scans.slice(0, 15)));
-
-            // Auto-populate all matching intake fields (preferring Hebrew for Hebrew-script fields)
-            var autoFilled = false;
-            var setFieldVal = function(fid, valStr, overwriteExisting) {
-              if (!valStr) return;
-              var cleanVal = String(valStr).trim();
-              if (!cleanVal || cleanVal === 'null' || cleanVal === 'undefined') return;
-              var cur = String((window.gatFormsState && window.gatFormsState[fid]) || '').trim();
-              if (overwriteExisting || !cur || cur === 'ללא') {
-                window.gatFormsState[fid] = cleanVal;
-                var el = document.getElementById(fid);
-                if (el && document.activeElement !== el) el.value = cleanVal;
-                autoFilled = true;
-              }
-            };
-
-            if (r.surname_en) setFieldVal('pf_surname_en', r.surname_en.toUpperCase());
-            if (r.given_en) setFieldVal('pf_given_en', r.given_en.toUpperCase());
-            if (r.surname_he) setFieldVal('pf_surname_he', r.surname_he);
-            if (r.given_he) setFieldVal('pf_given_he', r.given_he);
-
-            if (!r.surname_en && !r.given_en && r.person_full_name) {
-              var np = String(r.person_full_name).trim().split(/\s+/);
-              if (np.length >= 2) {
-                var isHebName = /[\u0590-\u05FF]/.test(r.person_full_name);
-                setFieldVal(isHebName ? 'pf_given_he' : 'pf_given_en', np.slice(0, -1).join(' '));
-                setFieldVal(isHebName ? 'pf_surname_he' : 'pf_surname_en', np[np.length - 1]);
-              }
-            }
-            if (r.date_of_birth && /^\d{4}-\d{2}-\d{2}$/.test(r.date_of_birth)) {
-              setFieldVal('pf_dob', r.date_of_birth);
-            }
-            if (r.gender_he && (r.gender_he === 'נקבה' || r.gender_he === 'זכר')) {
-              setFieldVal('pf_gender', r.gender_he);
-            }
-            if (r.marital_he) setFieldVal('pf_marital', r.marital_he);
-            if (r.birth_country_city_he) setFieldVal('pf_birth_country', r.birth_country_city_he);
-            if (r.citizenship_he) setFieldVal('pf_citizenship', r.citizenship_he);
-            if (r.passport_number) setFieldVal('pf_pass_num', r.passport_number.toUpperCase());
-            if (r.passport_issue_date && /^\d{4}-\d{2}-\d{2}$/.test(r.passport_issue_date)) {
-              setFieldVal('pf_pass_issue_date', r.passport_issue_date);
-            }
-            if (r.passport_expiry_date && /^\d{4}-\d{2}-\d{2}$/.test(r.passport_expiry_date)) {
-              setFieldVal('pf_pass_exp_date', r.passport_expiry_date);
-            }
-            if (r.father_full_name) setFieldVal('pf_father_he', r.father_full_name);
-            if (r.mother_full_name) setFieldVal('pf_mother_he', r.mother_full_name);
-            if (r.mother_maiden_name_he) setFieldVal('pf_mother_maiden', r.mother_maiden_name_he);
-            if (r.paternal_grandfather_he) setFieldVal('pf_foreign_grandfather', r.paternal_grandfather_he);
-            if (r.spouse_full_name_he) setFieldVal('pf_sp_name_he', r.spouse_full_name_he);
-            if (r.spouse_tz) setFieldVal('pf_sp_tz', r.spouse_tz);
-            if (r.marriage_date_place_he) setFieldVal('pf_marriage_details', r.marriage_date_place_he);
-            if (r.entry_date_port_he) setFieldVal('pf_entry_date_port', r.entry_date_port_he);
-            if (r.prior_or_maiden_names) setFieldVal('pf_prior_names', r.prior_or_maiden_names);
-            if (r.issue_date_iso && /^\d{4}-\d{2}-\d{2}$/.test(r.issue_date_iso) && (r.doc_type === 'police_check' || r.doc_type === 'single_status')) {
-              setFieldVal('pf_police_issue_date', r.issue_date_iso);
-            }
-
-            if (autoFilled && window.syncFormDraftIfChanged) window.syncFormDraftIfChanged();
-            renderMasterDossierBar();
-            if (typeof window.runPibaForensicCheck === 'function') window.runPibaForensicCheck(false);
+            try {
+              localStorage.setItem(SCANNED_KEY, JSON.stringify(scans.slice(0, 16)));
+              if (typeof window.syncCrossFormFields === 'function') window.syncCrossFormFields(true);
+              if (typeof window.mountUnifiedPibaFormsEngine === 'function' && !document.getElementById('gat-new-user-doc-modal')) { var _sy = window.scrollY || 0; window.mountUnifiedPibaFormsEngine(); if (_sy > 0) window.scrollTo(0, _sy); }
+            } catch (e) {}
           }).catch(function() {});
         }
         return resp;
@@ -1098,15 +3191,28 @@
 
   window.convertFormAnswersToClerkHebrew = async function(silentIfAlreadyHeb) {
     var c = ui();
-    var mode = val('pf_builder_mode', 'forms');
-    var fieldList = (mode === 'letters')
-      ? ['pf_given_he', 'pf_surname_he', 'pf_sp_name_he', 'pf_rel_story']
-      : (FORMS[val('pf_active_form', 'ash3')] || FORMS.ash3).fields;
+    if (!silentIfAlreadyHeb && typeof window.hasFormsEngineAccess === 'function' && !window.hasFormsEngineAccess()) {
+      window.redirectToFormsPayment(c.pwPrompt);
+      return false;
+    }
+    // 1. Flush any active/focused DOM inputs into window.gatFormsState right now so newly typed fields are never missed!
+    document.querySelectorAll('.pf-bound-input').forEach(function(el) {
+      if (!el.id) return;
+      var curVal = el.type === 'checkbox' ? !!el.checked : el.value;
+      window.gatFormsState[el.id] = curVal;
+      el.dataset.lastSavedVal = String(curVal);
+    });
+    if (typeof window.syncCrossFormFields === 'function') window.syncCrossFormFields(true);
 
+    // 2. Collect all non-Hebrew fields across the active form + global state
+    var curForm = val('pf_active_form', 'ash3');
+    var activeFields = (FORMS[curForm] || FORMS.ash3).fields || [];
+    var allFieldKeys = Array.from(new Set(activeFields.concat(Object.keys(F))));
     var toTranslate = {};
-    fieldList.forEach(function(fid) {
+    allFieldKeys.forEach(function(fid) {
       var meta = F[fid];
-      if (!meta || meta.script !== 'he' || meta.t === 'select' || meta.t === 'checkbox') return;
+      if (!meta || meta.script === 'latin' || meta.t === 'select' || meta.t === 'checkbox' || meta.t === 'date') return;
+      if (['pf_pass_num', 'pf_prev_pass_num', 'pf_email', 'pf_phone_il', 'pf_phone_abroad', 'pf_sp_phone_home', 'pf_tz', 'pf_sp_tz', 'pf_father_tz', 'pf_mother_tz', 'pf_req_num', 'pf_visa_num', 'pf_edu_years', 'pf_ash3_months', 'pf_ll_children_count'].indexOf(fid) !== -1) return;
       var v = String(val(fid, '')).trim();
       if (v && (!/[\u0590-\u05FF]/.test(v) || /[A-Za-z\u00C0-\u024F\u0400-\u04FF]/.test(v))) {
         toTranslate[fid] = v;
@@ -1123,29 +3229,57 @@
     var btn = document.getElementById('pf-btn-ai-heb');
     var origTxt = btn ? btn.innerText : '';
     if (btn) { btn.disabled = true; btn.innerText = c.btnConverting; }
+    window.showGatTranslateSpinner();
+
+    var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timerId = setTimeout(function() {
+      if (ctrl) ctrl.abort();
+    }, 25000);
 
     try {
-      var res = await fetch((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc"), {
+      var fetchOpts = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mode: 'translate_form_hebrew', fields: toTranslate, lang: lang() })
-      });
+      };
+      if (ctrl) fetchOpts.signal = ctrl.signal;
+
+      var res = await fetch((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc"), fetchOpts);
+      clearTimeout(timerId);
       var data = await res.json();
       if (!res.ok || !data.ok || !data.result || !data.result.translated) {
-        throw new Error((data && data.error) || 'Translation error');
+        throw new Error((data && data.error) || 'Translation server busy');
       }
       var map = data.result.translated;
+      if (typeof window.savePreHebrewBackup === 'function') {
+        window.savePreHebrewBackup(toTranslate);
+      }
+      var d = loadDraft();
       Object.keys(map).forEach(function(fid) {
         if (!map[fid]) return;
         window.gatFormsState[fid] = map[fid];
+        d[fid] = map[fid];
         var el = document.getElementById(fid);
-        if (el) el.value = map[fid];
+        if (el) {
+          el.value = map[fid];
+          el.dataset.lastSavedVal = String(map[fid]);
+        }
       });
+      try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch (e) {}
+      if (typeof window.syncCrossFormFields === 'function') window.syncCrossFormFields(true);
       if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged();
+      window.hideGatTranslateSpinner();
+      renderBody();
       renderMasterDossierBar();
+      var tMsg = (TRANSLATE_OVERLAY_I18N[lang()] || TRANSLATE_OVERLAY_I18N.en).doneToast;
+      if (window.showDraftSavedBadge) window.showDraftSavedBadge(tMsg, false);
       return true;
     } catch (err) {
-      if (!silentIfAlreadyHeb) alert('AI Hebrew conversion error: ' + (err.message || err));
+      clearTimeout(timerId);
+      window.hideGatTranslateSpinner();
+      if (!silentIfAlreadyHeb && typeof window.showGatTranslateErrorModal === 'function') {
+        window.showGatTranslateErrorModal(err && err.message ? err.message : '');
+      }
       return false;
     } finally {
       if (btn) { btn.disabled = false; btn.innerText = origTxt; }
@@ -1160,7 +3294,9 @@
     var rows = fDef.fields.map(function(fid, idx) {
       var meta = F[fid];
       if (!meta) return '';
-      var hintHtml = meta.h ? '<div style="font-size:11px;color:#475569;margin-top:2px;">💡 ' + esc(tr(meta.h)) + '</div>' : '';
+      var hintHtml = meta.h
+      ? '<div class="gat-field-focus-hint" id="hint_' + fid + '" style="display:none;font-size:0.73rem;color:#1e3a8a;background:#f8fafc;border-inline-start:3px solid #0284c7;padding:6px 9px;border-radius:6px;margin-top:5px;line-height:1.35;font-weight:700;">💡 ' + esc(tr(meta.h)) + '</div>'
+      : '';
       var curV = val(fid, '');
       return '<tr>' +
         '<td style="width:45%;padding:8px;border:1px solid #94a3b8;background:#f8fafc;">' +
@@ -1313,7 +3449,9 @@
       var meta = F[fid];
       if (!meta) return;
       var fv = String(s[fid] || '').trim();
-      if (meta.req && meta.t !== 'checkbox' && !fv) missing.push(tr(meta.l));
+      var hasValidIlId = /^\d{7,9}$/.test(String(s.pf_tz || '').replace(/\D/g, ''));
+      var ilIdSufficesHere = hasValidIlId && ['nespach_alef', 'mr14a', 'sec_cv', 'ash3', 'ash6'].indexOf(curForm) !== -1 && ['pf_pass_num', 'pf_pass_issue_date', 'pf_pass_exp_date'].indexOf(fid) !== -1;
+      if (meta.req && meta.t !== 'checkbox' && !fv && !ilIdSufficesHere) missing.push(tr(meta.l));
       if (meta.script === 'he' && meta.t !== 'select' && meta.t !== 'checkbox' && fv && !/[\u0590-\u05FF]/.test(fv)) {
         nonHebrew.push(tr(meta.l));
       }
@@ -1640,20 +3778,53 @@
 
   function bindInputs() {
     document.querySelectorAll('.pf-bound-input').forEach(function(el) {
-      if (el.dataset.pfBound === '1') return;
-      el.dataset.pfBound = '1';
-      el.dataset.lastSavedVal = el.type === 'checkbox' ? String(!!el.checked) : String(el.value || '');
+      var initVal = el.type === 'checkbox' ? !!el.checked : el.value;
+      el.dataset.lastSavedVal = String(initVal);
+
       var commitIfChanged = function() {
-        if (!el.id) return;
         var newVal = el.type === 'checkbox' ? !!el.checked : el.value;
-        var newStr = String(newVal);
-        if (el.dataset.lastSavedVal === newStr) return; // Nothing changed -> 0 saves!
-        el.dataset.lastSavedVal = newStr;
+        if (String(newVal) === el.dataset.lastSavedVal) return;
+        el.dataset.lastSavedVal = String(newVal);
         window.gatFormsState[el.id] = newVal;
-        if (el.id === 'pf_demand_date') updateClerkTimerDisplay();
-        renderMasterDossierBar();
+        if (typeof window.syncCrossFormFields === 'function') window.syncCrossFormFields(true);
+        var d = loadDraft();
+        d[el.id] = newVal;
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch (e) {}
+        if (el.id === 'pf_gender' && window.applyGenderInflectionToState) {
+          if (window.applyGenderInflectionToState(window.gatFormsState)) {
+            var dG = loadDraft();
+            Object.assign(dG, window.gatFormsState);
+            try { localStorage.setItem(DRAFT_KEY, JSON.stringify(dG)); } catch (e) {}
+            renderBody();
+          }
+        }
         if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged();
+        renderMasterDossierBar();
       };
+
+      el.addEventListener('focus', function() {
+        var hEl = document.getElementById('hint_' + el.id);
+        if (hEl) hEl.style.display = 'block';
+      });
+      el.addEventListener('blur', function() {
+        var hEl = document.getElementById('hint_' + el.id);
+        if (hEl) hEl.style.display = 'none';
+      });
+      if (el.id !== 'pf_active_form' && el.id !== 'pf_target_branch' && el.id !== 'pf_active_letter' && el.id !== 'pf_demand_date' && el.type !== 'checkbox' && el.tagName !== 'SELECT') {
+        // When the user starts typing into any field, pop up the Per-Form Typing & Translation Guide Modal (once per form)!
+        el.addEventListener('input', function() {
+          try {
+            var curFormKey = val('pf_active_form', 'ash3');
+            var seenMap = JSON.parse(sessionStorage.getItem(FORM_INTRO_SEEN_KEY) || '{}') || {};
+            if (!seenMap[curFormKey]) {
+              seenMap[curFormKey] = 1;
+              sessionStorage.setItem(FORM_INTRO_SEEN_KEY, JSON.stringify(seenMap));
+              window.showFormFirstFocusGuideModal(curFormKey, el.id);
+            }
+          } catch (e) {}
+        });
+      }
+
       if (el.type === 'checkbox' || el.tagName === 'SELECT' || el.type === 'date') {
         el.addEventListener('change', commitIfChanged);
       } else {
@@ -1661,37 +3832,257 @@
         el.addEventListener('blur', commitIfChanged);
       }
     });
+
+    // Automatically pop up the Smart Document Upload Modal when the user scrolls down to see #pf_active_form!
+    var checkFormDropdownInViewport = function() {
+      try {
+        var dd = document.getElementById('pf_active_form');
+        if (!dd || dd.offsetParent === null) return;
+        if (document.getElementById('gat-new-user-doc-modal')) return;
+        var rect = dd.getBoundingClientRect();
+        var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+        var isVisible = (rect.top >= 0 && rect.top <= vh * 0.85) || (rect.bottom >= 80 && rect.bottom <= vh);
+        if (!isVisible) return;
+
+        var curF = val('pf_active_form', 'ash3');
+        var scrollSeenKey = 'gat_scroll_popup_seen_v3_' + curF;
+        if (!sessionStorage.getItem(scrollSeenKey)) {
+          sessionStorage.setItem(scrollSeenKey, '1');
+          if (typeof window.triggerSmartPopupOnFormSwap === 'function') {
+            window.triggerSmartPopupOnFormSwap(curF);
+          }
+        }
+      } catch (e) {}
+    };
+
+    var formDropdownEl = document.getElementById('pf_active_form');
+    if (formDropdownEl && typeof IntersectionObserver !== 'undefined') {
+      if (window._gatFormScrollObsInstance) {
+        try { window._gatFormScrollObsInstance.disconnect(); } catch (e) {}
+      }
+      window._gatFormScrollObsInstance = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            checkFormDropdownInViewport();
+          }
+        });
+      }, { threshold: [0.15, 0.5] });
+      window._gatFormScrollObsInstance.observe(formDropdownEl);
+    }
+
+    if (!window._gatFormWindowScrollBound) {
+      window._gatFormWindowScrollBound = true;
+      window.addEventListener('scroll', checkFormDropdownInViewport, { passive: true });
+    }
+    setTimeout(checkFormDropdownInViewport, 250);
+  }
+
+  var STEP_ACCORDION_I18N = {
+    en: {
+      s1: 'Step 1: Primary Applicant Identity & Passport',
+      s2: 'Step 2: Parents, Family Registry & Marital Details',
+      s3: 'Step 3: Partner / Israeli Sponsor, Housing & Track Details',
+      s4: 'Step 4: Declarations, Background & Additional Fields',
+      nextBtn: 'Continue to Next Step ↓',
+      fieldsCount: '{done}/{total} filled',
+      dockTitle: '🧭 ALL SERVICES:',
+      dForms: '📄 1. Forms & Letters',
+      dCouples: '💑 2. 300-Q Couples Sync',
+      dBd: '🕍 3. 700 Beit Din Qs',
+      dSongs: '🎵 4. 56 Songs & Brachot',
+      dConcierge: '⚖️ 5. Notary / Rabbi / Lawyer'
+    },
+    fr: {
+      s1: 'Étape 1 : Identité du Demandeur & Passeport',
+      s2: 'Étape 2 : Parents, État Civil & Famille',
+      s3: 'Étape 3 : Conjoint / Invitant Israélien, Logement & Statut',
+      s4: 'Étape 4 : Déclarations, Antécédents & Détails Complémentaires',
+      nextBtn: 'Passer à l’étape suivante ↓',
+      fieldsCount: '{done}/{total} remplis',
+      dockTitle: '🧭 TOUS LES SERVICES :',
+      dForms: '📄 1. Formulaires & Lettres',
+      dCouples: '💑 2. 300-Q Sync Couple',
+      dBd: '🕍 3. 700 Qs Beit Din',
+      dSongs: '🎵 4. 56 Chants & Brachot',
+      dConcierge: '⚖️ 5. Notaire / Rabbin / Avocat'
+    },
+    es: {
+      s1: 'Paso 1: Identidad del Solicitante y Pasaporte',
+      s2: 'Paso 2: Padres, Estado Civil y Familia',
+      s3: 'Paso 3: Pareja / Invitante Israelí, Vivienda y Trámite',
+      s4: 'Paso 4: Declaraciones, Antecedentes y Campos Adicionales',
+      nextBtn: 'Continuar al siguiente paso ↓',
+      fieldsCount: '{done}/{total} completados',
+      dockTitle: '🧭 TODOS LOS SERVICIOS:',
+      dForms: '📄 1. Formularios y Cartas',
+      dCouples: '💑 2. 300-P Sync Parejas',
+      dBd: '🕍 3. 700 Preg. Beit Din',
+      dSongs: '🎵 4. 56 Canciones y Brajot',
+      dConcierge: '⚖️ 5. Notario / Rabino / Abogado'
+    },
+    de: {
+      s1: 'Schritt 1: Antragsteller-Identität & Reisepass',
+      s2: 'Schritt 2: Eltern, Familienstand & Kinder',
+      s3: 'Schritt 3: Partner / Einlader, Wohnung & Antragsdetails',
+      s4: 'Schritt 4: Erklärungen, Hintergrund & Weitere Angaben',
+      nextBtn: 'Weiter zum nächsten Schritt ↓',
+      fieldsCount: '{done}/{total} ausgefüllt',
+      dockTitle: '🧭 ALLE SERVICES:',
+      dForms: '📄 1. Formulare & Briefe',
+      dCouples: '💑 2. 300-F Paar-Sync',
+      dBd: '🕍 3. 700 Beit-Din-Fragen',
+      dSongs: '🎵 4. 56 Lieder & Brachot',
+      dConcierge: '⚖️ 5. Notar / Rabbiner / Anwalt'
+    },
+    ru: {
+      s1: 'Шаг 1: Личные данные заявителя и Паспорт',
+      s2: 'Шаг 2: Родители, семейное положение и дети',
+      s3: 'Шаг 3: Супруг / Приглашающий, жильё и детали статуса',
+      s4: 'Шаг 4: Декларации, биография и дополнительные поля',
+      nextBtn: 'Перейти к следующему шагу ↓',
+      fieldsCount: 'Заполнено {done} из {total}',
+      dockTitle: '🧭 ВСЕ СЕРВИСЫ:',
+      dForms: '📄 1. Анкеты и Письма',
+      dCouples: '💑 2. 300 вопр. для пар',
+      dBd: '🕍 3. 700 вопр. Бейт-Дина',
+      dSongs: '🎵 4. 56 Песен и Брахот',
+      dConcierge: '⚖️ 5. Нотариус / Раввин / Адвокат'
+    },
+    he: {
+      s1: 'שלב 1: פרטי המבקש/ת ודרכון',
+      s2: 'שלב 2: שמות הורים, מצב אישי וילדים',
+      s3: 'שלב 3: בן/בת זוג או מזמין ישראלי, כתובת ופרטי הבקשה',
+      s4: 'שלב 4: הצהרות, רקע ושדות משלימים',
+      nextBtn: 'המשך לשלב הבא ↓',
+      fieldsCount: '{done}/{total} מולאו',
+      dockTitle: '🧭 כל השירותים במערכת:',
+      dForms: '📄 1. טפסים ומכתבים',
+      dCouples: '💑 2. סימולטור זוגות (300)',
+      dBd: '🕍 3. מאגר בית הדין (700)',
+      dSongs: '🎵 4. שירי שבת וברכות (56)',
+      dConcierge: '⚖️ 5. נוטריון / רב מלווה / עו"ד'
+    }
+  };
+
+  window.toggleGatFormAccordionStep = function(stepIdx) {
+    window._gatActiveAccordionStep = stepIdx;
+    for (var i = 1; i <= 4; i++) {
+      var bodyEl = document.getElementById('gat-acc-step-body-' + i);
+      var chevEl = document.getElementById('gat-acc-step-chev-' + i);
+      var hdrEl = document.getElementById('gat-acc-step-hdr-' + i);
+      if (bodyEl) {
+        var isOpen = (i === stepIdx);
+        bodyEl.style.display = isOpen ? 'block' : 'none';
+        if (chevEl) chevEl.textContent = isOpen ? '▼' : '▶';
+        if (hdrEl) {
+          hdrEl.style.background = isOpen ? 'linear-gradient(135deg,#0f172a 0%,#1e293b 100%)' : '#f8fafc';
+          hdrEl.style.color = isOpen ? '#ffffff' : '#0f172a';
+          hdrEl.style.borderColor = isOpen ? '#0284c7' : '#cbd5e1';
+        }
+      }
+    }
+    var targetCard = document.getElementById('gat-acc-step-card-' + stepIdx);
+    if (targetCard && typeof targetCard.scrollIntoView === 'function') {
+      try { targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+    }
+  };
+
+  function classifyFieldIntoStep(fid) {
+    if (/^(pf_surname_he|pf_surname_en|pf_given_he|pf_given_en|pf_prior_names|pf_dob|pf_hebrew_dob|pf_gender|pf_pass_num|pf_pass_issue_date|pf_pass_exp_date|pf_tz|pf_laissez_passer|pf_entry_date_port)$/.test(fid)) {
+      return 1;
+    }
+    if (/^(pf_father_he|pf_mother_he|pf_mother_maiden|pf_birth_country|pf_citizenship|pf_religion_nat|pf_marital|pf_marriage_date|pf_marriage_place_he|pf_marriage_details|pf_children_table|pf_ll_children_count)$/.test(fid)) {
+      return 2;
+    }
+    if (/^(pf_sp_|pf_il_addr_he|pf_abroad_addr|pf_phone_il|pf_email|pf_ash3_|pf_456_|pf_ash1_|pf_couple_|pf_aff_|pf_ll_|pf_inst_|pf_rabbi_)/.test(fid)) {
+      return 3;
+    }
+    return 4;
+  }
+
+  function buildStickyServiceDockHtml() {
+    var l = lang();
+    var stTxt = STEP_ACCORDION_I18N[l] || STEP_ACCORDION_I18N.en;
+    var btnStyle = 'padding:6px 11px;border-radius:999px;font-size:0.74rem;font-weight:800;cursor:pointer;border:1.5px solid #cbd5e1;background:#ffffff;color:#1e293b;white-space:nowrap;transition:all 0.15s;';
+    var activeStyle = 'padding:6px 12px;border-radius:999px;font-size:0.74rem;font-weight:900;cursor:pointer;border:2px solid #0284c7;background:#e0f2fe;color:#0369a1;white-space:nowrap;';
+    return '<div id="gat-sticky-service-dock" style="position:sticky;top:8px;z-index:90;background:rgba(255,255,255,0.96);backdrop-filter:blur(6px);border:2px solid #cbd5e1;border-radius:14px;padding:8px 12px;margin-bottom:12px;box-shadow:0 6px 18px rgba(15,23,42,0.08);display:flex;align-items:center;justify-content:space-between;gap:8px;overflow-x:auto;">' +
+      '<span style="font-size:0.73rem;font-weight:900;color:#475569;white-space:nowrap;">' + esc(stTxt.dockTitle) + '</span>' +
+      '<div style="display:flex;align-items:center;gap:6px;flex-wrap:nowrap;">' +
+        '<button type="button" style="' + activeStyle + '">' + esc(stTxt.dForms) + '</button>' +
+        '<button type="button" onclick="if(window.openMod){window.openMod(\'couples-300\');window.scrollTo({top:0,behavior:\'smooth\'});}" style="' + btnStyle + '">' + esc(stTxt.dCouples) + '</button>' +
+        '<button type="button" onclick="if(window.openMod){window.openMod(\'beit-din-150\');window.scrollTo({top:0,behavior:\'smooth\'});}" style="' + btnStyle + '">' + esc(stTxt.dBd) + '</button>' +
+        '<button type="button" onclick="if(window.openMod){window.openMod(\'mod-songs-prayers\');window.scrollTo({top:0,behavior:\'smooth\'});}" style="' + btnStyle + '">' + esc(stTxt.dSongs) + '</button>' +
+        '<a href="/concierge-booking/?lang=' + encodeURIComponent(l) + '" style="' + btnStyle + 'text-decoration:none;border-color:#f59e0b;background:#fffbeb;color:#92400e;">' + esc(stTxt.dConcierge) + '</a>' +
+      '</div>' +
+    '</div>';
   }
 
   function renderField(fid) {
     var meta = F[fid];
     if (!meta) return '';
-    var v = val(fid, meta.def === true ? true : '');
-    var hint = meta.h ? '<div style="font-size:0.74rem;color:#475569;line-height:1.35;">💡 ' + esc(tr(meta.h)) + '</div>' : '';
-    if (meta.t === 'checkbox') {
-      var chk = (v === true || v === 'true' || (v === '' && meta.def));
-      return '<label style="display:flex;align-items:flex-start;gap:9px;font-weight:700;background:#f8fafc;padding:9px 11px;border:1px solid #cbd5e1;border-radius:9px;cursor:pointer;margin-top:6px;">' +
-        '<input type="checkbox" class="pf-bound-input" id="' + fid + '" style="width:18px;height:18px;margin-top:2px;flex-shrink:0;"' + (chk ? ' checked' : '') + ' />' +
-        '<span style="font-size:0.83rem;line-height:1.45;">' + esc(tr(meta.l)) + '</span></label>';
-    }
-    var scriptBadge = meta.script === 'he'
-      ? '<span style="background:#e0f2fe;color:#0369a1;font-size:0.68rem;padding:1px 6px;border-radius:999px;margin-inline-start:5px;">עברית</span>'
-      : (meta.script === 'latin' ? '<span style="background:#f1f5f9;color:#334155;font-size:0.68rem;padding:1px 6px;border-radius:999px;margin-inline-start:5px;">LATIN</span>' : '');
-    var html = '<div style="display:flex;flex-direction:column;gap:4px;">' +
-      '<label for="' + fid + '" style="margin:0;font-size:0.79rem;font-weight:800;color:#1e293b;">' + esc(tr(meta.l)) + (meta.req ? ' *' : '') + scriptBadge + '</label>';
-    if (meta.t === 'select') {
-      html += '<select class="pf-bound-input" id="' + fid + '" style="margin:0;">' +
-        meta.opts.map(function(o) { return '<option value="' + esc(o.v) + '"' + (String(v) === o.v ? ' selected' : '') + '>' + esc(tr(o)) + '</option>'; }).join('') +
-        '</select>';
-    } else if (meta.t === 'textarea') {
-      html += '<textarea class="pf-bound-input" id="' + fid + '" rows="3" dir="auto" style="margin:0;">' + esc(v) + '</textarea>';
-    } else {
-      html += '<input type="' + (meta.t === 'date' ? 'date' : 'text') + '" class="pf-bound-input" id="' + fid + '" dir="auto" value="' + esc(v) + '" style="margin:0;" />';
-    }
-    return html + hint + '</div>';
-  }
+    var c = ui();
+    var fType = meta.t || meta.type || 'text';
+    var scriptType = meta.script || 'he';
+    var isAutoHebField = (scriptType === 'he' && fType !== 'select' && fType !== 'date' && fType !== 'checkbox');
 
+    var badgeTextHe = c.badgeHe || 'עברית';
+    var badgeTextLatin = c.badgeEn || 'PASSPORT LATIN (A–Z)';
+    var badgeHtml = '';
+    if (scriptType === 'he' && fType !== 'checkbox') {
+      badgeHtml = '<span style="background:#dcfce7;color:#166534;border:1px solid #86efac;font-size:0.64rem;padding:1px 6px;border-radius:999px;font-weight:800;white-space:nowrap;">' + esc(badgeTextHe) + '</span>';
+    } else if ((scriptType === 'latin' || scriptType === 'en') && fType !== 'checkbox') {
+      badgeHtml = '<span style="background:#e0f2fe;color:#075985;border:1px solid #7dd3fc;font-size:0.64rem;padding:1px 6px;border-radius:999px;font-weight:800;white-space:nowrap;">' + esc(badgeTextLatin) + '</span>';
+    }
+
+    var reqStar = meta.req ? ' <span style="color:#dc2626;font-weight:900;">*</span>' : '';
+    var hintHtml = meta.h
+      ? '<div class="gat-field-focus-hint" id="hint_' + fid + '" style="display:none;font-size:0.73rem;color:' + (isAutoHebField ? '#b91c1c' : '#1e3a8a') + ';background:' + (isAutoHebField ? '#fef2f2' : '#f8fafc') + ';border-inline-start:3px solid ' + (isAutoHebField ? '#dc2626' : '#0284c7') + ';padding:6px 9px;border-radius:6px;margin-top:5px;line-height:1.35;font-weight:700;">💡 ' + esc(tr(meta.h)) + '</div>'
+      : '';
+
+    var curV = val(fid, meta.def !== undefined ? meta.def : '');
+    var dirAttr = (meta.rtl || scriptType === 'he') ? 'rtl' : 'ltr';
+    var commonStyle = 'width:100%;margin:0;padding:9px 11px;border-radius:9px;border:1.5px solid #cbd5e1;font-size:0.86rem;font-weight:700;background:#fff;color:#0f172a;';
+
+    if (fType === 'checkbox') {
+      var checked = (curV === true || curV === 'true' || curV === '1');
+      return '<div style="grid-column:1 / -1;background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:10px;padding:10px 12px;">' +
+        '<label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;margin:0;font-weight:800;font-size:0.84rem;color:#0f172a;">' +
+          '<input type="checkbox" id="' + fid + '" class="pf-bound-input" ' + (checked ? 'checked' : '') + ' style="width:18px;height:18px;margin-top:2px;accent-color:#059669;cursor:pointer;" />' +
+          '<span>' + esc(tr(meta.l)) + reqStar + '</span>' +
+        '</label>' +
+        hintHtml +
+      '</div>';
+    }
+
+    var inputHtml = '';
+    if (fType === 'select' && Array.isArray(meta.opts)) {
+      var optsHtml = meta.opts.map(function(o) {
+        var isSel = String(curV) === String(o.v);
+        var optLabel = tr(o.t || o);
+        return '<option value="' + esc(o.v) + '"' + (isSel ? ' selected' : '') + '>' + esc(optLabel) + '</option>';
+      }).join('');
+      inputHtml = '<select id="' + fid + '" class="pf-bound-input" style="' + commonStyle + '">' + optsHtml + '</select>';
+    } else if (fType === 'textarea') {
+      inputHtml = '<textarea id="' + fid + '" class="pf-bound-input" rows="2" dir="' + dirAttr + '" placeholder="' + esc(tr(meta.ph || meta.l)) + '" style="' + commonStyle + 'resize:vertical;">' + esc(curV) + '</textarea>';
+    } else {
+      var inpType = (fType === 'date') ? 'date' : 'text';
+      inputHtml = '<input type="' + inpType + '" id="' + fid + '" class="pf-bound-input" dir="' + dirAttr + '" value="' + esc(curV) + '" placeholder="' + esc(tr(meta.ph || meta.l)) + '" style="' + commonStyle + '" />';
+    }
+
+    return '<div style="display:flex;flex-direction:column;justify-content:flex-start;' + (fType === 'textarea' ? 'grid-column:1 / -1;' : '') + '">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:4px;">' +
+        '<label for="' + fid + '" style="margin:0;font-size:0.79rem;font-weight:800;color:#1e293b;line-height:1.25;">' + esc(tr(meta.l)) + reqStar + '</label>' +
+        badgeHtml +
+      '</div>' +
+      inputHtml +
+      hintHtml +
+    '</div>';
+  }
   function renderBody() {
+    var savedScrollY = window.scrollY || window.pageYOffset || 0;
+    var activeEl = document.activeElement;
+    var activeId = (activeEl && activeEl.id) ? activeEl.id : null;
+    if (typeof window.syncCrossFormFields === 'function') window.syncCrossFormFields(true);
     var host = document.getElementById('pf-dynamic-body');
     if (!host) return;
     var c = ui();
@@ -1710,7 +4101,9 @@
       var lOpts = Object.keys(LETTERS).map(function(k) {
         return '<option value="' + k + '"' + (curL === k ? ' selected' : '') + '>' + esc(tr(LETTERS[k].t)) + '</option>';
       }).join('');
-      host.innerHTML = modeTabs +
+      host.innerHTML =
+        buildStickyServiceDockHtml() +
+        modeTabs +
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:10px;margin-bottom:10px;">' +
           '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selLetter) + '</label><select id="pf_active_letter" class="pf-bound-input" style="margin:0;" onchange="window.setGatFormOption(this.id, this.value);">' + lOpts + '</select></div>' +
           '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selBranch) + '</label><select id="pf_target_branch" class="pf-bound-input" style="margin:0;">' + brOpts + '</select></div></div>' +
@@ -1719,7 +4112,7 @@
         '</div>' +
         '<div style="margin-top:10px;">' + renderField('pf_rel_story') + '</div>' +
         '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">' +
-          '<button type="button" id="pf-btn-ai-heb" class="btn" style="margin:0;flex:1;min-width:190px;background:#0369a1;" onclick="convertFormAnswersToClerkHebrew(false)">' + esc(c.btnAiHeb) + '</button>' +
+          '<button type="button" id="pf-btn-ai-heb" class="btn" style="margin:0;flex:1;min-width:190px;background:#0369a1;" onclick="convertFormAnswersToClerkHebrew(false)">' + esc(c.btnAiHeb) + '</button>' + (window.hasPreHebrewBackup && window.hasPreHebrewBackup() ? '<button type="button" id="pf-btn-undo-heb" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#dc2626;color:#fff;display:inline-flex;align-items:center;gap:5px;font-weight:900;box-shadow:0 3px 10px rgba(220,38,38,0.3);" onclick="window.undoClerkHebrewConversion()" title="Restore original pre-Hebrew text"><span style="font-size:1.05rem;line-height:1;">↺</span> ' + esc((FORM_GUIDE_I18N[lang()] || FORM_GUIDE_I18N.en).undoBtn.replace(/^↺\s*/, '')) + '</button>' : '') +
           '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#0f766e;" onclick="window.stampDemoPersonaPdf()">' + esc(c.calBtn || '🧪 Sample Filled PDF') + '</button>' +
           '<button type="button" class="btn btn-emerald" style="margin:0;flex:1;min-width:190px;" onclick="printOfficialPibaPacket()">' + esc(c.btnPrintFinal) + '</button></div>' +
         '<div id="pf-live-packet-preview" style="margin-top:12px;">' + window.buildStatutoryHebrewLetterHtml() + '</div>';
@@ -1730,39 +4123,77 @@
         return '<option value="' + k + '"' + (curF === k ? ' selected' : '') + '>' + esc(tr(FORMS[k].t)) + '</option>';
       }).join('');
 
-      var gridFields = fDef.fields.filter(function(fid) { return F[fid] && F[fid].t !== 'textarea' && F[fid].t !== 'checkbox'; });
-      var wideFields = fDef.fields.filter(function(fid) { return F[fid] && (F[fid].t === 'textarea' || F[fid].t === 'checkbox'); });
+      var lStep = lang();
+      var stTxt = STEP_ACCORDION_I18N[lStep] || STEP_ACCORDION_I18N.en;
+      var activeStep = window._gatActiveAccordionStep || 1;
+      var stepBuckets = { 1: [], 2: [], 3: [], 4: [] };
+      fDef.fields.forEach(function(fid) {
+        if (!F[fid]) return;
+        var sIdx = classifyFieldIntoStep(fid);
+        stepBuckets[sIdx].push(fid);
+      });
 
-      host.innerHTML = modeTabs +
+      var accordionCardsHtml = [1, 2, 3, 4].map(function(sIdx) {
+        var fList = stepBuckets[sIdx] || [];
+        if (!fList.length) return '';
+        var filledCnt = fList.filter(function(fid) {
+          var v = val(fid, F[fid] && F[fid].def !== undefined ? F[fid].def : '');
+          return v !== undefined && v !== null && String(v).trim() !== '' && v !== false;
+        }).length;
+        var isOpen = (sIdx === activeStep);
+        var hdrBg = isOpen ? 'linear-gradient(135deg,#0f172a 0%,#1e293b 100%)' : '#f8fafc';
+        var hdrCol = isOpen ? '#ffffff' : '#0f172a';
+        var hdrBdr = isOpen ? '#0284c7' : '#cbd5e1';
+        var badgeBg = (filledCnt === fList.length) ? '#16a34a' : (isOpen ? '#0284c7' : '#e2e8f0');
+        var badgeCol = (filledCnt === fList.length || isOpen) ? '#ffffff' : '#334155';
+        var nextStepBtn = (sIdx < 4 && stepBuckets[sIdx + 1] && stepBuckets[sIdx + 1].length > 0)
+          ? '<div style="margin-top:12px;text-align:end;"><button type="button" onclick="window.toggleGatFormAccordionStep(' + (sIdx + 1) + ')" style="background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;border:none;border-radius:9px;padding:9px 16px;font-size:0.82rem;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(2,132,199,0.25);">' + esc(stTxt.nextBtn) + '</button></div>'
+          : '';
+
+        return '<div id="gat-acc-step-card-' + sIdx + '" style="border:2px solid ' + hdrBdr + ';border-radius:13px;margin-bottom:10px;background:#ffffff;overflow:hidden;box-shadow:0 2px 8px rgba(15,23,42,0.04);">' +
+          '<div id="gat-acc-step-hdr-' + sIdx + '" onclick="window.toggleGatFormAccordionStep(' + sIdx + ')" style="background:' + hdrBg + ';color:' + hdrCol + ';padding:12px 15px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;user-select:none;">' +
+            '<div style="display:flex;align-items:center;gap:9px;font-weight:900;font-size:0.9rem;">' +
+              '<span id="gat-acc-step-chev-' + sIdx + '" style="font-size:0.8rem;color:#38bdf8;">' + (isOpen ? '▼' : '▶') + '</span>' +
+              '<span>' + esc(stTxt['s' + sIdx]) + '</span>' +
+            '</div>' +
+            '<span style="background:' + badgeBg + ';color:' + badgeCol + ';padding:3px 10px;border-radius:999px;font-size:0.73rem;font-weight:900;white-space:nowrap;">' +
+              esc(stTxt.fieldsCount.replace('{done}', String(filledCnt)).replace('{total}', String(fList.length))) +
+            '</span>' +
+          '</div>' +
+          '<div id="gat-acc-step-body-' + sIdx + '" style="display:' + (isOpen ? 'block' : 'none') + ';padding:14px;">' +
+            '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:12px;">' +
+              fList.map(renderField).join('') +
+            '</div>' +
+            nextStepBtn +
+          '</div>' +
+        '</div>';
+      }).join('');
+
+      host.innerHTML =
+        buildStickyServiceDockHtml() +
+        modeTabs +
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:10px;margin-bottom:10px;">' +
-          '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selForm) + '</label><select id="pf_active_form" class="pf-bound-input" style="margin:0;" onchange="window.setGatFormOption(this.id, this.value);">' + fOpts + '</select></div>' +
+          '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selForm) + '</label><select id="pf_active_form" class="pf-bound-input" style="margin:0;" onchange="window.setGatFormOption(this.id, this.value);if(window.triggerSmartPopupOnFormSwap)window.triggerSmartPopupOnFormSwap(this.value);">' + fOpts + '</select></div>' +
           '<div><label style="margin:0 0 4px;font-weight:800;">' + esc(c.selBranch) + '</label><select id="pf_target_branch" class="pf-bound-input" style="margin:0;">' + brOpts + '</select></div></div>' +
-        '<div style="background:#f0f9ff;border:2px dashed #0284c7;border-radius:12px;padding:10px 12px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;">' +
-          '<div style="flex:1;min-width:210px;"><div style="font-size:0.82rem;font-weight:900;color:#0c4a6e;">' + esc(c.afTitle || '📸 1-Tap Document Auto-Fill') + '</div><div style="font-size:0.74rem;color:#334155;">' + esc(c.afSub || '') + '</div></div>' +
-          '<input type="file" id="pf-cert-autofill-inp" accept="image/*,application/pdf" capture="environment" style="display:none;" onchange="window.scanCertIntoFormsEngine(this)" />' +
-          '<button type="button" class="btn" style="margin:0;padding:10px 14px;font-size:0.8rem;width:auto;background:#0284c7;color:#fff;" onclick="document.getElementById(\'pf-cert-autofill-inp\').click()">' + esc(c.afBtn || '📸 Auto-Fill') + '</button>' +
-        '</div>' +
         '<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;">' +
-          '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#334155;" onclick="printBlankNativeWorksheet()">' + esc(c.btnPrintBlank) + '</button>' +
+          '<input type="file" id="pf-cert-autofill-inp" accept="image/*,application/pdf" capture="environment" style="display:none;" onchange="window.scanCertIntoFormsEngine(this)" />' +
+          '<button type="button" class="btn" style="margin:0;padding:9px 13px;font-size:0.79rem;width:auto;background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;font-weight:900;" onclick="window.showNewUserDocUploadModal(\'' + esc(curF) + '\', null, true)">' + esc(c.afBtn || '📸 Scan Document → Auto-Fill') + '</button>' +
+          '<button type="button" id="pf-btn-ai-heb" class="btn" style="margin:0;padding:9px 13px;font-size:0.79rem;width:auto;background:#0369a1;font-weight:900;" onclick="convertFormAnswersToClerkHebrew(false)">' + esc(c.btnAiHeb) + '</button>' + (window.hasPreHebrewBackup && window.hasPreHebrewBackup() ? '<button type="button" id="pf-btn-undo-heb" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#dc2626;color:#fff;display:inline-flex;align-items:center;gap:5px;font-weight:900;box-shadow:0 3px 10px rgba(220,38,38,0.3);" onclick="window.undoClerkHebrewConversion()" title="Restore original pre-Hebrew text"><span style="font-size:1.05rem;line-height:1;">↺</span> ' + esc((FORM_GUIDE_I18N[lang()] || FORM_GUIDE_I18N.en).undoBtn.replace(/^↺\s*/, '')) + '</button>' : '') +
+          '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.76rem;width:auto;background:#334155;" onclick="printBlankNativeWorksheet()">' + esc(c.btnPrintBlank) + '</button>' +
           '<input type="file" id="pf-ws-scan-inp" accept="image/*,application/pdf" capture="environment" style="display:none;" onchange="scanHandwrittenWorksheet(this)" />' +
-          '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#0f172a;border:1.5px dashed #38bdf8;color:#38bdf8;" onclick="document.getElementById(\'pf-ws-scan-inp\').click()">' + esc(c.btnScanWs) + '</button>' +
-          '<button type="button" id="pf-btn-ai-heb" class="btn" style="margin:0;padding:9px 12px;font-size:0.78rem;width:auto;background:#0369a1;" onclick="convertFormAnswersToClerkHebrew(false)">' + esc(c.btnAiHeb) + '</button>' +
-          '<button type="button" id="pf-calib-mode-btn" class="btn" style="margin:0;padding:9px 12px;font-size:0.75rem;width:auto;background:' + (window.stamperCalibrationMode ? '#7c3aed' : '#0f766e') + ';" onclick="window.toggleStamperCalibrationMode()">' + (window.stamperCalibrationMode ? esc(c.calOn || '🎯 Full Calibration') : esc(c.calOff || '👤 Real User Input')) + '</button>' +
-          '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.75rem;width:auto;background:#4f46e5;" onclick="window.stampDemoPersonaPdf()">' + esc(c.calBtn || '🧪 Calibration PDF') + '</button>' +
+          '<button type="button" class="btn" style="margin:0;padding:9px 12px;font-size:0.76rem;width:auto;background:#0f172a;border:1.5px dashed #38bdf8;color:#38bdf8;" onclick="document.getElementById(\'pf-ws-scan-inp\').click()">' + esc(c.btnScanWs) + '</button>' +
         '</div>' +
-        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:11px;">' + gridFields.map(renderField).join('') + '</div>' +
-        '<div style="margin-top:10px;display:flex;flex-direction:column;gap:8px;">' + wideFields.map(renderField).join('') + '</div>' +
+        '<div style="display:block;">' + accordionCardsHtml + '</div>' +
         '<div id="pf-forensic-out" style="display:none;margin-top:14px;padding:12px 14px;border-radius:11px;font-size:0.84rem;line-height:1.5;"></div>' +
         '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">' +
-          '<button type="button" class="btn" style="margin:0;flex:1;min-width:110px;background:#334155;" onclick="if(window.syncFormDraftIfChanged)window.syncFormDraftIfChanged();if(window.showDraftSavedBadge)window.showDraftSavedBadge();">' + esc(c.btnSave) + '</button>' +
+          '<button type="button" class="btn" style="margin:0;flex:1;min-width:110px;background:#334155;" onclick="if(window.handleManualFormSaveClick)window.handleManualFormSaveClick();">' + esc(c.btnSave) + '</button>' +
           '<button type="button" class="btn" style="margin:0;flex:2;min-width:190px;background:#0f766e;" onclick="runPibaForensicCheck(false)">' + esc(c.btnAudit) + '</button>' +
           '<button type="button" class="btn btn-emerald" style="margin:0;flex:2;min-width:210px;" onclick="printOfficialPibaPacket()">' + esc(c.btnPrintFinal) + '</button></div>' +
         '<div id="pf-live-packet-preview" style="display:none;margin-top:12px;"></div>' +
-        '<div style="margin-top:8px;font-size:0.76rem;color:#475569;text-align:center;font-weight:700;">' + esc(c.autoSaveNote) + '</div>';
+        '<div style="margin-top:10px;font-size:0.82rem;color:#dc2626;background:#fef2f2;border:1.5px solid #fecaca;padding:8px 12px;border-radius:8px;text-align:center;font-weight:900;">🚨 ' + esc(c.autoSaveNote) + '</div>';
     }
     bindInputs();
   }
-
   window.mountUnifiedPibaFormsEngine = function() {
     hookAuditDocInterceptor();
     var mod = document.getElementById('mod-hebrew-engine');
@@ -1810,9 +4241,13 @@
       }
     }
 
+    var mountScrollY = window.scrollY || window.pageYOffset || 0;
     renderBody();
     renderMasterDossierBar();
     updateClerkTimerDisplay();
+    if (Math.abs((window.scrollY || window.pageYOffset || 0) - mountScrollY) > 5) {
+      window.scrollTo(0, mountScrollY);
+    }
   };
 
 
@@ -1846,7 +4281,7 @@
       selBranch: '2. Отделение МВД (Мисрад ха-Паним):',
       btnPrintBlank: '🖨️ Распечатать Пустую Анкету (на Русском)',
       btnScanWs: '📸 Сканировать Заполненный Лист от Руки (ИИ → Иврит)',
-      btnAiHeb: '🌐 Перевести Мои Ответы → Официальный Иврит (ИИ)',
+      btnAiHeb: '🌐 Перевести на иврит',
       btnConverting: '⏳ Переводим на официальный иврит МВД...',
       btnSave: '💾 Сохранить',
       btnAudit: '🔍 Сверить и Проверить Все Документы',
@@ -1880,25 +4315,25 @@
     };
 
     var ruFieldLabels = {
-      pf_surname_he: ['Фамилия (на иврите для МВД)', 'Можно ввести по-русски и нажать «Перевести → Иврит».'],
+      pf_surname_he: ['Фамилия', 'Можно ввести по-русски и нажать «Перевести → Иврит».'],
       pf_surname_en: ['Фамилия — Латиницей точно как в загранпаспорте', 'Должна буква в букву совпадать с машиночитаемой строкой паспорта.'],
-      pf_given_he: ['Имя / Имена (на иврите)', 'Укажите второе имя или еврейское имя после гиюра, если оно есть в документах.'],
+      pf_given_he: ['Имя / Имена', 'Укажите второе имя или еврейское имя после гиюра, если оно есть в документах.'],
       pf_given_en: ['Имя / Имена — Латиницей точно как в загранпаспорте', 'Не пропускайте отчество/второе имя, если оно вписано в латинскую строку или свидетельство о рождении!'],
       pf_prior_names: ['Девичья фамилия / Все прежние имена и фамилии (или «ללא»)', 'ВАЖНО (Ловушка 2026): Любая смена фамилии требует апостилированного свидетельства О ПЕРЕМЕНЕ ИМЕНИ и обязана быть вписана в справку о несудимости!'],
       pf_dob: ['Дата рождения', 'Печатается в израильском формате ДД/ММ/ГГГГ.'],
       pf_hebrew_dob: ['Еврейская дата рождения (для анкеты МР/14)', 'Например: כ״ה באייר תשנ״ו (кнопка ИИ переведёт автоматически).'],
       pf_gender: ['Пол', ''],
       pf_marital: ['Семейное положение', ''],
-      pf_birth_country: ['Страна и город рождения (на иврите)', 'Должны совпадать со свидетельством о рождении.'],
-      pf_citizenship: ['Все текущие гражданства (на иврите)', 'При двойном гражданстве требуется справка о несудимости из каждой страны гражданства.'],
-      pf_religion_nat: ['Вероисповедание и Национальность (на иврите)', 'После гиюра / по Закону о возвращении: יהודי / יהודייה.'],
-      pf_father_he: ['Полное имя отца (на иврите — как в свидетельстве о рождении)', 'Сверяется напрямую со свидетельством о рождении.'],
+      pf_birth_country: ['Страна и город рождения', 'Должны совпадать со свидетельством о рождении.'],
+      pf_citizenship: ['Все текущие гражданства', 'При двойном гражданстве требуется справка о несудимости из каждой страны гражданства.'],
+      pf_religion_nat: ['Вероисповедание и Национальность', 'После гиюра / по Закону о возвращении: יהודי / יהודייה.'],
+      pf_father_he: ['Полное имя отца (как в свидетельстве о рождении)', 'Сверяется напрямую со свидетельством о рождении.'],
       pf_father_dob: ['Дата рождения отца (для анкеты Аш/3)', ''],
-      pf_mother_he: ['Полное имя матери (на иврите — как в свидетельстве о рождении)', ''],
+      pf_mother_he: ['Полное имя матери (как в свидетельстве о рождении)', ''],
       pf_mother_maiden: ['Девичья фамилия матери (Обязательно в Аш/1 и Аш/3)', ''],
       pf_mother_dob: ['Дата рождения матери (для анкеты Аш/3)', ''],
       pf_foreign_grandfather: ['Имя дедушки по отцу (Обязательное поле в Аш/6 и МР/14!)', 'Частое «неожиданное» поле на стр. 2 Аш/6 и в анкете МР/14.'],
-      pf_pass_num: ['Номер загранпаспорта', ''],
+      pf_pass_num: ['Номер загранпаспорта / проездного документа (или Теудат Зеут, если есть)', 'Введите номер загранпаспорта (или Лессе-Пассе). Если у вас уже есть израильский Теудат Зеут (например, А/5), достаточно указать его.'],
       pf_pass_issue_date: ['Дата выдачи загранпаспорта', ''],
       pf_pass_exp_date: ['Срок действия загранпаспорта до', 'Минимум 24 мес. для СТУПРО (Аш/6) или 12 мес. для репатриации (Аш/456).'],
       pf_police_issue_date: ['Дата выдачи справки о несудимости и семейном положении (<180 дней!)', 'Строгий срок годности 6 месяцев (180 дней).'],
@@ -1908,17 +4343,17 @@
       pf_il_addr_he: ['Полный адрес в Израиле (на иврите: город, улица, дом, кв., индекс)', 'Должен совпадать с договором аренды и счётом Арноны.'],
       pf_phone_il: ['Мобильный телефон в Израиле', ''],
       pf_email: ['E-mail (Используется МВД для официальных уведомлений и отсчёта сроков!)', 'Отправка письма на этот адрес официально запускает 45/21-дневный таймер!'],
-      pf_ash3_action: ['Запрашиваемый срок продления (мес.) и категория визы (на иврите)', ''],
-      pf_inst_details: ['Учебное заведение / Ульпан / Ешива, № Амуты и телефон раввина (на иврите)', ''],
-      pf_sp_name_he: ['Полное имя израильского супруга / партнёра / приглашающего (на иврите)', ''],
+      pf_ash3_action: ['Запрашиваемый срок продления (мес.) и категория визы', ''],
+      pf_inst_details: ['Учебное заведение / Ульпан / Ешива, № Амуты и телефон раввина', ''],
+      pf_sp_name_he: ['Полное имя израильского супруга / партнёра / приглашающего', ''],
       pf_sp_tz: ['9-значный номер Теудат Зеут супруга/приглашающего (Автопроверка)', ''],
       pf_sp_parents_grand: ['Дата рожд., имя отца, матери и дедушки израильского супруга (Аш/6 стр. 2)', ''],
-      pf_marriage_details: ['Дата и место брака (вкл. Юту/за рубежом) и профессия супруга (на иврите)', ''],
+      pf_marriage_details: ['Дата и место брака (вкл. Юту/за рубежом) и профессия супруга', ''],
       pf_ash6_refs: ['2 израильских поручителя (Аш/6 стр. 3): Имя, ТЗ, кем приходится, адрес и телефон (+ копии ТЗ!)', ''],
       pf_ll_affidavit: ['Декларация арендодателя (Аш/6 стр. 6): Имя и ТЗ владельца, кв.м (מ״ר), этажи, комнаты и оплата счетов', ''],
       pf_456_settlement: ['Стр. 2 Аш/456 + МР/14: Прошлые визиты, закрытие работы за рубежом, банк в Израиле, жильё, община и годы учёбы', ''],
       pf_456_shvut: ['Статья Закона о возвращении (Стр. 3 Аш/456)', ''],
-      pf_ash1_consulate: ['Цель въезда и консульство Израиля за рубежом для уведомления (на иврите)', ''],
+      pf_ash1_consulate: ['Цель въезда и консульство Израиля за рубежом для уведомления', ''],
       pf_cv_details: ['Анкета безопасности (стр. 1–11): ВУЗы/стипендии, работы, близкие родственники (+ супруги) и контакты', ''],
       pf_children_table: ['Сопровождающие дети до 18 лет (Имя на иврите и латиницей, страна, дата рожд. — или «ללא»)', ''],
       pf_rel_story: ['Обязательное объяснительное письмо — Михтав Хесбер (Пишите по-русски — автоперевод на иврит!)', ''],
@@ -1994,7 +4429,7 @@
 
   var EXTRA_FV_I18N = {
     en: {
-      afTitle: '📸 1-Tap Document Auto-Fill (AI Vision)',
+      afTitle: '📸 1-Tap Document Auto-Fill (Smart Scan)',
       afSub: 'Upload Passport, Birth Cert, Marriage Cert, or Police Check to pre-fill your form in Clerk Hebrew:',
       afBtn: '📸 Scan Document → Auto-Fill',
       calOn: '🎯 Mode: FULL CALIBRATION PROOF (All Checkboxes ON)',
@@ -2002,7 +4437,7 @@
       calBtn: '🧪 Calibration PDF'
     },
     he: {
-      afTitle: '📸 מילוי אוטומטי מהיר מתעודה או דרכון (סריקת AI)',
+      afTitle: '📸 מילוי אוטומטי מהיר מתעודה או דרכון (סריקה אוטומטית)',
       afSub: 'העלו דרכון, תעודת לידה, נישואין, תעודת יושר או אשרת כניסה למילוי אוטומטי של הטופס בעברית תקנית:',
       afBtn: '📸 צילום / העלאת תעודה ← מילוי הטופס',
       calOn: '🎯 מצב: בדיקת כיול מלאה (כל המשבצות מסומנות)',
@@ -2030,7 +4465,7 @@
       afSub: 'Reisepass, Geburts-, Heiratsurkunde oder Führungszeugnis hochladen und automatisch auf Hebräisch ausfüllen:',
       afBtn: '📸 Dokument Scannen → Auto-Ausfüllen',
       calOn: '🎯 Modus: VOLL-KALIBRIERUNG (Alle Kästchen)',
-      calOff: '👤 Modus: ECHTE NUTZERDATEN (Hebräisch)',
+      calOff: '👤 Modus: ECHTE NUTZERDATEN',
       calBtn: '🧪 Kalibrierungs-PDF Erstellen'
     },
     ru: {
@@ -2038,7 +4473,7 @@
       afSub: 'Загрузите загранпаспорт, свидетельство о рождении, браке или справку о несудимости для автозаполнения на иврите:',
       afBtn: '📸 Сфотографировать Документ → Заполнить Анкету',
       calOn: '🎯 Режим: ПОЛНАЯ КАЛИБРОВКА (Все Поля и Галочки)',
-      calOff: '👤 Режим: ДАННЫЕ ЗАЯВИТЕЛЯ (На Иврите)',
+      calOff: '👤 Режим: ДАННЫЕ ЗАЯВИТЕЛЯ',
       calBtn: '🧪 Тестовый PDF (Все Поля)'
     }
   };

@@ -15,7 +15,7 @@ async function stampNespachAlef(rawState, loaderOpts) {
   var apFullHe  = (apGivenHe + ' ' + apSurHe).trim();
 
   var tzNum   = s.pf_sp_tz || s.pf_tz || '012345674';
-  var passNum = s.pf_pass_num || 'FR9876543';
+  var passNum = (s.pf_pass_num || s.pf_tz) || 'FR9876543';
   var dateStr = (today && today.todayFull) || '12/11/2026';
 
   put(0, 'ללא הסתייגויות — כל הפרטים לעיל נכונים ומדויקים במלואם, ואנו עומדים בכל תנאי התצהיר.', 43.2, 546.1, 263.7, { align: 'center', size: 8.2, bold: true, noWrap: true });

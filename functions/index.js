@@ -50,6 +50,271 @@ function normalizePhoneDigits(raw) {
   return d;
 }
 
+
+// ============================================================================
+// CENTRALIZED 6-LANGUAGE (EN, HE, FR, ES, DE, RU) WHATSAPP MESSAGE ENGINE
+// ============================================================================
+function resolveWaLang(rawLang, textSample, fallbackUserLang) {
+  const valid = ["en", "he", "fr", "es", "de", "ru"];
+  const c1 = String(rawLang || "").slice(0, 2).toLowerCase();
+  if (valid.includes(c1)) return c1;
+  const s = String(textSample || "");
+  if (/[\u0590-\u05FF]/.test(s)) return "he";
+  if (/[\u0400-\u04FF]/.test(s)) return "ru";
+  const c2 = String(fallbackUserLang || "").slice(0, 2).toLowerCase();
+  if (valid.includes(c2)) return c2;
+  return "en";
+}
+
+function buildGatLocalizedWaMsg(kind, rawLang, p) {
+  const lg = resolveWaLang(rawLang, p && p.textSample, p && p.userLang);
+  p = p || {};
+  const otp = p.otp || "";
+  const passCode = p.passCode || "";
+  const magicUrl = p.magicUrl || ("https://giyuraliyahtrack.com/app/?pass=" + encodeURIComponent(passCode) + "&lang=" + lg);
+  const tier = p.tier || "Pro Pass";
+  const orderNum = p.orderNum ? (" (#" + p.orderNum + ")") : "";
+  const svcTitle = p.serviceTitle || "Concierge Service";
+  const priceLbl = p.approvedPriceLabel || "";
+  const adminNote = p.adminNote || "";
+
+  if (kind === "wa_login_otp") {
+    const T = {
+      en: [
+        `🔐 *GiyurAliyahTrack — Instant WhatsApp Login*`,
+        `Your 4-digit verification code is: *${otp}*`,
+        passCode ? `🔑 Your Permanent 6-Char Pass Code: *${passCode}*` : "",
+        ``,
+        `👉 *Or tap this link to log in with 1 click:*`,
+        magicUrl
+      ],
+      he: [
+        `🔐 *GiyurAliyahTrack — התחברות מהירה בוואטסאפ*`,
+        `קוד האימות שלך (4 ספרות) הוא: *${otp}*`,
+        passCode ? `🔑 קוד הגישה הקבוע שלך (6 תווים): *${passCode}*` : "",
+        ``,
+        `👉 *או לחצו על הקישור הבא להתחברות בלחיצה אחת:*`,
+        magicUrl
+      ],
+      fr: [
+        `🔐 *GiyurAliyahTrack — Connexion Instantanée WhatsApp*`,
+        `Votre code de vérification à 4 chiffres est : *${otp}*`,
+        passCode ? `🔑 Votre Code Permanent (6 caractères) : *${passCode}*` : "",
+        ``,
+        `👉 *Ou appuyez sur ce lien pour vous connecter en 1 clic :*`,
+        magicUrl
+      ],
+      es: [
+        `🔐 *GiyurAliyahTrack — Inicio de Sesión Instantáneo por WhatsApp*`,
+        `Su código de verificación de 4 dígitos es: *${otp}*`,
+        passCode ? `🔑 Su Código Permanente (6 caracteres): *${passCode}*` : "",
+        ``,
+        `👉 *O toque este enlace para iniciar sesión con 1 clic:*`,
+        magicUrl
+      ],
+      de: [
+        `🔐 *GiyurAliyahTrack — Sofort-Anmeldung per WhatsApp*`,
+        `Ihr 4-stelliger Bestätigungscode lautet: *${otp}*`,
+        passCode ? `🔑 Ihr permanenter 6-stelliger Pass-Code: *${passCode}*` : "",
+        ``,
+        `👉 *Oder tippen Sie auf diesen Link für den 1-Klick-Login:*`,
+        magicUrl
+      ],
+      ru: [
+        `🔐 *GiyurAliyahTrack — Мгновенный вход через WhatsApp*`,
+        `Ваш 4-значный код подтверждения: *${otp}*`,
+        passCode ? `🔑 Ваш постоянный 6-значный код доступа: *${passCode}*` : "",
+        ``,
+        `👉 *Или нажмите на эту ссылку для входа в 1 клик:*`,
+        magicUrl
+      ]
+    };
+    return (T[lg] || T.en).filter(Boolean).join("\n");
+  }
+
+  if (kind === "wa_recovery") {
+    const T = {
+      en: [
+        `🔑 *GiyurAliyahTrack — Instant Account & Device Sync*`,
+        otp ? `• 4-Digit Login Code: *${otp}*` : "",
+        `• Your Permanent 6-Char Pass Code: *${passCode}*`,
+        ``,
+        `👉 *Tap this 1-Click Magic Link to open your account immediately:*`,
+        magicUrl
+      ],
+      he: [
+        `🔑 *GiyurAliyahTrack — שחזור חשבון וסנכרון מכשירים*`,
+        otp ? `• קוד התחברות (4 ספרות): *${otp}*` : "",
+        `• קוד הגישה הקבוע שלך (6 תווים): *${passCode}*`,
+        ``,
+        `👉 *לחצו על הקישור לפתיחת החשבון שלכם מיד:*`,
+        magicUrl
+      ],
+      fr: [
+        `🔑 *GiyurAliyahTrack — Récupération & Synchronisation de Compte*`,
+        otp ? `• Code de connexion à 4 chiffres : *${otp}*` : "",
+        `• Votre Code Permanent (6 caractères) : *${passCode}*`,
+        ``,
+        `👉 *Appuyez sur ce lien direct pour ouvrir votre compte immédiatement :*`,
+        magicUrl
+      ],
+      es: [
+        `🔑 *GiyurAliyahTrack — Recuperación y Sincronización de Cuenta*`,
+        otp ? `• Código de acceso de 4 dígitos: *${otp}*` : "",
+        `• Su Código Permanente (6 caracteres): *${passCode}*`,
+        ``,
+        `👉 *Toque este enlace directo para abrir su cuenta de inmediato:*`,
+        magicUrl
+      ],
+      de: [
+        `🔑 *GiyurAliyahTrack — Konto-Wiederherstellung & Geräte-Sync*`,
+        otp ? `• 4-stelliger Login-Code: *${otp}*` : "",
+        `• Ihr permanenter 6-stelliger Pass-Code: *${passCode}*`,
+        ``,
+        `👉 *Tippen Sie auf diesen Link, um Ihr Konto sofort zu öffnen:*`,
+        magicUrl
+      ],
+      ru: [
+        `🔑 *GiyurAliyahTrack — Восстановление и синхронизация аккаунта*`,
+        otp ? `• 4-значный код входа: *${otp}*` : "",
+        `• Ваш постоянный 6-значный код доступа: *${passCode}*`,
+        ``,
+        `👉 *Нажмите на эту ссылку, чтобы мгновенно открыть ваш аккаунт:*`,
+        magicUrl
+      ]
+    };
+    return (T[lg] || T.en).filter(Boolean).join("\n");
+  }
+
+  if (kind === "wa_backup_linked") {
+    const T = {
+      en: `✅ *GiyurAliyahTrack — WhatsApp Linked!*\nYour Permanent Pass Code is *${passCode}*.\nDirect Link: ${magicUrl}\n\nYou can message this number anytime if you switch devices or need assistance with your unlocked passes!`,
+      he: `✅ *GiyurAliyahTrack — הוואטסאפ שלך חובר בהצלחה!*\nקוד הגישה הקבוע שלך הוא *${passCode}*.\nקישור ישיר: ${magicUrl}\n\nניתן לשלוח הודעה למספר זה בכל עת לשחזור החשבון או לתמיכה במנויים הפעילים שלך!`,
+      fr: `✅ *GiyurAliyahTrack — WhatsApp Associé !*\nVotre Code Permanent est *${passCode}*.\nLien Direct : ${magicUrl}\n\nVous pouvez écrire à ce numéro à tout moment pour récupérer votre accès ou obtenir de l'aide !`,
+      es: `✅ *GiyurAliyahTrack — ¡WhatsApp Vinculado!*\nSu Código Permanente es *${passCode}*.\nEnlace Directo: ${magicUrl}\n\n¡Puede escribir a este número en cualquier momento para recuperar su acceso o recibir asistencia!`,
+      de: `✅ *GiyurAliyahTrack — WhatsApp Verknüpft!*\nIhr permanenter Pass-Code lautet *${passCode}*.\nDirektlink: ${magicUrl}\n\nSie können dieser Nummer jederzeit schreiben, um Ihr Konto wiederherzustellen oder Hilfe zu erhalten!`,
+      ru: `✅ *GiyurAliyahTrack — WhatsApp успешно привязан!*\nВаш постоянный код доступа: *${passCode}*.\nПрямая ссылка: ${magicUrl}\n\nВы можете написать на этот номер в любое время для восстановления доступа или помощи!`
+    };
+    return T[lg] || T.en;
+  }
+
+  if (kind === "wa_concierge_approved") {
+    const T = {
+      en: [
+        `🟢 *GiyurAliyahTrack Concierge — File Approved!*`,
+        `• Service: *${svcTitle}*`,
+        `• Confirmed Price: *${priceLbl}*`,
+        adminNote ? `• Desk Note: ${adminNote}` : "",
+        ``,
+        `👉 *Tap below to open your account & complete payment:*`,
+        magicUrl
+      ],
+      he: [
+        `🟢 *מוקד הליווי של GiyurAliyahTrack — התיק שלך אושר!*`,
+        `• שירות: *${svcTitle}*`,
+        `• מחיר מאושר: *${priceLbl}*`,
+        adminNote ? `• הערת המוקד: ${adminNote}` : "",
+        ``,
+        `👉 *לחצו למטה לפתיחת החשבון ולהשלמת התשלום:*`,
+        magicUrl
+      ],
+      fr: [
+        `🟢 *Conciergerie GiyurAliyahTrack — Dossier Approuvé !*`,
+        `• Service : *${svcTitle}*`,
+        `• Tarif Confirmé : *${priceLbl}*`,
+        adminNote ? `• Note du bureau : ${adminNote}` : "",
+        ``,
+        `👉 *Appuyez ci-dessous pour ouvrir votre compte et finaliser le paiement :*`,
+        magicUrl
+      ],
+      es: [
+        `🟢 *Conserjería GiyurAliyahTrack — ¡Expediente Aprobado!*`,
+        `• Servicio: *${svcTitle}*`,
+        `• Precio Confirmado: *${priceLbl}*`,
+        adminNote ? `• Nota de la mesa: ${adminNote}` : "",
+        ``,
+        `👉 *Toque abajo para abrir su cuenta y completar el pago:*`,
+        magicUrl
+      ],
+      de: [
+        `🟢 *GiyurAliyahTrack Concierge — Akte Genehmigt!*`,
+        `• Service: *${svcTitle}*`,
+        `• Bestätigter Preis: *${priceLbl}*`,
+        adminNote ? `• Hinweis: ${adminNote}` : "",
+        ``,
+        `👉 *Tippen Sie unten, um Ihr Konto zu öffnen und die Zahlung abzuschließen:*`,
+        magicUrl
+      ],
+      ru: [
+        `🟢 *Консьерж-служба GiyurAliyahTrack — Ваша заявка одобрена!*`,
+        `• Услуга: *${svcTitle}*`,
+        `• Подтверждённая стоимость: *${priceLbl}*`,
+        adminNote ? `• Примечание: ${adminNote}` : "",
+        ``,
+        `👉 *Нажмите ниже, чтобы открыть аккаунт и завершить оплату:*`,
+        magicUrl
+      ]
+    };
+    return (T[lg] || T.en).filter(Boolean).join("\n");
+  }
+
+  if (kind === "wa_payment_confirmed") {
+    const T = {
+      en: [
+        `✅ *GiyurAliyahTrack — Payment Confirmed!*`,
+        `Thank you! Your pass (*${tier}*) is now unlocked${orderNum}.`,
+        ``,
+        `🔑 *Permanent 6-Char Pass Code:* *${passCode}*`,
+        `👉 *Tap here to open your unlocked dossier on any device:*`,
+        magicUrl
+      ],
+      he: [
+        `✅ *GiyurAliyahTrack — התשלום אושר והגישה נפתחה!*`,
+        `תודה רבה! המנוי שלך (*${tier}*) פתוח כעת${orderNum}.`,
+        ``,
+        `🔑 *קוד הגישה הקבוע שלך (6 תווים):* *${passCode}*`,
+        `👉 *לחצו כאן לפתיחת המערכת מכל מכשיר:*`,
+        magicUrl
+      ],
+      fr: [
+        `✅ *GiyurAliyahTrack — Paiement Confirmé !*`,
+        `Merci ! Votre pass (*${tier}*) est maintenant débloqué${orderNum}.`,
+        ``,
+        `🔑 *Code Permanent (6 caractères) :* *${passCode}*`,
+        `👉 *Appuyez ici pour ouvrir votre dossier sur n'importe quel appareil :*`,
+        magicUrl
+      ],
+      es: [
+        `✅ *GiyurAliyahTrack — ¡Pago Confirmado!*`,
+        `¡Gracias! Su pase (*${tier}*) ya está desbloqueado${orderNum}.`,
+        ``,
+        `🔑 *Código Permanente (6 caracteres):* *${passCode}*`,
+        `👉 *Toque aquí para abrir su expediente en cualquier dispositivo:*`,
+        magicUrl
+      ],
+      de: [
+        `✅ *GiyurAliyahTrack — Zahlung Bestätigt!*`,
+        `Vielen Dank! Ihr Pass (*${tier}*) ist jetzt freigeschaltet${orderNum}.`,
+        ``,
+        `🔑 *Permanenter 6-stelliger Pass-Code:* *${passCode}*`,
+        `👉 *Tippen Sie hier, um Ihr Dossier auf jedem Gerät zu öffnen:*`,
+        magicUrl
+      ],
+      ru: [
+        `✅ *GiyurAliyahTrack — Оплата подтверждена!*`,
+        `Спасибо! Ваш тариф (*${tier}*) успешно разблокирован${orderNum}.`,
+        ``,
+        `🔑 *Постоянный 6-значный код доступа:* *${passCode}*`,
+        `👉 *Нажмите здесь, чтобы открыть ваш аккаунт на любом устройстве:*`,
+        magicUrl
+      ]
+    };
+    return (T[lg] || T.en).filter(Boolean).join("\n");
+  }
+
+  return "";
+}
+
 async function sendGreenApiWhatsApp(phoneOrChatId, messageText) {
   const idInstance = process.env.GREEN_API_ID_INSTANCE || "";
   const apiTokenInstance = process.env.GREEN_API_TOKEN_INSTANCE || "";
@@ -112,7 +377,7 @@ function generateCleanPassCode() {
   return `${p1}-${p2}`;
 }
 
-// Optional env webhook secret // Optional: for Stripe / LemonSqueezy HMAC
+// Optional env webhook secret // Optional: for Stripe / RevolutPro HMAC
 
 // 1. AI VISION DOCUMENT & CLERK SHEET AUDITOR (/api/auditDoc)
 
@@ -320,6 +585,522 @@ exports.auditDoc = onRequest(
       return res.status(405).json({ error: "Method not allowed" });
     }
     // ========================================================================
+// === REVOLUT_3LAYER_PIPELINE_START ===
+    const REVOLUT_SKU_PRICES = {
+      bd_pack3_49: 49, bd_pack4_49: 49, bd_pack1_65: 65, bd_pack2_65: 65, songs_65: 65,
+      couples_sync_75: 75, forms_90d_89: 89, couples_90d_129: 129, forms_life_149: 149,
+      bd_suite_90d_149: 149, bd_all700_179: 179, couples_life_229: 229, bd_suite_life_249: 249,
+      suite_solo_90d_249: 249, suite_solo_life_399: 399, vip_couple_649: 649
+    };
+    const REVOLUT_SKU_DAYS = {
+      bd_pack3_49: 0, bd_pack4_49: 0, bd_pack1_65: 0, bd_pack2_65: 0, songs_65: 0,
+      couples_sync_75: 90, forms_90d_89: 90, couples_90d_129: 90, forms_life_149: 0,
+      bd_suite_90d_149: 90, bd_all700_179: 0, couples_life_229: 0, bd_suite_life_249: 0,
+      suite_solo_90d_249: 90, suite_solo_life_399: 0, vip_couple_649: 0
+    };
+    const REVOLUT_URLS_MAP = {
+      bd_pack3_49: "https://checkout.revolut.com/pay/f6512ace-8482-4428-86bb-8ae76e94bb23",
+      bd_pack4_49: "https://checkout.revolut.com/pay/1dc80102-0a20-4021-8c24-c39735458a5c",
+      bd_pack1_65: "https://checkout.revolut.com/pay/77176ac0-d40d-42ec-8efb-be16c5b7126c",
+      bd_pack2_65: "https://checkout.revolut.com/pay/1bca96a5-59f8-4187-b0a5-76089868cbf4",
+      songs_65: "https://checkout.revolut.com/pay/4e188df0-7759-46d4-a4ad-40269a76dd52",
+      couples_sync_75: "https://checkout.revolut.com/pay/f006fac4-d95a-4a5a-964e-4b2a80d9a5c7",
+      forms_90d_89: "https://checkout.revolut.com/pay/78d2462b-7dde-4d64-8b2f-778b019cb26b",
+      couples_90d_129: "https://checkout.revolut.com/pay/8590749b-9660-4064-abe1-71edb735cbe6",
+      forms_life_149: "https://checkout.revolut.com/pay/cdb63113-bae2-43d5-bdc0-fd07c27a8d9f",
+      bd_suite_90d_149: "https://checkout.revolut.com/pay/5a870a0c-408f-444e-83eb-0b261e43374d",
+      bd_all700_179: "https://checkout.revolut.com/pay/6da4f9f2-6c74-4ba3-95af-2fa98c8e978f",
+      couples_life_229: "https://checkout.revolut.com/pay/aa99535d-7221-482e-9754-6a4d449d69cc",
+      bd_suite_life_249: "https://checkout.revolut.com/pay/e8e82a6d-3617-4729-9654-d03ef22de8ff",
+      suite_solo_90d_249: "https://checkout.revolut.com/pay/10949078-5a74-439e-9adb-81dcb7c23ae8",
+      suite_solo_life_399: "https://checkout.revolut.com/pay/760df7ae-705e-417c-a7b7-7b40c02e134b",
+      vip_couple_649: "https://checkout.revolut.com/pay/b056f712-fd60-4eb1-9812-5c344b21a297"
+    };
+    const REV_ADMIN_NOTIFY_PHONE = "972525822005";
+
+    function isValidCardLast4OrEmail(val) {
+      const s = String(val || "").trim();
+      if (/^\d{4}$/.test(s)) return true;
+      if (s.length < 6 || s.length > 120 || s.includes("..")) return false;
+      return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,24}$/.test(s);
+    }
+
+
+    function buildBuyerPendingWaMessage(lang, sku, priceUsd, payerName, cardLast4) {
+      const lg = String(lang || "en").slice(0, 2).toLowerCase();
+      const cardRef = `${payerName}${cardLast4 ? " (" + cardLast4 + ")" : ""}`;
+      const M = {
+        en: [
+          `⏳ *GiyurAliyahTrack — Payment Details Received ($${priceUsd} USD)*`,
+          `Thank you! We received your payment confirmation for *${sku}* under *${cardRef}*.`,
+          ``,
+          `✅ *What happens next:*`,
+          `As soon as our team verifies your Revolut payment, we will immediately unlock your account and send you a WhatsApp notification right here with your active 1-Tap Login Link & Permanent Pass Code.`,
+          ``,
+          `🕯️ *Shabbat & Jewish Holidays Notice:*`,
+          `Our verification desk operates in Israel. If your payment was submitted during Shabbat or a Jewish holiday (Chag / Yom Tov), your account will be verified and activated right after Shabbat or the holiday concludes.`
+        ],
+        he: [
+          `⏳ *GiyurAliyahTrack — פרטי התשלום התקבלו ($${priceUsd} USD)*`,
+          `תודה רבה! קיבלנו את דיווח התשלום שלך עבור *${sku}* על שם *${cardRef}*.`,
+          ``,
+          `✅ *מה קורה עכשיו:*`,
+          `ברגע שהצוות שלנו יאמת את ההעברה ב-Revolut, נפתח עבורך את הגישה למערכת באופן מיידי ונשלח לך הודעת וואטסאפ נוספת לכאן עם קישור כניסה בלחיצה אחת וקוד גישה קבוע.`,
+          ``,
+          `🕯️ *לתשומת ליבך לגבי שבתות וחגי ישראל:*`,
+          `צוות האימות שלנו פועל בישראל. אם התשלום בוצע במהלך שבת או חג (מועדי ישראל), האימות ופתיחת החשבון יתבצעו מיד עם צאת השבת או החג.`
+        ],
+        fr: [
+          `⏳ *GiyurAliyahTrack — Détails de paiement reçus ($${priceUsd} USD)*`,
+          `Merci ! Nous avons bien enregistré votre confirmation de paiement pour *${sku}* au nom de *${cardRef}*.`,
+          ``,
+          `✅ *Prochaine étape :*`,
+          `Dès que notre équipe aura vérifié votre règlement Revolut, nous activerons immédiatement votre compte et vous recevrez une notification WhatsApp ici même avec votre lien d'accès en 1 clic et votre code permanent.`,
+          ``,
+          `🕯️ *Note concernant Chabbat et les fêtes juives :*`,
+          `Notre équipe opère depuis Israël. Si votre paiement est effectué pendant Chabbat ou une fête juive (Yom Tov / Chag), la vérification et l'activation auront lieu dès la sortie de Chabbat ou de la fête.`
+        ],
+        es: [
+          `⏳ *GiyurAliyahTrack — Datos de pago recibidos ($${priceUsd} USD)*`,
+          `¡Gracias! Hemos recibido los datos de su pago para *${sku}* a nombre de *${cardRef}*.`,
+          ``,
+          `✅ *Próximo paso:*`,
+          `En cuanto nuestro equipo verifique el pago en Revolut, desbloquearemos su cuenta de inmediato y recibirá una notificación por WhatsApp aquí mismo con su enlace de acceso en 1 clic y su código permanente.`,
+          ``,
+          `🕯️ *Aviso sobre Shabat y festividades judías:*`,
+          `Nuestro equipo opera en Israel. Si realizó el pago durante Shabat o una festividad judía (Jag / Yom Tov), la verificación y activación se realizarán inmediatamente al finalizar Shabat o la festividad.`
+        ],
+        de: [
+          `⏳ *GiyurAliyahTrack — Zahlungsdaten erhalten ($${priceUsd} USD)*`,
+          `Vielen Dank! Wir haben Ihre Zahlungsangaben für *${sku}* unter *${cardRef}* erhalten.`,
+          ``,
+          `✅ *Wie es weitergeht:*`,
+          `Sobald unser Team den Zahlungseingang bei Revolut bestätigt hat, schalten wir Ihr Konto sofort frei und senden Ihnen hier per WhatsApp eine Benachrichtigung mit Ihrem 1-Klick-Zugangslink und Ihrem dauerhaften Pass-Code.`,
+          ``,
+          `🕯️ *Hinweis zu Schabbat & jüdischen Feiertagen:*`,
+          `Unser Team arbeitet in Israel. Falls Ihre Zahlung während des Schabbats oder an einem jüdischen Feiertag (Jom Tow / Chag) eingeht, erfolgt die Prüfung und Freischaltung direkt nach Ausgang des Schabbats bzw. Feiertags.`
+        ],
+        ru: [
+          `⏳ *GiyurAliyahTrack — Данные об оплате получены ($${priceUsd} USD)*`,
+          `Спасибо! Мы получили подтверждение вашей оплаты за *${sku}* на имя *${cardRef}*.`,
+          ``,
+          `✅ *Что дальше:*`,
+          `Как только наша команда проверит поступление платежа в Revolut, мы сразу активируем ваш аккаунт и пришлём вам уведомление сюда в WhatsApp с прямой ссылкой для входа в 1 клик и постоянным кодом доступа.`,
+          ``,
+          `🕯️ *Важно (Шаббат и еврейские праздники):*`,
+          `Наша команда работает в Израиле. Если оплата была отправлена в Шаббат или в дни еврейских праздников (Йом Тов / Хагим), проверка и активация аккаунта будут выполнены сразу после исхода Шаббата или праздника.`
+        ]
+      };
+      return (M[lg] || M.en).join("\n");
+    }
+
+    function buildBuyerActiveWaMessage(lang, sku, waDigits, permCode, magicLink) {
+      const lg = String(lang || "en").slice(0, 2).toLowerCase();
+      const M = {
+        en: [
+          `🎉 *GiyurAliyahTrack — Payment Verified & Account Active!*`,
+          `Your pass (*${sku}*) is now unlocked on +${waDigits}.`,
+          ``,
+          `🔑 *Permanent 6-Char Pass Code:* *${permCode}*`,
+          `👉 *Tap here to open your unlocked suite on any phone or computer:*`,
+          magicLink
+        ],
+        he: [
+          `🎉 *GiyurAliyahTrack — התשלום אומת והחשבון שלך פעיל!*`,
+          `החבילה שלך (*${sku}*) פתוחה ופעילה כעת עבור +${waDigits}.`,
+          ``,
+          `🔑 *קוד גישה קבוע (6 תווים):* *${permCode}*`,
+          `👉 *לחצו כאן לכניסה מיידית למערכת הפתוחה מכל טלפון או מחשב:*`,
+          magicLink
+        ],
+        fr: [
+          `🎉 *GiyurAliyahTrack — Paiement vérifié & Compte actif !*`,
+          `Votre accès (*${sku}*) est maintenant débloqué sur le +${waDigits}.`,
+          ``,
+          `🔑 *Code d'accès permanent :* *${permCode}*`,
+          `👉 *Appuyez ici pour ouvrir votre espace débloqué sur téléphone ou ordinateur :*`,
+          magicLink
+        ],
+        es: [
+          `🎉 *GiyurAliyahTrack — ¡Pago verificado y cuenta activa!*`,
+          `Su pase (*${sku}*) ya está desbloqueado para +${waDigits}.`,
+          ``,
+          `🔑 *Código permanente de 6 caracteres:* *${permCode}*`,
+          `👉 *Toque aquí para abrir su acceso en cualquier teléfono u ordenador:*`,
+          magicLink
+        ],
+        de: [
+          `🎉 *GiyurAliyahTrack — Zahlung bestätigt & Konto aktiv!*`,
+          `Ihr Zugang (*${sku}*) ist jetzt für +${waDigits} freigeschaltet.`,
+          ``,
+          `🔑 *Dauerhafter 6-stelliger Pass-Code:* *${permCode}*`,
+          `👉 *Hier tippen, um Ihr freigeschaltetes Konto auf Handy oder PC zu öffnen:*`,
+          magicLink
+        ],
+        ru: [
+          `🎉 *GiyurAliyahTrack — Оплата подтверждена, ваш аккаунт активен!*`,
+          `Ваш доступ (*${sku}*) открыт и привязан к номеру +${waDigits}.`,
+          ``,
+          `🔑 *Постоянный 6-значный код доступа:* *${permCode}*`,
+          `👉 *Нажмите здесь, чтобы открыть полный доступ на телефоне или компьютере:*`,
+          magicLink
+        ]
+      };
+      return (M[lg] || M.en).join("\n");
+    }
+
+    function signOneTapUnlock(waDigits, sku, expMs) {
+      const secret = String(GEMINI_API_KEY.value() || process.env.ADMIN_PIN || "GAT_INTERNAL_HMAC_KEY_2026");
+      return crypto.createHmac("sha256", secret).update(`rev1tap:${waDigits}:${sku}:${expMs}`).digest("hex").slice(0, 32);
+    }
+
+    function buildOneTapUnlockUrl(waDigits, sku) {
+      const expMs = Date.now() + 14 * 24 * 60 * 60 * 1000;
+      const sig = signOneTapUnlock(waDigits, sku, expMs);
+      return `https://giyuraliyahtrack.com/api/auditDoc?mode=admin_1tap_unlock&phone=${encodeURIComponent(waDigits)}&sku=${encodeURIComponent(sku)}&exp=${expMs}&sig=${sig}`;
+    }
+
+    async function grantRevolutSkuUnlock(db, waDigits, sku, sourceTag, extraMeta) {
+      const targetUid = "wa_" + waDigits;
+      const days = REVOLUT_SKU_DAYS[sku] !== undefined ? REVOLUT_SKU_DAYS[sku] : 0;
+      const now = Date.now();
+      const expMs = days > 0 ? now + days * 86400000 : 0;
+
+      const [uSnap, eSnap, iSnap] = await Promise.all([
+        db.collection("users").doc(targetUid).get(),
+        db.collection("pro_entitlements").doc(targetUid).get(),
+        db.collection("checkout_intents").doc(waDigits).get()
+      ]);
+      const uPre = uSnap.exists ? (uSnap.data() || {}) : {};
+      const ePre = eSnap.exists ? (eSnap.data() || {}) : {};
+      const iPre = iSnap.exists ? (iSnap.data() || {}) : {};
+      const buyerLang = (extraMeta && extraMeta.lang) || iPre.lang || uPre.lang || "en";
+
+      const mergedMap = Object.assign({}, uPre.entitlementsMap || {}, ePre.entitlementsMap || {});
+      mergedMap[sku] = { exp: expMs, ts: now };
+
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let genCode = "";
+      for (let i = 0; i < 6; i++) genCode += chars.charAt(Math.floor(Math.random() * chars.length));
+      const permCode = uPre.permanentPassCode || (genCode.slice(0, 3) + "-" + genCode.slice(3));
+      const magicToken = crypto.randomBytes(16).toString("hex");
+      const primaryTier = mergedMap.vip_couple_649 ? "vip_couple_649" : sku;
+
+      const entDoc = Object.assign({
+        uid: targetUid,
+        whatsappDigits: waDigits,
+        unlocked: true,
+        tier: primaryTier,
+        entitlementsMap: mergedMap,
+        source: sourceTag,
+        updatedAtMs: now,
+        unlockedAt: admin.firestore.FieldValue.serverTimestamp()
+      }, extraMeta || {});
+
+      const writes = [
+        db.collection("pro_entitlements").doc(targetUid).set(entDoc, { merge: true }),
+        db.collection("users").doc(targetUid).set(Object.assign({}, entDoc, {
+          permanentPassCode: permCode,
+          waMagicToken: magicToken,
+          waOtpExpMs: now + 7 * 24 * 60 * 60 * 1000
+        }), { merge: true }),
+        db.collection("checkout_intents").doc(waDigits).set({
+          uid: targetUid,
+          waPhone: waDigits,
+          sku,
+          status: "unlocked",
+          unlockedBy: sourceTag,
+          unlockedAtMs: now,
+          updatedAtMs: now
+        }, { merge: true })
+      ];
+
+      const roomId = (extraMeta && extraMeta.room) || iPre.room || "";
+      if (roomId && ["couples_sync_75", "couples_90d_129", "couples_life_229", "vip_couple_649"].includes(sku)) {
+        writes.push(db.collection("couples_rooms").doc(String(roomId).trim()).set({ vipCoupleUnlocked: true }, { merge: true }));
+      }
+      await Promise.all(writes);
+
+      try { await admin.auth().createUser({ uid: targetUid }); } catch (e) {}
+
+      const magicLink = `https://giyuraliyahtrack.com/app/?wa_phone=${waDigits}&wa_token=${magicToken}&checkout_success=1&tier=${encodeURIComponent(sku)}&lang=${encodeURIComponent(buyerLang)}`;
+      const buyerMsg = buildBuyerActiveWaMessage(buyerLang, sku, waDigits, permCode, magicLink);
+      await sendGreenApiWhatsApp(waDigits, buyerMsg).catch(() => ({ ok: false }));
+
+      return { uid: targetUid, tier: primaryTier, entitlementsMap: mergedMap, passCode: permCode, magicToken, magicLink };
+    }
+
+    // LIVE POLL FOR OPEN CHECKOUT MODAL (mode === "check_checkout_unlock_status")
+    if (req.body && req.body.mode === "check_checkout_unlock_status") {
+      const db = admin.firestore();
+      const waDigits = normalizePhoneDigits(req.body.waPhone || req.body.phone || "");
+      const sku = String(req.body.sku || "").trim();
+      if (waDigits.length < 8 || !REVOLUT_SKU_PRICES[sku]) {
+        return res.status(200).json({ ok: true, unlocked: false });
+      }
+      const targetUid = "wa_" + waDigits;
+      const [eSnap, uSnap] = await Promise.all([
+        db.collection("pro_entitlements").doc(targetUid).get(),
+        db.collection("users").doc(targetUid).get()
+      ]);
+      const eData = eSnap.exists ? (eSnap.data() || {}) : {};
+      const uData = uSnap.exists ? (uSnap.data() || {}) : {};
+      const eMap = Object.assign({}, uData.entitlementsMap || {}, eData.entitlementsMap || {});
+      const entry = eMap[sku] || eMap.vip_couple_649;
+      const isSkuActive = Boolean(entry && (!entry.exp || entry.exp > Date.now()));
+      if (!isSkuActive) {
+        return res.status(200).json({ ok: true, unlocked: false });
+      }
+      const magicToken = uData.waMagicToken || "";
+      const redirectUrl = magicToken
+        ? `/app/?wa_phone=${waDigits}&wa_token=${encodeURIComponent(magicToken)}&checkout_success=1&tier=${encodeURIComponent(sku)}`
+        : `/app/?checkout_success=1&tier=${encodeURIComponent(sku)}`;
+      return res.status(200).json({
+        ok: true,
+        unlocked: true,
+        uid: targetUid,
+        tier: sku,
+        passCode: uData.permanentPassCode || "",
+        redirectUrl
+      });
+    }
+
+    // ADMIN CONCIERGE QUEUE LIST & DISMISS FOR PENDING REVOLUT CHECKOUT INTENTS
+    if (req.body && (req.body.mode === "admin_list_checkout_intents" || req.body.mode === "admin_dismiss_checkout_intent")) {
+      const db = admin.firestore();
+      const authCheck = await verifyAdminRequest(req, db);
+      if (!authCheck.ok) return res.status(authCheck.status || 403).json({ ok: false, error: authCheck.error });
+
+      if (req.body.mode === "admin_dismiss_checkout_intent") {
+        const waDigits = normalizePhoneDigits(req.body.phone || req.body.waPhone || "");
+        if (waDigits) {
+          await db.collection("checkout_intents").doc(waDigits).set({ status: "dismissed", updatedAtMs: Date.now() }, { merge: true });
+        }
+        return res.status(200).json({ ok: true });
+      }
+
+      const intentsSnap = await db.collection("checkout_intents").limit(50).get();
+      const checkoutIntents = [];
+      intentsSnap.forEach(d => {
+        const idata = d.data() || {};
+        if (idata.status !== "unlocked" && idata.status !== "dismissed" && idata.status !== "cancelled_by_user") {
+          checkoutIntents.push(Object.assign({ id: d.id }, idata));
+        }
+      });
+      checkoutIntents.sort((a, b) => ((b.status === "paid_pinged" ? 1 : 0) - (a.status === "paid_pinged" ? 1 : 0)) || ((b.updatedAtMs || 0) - (a.updatedAtMs || 0)));
+      return res.status(200).json({ ok: true, checkoutIntents, adminSessionToken: authCheck.adminSessionToken });
+    }
+
+    // 1-TAP ADMIN STATUS CHECK & UNLOCK LINK (GET from WhatsApp OR POST from /concierge/)
+    const isOneTapGet = req.method === "GET" && req.query && req.query.mode === "admin_1tap_unlock";
+    const isOneTapPost = req.method === "POST" && req.body && req.body.mode === "admin_1tap_unlock";
+    if (isOneTapGet || isOneTapPost) {
+      const db = admin.firestore();
+      let waDigits = "";
+      let sku = "";
+      let forceResend = false;
+      if (isOneTapGet) {
+        waDigits = normalizePhoneDigits(req.query.phone || "");
+        sku = String(req.query.sku || "").trim();
+        forceResend = req.query.force === "1";
+        const expMs = Number(req.query.exp || 0);
+        const sig = String(req.query.sig || "").trim();
+        if (!waDigits || !REVOLUT_SKU_PRICES[sku] || !expMs || Date.now() > expMs) {
+          return res.status(400).send("<h3>Invalid or expired 1-Tap Unlock link.</h3>");
+        }
+        const expected = signOneTapUnlock(waDigits, sku, expMs);
+        if (sig !== expected) {
+          return res.status(403).send("<h3>Invalid signature.</h3>");
+        }
+
+        // Check if ALREADY unlocked so admin immediately sees live status if tapped twice!
+        if (!forceResend) {
+          const [eSnap, iSnap, uSnap] = await Promise.all([
+            db.collection("pro_entitlements").doc("wa_" + waDigits).get(),
+            db.collection("checkout_intents").doc(waDigits).get(),
+            db.collection("users").doc("wa_" + waDigits).get()
+          ]);
+          const eMap = (eSnap.exists && eSnap.data().entitlementsMap) || {};
+          const iData = iSnap.exists ? (iSnap.data() || {}) : {};
+          const uData = uSnap.exists ? (uSnap.data() || {}) : {};
+          if (eMap[sku] && (!eMap[sku].exp || eMap[sku].exp > Date.now())) {
+            const resendHref = req.originalUrl + (req.originalUrl.includes("?") ? "&" : "?") + "force=1";
+            return res.status(200).set("Content-Type", "text/html; charset=utf-8").send(
+              `<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Already Active</title></head>` +
+              `<body style="background:#041226;color:#fff;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px;">` +
+              `<div style="background:#0b2240;border:2px solid #38bdf8;border-radius:18px;max-width:440px;width:100%;padding:26px;text-align:center;">` +
+              `<div style="font-size:2.4rem;margin-bottom:8px;">🟢</div>` +
+              `<h2 style="margin:0 0 8px;color:#38bdf8;">Already Unlocked &amp; Active!</h2>` +
+              `<p style="color:#cbd5e1;font-size:0.9rem;line-height:1.55;">Account <b>wa_${waDigits}</b> (+${waDigits}) already has <b>${sku}</b> ($${REVOLUT_SKU_PRICES[sku]}) unlocked.<br>` +
+              (iData.payerName ? `Cardholder: <b>${iData.payerName}</b> (${iData.cardLast4 || "N/A"})<br>` : ``) +
+              `Pass Code: <b>${uData.permanentPassCode || "Active"}</b></p>` +
+              `<div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">` +
+              `<a href="${resendHref}" style="background:#10b981;color:#041226;text-decoration:none;padding:11px 16px;border-radius:10px;font-weight:900;">📲 Re-Send WhatsApp Activation Link</a>` +
+              `<a href="/concierge/" style="background:#1e293b;color:#fff;text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:800;">Open Concierge Desk →</a>` +
+              `</div></div></body></html>`
+            );
+          }
+        }
+      } else {
+        const authCheck = await verifyAdminRequest(req, db);
+        if (!authCheck.ok) return res.status(authCheck.status || 403).json({ ok: false, error: authCheck.error });
+        waDigits = normalizePhoneDigits(req.body.phone || req.body.waPhone || "");
+        sku = String(req.body.sku || "").trim();
+        if (!waDigits || !REVOLUT_SKU_PRICES[sku]) {
+          return res.status(400).json({ ok: false, error: "Invalid phone or SKU" });
+        }
+      }
+
+      const unlocked = await grantRevolutSkuUnlock(db, waDigits, sku, "admin_1tap_unlock", {});
+      if (isOneTapGet) {
+        return res.status(200).set("Content-Type", "text/html; charset=utf-8").send(
+          `<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Unlocked</title></head>` +
+          `<body style="background:#041226;color:#fff;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px;">` +
+          `<div style="background:#0b2240;border:2px solid #10b981;border-radius:18px;max-width:440px;width:100%;padding:26px;text-align:center;">` +
+          `<div style="font-size:2.4rem;margin-bottom:8px;">✅</div>` +
+          `<h2 style="margin:0 0 8px;color:#4ade80;">Unlocked ${sku} ($${REVOLUT_SKU_PRICES[sku]})!</h2>` +
+          `<p style="color:#cbd5e1;font-size:0.92rem;line-height:1.55;">Account <b>wa_${waDigits}</b> (+${waDigits}) is now active in Firestore and their WhatsApp notification + Magic Link + Pass Code (<b>${unlocked.passCode}</b>) has just been sent!</p>` +
+          `<a href="/concierge/" style="display:inline-block;margin-top:12px;background:#0288d1;color:#fff;text-decoration:none;padding:11px 18px;border-radius:10px;font-weight:800;">Open Concierge Desk →</a>` +
+          `</div></body></html>`
+        );
+      }
+      return res.status(200).json(Object.assign({ ok: true }, unlocked));
+    }
+
+    // STEP 1+2 LOG: Pre-Checkout Intent Log with Cardholder Name + Last 4 (mode === "log_checkout_intent")
+    if (req.body && req.body.mode === "log_checkout_intent") {
+      const db = admin.firestore();
+      const waDigits = normalizePhoneDigits(req.body.waPhone || req.body.phone || String(req.body.uid || "").replace(/^wa_/, ""));
+      const sku = String(req.body.sku || "").trim();
+      const lang = String(req.body.lang || "en").slice(0, 2).toLowerCase();
+      const payerName = String(req.body.payerName || "").trim().slice(0, 120);
+      const cardLast4 = String(req.body.cardLast4 || req.body.cardLast4OrEmail || "").trim().slice(0, 120);
+      const room = String(req.body.room || "").trim();
+      if (waDigits.length < 8 || !REVOLUT_SKU_PRICES[sku]) {
+        return res.status(400).json({ ok: false, error: "Valid verified WhatsApp number and SKU required." });
+      }
+      if (payerName.length < 2 || !isValidCardLast4OrEmail(cardLast4)) {
+        return res.status(400).json({ ok: false, error: "Enter the Cardholder Name and either exact 4 card digits or a valid email address." });
+      }
+      const priceUsd = REVOLUT_SKU_PRICES[sku];
+      const revolutUrl = REVOLUT_URLS_MAP[sku];
+      const uid = "wa_" + waDigits;
+      const now = Date.now();
+      const ilTimeStr = new Date(now).toLocaleString("en-GB", { timeZone: "Asia/Jerusalem" });
+
+      await db.collection("checkout_intents").doc(waDigits).set({
+        uid,
+        waPhone: waDigits,
+        sku,
+        priceUsd,
+        revolutUrl,
+        lang,
+        ...(payerName ? { payerName } : {}),
+        ...(cardLast4 ? { cardLast4 } : {}),
+        ...(room ? { room } : {}),
+        status: "pending",
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        createdAtMs: now,
+        updatedAtMs: now
+      }, { merge: true });
+
+      const oneTapUrl = buildOneTapUnlockUrl(waDigits, sku);
+      const preMsg = [
+        `💳 *REVOLUT CHECKOUT OPENED — $${priceUsd} USD*`,
+        `• Buyer WhatsApp: +${waDigits} (${uid})`,
+        `• Pass SKU: *${sku}* ($${priceUsd}) • Lang: ${lang.toUpperCase()}`,
+        `• Cardholder Name: *${payerName || "N/A"}*`,
+        `• Last 4 / Email: *${cardLast4 || "N/A"}*`,
+        `• Opened (IL): ${ilTimeStr}`,
+        ``,
+        `🔓 *Once Revolut confirms payment, Tap Once to Unlock:*`,
+        oneTapUrl
+      ].join("\n");
+      await sendGreenApiWhatsApp(REV_ADMIN_NOTIFY_PHONE, preMsg).catch(() => ({ ok: false }));
+
+      return res.status(200).json({ ok: true, uid, waPhone: waDigits, sku, priceUsd, revolutUrl, status: "pending" });
+    }
+
+    // STEP 2 SUBMIT: Buyer Submits Cardholder Name + Last 4 / Email & Taps "I've Paid" (mode === "ping_paid_unlock")
+    if (req.body && req.body.mode === "ping_paid_unlock") {
+      const db = admin.firestore();
+      const waDigits = normalizePhoneDigits(req.body.waPhone || req.body.phone || String(req.body.uid || "").replace(/^wa_/, ""));
+      const sku = String(req.body.sku || "").trim();
+      const lang = String(req.body.lang || "en").slice(0, 2).toLowerCase();
+      const payerName = String(req.body.payerName || "").trim().slice(0, 120);
+      const cardLast4 = String(req.body.cardLast4 || req.body.cardLast4OrEmail || "").trim().slice(0, 120);
+      const room = String(req.body.room || "").trim();
+
+      if (waDigits.length < 8 || !REVOLUT_SKU_PRICES[sku]) {
+        return res.status(400).json({ ok: false, error: "Valid verified WhatsApp number and SKU required." });
+      }
+      if (payerName.length < 2 || !isValidCardLast4OrEmail(cardLast4)) {
+        return res.status(400).json({ ok: false, error: "Please enter the Cardholder Name and the Last 4 Digits of your card (or Revolut checkout email)." });
+      }
+
+      const priceUsd = REVOLUT_SKU_PRICES[sku];
+      const revolutUrl = REVOLUT_URLS_MAP[sku];
+      const now = Date.now();
+      const ilTimeStr = new Date(now).toLocaleString("en-GB", { timeZone: "Asia/Jerusalem" });
+
+      await db.collection("checkout_intents").doc(waDigits).set({
+        uid: "wa_" + waDigits,
+        waPhone: waDigits,
+        sku,
+        priceUsd,
+        revolutUrl,
+        lang,
+        payerName,
+        cardLast4,
+        ...(room ? { room } : {}),
+        status: "paid_pinged",
+        pingedAtMs: now,
+        updatedAtMs: now
+      }, { merge: true });
+
+      // 1. Send immediate WhatsApp confirmation to BUYER (in their language, with Shabbat/Holiday notice)
+      const buyerPendingMsg = buildBuyerPendingWaMessage(lang, sku, priceUsd, payerName, cardLast4);
+      const buyerWaRes = await sendGreenApiWhatsApp(waDigits, buyerPendingMsg).catch(() => ({ ok: false }));
+
+      // 2. Send correlation + 1-Tap Unlock alert to ADMIN (052-582-2005)
+      const oneTapUrl = buildOneTapUnlockUrl(waDigits, sku);
+      const urgentMsg = [
+        `🚨 *PAID CLAIM SUBMITTED — $${priceUsd} USD*`,
+        `• Buyer WhatsApp: +${waDigits} (wa_${waDigits})`,
+        `• Pass SKU: *${sku}* ($${priceUsd}) • Lang: ${lang.toUpperCase()}`,
+        `• Cardholder Name: *${payerName}*`,
+        `• Last 4 / Email: *${cardLast4}*`,
+        `• Submitted (IL): ${ilTimeStr}`,
+        ``,
+        `🔓 *Check Revolut Pro, then Tap Once to Unlock Buyer:*`,
+        oneTapUrl
+      ].join("\n");
+      await sendGreenApiWhatsApp(REV_ADMIN_NOTIFY_PHONE, urgentMsg).catch(() => ({ ok: false }));
+
+      return res.status(200).json({
+        ok: true,
+        status: "paid_pinged",
+        waPhone: waDigits,
+        sku,
+        buyerWaSent: Boolean(buyerWaRes && buyerWaRes.ok)
+      });
+    }
+
+    // STEP 3 CANCEL: Buyer explicitly clicked "I Didn't Pay — Cancel & Close"
+    if (req.body && req.body.mode === "cancel_checkout_intent") {
+      const db = admin.firestore();
+      const waDigits = normalizePhoneDigits(req.body.waPhone || req.body.phone || String(req.body.uid || "").replace(/^wa_/, ""));
+      if (waDigits.length >= 8) {
+        const docRef = db.collection("checkout_intents").doc(waDigits);
+        const snap = await docRef.get();
+        if (snap.exists && snap.data().status === "pending") {
+          await docRef.set({ status: "cancelled_by_user", updatedAtMs: Date.now() }, { merge: true });
+        }
+      }
+      return res.status(200).json({ ok: true });
+    }
+// === REVOLUT_3LAYER_PIPELINE_END ===
+
     // 0. IN-APP 24/7 3-TIER AI TRACK PARTNER & BLACK-BOX GATEKEEPER (mode === "helpdesk_chat")
     // ========================================================================
             // ========================================================================
@@ -462,7 +1243,307 @@ exports.auditDoc = onRequest(
       }
     }
 
-        if (req.body && req.body.mode === "admin_migrate_wa_cleanup") {
+            // ========================================================================
+    // 0B. PRE-AI USER PROBLEM / BUG REPORTER (mode === "report_problem")
+    // ========================================================================
+    if (req.body && req.body.mode === "report_problem") {
+      try {
+        const db = admin.firestore();
+        const b = req.body || {};
+        const category = String(b.category || "general").slice(0, 60);
+        const description = String(b.description || "").trim().slice(0, 2500);
+        if (!description) {
+          return res.status(400).json({ ok: false, error: "Please describe the problem." });
+        }
+        const contact = String(b.contact || "").trim().slice(0, 140);
+        const uid = String(b.uid || "anon").slice(0, 80);
+        const lang = String(b.lang || "en").slice(0, 8);
+        const pageUrl = String(b.pageUrl || "").slice(0, 300);
+        const currentMod = String(b.currentMod || "").slice(0, 60);
+        const currentForm = String(b.currentForm || "").slice(0, 40);
+        const ua = String(b.ua || req.headers["user-agent"] || "").slice(0, 300);
+        const screen = String(b.screen || "").slice(0, 40);
+        const ticketId = "BUG-" + Math.random().toString(36).substring(2, 7).toUpperCase();
+        const nowIso = new Date().toISOString();
+
+        await db.collection("problem_reports").doc(ticketId).set({
+          ticketId,
+          createdAt: nowIso,
+          timestampMs: Date.now(),
+          status: "open",
+          category,
+          description,
+          contact,
+          uid,
+          lang,
+          pageUrl,
+          currentMod,
+          currentForm,
+          ua,
+          screen,
+          formSnapshot: b.formSnapshot || {}
+        });
+
+        try {
+          const waAlert = [
+            `🛠️ *NEW PRE-AI PROBLEM REPORT (${ticketId})*`,
+            `• *Category:* ${category}`,
+            `• *Contact:* ${contact || "Not provided"}`,
+            `• *User UID:* ${uid} (${lang.toUpperCase()})`,
+            `• *Page / Mod:* ${pageUrl} (${currentMod || "landing"} / ${currentForm || "-"})`,
+            `• *Device:* ${screen}`,
+            ``,
+            `📝 *Message:*`,
+            description
+          ].join("\n");
+          if (typeof sendGreenApiWhatsApp === "function") {
+            await sendGreenApiWhatsApp("972539332613@c.us", waAlert);
+          }
+        } catch (waErr) {
+          console.warn("Problem report WA alert non-fatal:", waErr);
+        }
+
+        return res.status(200).json({ ok: true, ticketId });
+      } catch (rpErr) {
+        return res.status(500).json({ ok: false, error: rpErr.message || "Could not submit report" });
+      }
+    }
+
+        // ========================================================================
+    // 0C. FREE FIRESTORE CLOUD DOCUMENT VAULT (users/{uid}/uploaded_docs/{docId})
+    //     Stores metadata in docId and each page in pages/page_{i} (<1MB per doc)
+    // ========================================================================
+    if (req.body && ["save_uploaded_doc", "list_uploaded_docs", "get_uploaded_doc", "delete_uploaded_doc"].includes(req.body.mode)) {
+      try {
+        const db = admin.firestore();
+        const b = req.body || {};
+        const rawUid = String(b.uid || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 96);
+        if (!rawUid || rawUid === "anon") {
+          return res.status(200).json({ ok: true, items: [], note: "Guest local-only session" });
+        }
+        const docsCol = db.collection("users").doc(rawUid).collection("uploaded_docs");
+
+        if (b.mode === "list_uploaded_docs") {
+          const snap = await docsCol.orderBy("updatedAt", "desc").limit(30).get();
+          const items = [];
+          snap.forEach(d => {
+            const data = d.data() || {};
+            items.push({
+              docId: d.id,
+              slotKey: data.slotKey || "doc",
+              ownerParty: data.ownerParty || "me",
+              docType: data.docType || "certificate",
+              docTitle: data.docTitle || "Uploaded Document",
+              issuingCountry: data.issuingCountry || "",
+              pageCount: data.pageCount || 1,
+              hasApostille: data.hasApostille !== false,
+              hasSefach: Boolean(data.hasSefach),
+              isLongForm: data.isLongForm !== false,
+              expiryDateIso: data.expiryDateIso || "",
+              updatedAt: data.updatedAt || Date.now(),
+              createdAtIso: data.createdAtIso || new Date().toISOString()
+            });
+          });
+          return res.status(200).json({ ok: true, items });
+        }
+
+        if (b.mode === "get_uploaded_doc") {
+          const docId = String(b.docId || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "");
+          if (!docId) return res.status(400).json({ ok: false, error: "Missing docId" });
+          const docRef = docsCol.doc(docId);
+          const docSnap = await docRef.get();
+          if (!docSnap.exists) return res.status(404).json({ ok: false, error: "Document not found" });
+          const pagesSnap = await docRef.collection("pages").orderBy("idx", "asc").get();
+          const pages = [];
+          pagesSnap.forEach(p => {
+            const pd = p.data() || {};
+            if (pd.base64Data) {
+              pages.push({
+                idx: pd.idx || 0,
+                mimeType: pd.mimeType || "image/jpeg",
+                base64Data: pd.base64Data
+              });
+            }
+          });
+          return res.status(200).json({ ok: true, meta: docSnap.data(), pages });
+        }
+
+        if (b.mode === "delete_uploaded_doc") {
+          const docId = String(b.docId || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "");
+          if (!docId) return res.status(400).json({ ok: false, error: "Missing docId" });
+          const docRef = docsCol.doc(docId);
+          const pagesSnap = await docRef.collection("pages").get();
+          const batch = db.batch();
+          pagesSnap.forEach(p => batch.delete(p.ref));
+          batch.delete(docRef);
+          await batch.commit();
+          return res.status(200).json({ ok: true, deletedId: docId });
+        }
+
+        if (b.mode === "save_uploaded_doc") {
+          const filesArr = Array.isArray(b.files) ? b.files.slice(0, 6) : [];
+          if (!filesArr.length) return res.status(400).json({ ok: false, error: "No files provided" });
+          const slotKey = String(b.slotKey || "doc").slice(0, 40);
+          const ownerParty = String(b.ownerParty || "me").slice(0, 20);
+          const docId = String(b.docId || (`${ownerParty}_${slotKey}_${Date.now()}`)).replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 80);
+          const docRef = docsCol.doc(docId);
+          const nowMs = Date.now();
+
+          let startIdx = 0;
+          if (b.appendPages) {
+            const existingSnap = await docRef.get();
+            if (existingSnap.exists) {
+              startIdx = Number(existingSnap.data().pageCount) || 0;
+            }
+          } else {
+            const oldPages = await docRef.collection("pages").get();
+            if (!oldPages.empty) {
+              const delBatch = db.batch();
+              oldPages.forEach(p => delBatch.delete(p.ref));
+              await delBatch.commit();
+            }
+          }
+
+          let savedPages = 0;
+          for (let i = 0; i < filesArr.length; i++) {
+            const fObj = filesArr[i] || {};
+            const cleanB64 = String(fObj.base64Data || "").replace(/^data:[^;]+;base64,/, "").slice(0, 780000);
+            if (!cleanB64) continue;
+            const pIdx = startIdx + savedPages;
+            await docRef.collection("pages").doc(`page_${pIdx}`).set({
+              idx: pIdx,
+              mimeType: String(fObj.mimeType || "image/jpeg").slice(0, 60),
+              base64Data: cleanB64,
+              updatedAt: nowMs
+            });
+            savedPages++;
+          }
+
+          const totalPages = startIdx + savedPages;
+          const metaObj = {
+            docId,
+            slotKey,
+            ownerParty,
+            docType: String(b.docType || slotKey || "certificate").slice(0, 60),
+            docTitle: String(b.docTitle || "Uploaded Document").slice(0, 140),
+            issuingCountry: String(b.issuingCountry || "").slice(0, 80),
+            pageCount: totalPages,
+            hasApostille: b.hasApostille !== false,
+            hasSefach: Boolean(b.hasSefach),
+            isLongForm: b.isLongForm !== false,
+            expiryDateIso: String(b.expiryDateIso || "").slice(0, 20),
+            updatedAt: nowMs,
+            createdAtIso: new Date(nowMs).toISOString()
+          };
+          await docRef.set(metaObj, { merge: true });
+          return res.status(200).json({ ok: true, docId, meta: metaObj });
+        }
+      } catch (vErr) {
+        console.warn("Cloud doc vault error:", vErr);
+        return res.status(500).json({ ok: false, error: vErr.message || "Vault error" });
+      }
+    }
+
+        // ========================================================================
+    // 0D. UNIFIED CLOUD DRAFT SAVE & SESSION RESTORE (mode === "save_cloud_draft" | "restore_wa_session")
+    // ========================================================================
+    if (req.body && (req.body.mode === "save_cloud_draft" || req.body.mode === "restore_wa_session")) {
+      try {
+        const db = admin.firestore();
+        const b = req.body || {};
+        const rawUid = String(b.uid || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 96);
+        const passCode = String(b.passCode || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+        const waDigits = normalizePhoneDigits(b.waPhone || b.phone || (rawUid.startsWith("wa_") ? rawUid.slice(3) : ""));
+
+        let targetUid = "";
+        let userDocSnap = null;
+
+        if (passCode && passCode.length >= 5) {
+          const qPass = await db.collection("users").where("permanentPassCode", "==", passCode).limit(1).get();
+          if (!qPass.empty) {
+            userDocSnap = qPass.docs[0];
+            targetUid = userDocSnap.id;
+          }
+        }
+        if (!targetUid && waDigits && waDigits.length >= 8) {
+          targetUid = "wa_" + waDigits;
+          const snapWa = await db.collection("users").doc(targetUid).get();
+          if (snapWa.exists) userDocSnap = snapWa;
+        }
+        if (!targetUid && b.adminSessionToken) {
+          const vTok = verifyAdminSessionToken(String(b.adminSessionToken));
+          if (vTok && vTok.uid) {
+            targetUid = vTok.uid;
+            const snapAdm = await db.collection("users").doc(targetUid).get();
+            if (snapAdm.exists) userDocSnap = snapAdm;
+          }
+        }
+        if (!targetUid && rawUid && rawUid !== "anon") {
+          targetUid = rawUid;
+          const snapRaw = await db.collection("users").doc(targetUid).get();
+          if (snapRaw.exists) userDocSnap = snapRaw;
+        }
+
+        if (!targetUid) {
+          return res.status(200).json({ ok: false, guest: true });
+        }
+
+        const userRef = db.collection("users").doc(targetUid);
+
+        if (b.mode === "save_cloud_draft") {
+          const incomingDraft = (b.draft && typeof b.draft === "object") ? b.draft : {};
+          const nowMs = Date.now();
+          await userRef.set({
+            uid: targetUid,
+            ...(waDigits ? { whatsappDigits: waDigits } : {}),
+            draft: incomingDraft,
+            formDraft: incomingDraft,
+            updatedAtMs: nowMs,
+            updatedAt: admin.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+          const finalSnap = await userRef.get();
+          const finalData = finalSnap.exists ? finalSnap.data() : {};
+          const ensuredCode = await ensurePermanentPassCode(targetUid, userRef, finalData);
+          return res.status(200).json({
+            ok: true,
+            uid: targetUid,
+            whatsappDigits: finalData.whatsappDigits || waDigits || "",
+            passCode: ensuredCode
+          });
+        }
+
+        if (b.mode === "restore_wa_session") {
+          const uData = (userDocSnap && userDocSnap.exists) ? (userDocSnap.data() || {}) : {};
+          const ensuredCode = await ensurePermanentPassCode(targetUid, userRef, uData);
+          let customToken = "";
+          try {
+            customToken = await admin.auth().createCustomToken(targetUid);
+          } catch (e) {}
+          const entSnap = await db.collection("pro_entitlements").doc(targetUid).get();
+          const entData = entSnap.exists ? (entSnap.data() || {}) : {};
+          const mergedUserData = Object.assign({}, uData, {
+            uid: targetUid,
+            permanentPassCode: ensuredCode,
+            whatsappDigits: uData.whatsappDigits || waDigits || "",
+            unlocked: Boolean(uData.unlocked || entData.unlocked),
+            tier: uData.tier || entData.tier || "",
+            entitlementsMap: Object.assign({}, uData.entitlementsMap || {}, entData.entitlementsMap || {})
+          });
+          return res.status(200).json({
+            ok: true,
+            masterUid: targetUid,
+            whatsappDigits: mergedUserData.whatsappDigits,
+            passCode: ensuredCode,
+            customToken,
+            userData: mergedUserData
+          });
+        }
+      } catch (syncErr) {
+        return res.status(500).json({ ok: false, error: syncErr.message || "Sync failed" });
+      }
+    }
+
+    if (req.body && req.body.mode === "admin_migrate_wa_cleanup") {
       const db = admin.firestore();
       const authCheck = await verifyAdminRequest(req, db);
       if (!authCheck.ok) return res.status(authCheck.status || 403).json({ ok: false, error: authCheck.error });
@@ -623,6 +1704,25 @@ exports.auditDoc = onRequest(
     }
 
     if (req.body && req.body.mode === "helpdesk_chat") {
+      let userTierContextForCloser = "TIER 1 — UNPAID PROSPECT (Has NOT unlocked a pass yet. Apply the 5-Step Consultative Closer Formula, anchor against 30,000₪ lawyer fees, do NOT give away free Hebrew translations or custom letters, and drive them to unlock the exact SKU for their track!)";
+      try {
+        const dbHd = admin.firestore();
+        const rawHdUid = String((req.body && req.body.uid) || "").trim();
+        if (rawHdUid && rawHdUid !== "anon") {
+          const [uHdSnap, eHdSnap] = await Promise.all([
+            dbHd.collection("users").doc(rawHdUid).get(),
+            dbHd.collection("pro_entitlements").doc(rawHdUid).get()
+          ]);
+          const uHd = uHdSnap.exists ? (uHdSnap.data() || {}) : {};
+          const eHd = eHdSnap.exists ? (eHdSnap.data() || {}) : {};
+          const isUnlockedHd = Boolean(uHd.unlocked || eHd.unlocked);
+          const tierHd = eHd.tier || uHd.tier || "";
+          const mapHd = Object.keys(Object.assign({}, uHd.entitlementsMap || {}, eHd.entitlementsMap || {}));
+          if (isUnlockedHd || mapHd.length > 0) {
+            userTierContextForCloser = `TIER 2/3 — VERIFIED PAID MEMBER (Active Tier: ${tierHd || "Pro"}, Unlocked SKUs: ${mapHd.join(", ") || tierHd}). Give full hands-on execution for their unlocked modules, and cross-sell any missing suite or Vetted Concierge service ($0 upfront quote) when relevant!`;
+          }
+        }
+      } catch (e) {}
       try {
         const db = admin.firestore();
         const uid = String(req.body.uid || "").trim();
@@ -747,6 +1847,36 @@ Internet articles and generic AI training data get Israeli Giyur, Rabbanut, and 
    - Ash/1 (Va'adat Charigim) & Ash/3 (Visa Extension): Submitted with Hebrew Michtav Hesber and 5–8+ Israeli Rabbi/Host Family letters.
    - Nespach Alef (Single/Partner Affidavit): Must be signed physically in front of an Israeli lawyer or registrar (never pre-sign at home!).
    - MR/14a (First Teudat Zehut) & MR/14b (Passport/Dual Citizenship): 100% mandatory in-person biometric capture at the branch. Leave the Clerk Remarks box on MR/14a and the Specimen Signature box on MR/14b BLANK until sitting in front of the clerk!
+
+
+CURRENT USER ENTITLEMENT STATUS: ${userTierContextForCloser}
+
+8. ELITE CONSULTATIVE SALES CLOSER PLAYBOOK (CRITICAL — APPLY ON EVERY UNPAID OR PARTIAL-PASS REPLY):
+- YOU ARE THE #1 CONSULTATIVE CLOSER & STATUTORY STRATEGIST FOR GIYURALIYAHTRACK.COM. Never sound like a passive FAQ bot, and NEVER refer to yourself as "AI", "Gemini", "3.8", or "bot" (always speak in first person as "I" or "we").
+-CHECK USER TIER STATUS:
+  • If the user is UNPAID (or does not own the specific engine they are asking about), apply this 5-Step Closer Formula in every response (keep total length punchy, 110–190 words max, formatted with bold bullets):
+    1) DIAGNOSE & EXPOSE THE LANDMINE: Answer their procedural question with statutory precision, then immediately highlight the #1 costly trap on their track:
+       - Spousal Visa (Nohal 5.2.0008 / 5.2.0009): Clerks reject files over a single date mismatch on the 6-page Form Ash/6, expired 180-day FBI/ACRO Apostilles, or failing the 80-question separated-room interrogation over a minor daily-life detail.
+       - In-Israel Aliyah (Shinui Ma'amad • Nohal 5.2.0001): Exceeding 24 cumulative months in Israel in the last 3 years permanently forfeits the ~21,700₪ ($6,000+) Sal Klita cash grant, and short-form birth certificates without both parents' names are rejected on sight.
+       - Tourist Conversion (Va'adat Charigim): Private conversions (Gush Etzion, Bnei Brak, Chabad) on a B/2 tourist visa are blocked 100% by the Chief Rabbinate for marriage and freeze Aliyah files for 2–5+ years.
+       - Beit Din Tribunal: Dayanim test candidates with rapid-fire halachic curveballs and require fluent recitation of Shema, Shacharit, and Brachot under pressure.
+    2) COST-OF-INACTION ANCHORING (30,000₪ LAWYER vs. $89–$649): Contrast the painful cost of a mistake—25,000₪ to 35,000₪ ($7,000–$10,000) Israeli immigration lawyer retainers, losing 21,700₪ in Sal Klita, or losing 6–12 months of B/1 work visa income—against unlocking our self-serve engine for $89 to $649 (less than 15 minutes of a lawyer's billing).
+    3) VELVET-ROPE EXECUTION TEASE (NEVER GIVE AWAY PAID WORK FOR FREE):
+       - Strictly refuse to translate user text into Clerk Hebrew, draft Michtav Hesber / rehabilitation / Rabbi letters, tell them what to write in specific form fields, or reveal Beit Din / Couples answers until they unlock a pass.
+       - Instead, sell the hands-on transformation: "I've opened the preview on your screen right now. The moment you unlock your pass, I will personally walk you through every field, convert your answers into official Misrad HaPanim Clerk Hebrew, draft your custom Hebrew letters, and audit your certificates so no clerk can stonewall you."
+    4) PRESCRIPTIVE 2-OPTION ASSUMPTIVE CLOSE (RECOMMEND EXACT SKUs):
+       - For PIBA Forms / Visa Filers: Prescribe the **$149 Lifetime All-Filings Pass** (forms_life_149 — explain that Misrad HaPanim requires annual renewals for 5 years, making $149 a huge savings over the **$89 90-Day Pass** forms_90d_89), OR the **$399 Solo Lifetime Shield** (suite_solo_life_399) / **$649 VIP Couple 2-Phone Lifetime Suite** (vip_couple_649).
+       - For Beit Din / Conversion Candidates: Prescribe the **$249 Lifetime Beit Din 700-Q & 56 Songs Mastery Suite** (bd_suite_life_249 — covers them all the way to Mikvah & Ishur Giyur) vs. the **$149 90-Day Cram Pass** (bd_suite_90d_149) or **$399 Complete Solo Lifetime Shield** (suite_solo_life_399).
+       - For Couples Facing the Separated-Room Interview: Prescribe the **$229 5-Year Graduated Residency Pass** (couples_life_229 — covers all 5 annual interviews across 2 phones + Packet Audit) vs. the **$129 90-Day 2-Phone Pass** (couples_90d_129) or **$649 Full VIP Couple Suite** (vip_couple_649).
+       - Whenever they mention translations, notarization, needing a rabbi/kallah teacher, or fear of a hostile clerk: Also pitch our **$0 Upfront Vetted Concierge** (concierge — Red-Ribbon Israeli Notary $249–$799, Sponsoring Rabbi $349, Madrichat Kallah $249, 1-Hr Lawyer Branch Escort $649).
+    5) URGENCY CLOSING QUESTION + MANDATORY ACTION BUTTONS:
+       - End with one specific urgency question (e.g., "When is your Misrad HaPanim appointment or current visa expiry date so we can lock in your file before the clock runs out?").
+       - ALWAYS emit 2 to 3 [[NAV:target|arg|Label]] tags at the very end of your message in the user's language:
+         * Tag 1 (Tool/Guide Auto-Open): e.g. [[NAV:hebrew-engine|ash6|🎯 1. Preview Form Ash/6 Spousal Engine]] or [[NAV:obs|1|🎯 1. Read 5 Apostilled Docs Playbook]]
+         * Tag 2 (Direct SKU Checkout): e.g. [[NAV:pricing|forms_life_149|💎 2. Unlock Lifetime 8-Forms Pass ($149) →]] or [[NAV:pricing|vip_couple_649|👑 2. Unlock VIP Couple Lifetime Suite ($649) →]] or [[NAV:pricing|bd_suite_life_249|🕍 2. Unlock Lifetime Beit Din & Songs Suite ($249) →]]
+         * Tag 3 (Backup / Concierge): e.g. [[NAV:concierge||🤝 3. Request $0 Upfront Notary / Rabbi / Lawyer Quote]]
+  • If the user IS PAID for the module they are asking about:
+    - Give them 100% hands-on execution! Translate their text into Clerk Hebrew, tell them the exact Hebrew values for each field, draft their Michtav Hesber or Rehabilitation letters, and drill Beit Din / Couples questions—while gently cross-selling any complementary pass or Vetted Concierge service (e.g. Red-Ribbon Notary or 1-Hr Lawyer Escort) they don't own yet.
 
 7. COMPLETE PLATFORM MODULES & STRICT ANTI-COMPETITOR RULE:
    - NEVER tell a user to "check free resources on another site" or "ask a free agency." Free agencies give conflicting advice and lawyers demand 15,000₪–25,000₪ retainers.
@@ -1038,13 +2168,11 @@ At the very end of your reply, include ONE tag on its own line so the user can t
         }
         const uData = foundDoc.data() || {};
         const passCode = await ensurePermanentPassCode(foundDoc.id, foundDoc.ref, uData);
-        const waMsg = [
-          `🔑 *GiyurAliyahTrack — Instant Account Recovery*`,
-          `Your Permanent 6-Character Pass Code is: *${passCode}*`,
-          ``,
-          `👉 *Tap this 1-Click Magic Link to open your account immediately:*`,
-          `https://giyuraliyahtrack.com/app/?pass=${passCode}`
-        ].join("\n");
+        const recLang = resolveWaLang(req.body.lang, "", foundData && foundData.lang);
+        const waMsg = buildGatLocalizedWaMsg("wa_recovery", recLang, {
+          passCode,
+          magicUrl: `https://giyuraliyahtrack.com/app/?pass=${passCode}&lang=${recLang}`
+        });
         const sent = await sendGreenApiWhatsApp(digits, waMsg);
         if (!sent.ok) {
           return res.status(502).json({ ok: false, error: "WhatsApp gateway busy — please use Google Sign-In or Passport lookup." });
@@ -1064,7 +2192,8 @@ At the very end of your reply, include ONE tag on its own line so the user can t
         const uData = uSnap.exists ? (uSnap.data() || {}) : {};
         const passCode = await ensurePermanentPassCode(decoded.uid, userRef, uData);
         await userRef.set({ uid: decoded.uid, whatsappDigits: digits, updatedAtMs: Date.now() }, { merge: true });
-        await sendGreenApiWhatsApp(digits, `✅ *GiyurAliyahTrack Backup Linked!*\nYour Permanent Pass Code is *${passCode}*.\nDirect Link: https://giyuraliyahtrack.com/app/?pass=${passCode}\n\nYou can message this number anytime if you lose your device or need support for your unlocked passes!`);
+        const bkLang = resolveWaLang(req.body.lang, "", uData.lang);
+        await sendGreenApiWhatsApp(digits, buildGatLocalizedWaMsg("wa_backup_linked", bkLang, { passCode, magicUrl: `https://giyuraliyahtrack.com/app/?pass=${passCode}&lang=${bkLang}` }));
         return res.status(200).json({ ok: true, passCode, digits });
       }
 
@@ -1154,24 +2283,24 @@ At the very end of your reply, include ONE tag on its own line so the user can t
           const uData = uSnap.exists ? (uSnap.data() || {}) : {};
           const passCode = uData.permanentPassCode || generateCleanPassCode();
 
+          const reqLang = resolveWaLang(req.body.lang, "", uData.lang);
           await userRef.set({
             uid: waUid,
             whatsappDigits: digits,
             permanentPassCode: passCode,
+            lang: reqLang,
             waOtp: otp,
             waMagicToken: magicToken,
             waOtpExpMs: Date.now() + 5 * 60 * 1000,
             updatedAtMs: Date.now()
           }, { merge: true });
 
-          const magicUrl = `https://giyuraliyahtrack.com/app/?wa_phone=${digits}&wa_token=${magicToken}`;
-          const msg = [
-            `🔐 *GiyurAliyahTrack — Instant WhatsApp Login*`,
-            `Your 4-digit verification code is: *${otp}*`,
-            ``,
-            `👉 *Or tap this link to log in with 1 click:*`,
+          const magicUrl = `https://giyuraliyahtrack.com/app/?wa_phone=${digits}&wa_token=${magicToken}&lang=${reqLang}`;
+          const msg = buildGatLocalizedWaMsg("wa_login_otp", reqLang, {
+            otp,
+            passCode,
             magicUrl
-          ].join("\n");
+          });
 
           const sent = await sendGreenApiWhatsApp(digits, msg);
           if (!sent.ok) {
@@ -1404,56 +2533,121 @@ Return ONLY valid JSON with this exact schema:
   "summary_in_user_lang": "Clear, bulleted action plan in ${targetLang} explaining every document the clerk is demanding and whether a 30-day or 45-day file closure warning is present."
 }`
         : `You are a forensic Israeli Misrad HaPanim & Beit Din document inspector and PIBA form auto-filler. Today is ${todayStr}.
-Examine the uploaded certificate (Birth Certificate, Marriage/Divorce Certificate, Police Check, Single-Status Affidavit), Passport, Israeli ID (Teudat Zehut / B/2 Entry Slip), Rabbinic Letter, or Apostille image/PDF.
-Extract all visible biographical data and provide BOTH exact Latin passport spelling AND official Israeli Clerk Hebrew (עברית תקנית) transliteration/translation so we can auto-populate the applicant's PIBA forms.
+Examine ALL uploaded page(s)/image(s) of the certificate (Birth Certificate, Marriage/Divorce Certificate, Police Check, Single-Status Affidavit), Passport, Israeli ID + Sefach (תעודת זהות + ספח מלא), Entry Slip, Rabbinic Letter, or Apostille.
+CRITICAL RULES:
+1. Provide BOTH exact Latin passport spelling AND official Israeli Clerk Hebrew (עברית תקנית) transliteration/translation for every biographical field.
+2. If this is an Israeli Teudat Zehut (תעודת זהות) or Sefach (ספח):
+   - Extract the 9-digit ID number into "israeli_id_number".
+   - Check whether the UNFOLDED PAPER SEFACH (ספח תעודת זהות) is visible (showing address, family status, parents/spouse/children). Set "has_full_sefach_visible": true ONLY if the Sefach slip details (address/family section) are visible; if only the front/back plastic card is shown without the Sefach, set "has_full_sefach_visible": false.
+   - Extract ALL Sefach data: full Hebrew address ("israeli_address_he" in format "רחוב ומספר, דירה, עיר, מיקוד"), father's name ("father_full_name"), mother's name ("mother_full_name"), grandfather's name ("paternal_grandfather_he"), prior/maiden family name ("prior_or_maiden_names"), prior given name ("sefach_prior_given_he"), Hebrew birth date ("hebrew_date_of_birth"), Gregorian birth date ("date_of_birth"), card/ID expiry date ("expiry_date_iso"), Aliyah/entry date if shown ("sefach_aliyah_date_iso"), marital status ("marital_he"), spouse on Sefach ("spouse_full_name_he", "spouse_surname_he", "spouse_given_he", "spouse_tz", "spouse_dob_iso"), and ALL listed children into "sefach_children" array.
+3. If this is a Marriage Certificate (תעודת נישואין):
+   - Extract marriage date ("marriage_date_iso" in YYYY-MM-DD), city & country of marriage in Clerk Hebrew ("marriage_place_he", e.g. "ניו יורק, ארה״ב" or "פריז, צרפת" or "יוטה, ארה״ב"), and BOTH spouses' details into "party1" and "party2" (plus populate surname_en/given_en/surname_he/given_he for the foreign spouse and spouse_* for the other spouse).
+   - Check carefully across all uploaded pages for a Hague Apostille stamp (אפוסטיל) or Israeli Consular Legalization stamp, and set "has_apostille_visible": true if visible on any uploaded page.
+   - Set "looks_incomplete_multipage": true if the certificate says "Page 1 of 2", is cut off before signatures/seals, or appears to be missing pages.
 Return ONLY valid JSON with this exact schema:
 {
   "doc_type": "birth_cert | police_check | single_status | marriage_cert | rabbinic_letter | passport | israeli_id | entry_slip | apostille | other",
   "doc_title_detected": "Short title in ${targetLang}",
+  "issuing_country": "Country name in ${targetLang} (e.g. USA, France, UK, Israel)",
   "person_full_name": "Exact full name in Latin letters as printed",
   "surname_en": "Exact family/last name in UPPERCASE Latin letters",
   "given_en": "Exact given/first + middle names in UPPERCASE Latin letters",
-  "surname_he": "Family/last name transliterated into Hebrew script",
-  "given_he": "Given/first + middle names transliterated into Hebrew script",
-  "prior_or_maiden_names": "Any maiden or prior legal names (in Hebrew if possible, or empty string)",
+  "surname_he": "Family/last name in Hebrew script (transliterate if document is in Latin/Cyrillic)",
+  "given_he": "Given/first + middle names in Hebrew script (transliterate if document is in Latin/Cyrillic)",
+  "prior_or_maiden_names": "Any maiden or prior surname in Hebrew (or empty string)",
+  "prior_names_en": "Any maiden or prior surname in Latin letters (or empty string)",
+  "sefach_prior_given_he": "Prior given name in Hebrew if shown on TZ Sefach (or empty string)",
   "date_of_birth": "YYYY-MM-DD or empty string",
+  "hebrew_date_of_birth": "Hebrew date of birth if visible on TZ/Ketubah (e.g. כ״ו בכסלו תשנ״ה) or empty string",
   "gender_he": "נקבה or זכר or empty string",
   "marital_he": "רווק/ה or נשוי/אה or גרוש/ה or אלמן/ה or ידוע/ה בציבור or empty string",
   "birth_country_city_he": "City and Country of birth in Hebrew (e.g. ליון, צרפת) or empty string",
-  "citizenship_he": "Citizenship in Hebrew (e.g. צרפתית / אמריקאית) or empty string",
-  "passport_number": "Exact passport number (uppercase alphanumeric) or empty string",
+  "birth_country_city_en": "City and Country of birth in Latin letters (e.g. LYON, FRANCE) or empty string",
+  "citizenship_he": "Citizenship in Hebrew (e.g. צרפתית / אמריקאית / ישראלית) or empty string",
+  "citizenship_en": "Citizenship in English (e.g. FRENCH / AMERICAN) or empty string",
+  "israeli_id_number": "9-digit Israeli Teudat Zehut number (digits only) if Israeli ID/Sefach, else empty string",
+  "has_full_sefach_visible": false,
+  "israeli_address_he": "Full Israeli address from Sefach in Hebrew (רחוב ומספר, דירה, עיר, מיקוד) or empty string",
+  "sefach_aliyah_date_iso": "YYYY-MM-DD Aliyah or entry date if printed on Sefach, else empty string",
+  "sefach_children": [
+    {
+      "given_he": "Child given name in Hebrew",
+      "surname_he": "Child surname in Hebrew",
+      "tz": "9-digit Israeli ID or passport number of child",
+      "dob_iso": "YYYY-MM-DD",
+      "gender_he": "זכר or נקבה"
+    }
+  ],
+  "marriage_date_iso": "YYYY-MM-DD marriage date if marriage certificate or Sefach showing marriage, else empty string",
+  "marriage_place_he": "City and Country of marriage in official Hebrew (e.g. ניו יורק, ארה״ב or פריז, צרפת), else empty string",
+  "spouse_full_name_he": "Spouse/partner full name in Hebrew if visible on marriage cert or Sefach, else empty string",
+  "spouse_surname_he": "Spouse family/last name in Hebrew if visible, else empty string",
+  "spouse_given_he": "Spouse given name(s) in Hebrew if visible, else empty string",
+  "spouse_surname_en": "Spouse surname in UPPERCASE Latin letters if visible, else empty string",
+  "spouse_given_en": "Spouse given name(s) in UPPERCASE Latin letters if visible, else empty string",
+  "spouse_dob_iso": "YYYY-MM-DD spouse date of birth if visible, else empty string",
+  "spouse_tz": "9-digit Israeli Teudat Zehut number of spouse if visible (NEVER put a foreign passport number here), else empty string",
+  "spouse_passport_number": "Foreign passport number of spouse if printed on marriage cert, else empty string",
+  "spouse_father_he": "Spouse's father name in Hebrew if visible on marriage cert or Sefach, else empty string",
+  "spouse_mother_he": "Spouse's mother name in Hebrew if visible on marriage cert or Sefach, else empty string",
+  "spouse_prior_surname_he": "Spouse's prior/maiden surname in Hebrew if visible on marriage cert or Sefach, else empty string",
+  "marriage_party1": {
+    "surname_en": "", "given_en": "", "surname_he": "", "given_he": "", "prior_surname_he": "", "dob_iso": "", "father_he": "", "mother_he": "", "israeli_tz": "", "passport_number": "", "citizenship_he": "", "birth_place_he": ""
+  },
+  "marriage_party2": {
+    "surname_en": "", "given_en": "", "surname_he": "", "given_he": "", "prior_surname_he": "", "dob_iso": "", "father_he": "", "mother_he": "", "israeli_tz": "", "passport_number": "", "citizenship_he": "", "birth_place_he": ""
+  },
+  "passport_number": "Exact foreign passport number (uppercase alphanumeric, NEVER an Israeli TZ) or empty string",
   "passport_issue_date": "YYYY-MM-DD or empty string",
   "passport_expiry_date": "YYYY-MM-DD or empty string",
-  "father_full_name": "Father's full name in Hebrew (transliterate to Hebrew if document is in Latin/Cyrillic) or empty string",
-  "mother_full_name": "Mother's full name in Hebrew (transliterate to Hebrew if document is in Latin/Cyrillic) or empty string",
+  "expiry_date_iso": "YYYY-MM-DD expiration date of passport or Israeli TZ card, else empty string",
+  "father_full_name": "Father's full name in Hebrew (transliterate to Hebrew if in Latin/Cyrillic) or empty string",
+  "father_full_name_en": "Father's full name in Latin letters if visible, else empty string",
+  "mother_full_name": "Mother's full name in Hebrew (transliterate to Hebrew if in Latin/Cyrillic) or empty string",
+  "mother_full_name_en": "Mother's full name in Latin letters if visible, else empty string",
   "mother_maiden_name_he": "Mother's maiden surname in Hebrew or empty string",
-  "paternal_grandfather_he": "Paternal grandfather's name / patronymic in Hebrew if visible (e.g. from Russian/Ukrainian patronymic or ketubah) or empty string",
-  "spouse_full_name_he": "Spouse/partner full name in Hebrew if visible (e.g. on marriage cert or TZ) or empty string",
-  "spouse_tz": "9-digit Israeli Teudat Zehut number if visible or empty string",
+  "paternal_grandfather_he": "Paternal grandfather's name / patronymic in Hebrew if visible or empty string",
   "marriage_date_place_he": "Marriage date (DD/MM/YYYY) and city/country in Hebrew if marriage certificate or empty string",
   "entry_date_port_he": "Entry date, border port & visa type in Hebrew if entry slip (e.g. 01/09/2026 • נתב״ג • ב/2) or empty string",
-  "issue_date_iso": "YYYY-MM-DD issue date of certificate (especially for police_check or single_status) or null",
+  "issue_date_iso": "YYYY-MM-DD issue date of certificate/passport or null",
   "days_since_issued": 0,
   "passport_months_remaining": 36,
   "is_long_form_both_parents": true,
-  "has_apostille_visible": true,
+  "looks_incomplete_multipage": false,
+  "pages_analyzed": 1,
+  "authentication_regime": "hague_apostille | consular_chain",
+  "has_apostille_visible": false,
+  "_orig_apos": true,
   "is_federal_doc": false,
   "apostille_authority_correct": true,
   "detected_full_name": "Exact full name spelled on the document",
   "document_language": "hebrew | english | foreign",
   "has_israeli_red_ribbon_notary": false,
   "forensic_findings": [
-    "Specific forensic observation #1 in ${targetLang} (e.g., whether both parents are listed on birth cert, exact issue date vs 180-day limit, passport expiry vs 24-month rule, apostille authority, or any clerk rejection traps)"
+    "Specific forensic observation #1 in ${targetLang}"
   ]
 }`;
 
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+      const extraFiles = Array.isArray(req.body.files) ? req.body.files : [];
+      const inlineParts = [];
+      if (extraFiles.length > 0) {
+        for (const fObj of extraFiles.slice(0, 6)) {
+          const fMime = String(fObj.mimeType || "image/jpeg");
+          const fB64 = String(fObj.base64Data || "").replace(/^data:[^;]+;base64,/, "");
+          if (fB64) inlineParts.push({ inline_data: { mime_type: fMime, data: fB64 } });
+        }
+      }
+      if (inlineParts.length === 0 && cleanBase64) {
+        inlineParts.push({ inline_data: { mime_type: mimeType, data: cleanBase64 } });
+      }
+
       const payload = {
         contents: [
           {
             parts: [
               { text: systemPrompt },
-              { inline_data: { mime_type: mimeType, data: cleanBase64 } }
+              ...inlineParts
             ]
           }
         ],
@@ -1479,7 +2673,62 @@ Return ONLY valid JSON with this exact schema:
       rawJson = rawJson.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
 
       const parsed = JSON.parse(rawJson);
-      return res.status(200).json({ ok: true, result: parsed });
+      // Normalize legacy & new field aliases so frontend consumers always receive every key
+      parsed.expiry_date_iso = parsed.expiry_date_iso || parsed.passport_expiry_date || "";
+      parsed.passport_expiry_date = parsed.passport_expiry_date || parsed.expiry_date_iso || "";
+      parsed.issue_date_iso = parsed.issue_date_iso || parsed.passport_issue_date || "";
+      parsed.passport_issue_date = parsed.passport_issue_date || parsed.issue_date_iso || "";
+      parsed.country_or_city_of_birth = parsed.country_or_city_of_birth || parsed.birth_country_city_he || parsed.birth_country_city_en || "";
+      parsed.citizenship = parsed.citizenship || parsed.citizenship_he || parsed.citizenship_en || "";
+      parsed.pages_analyzed = Math.max(Number(parsed.pages_analyzed) || 1, inlineParts.length);
+      let savedDocId = "";
+      try {
+        const reqUid = String((req.body && req.body.uid) || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 96);
+        if (reqUid && reqUid !== "anon" && inlineParts.length > 0 && mode !== "voice_pronunciation") {
+          const db = admin.firestore();
+          const ownerP = String((req.body && req.body.ownerParty) || "me").slice(0, 20);
+          const slotK = String((req.body && req.body.slotKey) || parsed.doc_type || "doc").slice(0, 40);
+          savedDocId = `${ownerP}_${slotK}`.replace(/[^a-zA-Z0-9_:-]/g, "");
+          const docRef = db.collection("users").doc(reqUid).collection("uploaded_docs").doc(savedDocId);
+          const nowMs = Date.now();
+          const oldP = await docRef.collection("pages").get();
+          if (!oldP.empty) {
+            const bDel = db.batch();
+            oldP.forEach(p => bDel.delete(p.ref));
+            await bDel.commit();
+          }
+          let pCount = 0;
+          for (let i = 0; i < inlineParts.length; i++) {
+            const pt = inlineParts[i];
+            if (!pt || !pt.inline_data || !pt.inline_data.data) continue;
+            await docRef.collection("pages").doc(`page_${pCount}`).set({
+              idx: pCount,
+              mimeType: String(pt.inline_data.mime_type || "image/jpeg"),
+              base64Data: String(pt.inline_data.data).slice(0, 780000),
+              updatedAt: nowMs
+            });
+            pCount++;
+          }
+          await docRef.set({
+            docId: savedDocId,
+            slotKey: slotK,
+            ownerParty: ownerP,
+            docType: String(parsed.doc_type || slotK || "certificate").slice(0, 60),
+            docTitle: String(parsed.doc_title_detected || parsed.doc_type || "Uploaded Document").slice(0, 140),
+            issuingCountry: String(parsed.issuing_country || "").slice(0, 80),
+            pageCount: pCount || 1,
+            hasApostille: parsed.has_apostille_visible !== false,
+            hasSefach: Boolean(parsed.has_full_sefach_visible || parsed.israeli_address_he),
+            isLongForm: parsed.is_long_form_both_parents !== false,
+            expiryDateIso: String(parsed.expiry_date_iso || "").slice(0, 20),
+            updatedAt: nowMs,
+            createdAtIso: new Date(nowMs).toISOString()
+          }, { merge: true });
+        }
+      } catch (autoSaveErr) {
+        console.warn("Auto-save doc vault non-fatal:", autoSaveErr);
+      }
+      return res.status(200).json({ ok: true, savedDocId, result: parsed });
     } catch (err) {
       return res.status(500).json({ error: err.message || "Audit failed" });
     }
@@ -1517,7 +2766,7 @@ exports.paymentWebhook = onRequest(
     if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
 
     try {
-      const secret = process.env.WEBHOOK_SECRET || process.env.LS_SIGNING_SECRET || "GAT_LS_WEBHOOK_2026_LOCKED";
+      const secret = process.env.WEBHOOK_SECRET || process.env.REV_SIGNING_SECRET || "GAT_LS_WEBHOOK_2026_LOCKED";
       const sig = req.get("X-Signature") || req.get("X-Hook-Signature") || req.get("Stripe-Signature") || "";
       if (!sig) {
         return res.status(401).json({ error: "Missing webhook signature header" });
@@ -1527,7 +2776,7 @@ exports.paymentWebhook = onRequest(
           return res.status(401).json({ error: "Missing X-Signature header" });
         }
         if (!sig.includes("t=")) {
-          // Strict timing-safe LemonSqueezy HMAC-SHA256 verification
+          // Strict timing-safe RevolutPro HMAC-SHA256 verification
           const hmac = crypto.createHmac("sha256", secret).update(req.rawBody || Buffer.from(JSON.stringify(req.body || {}))).digest("hex");
           if (hmac !== sig) {
             return res.status(401).json({ error: "Invalid webhook signature" });
@@ -1536,7 +2785,7 @@ exports.paymentWebhook = onRequest(
       }
 
       const body = req.body || {};
-      // Supports both LemonSqueezy (meta.custom_data) and Stripe (data.object.metadata)
+      // Supports both RevolutPro (meta.custom_data) and Stripe (data.object.metadata)
       const custom = (body.meta && body.meta.custom_data) || (body.data && body.data.object && body.data.object.metadata) || {};
       const uid = custom.uid;
       const attrs_item = (body.data && body.data.attributes && body.data.attributes.first_order_item) || {};
@@ -1770,15 +3019,13 @@ exports.greenApiWebhook = onRequest(
           updatedAtMs: Date.now()
         }, { merge: true });
 
-        const magicUrl = `https://giyuraliyahtrack.com/app/?wa_phone=${senderDigits}&wa_token=${magicToken}`;
-        const fastReply = [
-          `🔐 *GiyurAliyahTrack — Instant Login & Device Sync*`,
-          `• 4-Digit Login Code: *${otp}*`,
-          `• Permanent 6-Char Pass Code: *${finalPassCode}*`,
-          ``,
-          `👉 *Tap here for 1-Click Magic Login:*`,
+        const msgLang = resolveWaLang(userData && userData.lang, cleanText, "en");
+        const magicUrl = `https://giyuraliyahtrack.com/app/?wa_phone=${senderDigits}&wa_token=${magicToken}&lang=${msgLang}`;
+        const fastReply = buildGatLocalizedWaMsg("wa_recovery", msgLang, {
+          otp,
+          passCode: finalPassCode,
           magicUrl
-        ].join("\n");
+        });
         await sendGreenApiWhatsApp(chatId, fastReply);
         return res.status(200).json({ ok: true, mode: "fast_pass_recovery", uid: targetUid });
       }
@@ -1796,7 +3043,9 @@ exports.greenApiWebhook = onRequest(
       }
 
       // Build strict Entitlement-Aware System Prompt for Gemini 3.8 Flash
-      const systemInstruction = `You are the official 24/7 AI Concierge & Tech Support Assistant for GiyurAliyahTrack.com (Israeli Misrad HaPanim / PIBA Statutory Forms, Beit Din Conversion Mastery & Red-Ribbon Notary/Lawyer/Rabbi Concierge).
+      const userPrefLang = resolveWaLang(userData && userData.lang, cleanText, "en");
+      const systemInstruction = `You are the official 24/7 Track Partner & Support Desk for GiyurAliyahTrack.com (NEVER call yourself an "AI", "bot", or "Gemini" — always speak naturally as "I" or "we").
+CRITICAL LANGUAGE RULE: The user's preferred language code is "${userPrefLang}". ALWAYS reply in the exact language of the user's message (or "${userPrefLang}" if their message is a short code/number) across English (en), Hebrew (he), French (fr), Spanish (es), German (de), or Russian (ru)! (Israeli Misrad HaPanim / PIBA Statutory Forms, Beit Din Conversion Mastery & Red-Ribbon Notary/Lawyer/Rabbi Concierge).
 Always reply in the EXACT SAME LANGUAGE the user wrote in (English, Hebrew, French, Spanish, German, or Russian). Keep replies concise, warm, authoritative, and formatted for WhatsApp (*bold*, bullet points, max 120 words).
 
 CRITICAL USER ACCOUNT STATUS FROM FIRESTORE:

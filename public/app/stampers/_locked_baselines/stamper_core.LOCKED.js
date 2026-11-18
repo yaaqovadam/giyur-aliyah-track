@@ -259,7 +259,7 @@ function buildVisualRuns(rawText, fontHeb, fontLat) {
   var clean = normalizeHebrewQuotes(rawText);
   if (!clean) return [];
   if (!/[\u0590-\u05FF]/.test(clean)) {
-    return [{ text: clean, font: fontLat }];
+    return [{ text: clean, font: /[^\x00-\x7F]/.test(clean) ? fontHeb : fontLat }];
   }
 
   var tokenRe = /[אב][\/][1-5]|4[אב][׳']?|[\u0590-\u05FF\u05F3\u05F4]+(?:-[\u0590-\u05FF\u05F3\u05F4]+)+|[\u0590-\u05FF\u05F3\u05F4]+|\d+(?:[\/\.\-:]\d+)+|[A-Za-z]+[0-9A-Za-z\-]*|[A-Za-z\u00C0-\u024F]+(?:\s+[A-Za-z\u00C0-\u024F\-]+)*|\d+|\s+|[^\s]/g;
@@ -387,6 +387,8 @@ function parseCityStreet(ilAddr) {
     street: streetOnly || cleanStreetPart,
     streetWithNum: (streetOnly || cleanStreetPart) + (house ? ' ' + house : '') + (apt ? ', דירה ' + apt : ''),
     house: house,
+    houseNum: house,
+    entrance: '',
     apt: apt,
     zip: zip
   };
@@ -561,11 +563,15 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
   var abrCountryHe = bcPartsHe[bcPartsHe.length - 1] || '';
 
   var spPG = String(s.pf_sp_parents_grand || '');
+  var spDobParsed = splitIsoDate(s.pf_sp_dob);
   var spDobM = spPG.match(/(\d{2})\/(\d{2})\/(\d{4})/);
-  var spDobFull = spDobM ? spDobM[0] : (s.pf_sp_dob || '');
-  var spAb = ((spPG.match(/אב:\s*([^•|]+)/) || [])[1] || '').trim();
-  var spIm = ((spPG.match(/אם:\s*([^•|]+)/) || [])[1] || '').trim();
-  var spSb = ((spPG.match(/סב:\s*([^•|]+)/) || [])[1] || '').trim();
+  if (!spDobM && spDobParsed && spDobParsed.d && spDobParsed.m && spDobParsed.y) {
+    spDobM = [spDobParsed.full, spDobParsed.d, spDobParsed.m, spDobParsed.y];
+  }
+  var spDobFull = spDobM ? spDobM[0] : (spDobParsed.full || s.pf_sp_dob || '');
+  var spAb = (((spPG.match(/אב:\s*([^•|]+)/) || [])[1] || s.pf_sp_father_he || '')).trim();
+  var spIm = (((spPG.match(/אם:\s*([^•|]+)/) || [])[1] || s.pf_sp_mother_he || '')).trim();
+  var spSb = (((spPG.match(/סב:\s*([^•|]+)/) || [])[1] || s.pf_sp_grandfather_he || '')).trim();
 
   return {
     pdfDoc: pdfDoc,
@@ -608,3 +614,104 @@ module.exports = {
   createStamperContext: createStamperContext,
   splitIsoDate: splitIsoDate
 };
+
+
+
+
+// === REAL-USER EXPORT INTERCEPTOR START ===
+(function() {
+  var STRESS_DEMO_STRINGS = new Set([
+    '012345674', '023456782', '034567890', '034567891', '045678909', '345678912', '*345678912*',
+    '033214009', 'FR9876543', 'FR98765432', 'FR1122334', 'FR2233445', '2026-98412',
+    'לוי-אפשטיין אשכנזי ירושלמי', 'יונתן מתתיהו רפאל שלמה', 'אברהם משה בנימין אלעזר',
+    'יעקב שלמה יצחק מנחם', 'לאה רבקה שרה רחל', 'כהן-שוורצמן אלכסנדרוני', 'עמנואל יהונתן אלעזר',
+    'רוזנצוייג-שטרנברג אברמוביץ', 'אביגיל רבקה מרגלית', 'ירמיהו זכריה שלמה אברמוביץ',
+    'אליעזר מנחם מונטפיורי', 'ברכה צפורה אלישבע אברמוביץ', 'ליכטנשטיין-מנדלסון הורוביץ',
+    'LIECHTENSTEIN-MENDELSSOHN', 'מתתיהו יחזקאל נתנאל הורוביץ', 'דבורה לאה עמנואלה',
+    'DEVORAH LEAH EMMANUELLA', 'ברכה צפורה אלישבע הורוביץ', 'כהן-צדיק', 'לוי-אפשטיין',
+    'יונתן מתתיהו', 'בנימין אלעזר', 'לוי-צדק', 'דבורה לאה', 'גולדשמיט-ברנשטיין',
+    'גולדשמיט-ברנשטיין רבינוביץ', 'GOLDSCHMIDT-BERNSTEIN', 'שמואל בנימין אלכסנדר',
+    'מרים אסתר ויקטוריה', 'גולדשטיין-לוי', 'בנימין אלעזר נחמיה', 'לוי-אפשטיין אשכנזי',
+    'משה אהרן אלון', 'עו״ד דוד כהן, חיפה', 'עו״ד רותם אברהמי', 'רותם אברהמי',
+    'מכון גיור חיפה (ע״ר)', 'CONVERSION INST.', 'RABBI DAVID LEVY', '42 HERZL ST, APT 9',
+    '42 HERZL ST, HAIFA', 'Rue de la Republique', '+33-4-7890-1234', '04-812-3456',
+    '058-765-4321', 'devorah.applicant@example.com', 'binyamin.inviter@example.co.il',
+    'facebook.com/binyamin.inviter', 'אלביט מערכות בע״מ — פארק מת״מ חיפה',
+    'אזור תעשייה עתירת מדע מת״מ דרום חיפה', 'hr.haifa@elbitsystems.co.il'
+  ]);
+
+  var origCreate = module.exports.createStamperContext;
+  module.exports.createStamperContext = async function(pdfFile, rawState, loaderOpts) {
+    var isReal = Boolean(rawState && rawState._isRealUser);
+    var userProvidedValues = new Set();
+    var hasAnyUserField = false;
+
+    if (isReal && rawState) {
+      // Auto-sync pf_id_num <-> pf_tz so MR/14a, MR/14b, Nespach Alef, Security CV all receive the TZ
+      if (rawState.pf_tz && !rawState.pf_id_num) rawState.pf_id_num = rawState.pf_tz;
+      if (rawState.pf_id_num && !rawState.pf_tz) rawState.pf_tz = rawState.pf_id_num;
+      if (rawState.pf_prior_names && !rawState.pf_maiden_he) rawState.pf_maiden_he = rawState.pf_prior_names;
+      if (rawState.pf_prior_names && !rawState.pf_maiden_surname_he) rawState.pf_maiden_surname_he = rawState.pf_prior_names;
+      if (rawState.pf_prior_names && !rawState.pf_prev_surname_he) rawState.pf_prev_surname_he = rawState.pf_prior_names;
+      if (rawState.pf_birth_country && (!rawState.pf_birth_city_he || !rawState.pf_birth_country_he)) {
+        var bParts = String(rawState.pf_birth_country).split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+        if (bParts.length >= 2) {
+          if (!rawState.pf_birth_city_he) rawState.pf_birth_city_he = bParts[0];
+          if (!rawState.pf_birth_country_he) rawState.pf_birth_country_he = bParts[bParts.length - 1];
+        } else if (bParts.length === 1) {
+          if (!rawState.pf_birth_country_he) rawState.pf_birth_country_he = bParts[0];
+        }
+      }
+      if (rawState.pf_entry_date_port && !rawState.pf_entry_date) {
+        var ep = String(rawState.pf_entry_date_port).split(/[•|]/).map(function(x){ return x.trim(); });
+        if (ep[0]) rawState.pf_entry_date = ep[0];
+        if (ep[1] && !rawState.pf_border_station_he) rawState.pf_border_station_he = ep[1];
+      }
+
+      var IGNORED_DEFAULT_KEYS = { pf_active_form: 1, pf_target_branch: 1, pf_gender: 1, pf_marital: 1, pf_religion_nat: 1, pf_456_shvut: 1, pf_ash3_months: 1, pf_ash3_target_visa_he: 1, pf_ash3_target_visa_en: 1 };
+      Object.keys(rawState).forEach(function(k) {
+        if (k.indexOf('pf_') === 0) {
+          var v = rawState[k];
+          if (typeof v === 'string' && v.trim().length > 0) {
+            userProvidedValues.add(v.trim());
+            if (!IGNORED_DEFAULT_KEYS[k]) hasAnyUserField = true;
+          } else if (Array.isArray(v) && v.length > 0) {
+            hasAnyUserField = true;
+          }
+        }
+      });
+    }
+
+    var ctx = await origCreate.call(this, pdfFile, rawState, loaderOpts);
+    if (!isReal) return ctx;
+
+    var origPut = ctx.put;
+    ctx.put = function(pageIdx, text, x1, x2, y, opts) {
+      if (!hasAnyUserField) return;
+      var sVal = String(text === undefined || text === null ? '' : text).trim();
+      if (!sVal) return;
+      if (STRESS_DEMO_STRINGS.has(sVal) && !userProvidedValues.has(sVal)) return;
+      return origPut(pageIdx, text, x1, x2, y, opts);
+    };
+
+    if (ctx.putComb) {
+      var origPutComb = ctx.putComb;
+      ctx.putComb = function(pageIdx, text, x1, x2, y, numCells, padNine) {
+        if (!hasAnyUserField) return;
+        var sVal = String(text === undefined || text === null ? '' : text).trim();
+        if (!sVal) return;
+        if (STRESS_DEMO_STRINGS.has(sVal) && !userProvidedValues.has(sVal)) return;
+        return origPutComb(pageIdx, text, x1, x2, y, numCells, padNine);
+      };
+    }
+
+    var origCheck = ctx.check;
+    ctx.check = function(pageIdx, x, y, w, h, color) {
+      if (!hasAnyUserField) return;
+      return origCheck(pageIdx, x, y, w, h, color);
+    };
+
+    return ctx;
+  };
+})();
+// === REAL-USER EXPORT INTERCEPTOR END ===
