@@ -284,6 +284,66 @@ SPOKES = [
             "de": "300 Fragen Paar-Interview Misrad HaPanim (Nohal 5.2.0008)",
             "ru": "300 вопросов собеседования СТУПРО в МВД Израиля (5.2.0008)"
         }
+    }    ,
+    {
+        "slug": "how-to-make-aliyah-and-giyur-israel-without-lawyers",
+        "obs_idx": 0, "term_key": "broad_aliyah_guide", "lead_from_term": True,
+        "l_slugs": {
+            "en": "how-to-make-aliyah-and-giyur-israel-without-lawyers",
+            "he": "eich-laasot-aliyah-giyur-halich-medurag-bli-orech-din",
+            "fr": "comment-faire-aliyah-conversion-giyur-israel-sans-avocat",
+            "es": "como-hacer-aliya-conversion-israel-sin-abogados-guia",
+            "de": "alija-giur-partner-visum-israel-ohne-anwalt-leitfaden",
+            "ru": "kak-sdelat-aliyu-giyur-stupro-v-izraile-bez-advokatov"
+        },
+        "seo_titles": {
+            "en": "How to Make Aliyah & Convert in Israel Without Lawyers (2026)",
+            "he": "איך לעשות עלייה, גיור או הליך מדורג בלי עורך דין יקר (2026)",
+            "fr": "Comment Faire son Aliyah & Giyur en Israël Sans Avocat (2026)",
+            "es": "Cómo Hacer Aliyá y Conversión en Israel Sin Abogados (2026)",
+            "de": "Alija, Giur & Partner-Visum in Israel ohne teuren Anwalt (2026)",
+            "ru": "Как сделать Алию, Гиюр и СТУПРО в Израиле без адвокатов (2026)"
+        }
+    },
+    {
+        "slug": "aliyah-benefits-sal-klita-24-month-rule-cost-calculator",
+        "obs_idx": 4, "term_key": "broad_benefits_guide", "lead_from_term": True,
+        "l_slugs": {
+            "en": "aliyah-benefits-sal-klita-24-month-rule-cost-calculator",
+            "he": "zchuyot-olim-sal-klita-malkodet-24-chodashim-aluyot",
+            "fr": "droits-aliyah-sal-klita-piege-24-mois-calculateur-couts",
+            "es": "beneficios-aliya-sal-klita-regla-24-meses-costos-reales",
+            "de": "alija-vorteile-sal-klita-24-monate-falle-kosten-rechner",
+            "ru": "lgoty-alii-sal-klita-lovushka-24-mesyacev-realnye-rashody"
+        },
+        "seo_titles": {
+            "en": "Aliyah Benefits, Sal Klita 24-Month Rule & Real Costs (2026)",
+            "he": "זכויות עולים, סל קליטה (מלכודת 24 החודשים) ועלויות אמת (2026)",
+            "fr": "Droits Aliyah, Sal Klita (Piège des 24 Mois) & Coûts Réels",
+            "es": "Beneficios Aliyá, Sal Klita (Regla 24 Meses) y Costos (2026)",
+            "de": "Alija-Vorteile, Sal Klita (24-Monate-Falle) & Echte Kosten",
+            "ru": "Льготы Алии, Саль Клита (ловушка 24 месяцев) и реальные расходы"
+        }
+    }    ,
+    {
+        "slug": "how-to-convert-to-judaism-in-israel-giyur-guide",
+        "obs_idx": 3, "term_key": "broad_giyur_guide", "lead_from_term": True,
+        "l_slugs": {
+            "en": "how-to-convert-to-judaism-in-israel-giyur-guide",
+            "he": "eich-laavor-giyur-beisrael-mamlachti-prati-rabbanut",
+            "fr": "comment-se-convertir-au-judaisme-en-israel-giyur-guide",
+            "es": "como-convertirse-al-judaismo-en-israel-guiur-guia",
+            "de": "konversion-zum-judentum-in-israel-giur-leitfaden",
+            "ru": "kak-projti-giyur-v-izraile-gosudarstvennyj-chastnyj-gid"
+        },
+        "seo_titles": {
+            "en": "How to Convert to Judaism in Israel (Giyur): 2026 Full Guide",
+            "he": "איך לעבור גיור בישראל (ממלכתי, פרטי ורבנות) — מדריך מלא 2026",
+            "fr": "Comment se Convertir au Judaïsme en Israël (Giyur) — Guide 2026",
+            "es": "Cómo Convertirse al Judaísmo en Israel (Guiur) — Guía 2026",
+            "de": "Konversion zum Judentum in Israel (Giur) — Vollständiger Guide",
+            "ru": "Как пройти Гиюр в Израиле (государственный и частный) — Гид"
+        }
     }
 ]
 
@@ -302,37 +362,37 @@ VAULT_SPOKE_COPY = {
             "🕍 700 Real Israeli Beit Din Conversion Questions, Halachic Answers & Dayanim Tips",
             "Preparing for your final sitting before the Israeli State Conversion Court (Beit Din LeGiyur) or an independent Orthodox Beit Din (Gush Etzion)? Below is a live sample from our verified 700-card Orthodox tribunal vault—organized into 200 Core Halacha cards, 200 Real Dayanim Curveballs & Sincerity Tests, 150 Men's (Gerim) cards, and 150 Women's (Giyorot) cards.",
             "⚡ Practice All 700 Beit Din Flashcards + 56 Audio Songs & Brachot →",
-            "/app/?module=beit-din&lang=en"
+            "/app/?module=beit-din-150&lang=en"
         ),
         "he": (
             "🕍 700 שאלות אמיתיות מבית הדין לגיור, תשובות הלכתיות וטיפים למעמד הדיינים",
             "מתכוננים למעמד בית הדין הממלכתי לגיור או לבית דין אורתודוקסי מוכר? לפניכם טעימה מתוך מאגר 700 הכרטיסיות המלא שלנו — מחולק ל-200 שאלות ליבה בהלכה, 200 שאלות התקלה וכנות של דיינים, 150 שאלות לגברים (גרים) ו-150 שאלות לנשים (גיורות).",
             "⚡ לתרגול כל 700 שאלות בית הדין + 56 שירי שבת וברכות בקריוקי ←",
-            "/app/?module=beit-din&lang=he"
+            "/app/?module=beit-din-150&lang=he"
         ),
         "fr": (
             "🕍 700 Vraies Questions du Beit Din en Israël, Réponses Halakhiques & Conseils",
             "Vous préparez votre audience finale devant le Beit Din d'État israélien ou Gush Etzion ? Découvrez ci-dessous un extrait authentique de nos 700 fiches vérifiées (200 Fondamentaux, 200 Questions Pièges & Sincérité, 150 Hommes et 150 Femmes).",
             "⚡ S'entraîner sur les 700 Questions Beit Din + 56 Chants & Brachot →",
-            "/app/?module=beit-din&lang=fr"
+            "/app/?module=beit-din-150&lang=fr"
         ),
         "es": (
             "🕍 700 Preguntas Reales del Beit Din en Israel, Respuestas Halájicas y Consejos",
             "¿Se prepara para su audiencia ante el Beit Din Estatal de Israel o Gush Etzion? Aquí tiene una muestra directa de nuestras 700 tarjetas verificadas (200 Fundamentales, 200 Casos Difíciles y Sinceridad, 150 Hombres y 150 Mujeres).",
             "⚡ Practicar las 700 Tarjetas del Beit Din + 56 Canciones y Brajot →",
-            "/app/?module=beit-din&lang=es"
+            "/app/?module=beit-din-150&lang=es"
         ),
         "de": (
             "🕍 700 Echte Beit-Din-Fragen in Israel, Halachische Antworten & Richter-Tipps",
             "Bereiten Sie sich auf Ihren Termin vor dem staatlichen israelischen Beit Din oder Gush Etzion vor? Hier sehen Sie einen Auszug aus unseren 700 geprüften Lernkarten (200 Grundlagen, 200 Fang- & Aufrichtigkeitsfragen, 150 Männer, 150 Frauen).",
             "⚡ Alle 700 Beit-Din-Karten + 56 Schabbat-Lieder & Brachot üben →",
-            "/app/?module=beit-din&lang=de"
+            "/app/?module=beit-din-150&lang=de"
         ),
         "ru": (
             "🕍 700 реальных вопросов Бейт-Дина в Израиле, галахические ответы и советы даянов",
             "Готовитесь к финальному заседанию Государственного раввинского суда по гиюру или бейт-дина Гуш-Эцион? Ниже представлена подборка из нашей проверенной базы в 700 карточек (200 базовых законов, 200 каверзных вопросов на искренность, 150 мужских и 150 женских вопросов).",
             "⚡ Тренировать все 700 карточек Бейт-Дина + 56 песен Шаббата и брахот →",
-            "/app/?module=beit-din&lang=ru"
+            "/app/?module=beit-din-150&lang=ru"
         )
     },
     "vault_cp_300": {
@@ -453,14 +513,18 @@ BD_SAMPLE_CARDS = (
 )
 CP_SAMPLE_CARDS = extract_js_window_array("public/app/cp_vault.js", "CP_DECK80")[:20]
 
-def make_meta_desc(raw_text, min_len=125, max_len=156):
+def make_meta_desc(raw_text, min_len=125, max_len=154):
     txt = re.sub(r"<[^>]+>", " ", str(raw_text or ""))
+    txt = html.unescape(txt)
     txt = re.sub(r"\s+", " ", txt).strip()
-    if len(txt) > max_len:
-        cut = txt[:max_len]
-        if " " in cut[min_len:]:
+    txt = txt.replace("'", "’").replace('"', "”")
+    while len(html.escape(txt, quote=True)) > max_len:
+        cut = txt[:max_len - 2]
+        if " " in cut[min_len - 20:]:
             cut = cut[:cut.rfind(" ")]
-        txt = cut.rstrip(" ,;:-—•") + "."
+        txt = cut.rstrip(" ,;:-—•.") + "."
+        if len(cut) < 80:
+            break
     return html.escape(txt, quote=True)
 
 def esc_attr(s):
@@ -501,6 +565,7 @@ base_html = re.sub(r'[ \t]*<meta\s+property="og:[^"]*"\s+content="[^"]*"\s*/?>\s
 base_html = re.sub(r'[ \t]*<meta\s+name="twitter:[^"]*"\s+content="[^"]*"\s*/?>\s*\n?', '', base_html)
 base_html = base_html.replace(DOMAIN_SHIELD, "")
 base_html = re.sub(r'<article class="seo-spoke-article"[\s\S]*?</article>\s*', '', base_html)
+base_html = re.sub(r'\s*<noscript><img src="/api/auditDoc\?mode=pixel[^"]*"[^>]*></noscript>', '', base_html)
 
 def get_localized_url(lang, spoke_cfg):
     if spoke_cfg is None:
@@ -516,10 +581,14 @@ def make_hreflang(spoke_cfg):
     return "\n  ".join(tags)
 
 def format_seo_rich_text(raw_html):
-    s = str(raw_html or "")
-    s = re.sub(r'(?<!^)\s*(•)\s*', r'<br><span style="color:#0288D1;font-weight:900;">•</span> ', s)
-    s = re.sub(r'(?<!^)\s*(\d+\.\s+<strong>)', r'<br><span class="gat-seo-step-item">\1', s)
-    return s
+    s = str(raw_html or "").strip()
+    if "<ul" in s or "<li" in s or "gat-step-item-card" in s:
+        return s
+    # Split on " • " when used to separate numbered or bulleted items
+    parts = [p.strip() for p in re.split(r'\s*•\s*(?=\d+\.\s*<strong>|<strong>)', s) if p.strip()]
+    if len(parts) > 1:
+        return "".join([f'<div class="gat-step-item-card">{p.lstrip("• ").strip()}</div>' for p in parts])
+    return f'<div class="gat-step-item-card">{s}</div>'
 
 def clean_no_divs(raw_str):
     s = re.sub(r'</?div[^>]*>', '', str(raw_str or ""))
@@ -534,11 +603,37 @@ def build_spoke_mesh_links(lang):
         items.append(f'<a class="seo-mesh-link" href="{href}">📘 {lbl}</a>')
     return '<div class="seo-mesh-grid" style="margin-top:14px;">' + "".join(items) + '</div>'
 
+def build_visible_mesh_nav_html(lang, d):
+    cards = []
+    for sp in SPOKES:
+        loc_s = sp["l_slugs"].get(lang, sp["slug"])
+        href = f"/{loc_s}/" if lang == "en" else f"/{lang}/{loc_s}/"
+        lbl = sp["seo_titles"].get(lang, sp["seo_titles"]["en"])
+        cards.append(f'<a class="seo-mesh-link" href="{href}">📘 {html.escape(lbl)}</a>')
+    forms_href = "/forms/" if lang == "en" else f"/{lang}/forms/"
+    forms_lbl = d.get("mesh_forms", "📄 Official Hebrew Forms Vault & Auto-Filler (Ash/1, Ash/3, Ash/6 & Ash/456 Oleh)")
+    cards.append(f'<a class="seo-mesh-link" href="{forms_href}">{html.escape(forms_lbl)}</a>')
+    m_title = d.get("mesh_title", "📚 Official Statutory Playbooks & Bureaucracy Guides")
+    MESH_NAV_ARIA_I18N = {
+        "en": "Statutory Playbooks & Official Guides",
+        "he": "מדריכי חוק ונהלים רשמיים",
+        "fr": "Guides Statutaires & Procédures Officielles",
+        "es": "Guías Legales y Procedimientos Oficiales",
+        "de": "Offizielle Leitfäden & Verfahren",
+        "ru": "Официальные инструкции и руководства"
+    }
+    a_nav_lbl = MESH_NAV_ARIA_I18N.get(lang, MESH_NAV_ARIA_I18N["en"])
+    return (
+        f'<nav class="seo-spoke-mesh" id="seo-spoke-mesh" aria-label="{html.escape(a_nav_lbl)}">\n'
+        f'          <h2 id="mesh-title" data-i18n="mesh_title">{html.escape(m_title)}</h2>\n'
+        f'          <div class="seo-mesh-grid">\n            ' + "\n            ".join(cards) + '\n          </div>\n        </nav>'
+    )
+
 def build_hub_library_html(lang, d):
     j = d.get("_jurisdiction", {})
     st_t, st_p = STATUTORY_AUTHORITY_I18N[lang]
     diy_t, diy_p = DIY_VS_LAWYERS_NBN_I18N[lang]
-    parts = [f'<div class="seo-obstacle-library"><details><summary style="">📖 {d.get("mesh_title", "Official Statutory Playbooks & Bureaucracy Guides")} (2026 PIBA Editions)</summary>']
+    parts = [f'<div class="seo-obstacle-library"><details><summary style="">{d.get("mesh_title", "📚 Official Statutory Playbooks & Bureaucracy Guides")} (2026 PIBA Editions)</summary>']
     parts.append(f'<article><h2>{st_t}</h2><p>{st_p}</p><h3>{diy_t}</h3><p>{diy_p}</p>')
     if j:
         parts.append(f'<p><strong>{j.get("flag","")} {j.get("name","")}:</strong> {j.get("police","")} • {j.get("birth","")} • {j.get("single","")} • {j.get("apostille","")}</p>')
@@ -547,12 +642,14 @@ def build_hub_library_html(lang, d):
     for idx, ob in enumerate(d.get("_obstacles", [])):
         parts.append(
             f'<article id="seo-obs-{idx}"><details class="gat-seo-card-acc"><summary style=""><span>{ob.get("tag","")} — {ob.get("title","")}</span><span class="gat-acc-plus">＋</span></summary>'
-            f'<section class="gat-acc-body"><h3>{ob.get("title","")}</h3><p>{ob.get("body","")}</p><h4>{ob.get("badTitle","")}</h4><p>{clean_no_divs(ob.get("badText",""))}</p><h4>{ob.get("goodTitle","")}</h4><p>{clean_no_divs(ob.get("goodText",""))}</p></section></details></article>'
+            f'<section class="gat-acc-body"><h2>{ob.get("title","")}</h2><p>{ob.get("body","")}</p><h3>{ob.get("badTitle","")}</h3><p>{clean_no_divs(ob.get("badText",""))}</p><h3>{ob.get("goodTitle","")}</h3><p>{clean_no_divs(ob.get("goodText",""))}</p></section></details></article>'
         )
     for tk, tv in d.get("_terms", {}).items():
+        if tk in ("broad_aliyah_guide", "broad_giyur_guide", "broad_benefits_guide"):
+            continue
         parts.append(
             f'<article id="seo-term-{tk}"><details class="gat-seo-card-acc"><summary style=""><span>{tv.get("tag","")} — {tv.get("title","")}</span><span class="gat-acc-plus">＋</span></summary>'
-            f'<section class="gat-acc-body"><h3>{tv.get("title","")}</h3><p>{tv.get("body","")}</p><h4>{tv.get("badTitle","")}</h4><p>{clean_no_divs(tv.get("badText",""))}</p><h4>{tv.get("goodTitle","")}</h4><p>{clean_no_divs(tv.get("goodText",""))}</p></section></details></article>'
+            f'<section class="gat-acc-body"><h2>{tv.get("title","")}</h2><div>{tv.get("body","")}</div><h3>{tv.get("badTitle","")}</h3><p>{clean_no_divs(tv.get("badText",""))}</p><h3>{tv.get("goodTitle","")}</h3><p>{clean_no_divs(tv.get("goodText",""))}</p></section></details></article>'
         )
     parts.append('</details></div>')
     return "\n".join(parts)
@@ -567,7 +664,7 @@ def apply_common_i18n(out, lang, d):
     fp = d.get("_funnel_pre_ai", {})
     if fp:
         for n in (1, 2, 3):
-            out = re.sub(rf'(<div id="gat-cat-hdr-{n}"[^>]*>)[\s\S]*?(</div>)', lambda m: m.group(1) + f'<span>{fp.get(f"cat{n}","")}</span><span style="color:#4FC3F7;font-size:0.75rem;">{fp.get("freeTag","")}</span>' + m.group(2), out, count=1)
+            out = re.sub(rf'(<div id="gat-cat-hdr-{n}"[^>]*>)[\s\S]*?(</div>)', lambda m: m.group(1) + f'<span>{fp.get(f"cat{n}","")}</span><span>▼</span>' + m.group(2), out, count=1)
     blocks = d.get("_blocks", {})
     for tid in ["track-0", "track-1", "track-2", "track-3"]:
         b_html = blocks.get(f"#{tid}")
@@ -576,15 +673,243 @@ def apply_common_i18n(out, lang, d):
     for mg_id in ["mg-0", "mg-1", "mg-2", "mg-3"]:
         mg_html = blocks.get(f"#{mg_id}")
         if mg_html and not str(mg_html).startswith("[EN_DOM_DEFAULT"):
-            out = re.sub(rf'(<div class="milestone-group" id="{mg_id}">)[\s\S]*?(</div>\s*(?=<div class="milestone-group"|<a href="/app"))', lambda m: m.group(1) + "\n" + mg_html + "\n        </div>\n        ", out, count=1)
+            out = re.sub(rf'(<div class="milestone-group" id="{mg_id}">)[\s\S]*?(</div>\s*(?=<div class="milestone-group"|<a href="/app))', lambda m: m.group(1) + "\n" + mg_html + "\n        " + m.group(2), out, count=1)
     if blocks.get("#left-drawer-panel") and not str(blocks["#left-drawer-panel"]).startswith("[EN_DOM_DEFAULT"):
         out = re.sub(r'(<aside class="drawer-panel" id="left-drawer-panel">)[\s\S]*?(</aside>)', lambda m: m.group(1) + "\n" + blocks["#left-drawer-panel"] + "\n  " + m.group(2), out, count=1)
+    if blocks.get("#app-drawer .drawer-panel") and not str(blocks["#app-drawer .drawer-panel"]).startswith("[EN_DOM_DEFAULT"):
+        out = re.sub(r'(<div class="drawer-overlay" id="app-drawer"[^>]*>\s*<aside class="drawer-panel">)[\s\S]*?(</aside>)', lambda m: m.group(1) + "\n" + blocks["#app-drawer .drawer-panel"] + "\n  " + m.group(2), out, count=1)
     if blocks.get("#view-3 .vetted-card") and not str(blocks["#view-3 .vetted-card"]).startswith("[EN_DOM_DEFAULT"):
-        out = re.sub(r'(<div class="vetted-card"[^>]*>)[\s\S]*?(</div>\s*</section>)', lambda m: m.group(1) + blocks["#view-3 .vetted-card"] + "</div>\n      </section>", out, count=1)
+        out = re.sub(r'(<div class="vetted-card"[^>]*>)[\s\S]*?(</div>\s*</section>)', lambda m: m.group(1) + blocks["#view-3 .vetted-card"] + m.group(2), out, count=1)
     if blocks.get("#view-4 .shield-banner") and not str(blocks["#view-4 .shield-banner"]).startswith("[EN_DOM_DEFAULT"):
-        out = re.sub(r'(<div class="shield-banner">)[\s\S]*?(</div>\s*<!-- 4 INTERACTIVE)', lambda m: m.group(1) + blocks["#view-4 .shield-banner"] + "</div>\n\n        <!-- 4 INTERACTIVE", out, count=1)
+        out = re.sub(r'(<div class="shield-banner">)[\s\S]*?(</div>\s*<!-- 4 INTERACTIVE)', lambda m: m.group(1) + blocks["#view-4 .shield-banner"] + m.group(2), out, count=1)
     if blocks.get("#view-4 .two-way-bar") and not str(blocks["#view-4 .two-way-bar"]).startswith("[EN_DOM_DEFAULT"):
-        out = re.sub(r'(<div class="two-way-bar">)[\s\S]*?(</div>\s*<!-- MAJOR COMPONENT 1)', lambda m: m.group(1) + blocks["#view-4 .two-way-bar"] + "</div>\n\n        <!-- MAJOR COMPONENT 1", out, count=1)
+        out = re.sub(r'(<div class="two-way-bar">)[\s\S]*?(</div>\s*<!-- MAJOR COMPONENT 1)', lambda m: m.group(1) + blocks["#view-4 .two-way-bar"] + m.group(2), out, count=1)
+    if blocks.get("#z-track") and not str(blocks["#z-track"]).startswith("[EN_DOM_DEFAULT"):
+        out = re.sub(r'(<select class="zehut-select" id="z-track"[^>]*>)[\s\S]*?(</select>)', lambda m: m.group(1) + "\n" + blocks["#z-track"] + "\n          " + m.group(2), out, count=1)
+    if blocks.get("#view-2 .zehut-select-label"):
+        out = re.sub(r'(<label class="zehut-select-label" for="z-track">)[^<]*(</label>)', lambda m: m.group(1) + blocks["#view-2 .zehut-select-label"] + m.group(2), out, count=1)
+    if blocks.get("#view-2 .hero-center p"):
+        out = re.sub(r'(<h2 class="h1-style" data-i18n="t3_h1">[^<]*</h2>\s*<p>)[^<]*(</p>)', lambda m: m.group(1) + blocks["#view-2 .hero-center p"] + m.group(2), out, count=1)
+    if blocks.get("#view-2 .emerald-label"):
+        out = re.sub(r'(<div class="emerald-card">\s*<div class="emerald-label">)[^<]*(</div>)', lambda m: m.group(1) + blocks["#view-2 .emerald-label"] + m.group(2), out, count=1)
+    if blocks.get("#view-2 .emerald-sub"):
+        out = re.sub(r'(<div class="emerald-sub" id="emerald-detail">)[^<]*(</div>)', lambda m: m.group(1) + blocks["#view-2 .emerald-sub"] + m.group(2), out, count=1)
+    if blocks.get("#view-2 > .btn-sky"):
+        out = re.sub(r'(<button class="btn-sky" onclick="switchTab\(4\)">)Lock In My Track & Deadline Shield →(</button>)', lambda m: m.group(1) + blocks["#view-2 > .btn-sky"] + m.group(2), out, count=1)
+    if blocks.get("#view-3 .hero-center p"):
+        out = re.sub(r'(<h2 class="h1-style" data-i18n="t4_h1">[^<]*</h2>\s*<p>)[^<]*(</p>)', lambda m: m.group(1) + blocks["#view-3 .hero-center p"] + m.group(2), out, count=1)
+    for id_k in ["lbl-countries", "lbl-months", "fx-h2", "fx-lead", "lbl-fx-amt", "fx-card-lbl", "fx-saved-detail", "fx-cta-btn", "hlth-pill", "hlth-title", "hlth-desc", "hlth-cta-btn"]:
+        b_val = blocks.get(f"#{id_k}")
+        if b_val and not str(b_val).startswith("[EN_DOM_DEFAULT"):
+            out = re.sub(rf'(<[^>]+id="{re.escape(id_k)}"[^>]*>)[\s\S]*?(</(?:span|h2|p|div|button)>)', lambda m, v=b_val: m.group(1) + v + m.group(2), out, count=1)
+
+    SLIDER_INIT_I18N = {
+        "en": ("2 Countries", "6 Months", "3.5 Years", "Share this exact page", "Snap & Translate Hebrew", "Start Here: Conversion, Aliyah & Rabbanut", "Statutory Playbooks & Official Guides", "The 4 Tracks of Conversion, Marriage & Aliyah", "Time-Savings & Track Shield Calculator", "Vetted Sponsoring Rabbi & Certified Madrichat Kallah", "Live Track & Anti-File-Closure Deadline Tracker", "Primary App Navigation"),
+        "he": ("2 מדינות", "6 חודשים", "3.5 שנים", "שתפו עמוד זה", "צילום ותרגום מסמך בעברית", "התחילו כאן: גיור, עלייה ורבנות", "מדריכי חוק ונהלים רשמיים", "4 מסלולי גיור, נישואין ועלייה", "מחשבון חיסכון בזמן ומגן מסלול", "רב מלווה מוכר ומדריכת כלה מוסמכת", "מעקב מועדים והגנה מסגירת תיק", "ניווט ראשי"),
+        "fr": ("2 Pays", "6 Mois", "3,5 Ans", "Partager cette page", "Scanner & Traduire l'Hébreu", "Commencer ici : Conversion, Aliyah & Rabbinat", "Guides Statutaires & Procédures Officielles", "Les 4 Voies de Conversion, Mariage & Aliyah", "Calculateur de Gain de Temps & Bouclier", "Rabbin Accompagnateur & Madrichat Kallah Agréés", "Suivi des Délais & Protection du Dossier", "Navigation Principale"),
+        "es": ("2 Países", "6 Meses", "3,5 Años", "Compartir esta página", "Escanear y Traducir Hebreo", "Empiece aquí: Conversión, Aliyá y Rabinato", "Guías Legales y Procedimientos Oficiales", "Las 4 Vías de Conversión, Matrimonio y Aliyá", "Calculadora de Ahorro de Tiempo y Escudo", "Rabino Patrocinador y Madrijat Kalá Certificados", "Seguimiento de Plazos y Escudo de Expediente", "Navegación Principal"),
+        "de": ("2 Länder", "6 Monate", "3,5 Jahre", "Diese Seite teilen", "Hebräisch scannen & übersetzen", "Hier starten: Giur, Alija & Rabbinat", "Offizielle Leitfäden & Verfahren", "Die 4 Wege für Giur, Heirat & Alija", "Zeitersparnis- & Schutz-Rechner", "Geprüfter Rabbiner & Zertifizierte Madrichat Kallah", "Fristen-Tracker & Akten-Schutz", "Hauptnavigation"),
+        "ru": ("2 страны", "6 месяцев", "3,5 года", "Поделиться этой страницей", "Сканировать и перевести иврит", "Начните здесь: Гиюр, Алия и Раввинат", "Официальные инструкции и руководства", "4 трека гиюра, брака и репатриации", "Калькулятор экономии времени и защита", "Проверенный раввин и сертифицированная мадрихат кала", "Трекер сроков и защита от закрытия дела", "Основная навигация")
+    }
+    c_lbl, m_lbl, y_lbl, sh_t, sn_t, a_v0, a_nav, a_v1, a_v2, a_v3, a_v4, a_bnav = SLIDER_INIT_I18N.get(lang, SLIDER_INIT_I18N["en"])
+    out = out.replace('<span class="slider-val" id="val-countries">2 Countries</span>', f'<span class="slider-val" id="val-countries">{c_lbl}</span>')
+    out = out.replace('<span class="slider-val" id="val-months">6 Months</span>', f'<span class="slider-val" id="val-months">{m_lbl}</span>')
+    out = out.replace('<div class="emerald-giant" id="emerald-years">3.5 Years</div>', f'<div class="emerald-giant" id="emerald-years">{y_lbl}</div>')
+    out = out.replace('title="Share this exact page"', f'title="{sh_t}"').replace('aria-label="Share this exact page"', f'aria-label="{sh_t}"')
+    out = out.replace('title="Snap & Translate Hebrew"', f'title="{sn_t}"')
+    out = out.replace('aria-label="Start Here: Conversion, Aliyah & Rabbanut"', f'aria-label="{a_v0}"')
+    out = out.replace('aria-label="Statutory Playbooks & Official Guides"', f'aria-label="{a_nav}"')
+    out = out.replace('aria-label="The 4 Tracks of Conversion, Marriage & Aliyah"', f'aria-label="{a_v1}"')
+    out = out.replace('aria-label="Time-Savings & Track Shield Calculator"', f'aria-label="{a_v2}"')
+    out = out.replace('aria-label="Vetted Sponsoring Rabbi & Certified Madrichat Kallah"', f'aria-label="{a_v3}"')
+    out = out.replace('aria-label="Live Track & Anti-File-Closure Deadline Tracker"', f'aria-label="{a_v4}"')
+    out = out.replace('aria-label="Primary App Navigation"', f'aria-label="{a_bnav}"')
+
+    if not hasattr(apply_common_i18n, "_tab_faqs"):
+        apply_common_i18n._tab_faqs = json.load(open("public/i18n/tab_faqs_6lang.json", encoding="utf-8"))
+    tf_d = apply_common_i18n._tab_faqs.get(lang, apply_common_i18n._tab_faqs["en"])
+    t0 = tf_d["tabs"]["0"]
+    faq_items_html = "".join([
+        f'<details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);">'
+        f'<summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">{html.escape(q)}</summary>'
+        f'<p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">{html.escape(a)}</p></details>'
+        for q, a in t0["items"]
+    ])
+    legal_html = (
+        f'<div style="margin-top:20px;padding:16px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;font-size:0.77rem;color:#475569;line-height:1.55;">'
+        f'<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;">'
+        f'<strong style="color:#082548;font-size:0.81rem;">⚖️ Giyur Aliyah Track • {html.escape(tf_d["legal_title"])}</strong>'
+        f'<a href="mailto:concierge@giyuraliyahtrack.com" style="color:#0288D1;font-weight:800;text-decoration:none;">✉️ concierge@giyuraliyahtrack.com</a></div>'
+        f'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;">'
+        f'<details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#082548;cursor:pointer;">{html.escape(tf_d["tos_t"])}</summary><p style="margin:6px 0 0 0;">{html.escape(tf_d["tos_b"])}</p></details>'
+        f'<details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#082548;cursor:pointer;">{html.escape(tf_d["ref_t"])}</summary><p style="margin:6px 0 0 0;">{html.escape(tf_d["ref_b"])}</p></details>'
+        f'<details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#082548;cursor:pointer;">{html.escape(tf_d["priv_t"])}</summary><p style="margin:6px 0 0 0;">{html.escape(tf_d["priv_b"])}</p></details>'
+        f'</div></div>'
+    )
+    sec_faq_html = (
+        f'<section id="gat-tab-faq-0" style="margin-top:28px;margin-bottom:18px;padding-top:20px;border-top:2px solid #cbd5e1;">'
+        f'<div class="section-kicker" style="margin-bottom:12px;"><h2>{html.escape(t0["h2"])}</h2><span>{html.escape(tf_d["kicker_sub"])}</span></div>'
+        f'<div style="display:flex;flex-direction:column;gap:10px;">{faq_items_html}</div>{legal_html}</section>'
+    )
+    out = re.sub(r'<nav class="seo-spoke-mesh" id="seo-spoke-mesh"[\s\S]*?</nav>', lambda _: build_visible_mesh_nav_html(lang, d), out, count=1)
+    out = re.sub(r'<section id="gat-tab-faq-0"[\s\S]*?</section>', lambda _: sec_faq_html, out, count=1)
+
+    EXTRA_STATIC_6LANG = {
+        "en": {
+            "v2_btn": "Lock In My Track & Deadline Shield →",
+            "fx_det": "Saved vs. ~3.2% retail bank markup + pay Israeli landlords directly in ₪ before opening an Israeli bank account",
+            "next_box": "Next Box →",
+            "edge_title": "Hold & Slide or Tap for Paperwork & Concierge",
+            "dr_shield": "⚡ Anti-Loop Protection Shield",
+            "dr_avg": "Avg Saved",
+            "dr_bd": "Beit Din",
+            "dr_cp": "Couples Sync",
+            "dr_qs": "700 Qs",
+            "dr_cp_qs": "300 Qs",
+            "dr_r1": "🕍 700 Beit Din Exam Flashcards & Game",
+            "dr_r2": "🎵 56 Shabbat Songs, Prayers & Shema Grader",
+            "dr_r3": "📱 300-Question 2-Phone Couples Sync",
+            "dr_r4": "📊 Live 180-Day & 30-Day Deadline Tracker",
+            "dr_r5": "🔐 Full Member Portal (/app)",
+            "dr_inst": "📲 Install App"
+        },
+        "he": {
+            "v2_btn": "נעל את המסלול ומגן המועדים שלי ←",
+            "fx_det": "חיסכון מול כ-3.2% עמלת בנק קמעונאי + תשלום ישיר לבעלי דירות בישראל ב-₪ עוד לפני פתיחת חשבון בנק ישראלי",
+            "next_box": "לתיבה הבאה ←",
+            "edge_title": "החזיקו והחליקו או הקישו לטפסים וליווי אישי",
+            "dr_shield": "⚡ מגן חכם נגד סחבת וסגירת תיק",
+            "dr_avg": "חיסכון ממוצע",
+            "dr_bd": "בית דין",
+            "dr_cp": "סינכרון זוגות",
+            "dr_qs": "700 שאלות",
+            "dr_cp_qs": "300 שאלות",
+            "dr_r1": "🕍 700 כרטיסיות וסימולטור למבחן בית הדין",
+            "dr_r2": "🎵 56 שירי שבת, תפילות ומאמן קריאת שמע",
+            "dr_r3": "📱 סינכרון 300 שאלות שימוע זוגי ב-2 טלפונים",
+            "dr_r4": "📊 מעקב חי: שעון 180 יום והגנת 30 יום",
+            "dr_r5": "🔐 פורטל המנויים המלא (/app)",
+            "dr_inst": "📲 התקנת האפליקציה לנייד"
+        },
+        "fr": {
+            "v2_btn": "Verrouiller Mon Parcours & Bouclier de Délais →",
+            "fx_det": "Économisé vs ~3,2 % de marge bancaire + payez votre propriétaire en Israël directement en ₪ avant d'ouvrir un compte israélien",
+            "next_box": "Case Suivante →",
+            "edge_title": "Maintenez & glissez ou touchez pour Formulaires & Conciergerie",
+            "dr_shield": "⚡ Bouclier Anti-Blocage Administratif",
+            "dr_avg": "Gain Moyen",
+            "dr_bd": "Beit Din",
+            "dr_cp": "Synchro Couple",
+            "dr_qs": "700 Qs",
+            "dr_cp_qs": "300 Qs",
+            "dr_r1": "🕍 700 Cartes & Simulateur d'Examen Beit Din",
+            "dr_r2": "🎵 56 Chants de Chabbat, Prières & Chema Audio",
+            "dr_r3": "📱 Synchro Couple 300 Questions sur 2 Téléphones",
+            "dr_r4": "📊 Suivi en Direct des Délais 180 Jours & 30 Jours",
+            "dr_r5": "🔐 Portail Membre Complet (/app)",
+            "dr_inst": "📲 Installer l'Application"
+        },
+        "es": {
+            "v2_btn": "Bloquear Mi Vía y Escudo de Plazos →",
+            "fx_det": "Ahorrado frente al ~3,2% de comisión bancaria + pague a propietarios en Israel directamente en ₪ antes de abrir cuenta israelí",
+            "next_box": "Siguiente Caja →",
+            "edge_title": "Mantenga y deslice o toque para Formularios y Concierge",
+            "dr_shield": "⚡ Escudo Anti-Bucle Burocrático",
+            "dr_avg": "Ahorro Medio",
+            "dr_bd": "Beit Din",
+            "dr_cp": "Sync Parejas",
+            "dr_qs": "700 Preg.",
+            "dr_cp_qs": "300 Preg.",
+            "dr_r1": "🕍 700 Tarjetas y Simulador de Examen Beit Din",
+            "dr_r2": "🎵 56 Canciones de Shabat, Rezos y Shemá Audio",
+            "dr_r3": "📱 Sync de Parejas: 300 Preguntas en 2 Teléfonos",
+            "dr_r4": "📊 Seguimiento en Vivo: Reloj 180 y 30 Días",
+            "dr_r5": "🔐 Portal Completo de Miembros (/app)",
+            "dr_inst": "📲 Instalar Aplicación"
+        },
+        "de": {
+            "v2_btn": "Meinen Weg & Fristen-Schutz aktivieren →",
+            "fx_det": "Gespart gegenüber ~3,2 % Bankaufschlag + israelische Vermieter direkt in ₪ bezahlen, noch vor Eröffnung eines israelischen Kontos",
+            "next_box": "Nächste Box →",
+            "edge_title": "Halten & ziehen oder tippen für Formulare & Concierge",
+            "dr_shield": "⚡ Anti-Endlosschleifen-Schutzschild",
+            "dr_avg": "Ø Ersparnis",
+            "dr_bd": "Beit Din",
+            "dr_cp": "Paar-Sync",
+            "dr_qs": "700 Fragen",
+            "dr_cp_qs": "300 Fragen",
+            "dr_r1": "🕍 700 Beit-Din-Prüfungskarten & Simulator",
+            "dr_r2": "🎵 56 Schabbat-Lieder, Gebete & Schema-Trainer",
+            "dr_r3": "📱 300-Fragen-Paar-Sync auf 2 Handys",
+            "dr_r4": "📊 Live 180-Tage- & 30-Tage-Fristen-Tracker",
+            "dr_r5": "🔐 Vollständiges Mitgliederportal (/app)",
+            "dr_inst": "📲 App installieren"
+        },
+        "ru": {
+            "v2_btn": "Зафиксировать мой трек и защиту сроков →",
+            "fx_det": "Экономия по сравнению с ~3,2% банковской комиссии + прямая оплата аренды в Израиле в ₪ ещё до открытия счёта в израильском банке",
+            "next_box": "Следующий блок →",
+            "edge_title": "Удерживайте и тяните или нажмите для анкет и консьержа",
+            "dr_shield": "⚡ Защита от бюрократической петли",
+            "dr_avg": "Экономия",
+            "dr_bd": "Бейт-Дин",
+            "dr_cp": "Синхр. пар",
+            "dr_qs": "700 вопр.",
+            "dr_cp_qs": "300 вопр.",
+            "dr_r1": "🕍 700 карточек и симулятор экзамена Бейт-Дина",
+            "dr_r2": "🎵 56 песен Шаббата, молитв и ИИ-тренер Шма",
+            "dr_r3": "📱 300 вопросов СТУПРО: синхронизация 2 телефонов",
+            "dr_r4": "📊 Живой трекер сроков 180 дней и 30 дней",
+            "dr_r5": "🔐 Полный портал участника (/app)",
+            "dr_inst": "📲 Установить приложение"
+        }
+    }
+    ex13 = EXTRA_STATIC_6LANG.get(lang, EXTRA_STATIC_6LANG["en"])
+    out = out.replace("[EN_DOM_DEFAULT:#view-2 > .btn-sky]", ex13["v2_btn"])
+    out = out.replace("Lock In My Track & Deadline Shield →", ex13["v2_btn"])
+    out = re.sub(r'(<div class="emerald-sub" id="fx-saved-detail"[^>]*>)[\s\S]*?(</div>)', lambda m: m.group(1) + ex13["fx_det"] + m.group(2), out, count=1)
+    out = out.replace(">Next Box →</button>", f">{ex13['next_box']}</button>")
+    out = out.replace('title="Hold & Slide or Tap for Paperwork & Concierge"', f'title="{ex13["edge_title"]}"')
+    out = out.replace("<span>⚡ Anti-Loop Protection Shield</span>", f"<span>{ex13['dr_shield']}</span>")
+    out = out.replace('<span class="dds-lbl">Avg Saved</span>', f'<span class="dds-lbl">{ex13["dr_avg"]}</span>')
+    out = out.replace('<span class="dds-lbl">Beit Din</span>', f'<span class="dds-lbl">{ex13["dr_bd"]}</span>')
+    out = out.replace('<span class="dds-lbl">Couples Sync</span>', f'<span class="dds-lbl">{ex13["dr_cp"]}</span>')
+    out = out.replace('<span class="dds-num">700 Qs</span>', f'<span class="dds-num">{ex13["dr_qs"]}</span>')
+    out = out.replace('<span class="dds-num">300 Qs</span>', f'<span class="dds-num">{ex13["dr_cp_qs"]}</span>')
+    out = out.replace(">🕍 700 Beit Din Exam Flashcards & Game</a>", f">{ex13['dr_r1']}</a>")
+    out = out.replace(">🎵 56 Shabbat Songs, Prayers & Shema Grader</a>", f">{ex13['dr_r2']}</a>")
+    out = out.replace(">📱 300-Question 2-Phone Couples Sync</a>", f">{ex13['dr_r3']}</a>")
+    out = out.replace(">📊 Live 180-Day & 30-Day Deadline Tracker</button>", f">{ex13['dr_r4']}</button>")
+    out = out.replace(">🔐 Full Member Portal (/app)</a>", f">{ex13['dr_r5']}</a>")
+    out = out.replace(">📲 Install App</button>", f">{ex13['dr_inst']}</button>")
+
+    out = re.sub(r'href="/app\?([^"]+)"', r'href="/app/?\1"', out)
+    out = out.replace('href="/app"', 'href="/app/"').replace('href="/forms"', 'href="/forms/"')
+    if lang != "en":
+        out = out.replace('href="/forms/"', f'href="/{lang}/forms/"')
+        out = out.replace('href="/pricing/"', f'href="/{lang}/pricing/"')
+        out = out.replace('href="/concierge-booking/"', f'href="/{lang}/concierge-booking/"')
+        out = out.replace('href="https://giyuraliyahtrack.com/"', f'href="https://giyuraliyahtrack.com/{lang}/"')
+        out = out.replace('href="/app/"', f'href="/app/?lang={lang}"')
+        def _loc_app_href(m):
+            u = m.group(1)
+            if "lang=" in u:
+                return f'href="{u}"'
+            return f'href="{u}&lang={lang}"'
+        out = re.sub(r'href="(/app/\?[^"]+)"', _loc_app_href, out)
+        def _loc_root_href(m):
+            tag = m.group(0)
+            if any(x in tag for x in ('hreflang="en"', 'data-lang="en"', "('en')", 'English')):
+                return tag
+            return tag.replace('href="/"', f'href="/{lang}/"')
+        out = re.sub(r'<a\b[^>]*\bhref="/"[^>]*>', _loc_root_href, out)
+        dahan_loc = SPOKES[9]["l_slugs"].get(lang, SPOKES[9]["slug"])
+        out = out.replace('id="dahan-gold-card" href="/dahan-ruling-non-orthodox-conversion-aliyah-truth/"', f'id="dahan-gold-card" href="/{lang}/{dahan_loc}/"')
+        for sp in SPOKES:
+            en_s = sp["slug"]
+            loc_s = sp["l_slugs"].get(lang, en_s)
+            out = out.replace(f'href="/{en_s}/"', f'href="/{lang}/{loc_s}/"')
+            out = out.replace(f'href="/{lang}/{en_s}/"', f'href="/{lang}/{loc_s}/"')
     return out
 
 def make_og_tags(lang, safe_title, safe_desc, canon_url):
@@ -602,10 +927,48 @@ def make_og_tags(lang, safe_title, safe_desc, canon_url):
         f'  <meta name="twitter:description" content="{safe_desc}" />'
     )
 
+BACK_TO_HUB_I18N = {
+    "en": "← Back to Main Diagnostic Hub",
+    "he": "→ חזרה לעמוד הבית הראשי",
+    "fr": "← Retour au Portail Principal",
+    "es": "← Volver al Portal Principal",
+    "de": "← Zurück zum Hauptportal",
+    "ru": "← Назад на главную страницу"
+}
+
+def _inject_article_at_very_top(html_str, article_html):
+    if 'class="seo-spoke-article"' in html_str:
+        return html_str
+    # 1. Strip the homepage hero-center and exodus-alert from #view-0 on spoke/form pages
+    html_str = re.sub(
+        r'(<section\b[^>]*\bid="view-0"[^>]*>)[\s\S]*?(?=<section id="gat-3track-funnel-card")',
+        lambda m: m.group(1) + "\n        ",
+        html_str,
+        count=1
+    )
+    # 2. Strip the homepage 9-box obstacle grid (.section-kicker + .enemy-grid + homepage CTAs) on spoke/form pages
+    html_str = re.sub(
+        r'<div class="section-kicker">\s*<h2 data-i18n="kicker_h2">[\s\S]*?(?=<!-- FULL SEMANTIC SEO ARTICLES IN DOM -->|<nav class="seo-spoke-mesh")',
+        '',
+        html_str,
+        count=1
+    )
+    # 3. Demote any remaining <h1> outside article_html to <h2>
+    html_str = re.sub(r'<h1(\b[^>]*)>([\s\S]*?)</h1>', r'<h2\1>\2</h2>', html_str, count=1)
+
+    # 4. Inject article_html immediately at the very top of #view-0
+    return re.sub(
+        r'(<section\b[^>]*\bid="view-0"[^>]*>)',
+        lambda m: m.group(1) + "\n        " + article_html,
+        html_str,
+        count=1
+    )
+
 def render_page(lang, canon_url, spoke_cfg=None):
     d = dicts[lang]
     out = base_html
     b_hub = "https://giyuraliyahtrack.com/" if lang == "en" else f"https://giyuraliyahtrack.com/{lang}/"
+    b_hub_rel = "/" if lang == "en" else f"/{lang}/"
     out = re.sub(r'<html lang="[^"]*"(?: dir="[^"]*")?>', f'<html lang="{lang}" dir="{"rtl" if lang=="he" else "ltr"}">', out, count=1)
     out = re.sub(r'<meta name="robots" content="[^"]*" />', f'<meta name="robots" content="{ROBOTS_META}" />', out, count=1)
     out = re.sub(r'<link rel="canonical" href="[^"]*" />', f'<link rel="canonical" href="{canon_url}" />', out, count=1)
@@ -621,6 +984,7 @@ def render_page(lang, canon_url, spoke_cfg=None):
         t_key = spoke_cfg["term_key"]
         out = out.replace('id="app-nav-back" class="app-nav-back"', f'id="app-nav-back" href="{b_hub}" class="app-nav-back visible"')
         seo_title = spoke_cfg["seo_titles"].get(lang, spoke_cfg["seo_titles"]["en"])
+        back_pill = f'<div style="margin-bottom:10px;"><a href="{b_hub_rel}" style="display:inline-flex;align-items:center;gap:6px;background:#f1f5f9;color:#082548;border:1px solid #cbd5e1;padding:6px 12px;border-radius:999px;font-size:0.78rem;font-weight:800;text-decoration:none;">{BACK_TO_HUB_I18N.get(lang, BACK_TO_HUB_I18N["en"])}</a></div>'
 
         if obs_key in ("vault_bd_700", "vault_cp_300"):
             h1_txt, intro_txt, cta_txt, cta_href = VAULT_SPOKE_COPY[obs_key][lang]
@@ -633,31 +997,30 @@ def render_page(lang, canon_url, spoke_cfg=None):
                 tip_extra = f'<p style="margin:6px 0 0 0;font-size:0.86rem;color:#0369a1;"><strong>💡 Tip:</strong> {html.escape(item["tip"].get(lang, item["tip"]["en"]))}</p>' if "a" in item else ""
                 qa_blocks.append(
                     f'<div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:12px;padding:12px 14px;margin-bottom:10px;">'
-                    f'<h3 style="font-size:0.98rem;color:#082548;margin:0 0 6px 0;">#{item["id"]} • {html.escape(item.get("he",""))} — {q_str}</h3>'
+                    f'<h2 style="font-size:0.98rem;color:#082548;margin:0 0 6px 0;">#{item["id"]} • {html.escape(item.get("he",""))} — {q_str}</h2>'
                     f'<p style="margin:0;color:#334155;font-size:0.9rem;line-height:1.55;">{body_str}</p>{tip_extra}</div>'
                 )
                 if len(faq_entities) < 10:
                     faq_entities.append({"@type": "Question", "name": item["q"].get(lang, item["q"]["en"]), "acceptedAnswer": {"@type": "Answer", "text": (item.get("a") or item["tip"]).get(lang, (item.get("a") or item["tip"])["en"])}})
             art = (
                 f'<article class="seo-spoke-article" style="border-top:5px solid #03A9F4;">'
-                f'<h1>{html.escape(h1_txt)}</h1><p>{html.escape(intro_txt)}</p>'
+                f'{back_pill}'
+                f'<h1 style="color:#082548;font-size:1.42rem;font-weight:900;margin:0 0 12px;line-height:1.28;">{html.escape(h1_txt)}</h1><p>{html.escape(intro_txt)}</p>'
                 f'<div style="margin:16px 0;"><a class="btn-sky" style="background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);border:2px solid #4FC3F7;font-size:0.98rem;" href="{cta_href}">{html.escape(cta_txt)}</a></div>'
                 f'{"".join(qa_blocks)}'
-                f'<h2>{st_t}</h2><p>{st_p}</p><h3>{diy_t}</h3><p>{diy_p}</p>{j_line}'
-                f'{build_spoke_mesh_links(lang)}</article>'
+                f'<h2>{st_t}</h2><p>{st_p}</p><h3>{diy_t}</h3><p>{diy_p}</p>{j_line}</article>'
             )
-            out = re.sub(r'<h1\b([^>]*)>([\s\S]*?)</h1>', r'<h2\1>\2</h2>', out)
-            out = out.replace('<div class="section-kicker">', art + '\n        <div class="section-kicker">', 1)
+            out = _inject_article_at_very_top(out, art)
             out = re.sub(r'<!-- SEO_LIB_START -->[\s\S]*?<!-- SEO_LIB_END -->', '', out, count=1)
             out = re.sub(r'<div class="seo-obstacle-library">[\s\S]*?</div>', '', out, count=1)
             safe_title = esc_attr(seo_title)
             safe_desc = make_meta_desc(f"{intro_txt} {st_p}")
             faq_obj = {"@context": "https://schema.org", "@graph": [
                 {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Giyur Aliyah Track", "item": b_hub}, {"@type": "ListItem", "position": 2, "name": seo_title, "item": canon_url}]},
-                {"@type": "FAQPage", "mainEntity": faq_entities}
+                {"@type": "FAQPage", "mainEntity": faq_entities}, {"@type": "WebPage", "url": canon_url, "dateModified": "2026-11-20", "author": {"@type": "Organization", "name": "Giyur Aliyah Track Statutory Research Desk", "url": "https://giyuraliyahtrack.com/"}, "reviewedBy": {"@type": "Organization", "name": "Vetted Israeli Immigration & Rabbinic Legal-Tech Review Board (Nohal 5.2.0008 Ed. 16 & Nohal 5.2.0009 Ed. 17)"}}
             ]}
             faq_tag = '<script type="application/ld+json">\n' + json.dumps(faq_obj, ensure_ascii=False) + '\n</script>'
-            out = re.sub(r'<script type="application/ld\+json">\s*\{"@context":"https://schema\.org","@type":"FAQPage"[\s\S]*?</script>', lambda _: faq_tag, out, count=1)
+            out = re.sub(r'<script type="application/ld\+json">\s*\{"@context":\s*"https://schema\.org",\s*(?:"@type":\s*"FAQPage"|"@graph":)[\s\S]*?</script>', lambda _: faq_tag, out, count=1)
         else:
             ob = d.get("_terms", {}).get("dahan_truth") if obs_key == "dahan_truth" else (d.get("_obstacles", [])[obs_key] if isinstance(obs_key, int) and obs_key < len(d.get("_obstacles", [])) else None)
             tm = d.get("_terms", {}).get(t_key, {})
@@ -671,25 +1034,24 @@ def render_page(lang, canon_url, spoke_cfg=None):
                     sec_html = (
                         f"<hr style='margin:16px 0;border:none;border-top:1px solid #e2e8f0;'/>"
                         f"<h2>{secondary.get('tag','')} — {secondary.get('title','')}</h2><p>{secondary.get('body','')}</p>"
-                        f"<h3>{secondary.get('badTitle','')}</h3><div>{clean_no_divs(secondary.get('badText',''))}</div>"
-                        f"<h3>{secondary.get('goodTitle','')}</h3><div>{clean_no_divs(secondary.get('goodText',''))}</div>"
+                        f"<div class='gat-spoke-trap-box'><h3>{secondary.get('badTitle','')}</h3><div>{clean_no_divs(secondary.get('badText',''))}</div></div>"
+                        f"<div class='gat-spoke-fix-box'><h3>{secondary.get('goodTitle','')}</h3><div>{clean_no_divs(secondary.get('goodText',''))}</div></div>"
                     )
                 art = (
-                    f'<article class="seo-spoke-article"><h1>{lead_h1}</h1>'
-                    f'<h2>{primary.get("tag","")} — {primary.get("title","")}</h2><p>{primary.get("body","")}</p>'
-                    f'<h3>{primary.get("badTitle","")}</h3><div>{clean_no_divs(primary.get("badText",""))}</div>'
-                    f'<h3>{primary.get("goodTitle","")}</h3><div>{clean_no_divs(primary.get("goodText",""))}</div>'
+                    f'<article class="seo-spoke-article" style="border-top:5px solid #03A9F4;">'
+                    f'{back_pill}'
+                    f'<div style="display:inline-block;background:#e0f2fe;color:#0284c7;font-size:0.76rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;">{primary.get("tag","")}</div>'
+                    f'<h1 style="color:#082548;font-size:1.42rem;font-weight:900;margin:0 0 12px;line-height:1.28;">{lead_h1}</h1>'
+                    f'<div>{primary.get("body","")}</div>'
+                    f'<div class="gat-spoke-trap-box"><h2>{primary.get("badTitle","")}</h2><div>{clean_no_divs(primary.get("badText",""))}</div></div>'
+                    f'<div class="gat-spoke-fix-box"><h2>{primary.get("goodTitle","")}</h2><div>{clean_no_divs(primary.get("goodText",""))}</div></div>'
                     f'{sec_html}'
                     f'<hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/>'
-                    f'<h2>{st_t}</h2><p>{st_p}</p><h3>{diy_t}</h3><p>{diy_p}</p>{j_line}'
-                    f'{build_spoke_mesh_links(lang)}</article>'
+                    f'<h2>{st_t}</h2><p>{st_p}</p><h3>{diy_t}</h3><p>{diy_p}</p>{j_line}</article>'
                 )
-                out = re.sub(r'<h1\b([^>]*)>([\s\S]*?)</h1>', r'<h2\1>\2</h2>', out)
-                out = out.replace('<div class="section-kicker">', art + '\n        <div class="section-kicker">', 1)
+                out = _inject_article_at_very_top(out, art)
                 out = re.sub(r'<!-- SEO_LIB_START -->[\s\S]*?<!-- SEO_LIB_END -->', '', out, count=1)
                 out = re.sub(r'<div class="seo-obstacle-library">[\s\S]*?</div>', '', out, count=1)
-                if obs_key == "dahan_truth":
-                    out = re.sub(r'<a class="enemy-card" id="dahan-gold-card"[\s\S]*?</a>', '', out, count=1)
                 safe_title = esc_attr(seo_title)
                 safe_desc = make_meta_desc(f"{primary.get('body','')} {st_p}")
                 clean_bad = re.sub(r"<[^>]+>", " ", primary.get("badText", "")).strip()
@@ -704,18 +1066,17 @@ def render_page(lang, canon_url, spoke_cfg=None):
                     faq_entities.append({"@type": "Question", "name": secondary.get("title", ""), "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", " ", secondary.get("body", "") + " " + secondary.get("goodText", "")).strip()[:600]}})
                 faq_obj = {"@context": "https://schema.org", "@graph": [
                     {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Giyur Aliyah Track", "item": b_hub}, {"@type": "ListItem", "position": 2, "name": seo_title, "item": canon_url}]},
-                    {"@type": "FAQPage", "mainEntity": faq_entities}
+                    {"@type": "FAQPage", "mainEntity": faq_entities}, {"@type": "WebPage", "url": canon_url, "dateModified": "2026-11-20", "author": {"@type": "Organization", "name": "Giyur Aliyah Track Statutory Research Desk", "url": "https://giyuraliyahtrack.com/"}, "reviewedBy": {"@type": "Organization", "name": "Vetted Israeli Immigration & Rabbinic Legal-Tech Review Board (Nohal 5.2.0008 Ed. 16 & Nohal 5.2.0009 Ed. 17)"}}
                 ]}
                 faq_tag = '<script type="application/ld+json">\n' + json.dumps(faq_obj, ensure_ascii=False) + '\n</script>'
-                out = re.sub(r'<script type="application/ld\+json">\s*\{"@context":"https://schema\.org","@type":"FAQPage"[\s\S]*?</script>', lambda _: faq_tag, out, count=1)
+                out = re.sub(r'<script type="application/ld\+json">\s*\{"@context":\s*"https://schema\.org",\s*(?:"@type":\s*"FAQPage"|"@graph":)[\s\S]*?</script>', lambda _: faq_tag, out, count=1)
             else:
                 safe_title = esc_attr(seo_title)
                 safe_desc = make_meta_desc(st_p)
     else:
         safe_title = esc_attr(HUB_SEO_TITLES[lang])
         safe_desc = make_meta_desc(f"{d.get('hero_p','')} {st_p}")
-        hub_lib = build_hub_library_html(lang, d)
-        out = re.sub(r'<div class="seo-obstacle-library">[\s\S]*?</div>', lambda _: hub_lib, out, count=1)
+        out = re.sub(r'<!-- SEO_LIB_START -->[\s\S]*?<!-- SEO_LIB_END -->', '<!-- SEO_LIB_START --><!-- SEO_LIB_END -->', out, count=1)
         hub_faqs = [{"@type": "Question", "name": st_t, "acceptedAnswer": {"@type": "Answer", "text": st_p}}]
         for ob_item in d.get("_obstacles", [])[:9]:
             q_txt = f"{ob_item.get('tag','')} — {ob_item.get('title','')}".strip(" —")
@@ -724,10 +1085,10 @@ def render_page(lang, canon_url, spoke_cfg=None):
                 hub_faqs.append({"@type": "Question", "name": q_txt, "acceptedAnswer": {"@type": "Answer", "text": a_txt}})
         hub_faq_obj = {"@context": "https://schema.org", "@graph": [
             {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Giyur Aliyah Track", "item": b_hub}]},
-            {"@type": "FAQPage", "mainEntity": hub_faqs}
+            {"@type": "FAQPage", "mainEntity": hub_faqs}, {"@type": "WebPage", "url": canon_url, "dateModified": "2026-11-20", "author": {"@type": "Organization", "name": "Giyur Aliyah Track Statutory Research Desk", "url": "https://giyuraliyahtrack.com/"}, "reviewedBy": {"@type": "Organization", "name": "Vetted Israeli Immigration & Rabbinic Legal-Tech Review Board (Nohal 5.2.0008 Ed. 16 & Nohal 5.2.0009 Ed. 17)"}}
         ]}
         hub_faq_tag = '<script type="application/ld+json">\n' + json.dumps(hub_faq_obj, ensure_ascii=False) + '\n</script>'
-        out = re.sub(r'<script type="application/ld\+json">\s*\{"@context":"https://schema\.org","@type":"FAQPage"[\s\S]*?</script>', lambda _: hub_faq_tag, out, count=1)
+        out = re.sub(r'<script type="application/ld\+json">\s*\{"@context":\s*"https://schema\.org",\s*(?:"@type":\s*"FAQPage"|"@graph":)[\s\S]*?</script>', lambda _: hub_faq_tag, out, count=1)
 
     out = re.sub(r"<title>.*?</title>", lambda _: f"<title>{safe_title}</title>", out, count=1)
     out = re.sub(r'<meta name="description" content="[^"]*" />', lambda _: f'<meta name="description" content="{safe_desc}" />', out, count=1)
@@ -742,6 +1103,7 @@ def render_page(lang, canon_url, spoke_cfg=None):
             en_s = sp["slug"]
             loc_s = sp["l_slugs"].get(lang, en_s)
             out = out.replace(f'href="/{en_s}/"', f'href="/{lang}/{loc_s}/"')
+            out = out.replace(f'href="/{lang}/{en_s}/"', f'href="/{lang}/{loc_s}/"')
     return out
 
 for l in LANGS:
@@ -1001,7 +1363,7 @@ FORM_CATALOG = [
         }
     },
     {
-        "key": "security_cv", "short_slug": "security-cv", "code": "Nativ Security CV (שאלון נתיב)", "raw_pdf": "/app/forms/SecurityCV.pdf",
+        "key": "sec_cv", "short_slug": "security-cv", "code": "Nativ Security CV (שאלון נתיב)", "raw_pdf": "/app/forms/SecurityCV.pdf",
         "l_slugs": {
             "en": "nativ-11-page-security-family-cv-questionnaire-israel",
             "he": "sheelon-nativ-11-amudim-korot-chaim-aliyah",
@@ -1133,24 +1495,23 @@ def render_form_landing_page(lang, f_cfg, is_hub=False):
         f'<article class="seo-spoke-article" style="border-top:5px solid #03A9F4;">'
         f'<div style="display:inline-block;background:#e0f2fe;color:#0284c7;font-size:0.76rem;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:8px;">{STAGE_UI_STATIC_I18N.get(lang, STAGE_UI_STATIC_I18N["en"])[5]} • {badge_code}</div>'
         f'<h1>{h1_str}</h1>'
-        f'<div style="margin:14px 0;"><h3 style="margin-bottom:8px;">{mesh_hdr}</h3><div class="seo-mesh-grid">{links_html}</div></div>'
-        f'<h4>{trap_hdr}</h4><p>{trap_str}</p>'
+        f'<div style="margin:14px 0;"><h2 style="font-size:1.08rem;margin-bottom:8px;">{mesh_hdr}</h2><div class="seo-mesh-grid">{links_html}</div></div>'
+        f'<h3>{trap_hdr}</h3><p>{trap_str}</p>'
         f'<div style="display:flex;flex-direction:column;gap:10px;margin:18px 0;">'
         f'<a class="btn-sky" style="background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);border:2px solid #4FC3F7;font-size:0.98rem;" href="{cta_target}">{cta_lbl} →</a>'
         f'{raw_btn_html}</div>'
         f'<h2>{deep_hdr}</h2><div>{deep_body}</div>'
         f'<hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/>'
         f'<h2>{sp_deep.get("title","")}</h2><p>{sp_deep.get("body","")}</p>'
-        f'<h4>{sp_deep.get("badTitle","")}</h4><div>{clean_no_divs(sp_deep.get("badText",""))}</div>'
-        f'<h4>{sp_deep.get("goodTitle","")}</h4><div>{clean_no_divs(sp_deep.get("goodText",""))}</div>'
+        f'<h3>{sp_deep.get("badTitle","")}</h3><div>{clean_no_divs(sp_deep.get("badText",""))}</div>'
+        f'<h3>{sp_deep.get("goodTitle","")}</h3><div>{clean_no_divs(sp_deep.get("goodText",""))}</div>'
         f'<hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/>'
         f'<h3>{st_t}</h3><p>{st_p}</p>'
-        f'<h3>{DIY_VS_LAWYERS_NBN_I18N[lang][0]}</h3><p>{DIY_VS_LAWYERS_NBN_I18N[lang][1]}</p>{j_line}'
-        f'{build_spoke_mesh_links(lang)}</article>'
+        f'<h3>{DIY_VS_LAWYERS_NBN_I18N[lang][0]}</h3><p>{DIY_VS_LAWYERS_NBN_I18N[lang][1]}</p>{j_line}</article>'
     )
 
     out = re.sub(r'<h1\b([^>]*)>([\s\S]*?)</h1>', r'<h2\1>\2</h2>', out)
-    out = out.replace('<div class="section-kicker">', art_html + '\n        <div class="section-kicker">', 1)
+    out = _inject_article_at_very_top(out, art_html)
     out = re.sub(r'<!-- SEO_LIB_START -->[\s\S]*?<!-- SEO_LIB_END -->', '', out, count=1)
     out = re.sub(r'<div class="seo-obstacle-library">[\s\S]*?</div>', '', out, count=1)
 
@@ -1174,10 +1535,10 @@ def render_form_landing_page(lang, f_cfg, is_hub=False):
 
     faq_obj = {"@context": "https://schema.org", "@graph": [
         {"@type": "BreadcrumbList", "itemListElement": bc_items},
-        {"@type": "FAQPage", "mainEntity": faq_entities}
+        {"@type": "FAQPage", "mainEntity": faq_entities}, {"@type": "WebPage", "url": canon_url, "dateModified": "2026-11-20", "author": {"@type": "Organization", "name": "Giyur Aliyah Track Statutory Research Desk", "url": "https://giyuraliyahtrack.com/"}, "reviewedBy": {"@type": "Organization", "name": "Vetted Israeli Immigration & Rabbinic Legal-Tech Review Board (Nohal 5.2.0008 Ed. 16 & Nohal 5.2.0009 Ed. 17)"}}
     ]}
     faq_tag = '<script type="application/ld+json">\n' + json.dumps(faq_obj, ensure_ascii=False) + '\n</script>'
-    out = re.sub(r'<script type="application/ld\+json">\s*\{"@context":"https://schema\.org","@type":"FAQPage"[\s\S]*?</script>', lambda _: faq_tag, out, count=1)
+    out = re.sub(r'<script type="application/ld\+json">\s*\{"@context":\s*"https://schema\.org",\s*(?:"@type":\s*"FAQPage"|"@graph":)[\s\S]*?</script>', lambda _: faq_tag, out, count=1)
 
     if is_hub:
         hreflang_tags = [f'<link rel="alternate" hreflang="x-default" href="{get_forms_hub_url("en")}" />'] + [
@@ -1231,10 +1592,11 @@ for l in LANGS:
             ph = re.sub(r"<title>[\s\S]*?</title>", f"<title>{esc_attr(t_map[l])}</title>", ph, count=1)
             open(p_path, "w", encoding="utf-8").write(ph)
 
-if os.path.exists("public/concierge/index.html"):
-    ch = open("public/concierge/index.html", encoding="utf-8").read()
-    ch = re.sub(r'<meta name="robots" content="[^"]*"\s*/?>', f'<meta name="robots" content="{ROBOTS_META}" />', ch, count=1)
-    open("public/concierge/index.html", "w", encoding="utf-8").write(ch)
+for _admin_p in ("public/concierge/index.html", "public/analytics/index.html", "public/404.html"):
+    if os.path.exists(_admin_p):
+        _ch = open(_admin_p, encoding="utf-8").read()
+        _ch = re.sub(r'<meta name="robots" content="[^"]*"\s*/?>', '<meta name="robots" content="noindex, nofollow" />', _ch, count=1)
+        open(_admin_p, "w", encoding="utf-8").write(_ch)
 
 # Build complete sitemap.xml (Hubs + 14 Spokes + Forms Hubs + 8 Forms + Pricing + Concierge-Booking = 26 x 6 = 156 URLs)
 open("public/robots.txt", "w", encoding="utf-8").write(
@@ -1260,4 +1622,4 @@ add_sitemap_cluster(sm, lambda lc: "https://giyuraliyahtrack.com/pricing/" if lc
 add_sitemap_cluster(sm, lambda lc: "https://giyuraliyahtrack.com/concierge-booking/" if lc == "en" else f"https://giyuraliyahtrack.com/{lc}/concierge-booking/")
 sm.append("</urlset>\n")
 open("public/sitemap.xml", "w", encoding="utf-8").write("\n".join(sm))
-print(f"✅ Rebuilt all 6-Language Hubs, 84 Spoke Pages (incl. 700 BD & 300 CP Vault Pillars), 54 Form Pages & 156 Sitemap URLs (LIVE_SEO = {LIVE_SEO})!")
+print(f"✅ Rebuilt all 6-Language Hubs, {len(SPOKES)*6} Spoke Pages (incl. 3 Broad-Intent Pillars + 700 BD & 300 CP Vault Pillars), 54 Form Pages & 174 Sitemap URLs (LIVE_SEO = {LIVE_SEO})!")

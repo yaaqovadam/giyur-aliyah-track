@@ -422,7 +422,7 @@ const APP_UI = {
   },
   he: {
     back: "→ חזרה למדריך הראשי",
-    tabs: ["📸 מנוע עברית וטפסים", "✍️ מכתבי רב וקהילה", "🕍 700 שאלות בית דין", "📱 300 שאלות לזוגות", "🎵 56 שירי שבת, תפילות וברכות"],
+    tabs: ["📸 מנוע עברית וטפסים", "✍️ המלצות ויומן קהילה", "🕍 700 שאלות בית דין", "📱 300 שאלות לזוגות", "🎵 56 שירי שבת, תפילות וברכות"],
     m1_h2: "📸 מחולל מכתבי הסבר משפטיים וטפסי אש/1 ואש/3 בעברית",
     m1_p: "בחרו את המסמך הרשמי להפקה. שמות תעודות היושר והלידה של מדינת המקור שלכם משולבים אוטומטית בנוסח המשפטי:",
     m1_lbl_type: "בחרו מסמך רשמי להפקה:",
@@ -450,7 +450,7 @@ const APP_UI = {
   },
   fr: {
     back: "← Retour au Guide",
-    tabs: ["📸 Hébreu & Ash/1", "✍️ Lettres Rabbin", "🕍 700 Q. Beit Din", "📱 300 Q. Couples", "🎵 56 Chants & Prières"],
+    tabs: ["📸 Hébreu & Ash/1", "✍️ Lettres & Journal", "🕍 700 Q. Beit Din", "📱 300 Q. Couples", "🎵 56 Chants & Prières"],
     m1_h2: "📸 Générateur de Lettres Juridiques en Hébreu (Spécial France/BE/CH)",
     m1_p: "Vos documents francophones (Copie Intégrale d'Acte de Naissance, Casier Judiciaire Bulletin n°3, Apostille Cour d'Appel) sont automatiquement intégrés en hébreu :",
     m1_lbl_type: "Choisissez le Document Officiel en Hébreu :",
@@ -478,7 +478,7 @@ const APP_UI = {
   },
   es: {
     back: "← Volver a la Guía",
-    tabs: ["📸 Hebreo y Ash/1", "✍️ Cartas Rabino", "🕍 200 P. Beit Din", "📱 80 P. Parejas", "🎵 12 Cantos Shabat"],
+    tabs: ["📸 Hebreo y Ash/1", "✍️ Cartas y Registro", "🕍 200 P. Beit Din", "📱 80 P. Parejas", "🎵 12 Cantos Shabat"],
     m1_h2: "📸 Generador de Cartas Legales en Hebreo (España y Latinoamérica)",
     m1_p: "Sus documentos (Partida de Nacimiento Literal, Certificado de Antecedentes Penales / RNR, Apostilla de La Haya) se integran automáticamente en hebreo:",
     m1_lbl_type: "Seleccione el Documento Oficial en Hebreo:",
@@ -506,7 +506,7 @@ const APP_UI = {
   },
   de: {
     back: "← Zurück zum Leitfaden",
-    tabs: ["📸 Hebräisch & Asch/1", "✍️ Rabbiner-Briefe", "🕍 200 Beit Din Fragen", "📱 80 Paar-Fragen", "🎵 Lieder & Gebete"],
+    tabs: ["📸 Hebräisch & Asch/1", "✍️ Empfehlungen & Logbuch", "🕍 200 Beit Din Fragen", "📱 80 Paar-Fragen", "🎵 Lieder & Gebete"],
     m1_h2: "📸 Hebräischer Rechtsbrief-Generator (Deutschland / Österreich / Schweiz)",
     m1_p: "Ihre DACH-Dokumente (Beglaubigte Abschrift aus dem Geburtenregister, Erweitertes Führungszeugnis, BfAA-Apostille) werden automatisch auf Hebräisch eingefügt:",
     m1_lbl_type: "Offizielles Hebräisches Dokument Auswählen:",
@@ -537,7 +537,7 @@ const APP_UI = {
     "back": "← Назад к гиду",
     "tabs": [
         "📸 Иврит и Формы",
-        "✍️ Письма раввина",
+        "✍️ Рекомендации и дневник",
         "🕍 200 Бейт-Дин",
         "📱 80 Вопросов парам",
         "🎵 Песни и Молитвы"
@@ -1068,7 +1068,8 @@ window.isProUnlocked = function() {
   if (mod === 'beit-din-150') return window.canUnlockBdPack(window.bdPack || 1);
   if (mod === 'couples-sync') return window.canUnlockCouples();
   if (mod === 'songs-prayers') return window.canUnlockSongs();
-  if (mod === 'hebrew-engine' || mod === 'rabbi-letters') return window.canUnlockForms();
+  if (mod === 'rabbi-letters') return typeof window.canUnlockReferenceLetters === 'function' ? window.canUnlockReferenceLetters() : window.canUnlockForms();
+  if (mod === 'hebrew-engine') return window.canUnlockForms();
   return window.canUnlockBdPack(1) && window.canUnlockCouples() && window.canUnlockForms();
 };
 
@@ -1420,6 +1421,8 @@ window.PW_I18N = {
 };
 
 window.renderPaywallI18n = function(customReason) {
+  const _pwEl = document.getElementById('pro-paywall-modal');
+  if (customReason !== undefined) { window._gatLastPaywallReason = customReason; } else if (_pwEl && _pwEl.classList.contains('open') && window._gatLastPaywallReason) { customReason = window._gatLastPaywallReason; }
   const l = window.appLang || localStorage.getItem('gat_lang') || 'en';
   const t = window.PW_I18N[l] || window.PW_I18N.en;
   const modal = document.getElementById('pro-paywall-modal');
@@ -1546,16 +1549,145 @@ window.renderPaywallI18n = function(customReason) {
   }
 };
 
-window.openProPaywall = function(reasonText, preferModularTab) {
-  window.renderPaywallI18n(reasonText);
-  window.switchPaywallTab(preferModularTab ? 'modular' : 'suites');
+window._gatPaywallFocusHint = '';
+
+window.highlightMatchingPaywallCards = function(hint) {
   const modal = document.getElementById('pro-paywall-modal');
-  if (modal) modal.classList.add('open');
+  if (!modal) return;
+  const h = String(hint || window._gatPaywallFocusHint || '').toLowerCase();
+
+  // Fix bottom yellow Sync Banner in all 6 languages (hide if already logged in; never show blank yellow box!)
+  const syncTxtEl = document.getElementById('pw-sync-banner-txt');
+  const syncBtnEl = document.getElementById('pw-sync-banner-btn');
+  const syncWrap = syncTxtEl ? syncTxtEl.parentElement : null;
+  const l = (window.appLang || localStorage.getItem('gat_lang') || 'en').slice(0, 2).toLowerCase();
+  const SYNC_BAR_I18N = {
+    en: { txt: '📲 Already paid or signed in on another device?', btn: 'Sync / Log In →', badge: '★ Recommended For This Tool' },
+    he: { txt: '📲 כבר שילמתם או התחברתם במכשיר אחר?', btn: 'סנכרון / התחברות ←', badge: '★ החבילה המתאימה לכלי זה' },
+    fr: { txt: '📲 Déjà payé ou connecté sur un autre appareil ?', btn: 'Synchroniser / Connexion →', badge: '★ Recommandé pour cet outil' },
+    es: { txt: '📲 ¿Ya pagaste o iniciaste sesión en otro dispositivo?', btn: 'Sincronizar / Entrar →', badge: '★ Recomendado para esta herramienta' },
+    de: { txt: '📲 Bereits bezahlt oder auf einem anderen Gerät angemeldet?', btn: 'Synchronisieren / Login →', badge: '★ Empfohlen für dieses Tool' },
+    ru: { txt: '📲 Уже оплатили или вошли на другом устройстве?', btn: 'Синхронизация / Вход →', badge: '★ Рекомендуется для этого модуля' }
+  };
+  const sb = SYNC_BAR_I18N[l] || SYNC_BAR_I18N.en;
+  if (syncWrap) {
+    const loggedIn = typeof window.isGatUserLoggedIn === 'function' && window.isGatUserLoggedIn();
+    if (loggedIn) {
+      syncWrap.style.display = 'none';
+    } else {
+      syncWrap.style.display = 'flex';
+      if (syncTxtEl) syncTxtEl.textContent = sb.txt;
+      if (syncBtnEl) syncBtnEl.textContent = sb.btn;
+    }
+  }
+
+  // Clear old highlights/badges first
+  modal.querySelectorAll('.gat-pw-rec-badge').forEach(function(b) { b.remove(); });
+  modal.querySelectorAll('.tier-box').forEach(function(box) {
+    box.style.outline = '';
+    box.style.boxShadow = '';
+    box.style.transform = '';
+  });
+
+  if (!h) return;
+
+  // Map service hint -> SKU substrings to spotlight on whichever tab is visible!
+  let skuMatchers = [];
+  if (h === 'forms') skuMatchers = ['forms_90d_89', 'forms_life_149'];
+  else if (h === 'couples') skuMatchers = ['couples_90d_129', 'couples_life_229', 'couples_sync_75'];
+  else if (h === 'songs') skuMatchers = ['songs_65', 'bd_suite_90d_149', 'bd_suite_life_249'];
+  else if (h === 'bd_pack1') skuMatchers = ['bd_pack1_65', 'bd_suite_90d_149'];
+  else if (h === 'bd_pack2') skuMatchers = ['bd_pack2_65', 'bd_suite_90d_149'];
+  else if (h === 'bd_pack3' || h === 'bd_pack4') skuMatchers = ['bd_pack3_49', 'bd_pack4_49', 'bd_suite_90d_149'];
+  else if (h.indexOf('bd') === 0) skuMatchers = ['bd_all700_179', 'bd_suite_90d_149'];
+
+  let firstHighlighted = null;
+  modal.querySelectorAll('.tier-box').forEach(function(box) {
+    const html = box.innerHTML || '';
+    const isMatch = skuMatchers.some(function(sk) { return html.indexOf(sk) !== -1; });
+    if (isMatch) {
+      box.style.outline = '3px solid #0284c7';
+      box.style.boxShadow = '0 10px 26px rgba(2,132,199,0.24)';
+      box.style.position = 'relative';
+      const bdg = document.createElement('div');
+      bdg.className = 'gat-pw-rec-badge';
+      bdg.style.cssText = 'background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;font-size:0.69rem;font-weight:900;padding:3px 9px;border-radius:999px;display:inline-block;margin-bottom:6px;letter-spacing:0.02em;';
+      bdg.textContent = sb.badge;
+      box.insertBefore(bdg, box.firstChild);
+      if (!firstHighlighted && box.offsetParent !== null) firstHighlighted = box;
+    }
+  });
+  if (firstHighlighted && typeof firstHighlighted.scrollIntoView === 'function') {
+    setTimeout(function() {
+      try { firstHighlighted.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+    }, 60);
+  }
+};
+
+const _origSwitchPaywallTab = window.switchPaywallTab;
+window.switchPaywallTab = function(tab) {
+  if (typeof _origSwitchPaywallTab === 'function') _origSwitchPaywallTab(tab);
+  setTimeout(function() { window.highlightMatchingPaywallCards(window._gatPaywallFocusHint); }, 20);
+};
+
+window.openProPaywall = function(reasonText, preferTabOrService) {
+  // Auto-detect service from reasonText or active module if caller passed boolean or nothing!
+  let hint = '';
+  let targetTab = 'suites';
+
+  if (typeof preferTabOrService === 'string' && preferTabOrService) {
+    hint = preferTabOrService.toLowerCase();
+  } else {
+    const rLow = String(reasonText || '').toLowerCase();
+    const curM = String(window.currentMod || '').toLowerCase();
+    if (/אש\/|מר\/|נספח|קורות חיים|form|paperwork|hebrew pdf|rabbi|letterhead|apostille|passport|clerk/i.test(rLow)) {
+      hint = 'forms';
+    } else if (/couple|5\.2\.0008|2-phone|separated/i.test(rLow)) {
+      hint = 'couples';
+    } else if (/song|karaoke|brach|prayer|shacharit|mic/i.test(rLow)) {
+      hint = 'songs';
+    } else if (preferTabOrService === true) {
+      if (curM === 'hebrew-engine' || curM === 'apostille-auditor' || curM === 'rabbinic-letters') hint = 'forms';
+      else if (curM === 'songs-prayers') hint = 'songs';
+      else if (curM === 'couples-sync') hint = 'couples';
+      else hint = 'bd_pack' + (window.bdPack || 1);
+    } else {
+      if (curM === 'hebrew-engine' || curM === 'apostille-auditor' || curM === 'rabbinic-letters') hint = 'forms';
+      else if (curM === 'couples-sync') hint = 'couples';
+      else if (curM === 'songs-prayers') hint = 'songs';
+      else if (curM === 'beit-din-150') hint = 'bd_pack' + (window.bdPack || 1);
+    }
+  }
+
+  // Route EVERY service to the EXACT tab where its primary standalone pass lives:
+  // - Tab 1 (`suites`): Forms ($89 / $149), Spousal Couples ($129 / $229), Full Solo/Couple Suites ($249–$649)
+  // - Tab 2 (`modular`): Beit Din Pack 1/2 ($65), Men's/Women's 150 ($49), All 700 ($179), Songs ($65)
+  if (hint === 'forms' || hint === 'couples' || hint === 'suites' || hint === '') {
+    targetTab = 'suites';
+  } else if (hint.indexOf('bd_') === 0 || hint === 'songs' || hint === 'modular') {
+    targetTab = 'modular';
+  }
+
+  window._gatPaywallFocusHint = hint;
+  window.renderPaywallI18n(reasonText);
+  window.switchPaywallTab(targetTab);
+  window.highlightMatchingPaywallCards(hint);
+  try {
+    const snapMap = JSON.parse(localStorage.getItem('gat_entitlements_v2') || '{}') || {};
+    window._gatSkusAtPaywallOpen = Object.keys(snapMap).sort().join(',');
+  } catch (e) { window._gatSkusAtPaywallOpen = ''; }
+  const modal = document.getElementById('pro-paywall-modal');
+  if (modal) {
+    modal.style.display = '';
+    modal.classList.add('open');
+  }
 };
 
 window.closeProPaywall = function() {
   const modal = document.getElementById('pro-paywall-modal');
-  if (modal) modal.classList.remove('open');
+  if (modal) {
+    modal.classList.remove('open');
+  }
 };
 
 window.sha256Hex = async function(str) {
@@ -1564,15 +1696,16 @@ window.sha256Hex = async function(str) {
   return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
 };
 
-// STRICT SERVER-VERIFIED ENTITLEMENT APPLICATION ONLY (Never unlocks from URL params or client-side calls)
 window.applyServerVerifiedEntitlements = function(serverEntMap, fallbackTier) {
   const cleanMap = {};
   const now = Date.now();
   if (serverEntMap && typeof serverEntMap === 'object') {
     Object.keys(serverEntMap).forEach(function(k) {
       if (window.TIER_CAPABILITIES[k]) {
-        const entry = serverEntMap[k] || {};
-        if (!entry.exp || entry.exp > now) {
+        const entry = serverEntMap[k];
+        if (entry === true) {
+          cleanMap[k] = { exp: 0, ts: now };
+        } else if (entry && typeof entry === 'object' && (!entry.exp || entry.exp > now)) {
           cleanMap[k] = { exp: entry.exp || 0, ts: entry.ts || now };
         }
       }
@@ -1581,11 +1714,22 @@ window.applyServerVerifiedEntitlements = function(serverEntMap, fallbackTier) {
   if (fallbackTier && window.TIER_CAPABILITIES[fallbackTier] && !cleanMap[fallbackTier]) {
     cleanMap[fallbackTier] = { exp: 0, ts: now };
   }
+  const keys = Object.keys(cleanMap);
   localStorage.setItem('gat_entitlements_v2', JSON.stringify(cleanMap));
   localStorage.setItem('gat_entitlements_map', JSON.stringify(cleanMap));
-  localStorage.setItem('gat_pro_unlocked', Object.keys(cleanMap).length ? 'true' : 'false');
+  localStorage.setItem('gat_pro_unlocked', keys.length ? 'true' : 'false');
+  if (keys.length) {
+    localStorage.setItem('gat_pro_tier', fallbackTier || keys[0]);
+    localStorage.setItem('gat_tier', fallbackTier || keys[0]);
+  }
   if (window.canUnlockForms()) {
     document.querySelectorAll('.hebrew-out').forEach(function(el) { el.classList.remove('watermarked'); });
+  }
+  const pwModal = document.getElementById('pro-paywall-modal');
+  if (pwModal && pwModal.classList.contains('open') && typeof window.isPaywallHintNowUnlocked === 'function') {
+    if (window.isPaywallHintNowUnlocked(window._gatPaywallFocusHint)) {
+      window.closeProPaywall();
+    }
   }
   if (typeof renderAll === 'function') renderAll();
 };
@@ -1594,12 +1738,13 @@ window.grantProEntitlement = function() {
   console.warn('Direct client-side entitlement grants are disabled. Waiting for verified server webhook.');
 };
 
-window.syncProEntitlementFromCloud = function(retryCount) {
+window.syncProEntitlementFromCloud = function(retryCount, forceCheckoutFlag) {
   const attempt = typeof retryCount === 'number' ? retryCount : 0;
   const params = new URLSearchParams(window.location.search);
-  const isCheckoutReturn = params.get('checkout_success') === '1' || params.get('pro_unlock') === '1' || !!params.get('order_id');
+  const urlHasCheckout = params.get('checkout_success') === '1' || params.get('pro_unlock') === '1' || !!params.get('order_id') || !!params.get('wa_token');
+  const isCheckoutReturn = Boolean(forceCheckoutFlag || urlHasCheckout);
 
-  if (isCheckoutReturn && attempt === 0) {
+  if (urlHasCheckout && attempt === 0 && !params.get('wa_token')) {
     const cleanUrl = new URL(window.location.href);
     cleanUrl.searchParams.delete('checkout_success');
     cleanUrl.searchParams.delete('pro_unlock');
@@ -1609,26 +1754,53 @@ window.syncProEntitlementFromCloud = function(retryCount) {
     if (window.showCpToast) window.showCpToast('⏳ Verifying your GiyurAliyahTrack pass...', true);
   }
 
+  // Always prefer verified wa_ UID from localStorage over an initial anonymous Firebase UID!
+  const storedWaUid = localStorage.getItem('gat_uid') || '';
+  if (/^wa_\d+$/.test(storedWaUid) && (!window.gatUid || window.gatUid.indexOf('wa_') !== 0)) {
+    window.gatUid = storedWaUid;
+  }
+
+  // If user has a pending Revolut checkout intent awaiting/approved by Admin, verify via Admin SDK poller first!
+  if (localStorage.getItem('gat_pending_checkout_intent') && typeof window.pollPendingRevolutCheckoutNow === 'function') {
+    window.pollPendingRevolutCheckoutNow();
+    return;
+  }
+
   if (!window.gatDb || !window.gatUid) return;
+  const curAuthUser = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth().currentUser : null;
+  // Never query pro_entitlements/wa_<phone> with an anonymous Firebase Auth token (Firestore Rules will reject it!)
+  if (window.gatUid.indexOf('wa_') === 0 && (!curAuthUser || curAuthUser.uid !== window.gatUid)) {
+    if (typeof window.restoreGatSessionFromServerIfNeeded === 'function') {
+      window.restoreGatSessionFromServerIfNeeded(true);
+    }
+    return;
+  }
+
   window.gatDb.collection('pro_entitlements').doc(window.gatUid).get().then(function(snap) {
     if (snap.exists && snap.data() && snap.data().unlocked) {
       const d = snap.data();
       localStorage.removeItem('gat_pending_tier');
       window.applyServerVerifiedEntitlements(d.entitlementsMap, d.tier);
       if (isCheckoutReturn && window.showCpToast) {
-        const def = window.TIER_CAPABILITIES[d.tier] || { label: 'Pro Suite' };
+        const def = window.TIER_CAPABILITIES[d.tier] || { label: 'Pro Pass' };
         window.showCpToast('✅ Payment Verified! Unlocked: ' + def.label, true);
       }
     } else {
-      // Zero-Trust Enforcement: Only clear if user does NOT have a verified WhatsApp/PassCode session pending restore!
       if (isCheckoutReturn && attempt < 6) {
-        setTimeout(function() { window.syncProEntitlementFromCloud(attempt + 1); }, 2000);
+        setTimeout(function() { window.syncProEntitlementFromCloud(attempt + 1, true); }, 2000);
         return;
       }
-      const hasVerifiedSession = Boolean(localStorage.getItem('gat_permanent_pass_code') || localStorage.getItem('gat_verified_wa_phone'));
-      const curAuthUser = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth().currentUser : null;
-      if (hasVerifiedSession && (!curAuthUser || curAuthUser.isAnonymous)) {
-        if (typeof window.restoreGatSessionFromServerIfNeeded === 'function') window.restoreGatSessionFromServerIfNeeded();
+      const hasVerifiedSession = Boolean(
+        localStorage.getItem('gat_permanent_pass_code') ||
+        localStorage.getItem('gat_verified_wa_phone') ||
+        localStorage.getItem('gat_device_auth_tok') ||
+        localStorage.getItem('gat_pending_checkout_intent') ||
+        (typeof window.hasVerifiedLocalAuthVault === 'function' && window.hasVerifiedLocalAuthVault())
+      );
+      if (hasVerifiedSession) {
+        if (typeof window.restoreGatSessionFromServerIfNeeded === 'function') {
+          window.restoreGatSessionFromServerIfNeeded(true);
+        }
         return;
       }
       localStorage.removeItem('gat_entitlements_v2');
@@ -1638,7 +1810,11 @@ window.syncProEntitlementFromCloud = function(retryCount) {
       localStorage.removeItem('gat_partner_vip_shared');
       if (typeof renderAll === 'function') renderAll();
     }
-  }).catch(function(){});
+  }).catch(function() {
+    if (typeof window.restoreGatSessionFromServerIfNeeded === 'function') {
+      window.restoreGatSessionFromServerIfNeeded(true);
+    }
+  });
 };
 
 window.redeemProCode = window.redeemCode = async function() {
@@ -3144,7 +3320,7 @@ window.setBdPack = function(p) {
   if (p > 1 && !window.canUnlockBdPack(p)) {
     const pwT = (window.PW_I18N && window.PW_I18N[window.appLang || 'en']) || window.PW_I18N.en;
     const labels = { 2: pwT.pack2_pw, 3: pwT.pack3_pw, 4: pwT.pack4_pw };
-    window.openProPaywall(labels[p], true);
+    window.openProPaywall(labels[p], 'bd_pack' + p);
     return;
   }
   window.bdPack = p; bdIdx = 0; updateBdCard();
@@ -3182,7 +3358,7 @@ updateBdCard = function() {
   const ui = BD_UI_L[l] || BD_UI_L.en;
   const list = window.getFilteredBdList();
   const item = list[bdIdx % list.length];
-  const pro = window.isProUnlocked();
+  const pro = typeof window.canUnlockBdPack === 'function' ? window.canUnlockBdPack(window.bdPack || 1) : window.isProUnlocked();
 
   const pb = document.getElementById('bd-pack-bar');
   if (pb) pb.innerHTML = `<button type="button" onclick="setBdPack(1)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #0284c7;font-weight:800;font-size:0.78rem;cursor:pointer;background:${window.bdPack===1?'#0284c7':'#fff'};color:${window.bdPack===1?'#fff':'#0284c7'};">${ui.p1}</button><button type="button" onclick="setBdPack(2)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #d97706;font-weight:800;font-size:0.78rem;cursor:pointer;background:${window.bdPack===2?'#d97706':'#fffbeb'};color:${window.bdPack===2?'#fff':'#92400e'};">${ui.p2}</button><button type="button" onclick="setBdPack(3)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #0f766e;font-weight:800;font-size:0.76rem;cursor:pointer;background:${window.bdPack===3?'#0f766e':'#f0fdfa'};color:${window.bdPack===3?'#fff':'#0f766e'};">🧔 Men's 150</button><button type="button" onclick="setBdPack(4)" style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #be185d;font-weight:800;font-size:0.76rem;cursor:pointer;background:${window.bdPack===4?'#be185d':'#fdf2f8'};color:${window.bdPack===4?'#fff':'#be185d'};">👩 Women's 150</button>`;
@@ -3194,8 +3370,32 @@ updateBdCard = function() {
 
   const vals = Object.values(window.bdScores);
   const mCnt = vals.filter(v => v === 1).length, rCnt = vals.filter(v => v === 0).length;
+  const BD_BUY_CTA_L = {
+    en: '🔓 Unlock Pack 1: All 200 Core Questions ($65) or Full 700-Q Suite →',
+    he: '🔓 פתיחת חבילה 1: כל 200 שאלות הליבה ($65) או ערכת 700 השאלות המלאה ←',
+    fr: '🔓 Débloquer Pack 1 : Les 200 Questions de Base (65 $) ou Suite 700-Q →',
+    es: '🔓 Desbloquear Pack 1: Las 200 Preguntas Base ($65) o Suite 700-Q →',
+    de: '🔓 Paket 1 freischalten: Alle 200 Kernfragen (65 $) oder 700-Fragen-Suite →',
+    ru: '🔓 Открыть Пакет 1: Все 200 базовых вопросов ($65) или полный курс 700 →'
+  };
   const sb = document.getElementById('bd-score-bar');
-  if (sb) sb.innerHTML = `<span>✅ ${ui.m}: ${mCnt}</span><span>🔁 ${ui.r}: ${rCnt}</span><span>📊 ${pro ? ((bdIdx % list.length)+1)+'/'+list.length+' ('+ui.unl+')' : ((bdIdx % FREE_CARD_LIMIT)+1)+'/'+FREE_CARD_LIMIT+' ('+ui.free+')'}</span>`;
+  if (sb) {
+    sb.innerHTML = `<span>✅ ${ui.m}: ${mCnt}</span><span>🔁 ${ui.r}: ${rCnt}</span><span>📊 ${pro ? ((bdIdx % list.length)+1)+'/'+list.length+' ('+ui.unl+')' : ((bdIdx % FREE_CARD_LIMIT)+1)+'/'+FREE_CARD_LIMIT+' ('+ui.free+')'}</span>`;
+    let buyBar = document.getElementById('bd-pack1-buy-cta-bar');
+    if (!pro) {
+      if (!buyBar) {
+        buyBar = document.createElement('div');
+        buyBar.id = 'bd-pack1-buy-cta-bar';
+        buyBar.style.cssText = 'margin:8px 0 10px 0;';
+        sb.insertAdjacentElement('afterend', buyBar);
+      }
+      const pwT = (window.PW_I18N && window.PW_I18N[l]) || (window.PW_I18N && window.PW_I18N.en) || {};
+      const rsn = (pwT.pack1_pw || '🕍 Unlock all 200 Core Beit Din Tribunal Questions ($65) or the Full 700-Q Suite:').replace(/'/g, "\\'");
+      buyBar.innerHTML = `<button type="button" onclick="window.openProPaywall('${rsn}', 'bd_pack' + (window.bdPack || 1))" style="width:100%;padding:10px 14px;border-radius:10px;border:2px solid #f59e0b;background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);color:#92400e;font-weight:900;font-size:0.82rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 3px 10px rgba(245,158,11,0.18);">${BD_BUY_CTA_L[l] || BD_BUY_CTA_L.en}</button>`;
+    } else if (buyBar) {
+      buyBar.remove();
+    }
+  }
 
   const bm = document.getElementById('bd-btn-master'), br = document.getElementById('bd-btn-review'), pl = document.getElementById('bd-pron-lbl');
   if (bm) bm.innerText = ui.m; if (br) br.innerText = ui.r; if (pl) pl.innerText = item.he || 'HE';
@@ -3210,8 +3410,11 @@ updateBdCard = function() {
 };
 
 nextBdCard = function() {
-  if (!window.isProUnlocked() && bdIdx + 1 >= FREE_CARD_LIMIT) {
-    window.openProPaywall('🕍 You just finished the 4 free Ma\'amad Beit Din sample flashcards! Unlock all 150 real Dayanim questions, 300 Couples Sync questions, and clean Hebrew PDFs:');
+  const curPack = window.bdPack || 1;
+  const canThisPack = typeof window.canUnlockBdPack === 'function' ? window.canUnlockBdPack(curPack) : false;
+  if (!canThisPack && bdIdx + 1 >= FREE_CARD_LIMIT) {
+    const pwT = (window.PW_I18N && window.PW_I18N[window.appLang || 'en']) || (window.PW_I18N && window.PW_I18N.en) || {};
+    window.openProPaywall(pwT.pack1_pw || '🕍 You finished the 4 free Beit Din sample cards! Unlock Pack 1 ($65) or the Full 700-Q Suite below:', 'bd_pack' + curPack);
     return;
   }
   bdIdx++;
@@ -3365,6 +3568,11 @@ window.initCpFirebase = function() {
     try {
       window.gatDb.enablePersistence({ synchronizeTabs: true }).catch(function(){});
     } catch(e) {}
+    try {
+      if (firebase.auth.Auth && firebase.auth.Auth.Persistence) {
+        firebase.auth(appInstance).setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(function(){});
+      }
+    } catch (e) {}
     firebase.auth(appInstance).onAuthStateChanged(function(user) {
       if (typeof window.syncAllGatAuthStorageKeys === 'function') window.syncAllGatAuthStorageKeys();
       const savedWa = localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_wa_phone') || '';
@@ -3389,6 +3597,16 @@ window.initCpFirebase = function() {
         if (window.pullCloudFormDraftOnce) window.pullCloudFormDraftOnce();
         if (window.syncProEntitlementFromCloud) window.syncProEntitlementFromCloud();
       } else {
+        const hasSavedVerifiedVault = (typeof window.hasVerifiedLocalAuthVault === 'function' && window.hasVerifiedLocalAuthVault()) ||
+          Boolean(localStorage.getItem('gat_device_auth_tok') || localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_permanent_pass_code'));
+        if (hasSavedVerifiedVault && localStorage.getItem('gat_explicit_logged_out') !== '1' && typeof window.restoreGatSessionFromServerIfNeeded === 'function') {
+          window.restoreGatSessionFromServerIfNeeded(false).then(function(restoredOk) {
+            if (!restoredOk && !firebase.auth(appInstance).currentUser) {
+              firebase.auth(appInstance).signInAnonymously().catch(function(){});
+            }
+          });
+          return;
+        }
         firebase.auth(appInstance).signInAnonymously().catch(function(err) {
           window.cpDbError = '🚨 Firebase Auth Error: ' + (err.message || 'Enable Anonymous Auth in Firebase Console!');
           updateCpCard();
@@ -3798,7 +4016,7 @@ nextCpCard = function() {
   const pro = window.canUnlockCouples ? window.canUnlockCouples() : window.isProUnlocked();
   if (!pro && cpIdx + 1 >= FREE_CARD_LIMIT) {
     const pwT = (window.PW_I18N && window.PW_I18N[window.appLang || 'en']) || window.PW_I18N.en;
-    window.openProPaywall(pwT.cp_limit_pw);
+    window.openProPaywall(pwT.cp_limit_pw, 'couples');
     return;
   }
   cpIdx++;
@@ -3846,7 +4064,7 @@ genRabbiLetter = function() {
       bar.id = 'rb-pro-action-bar';
       out.insertAdjacentElement('afterend', bar);
     }
-    bar.innerHTML = `<button type="button" class="btn btn-gold" onclick="openProPaywall('✍️ Unlock clean WhatsApp copy & official Rabbinic Letterhead PDF printing ($89 90-Day Dossier Pass or $149 Lifetime Filings Pass):')">📲 Unlock Clean WhatsApp Copy & Rabbinic Letterhead PDF →</button>
+    bar.innerHTML = `<button type="button" class="btn btn-gold" onclick="openProPaywall('✍️ Unlock clean WhatsApp copy & official Rabbinic Letterhead PDF printing ($89 90-Day Dossier Pass or $149 Lifetime Filings Pass):', 'forms')">📲 Unlock Clean WhatsApp Copy & Rabbinic Letterhead PDF →</button>
     <button type="button" class="btn" style="background:#0b3b59;margin-top:8px;" onclick="openMod('vetted-team'); selectConciergeSvc(0);">🕍 Don't Have a Sponsoring Rabbi Yet? Book Our Vetted Team ($349–$499) →</button>`;
   } else {
     out.classList.remove('watermarked');
@@ -3978,7 +4196,7 @@ window.selectAndPlayTrack = function(idx, autoPlay, targetTab) {
     } else {
       const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
       if (!unlocked && clamped >= window.FREE_SONG_LIMIT) {
-        window.openProPaywall(window.getSongsUI().pw_10s, true);
+        window.openProPaywall(window.getSongsUI().pw_10s, 'songs');
       } else {
         window.speakCleanBracha(clamped);
       }
@@ -4169,7 +4387,7 @@ window.onSongTimeUpdate = function(el, idx, cardId) {
   const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[window.resolveStampKey(cardId)]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= _lim) {
     el.pause(); el.currentTime = 0;
     window.clearKaraokeHighlights(cardId);
-    window.openProPaywall(window.getSongsUI().pw_10s, true);
+    window.openProPaywall(window.getSongsUI().pw_10s, 'songs');
     return;
   }
   if (!el.paused) {
@@ -4239,7 +4457,7 @@ window.gradeSongMic = function(idx, isBracha) {
   const ui = window.getSongsUI();
   const unlocked = window.canUnlockSongs ? window.canUnlockSongs() : window.isProUnlocked();
   if (!unlocked && idx >= window.FREE_SONG_LIMIT) {
-    window.openProPaywall(ui.pw_mic, true);
+    window.openProPaywall(ui.pw_mic, 'songs');
     return;
   }
   const list = window.getActiveSongList();
@@ -4400,22 +4618,29 @@ window.VISION_UI_I18N = {
 
 window.fileToCompressedBase64 = function(file) {
   return new Promise(function(resolve, reject) {
-    if (file.type === 'application/pdf') {
+    if (!file) return reject(new Error('No file selected'));
+    const fName = String(file.name || '').toLowerCase();
+    const fType = String(file.type || '').toLowerCase();
+    if (fType === 'application/pdf' || /\.pdf$/i.test(fName)) {
+      if (file.size > 18 * 1024 * 1024) {
+        return reject(new Error('PDF is over 18MB. Please upload a smaller PDF or photo.'));
+      }
       const reader = new FileReader();
       reader.onload = function() {
-        const b64 = String(reader.result).split(',')[1] || '';
+        const b64 = String(reader.result || '').split(',')[1] || '';
         resolve({ mimeType: 'application/pdf', base64Data: b64 });
       };
       reader.onerror = reject;
       reader.readAsDataURL(file);
       return;
     }
+    const isHeic = /heic|heif/.test(fType) || /\.(heic|heif)$/i.test(fName);
     const img = new Image();
     const url = URL.createObjectURL(file);
     img.onload = function() {
       URL.revokeObjectURL(url);
-      const maxDim = 1600;
-      let w = img.width, h = img.height;
+      const maxDim = 1500;
+      let w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
       if (w > maxDim || h > maxDim) {
         if (w > h) { h = Math.round(h * (maxDim / w)); w = maxDim; }
         else { w = Math.round(w * (maxDim / h)); h = maxDim; }
@@ -4424,10 +4649,23 @@ window.fileToCompressedBase64 = function(file) {
       canvas.width = w; canvas.height = h;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, w, h);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.80);
+      canvas.width = 0; canvas.height = 0;
       resolve({ mimeType: 'image/jpeg', base64Data: dataUrl.split(',')[1] });
     };
-    img.onerror = function(e) { URL.revokeObjectURL(url); reject(e); };
+    img.onerror = function(e) {
+      URL.revokeObjectURL(url);
+      if (file.size <= 15 * 1024 * 1024) {
+        const reader = new FileReader();
+        reader.onload = function() {
+          resolve({ mimeType: isHeic ? 'image/heic' : (fType || 'image/jpeg'), base64Data: String(reader.result || '').split(',')[1] || '' });
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      } else {
+        reject(e);
+      }
+    };
     img.src = url;
   });
 };
@@ -4699,7 +4937,7 @@ window.start60FpsKaraokeLoop = function(aud, idx, cardId) {
     const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[window.resolveStampKey(cardId)]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && aud.currentTime >= _lim) {
       aud.pause(); aud.currentTime = 0;
       window.clearKaraokeHighlights(cardId);
-      window.openProPaywall(window.getSongsUI().pw_10s, true);
+      window.openProPaywall(window.getSongsUI().pw_10s, 'songs');
       return;
     }
     window.syncKaraokeFrame(aud, cardId, false);
@@ -4713,7 +4951,7 @@ window.onSongTimeUpdate = function(el, idx, cardId) {
   const _st = window.SONG_TIMESTAMPS && window.SONG_TIMESTAMPS[window.resolveStampKey(cardId)]; const _lim = ((_st && _st.length) ? Math.max(0, _st[0] - 1.0) : 0) + 12; if (!unlocked && idx >= window.FREE_SONG_LIMIT && el.currentTime >= _lim) {
     el.pause(); el.currentTime = 0;
     window.clearKaraokeHighlights(cardId);
-    window.openProPaywall(window.getSongsUI().pw_10s, true);
+    window.openProPaywall(window.getSongsUI().pw_10s, 'songs');
     return;
   }
   if (!el.paused) {
@@ -5299,9 +5537,11 @@ window.openDeviceSyncModal = function(forceMode) {
   window.switchSyncModalMode(mode);
 };
 
-window.closeDeviceSyncModal = function() {
+window.closeDeviceSyncModal = function(keepPending) {
+  if (!keepPending) { try { sessionStorage.removeItem('gat_wa_otp_pending_v1'); } catch (e) {} }
   const m = document.getElementById('device-sync-modal');
   if (m) m.classList.remove('open');
+  if (typeof window._gatSyncModalScrollLock === 'function') window._gatSyncModalScrollLock();
 };
 
 window.showSyncMsg = function(msg, isErr) {
@@ -5365,31 +5605,64 @@ window.renderMaskedEmailChoices = function(maskedEmails) {
     `).join('');
 };
 
-window.loadUnifiedPassCodeAndQr = async function() {
-  if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged('load_pass');
-  const auth = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth() : null;
-  if (!auth || !auth.currentUser) return;
-  try {
-    const idToken = await auth.currentUser.getIdToken();
-    const res = await fetch((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc"), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mode: 'get_or_create_pass', idToken: idToken })
-    });
-    const data = await res.json();
-    if (!res.ok || !data.ok || !data.passCode) throw new Error(data.error || 'Could not load Pass Code');
+window.renderPassQrImmediately = function(codeStr) {
+  const cleanCode = String(codeStr || '').trim().toUpperCase();
+  if (!cleanCode) return false;
+  const qrBox = document.getElementById('wa-qr-shortcut-box');
+  const codeBox = document.getElementById('sync-generated-code');
+  const qrImg = document.getElementById('sync-qr-img');
+  if (qrBox) qrBox.style.display = 'block';
+  if (codeBox) codeBox.textContent = cleanCode;
+  if (qrImg && typeof window.generateGatQrSvgDataUri === 'function') {
+    const passUrl = 'https://giyuraliyahtrack.com/app/?pass=' + encodeURIComponent(cleanCode);
+    qrImg.src = window.generateGatQrSvgDataUri(passUrl);
+    qrImg.style.background = '#ffffff';
+  }
+  return true;
+};
 
-    localStorage.setItem('gat_permanent_pass_code', data.passCode);
-    const codeBox = document.getElementById('sync-generated-code');
-    const qrImg = document.getElementById('sync-qr-img');
-    if (codeBox) codeBox.textContent = data.passCode;
-    if (qrImg) {
-      const passUrl = 'https://giyuraliyahtrack.com/app/?pass=' + encodeURIComponent(data.passCode);
-      qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data=' + encodeURIComponent(passUrl);
+window.loadUnifiedPassCodeAndQr = async function() {
+  const cachedCode = localStorage.getItem('gat_permanent_pass_code') || localStorage.getItem('gat_pass_code') || localStorage.getItem('gat_passcode') || '';
+  if (cachedCode) window.renderPassQrImmediately(cachedCode);
+
+  const apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'https://giyuraliyahtrack.com/api/auditDoc'
+    : '/api/auditDoc';
+  try {
+    const uid = window.gatUid || localStorage.getItem('gat_uid') || '';
+    const waPh = localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_wa_phone') || '';
+    const devTok = localStorage.getItem('gat_device_auth_tok') || '';
+    if (uid.indexOf('wa_') === 0 || waPh || devTok) {
+      const rRes = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'restore_wa_session', uid: uid, phone: waPh, passCode: cachedCode, deviceAuthToken: devTok })
+      });
+      const rData = await rRes.json();
+      if (rData && rData.ok && (rData.permanentPassCode || rData.passCode)) {
+        const pc = rData.permanentPassCode || rData.passCode;
+        localStorage.setItem('gat_permanent_pass_code', pc);
+        window.renderPassQrImmediately(pc);
+        return;
+      }
     }
-    window.renderMaskedEmailChoices(data.maskedEmails || []);
+    const auth = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth() : null;
+    if (auth && auth.currentUser) {
+      const idToken = await auth.currentUser.getIdToken();
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'get_or_create_pass', idToken: idToken })
+      });
+      const data = await res.json();
+      if (res.ok && data && data.ok && data.passCode) {
+        localStorage.setItem('gat_permanent_pass_code', data.passCode);
+        window.renderPassQrImmediately(data.passCode);
+        if (typeof window.renderMaskedEmailChoices === 'function') window.renderMaskedEmailChoices(data.maskedEmails || []);
+      }
+    }
   } catch (err) {
-    window.showSyncMsg('⚠️ ' + (err.message || err), true);
+    if (!cachedCode && typeof window.showSyncMsg === 'function') window.showSyncMsg('⚠️ ' + (err.message || err), true);
   }
 };
 
@@ -5432,7 +5705,7 @@ window.saveSelectedPassEmail = async function() {
 window.printOrSaveAllAccessPassCard = function() {
   const passCode = localStorage.getItem('gat_permanent_pass_code') || '•••-•••';
   const passUrl = 'https://giyuraliyahtrack.com/app/?pass=' + encodeURIComponent(passCode);
-  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=' + encodeURIComponent(passUrl);
+  const qrUrl = (typeof window.generateGatQrSvgDataUri === 'function' ? window.generateGatQrSvgDataUri(passUrl) : '');
   const w = window.open('', '_blank');
   if (!w) return;
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>GiyurAliyahTrack Pass Card</title>
@@ -5475,6 +5748,10 @@ window.applyMergedServerDossierToLocal = function(mergedData) {
       localStorage.setItem('gat_form_draft_v1', JSON.stringify(draft));
       window.gatFormsState = draft;
       if (typeof window.restoreSavedFormDraft === 'function') window.restoreSavedFormDraft(draft);
+    }
+    if (mergedData.referenceLogger && typeof mergedData.referenceLogger === 'object') {
+      localStorage.setItem('gat_ref_logger_v1', JSON.stringify(mergedData.referenceLogger));
+      if (typeof window.mountReferenceLettersStudio === 'function') setTimeout(window.mountReferenceLettersStudio, 50);
     }
     if (Array.isArray(mergedData.scannedDocs) && mergedData.scannedDocs.length) {
       localStorage.setItem('gat_scanned_docs_v1', JSON.stringify(mergedData.scannedDocs));
@@ -5532,6 +5809,7 @@ window.claimUnifiedPassCode = async function(optionalCode) {
     if (!res.ok || !data.ok || !data.customToken) throw new Error(data.error || 'Invalid Pass Code');
 
     await firebase.auth().signInWithCustomToken(data.customToken);
+    try { sessionStorage.removeItem('gat_wa_otp_pending_v1'); } catch (e) {}
     window.gatUid = data.masterUid;
     localStorage.setItem('gat_uid', data.masterUid || '');
     localStorage.setItem('gat_permanent_pass_code', clean);
@@ -6113,8 +6391,25 @@ window.requestWhatsAppLoginCode = async function() {
     if (!res.ok || !data.ok) throw new Error(data.error || 'Could not send WhatsApp code');
     const otpRow = document.getElementById('wa-otp-verify-row');
     if (otpRow) otpRow.style.display = 'block';
+    try {
+      sessionStorage.setItem('gat_wa_otp_pending_v1', JSON.stringify({
+        phone: rawPhone,
+        masked: data.maskedPhone || rawPhone,
+        modal: 'sync',
+        ts: Date.now()
+      }));
+    } catch (e) {}
     const otpInp = document.getElementById('wa-login-otp-inp');
-    if (otpInp) otpInp.focus();
+    if (otpInp) {
+      otpInp.value = '';
+      // Avoid async .focus() on iOS/Android touch devices (causes phantom focus that blocks keypad on return from WhatsApp!)
+      if (!('ontouchstart' in window) && !(navigator.maxTouchPoints > 0)) {
+        otpInp.focus();
+      }
+      if (otpRow && otpRow.scrollIntoView) {
+        try { otpRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+      }
+    }
     window.showSyncMsg(`✅ Sent to your WhatsApp (${data.maskedPhone})! Enter the 4-digit code or tap the link in WhatsApp.`, false);
   } catch (err) {
     window.showSyncMsg('⚠️ ' + (err.message || err), true);
@@ -7292,7 +7587,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
           <button type="button" class="gat-ld-item" data-ld-key="bd" onclick="window.toggleLeftDrawer(false); if(typeof openMod==='function') openMod('beit-din-150'); else window.location.href='/app/?module=beit-din-150';">🕍 700 Beit Din Flashcards</button>
           <button type="button" class="gat-ld-item" data-ld-key="couples" onclick="window.toggleLeftDrawer(false); if(typeof openMod==='function') openMod('couples-sync'); else window.location.href='/app/?module=couples-sync';">📱 300 Couples 2-Phone Sync</button>
           <button type="button" class="gat-ld-item" data-ld-key="songs" onclick="window.toggleLeftDrawer(false); if(typeof openMod==='function') openMod('songs-prayers'); else window.location.href='/app/?module=songs-prayers';">🎵 56 Songs, Prayers & Brachot</button>
-          <button type="button" class="gat-ld-item" data-ld-key="rabbi" onclick="window.toggleLeftDrawer(false); if(typeof openMod==='function') openMod('rabbi-letters'); else window.location.href='/app/?module=rabbi-letters';">✍️ Rabbi & Host Family Letters</button>
+          <button type="button" class="gat-ld-item" data-ld-key="rabbi" onclick="window.toggleLeftDrawer(false); if(typeof openMod==='function') openMod('rabbi-letters'); else window.location.href='/app/?module=rabbi-letters';">✍️ Reference Letters & Event Log</button>
           <button type="button" class="gat-ld-item" data-ld-key="vetted" onclick="window.toggleLeftDrawer(false); if(typeof openMod==='function') openMod('vetted-team'); else window.location.href='/app/?module=vetted-team';">🤝 Vetted Notary, Rabbi & Lawyer</button>
           <button type="button" class="gat-ld-item" data-ld-key="paywall" style="color:#0288D1;" onclick="window.toggleLeftDrawer(false); if(typeof window.openProPaywall==='function') window.openProPaywall(); else window.location.href='/app/?paywall=1';">🔓 View Passes & Pricing</button>
         </aside>

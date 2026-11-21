@@ -480,7 +480,7 @@
       <button type="button" id="gat-gate-send-btn" onclick="window.sendAdminWaOtp()" style="width:100%;padding:12px;border-radius:10px;border:none;background:#0288d1;color:#fff;font-weight:900;font-size:0.92rem;cursor:pointer;">Send 4-Digit WhatsApp Code</button>
     </div>
     <div id="gat-gate-step2" style="display:none;">
-      <input type="text" id="gat-gate-otp-code" placeholder="4-Digit WhatsApp Code" maxlength="6" autocomplete="one-time-code" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #10b981;background:#041226;color:#fff;font-size:1.2rem;letter-spacing:6px;text-align:center;font-weight:900;margin-bottom:10px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')window.verifyAdminWaOtp()" />
+      <input type="text" id="gat-gate-otp-code" placeholder="4-Digit WhatsApp Code" maxlength="32" autocomplete="one-time-code" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #10b981;background:#041226;color:#fff;font-size:1.2rem;letter-spacing:6px;text-align:center;font-weight:900;margin-bottom:10px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')window.verifyAdminWaOtp()" />
       <button type="button" id="gat-gate-verify-btn" onclick="window.verifyAdminWaOtp()" style="width:100%;padding:12px;border-radius:10px;border:none;background:#059669;color:#fff;font-weight:900;font-size:0.92rem;cursor:pointer;">Verify &amp; Open</button>
     </div>
     <div id="gat-gate-err" style="color:#f87171;font-size:0.8rem;font-weight:800;margin-top:10px;display:none;"></div>
@@ -489,6 +489,75 @@
 <script>
 (function(){
   // Auto-delete expired session tokens from localStorage
+  function readGatAuthCookieInline() {
+    try {
+      var m = document.cookie.match(/(?:^|;\s*)gat_auth_v1=([^;]+)/);
+      return m && m[1] ? JSON.parse(decodeURIComponent(m[1])) : null;
+    } catch (e) { return null; }
+  }
+  function saveGatAuthEverywhereInline(data, fallbackPhone) {
+    try {
+      var uObj = (data && (data.userData || data.mergedData)) || {};
+      var ph = String((data && data.whatsappDigits) || uObj.whatsappDigits || fallbackPhone || '').replace(/\D/g, '');
+      var uid = String((data && (data.masterUid || data.uid)) || uObj.uid || (ph ? 'wa_' + ph : '') || '').trim();
+      if (/^(undefined|null|anon|guest)$/i.test(uid)) uid = ph ? ('wa_' + ph) : '';
+      var pass = String((data && (data.permanentPassCode || data.passCode)) || uObj.permanentPassCode || '').trim().toUpperCase();
+      var devTok = String((data && data.deviceAuthToken) || localStorage.getItem('gat_device_auth_tok') || '').trim();
+      var admTok = String((data && data.adminSessionToken) || localStorage.getItem('gat_admin_session_tok') || '').trim();
+      localStorage.removeItem('gat_explicit_logged_out');
+      if (uid) localStorage.setItem('gat_uid', uid);
+      if (ph) { localStorage.setItem('gat_verified_wa_phone', ph); localStorage.setItem('gat_wa_phone', ph); }
+      if (pass) {
+        localStorage.setItem('gat_permanent_pass_code', pass);
+        localStorage.setItem('gat_pass_code', pass);
+        localStorage.setItem('gat_passcode', pass);
+      }
+      if (devTok) localStorage.setItem('gat_device_auth_tok', devTok);
+      if (admTok) {
+        localStorage.setItem('gat_admin_session_tok', admTok);
+        sessionStorage.setItem('gat_admin_session_tok', admTok);
+      }
+      var rec = { uid: uid, waPhone: ph, passCode: pass, deviceAuthToken: devTok, adminSessionToken: admTok, unlocked: true, tier: uObj.tier || 'vip_couple_649', updatedAtMs: Date.now() };
+      var sec = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = 'gat_auth_v1=' + encodeURIComponent(JSON.stringify(rec)) + '; Path=/; Max-Age=34560000; SameSite=Lax' + sec;
+      if (window.indexedDB) {
+        var rq = window.indexedDB.open('gat_persistent_auth_db', 1);
+        rq.onupgradeneeded = function(ev) {
+          var db = ev.target.result;
+          if (!db.objectStoreNames.contains('session')) db.createObjectStore('session');
+        };
+        rq.onsuccess = function(ev) {
+          try {
+            var db = ev.target.result;
+            var tx = db.transaction('session', 'readwrite');
+            tx.objectStore('session').put(rec, 'primary');
+            tx.oncomplete = function() { db.close(); };
+          } catch (ex) {}
+        };
+      }
+    } catch (e) {}
+  }
+  (function hydrateInlineGateFromCookie() {
+    try {
+      var curU = localStorage.getItem('gat_uid') || '';
+      if (/^(undefined|null|anon|guest)$/i.test(curU)) localStorage.removeItem('gat_uid');
+      var ck = readGatAuthCookieInline();
+      if (ck && localStorage.getItem('gat_explicit_logged_out') !== '1') {
+        if (ck.uid && !localStorage.getItem('gat_uid')) localStorage.setItem('gat_uid', ck.uid);
+        if (ck.waPhone && !localStorage.getItem('gat_verified_wa_phone')) {
+          localStorage.setItem('gat_verified_wa_phone', ck.waPhone);
+          localStorage.setItem('gat_wa_phone', ck.waPhone);
+        }
+        if (ck.passCode && !localStorage.getItem('gat_permanent_pass_code')) {
+          localStorage.setItem('gat_permanent_pass_code', ck.passCode);
+          localStorage.setItem('gat_pass_code', ck.passCode);
+          localStorage.setItem('gat_passcode', ck.passCode);
+        }
+        if (ck.deviceAuthToken && !localStorage.getItem('gat_device_auth_tok')) localStorage.setItem('gat_device_auth_tok', ck.deviceAuthToken);
+        if (ck.adminSessionToken && !localStorage.getItem('gat_admin_session_tok')) localStorage.setItem('gat_admin_session_tok', ck.adminSessionToken);
+      }
+    } catch (e) {}
+  })();
   function cleanExpiredTokens() {
     var tok = localStorage.getItem('gat_admin_session_tok') || '';
     if (tok) {
@@ -510,19 +579,27 @@
     }
   }
   function getStoredAuth() {
+    if (window.__gatGhostAdminTok) { return { adminSessionToken: window.__gatGhostAdminTok, deviceAuthToken: '', adminUid: '', adminPassOrMagic: '', adminPin: '' }; }
     cleanExpiredTokens();
-    var tok = localStorage.getItem('gat_admin_session_tok') || sessionStorage.getItem('gat_admin_session_tok') || '';
-    var uid = localStorage.getItem('gat_uid') || sessionStorage.getItem('gat_admin_uid') || '';
-    var pass = localStorage.getItem('gat_passcode') || localStorage.getItem('gat_wa_magic') || '';
-    var pin = sessionStorage.getItem('gat_admin_pin') || '' || '';
+    var ck = (typeof readGatAuthCookieInline === 'function' && readGatAuthCookieInline()) || {};
+    var tok = localStorage.getItem('gat_admin_session_tok') || sessionStorage.getItem('gat_admin_session_tok') || ck.adminSessionToken || '';
+    var devTok = localStorage.getItem('gat_device_auth_tok') || ck.deviceAuthToken || '';
+    var rawUid = localStorage.getItem('gat_uid') || sessionStorage.getItem('gat_admin_uid') || ck.uid || '';
+    var uid = /^(undefined|null|anon|guest)$/i.test(String(rawUid || '').trim()) ? '' : String(rawUid || '').trim();
+    if (!uid) {
+      var waPh = String(localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_wa_phone') || ck.waPhone || '').replace(/\D/g, '');
+      if (waPh.length >= 8) uid = 'wa_' + waPh;
+    }
+    var pass = localStorage.getItem('gat_permanent_pass_code') || localStorage.getItem('gat_pass_code') || localStorage.getItem('gat_passcode') || localStorage.getItem('gat_wa_magic') || ck.passCode || '';
+    var pin = localStorage.getItem('gat_admin_pin') || sessionStorage.getItem('gat_admin_pin') || '';
     if (!uid || !pass) {
       try {
         var st = JSON.parse(localStorage.getItem('gat_state_v2') || '{}');
-        if (!uid && st.uid) uid = st.uid;
+        if (!uid && st.uid && !/^(undefined|null|anon|guest)$/i.test(st.uid)) uid = st.uid;
         if (!pass && st.permanentPassCode) pass = st.permanentPassCode;
       } catch (e) {}
     }
-    return { adminSessionToken: tok, adminUid: uid, adminPassOrMagic: pass, adminPin: pin };
+    return { adminSessionToken: tok, deviceAuthToken: devTok, adminUid: uid, adminPassOrMagic: pass, adminPin: pin };
   }
 
   var origFetch = window.fetch.bind(window);
@@ -532,6 +609,7 @@
         var b = JSON.parse(opts.body);
         var a = getStoredAuth();
         if (a.adminSessionToken) b.adminSessionToken = a.adminSessionToken;
+        if (a.deviceAuthToken && !b.deviceAuthToken) b.deviceAuthToken = a.deviceAuthToken;
         if (a.adminUid) b.adminUid = a.adminUid;
         if (a.adminPassOrMagic) b.adminPassOrMagic = a.adminPassOrMagic;
         if (a.adminPin && !b.adminPin) b.adminPin = a.adminPin;
@@ -541,10 +619,18 @@
     return origFetch(url, opts);
   };
 
-  function unlockConsoleDOM(tok) {
+  function unlockConsoleDOM(tok, isGhost) {
     if (tok) {
-      localStorage.setItem('gat_admin_session_tok', tok);
-      sessionStorage.setItem('gat_admin_session_tok', tok);
+      if (isGhost || window.__gatGhostAdminTok) {
+        window.__gatGhostAdminTok = tok;
+        var gb = document.createElement('div');
+        gb.style.cssText = 'background:#0f172a;color:#38bdf8;border-bottom:1.5px solid #0284c7;padding:6px 14px;font-size:0.76rem;font-weight:800;text-align:center;';
+        gb.textContent = 'Ghost Admin Active (RAM-Only Session — Zero Disk / Zero Firestore Footprint)';
+        document.body.insertBefore(gb, document.body.firstChild);
+      } else {
+        localStorage.setItem('gat_admin_session_tok', tok);
+        sessionStorage.setItem('gat_admin_session_tok', tok);
+      }
     }
     var eb = document.getElementById('error-box');
     if (eb) { eb.style.display = 'none'; eb.textContent = ''; }
@@ -619,9 +705,14 @@
       });
       var data = await res.json();
       if (!res.ok || !data.ok || !data.adminSessionToken) throw new Error('Invalid or expired code');
-      localStorage.setItem('gat_uid', data.uid);
-      if (data.permanentPassCode) localStorage.setItem('gat_passcode', data.permanentPassCode);
-      unlockConsoleDOM(data.adminSessionToken);
+      if (data.ghostMode) {
+        unlockConsoleDOM(data.adminSessionToken, true);
+      } else {
+        saveGatAuthEverywhereInline(data, window._pendingAdminPhone);
+        unlockConsoleDOM(data.adminSessionToken, false);
+      }
+      if (typeof loadDossiers === 'function') loadDossiers();
+      if (typeof loadAnalytics === 'function') loadAnalytics();
     } catch (e) {
       err.textContent = '❌ ' + (e.message || 'Invalid code');
       err.style.display = 'block';
@@ -941,7 +1032,7 @@ const LEMON_23_CATALOG = [
     async function loadDossiers() {
       const pinEl = document.getElementById("admin-pin");
       const pin = (pinEl ? pinEl.value : "6130").trim();
-      sessionStorage.setItem("gat_admin_pin", pin);
+      if (!window.__gatGhostAdminTok && !document.getElementById("gat-hard-auth-overlay")) { sessionStorage.setItem("gat_admin_pin", pin); localStorage.setItem("gat_admin_pin", pin); }
       const errBanner = document.getElementById("error-banner");
       if (errBanner) errBanner.style.display = "none";
 
@@ -997,7 +1088,7 @@ const LEMON_23_CATALOG = [
           <div style="background:#fffbeb;border:2px solid #f59e0b;border-radius:16px;padding:16px 20px;margin-bottom:8px;">
             <div style="font-size:1.02rem;font-weight:900;color:#78350f;margin-bottom:4px;">🍋 All 23 Official Fixed-Price Revolut Pro & Concierge Links (100% Live • Variant #2377975)</div>
             <div style="font-size:0.84rem;color:#92400e;font-weight:700;">
-              All 16 fixed-price Revolut Pro digital links and 7 $0-today Vetted Concierge intake links live right here and in <code>public/app/app.js?v=1795008319>. Currently in <strong>🧪 TEST MODE</strong> until Lemon Squeezy Compliance unlocks your bottom-left Test Mode toggle.
+              All 16 fixed-price Revolut Pro digital links and 7 $0-today Vetted Concierge intake links live right here and in <code>public/app/app.js?v=1795165968>. Currently in <strong>🧪 TEST MODE</strong> until Lemon Squeezy Compliance unlocks your bottom-left Test Mode toggle.
             </div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:14px;">
@@ -1206,7 +1297,7 @@ const LEMON_23_CATALOG = [
       if (localStorage.getItem("gat_rev_ben")) document.getElementById("default-beneficiary").value = localStorage.getItem("gat_rev_ben");
       if (localStorage.getItem("gat_rev_iban")) document.getElementById("default-iban").value = localStorage.getItem("gat_rev_iban");
       if (localStorage.getItem("gat_rev_link")) document.getElementById("default-paylink").value = localStorage.getItem("gat_rev_link");
-       const savedPin = sessionStorage.getItem("gat_admin_pin") || ""; 
+       const savedPin = localStorage.getItem("gat_admin_pin") || sessionStorage.getItem("gat_admin_pin") || ""; 
       if (savedPin && (savedPin === "6130" || savedPin === "TZFAT2026" || savedPin === "RACHEL2026")) {
         document.getElementById("admin-pin").value = savedPin;
       }
@@ -1214,5 +1305,141 @@ const LEMON_23_CATALOG = [
     });
   </script>
 
+<script>
+/* GAT_SWITCHBOARD_LOCAL_SYNC */
+(function(){
+  var prevF = window.fetch;
+  if (typeof prevF !== 'function') return;
+  window.fetch = async function(input, init) {
+    var resp = await prevF.apply(this, arguments);
+    try {
+      var uStr = typeof input === 'string' ? input : (input && input.url) || '';
+      if (uStr.indexOf('auditDoc') !== -1 && init && typeof init.body === 'string' && init.body.indexOf('admin_set_entitlements') !== -1 && resp && resp.clone) {
+        resp.clone().json().then(function(d) {
+          if (!d || !d.ok || !d.uid) return;
+          var curUid = localStorage.getItem('gat_uid') || '';
+          var curWa = localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_wa_phone') || '';
+          if (d.uid === curUid || (curWa && d.uid === 'wa_' + curWa.replace(/\D/g, ''))) {
+            if (d.unlocked) {
+              localStorage.setItem('gat_pro_unlocked', 'true');
+              localStorage.setItem('gat_pro_tier', d.tier || 'vip_couple_649');
+              localStorage.setItem('gat_tier', d.tier || 'vip_couple_649');
+              localStorage.setItem('gat_entitlements_v2', JSON.stringify(d.entitlementsMap || {}));
+              localStorage.setItem('gat_entitlements_map', JSON.stringify(d.entitlementsMap || {}));
+            } else {
+              localStorage.removeItem('gat_pro_unlocked');
+              localStorage.removeItem('gat_pro_tier');
+              localStorage.removeItem('gat_entitlements_v2');
+              localStorage.removeItem('gat_entitlements_map');
+            }
+            localStorage.setItem('gat_entitlement_sync_ping', String(Date.now()));
+            if (typeof window.persistGatAuthVault === 'function') {
+              window.persistGatAuthVault({
+                uid: d.uid,
+                unlocked: d.unlocked,
+                tier: d.tier,
+                entitlementsMap: d.entitlementsMap
+              });
+            }
+          }
+        }).catch(function(){});
+      }
+    } catch (e) {}
+    return resp;
+  };
+})();
+</script>
+<script>
+/* GAT_LIVE_REALTIME_CONCIERGE_V1 */
+(function initLiveConciergeRealtimeQueue() {
+  // 1. Ensure Ghost Admin RAM token (`window.__gatGhostAdminTok`) is attached to every `/api/auditDoc` POST!
+  var baseFetch = window.fetch;
+  if (typeof baseFetch === "function" && !window._gatGhostFetchWrapped) {
+    window._gatGhostFetchWrapped = true;
+    window.fetch = function(input, init) {
+      try {
+        var uStr = typeof input === "string" ? input : (input && input.url) || "";
+        if (window.__gatGhostAdminTok && uStr.indexOf("auditDoc") !== -1 && init && typeof init.body === "string" && init.body.charAt(0) === "{") {
+          var parsed = JSON.parse(init.body);
+          if (!parsed.adminSessionToken) {
+            parsed.adminSessionToken = window.__gatGhostAdminTok;
+            init = Object.assign({}, init, { body: JSON.stringify(parsed) });
+          }
+        }
+      } catch (e) {}
+      return baseFetch.call(this, input, init);
+    };
+  }
+
+  // 2. Add Live Sync Status Pill in Topbar
+  var topCtrl = document.querySelector(".topbar-controls");
+  var livePill = null;
+  if (topCtrl) {
+    livePill = document.createElement("span");
+    livePill.id = "gat-live-poll-pill";
+    livePill.style.cssText = "background:rgba(16,185,129,0.18);border:1.5px solid #34d399;color:#ecfdf5;padding:6px 11px;border-radius:999px;font-size:0.75rem;font-weight:900;display:inline-flex;align-items:center;gap:6px;";
+    livePill.innerHTML = '<span style="width:8px;height:8px;border-radius:50%;background:#34d399;display:inline-block;"></span> Live Queue Auto-Sync (4s)';
+    topCtrl.insertBefore(livePill, topCtrl.firstChild);
+  }
+
+  function isAdminConsoleUnlocked() {
+    var ov = document.getElementById("gat-hard-auth-overlay");
+    return !ov || ov.style.display === "none";
+  }
+
+  function isTypingInConsole() {
+    var ae = document.activeElement;
+    if (!ae) return false;
+    var tag = (ae.tagName || "").toUpperCase();
+    if (tag !== "INPUT" && tag !== "TEXTAREA" && tag !== "SELECT") return false;
+    if (ae.id === "search-box" || ae.id === "service-filter") return false;
+    return true;
+  }
+
+  var lastDossiersSig = "";
+  var lastIntentsHtmlSig = "";
+  var pollBusy = false;
+
+  async function silentRealtimeTick() {
+    if (pollBusy || document.visibilityState !== "visible" || !isAdminConsoleUnlocked() || isTypingInConsole()) return;
+    pollBusy = true;
+    try {
+      // Refresh Pending Revolut Checkout Intents (Waiting List)
+      if (typeof window.loadPendingRevolutIntents === "function") {
+        await window.loadPendingRevolutIntents();
+      }
+      // Silently check Concierge Dossiers and only re-render if changed
+      var res = await window.fetch("/api/auditDoc", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: "admin_list_concierge" })
+      });
+      var data = await res.json();
+      if (data && data.ok && Array.isArray(data.items)) {
+        var sig = JSON.stringify(data.items.map(function(it) {
+          return [it.uid, it.unlocked, it.tier, (it.order && it.order.status) || "", (it.order && it.order.updatedAtMs) || 0, it.lastConciergeWhatsAppAtMs || 0, it.lastConciergeHelpdeskAtMs || 0];
+        }));
+        if (sig !== lastDossiersSig) {
+          lastDossiersSig = sig;
+          if (typeof ALL_ITEMS !== "undefined") ALL_ITEMS = data.items;
+          if (typeof updateTabCounts === "function") updateTabCounts();
+          if (typeof renderDossiers === "function" && !isTypingInConsole()) renderDossiers();
+        }
+      }
+      if (livePill) {
+        var nowStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+        livePill.innerHTML = '<span style="width:8px;height:8px;border-radius:50%;background:#34d399;display:inline-block;"></span> Live Sync • ' + nowStr;
+      }
+    } catch (e) {}
+    pollBusy = false;
+  }
+
+  setInterval(silentRealtimeTick, 4000);
+  window.addEventListener("focus", silentRealtimeTick);
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "visible") silentRealtimeTick();
+  });
+})();
+</script>
 </body>
 </html>

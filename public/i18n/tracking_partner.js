@@ -1,3 +1,120 @@
+// === GAT HARD BROWSER WIPE (?fresh=1) V1 START ===
+(function checkGatHardFreshWipeV1() {
+  try {
+    window.addEventListener("storage", function(ev) {
+      if (ev && ev.key === "gat_force_wipe_all_tabs" && ev.newValue) {
+        window.gatUid = "";
+        try { localStorage.clear(); sessionStorage.clear(); } catch (e) {}
+        window.location.reload();
+      }
+    });
+    var sp = new URLSearchParams(window.location.search || "");
+    if (sp.get("fresh") !== "1" && sp.get("wipe") !== "1") return;
+    window.__gatFreshWipeActive = true;
+    try { localStorage.setItem("gat_force_wipe_all_tabs", String(Date.now())); } catch (e) {}
+    try { localStorage.clear(); localStorage.setItem("gat_explicit_logged_out", "1"); } catch (e) {}
+    try { sessionStorage.clear(); } catch (e) {}
+    try { localStorage.setItem("gat_fresh_arrival_reset_v8", "1"); } catch (e) {}
+    try { localStorage.setItem("gat_unchecked_decl_fix_v1", "1"); } catch (e) {}
+    try {
+      document.cookie = "gat_auth_v1=; Path=/; Max-Age=0; SameSite=Lax";
+      document.cookie = "gat_auth_v1=; Path=/; Max-Age=0; SameSite=Lax; Secure";
+    } catch (e) {}
+
+    var wipeDb = function(dbName) {
+      return new Promise(function(resolve) {
+        if (!window.indexedDB) return resolve();
+        var done = false;
+        var finish = function() { if (!done) { done = true; resolve(); } };
+        setTimeout(finish, 450);
+        try {
+          var rq = window.indexedDB.open(dbName);
+          rq.onsuccess = function(ev) {
+            try {
+              var db = ev.target.result;
+              var stores = Array.from(db.objectStoreNames || []);
+              if (stores.length > 0) {
+                var tx = db.transaction(stores, "readwrite");
+                stores.forEach(function(st) { try { tx.objectStore(st).clear(); } catch (ex) {} });
+                tx.oncomplete = function() {
+                  try { db.close(); } catch (e) {}
+                  try { window.indexedDB.deleteDatabase(dbName); } catch (e) {}
+                  finish();
+                };
+                tx.onerror = function() { try { db.close(); } catch (e) {} finish(); };
+              } else {
+                try { db.close(); } catch (e) {}
+                finish();
+              }
+            } catch (ex) { finish(); }
+          };
+          rq.onerror = finish;
+        } catch (ex) { finish(); }
+      });
+    };
+
+    Promise.all([
+      wipeDb("gat_persistent_auth_db"),
+      wipeDb("gat_doc_vault_v1"),
+      wipeDb("gat_doc_vault_idb_v1"),
+      wipeDb("firebaseLocalStorageDb")
+    ]).then(function() {
+      try {
+        if (window.firebase && typeof window.firebase.auth === "function" && window.firebase.apps && window.firebase.apps.length) {
+          window.firebase.auth().signOut().catch(function(){});
+        }
+      } catch (e) {}
+      sp.delete("fresh");
+      sp.delete("wipe");
+      var qs = sp.toString();
+      var cleanUrl = window.location.pathname + (qs ? "?" + qs : "") + (window.location.hash || "");
+      try { localStorage.removeItem("gat_explicit_logged_out"); } catch (e) {}
+      window.location.replace(cleanUrl);
+    });
+  } catch (err) {}
+})();
+// === GAT HARD BROWSER WIPE (?fresh=1) V1 END ===
+// === GAT 1-TAP FRESH BROWSER RESET HOOK START ===
+(function checkGatFreshDeviceResetParam() {
+  try {
+    var sp = new URLSearchParams(window.location.search);
+    if (sp.get("fresh") !== "1") return;
+    try { localStorage.clear(); localStorage.setItem("gat_explicit_logged_out", "1"); } catch (e) {}
+    try { sessionStorage.clear(); } catch (e) {}
+    try {
+      document.cookie.split(";").forEach(function(c) {
+        var eq = c.indexOf("=");
+        var name = (eq > -1 ? c.slice(0, eq) : c).trim();
+        if (name) {
+          document.cookie = name + "=; Path=/; Max-Age=0; SameSite=Lax";
+          document.cookie = name + "=; Path=/; Max-Age=0; SameSite=Lax; Secure";
+        }
+      });
+    } catch (e) {}
+    var dbNames = ["gat_persistent_auth_db", "gat_doc_vault_v1", "gat_vault_db", "gat_doc_vault", "firebaseLocalStorageDb"];
+    var finishRedirect = function() {
+      sp.delete("fresh");
+      var qs = sp.toString();
+      window.location.replace(window.location.pathname + (qs ? "?" + qs : ""));
+    };
+    if (window.indexedDB) {
+      if (typeof window.indexedDB.databases === "function") {
+        window.indexedDB.databases().then(function(dbs) {
+          (dbs || []).forEach(function(d) { if (d && d.name && dbNames.indexOf(d.name) === -1) dbNames.push(d.name); });
+          dbNames.forEach(function(n) { try { window.indexedDB.deleteDatabase(n); } catch (e) {} });
+          setTimeout(finishRedirect, 250);
+        }).catch(function() {
+          dbNames.forEach(function(n) { try { window.indexedDB.deleteDatabase(n); } catch (e) {} });
+          setTimeout(finishRedirect, 250);
+        });
+        return;
+      }
+      dbNames.forEach(function(n) { try { window.indexedDB.deleteDatabase(n); } catch (e) {} });
+    }
+    setTimeout(finishRedirect, 200);
+  } catch (e) {}
+})();
+// === GAT 1-TAP FRESH BROWSER RESET HOOK END ===
 // === GAT 24/7 IN-APP AI HELPDESK & CONCIERGE WIDGET ===
 (function initGatAiHelpdeskWidget() {
   if (window._gatHelpdeskMounted) return;
@@ -2990,8 +3107,8 @@ if (typeof document !== 'undefined') {
       btnDownload: "⬇️ Download",
       btnAddPage: "➕ Add Page",
       btnDelete: "🗑️",
-      ownerMe: "Primary Applicant (Me)",
-      ownerPartner: "Partner / Spouse",
+      ownerMe: "🌍 Foreign Applicant (Step 1)",
+      ownerPartner: "🇮🇱 Israeli Spouse / Sponsor (Step 3)",
       secForms: "📄 2. My 8 Official Stamped Hebrew PIBA Forms",
       secFormsSub: "Tap any form to open or download your stamped PDF:",
       openFormsBtn: "📄 Open PIBA Forms Engine & PDF Stamper →",
@@ -3016,7 +3133,7 @@ if (typeof document !== 'undefined') {
       hamBd: "🕍 700 Beit Din Exam Flashcards",
       hamCouples: "📱 300-Q 2-Phone Couples Sync",
       hamSongs: "🎵 56 Shabbat Songs, Prayers & Brachot",
-      hamLetters: "✍️ Rabbi & Host Family Reference Logger",
+      hamLetters: "✍️ Reference Letters & Event Log",
       hamTracker: "📊 Live 180-Day & 30-Day Deadline Tracker",
       hamSec2: "🤝 VETTED CONCIERGE & PARTNER SHIELDS",
       hamVetted: "🤝 Vetted Notary, Rabbi, Kallah & Lawyer Desk",
@@ -3070,7 +3187,7 @@ if (typeof document !== 'undefined') {
       hamBd: "🕍 700 כרטיסיות הכנה לבית הדין",
       hamCouples: "📱 300 שאלות שימוע זוגי ב-2 טלפונים",
       hamSongs: "🎵 56 שירי שבת, תפילות וברכות",
-      hamLetters: "✍️ יומן פעילות ומכתבי המלצה מרב וקהילה",
+      hamLetters: "✍️ יומן קהילה ומכתבי המלצה ועדות",
       hamTracker: "📊 מחשבון 180 יום ומעקב זמנים",
       hamSec2: "🤝 ליווי אנושי מאומת והגנות פיננסיות",
       hamVetted: "🤝 נוטריון סרט אדום, רב מלווה, מדריכת כלה ועו״ד",
@@ -3124,7 +3241,7 @@ if (typeof document !== 'undefined') {
       hamBd: "🕍 700 Cartes d'Examen Beit Din",
       hamCouples: "📱 300 Questions Couples sur 2 Téléphones",
       hamSongs: "🎵 56 Chants de Chabbat, Prières & Brakhot",
-      hamLetters: "✍️ Journal d'Activités & Lettres du Rabbin",
+      hamLetters: "✍️ Journal d'Activités & Lettres de Référence",
       hamTracker: "📊 Suivi des Délais 180 Jours & 30 Jours",
       hamSec2: "🤝 CONCIERGERIE VÉRIFIÉE & BOUCLIERS",
       hamVetted: "🤝 Notaire Ruban Rouge, Rabbin, Kallah & Avocat",
@@ -3178,7 +3295,7 @@ if (typeof document !== 'undefined') {
       hamBd: "🕍 700 Tarjetas de Examen Beit Din",
       hamCouples: "📱 300 Preguntas de Pareja en 2 Teléfonos",
       hamSongs: "🎵 56 Canciones de Shabat, Rezos y Berajot",
-      hamLetters: "✍️ Registro de Actividades y Cartas Rabínicas",
+      hamLetters: "✍️ Registro de Eventos y Cartas de Referencia",
       hamTracker: "📊 Reloj de 180 Días y 30 Días",
       hamSec2: "🤝 CONSERJERÍA VERIFICADA Y ESCUDOS",
       hamVetted: "🤝 Notario Cinta Roja, Rabino, Kalá y Abogado",
@@ -3232,7 +3349,7 @@ if (typeof document !== 'undefined') {
       hamBd: "🕍 700 Beit-Din-Prüfungskarten",
       hamCouples: "📱 300 Paar-Fragen (2-Handy-Sync)",
       hamSongs: "🎵 56 Schabbat-Lieder, Gebete & Brachot",
-      hamLetters: "✍️ Aktivitäts-Logger & Rabbiner-Empfehlungen",
+      hamLetters: "✍️ Ereignis-Logbuch & Empfehlungsschreiben",
       hamTracker: "📊 180-Tage- & 30-Tage-Fristen-Tracker",
       hamSec2: "🤝 GEPRÜFTE CONCIERGE & SCHUTZSCHILDE",
       hamVetted: "🤝 Rotband-Notar, Rabbiner, Kallah & Anwalt",
@@ -3286,7 +3403,7 @@ if (typeof document !== 'undefined') {
       hamBd: "🕍 700 карточек экзамена Бейт-Дина",
       hamCouples: "📱 300 вопросов для пар (синхронизация 2 телефонов)",
       hamSongs: "🎵 56 субботних песен, молитв и благословений",
-      hamLetters: "✍️ Дневник общины и письма от раввина",
+      hamLetters: "✍️ Дневник событий и рекомендательные письма",
       hamTracker: "📊 Трекер сроков 180 дней и 30 дней",
       hamSec2: "🤝 ПРОВЕРЕННЫЕ СПЕЦИАЛИСТЫ И ЗАЩИТА",
       hamVetted: "🤝 Нотариус, раввин-куратор, мадрихат калла и адвокат",
@@ -3499,7 +3616,7 @@ if (typeof document !== 'undefined') {
         const res = await fetch(getApiUrl(), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ mode: "list_uploaded_docs", uid: uid })
+          body: JSON.stringify({ mode: "list_uploaded_docs", uid: uid, waPhone: localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "", deviceAuthToken: localStorage.getItem("gat_device_auth_tok") || "" })
         });
         const data = await res.json();
         if (data && data.ok && Array.isArray(data.items)) {
@@ -3717,6 +3834,7 @@ if (typeof document !== 'undefined') {
       inp.value = "";
       window.renderGatProfileVaultList();
     };
+    window._gatFilePickerOpenAt = Date.now();
     inp.click();
   };
 
@@ -3909,6 +4027,7 @@ if (typeof document !== 'undefined') {
         '<span id="appbar-profile-dot" style="position:absolute;top:4px;right:4px;width:9px;height:9px;border-radius:50%;background:#f59e0b;border:1.5px solid #082548;"></span>';
       profBtn.onclick = function(e) { window.openGatProfileModal(e); };
       if (shareBtn) {
+        profBtn.style.setProperty('margin-inline-end', '-5px', 'important');
         rightContainer.insertBefore(profBtn, shareBtn);
       } else {
         rightContainer.insertBefore(profBtn, rightContainer.firstChild);
@@ -5603,6 +5722,18 @@ if (typeof document !== 'undefined') {
         localStorage.setItem("gat_unlocked_tier", rawTier);
         localStorage.setItem("gat_tier", rawTier);
       }
+      if (opts.deviceAuthToken) {
+        localStorage.setItem("gat_device_auth_tok", opts.deviceAuthToken);
+      }
+      if (opts.entitlementsMap && typeof opts.entitlementsMap === "object" && Object.keys(opts.entitlementsMap).length > 0) {
+        localStorage.setItem("gat_entitlements_v2", JSON.stringify(opts.entitlementsMap));
+        localStorage.setItem("gat_entitlements_map", JSON.stringify(opts.entitlementsMap));
+      } else if (rawPro && rawTier && !localStorage.getItem("gat_entitlements_v2")) {
+        const synth = {};
+        synth[rawTier] = { exp: 0, ts: Date.now() };
+        localStorage.setItem("gat_entitlements_v2", JSON.stringify(synth));
+        localStorage.setItem("gat_entitlements_map", JSON.stringify(synth));
+      }
     } catch (e) {}
   };
 
@@ -5967,8 +6098,9 @@ if (typeof document !== 'undefined') {
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error((data && data.error) || "Could not send WhatsApp code");
       if (otpBox) otpBox.style.display = "block";
+      try { sessionStorage.setItem("gat_wa_otp_pending_v1", JSON.stringify({ phone: rawPhone, masked: data.maskedPhone || ("+" + digits), modal: "profile", ts: Date.now() })); } catch (e) {}
       const codeInp = document.getElementById("gat-prof-wa-code-inp");
-      if (codeInp) codeInp.focus();
+      if (codeInp && !("ontouchstart" in window) && !(navigator.maxTouchPoints > 0)) codeInp.focus();
       if (msg) {
         msg.style.display = "block";
         msg.style.color = "#047857";
@@ -6017,6 +6149,7 @@ if (typeof document !== 'undefined') {
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error((data && data.error) || "Invalid code");
 
+      try { sessionStorage.removeItem("gat_wa_otp_pending_v1"); } catch (e) {}
       localStorage.removeItem("gat_explicit_logged_out");
       const uData = data.userData || {};
       if (typeof window.syncAllGatAuthStorageKeys === "function") {
@@ -6025,9 +6158,12 @@ if (typeof document !== 'undefined') {
           waPhone: data.whatsappDigits || digits,
           passCode: uData.permanentPassCode || "",
           customToken: data.customToken || "",
-          unlocked: uData.unlocked,
-          tier: uData.tier
+          deviceAuthToken: data.deviceAuthToken || "",
+          unlocked: data.unlocked !== undefined ? data.unlocked : uData.unlocked,
+          tier: data.tier || uData.tier,
+          entitlementsMap: data.entitlementsMap || uData.entitlementsMap || null
         });
+        try { localStorage.removeItem("gat_deleted_vault_slots_v1"); } catch (e) {}
       }
       if (data.customToken && typeof firebase !== "undefined" && firebase.auth) {
         try { await firebase.auth().signInWithCustomToken(data.customToken); } catch (e) {}
@@ -6077,6 +6213,7 @@ if (typeof document !== 'undefined') {
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error((data && data.error) || "Invalid Pass Code");
 
+      try { sessionStorage.removeItem("gat_wa_otp_pending_v1"); } catch (e) {}
       localStorage.removeItem("gat_explicit_logged_out");
       const uData = data.userData || data.mergedData || {};
       const mUid = data.masterUid || uData.uid || "";
@@ -6087,9 +6224,12 @@ if (typeof document !== 'undefined') {
           waPhone: waDig,
           passCode: clean,
           customToken: data.customToken || "",
-          unlocked: uData.unlocked,
-          tier: uData.tier
+          deviceAuthToken: data.deviceAuthToken || "",
+          unlocked: data.unlocked !== undefined ? data.unlocked : uData.unlocked,
+          tier: data.tier || uData.tier,
+          entitlementsMap: data.entitlementsMap || uData.entitlementsMap || null
         });
+        try { localStorage.removeItem("gat_deleted_vault_slots_v1"); } catch (e) {}
       }
       if (data.customToken && typeof firebase !== "undefined" && firebase.auth) {
         try { await firebase.auth().signInWithCustomToken(data.customToken); } catch (e) {}
@@ -6472,12 +6612,14 @@ if (typeof document !== 'undefined') {
     try {
       const qL = (new URLSearchParams(window.location.search).get("lang") || "").toLowerCase();
       if (VALID_LANGS.indexOf(qL) !== -1) return qL;
-      const sL = (localStorage.getItem("gat_lang") || localStorage.getItem("zehut_lang") || "").toLowerCase();
-      if (VALID_LANGS.indexOf(sL) !== -1) return sL;
       const m = window.location.pathname.match(/^\/(he|fr|es|de|ru)(\/|$)/i);
       if (m) return m[1].toLowerCase();
-      const wL = String(window.appLang || window.gatLang || window.lang || "").slice(0, 2).toLowerCase();
-      if (VALID_LANGS.indexOf(wL) !== -1) return wL;
+      if (window.location.pathname.indexOf("/app") !== 0) {
+        const docL = String(document.documentElement.lang || "").slice(0, 2).toLowerCase();
+        if (VALID_LANGS.indexOf(docL) !== -1) return docL;
+      }
+      const sL = (localStorage.getItem("gat_lang") || localStorage.getItem("zehut_lang") || "").toLowerCase();
+      if (VALID_LANGS.indexOf(sL) !== -1) return sL;
     } catch (e) {}
     return "en";
   };
@@ -6853,12 +6995,12 @@ if (typeof document !== 'undefined') {
       incWarn: "⚠️ FLAGGED INCOMPLETE (Clerk Rejection Risk)",
       seeWhyBtn: "🔎 See Why",
       addPageBtn: "➕ Add Missing Page",
-      meOpt: "👤 Me (Applicant)",
-      partnerOpt: "👥 Partner / Spouse",
+      meOpt: "🌍 Foreign Applicant",
+      partnerOpt: "🇮🇱 Israeli Spouse / Sponsor",
       bothOpt: "💑 Both (Couple)",
       profPartyLbl: "1. Select Who You Are Uploading For:",
       profUploadBtn: "➕ Upload / Scan New Document to Vault",
-      tapSwitchHint: "Tap 👤 Me / 👥 Partner on any card to reassign owner",
+      tapSwitchHint: "Step 1 = 🌍 Foreign Applicant • Step 3 = 🇮🇱 Israeli Spouse/Sponsor (tap badge to switch)",
       spinTitle: "🤖 AI Forensic Scanner Analyzing Document...",
       spinSub: "Extracting Hebrew/Latin fields & checking Misrad HaPanim rules",
       spinRem: "⏱️ {s}s remaining...",
@@ -6895,7 +7037,7 @@ if (typeof document !== 'undefined') {
       seeWhyBtn: "🔎 למה סומן כחסר?",
       addPageBtn: "➕ הוספת עמוד חסר / ספח פתוח",
       meOpt: "👤 אני (מבקש/ת)",
-      partnerOpt: "👥 בן/בת זוג",
+      partnerOpt: "🇮🇱 בן/בת הזוג הישראלי/ת (שלב 3)",
       bothOpt: "💑 שני בני הזוג",
       profPartyLbl: "1. בחרו עבור מי אתם מעלים את המסמך:",
       profUploadBtn: "➕ העלאה / סריקת מסמך חדש לכספת",
@@ -6977,7 +7119,7 @@ if (typeof document !== 'undefined') {
       seeWhyBtn: "🔎 Ver Por Qué",
       addPageBtn: "➕ Añadir Página Faltante",
       meOpt: "👤 Yo",
-      partnerOpt: "👥 Pareja / Cónyuge",
+      partnerOpt: "🇮🇱 Cónyuge / Garante Israelí",
       bothOpt: "💑 Ambos (Pareja)",
       profPartyLbl: "1. Seleccione para quién sube el documento:",
       profUploadBtn: "➕ Subir / Escanear Nuevo Documento",
@@ -7018,7 +7160,7 @@ if (typeof document !== 'undefined') {
       seeWhyBtn: "🔎 Warum?",
       addPageBtn: "➕ Fehlende Seite Hinzufügen",
       meOpt: "👤 Ich",
-      partnerOpt: "👥 Partner / Ehepartner",
+      partnerOpt: "🇮🇱 Israelischer Partner",
       bothOpt: "💑 Beide (Paar)",
       profPartyLbl: "1. Wählen Sie, für wen Sie hochladen:",
       profUploadBtn: "➕ Neues Dokument Hochladen / Scannen",
@@ -7058,7 +7200,7 @@ if (typeof document !== 'undefined') {
       incWarn: "⚠️ ДОКУМЕНТ НЕПОЛНЫЙ (Риск отказа в МВД)",
       seeWhyBtn: "🔎 Подробнее",
       addPageBtn: "➕ Добавить страницу",
-      meOpt: "👤 Я (Заявитель)",
+      meOpt: "🌍 Иностранный заявитель",
       partnerOpt: "👥 Супруг(а) / Партнёр",
       bothOpt: "💑 Оба супруга",
       profPartyLbl: "1. Выберите, чей документ вы загружаете:",
@@ -7098,13 +7240,89 @@ if (typeof document !== 'undefined') {
     return ["en", "he", "fr", "es", "de", "ru"].includes(l) ? l : "en";
   }
 
+  const PROG_STAGE_I18N = {
+    en: [
+      "Preparing & optimizing document...",
+      "Uploading encrypted scan...",
+      "AI reading Hebrew & Latin fields...",
+      "Checking Apostille, Sefach & Misrad HaPanim rules...",
+      "Auto-filling form & saving to Vault..."
+    ],
+    he: [
+      "מכין וממטב את המסמך...",
+      "מעלה סריקה מוצפנת...",
+      "ה-AI קורא שדות בעברית ובאנגלית...",
+      "בודק אפוסטיל, ספח ונהלי משרד הפנים...",
+      "ממלא את הטופס ושומר בכספת..."
+    ],
+    fr: [
+      "Préparation du document...",
+      "Envoi sécurisé du scan...",
+      "Lecture IA des champs hébreux et latins...",
+      "Vérification Apostille, Sefach et règles PIBA...",
+      "Pré-remplissage et sauvegarde..."
+    ],
+    es: [
+      "Preparando documento...",
+      "Subiendo escaneo cifrado...",
+      "IA leyendo campos en hebreo y latín...",
+      "Verificando Apostilla, Sefaj y reglas PIBA...",
+      "Rellenando formulario y guardando..."
+    ],
+    de: [
+      "Dokument wird vorbereitet...",
+      "Verschlüsselter Upload läuft...",
+      "KI liest hebräische & lateinische Felder...",
+      "Prüfung von Apostille, Sefach & PIBA-Regeln...",
+      "Formular ausfüllen & speichern..."
+    ],
+    ru: [
+      "Подготовка документа...",
+      "Загрузка зашифрованного скана...",
+      "ИИ считывает поля на иврите и латинице...",
+      "Проверка апостиля, Сефаха и правил МВД...",
+      "Заполнение анкеты и сохранение..."
+    ]
+  };
+
   let _spinInterval = null;
+  let _spinAutoHide = null;
+  let _spinCurPct = 10;
+  let _spinFloorPct = 10;
+
+  function renderSpinPctAndStage(pct) {
+    const clamped = Math.max(10, Math.min(100, Math.round(pct)));
+    _spinCurPct = clamped;
+    const l = getCurLang();
+    const stages = PROG_STAGE_I18N[l] || PROG_STAGE_I18N.en;
+    const barEl = document.getElementById("gat-spin-prog-bar");
+    const pctEl = document.getElementById("gat-spin-pct-txt");
+    const stgEl = document.getElementById("gat-spin-stage-txt");
+    if (barEl) barEl.style.width = clamped + "%";
+    if (pctEl) pctEl.textContent = clamped + "%";
+    if (stgEl) {
+      const sIdx = clamped < 22 ? 0 : (clamped < 36 ? 1 : (clamped < 72 ? 2 : (clamped < 95 ? 3 : 4)));
+      stgEl.textContent = stages[sIdx];
+    }
+  }
+
+  window.updateGatUploadProgress = function(minPct) {
+    const p = Math.max(10, Math.min(99, Math.round(Number(minPct) || 10)));
+    if (p > _spinFloorPct) _spinFloorPct = p;
+    if (p > _spinCurPct) renderSpinPctAndStage(p);
+  };
+
   window.showGatUploadSpinner = function(customTitle, maxSeconds) {
-    window.hideGatUploadSpinner();
+    window.hideGatUploadSpinner(true);
     const l = getCurLang();
     const lt = LOCK_I18N[l] || LOCK_I18N.en;
-    const totalSec = Number(maxSeconds) || 35;
-    let remSec = totalSec;
+    const stages = PROG_STAGE_I18N[l] || PROG_STAGE_I18N.en;
+    const hardTimeoutMs = (Number(maxSeconds) || 90) * 1000;
+    // Calibrate visual curve to real ~24s Gemini 3.8 Flash completion (never counts down seconds!)
+    const expectedAiMs = 24000;
+    const startedMs = Date.now();
+    _spinCurPct = 10;
+    _spinFloorPct = 10;
 
     if (!document.getElementById("gat-topmost-spin-keyframes")) {
       const st = document.createElement("style");
@@ -7118,36 +7336,53 @@ if (typeof document !== 'undefined') {
     ov.dir = l === "he" ? "rtl" : "ltr";
     ov.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:rgba(4,18,38,0.86);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;pointer-events:all;user-select:none;";
     ov.innerHTML =
-      '<div style="background:#ffffff;border:3px solid #0284c7;border-radius:18px;max-width:420px;width:100%;padding:24px 22px;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.55);color:#0f172a;">' +
-        '<div style="width:54px;height:54px;border:5px solid #e0f2fe;border-top-color:#0284c7;border-radius:50%;margin:0 auto 14px;animation:gatTopSpin 0.85s linear infinite;"></div>' +
-        '<div id="gat-spin-title-txt" style="font-size:0.98rem;font-weight:900;color:#082548;margin-bottom:6px;line-height:1.35;">' + (customTitle || lt.spinTitle) + '</div>' +
-        '<div style="font-size:0.79rem;font-weight:700;color:#475569;margin-bottom:14px;line-height:1.4;">' + lt.spinSub + '</div>' +
-        '<div style="width:100%;height:9px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-bottom:10px;">' +
-          '<div id="gat-spin-prog-bar" style="width:8%;height:100%;background:linear-gradient(90deg,#0284c7,#10b981);transition:width 0.9s linear;"></div>' +
+      '<div style="background:#ffffff;border:3px solid #0284c7;border-radius:18px;max-width:430px;width:100%;padding:24px 22px;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.55);color:#0f172a;">' +
+        '<div style="width:52px;height:52px;border:5px solid #e0f2fe;border-top-color:#0284c7;border-radius:50%;margin:0 auto 14px;animation:gatTopSpin 0.85s linear infinite;"></div>' +
+        '<div id="gat-spin-title-txt" style="font-size:0.98rem;font-weight:900;color:#082548;margin-bottom:5px;line-height:1.35;">' + (customTitle || lt.spinTitle) + '</div>' +
+        '<div id="gat-spin-stage-txt" style="font-size:0.81rem;font-weight:800;color:#0369a1;margin-bottom:14px;line-height:1.4;min-height:1.4em;">' + stages[0] + '</div>' +
+        '<div style="width:100%;height:15px;background:#e2e8f0;border-radius:999px;overflow:hidden;border:1px solid #cbd5e1;box-shadow:inset 0 1px 3px rgba(0,0,0,0.08);margin-bottom:10px;">' +
+          '<div id="gat-spin-prog-bar" style="width:10%;height:100%;border-radius:999px;background:linear-gradient(90deg,#0284c7 0%,#0ea5e9 55%,#10b981 100%);transition:width 0.28s ease-out;"></div>' +
         '</div>' +
-        '<div id="gat-spin-countdown-txt" style="font-size:0.82rem;font-weight:900;color:#0369a1;background:#f0f9ff;border:1.5px solid #bae6fd;display:inline-block;padding:4px 14px;border-radius:999px;">' + lt.spinRem.replace("{s}", String(remSec)) + '</div>' +
+        '<div id="gat-spin-pct-txt" style="font-size:0.88rem;font-weight:900;color:#0284c7;background:#f0f9ff;border:1.5px solid #bae6fd;display:inline-block;padding:4px 16px;border-radius:999px;font-variant-numeric:tabular-nums;">10%</div>' +
       '</div>';
     document.body.appendChild(ov);
 
     _spinInterval = setInterval(function() {
-      remSec = Math.max(1, remSec - 1);
-      const cdEl = document.getElementById("gat-spin-countdown-txt");
-      const barEl = document.getElementById("gat-spin-prog-bar");
-      if (cdEl) cdEl.textContent = lt.spinRem.replace("{s}", String(remSec));
-      if (barEl) {
-        const pct = Math.min(96, Math.round(((totalSec - remSec) / totalSec) * 95) + 8);
-        barEl.style.width = pct + "%";
+      const elapsed = Date.now() - startedMs;
+      let targetPct;
+      if (elapsed <= expectedAiMs) {
+        // Smooth 10% -> 88% across the typical ~24s scan window
+        const r = elapsed / expectedAiMs;
+        targetPct = 10 + Math.round((1 - Math.pow(1 - r, 1.85)) * 78);
+      } else {
+        // If multi-page PDF takes >24s, glide slowly 88% -> 96% up to the silent 90s ceiling
+        const extraRatio = Math.min(1, (elapsed - expectedAiMs) / Math.max(10000, hardTimeoutMs - expectedAiMs));
+        targetPct = 88 + Math.round(extraRatio * 8);
       }
-    }, 1000);
+      const nextPct = Math.min(96, Math.max(_spinCurPct, _spinFloorPct, targetPct));
+      renderSpinPctAndStage(nextPct);
+    }, 220);
+
+    _spinAutoHide = setTimeout(function() {
+      window.hideGatUploadSpinner(true);
+    }, hardTimeoutMs + 2000);
   };
 
-  window.hideGatUploadSpinner = function() {
-    if (_spinInterval) {
-      clearInterval(_spinInterval);
-      _spinInterval = null;
-    }
+  window.hideGatUploadSpinner = function(immediate) {
+    if (_spinInterval) { clearInterval(_spinInterval); _spinInterval = null; }
+    if (_spinAutoHide) { clearTimeout(_spinAutoHide); _spinAutoHide = null; }
     const existing = document.getElementById("gat-upload-spinner-overlay");
-    if (existing) existing.remove();
+    const existingFv = document.getElementById("gat-fullscreen-upload-spinner");
+    if (immediate) {
+      if (existing) existing.remove();
+      if (existingFv) existingFv.remove();
+      return;
+    }
+    renderSpinPctAndStage(100);
+    setTimeout(function() {
+      if (existing && existing.parentNode) existing.remove();
+      if (existingFv && existingFv.parentNode) existingFv.remove();
+    }, 260);
   };
 
   function getApiUrl() {
@@ -7169,7 +7404,8 @@ if (typeof document !== 'undefined') {
 
   function normalizeSlotKey(rawSlotOrType) {
     const s = String(rawSlotOrType || "").toLowerCase().replace(/^(me|partner)_/, "");
-    if (/marriage|נישואין|single|רווקות|divorce|גירושין|ketubah|כתובה|apostille/.test(s)) return "marriage";
+    if (/single|רווקות|פנויות/.test(s)) return "single";
+    if (/marriage|נישואין|mariage|matrimonio|heirat|брак|divorce|גירושין|ketubah|כתובה/.test(s)) return "marriage";
     if (/tz|zehut|israeli_id|תעודת זהות|ספח|biometric/.test(s)) return "tz";
     if (/birth|לידה|naissance|nacimiento|geburt/.test(s)) return "birth";
     if (/police|יושר|criminal/.test(s)) return "police";
@@ -7268,6 +7504,7 @@ if (typeof document !== 'undefined') {
   }
   function clearTombstone(ownerParty, slotOrType, docId) {
     const t = getTombstones();
+    delete t.__all_deleted_at;
     const cid = canonicalSlotId(ownerParty, slotOrType || docId);
     delete t[cid];
     if (docId) delete t[String(docId)];
@@ -7418,18 +7655,20 @@ if (typeof document !== 'undefined') {
         }
       }
 
-      const ownerBySlot = {};
+      const ownerSetBySlot = {};
       docs.forEach(function(d) {
         if (!d) return;
         const nSlot = normalizeSlotKey(d.slotKey || d.docType || d.docTitle);
-        ownerBySlot[nSlot] = d.ownerParty || "me";
+        ownerSetBySlot[nSlot] = ownerSetBySlot[nSlot] || new Set();
+        ownerSetBySlot[nSlot].add(d.ownerParty || "me");
       });
 
-      scans.forEach(function(sc) {
+      // Iterate OLDEST -> NEWEST (reverse) so the latest scan at index 0 ALWAYS wins!
+      scans.slice().reverse().forEach(function(sc) {
         if (!sc) return;
         const nSlot = normalizeSlotKey(sc.slotKey || sc.docType || sc.docTitle);
-        if (ownerBySlot[nSlot] && nSlot !== "marriage") {
-          sc.ownerParty = ownerBySlot[nSlot];
+        if (ownerSetBySlot[nSlot] && ownerSetBySlot[nSlot].size === 1 && nSlot !== "marriage") {
+          sc.ownerParty = Array.from(ownerSetBySlot[nSlot])[0];
           sc.tzRole = sc.ownerParty === "partner" ? "spouse" : "applicant";
         }
         const isPartner = (sc.ownerParty === "partner");
@@ -7501,7 +7740,7 @@ if (typeof document !== 'undefined') {
         }
       });
 
-      docs.forEach(function(d) {
+      docs.slice().reverse().forEach(function(d) {
         if (!d || !d.rawScanResult) return;
         const r = d.rawScanResult;
         const nSlot = normalizeSlotKey(d.slotKey || d.docType || d.docTitle);
@@ -7640,6 +7879,7 @@ if (typeof document !== 'undefined') {
   };
 
   window.changeVaultDocOwner = async function(oldDocId, newOwnerParty) {
+    try { localStorage.setItem('gat_manual_role_override_v2', '1'); } catch (e) {}
     const newOwner = (String(newOwnerParty || "").toLowerCase() === "partner") ? "partner" : "me";
     const docs = await window.fetchMergedVaultDocsList();
     const targetDoc = docs.find(function(x) { return x && x.docId === oldDocId; });
@@ -7902,7 +8142,7 @@ if (typeof document !== 'undefined') {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            mode: "save_uploaded_doc", uid: uid, docId: docId, slotKey: record.slotKey, ownerParty: record.ownerParty,
+            mode: "save_uploaded_doc", uid: uid, waPhone: localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "", deviceAuthToken: localStorage.getItem("gat_device_auth_tok") || "", rawScanResult: record.rawScanResult || null, docId: docId, slotKey: record.slotKey, ownerParty: record.ownerParty,
             docType: record.docType, docTitle: record.docTitle, issuingCountry: record.issuingCountry,
             isComplete: record.isComplete, incompleteReasons: record.incompleteReasons,
             hasApostille: record.hasApostille, hasSefach: record.hasSefach, isLongForm: record.isLongForm,
@@ -7936,7 +8176,7 @@ if (typeof document !== 'undefined') {
       const itemTs = Number(item.updatedAt || (item.ts ? new Date(item.ts).getTime() : 0) || 0);
 
       const delTs = Math.max(Number(tombstones[cid] || 0), Number(tombstones[item.docId] || 0), allDeletedAt);
-      if (delTs && (!itemTs || itemTs <= delTs + 60000)) return;
+      if (delTs && (!itemTs || itemTs <= delTs)) return;
 
       const incState = computeDocumentIncompleteState(Object.assign({}, item, { slotKey: slot }));
       const normalized = Object.assign({}, item, {
@@ -7984,7 +8224,7 @@ if (typeof document !== 'undefined') {
         const res = await fetch(getApiUrl(), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ mode: "list_uploaded_docs", uid: uid })
+          body: JSON.stringify({ mode: "list_uploaded_docs", uid: uid, waPhone: localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "", deviceAuthToken: localStorage.getItem("gat_device_auth_tok") || "" })
         });
         const data = await res.json();
         if (data && data.ok && Array.isArray(data.items)) {
@@ -8138,32 +8378,70 @@ if (typeof document !== 'undefined') {
   };
 
   window.triggerGatVaultUpload = function(targetDocId, isAppend) {
+    // 1. Synchronous fast-path check so iOS Safari NEVER blocks `inp.click()` across an `await`!
+    const isLogged = typeof window.isGatUserLoggedIn === "function" && window.isGatUserLoggedIn();
+    const hasLocalForms = (typeof window.hasFormsEngineAccess === "function")
+      ? window.hasFormsEngineAccess()
+      : (localStorage.getItem("gat_pro_unlocked") === "true" || localStorage.getItem("gat_pro_unlocked") === "1");
+
+    if (!hasLocalForms && !isLogged) {
+      const pm = document.getElementById("gat-profile-modal");
+      if (pm) pm.remove();
+      if (typeof window.openProPaywall === "function") {
+        window.openProPaywall("", "forms");
+      } else {
+        window.location.href = "/pricing/?sku=forms_90d_89";
+      }
+      return;
+    }
+
     let inp = document.getElementById("gat-prof-vault-file-inp");
     if (!inp) {
       inp = document.createElement("input");
-      inp.type = "file"; inp.id = "gat-prof-vault-file-inp"; inp.accept = "image/*,.pdf"; inp.multiple = true; inp.style.display = "none";
+      inp.type = "file";
+      inp.id = "gat-prof-vault-file-inp";
+      inp.accept = "image/*,application/pdf,.pdf,.heic,.heif";
+      inp.multiple = true;
+      inp.style.display = "none";
       document.body.appendChild(inp);
     }
+
     inp.onchange = async function() {
       if (!inp.files || !inp.files.length) return;
+      const selectedFiles = Array.from(inp.files).slice(0, 6);
+      inp.value = "";
+
+      // If logged-in user hadn't synced entitlement locally yet, verify now (after file selection!)
+      if (typeof window.hasFormsEngineAccess === "function" && !window.hasFormsEngineAccess()) {
+        if (typeof window.verifyServerEntitlementBeforePaywall === "function") {
+          const okLive = await window.verifyServerEntitlementBeforePaywall(window.hasFormsEngineAccess);
+          if (!okLive) {
+            const pm = document.getElementById("gat-profile-modal");
+            if (pm) pm.remove();
+            if (typeof window.openProPaywall === "function") window.openProPaywall("", "forms");
+            return;
+          }
+        }
+      }
+
       const l = getCurLang();
       const lt = LOCK_I18N[l] || LOCK_I18N.en;
-      window.showGatUploadSpinner(lt.spinTitle, 35);
+      window._gatUploadInProgress = true;
+      window.showGatUploadSpinner(lt.spinTitle, 90);
 
       try {
         const newFilesArr = [];
-        for (let i = 0; i < Math.min(inp.files.length, 6); i++) {
-          const f = inp.files[i];
-          if (typeof window.fileToCompressedBase64 === "function") newFilesArr.push(await window.fileToCompressedBase64(f));
-          else {
-            const b64 = await new Promise(function(res, rej) {
-              const r = new FileReader();
-              r.onload = function() { res(String(r.result).split(",")[1] || ""); };
-              r.onerror = rej; r.readAsDataURL(f);
-            });
-            newFilesArr.push({ mimeType: f.type || "image/jpeg", base64Data: b64 });
+        for (let i = 0; i < selectedFiles.length; i++) {
+          const f = selectedFiles[i];
+          const comp = await window.fileToCompressedBase64(f);
+          if (comp && comp.base64Data) newFilesArr.push(comp);
+          if (typeof window.updateGatUploadProgress === "function") {
+            window.updateGatUploadProgress(10 + Math.round(((i + 1) / selectedFiles.length) * 16));
           }
         }
+        if (!newFilesArr.length) throw new Error("Could not read selected file on this device.");
+        if (typeof window.updateGatUploadProgress === "function") window.updateGatUploadProgress(30);
+
         const parsedTarget = targetDocId ? String(targetDocId).split("_") : [];
         const hintOwner = parsedTarget.length >= 2 ? parsedTarget[0] : (window._gatProfileUploadOwner || "me");
         const hintSlot = parsedTarget.length >= 2 ? parsedTarget.slice(1).join("_") : "";
@@ -8179,66 +8457,108 @@ if (typeof document !== 'undefined') {
           }
         }
 
-        const res = await fetch(getApiUrl(), {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            mimeType: combinedFilesForAudit[0].mimeType,
-            base64Data: combinedFilesForAudit[0].base64Data,
-            files: combinedFilesForAudit,
-            mode: "audit_and_autofill",
-            slotKey: hintSlot,
-            ownerParty: hintOwner,
-            uid: getActiveUid(),
-            lang: l
-          })
-        });
-        const data = await res.json();
+        const activeUid = getActiveUid();
+        const waPh = localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "";
+        const devTok = localStorage.getItem("gat_device_auth_tok") || "";
+
+        const abortCtrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+        const abortTmr = setTimeout(function() { if (abortCtrl) abortCtrl.abort(); }, 90000);
+
+        let res;
+        try {
+          res = await fetch(getApiUrl(), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            signal: abortCtrl ? abortCtrl.signal : undefined,
+            body: JSON.stringify({
+              mimeType: combinedFilesForAudit[0].mimeType,
+              base64Data: combinedFilesForAudit[0].base64Data,
+              files: combinedFilesForAudit,
+              mode: "audit_and_autofill",
+              slotKey: hintSlot,
+              ownerParty: hintOwner,
+              uid: activeUid,
+              waPhone: waPh,
+              deviceAuthToken: devTok,
+              lang: l
+            })
+          });
+        } finally {
+          clearTimeout(abortTmr);
+        }
+
+        let data = null;
+        try {
+          data = await res.json();
+        } catch (parseErr) {
+          throw new Error("Upload too large or interrupted (HTTP " + res.status + "). Please try uploading 1–2 pages at a time.");
+        }
+        if (typeof window.updateGatUploadProgress === "function") window.updateGatUploadProgress(94);
+        if (!res.ok || !data || !data.ok || !data.result) {
+          throw new Error((data && (data.error || data.details)) || ("Server scan error (HTTP " + res.status + ")"));
+        }
+
+        const r = data.result;
+        const detectedSlot = normalizeSlotKey(hintSlot || r.doc_type || r.doc_title_detected || "doc");
+        const detectedOwner = detectedSlot === "marriage" ? "me" : hintOwner;
+        const finalDocId = canonicalSlotId(detectedOwner, detectedSlot);
+
+        await window.saveScannedDocToVault({
+          docId: finalDocId,
+          slotKey: detectedSlot,
+          ownerParty: detectedOwner,
+          docType: r.doc_type || detectedSlot,
+          docTitle: r.doc_title_detected || detectedSlot.toUpperCase(),
+          issuingCountry: r.issuing_country || "",
+          isComplete: r.is_complete !== false,
+          incompleteReasons: Array.isArray(r.incomplete_reasons) ? r.incomplete_reasons : [],
+          hasApostille: r.has_apostille_visible === true,
+          hasUnderlyingBody: r.has_underlying_certificate_body !== false,
+          hasSefach: Boolean(r.has_full_sefach_visible === true || r.israeli_address_he),
+          isLongForm: r.is_long_form_both_parents !== false,
+          expiryDateIso: r.expiry_date_iso || r.passport_expiry_date || "",
+          rawScanResult: r
+        }, combinedFilesForAudit, Boolean(isAppend));
+
+        window._gatUploadInProgress = false;
         window.hideGatUploadSpinner();
 
-        if (data && data.ok && data.result) {
-          const r = data.result;
-          const detectedSlot = normalizeSlotKey(hintSlot || r.doc_type || "doc");
-          const detectedOwner = hintOwner;
-          const finalDocId = canonicalSlotId(detectedOwner, detectedSlot);
-          if (!isAppend && !targetDocId) {
-            const existingDocs = await window.fetchMergedVaultDocsList();
-            const alreadyThere = existingDocs.find(function(x) { return x && x.docId === finalDocId && !x.metadataOnly; });
-            if (alreadyThere) {
-              window.showSlotLockedDeleteFirstModal(alreadyThere.docTitle || finalDocId);
-              window.renderGatProfileVaultList();
-              return;
-            }
-          }
-          await window.saveScannedDocToVault({
-            docId: finalDocId, slotKey: detectedSlot, ownerParty: detectedOwner,
-            docType: r.doc_type || detectedSlot, docTitle: r.doc_title_detected || detectedSlot.toUpperCase(),
-            issuingCountry: r.issuing_country || "", isComplete: r.is_complete !== false,
-            incompleteReasons: Array.isArray(r.incomplete_reasons) ? r.incomplete_reasons : [],
-            hasApostille: r.has_apostille_visible === true,
-            hasUnderlyingBody: r.has_underlying_certificate_body !== false,
-            hasSefach: Boolean(r.has_full_sefach_visible === true && r.sefach_unfolded_all_squares !== false),
-            isLongForm: r.is_long_form_both_parents !== false,
-            expiryDateIso: r.expiry_date_iso || r.passport_expiry_date || "",
-            rawScanResult: r
-          }, combinedFilesForAudit, false);
-
-          const openModal = document.getElementById("gat-new-user-doc-modal");
-          if (openModal && typeof window.showNewUserDocUploadModal === "function") {
-            const curF = (window.gatFormsState && window.gatFormsState.pf_active_form) || "ash3";
-            window.showNewUserDocUploadModal(curF, null, true);
-          } else if (typeof window.mountUnifiedPibaFormsEngine === "function") {
-            window.mountUnifiedPibaFormsEngine();
-          }
+        if (typeof window.forceRefreshLivePibaFormDom === "function") {
+          window.forceRefreshLivePibaFormDom();
+        } else if (typeof window.mountUnifiedPibaFormsEngine === "function") {
+          window.mountUnifiedPibaFormsEngine();
+        }
+        const openModal = document.getElementById("gat-new-user-doc-modal");
+        if (openModal && typeof window.showNewUserDocUploadModal === "function") {
+          const curF = (window.gatFormsState && (window.gatFormsState.activeForm || window.gatFormsState.pf_active_form)) || "ash3";
+          window.showNewUserDocUploadModal(curF, null, true);
         }
       } catch (e) {
-        window.hideGatUploadSpinner();
-        console.warn("Smart Vault upload error:", e);
+        window._gatUploadInProgress = false;
+        window.hideGatUploadSpinner(true);
+        const errTxt = (e && e.name === "AbortError")
+          ? "Upload timed out after 90s on mobile network. Please try a clearer photo or Wi-Fi."
+          : String((e && e.message) || e || "Upload error");
+        console.error("Mobile Vault upload error:", e);
+        const listBox = document.getElementById("gat-prof-docs-list");
+        if (listBox) {
+          let errDiv = document.getElementById("gat-vault-mobile-err");
+          if (!errDiv) {
+            errDiv = document.createElement("div");
+            errDiv.id = "gat-vault-mobile-err";
+            listBox.parentNode.insertBefore(errDiv, listBox);
+          }
+          errDiv.style.cssText = "background:#fef2f2;border:2px solid #dc2626;color:#991b1b;padding:10px 12px;border-radius:10px;font-size:0.8rem;font-weight:800;margin-bottom:10px;line-height:1.4;";
+          errDiv.textContent = "⚠️ " + errTxt;
+        } else {
+          alert("⚠️ " + errTxt);
+        }
       }
-      inp.value = "";
-      if (typeof window.renderGatProfileVaultList === "function") window.renderGatProfileVaultList();
-      if (typeof window.renderModalVaultListIfOpen === "function") window.renderModalVaultListIfOpen();
+      if (typeof window.renderGatProfileVaultList === "function") await window.renderGatProfileVaultList();
+      if (typeof window.renderModalVaultListIfOpen === "function") await window.renderModalVaultListIfOpen();
     };
+
+    window._gatFilePickerOpenAt = Date.now();
     inp.click();
   };
 
@@ -8441,3 +8761,3560 @@ if (typeof document !== 'undefined') {
     });
   }, 400);
 })();
+
+// === GAT CONSULTATIVE SALES & DOSSIER UI V5 START ===
+(function initGatConsultativeSalesAndDossierV6() {
+  if (window._gatConsultativeSalesV6Active) return;
+  window._gatConsultativeSalesV6Active = true;
+
+  const DOSSIER_CACHE_KEY = "gat_ai_dossier_cache_v1";
+  const ANON_ID_KEY = "gat_anon_partner_id";
+  const DRAWER_POS_KEY = "gat_hd_drawer_pos_v1";
+  const VISIT_BOOT_KEY = "gat_visit_booted_v6";
+  const IS_RETURNING_VISIT_KEY = "gat_is_returning_visit_v6";
+  const SENT_THIS_VISIT_KEY = "gat_sent_msg_this_visit_v6";
+  const ROLLING_KEYS = ["gat_hd_rolling_v2", "gat_helpdesk_hist_v2"];
+  const VALID_LANGS = ["en", "he", "fr", "es", "de", "ru"];
+
+  window._gatTrapModalRegistry = window._gatTrapModalRegistry || {};
+  window._gatStartingNewTopic = false;
+  window._gatDossierSyncedOnce = false;
+  window.matchPreAiInstantRoute = function() { return null; };
+
+  function getActiveLang() {
+    const pathLang = (window.location.pathname.split("/")[1] || "").toLowerCase();
+    if (VALID_LANGS.includes(pathLang)) return pathLang;
+    const spL = (new URLSearchParams(window.location.search).get("lang") || "").toLowerCase();
+    if (VALID_LANGS.includes(spL)) return spL;
+    const l = String(window.appLang || window.gatLang || window.lang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+    return VALID_LANGS.includes(l) ? l : "en";
+  }
+
+  function getApiUrl() {
+    return (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+      ? "https://giyuraliyahtrack.com/api/auditDoc"
+      : "/api/auditDoc";
+  }
+
+  function getOrCreateAnonPartnerId() {
+    try {
+      let id = localStorage.getItem(ANON_ID_KEY) || "";
+      if (!id || id.length < 8) {
+        id = "anon_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 10);
+        localStorage.setItem(ANON_ID_KEY, id);
+      }
+      return id;
+    } catch (e) { return "anon_session"; }
+  }
+
+  function getResolvedUid() {
+    try {
+      if (window.gatUid && window.gatUid !== "anon" && window.gatUid !== "guest") return window.gatUid;
+      const wa = localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "";
+      const digits = String(wa).replace(/\D/g, "");
+      if (digits.length >= 8) return "wa_" + digits;
+      const storedUid = localStorage.getItem("gat_uid") || "";
+      if (storedUid && storedUid !== "anon" && storedUid !== "guest") return storedUid;
+    } catch (e) {}
+    return "anon";
+  }
+
+  function escHtml(s) {
+    return String(s === undefined || s === null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function cleanLocalFirstName(raw) {
+    const s = String(raw || "").trim().replace(/\s+/g, " ");
+    if (!s || s.length < 2) return "";
+    const first = s.split(" ")[0].replace(/[^A-Za-z\u00C0-\u024F\u0400-\u04FF\u0590-\u05FF'-]/g, "");
+    if (!first || first.length < 2 || first.length > 28) return "";
+    if (/^(guest|anon|anonymous|user|test|admin|unknown|null|undefined|applicant)$/i.test(first)) return "";
+    return first.charAt(0).toUpperCase() + first.slice(1);
+  }
+
+  function loadCachedDossier() {
+    let d = {};
+    try { d = JSON.parse(localStorage.getItem(DOSSIER_CACHE_KEY) || "{}") || {}; } catch (e) { d = {}; }
+    if (!d.firstName) {
+      try {
+        const draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}") || {};
+        const st = window.gatFormsState || {};
+        const cands = [
+          st.pf_given_name_en, st.pf_first_name, draft.pf_given_name_en,
+          draft.pf_first_name, draft.pf_full_name_en, draft.pf_given_he,
+          localStorage.getItem("gat_last_payer_name")
+        ];
+        for (let i = 0; i < cands.length; i++) {
+          const fn = cleanLocalFirstName(cands[i]);
+          if (fn) { d.firstName = fn; break; }
+        }
+      } catch (e) {}
+    }
+    if (!d.firstName) {
+      try {
+        const scans = JSON.parse(localStorage.getItem("gat_scanned_docs_v1") || "[]") || [];
+        for (let j = 0; j < scans.length; j++) {
+          const sc = scans[j];
+          if (sc && sc.ownerParty !== "partner") {
+            const fn2 = cleanLocalFirstName(sc.givenNameEn || sc.firstName || sc.fullNameEn || sc.givenNameHe);
+            if (fn2) { d.firstName = fn2; break; }
+          }
+        }
+      } catch (e) {}
+    }
+    d.discussedTopics = Array.isArray(d.discussedTopics) ? d.discussedTopics : [];
+    d.recommendedSkus = Array.isArray(d.recommendedSkus) ? d.recommendedSkus : [];
+    return d;
+  }
+
+  // Lock First-Visit vs Returning-Visit state once per browser session
+  (function initVisitSessionFlag() {
+    try {
+      if (!sessionStorage.getItem(VISIT_BOOT_KEY)) {
+        const initialDossier = loadCachedDossier();
+        const hadPriorBeforeThisVisit = Boolean(
+          Number(initialDossier.turnCount || 0) > 0 ||
+          (Array.isArray(initialDossier.discussedTopics) && initialDossier.discussedTopics.length > 0)
+        );
+        sessionStorage.setItem(IS_RETURNING_VISIT_KEY, hadPriorBeforeThisVisit ? "1" : "0");
+        sessionStorage.setItem(VISIT_BOOT_KEY, "1");
+      }
+    } catch (e) {}
+  })();
+
+  function isTrueReturningVisit() {
+    try {
+      return sessionStorage.getItem(IS_RETURNING_VISIT_KEY) === "1";
+    } catch (e) { return false; }
+  }
+
+  function saveCachedDossier(newDossier, vaultSummary) {
+    try {
+      const cur = loadCachedDossier();
+      const merged = Object.assign({}, cur, newDossier || {});
+      if (vaultSummary) merged.vaultSummary = vaultSummary;
+      localStorage.setItem(DOSSIER_CACHE_KEY, JSON.stringify(merged));
+      return merged;
+    } catch (e) { return newDossier || {}; }
+  }
+
+  function getScreenHistory() {
+    for (let i = 0; i < ROLLING_KEYS.length; i++) {
+      try {
+        const arr = JSON.parse(localStorage.getItem(ROLLING_KEYS[i]) || "[]");
+        if (Array.isArray(arr) && arr.length > 0) return arr.slice(-10);
+      } catch (e) {}
+    }
+    return [];
+  }
+
+  function setScreenHistory(arr) {
+    const trimmed = Array.isArray(arr) ? arr.slice(-10) : [];
+    window._gatHelpdeskHistory = trimmed;
+    ROLLING_KEYS.forEach(function(k) {
+      try { localStorage.setItem(k, JSON.stringify(trimmed)); } catch (e) {}
+    });
+  }
+
+  const V6_I18N = {
+    en: {
+      s1Hello: "👋 <strong>Shalom{NAME}! I'm your personal Giyur &amp; Aliyah Tracking Partner.</strong>",
+      s1Sub: "Would you like help today with <strong>Giyur (Conversion)</strong>, <strong>Aliyah / Spousal Visa</strong>, or <strong>Both</strong> — or just type any question below?",
+      optGiyurLbl: "🕍 Help with Giyur (Shul, Beit Din & Conversion)",
+      optGiyurQ: "I'd like help with Giyur (Conversion & Beit Din).",
+      optAliyahLbl: "✈️ Help with Aliyah or Spousal Visa",
+      optAliyahQ: "I'd like help with Aliyah or a Spousal / Partner Visa.",
+      optBothLbl: "💍 Both — Giyur + Aliyah / Partner Track",
+      optBothQ: "I need help with both Giyur and Aliyah / Israeli Partner status.",
+      retHelloName: "👋 <strong>Welcome back, {NAME}!</strong>",
+      retHelloAnon: "👋 <strong>Welcome back!</strong>",
+      retSub: "Your track notes are saved in your account. Want to <strong>pick up where we left off</strong>, view your recommended pass, or <strong>start something new</strong>?",
+      contPrefix: "▶️ Continue: ",
+      contPrompt: "Let's continue where we left off on: {TOPIC}. What is my best next step?",
+      vaultIncBtn: "⚠️ {N} Incomplete Document(s) in Vault — Review & Fix",
+      vaultIncQ: "Help me check and fix my incomplete uploaded documents in my Vault.",
+      recPassBtn: "💎 View Recommended Pass Details on Pricing Page →",
+      newTopicBtn: "✨ Start Something New (Giyur, Aliyah, or Both)",
+      tapWhyChip: "Tap Why →",
+      trapBadgeHdr: "🚨 INSIDER WARNING & PROTECTION",
+      secRule: "📜 1. How It Actually Works",
+      secRisk: "🛑 2. The Common Mistake People Make Alone",
+      secFix: "✅ 3. How GiyurAliyahTrack Makes You Bulletproof",
+      modalPricing: "💎 See Full Pass Details & What's Included →",
+      modalConcierge: "🤝 Request $0 Upfront Concierge Quote →",
+      modalAsk: "💬 Back to Chat",
+      ph: "Ask anything about shul, Giyur, Aliyah, forms, or passes...",
+      dragTip: "Drag header to move window"
+    },
+    he: {
+      s1Hello: "👋 <strong>שלום{NAME}! אני השותף האישי שלכם למסלול הגיור והעלייה.</strong>",
+      s1Sub: "תרצו עזרה היום בנושא <strong>גיור (קהילה ובית הדין)</strong>, <strong>עלייה / אשרת בני זוג</strong>, או <strong>שניהם יחד</strong> — או פשוט הקלידו כל שאלה למטה?",
+      optGiyurLbl: "🕍 עזרה בגיור (קהילה, תפילות ובית הדין)",
+      optGiyurQ: "אשמח לעזרה בנושא גיור והכנה לבית הדין.",
+      optAliyahLbl: "✈️ עזרה בעלייה או הליך מדורג לבני זוג",
+      optAliyahQ: "אשמח לעזרה בנושא עלייה או אשרת בני זוג במשרד הפנים.",
+      optBothLbl: "💍 שניהם יחד — גיור + עלייה / בן זוג ישראלי",
+      optBothQ: "אני צריך עזרה בשילוב של גיור ועלייה / הסדרת מעמד עם בן או בת זוג.",
+      retHelloName: "👋 <strong>ברוכים השבים, {NAME}!</strong>",
+      retHelloAnon: "👋 <strong>ברוכים השבים!</strong>",
+      retSub: "הנושאים שדיברנו עליהם שמורים בחשבון שלכם. תרצו <strong>להמשיך מאיפה שעצרנו</strong>, לצפות בחבילה המומלצת, או <strong>להתחיל נושא חדש</strong>?",
+      contPrefix: "◀️ המשך: ",
+      contPrompt: "בוא נמשיך מאיפה שעצרנו בנושא: {TOPIC}. מה הצעד הבא שלי?",
+      vaultIncBtn: "⚠️ {N} מסמכים חסרים בכספת — לחצו לבדיקה",
+      vaultIncQ: "עזור לי לבדוק ולהשלים את המסמכים החסרים בכספת שלי.",
+      recPassBtn: "💎 צפייה בפרטי החבילה המומלצת בעמוד המחירים ←",
+      newTopicBtn: "✨ התחלת נושא חדש (גיור, עלייה או שניהם)",
+      tapWhyChip: "למה? לחצו ←",
+      trapBadgeHdr: "🚨 אזהרת מומחים והגנה על התיק",
+      secRule: "📜 1. איך זה באמת עובד בשטח",
+      secRisk: "🛑 2. הטעות הנפוצה שעולה ביוקר",
+      secFix: "✅ 3. איך המערכת שלנו מכינה ומגנה עליכם",
+      modalPricing: "💎 לצפייה בפירוט החבילה המלא בעמוד המחירים ←",
+      modalConcierge: "🤝 בקשת הצעת מחיר ללא עלות מראש ($0) ←",
+      modalAsk: "💬 חזרה לצ׳אט",
+      ph: "שאלו כל דבר על בית כנסת, גיור, עלייה, טפסים או חבילות...",
+      dragTip: "גררו את הכותרת להזזת החלון"
+    },
+    fr: {
+      s1Hello: "👋 <strong>Chalom{NAME} ! Je suis votre Partenaire Giyur &amp; Aliyah.</strong>",
+      s1Sub: "Souhaitez-vous de l'aide pour le <strong>Giyur (Conversion)</strong>, l'<strong>Aliyah / Visa Conjoint</strong>, ou <strong>les deux</strong> — ou posez votre question ci-dessous ?",
+      optGiyurLbl: "🕍 Aide pour le Giyur (Synagogue, Prières & Beit Din)",
+      optGiyurQ: "Je souhaite de l'aide pour le Giyur (conversion et Beit Din).",
+      optAliyahLbl: "✈️ Aide pour l'Aliyah ou Visa Conjoint",
+      optAliyahQ: "Je souhaite de l'aide pour l'Aliyah ou un visa conjoint au Misrad HaPanim.",
+      optBothLbl: "💍 Les deux — Giyur + Aliyah / Partenaire",
+      optBothQ: "J'ai besoin d'aide à la fois pour le Giyur et l'Aliyah / statut conjoint.",
+      retHelloName: "👋 <strong>Bon retour, {NAME} !</strong>",
+      retHelloAnon: "👋 <strong>Bon retour !</strong>",
+      retSub: "Vos notes sont sauvegardées. Voulez-vous <strong>reprendre où nous étions</strong>, voir votre pass recommandé, ou <strong>démarrer un nouveau sujet</strong> ?",
+      contPrefix: "▶️ Reprendre : ",
+      contPrompt: "Reprenons sur : {TOPIC}. Quelle est ma prochaine étape ?",
+      vaultIncBtn: "⚠️ {N} document(s) incomplet(s) dans le Coffre",
+      vaultIncQ: "Aidez-moi à corriger mes documents incomplets dans le Coffre.",
+      recPassBtn: "💎 Voir le détail du Pass recommandé →",
+      newTopicBtn: "✨ Nouveau sujet (Giyur, Aliyah ou les deux)",
+      tapWhyChip: "Pourquoi ? →",
+      trapBadgeHdr: "🚨 POINT DE VIGILANCE ESSENTIEL",
+      secRule: "📜 1. Comment cela fonctionne réellement",
+      secRisk: "🛑 2. L'erreur fréquente en démarche seule",
+      secFix: "✅ 3. Comment GiyurAliyahTrack vous prépare",
+      modalPricing: "💎 Voir tout ce qui est inclus sur la page Tarifs →",
+      modalConcierge: "🤝 Demander un devis Conciergerie (0 $ d'avance) →",
+      modalAsk: "💬 Retour au chat",
+      ph: "Posez votre question sur la synagogue, le Giyur, l'Aliyah...",
+      dragTip: "Glissez l'en-tête pour déplacer"
+    },
+    es: {
+      s1Hello: "👋 <strong>¡Shalom{NAME}! Soy tu Socio de Giyur y Aliyah.</strong>",
+      s1Sub: "¿Quieres ayuda hoy con <strong>Giyur (Conversión)</strong>, <strong>Aliyah / Visa de Pareja</strong>, o <strong>Ambos</strong> — o escribe tu pregunta abajo?",
+      optGiyurLbl: "🕍 Ayuda con Giyur (Sinagoga, Rezos y Beit Din)",
+      optGiyurQ: "Me gustaría recibir ayuda con Giyur (Conversión y Beit Din).",
+      optAliyahLbl: "✈️ Ayuda con Aliyah o Visa de Pareja",
+      optAliyahQ: "Me gustaría recibir ayuda con Aliyah o la Visa de Pareja en Misrad HaPanim.",
+      optBothLbl: "💍 Ambos — Giyur + Aliyah / Pareja",
+      optBothQ: "Necesito ayuda tanto con Giyur como con Aliyah / estatus de pareja.",
+      retHelloName: "👋 <strong>¡Bienvenido/a de nuevo, {NAME}!</strong>",
+      retHelloAnon: "👋 <strong>¡Bienvenido/a de nuevo!</strong>",
+      retSub: "Tus notas siguen guardadas. ¿Quieres <strong>retomar donde quedamos</strong>, ver tu pase recomendado, o <strong>empezar algo nuevo</strong>?",
+      contPrefix: "▶️ Continuar: ",
+      contPrompt: "Continuemos sobre: {TOPIC}. ¿Cuál es mi siguiente paso?",
+      vaultIncBtn: "⚠️ {N} documento(s) incompleto(s) en tu Bóveda",
+      vaultIncQ: "Ayúdame a revisar mis documentos incompletos en mi Bóveda.",
+      recPassBtn: "💎 Ver detalles del Pase recomendado en Precios →",
+      newTopicBtn: "✨ Empezar un tema nuevo (Giyur, Aliyah o Ambos)",
+      tapWhyChip: "Ver por qué →",
+      trapBadgeHdr: "🚨 CLAVE INSIDER Y PROTECCIÓN",
+      secRule: "📜 1. Cómo funciona en la vida real",
+      secRisk: "🛑 2. El error común al hacerlo sin guía",
+      secFix: "✅ 3. Cómo te prepara GiyurAliyahTrack",
+      modalPricing: "💎 Ver todo lo que incluye en la página de Precios →",
+      modalConcierge: "🤝 Solicitar presupuesto sin pago inicial ($0 hoy) →",
+      modalAsk: "💬 Volver al chat",
+      ph: "Pregunta sobre sinagoga, Giyur, Aliyah, formularios o pases...",
+      dragTip: "Arrastra la barra para mover"
+    },
+    de: {
+      s1Hello: "👋 <strong>Schalom{NAME}! Ich bin Ihr persönlicher Giyur &amp; Aliyah Track-Partner.</strong>",
+      s1Sub: "Möchten Sie Hilfe bei <strong>Giur (Konversion)</strong>, <strong>Aliyah / Partner-Visum</strong> oder <strong>Beidem</strong> — oder tippen Sie Ihre Frage unten ein?",
+      optGiyurLbl: "🕍 Hilfe bei Giur (Synagoge, Gebete & Beit Din)",
+      optGiyurQ: "Ich möchte Hilfe beim Thema Giur (Konversion & Beit Din).",
+      optAliyahLbl: "✈️ Hilfe bei Aliyah oder Ehepartner-Visum",
+      optAliyahQ: "Ich möchte Hilfe bei Aliyah oder dem Partner-Visum beim Misrad HaPanim.",
+      optBothLbl: "💍 Beides — Giur + Aliyah / Partner-Track",
+      optBothQ: "Ich brauche Hilfe sowohl bei Giur als auch bei Aliyah / Partnerstatus.",
+      retHelloName: "👋 <strong>Willkommen zurück, {NAME}!</strong>",
+      retHelloAnon: "👋 <strong>Willkommen zurück!</strong>",
+      retSub: "Ihre Notizen sind gespeichert. Möchten Sie <strong>weitermachen, wo wir aufgehört haben</strong>, oder <strong>etwas Neues starten</strong>?",
+      contPrefix: "▶️ Weiter mit: ",
+      contPrompt: "Machen wir weiter bei: {TOPIC}. Was ist mein nächster Schritt?",
+      vaultIncBtn: "⚠️ {N} unvollständige(s) Dokument(e) im Tresor",
+      vaultIncQ: "Hilf mir, meine unvollständigen Dokumente im Tresor zu prüfen.",
+      recPassBtn: "💎 Empfohlenen Pass auf der Preisseite ansehen →",
+      newTopicBtn: "✨ Neues Thema starten (Giur, Aliyah oder Beides)",
+      tapWhyChip: "Warum? →",
+      trapBadgeHdr: "🚨 INSIDER-HINWEIS & SCHUTZ",
+      secRule: "📜 1. Wie es in der Praxis wirklich läuft",
+      secRisk: "🛑 2. Der häufigste Anfängerfehler",
+      secFix: "✅ 3. Wie GiyurAliyahTrack Sie vorbereitet",
+      modalPricing: "💎 Alle Leistungen auf der Preisseite ansehen →",
+      modalConcierge: "🤝 Kostenloses Angebot ($0 vorab) anfordern →",
+      modalAsk: "💬 Zurück zum Chat",
+      ph: "Frage zu Synagoge, Giur, Aliyah, Formularen oder Pässen...",
+      dragTip: "Kopfzeile ziehen zum Verschieben"
+    },
+    ru: {
+      s1Hello: "👋 <strong>Шалом{NAME}! Я ваш персональный партнёр по гиюру и репатриации.</strong>",
+      s1Sub: "Вам нужна помощь с <strong>Гиюром (община и Бейт-Дин)</strong>, <strong>Алиёй / Визой супругов (СТУПРО)</strong> или <strong>обеими задачами</strong> — или просто напишите вопрос ниже?",
+      optGiyurLbl: "🕍 Помощь с гиюром (синагога, молитвы и Бейт-Дин)",
+      optGiyurQ: "Мне нужна помощь с гиюром и подготовкой к Бейт-Дину.",
+      optAliyahLbl: "✈️ Помощь с Алиёй или визой супругов (СТУПРО)",
+      optAliyahQ: "Мне нужна помощь с репатриацией (Алиёй) или визой партнёра в МВД.",
+      optBothLbl: "💍 Оба направления — Гиюр + Алия / Партнёр",
+      optBothQ: "Мне нужна помощь сразу и с гиюром, и с Алиёй / статусом супруга.",
+      retHelloName: "👋 <strong>С возвращением, {NAME}!</strong>",
+      retHelloAnon: "👋 <strong>С возвращением!</strong>",
+      retSub: "Заметки вашего трека сохранены. Хотите <strong>продолжить с места остановки</strong>, посмотреть рекомендованный пакет или <strong>начать новую тему</strong>?",
+      contPrefix: "▶️ Продолжить: ",
+      contPrompt: "Давайте продолжим тему: {TOPIC}. Какой мой следующий шаг?",
+      vaultIncBtn: "⚠️ Неполных документов в сейфе: {N} — проверить",
+      vaultIncQ: "Помогите проверить и исправить неполные документы в моём сейфе.",
+      recPassBtn: "💎 Посмотреть состав рекомендованного тарифа →",
+      newTopicBtn: "✨ Начать новую тему (Гиюр, Алия или оба)",
+      tapWhyChip: "Почему? →",
+      trapBadgeHdr: "🚨 ВАЖНЫЙ НЮАНС И ЗАЩИТА",
+      secRule: "📜 1. Как это работает на самом деле",
+      secRisk: "🛑 2. Частая ошибка без подготовки",
+      secFix: "✅ 3. Как GiyurAliyahTrack помогает вам",
+      modalPricing: "💎 Посмотреть полный состав тарифа на странице цен →",
+      modalConcierge: "🤝 Запросить расчёт консьержа ($0 предоплата) →",
+      modalAsk: "💬 Вернуться в чат",
+      ph: "Напишите вопрос про синагогу, гиюр, Алию, анкеты или тарифы...",
+      dragTip: "Потяните заголовок для перемещения"
+    }
+  };
+
+  function injectV6Styles() {
+    if (document.getElementById("gat-sales-v6-css")) return;
+    const st = document.createElement("style");
+    st.id = "gat-sales-v6-css";
+    st.textContent = `
+      #gat-hd-fab { z-index: 2147483638 !important; }
+      #gat-hd-drawer { z-index: 2147483640 !important; }
+      #gat-hd-drawer .gat-hd-head {
+        cursor: grab !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        touch-action: none !important;
+      }
+      #gat-hd-drawer .gat-hd-head:active { cursor: grabbing !important; }
+      .gat-hd-copy-btn {
+        background: rgba(255,255,255,0.18);
+        color: #ffffff;
+        border: 1px solid rgba(129,212,250,0.45);
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 900;
+        cursor: pointer !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .gat-hd-copy-btn:hover { background: rgba(255,255,255,0.28); }
+      #gat-hd-msgs,
+      #gat-hd-msgs .gat-hd-bubble,
+      #gat-hd-msgs .gat-hd-bubble p,
+      #gat-hd-msgs .gat-hd-bubble span,
+      #gat-hd-msgs .gat-hd-bubble div,
+      #gat-hd-msgs .gat-hd-bubble strong,
+      #gat-hd-msgs .gat-hd-bubble em,
+      #gat-hd-msgs .gat-hd-bubble a,
+      #gat-statutory-trap-modal,
+      #gat-statutory-trap-modal * {
+        -webkit-user-select: text !important;
+        user-select: text !important;
+      }
+      #gat-hd-msgs a, #gat-hd-msgs button { cursor: pointer !important; }
+      .gat-hd-bubble.bot {
+        position: relative !important;
+        max-width: 96% !important;
+        background: #ffffff !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 14px !important;
+        padding: 12px 13px !important;
+        color: #0f172a !important;
+        box-shadow: 0 3px 10px rgba(15,23,42,0.06) !important;
+      }
+      .gat-bub-copy-mini {
+        float: right;
+        margin: -2px -2px 4px 6px;
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 2px 6px;
+        font-size: 0.68rem;
+        font-weight: 800;
+        cursor: pointer !important;
+        line-height: 1.2;
+      }
+      html[dir="rtl"] .gat-bub-copy-mini {
+        float: left;
+        margin: -2px 6px 4px -2px;
+      }
+      .gat-bub-copy-mini:hover { background: #e2e8f0; color: #0f172a; }
+      .gat-v5-reply { font-size: 0.855rem; line-height: 1.55; color: #0f172a; }
+      .gat-v5-reply p { margin: 0 0 7px 0; line-height: 1.48; }
+      .gat-v5-reply p:last-child { margin-bottom: 0; }
+      .gat-v5-num {
+        display: block;
+        margin: 7px 0; padding: 8px 10px;
+        background: #f8fafc; border-inline-start: 3px solid #0284c7; border-radius: 8px;
+        line-height: 1.52;
+      }
+      .gat-v5-bul {
+        display: block;
+        margin: 6px 0; padding: 6px 10px;
+        background: #f8fafc; border-inline-start: 2.5px solid #38bdf8; border-radius: 7px;
+        line-height: 1.52;
+      }
+      .gat-v5-trap-pill {
+        width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+        margin: 7px 0; padding: 8px 10px; border-radius: 10px;
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border: 1.8px solid #dc2626; color: #991b1b;
+        font-size: 0.8rem; font-weight: 900; text-align: start; cursor: pointer !important;
+        box-shadow: 0 3px 10px rgba(220,38,38,0.14); transition: transform 0.14s ease;
+      }
+      .gat-v5-trap-pill:hover { transform: translateY(-1px); background: #fee2e2; }
+      .gat-v5-trap-chip {
+        flex-shrink: 0; background: #dc2626; color: #ffffff;
+        padding: 3px 8px; border-radius: 999px; font-size: 0.7rem; font-weight: 900; white-space: nowrap;
+      }
+      .gat-v5-inline-link {
+        display: inline-block; margin: 3px 2px; padding: 4px 10px;
+        border-radius: 8px; font-size: 0.79rem; font-weight: 900; text-decoration: none;
+      }
+      .gat-v5-actions {
+        margin-top: 8px; padding-top: 8px; border-top: 1.5px dashed #cbd5e1;
+        display: flex; flex-direction: column; gap: 6px;
+      }
+      .gat-v5-btn {
+        width: 100%; text-align: start; padding: 8px 11px; border-radius: 10px;
+        font-size: 0.795rem; font-weight: 850; line-height: 1.34; cursor: pointer !important;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+      }
+      .gat-v5-btn:hover { transform: translateY(-1px); }
+      .gat-v5-btn.ask { background: #f0f9ff; border: 1.5px solid #38bdf8; color: #082548; }
+      .gat-v5-btn.app { background: #fffbeb; border: 1.5px solid #f59e0b; color: #78350f; }
+      .gat-v5-btn.close-cta {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        border: 1.5px solid #047857; color: #ffffff;
+        box-shadow: 0 4px 12px rgba(5,150,105,0.26);
+      }
+    `;
+    document.head.appendChild(st);
+  }
+
+  // Make open #gat-hd-drawer draggable via its top .gat-hd-head bar!
+  function setDrawerXY(drw, x, y) {
+    const w = drw.offsetWidth || Math.min(390, window.innerWidth - 16);
+    const h = drw.offsetHeight || 500;
+    const clampedX = Math.max(4, Math.min(window.innerWidth - w - 4, x));
+    const clampedY = Math.max(4, Math.min(window.innerHeight - Math.min(h, 64), y));
+    drw.style.setProperty("left", Math.round(clampedX) + "px", "important");
+    drw.style.setProperty("top", Math.round(clampedY) + "px", "important");
+    drw.style.setProperty("right", "auto", "important");
+    drw.style.setProperty("bottom", "auto", "important");
+    drw.style.setProperty("margin", "0", "important");
+    return { x: Math.round(clampedX), y: Math.round(clampedY) };
+  }
+
+  function restoreSavedDrawerPos(drw) {
+    if (!drw || drw.style.display === "none" && !drw.classList.contains("open")) return;
+    try {
+      const raw = localStorage.getItem(DRAWER_POS_KEY);
+      if (!raw) return;
+      const pos = JSON.parse(raw);
+      if (typeof pos.x === "number" && typeof pos.y === "number") {
+        setDrawerXY(drw, pos.x, pos.y);
+      }
+    } catch (e) {}
+  }
+
+  function makeDrawerHeaderDraggable() {
+    const drw = document.getElementById("gat-hd-drawer");
+    if (!drw || drw.dataset.v6Draggable === "1") return;
+    const head = drw.querySelector(".gat-hd-head");
+    if (!head) return;
+    drw.dataset.v6Draggable = "1";
+
+    const titleEl = head.querySelector(".gat-hd-head-title");
+    if (titleEl && titleEl.textContent.indexOf("⠿") === -1) {
+      titleEl.textContent = "⠿ " + titleEl.textContent;
+      const ui = V6_I18N[getActiveLang()] || V6_I18N.en;
+      head.title = ui.dragTip;
+    }
+
+    let dragging = false;
+    let moved = false;
+    let startX = 0, startY = 0, origX = 0, origY = 0;
+
+    function startDrag(cx, cy, target) {
+      if (target && target.closest && target.closest("button, a, input, select, textarea")) return false;
+      const rect = drw.getBoundingClientRect();
+      dragging = true;
+      moved = false;
+      startX = cx;
+      startY = cy;
+      origX = rect.left;
+      origY = rect.top;
+      drw.style.transition = "none";
+      return true;
+    }
+
+    function moveDrag(cx, cy, ev) {
+      if (!dragging) return;
+      const dx = cx - startX;
+      const dy = cy - startY;
+      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+      if (!moved) return;
+      if (ev && ev.cancelable) ev.preventDefault();
+      setDrawerXY(drw, origX + dx, origY + dy);
+    }
+
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      if (moved) {
+        const rect = drw.getBoundingClientRect();
+        try {
+          localStorage.setItem(DRAWER_POS_KEY, JSON.stringify({ x: Math.round(rect.left), y: Math.round(rect.top) }));
+        } catch (e) {}
+      }
+    }
+
+    head.addEventListener("mousedown", function(e) {
+      if (e.button !== 0) return;
+      if (!startDrag(e.clientX, e.clientY, e.target)) return;
+      function onMm(ev) { moveDrag(ev.clientX, ev.clientY, ev); }
+      function onMu() {
+        window.removeEventListener("mousemove", onMm);
+        window.removeEventListener("mouseup", onMu);
+        endDrag();
+      }
+      window.addEventListener("mousemove", onMm);
+      window.addEventListener("mouseup", onMu);
+    });
+
+    head.addEventListener("touchstart", function(e) {
+      if (!e.touches || !e.touches[0]) return;
+      startDrag(e.touches[0].clientX, e.touches[0].clientY, e.target);
+    }, { passive: true });
+
+    head.addEventListener("touchmove", function(e) {
+      if (!dragging || !e.touches || !e.touches[0]) return;
+      moveDrag(e.touches[0].clientX, e.touches[0].clientY, e);
+      e.stopPropagation();
+    }, { passive: false });
+
+    head.addEventListener("touchend", function() { endDrag(); }, { passive: true });
+
+    window.addEventListener("resize", function() {
+      if (drw.classList.contains("open")) restoreSavedDrawerPos(drw);
+    });
+  }
+
+  // Reliable clipboard copy + transcript serializer
+  async function writeClipboardReliable(str) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(str);
+        return true;
+      }
+    } catch (e) {}
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = str;
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;top:-9999px;left:-9999px;opacity:0;";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      const ok = document.execCommand("copy");
+      ta.remove();
+      return ok;
+    } catch (e2) { return false; }
+  }
+
+  function serializeBubbleElement(bub, idx) {
+    if (bub.classList.contains("user")) {
+      return "[" + idx + "] USER:\n" + String(bub.textContent || "").trim();
+    }
+    const clone = bub.cloneNode(true);
+    clone.querySelectorAll(".gat-bub-copy-mini").forEach(function(b) { b.remove(); });
+
+    clone.querySelectorAll(".gat-v5-trap-pill").forEach(function(pill) {
+      const oc = String(pill.getAttribute("onclick") || "");
+      const m = oc.match(/openGatStatutoryTrapModal\(['"]([^'"]+)['"]\)/);
+      const reg = (m && m[1] && window._gatTrapModalRegistry && window._gatTrapModalRegistry[m[1]]) || null;
+      const lbl = String(pill.textContent || "").replace(/\s+/g, " ").trim();
+      let rep = "\n  [TRAP PILL] " + lbl;
+      if (reg) {
+        rep += "\n    • Rule: " + reg.rule + "\n    • Risk: " + reg.risk + "\n    • Fix: " + reg.fix + " (SKU: " + reg.sku + ")";
+      }
+      pill.replaceWith(document.createTextNode(rep + "\n"));
+    });
+
+    const btnLines = [];
+    clone.querySelectorAll("button").forEach(function(btn) {
+      const lbl = String(btn.textContent || "").replace(/\s+/g, " ").trim();
+      if (lbl) btnLines.push("  [BUTTON] " + lbl);
+      btn.remove();
+    });
+
+    clone.querySelectorAll("a").forEach(function(a) {
+      const lbl = String(a.textContent || "").replace(/\s+/g, " ").trim();
+      const href = String(a.getAttribute("href") || "").trim();
+      a.replaceWith(document.createTextNode("[" + lbl + "](" + href + ")"));
+    });
+
+    clone.querySelectorAll("p, .gat-v5-num, .gat-v5-bul, br, div").forEach(function(el) {
+      if (el.tagName === "BR") el.replaceWith(document.createTextNode("\n"));
+      else el.appendChild(document.createTextNode("\n"));
+    });
+
+    const bodyTxt = String(clone.textContent || "").replace(/\n{3,}/g, "\n\n").trim();
+    return "[" + idx + "] BOT:\n" + bodyTxt + (btnLines.length ? "\n" + btnLines.join("\n") : "");
+  }
+
+  window.copyFullGatChatTranscript = async function(btnEl) {
+    const msgs = document.getElementById("gat-hd-msgs");
+    const lines = [
+      "=== GAT TRACKING PARTNER TRANSCRIPT ===",
+      "URL: " + window.location.href + " | Lang: " + getActiveLang() + " | UID: " + getResolvedUid(),
+      "----------------------------------------"
+    ];
+    if (msgs) {
+      Array.from(msgs.querySelectorAll(".gat-hd-bubble")).forEach(function(b, i) {
+        lines.push(serializeBubbleElement(b, i + 1));
+        lines.push("");
+      });
+    }
+    lines.push("========================================");
+    const ok = await writeClipboardReliable(lines.join("\n"));
+    if (btnEl) {
+      const prev = btnEl.getAttribute("data-orig") || "📋";
+      btnEl.setAttribute("data-orig", prev);
+      btnEl.innerHTML = ok ? "✅" : "⚠️";
+      btnEl.style.background = ok ? "#10b981" : "#ef4444";
+      setTimeout(function() {
+        btnEl.innerHTML = prev;
+        btnEl.style.background = "";
+      }, 1500);
+    }
+  };
+
+  window.copySingleGatBubble = async function(miniBtn) {
+    const bub = miniBtn && miniBtn.closest(".gat-hd-bubble");
+    if (!bub) return;
+    const ok = await writeClipboardReliable(serializeBubbleElement(bub, 1));
+    miniBtn.textContent = ok ? "✅ Copied" : "⚠️";
+    setTimeout(function() { miniBtn.textContent = "📋"; }, 1400);
+  };
+
+  function ensureCopyAndDragControls() {
+    injectV6Styles();
+    makeDrawerHeaderDraggable();
+
+    const topBtns = document.querySelector("#gat-hd-drawer .gat-hd-top-btns");
+    if (topBtns && !document.getElementById("gat-hd-copy-all-btn")) {
+      const cpBtn = document.createElement("button");
+      cpBtn.type = "button";
+      cpBtn.id = "gat-hd-copy-all-btn";
+      cpBtn.className = "gat-hd-copy-btn";
+      cpBtn.title = "Copy full chat transcript";
+      cpBtn.innerHTML = "📋";
+      topBtns.insertBefore(cpBtn, topBtns.firstChild);
+    }
+
+    document.querySelectorAll("#gat-hd-msgs .gat-hd-bubble.bot").forEach(function(bub) {
+      if (bub.querySelector(".gat-bub-copy-mini")) return;
+      if (String(bub.textContent || "").trim().length < 15) return;
+      const mini = document.createElement("button");
+      mini.type = "button";
+      mini.className = "gat-bub-copy-mini";
+      mini.title = "Copy this reply";
+      mini.textContent = "📋";
+      bub.insertBefore(mini, bub.firstChild);
+    });
+  }
+
+  function buildLocalizedPricingUrl(sku) {
+    const l = getActiveLang();
+    const cleanSku = String(sku || "suite_solo_life_399").trim();
+    if (cleanSku.indexOf("concierge_") === 0) {
+      return (l === "en" ? "" : "/" + l) + "/concierge-booking/?sku=" + encodeURIComponent(cleanSku) + "&lang=" + encodeURIComponent(l);
+    }
+    return (l === "en" ? "" : "/" + l) + "/pricing/?sku=" + encodeURIComponent(cleanSku) + "&lang=" + encodeURIComponent(l);
+  }
+
+  window.executeGatSalesActionV5 = function(kind, target) {
+    const l = getActiveLang();
+    const k = String(kind || "").toLowerCase();
+    const tgt = String(target || "").trim();
+
+    if (k === "pricing" || k === "sku" || k === "paywall") {
+      const cleanTgt = tgt || "suite_solo_life_399";
+      if (cleanTgt.indexOf("concierge_") !== 0 && typeof window.spotlightGatPricingSkuLive === "function") {
+        window.spotlightGatPricingSkuLive(cleanTgt, false);
+        return;
+      }
+      window.location.href = buildLocalizedPricingUrl(cleanTgt);
+      return;
+    }
+    if (k === "concierge") {
+      const cSku = tgt.indexOf("concierge_") === 0 ? tgt : "concierge_rabbi_349";
+      window.location.href = (l === "en" ? "" : "/" + l) + "/concierge-booking/?sku=" + encodeURIComponent(cSku) + "&lang=" + encodeURIComponent(l);
+      return;
+    }
+    if (k === "obs" || k === "term") {
+      if (typeof window.gatNavigateAndMinimize === "function") {
+        window.gatNavigateAndMinimize(k, tgt, true);
+        return;
+      }
+    }
+    let mod = tgt || "hebrew-engine";
+    let form = "";
+    if (mod.indexOf(":") !== -1) {
+      const sp = mod.split(":");
+      mod = sp[0]; form = sp[1] || "";
+    }
+    if (mod === "forms") mod = "hebrew-engine";
+    if (mod === "beit_din" || mod === "beit-din") mod = "beit-din-150";
+    if (mod === "couples") mod = "couples-sync";
+    if (mod === "songs") mod = "songs-prayers";
+
+    if (window.location.pathname.indexOf("/app") === 0 && typeof window.openMod === "function") {
+      window.openMod(mod);
+      if (form && window.gatFormsState) {
+        window.gatFormsState.activeForm = form;
+        if (typeof window.mountUnifiedPibaFormsEngine === "function") window.mountUnifiedPibaFormsEngine();
+      }
+      if (typeof window.toggleGatHelpdesk === "function") window.toggleGatHelpdesk(false, true);
+    } else {
+      window.location.href = "/app/?module=" + encodeURIComponent(mod) + (form ? "&form=" + encodeURIComponent(form) : "") + "&lang=" + encodeURIComponent(l);
+    }
+  };
+
+  window.openGatStatutoryTrapModal = function(trapId) {
+    const item = window._gatTrapModalRegistry && window._gatTrapModalRegistry[trapId];
+    if (!item) return;
+    const l = getActiveLang();
+    const ui = V6_I18N[l] || V6_I18N.en;
+    const dir = l === "he" ? "rtl" : "ltr";
+    const sku = item.sku || "bd_suite_life_249";
+    const isConcierge = sku.indexOf("concierge_") === 0;
+    const destUrl = buildLocalizedPricingUrl(sku);
+
+    const existing = document.getElementById("gat-statutory-trap-modal");
+    if (existing) existing.remove();
+
+    const bd = document.createElement("div");
+    bd.id = "gat-statutory-trap-modal";
+    bd.style.cssText = "position:fixed;inset:0;z-index:2147483646;background:rgba(4,18,38,0.84);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:16px;";
+    bd.innerHTML =
+      '<div dir="' + dir + '" style="background:#ffffff;border:2.5px solid #dc2626;border-radius:18px;max-width:480px;width:100%;max-height:90dvh;overflow-y:auto;padding:20px 18px;color:#0f172a;box-shadow:0 24px 60px rgba(0,0,0,0.6);font-family:-apple-system,BlinkMacSystemFont,sans-serif;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;">' +
+          '<span style="background:#fef2f2;color:#dc2626;border:1.5px solid #fca5a5;padding:4px 10px;border-radius:999px;font-size:0.72rem;font-weight:900;">' + escHtml(ui.trapBadgeHdr) + '</span>' +
+          '<button type="button" id="gat-trap-x-btn" style="background:#f1f5f9;border:none;width:30px;height:30px;border-radius:8px;font-weight:900;cursor:pointer;color:#334155;">✕</button>' +
+        '</div>' +
+        '<h3 style="margin:0 0 14px 0;font-size:1.08rem;font-weight:900;color:#991b1b;line-height:1.35;">' + escHtml(item.title) + '</h3>' +
+        '<div style="background:#f8fafc;border-inline-start:3.5px solid #0284c7;border-radius:10px;padding:11px 12px;margin-bottom:10px;">' +
+          '<div style="font-size:0.76rem;font-weight:900;color:#0369a1;margin-bottom:4px;">' + escHtml(ui.secRule) + '</div>' +
+          '<div style="font-size:0.84rem;line-height:1.5;color:#1e293b;">' + escHtml(item.rule) + '</div>' +
+        '</div>' +
+        '<div style="background:#fff5f5;border-inline-start:3.5px solid #dc2626;border-radius:10px;padding:11px 12px;margin-bottom:10px;">' +
+          '<div style="font-size:0.76rem;font-weight:900;color:#b91c1c;margin-bottom:4px;">' + escHtml(ui.secRisk) + '</div>' +
+          '<div style="font-size:0.84rem;line-height:1.5;color:#7f1d1d;">' + escHtml(item.risk) + '</div>' +
+        '</div>' +
+        '<div style="background:#ecfdf5;border-inline-start:3.5px solid #059669;border-radius:10px;padding:11px 12px;margin-bottom:16px;">' +
+          '<div style="font-size:0.76rem;font-weight:900;color:#047857;margin-bottom:4px;">' + escHtml(ui.secFix) + '</div>' +
+          '<div style="font-size:0.84rem;line-height:1.5;color:#064e3b;">' + escHtml(item.fix) + '</div>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:8px;">' +
+          '<a href="' + escHtml(destUrl) + '" style="display:block;text-align:center;background:linear-gradient(135deg,#059669,#047857);color:#ffffff;text-decoration:none;padding:13px 14px;border-radius:11px;font-size:0.88rem;font-weight:900;box-shadow:0 4px 14px rgba(5,150,105,0.3);">' + escHtml(isConcierge ? ui.modalConcierge : ui.modalPricing) + '</a>' +
+          '<button type="button" id="gat-trap-back-btn" style="background:#f1f5f9;color:#0f172a;border:1px solid #cbd5e1;padding:10px 12px;border-radius:10px;font-size:0.82rem;font-weight:800;cursor:pointer;">' + escHtml(ui.modalAsk) + '</button>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(bd);
+    bd.onclick = function(e) { if (e.target === bd) bd.remove(); };
+    document.getElementById("gat-trap-x-btn").onclick = function() { bd.remove(); };
+    document.getElementById("gat-trap-back-btn").onclick = function() { bd.remove(); };
+  };
+
+  window.gatFormatSalesReplyV5 = function(rawReply) {
+    if (!rawReply) return "";
+    const l = getActiveLang();
+    const ui = V6_I18N[l] || V6_I18N.en;
+    let txt = String(rawReply).replace(/\[\[STATE:[^\]]*\]\]/gi, "").trim();
+
+    const trapPills = [];
+    const actions = [];
+
+    // Extract [[TRAP:...]] cleanly out of prose so we deterministically place it right AFTER Paragraph 1!
+    txt = txt.replace(/\[\[TRAP:([^\]]+)\]\]/gi, function(_, inner) {
+      const parts = String(inner).split("|");
+      const key = (parts[0] || "trap").trim();
+      const title = (parts[1] || key).trim();
+      const rule = (parts[2] || title).trim();
+      const risk = (parts[3] || "").trim();
+      const fix = (parts[4] || "").trim();
+      const sku = (parts[5] || "bd_suite_life_249").trim();
+      const trapId = "trap_" + Date.now().toString(36) + "_" + trapPills.length + "_" + Math.random().toString(36).slice(2, 6);
+      window._gatTrapModalRegistry[trapId] = { key: key, title: title, rule: rule, risk: risk, fix: fix, sku: sku };
+      trapPills.push(
+        '<button type="button" class="gat-v5-trap-pill" onclick="window.openGatStatutoryTrapModal(\'' + trapId + '\')">' +
+          '<span>🚨 ' + escHtml(title) + '</span> ' +
+          '<span class="gat-v5-trap-chip">' + escHtml(ui.tapWhyChip) + '</span>' +
+        '</button>'
+      );
+      return "\n\n";
+    });
+
+    txt = txt.replace(/\[\[ASK:([^|\r\n]+)\|([\s\S]*?)\]\]/gi, function(_, q, lbl) {
+      actions.push({ type: "ask", q: String(q || "").trim(), label: String(lbl || "").trim() });
+      return "";
+    });
+
+    txt = txt.replace(/\[\[ACT:([^|\r\n]+)\|([^|\r\n]*)\|([\s\S]*?)\]\]/gi, function(_, kind, target, lbl) {
+      actions.push({ type: "act", kind: String(kind || "").trim(), target: String(target || "").trim(), label: String(lbl || "").trim() });
+      return "";
+    });
+
+    txt = txt.replace(/\[\[NAV:([^|\r\n]+)\|([^|\r\n]*)(?:\|([\s\S]*?))?\]\]/gi, function(_, m1, m2, m3) {
+      actions.push({ type: "act", kind: String(m1 || "").trim(), target: String(m2 || "").trim(), label: String(m3 || "").trim() || ("🔎 " + ui.modalPricing) });
+      return "";
+    }).trim();
+
+    txt = txt.replace(/^[ \t]*[*+-][ \t]+/gm, "• ");
+
+    const uList = [];
+    txt = txt.replace(/<u>([\s\S]*?)<\/u>/gi, function(_, inner) {
+      const ut = "__GAT_U_TOK_" + uList.length + "__";
+      uList.push(inner);
+      return ut;
+    });
+
+    txt = txt
+      .replace(/([.!?])\s+(\d+\.\s+\*\*)/g, "$1\n\n$2")
+      .replace(/([.!?])\s+(\*\*[A-Z\u0590-\u05FF\u0400-\u04FF][^*]{2,42}:\*\*)/g, "$1\n\n$2");
+
+    let safe = escHtml(txt);
+
+    uList.forEach(function(inner, idx) {
+      safe = safe.replace(
+        "__GAT_U_TOK_" + idx + "__",
+        '<span style="text-decoration:underline;text-decoration-color:#dc2626;text-decoration-thickness:2px;font-weight:800;color:#991b1b;background:#fef2f2;padding:1px 5px;border-radius:5px;">' + escHtml(inner) + '</span>'
+      );
+    });
+
+    safe = safe.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(_, label, url) {
+      const cleanUrl = String(url || "").trim();
+      const isCheckout = /pricing|concierge/i.test(cleanUrl);
+      const st = isCheckout
+        ? "background:linear-gradient(135deg,#0284c7,#0369a1);color:#ffffff;box-shadow:0 2px 7px rgba(2,132,199,0.25);"
+        : "background:#e0f2fe;color:#0369a1;border:1.5px solid #7dd3fc;";
+      return '<a class="gat-v5-inline-link" href="' + cleanUrl + '" style="' + st + '">' + label + '</a>';
+    });
+
+    safe = safe.replace(/\*\*([^*]+)\*\*/g, '<strong style="color:#082548;font-weight:900;">$1</strong>');
+    safe = safe.replace(/(^|[^*])\*([^\s*](?:[^*\n]*?[^\s*])?)\*(?!\*)/g, '$1<em style="color:#0369a1;font-style:italic;font-weight:700;">$2</em>');
+
+    const rawBlocks = safe.split(/\n{2,}/).map(function(b) { return b.trim(); }).filter(Boolean);
+    const renderedBlocks = rawBlocks.map(function(trimmed) {
+      const lines = trimmed.split(/\n/).filter(Boolean);
+      const outLines = lines.map(function(ln) {
+        const nMatch = ln.match(/^\s*(\d+\.)\s+([\s\S]+)$/);
+        if (nMatch) {
+          return '<div class="gat-v5-num"><strong style="color:#0284c7;font-weight:900;">' + nMatch[1] + ' </strong>' + nMatch[2] + '</div>';
+        }
+        if (/^\s*•\s+/.test(ln)) {
+          return '<div class="gat-v5-bul"><strong style="color:#0284c7;font-weight:900;">• </strong>' + ln.replace(/^\s*•\s+/, "") + '</div>';
+        }
+        return '<p>' + ln + '</p>';
+      }).join("");
+      return '<div style="margin-bottom:6px;">' + outLines + '</div>';
+    });
+
+    // Deterministically insert Trap Pill(s) right AFTER Block 0 (opening hook)
+    let htmlBody = "";
+    if (renderedBlocks.length > 0) {
+      htmlBody = renderedBlocks[0] + trapPills.join("") + renderedBlocks.slice(1).join("");
+    } else {
+      htmlBody = trapPills.join("");
+    }
+
+    let actionsHtml = "";
+    if (actions.length > 0) {
+      actionsHtml = '<div class="gat-v5-actions">';
+      actions.forEach(function(a) {
+        if (a.type === "ask") {
+          const sq = a.q.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+          actionsHtml += '<button type="button" class="gat-v5-btn ask" onclick="window.sendGatHelpdeskMsg(\'' + sq + '\')">' + escHtml(a.label) + '</button>';
+        } else {
+          const sk = a.kind.replace(/'/g, "\\'");
+          const st = a.target.replace(/'/g, "\\'");
+          const isClose = (a.kind === "pricing" || a.kind === "concierge" || a.kind === "sku" || a.label.indexOf("⚡") !== -1);
+          const cls = isClose ? "close-cta" : "app";
+          actionsHtml += '<button type="button" class="gat-v5-btn ' + cls + '" onclick="window.executeGatSalesActionV5(\'' + sk + '\', \'' + st + '\')">' + escHtml(a.label) + '</button>';
+        }
+      });
+      actionsHtml += '</div>';
+    }
+
+    return '<div class="gat-v5-reply" data-v5-rendered="1">' + htmlBody + actionsHtml + '</div>';
+  };
+  window.gatStartNewPartnerTopic = function() {
+    window._gatStartingNewTopic = true;
+    setScreenHistory([]);
+    window.renderGatSmartWelcomeCard(true);
+  };
+
+  window.renderGatSmartWelcomeCard = function(forceSession1) {
+    ensureCopyAndDragControls();
+    const msgs = document.getElementById("gat-hd-msgs");
+    if (!msgs) return;
+    const inp = document.getElementById("gat-hd-input");
+    const l = getActiveLang();
+    const ui = V6_I18N[l] || V6_I18N.en;
+    if (inp) inp.placeholder = ui.ph;
+
+    const hist = getScreenHistory();
+    if (hist.length > 0 && !forceSession1) {
+      msgs.innerHTML = "";
+      hist.forEach(function(m) {
+        if (!m || !m.text) return;
+        const b = document.createElement("div");
+        const isBot = (m.role === "model" || m.role === "assistant" || m.role === "ai");
+        b.className = "gat-hd-bubble " + (isBot ? "bot" : "user");
+        if (isBot) b.innerHTML = window.gatFormatSalesReplyV5(m.text);
+        else b.textContent = m.text;
+        msgs.appendChild(b);
+      });
+      ensureCopyAndDragControls();
+      return;
+    }
+
+    const d = loadCachedDossier();
+    // ONLY show "Welcome back!" when this browser session is genuinely a returning visit!
+    const showReturningCard = !forceSession1 && !window._gatStartingNewTopic && isTrueReturningVisit() && (
+      (Array.isArray(d.discussedTopics) && d.discussedTopics.length > 0) ||
+      Number(d.turnCount || 0) > 0
+    );
+
+    const card = document.createElement("div");
+    card.className = "gat-hd-bubble bot";
+
+    if (showReturningCard) {
+      const helloHtml = d.firstName
+        ? ui.retHelloName.replace("{NAME}", escHtml(d.firstName))
+        : ui.retHelloAnon;
+      let btns = '<div class="gat-v5-actions">';
+      (d.discussedTopics || []).slice(0, 3).forEach(function(tp) {
+        const promptTxt = ui.contPrompt.replace("{TOPIC}", tp).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+        btns += '<button type="button" class="gat-v5-btn ask" onclick="window.sendGatHelpdeskMsg(\'' + promptTxt + '\')">' + escHtml(ui.contPrefix + tp) + '</button>';
+      });
+      const incCount = (d.vaultSummary && Number(d.vaultSummary.incompleteCount || 0)) || 0;
+      if (incCount > 0) {
+        const incQ = ui.vaultIncQ.replace(/'/g, "\\'");
+        btns += '<button type="button" class="gat-v5-btn app" style="background:#fef2f2;border-color:#dc2626;color:#991b1b;" onclick="window.sendGatHelpdeskMsg(\'' + incQ + '\')">' + escHtml(ui.vaultIncBtn.replace("{N}", String(incCount))) + '</button>';
+      }
+      if (d.recommendedSkus && d.recommendedSkus[0]) {
+        const topSku = d.recommendedSkus[0].replace(/'/g, "\\'");
+        const kind = topSku.indexOf("concierge_") === 0 ? "concierge" : "pricing";
+        btns += '<button type="button" class="gat-v5-btn close-cta" onclick="window.executeGatSalesActionV5(\'' + kind + '\', \'' + topSku + '\')">' + escHtml(ui.recPassBtn) + '</button>';
+      }
+      btns += '<button type="button" class="gat-v5-btn app" onclick="window.gatStartNewPartnerTopic()">' + escHtml(ui.newTopicBtn) + '</button>';
+      btns += '</div>';
+      card.innerHTML = '<div class="gat-v5-reply"><p>' + helloHtml + '</p><p>' + ui.retSub + '</p>' + btns + '</div>';
+    } else {
+      const nameInsert = d.firstName ? (", " + escHtml(d.firstName)) : "";
+      const hello1 = ui.s1Hello.replace("{NAME}", nameInsert);
+      const q1 = ui.optGiyurQ.replace(/'/g, "\\'");
+      const q2 = ui.optAliyahQ.replace(/'/g, "\\'");
+      const q3 = ui.optBothQ.replace(/'/g, "\\'");
+      let resumeFirstVisitBtn = "";
+      if (!forceSession1 && Array.isArray(d.discussedTopics) && d.discussedTopics[0]) {
+        const tp0 = d.discussedTopics[0];
+        const p0 = ui.contPrompt.replace("{TOPIC}", tp0).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+        resumeFirstVisitBtn = '<button type="button" class="gat-v5-btn app" onclick="window.sendGatHelpdeskMsg(\'' + p0 + '\')">' + escHtml(ui.contPrefix + tp0) + '</button>';
+      }
+      card.innerHTML =
+        '<div class="gat-v5-reply">' +
+          '<p>' + hello1 + '</p>' +
+          '<p>' + ui.s1Sub + '</p>' +
+          '<div class="gat-v5-actions">' +
+            '<button type="button" class="gat-v5-btn ask" onclick="window.sendGatHelpdeskMsg(\'' + q1 + '\')">' + escHtml(ui.optGiyurLbl) + '</button>' +
+            '<button type="button" class="gat-v5-btn ask" onclick="window.sendGatHelpdeskMsg(\'' + q2 + '\')">' + escHtml(ui.optAliyahLbl) + '</button>' +
+            '<button type="button" class="gat-v5-btn close-cta" onclick="window.sendGatHelpdeskMsg(\'' + q3 + '\')">' + escHtml(ui.optBothLbl) + '</button>' +
+            resumeFirstVisitBtn +
+          '</div>' +
+        '</div>';
+    }
+
+    msgs.innerHTML = "";
+    msgs.appendChild(card);
+    ensureCopyAndDragControls();
+  };
+
+  async function syncServerDossierInBackground() {
+    if (window._gatDossierSyncedOnce) return;
+    window._gatDossierSyncedOnce = true;
+    try {
+      const res = await fetch(getApiUrl(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "get_ai_partner_dossier",
+          uid: getResolvedUid(),
+          anonPartnerId: getOrCreateAnonPartnerId(),
+          lang: getActiveLang()
+        })
+      });
+      const data = await res.json();
+      if (data && data.ok && data.dossier) {
+        saveCachedDossier(data.dossier, data.vaultSummary);
+        try {
+          if (sessionStorage.getItem(SENT_THIS_VISIT_KEY) !== "1" && Number(data.dossier.turnCount || 0) > 0) {
+            sessionStorage.setItem(IS_RETURNING_VISIT_KEY, "1");
+          }
+        } catch (e) {}
+        if (getScreenHistory().length === 0) {
+          window.renderGatSmartWelcomeCard(false);
+        }
+      }
+    } catch (e) {}
+  }
+
+  window.clearGatHelpdesk = function() {
+    window._gatStartingNewTopic = false;
+    setScreenHistory([]);
+    window.renderGatSmartWelcomeCard(false);
+  };
+
+  window.sendGatHelpdeskMsg = async function(optionalText, overrideMod, overrideForm) {
+    ensureCopyAndDragControls();
+    const inp = document.getElementById("gat-hd-input");
+    const msgs = document.getElementById("gat-hd-msgs");
+    const text = String(optionalText || (inp ? inp.value : "") || "").trim();
+    if (!text || !msgs) return;
+    if (!optionalText && inp) inp.value = "";
+
+    try { sessionStorage.setItem(SENT_THIS_VISIT_KEY, "1"); } catch (e) {}
+
+    const curHist = getScreenHistory();
+    if (curHist.length === 0) msgs.innerHTML = "";
+
+    const uBub = document.createElement("div");
+    uBub.className = "gat-hd-bubble user";
+    uBub.textContent = text;
+    msgs.appendChild(uBub);
+
+    const loadingBub = document.createElement("div");
+    loadingBub.className = "gat-hd-bubble bot";
+    loadingBub.innerHTML = '<div style="font-size:0.84rem;color:#0369a1;font-weight:800;">✨ ...</div>';
+    msgs.appendChild(loadingBub);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    const wasStartingNew = Boolean(window._gatStartingNewTopic);
+    window._gatStartingNewTopic = false;
+
+    try {
+      const st = window.gatFormsState || {};
+      const res = await fetch(getApiUrl(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "helpdesk_chat",
+          uid: getResolvedUid(),
+          anonPartnerId: getOrCreateAnonPartnerId(),
+          lang: getActiveLang(),
+          pagePath: window.location.pathname + window.location.search,
+          currentMod: overrideMod || window.currentMod || "",
+          currentForm: overrideForm || window.activePibaFormKey || st.activeForm || "",
+          startingNewTopic: wasStartingNew,
+          formSnapshot: {
+            activeForm: overrideForm || window.activePibaFormKey || st.activeForm || "",
+            pf_current_visa_type: st.pf_current_visa_type || "",
+            pf_visa_expiry_date: st.pf_visa_expiry_date || "",
+            pf_entry_date_il: st.pf_entry_date_il || "",
+            pf_marital: st.pf_marital || st.pf_marital_status || "",
+            pf_birth_country: st.pf_birth_country || ""
+          },
+          message: text,
+          history: curHist
+        })
+      });
+      const data = await res.json();
+      const rawReply = (data && (data.reply || data.answer)) || "📲 WhatsApp: +972-52-582-2005";
+      if (data && data.dossier) {
+        saveCachedDossier(data.dossier, data.vaultSummary);
+      }
+      loadingBub.innerHTML = window.gatFormatSalesReplyV5(rawReply);
+      ensureCopyAndDragControls();
+      setScreenHistory(curHist.concat([
+        { role: "user", text: text },
+        { role: "model", text: rawReply }
+      ]));
+    } catch (err) {
+      loadingBub.innerHTML = "⚠️ 📲 WhatsApp: <strong>+972-52-582-2005</strong>";
+    }
+    setTimeout(function() { msgs.scrollTop = Math.max(0, loadingBub.offsetTop - 10); }, 25);
+  };
+
+  // Capture-phase event routing: Copy handled FIRST, completely separate from Clear!
+  document.addEventListener("click", function(ev) {
+    const inlinePricingLink = ev.target && ev.target.closest && ev.target.closest("a.gat-v5-inline-link");
+    if (inlinePricingLink && typeof window.spotlightGatPricingSkuLive === "function") {
+      const hrefStr = String(inlinePricingLink.getAttribute("href") || "");
+      const mSku = hrefStr.match(/[?&]sku=([a-zA-Z0-9_]+)/);
+      if (hrefStr.indexOf("/pricing/") !== -1 && mSku && mSku[1] && mSku[1].indexOf("concierge_") !== 0) {
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+        window.spotlightGatPricingSkuLive(mSku[1], false);
+        return;
+      }
+    }
+    const copyAllBtn = ev.target && ev.target.closest && ev.target.closest("#gat-hd-copy-all-btn");
+    if (copyAllBtn) {
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      window.copyFullGatChatTranscript(copyAllBtn);
+      return;
+    }
+    const copyMiniBtn = ev.target && ev.target.closest && ev.target.closest(".gat-bub-copy-mini");
+    if (copyMiniBtn) {
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      window.copySingleGatBubble(copyMiniBtn);
+      return;
+    }
+    const clearBtn = ev.target && ev.target.closest && ev.target.closest(".gat-hd-clear-btn");
+    if (clearBtn) {
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      window.clearGatHelpdesk();
+      return;
+    }
+    const sendBtn = ev.target && ev.target.closest && ev.target.closest("#gat-hd-send");
+    if (sendBtn) {
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      window.sendGatHelpdeskMsg();
+      return;
+    }
+    const fab = ev.target && ev.target.closest && ev.target.closest("#gat-hd-fab");
+    if (fab) {
+      setTimeout(function() {
+        ensureCopyAndDragControls();
+        const drw = document.getElementById("gat-hd-drawer");
+        if (drw && drw.classList.contains("open")) restoreSavedDrawerPos(drw);
+        syncServerDossierInBackground();
+        if (getScreenHistory().length === 0) window.renderGatSmartWelcomeCard(false);
+      }, 40);
+    }
+  }, true);
+
+  document.addEventListener("keydown", function(ev) {
+    if (ev.target && ev.target.id === "gat-hd-input" && ev.key === "Enter" && !ev.shiftKey) {
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      window.sendGatHelpdeskMsg();
+    }
+  }, true);
+
+  const origToggle = window.toggleGatHelpdesk;
+  if (typeof origToggle === "function") {
+    window.toggleGatHelpdesk = function(open) {
+      const r = origToggle.apply(this, arguments);
+      if (open) {
+        ensureCopyAndDragControls();
+        const drw = document.getElementById("gat-hd-drawer");
+        if (drw) restoreSavedDrawerPos(drw);
+        syncServerDossierInBackground();
+        window.renderGatSmartWelcomeCard(false);
+      }
+      return r;
+    };
+  }
+
+  const origRefresh = window.refreshGatHelpdeskI18n;
+  window.refreshGatHelpdeskI18n = function() {
+    if (typeof origRefresh === "function") origRefresh.apply(this, arguments);
+    if (getScreenHistory().length === 0) window.renderGatSmartWelcomeCard(false);
+  };
+
+  if (typeof MutationObserver !== "undefined") {
+    const obs = new MutationObserver(function() { ensureCopyAndDragControls(); });
+    if (document.body) obs.observe(document.body, { childList: true, subtree: true });
+    else document.addEventListener("DOMContentLoaded", function() { obs.observe(document.body, { childList: true, subtree: true }); });
+  }
+
+  function bootV6() {
+    ensureCopyAndDragControls();
+    window.renderGatSmartWelcomeCard(false);
+    const drw = document.getElementById("gat-hd-drawer");
+    if (drw && drw.classList.contains("open")) {
+      restoreSavedDrawerPos(drw);
+      syncServerDossierInBackground();
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function() { setTimeout(bootV6, 80); });
+  } else {
+    setTimeout(bootV6, 80);
+  }
+})();
+// === GAT CONSULTATIVE SALES & DOSSIER UI V5 END ===
+
+// === GAT LIVE AUTOFILL SYNC & DEDUPE V1 START ===
+(function initGatLiveAutofillSyncV1() {
+  if (window._gatLiveAutofillSyncV1) return;
+  window._gatLiveAutofillSyncV1 = true;
+
+  function normSlotSimple(raw) {
+    const s = String(raw || "").toLowerCase();
+    if (/marriage|נישואין|mariage|matrimonio|heirat|брак/.test(s)) return "marriage";
+    if (/teudat|zehut|sefach|ספח|תעודת זהות|\btz\b/.test(s)) return "tz";
+    if (/passport|דרכון|passeport|pasaporte|reisepass|паспорт/.test(s)) return "passport";
+    if (/birth|לידה|naissance|nacimiento|geburt|рождении/.test(s)) return "birth";
+    if (/police|criminal|fbi|acro|rcmp|יושר|פלילי|casier|antecedentes|führungszeugnis|судимости/.test(s)) return "police";
+    if (/single|marital|רווקות|פנויות|célibat|soltería|ledigkeit/.test(s)) return "single";
+    if (/divorce|גירושין/.test(s)) return "divorce";
+    return s.replace(/[^a-z0-9_]/g, "") || "doc";
+  }
+
+  window.dedupeScannedDocsForOwnerSlot = function(ownerParty, rawSlot) {
+    const targetOwner = (String(ownerParty || "").toLowerCase() === "partner") ? "partner" : "me";
+    const targetSlot = normSlotSimple(rawSlot);
+    if (!targetSlot || targetSlot === "doc") return;
+    ["gat_scanned_docs_v1", "gat_scanned_docs"].forEach(function(k) {
+      try {
+        const arr = JSON.parse(localStorage.getItem(k) || "[]");
+        if (!Array.isArray(arr) || !arr.length) return;
+        const filtered = arr.filter(function(sc) {
+          if (!sc) return false;
+          const scOwner = (sc.ownerParty === "partner" || sc.tzRole === "spouse") ? "partner" : "me";
+          const scSlot = normSlotSimple(sc.slotKey || sc.docType || sc.docTitle || (sc.passportNumber ? "passport" : ""));
+          if (targetSlot === "marriage" && scSlot === "marriage") return false;
+          return !(scOwner === targetOwner && scSlot === targetSlot);
+        });
+        localStorage.setItem(k, JSON.stringify(filtered));
+      } catch (e) {}
+    });
+  };
+
+  window.forceRefreshLivePibaFormDom = function() {
+    try {
+      const draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}") || {};
+      window.gatFormsState = Object.assign({}, draft, window.gatFormsState || {});
+      localStorage.setItem("gat_form_draft_v1", JSON.stringify(window.gatFormsState));
+
+      const sy = window.scrollY || 0;
+      if (typeof window.mountUnifiedPibaFormsEngine === "function") {
+        window.mountUnifiedPibaFormsEngine();
+      }
+      if (typeof window.restoreSavedFormDraft === "function") {
+        window.restoreSavedFormDraft(window.gatFormsState, true);
+      }
+      document.querySelectorAll(".pf-bound-input").forEach(function(el) {
+        if (!el.id || !(el.id in window.gatFormsState)) return;
+        const v = window.gatFormsState[el.id];
+        if (el.type === "checkbox") {
+          el.checked = Boolean(v);
+        } else if (v !== undefined && v !== null && String(el.value) !== String(v)) {
+          el.value = String(v);
+        }
+      });
+      if (sy > 0) window.scrollTo(0, sy);
+    } catch (e) {
+      console.warn("forceRefreshLivePibaFormDom warning:", e);
+    }
+  };
+
+  // Intercept /api/auditDoc audit_and_autofill responses directly so new OCR values
+  // immediately overwrite any stale passport/date fields in gatFormsState + live DOM!
+  const prevFetch = window.fetch;
+  if (typeof prevFetch === "function") {
+    window.fetch = async function(input, init) {
+      let reqBodyObj = null;
+      try {
+        const uStr = typeof input === "string" ? input : (input && input.url) || "";
+        if (uStr.indexOf("auditDoc") !== -1 && init && typeof init.body === "string" && init.body.indexOf("audit_and_autofill") !== -1) {
+          reqBodyObj = JSON.parse(init.body);
+          if (reqBodyObj && reqBodyObj.mode === "audit_and_autofill") {
+            window.dedupeScannedDocsForOwnerSlot(reqBodyObj.ownerParty || "me", reqBodyObj.slotKey || "");
+          }
+        }
+      } catch (e) {}
+
+      const resp = await prevFetch.apply(this, arguments);
+
+      if (reqBodyObj && reqBodyObj.mode === "audit_and_autofill" && resp && resp.clone) {
+        resp.clone().json().then(function(data) {
+          if (!data || !data.ok || !data.result) return;
+          const r = data.result;
+          const owner = (String(reqBodyObj.ownerParty || "").toLowerCase() === "partner") ? "partner" : "me";
+          const slot = normSlotSimple(reqBodyObj.slotKey || r.doc_type || r.doc_title_detected || "");
+          window.dedupeScannedDocsForOwnerSlot(owner, slot);
+
+          const draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}") || {};
+          const st = window.gatFormsState || {};
+          const writeVal = function(k, val) {
+            if (val !== undefined && val !== null && String(val).trim() !== "") {
+              const cv = String(val).trim();
+              draft[k] = cv;
+              st[k] = cv;
+            }
+          };
+
+          if (slot === "passport") {
+            const pNum = String(r.passport_number || "").trim().toUpperCase().replace(/\s+/g, "");
+            const pIss = r.issue_date_iso || r.passport_issue_date || "";
+            const pExp = r.expiry_date_iso || r.passport_expiry_date || "";
+            if (owner === "partner") {
+              writeVal("pf_sp_pass_num", pNum);
+              writeVal("pf_sp_pass_issue", pIss);
+              writeVal("pf_sp_pass_exp", pExp);
+              writeVal("pf_sp_dob", r.date_of_birth);
+              writeVal("pf_sp_surname_en", r.surname_en);
+              writeVal("pf_sp_given_en", r.given_en);
+            } else {
+              writeVal("pf_pass_num", pNum);
+              writeVal("pf_pass_issue_date", pIss);
+              writeVal("pf_pass_exp_date", pExp);
+              writeVal("pf_dob", r.date_of_birth);
+              writeVal("pf_surname_en", r.surname_en);
+              writeVal("pf_given_en", r.given_en);
+              if (r.surname_he) writeVal("pf_surname_he", r.surname_he);
+              if (r.given_he) writeVal("pf_given_he", r.given_he);
+            }
+          }
+          localStorage.setItem("gat_form_draft_v1", JSON.stringify(draft));
+          window.gatFormsState = st;
+
+          // Keep one clean latest record per (owner, slot) in gat_scanned_docs_v1
+          try {
+            const scansArr = JSON.parse(localStorage.getItem("gat_scanned_docs_v1") || "[]") || [];
+            const cleaned = scansArr.filter(function(sc) {
+              if (!sc) return false;
+              const scO = (sc.ownerParty === "partner" || sc.tzRole === "spouse") ? "partner" : "me";
+              const scS = normSlotSimple(sc.slotKey || sc.docType || sc.docTitle || (sc.passportNumber ? "passport" : ""));
+              return !(scO === owner && scS === slot);
+            });
+            cleaned.unshift({
+              slotKey: slot,
+              ownerParty: owner,
+              tzRole: owner === "partner" ? "spouse" : "applicant",
+              docType: r.doc_type || slot,
+              docTitle: r.doc_title_detected || slot,
+              surnameEn: r.surname_en || "",
+              givenEn: r.given_en || "",
+              surnameHe: r.surname_he || "",
+              givenHe: r.given_he || "",
+              dob: r.date_of_birth || "",
+              passportNumber: String(r.passport_number || "").trim().toUpperCase().replace(/\s+/g, ""),
+              issueDateIso: r.issue_date_iso || r.passport_issue_date || "",
+              expiryDateIso: r.expiry_date_iso || r.passport_expiry_date || "",
+              birthCountry: r.birth_country_city_he || r.country_or_city_of_birth || "",
+              citizenship: r.citizenship_he || r.citizenship || "",
+              updatedAt: Date.now()
+            });
+            localStorage.setItem("gat_scanned_docs_v1", JSON.stringify(cleaned.slice(0, 16)));
+          } catch (e) {}
+
+          // Refresh DOM immediately and again after async Vault writes settle
+          setTimeout(window.forceRefreshLivePibaFormDom, 30);
+          setTimeout(window.forceRefreshLivePibaFormDom, 220);
+          setTimeout(window.forceRefreshLivePibaFormDom, 650);
+        }).catch(function() {});
+      }
+      return resp;
+    };
+  }
+})();
+// === GAT LIVE AUTOFILL SYNC & DEDUPE V1 END ===
+
+// === GAT 365-DAY PERSISTENT AUTH VAULT V1 START ===
+(function initGat365DayPersistentAuthVaultV1() {
+  if (window._gatPersistentAuthVaultV1) return;
+  window._gatPersistentAuthVaultV1 = true;
+
+  const IDB_NAME = "gat_persistent_auth_db";
+  const IDB_STORE = "session";
+  const IDB_KEY = "primary";
+  const COOKIE_NAME = "gat_auth_v1";
+  const COOKIE_MAX_AGE = 34560000; // 400 days (browser maximum)
+
+  function cleanUidVal(raw) {
+    const s = String(raw || "").trim();
+    if (!s || /^(undefined|null|nan|anon|anonymous|guest|false|true)$/i.test(s)) return "";
+    return s;
+  }
+
+  function cleanWaDigits(raw) {
+    let d = String(raw || "").replace(/\D/g, "");
+    if (!d) return "";
+    if (d.length === 10 && d.indexOf("05") === 0) d = "972" + d.slice(1);
+    else if (d.length === 9 && d.indexOf("5") === 0) d = "972" + d;
+    return d.length >= 8 ? d : "";
+  }
+
+  function cleanPassCode(raw) {
+    const c = String(raw || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+    if (!c || c.length < 5 || /^(UNDEFINED|NULL|NONE|GUEST)$/i.test(c)) return "";
+    return c;
+  }
+
+  function getApiUrl() {
+    return (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+      ? "https://giyuraliyahtrack.com/api/auditDoc"
+      : "/api/auditDoc";
+  }
+
+  // Immediately scrub any poisoned localStorage.gat_uid ("undefined", "guest", "anon")
+  (function scrubPoisonedLocalStorageKeys() {
+    try {
+      const curUid = localStorage.getItem("gat_uid");
+      if (curUid && !cleanUidVal(curUid)) {
+        localStorage.removeItem("gat_uid");
+      }
+      if (window.gatUid && !cleanUidVal(window.gatUid)) {
+        window.gatUid = "";
+      }
+    } catch (e) {}
+  })();
+
+  function readAuthCookieSync() { return null; }
+  function writeAuthCookieSync() {
+    clearAuthCookieSync();
+    try {
+      if (navigator.storage && typeof navigator.storage.persist === "function") {
+        navigator.storage.persist().catch(function(){});
+      }
+    } catch (e) {}
+  }
+  function clearAuthCookieSync() {
+    try {
+      document.cookie = "gat_auth_v1=; Path=/; Max-Age=0; SameSite=Lax";
+      document.cookie = "gat_auth_v1=; Path=/; Max-Age=0; SameSite=Lax; Secure";
+    } catch (e) {}
+  }
+  clearAuthCookieSync();
+
+  function openAuthIdb() {
+    return new Promise(function(resolve) {
+      if (!window.indexedDB) return resolve(null);
+      try {
+        const req = window.indexedDB.open(IDB_NAME, 1);
+        req.onupgradeneeded = function(e) {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(IDB_STORE)) {
+            db.createObjectStore(IDB_STORE);
+          }
+        };
+        req.onsuccess = function(e) { resolve(e.target.result); };
+        req.onerror = function() { resolve(null); };
+      } catch (e) { resolve(null); }
+    });
+  }
+
+  async function readAuthIdb() {
+    const db = await openAuthIdb();
+    if (!db) return null;
+    return new Promise(function(resolve) {
+      try {
+        const tx = db.transaction(IDB_STORE, "readonly");
+        const req = tx.objectStore(IDB_STORE).get(IDB_KEY);
+        req.onsuccess = function() { db.close(); resolve(req.result || null); };
+        req.onerror = function() { db.close(); resolve(null); };
+      } catch (e) { db.close(); resolve(null); }
+    });
+  }
+
+  async function writeAuthIdb(record) {
+    const db = await openAuthIdb();
+    if (!db) return false;
+    return new Promise(function(resolve) {
+      try {
+        const tx = db.transaction(IDB_STORE, "readwrite");
+        tx.objectStore(IDB_STORE).put(record, IDB_KEY);
+        tx.oncomplete = function() { db.close(); resolve(true); };
+        tx.onerror = function() { db.close(); resolve(false); };
+      } catch (e) { db.close(); resolve(false); }
+    });
+  }
+
+  async function clearAuthIdb() {
+    const db = await openAuthIdb();
+    if (!db) return false;
+    return new Promise(function(resolve) {
+      try {
+        const tx = db.transaction(IDB_STORE, "readwrite");
+        tx.objectStore(IDB_STORE).delete(IDB_KEY);
+        tx.oncomplete = function() { db.close(); resolve(true); };
+        tx.onerror = function() { db.close(); resolve(false); };
+      } catch (e) { db.close(); resolve(false); }
+    });
+  }
+
+  function snapshotCurrentLocalStorageAuth() {
+    const wa = cleanWaDigits(localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "");
+    let uid = cleanUidVal(localStorage.getItem("gat_uid") || window.gatUid || "");
+    if (wa && (!uid || uid.indexOf("wa_") !== 0)) uid = "wa_" + wa;
+    const passCode = cleanPassCode(
+      localStorage.getItem("gat_permanent_pass_code") ||
+      localStorage.getItem("gat_pass_code") ||
+      localStorage.getItem("gat_passcode") || ""
+    );
+    const deviceAuthToken = String(localStorage.getItem("gat_device_auth_tok") || "").trim();
+    const adminSessionToken = String(localStorage.getItem("gat_admin_session_tok") || "").trim();
+    // Recover UID from signed adminSessionToken (`wa_972....exp.sig`) if needed
+    if (!uid && adminSessionToken && adminSessionToken.split(".").length === 3) {
+      const cand = cleanUidVal(adminSessionToken.split(".")[0]);
+      if (cand) uid = cand;
+    }
+    const unlocked = localStorage.getItem("gat_pro_unlocked") === "true" || localStorage.getItem("gat_pro_unlocked") === "1";
+    const tier = String(localStorage.getItem("gat_pro_tier") || localStorage.getItem("gat_tier") || "").trim();
+    return { uid, waPhone: wa, passCode, deviceAuthToken, adminSessionToken, unlocked, tier };
+  }
+
+  window.persistGatAuthVault = function(incoming) {
+    incoming = incoming || {};
+    try {
+      const cur = snapshotCurrentLocalStorageAuth();
+      const wa = cleanWaDigits(incoming.waPhone || incoming.whatsappDigits || cur.waPhone || "");
+      let uid = cleanUidVal(incoming.masterUid || incoming.uid || cur.uid || "");
+      if (wa && (!uid || uid.indexOf("wa_") !== 0)) uid = "wa_" + wa;
+      const passCode = cleanPassCode(incoming.permanentPassCode || incoming.passCode || cur.passCode || "");
+      const deviceAuthToken = String(incoming.deviceAuthToken || cur.deviceAuthToken || "").trim();
+      const adminSessionToken = String(incoming.adminSessionToken || cur.adminSessionToken || "").trim();
+      const unlocked = incoming.unlocked !== undefined ? Boolean(incoming.unlocked) : cur.unlocked;
+      const tier = String(incoming.tier || cur.tier || "").trim();
+
+      if (!uid && !wa && !passCode && !deviceAuthToken && !adminSessionToken) return null;
+
+      try { sessionStorage.removeItem("gat_wa_otp_pending_v1"); } catch (e) {}
+      localStorage.removeItem("gat_explicit_logged_out");
+      if (uid) {
+        localStorage.setItem("gat_uid", uid);
+        window.gatUid = uid;
+      }
+      if (wa) {
+        localStorage.setItem("gat_verified_wa_phone", wa);
+        localStorage.setItem("gat_wa_phone", wa);
+      }
+      if (passCode) {
+        localStorage.setItem("gat_permanent_pass_code", passCode);
+        localStorage.setItem("gat_pass_code", passCode);
+        localStorage.setItem("gat_passcode", passCode);
+      }
+      if (deviceAuthToken) {
+        localStorage.setItem("gat_device_auth_tok", deviceAuthToken);
+      }
+      if (adminSessionToken) {
+        localStorage.setItem("gat_admin_session_tok", adminSessionToken);
+        try { sessionStorage.setItem("gat_admin_session_tok", adminSessionToken); } catch (e) {}
+      }
+      if (incoming.customToken) {
+        localStorage.setItem("gat_auth_custom_token", incoming.customToken);
+      }
+      if (unlocked) {
+        localStorage.setItem("gat_pro_unlocked", "true");
+      }
+      if (tier && !/^(free|guest|none)$/i.test(tier)) {
+        localStorage.setItem("gat_pro_tier", tier);
+        localStorage.setItem("gat_unlocked_tier", tier);
+        localStorage.setItem("gat_tier", tier);
+      }
+      if (incoming.entitlementsMap && typeof incoming.entitlementsMap === "object" && Object.keys(incoming.entitlementsMap).length > 0) {
+        localStorage.setItem("gat_entitlements_v2", JSON.stringify(incoming.entitlementsMap));
+        localStorage.setItem("gat_entitlements_map", JSON.stringify(incoming.entitlementsMap));
+      }
+
+      const mergedRecord = {
+        uid,
+        waPhone: wa,
+        passCode,
+        deviceAuthToken,
+        adminSessionToken,
+        unlocked,
+        tier,
+        entitlementsMap: incoming.entitlementsMap || null,
+        updatedAtMs: Date.now()
+      };
+      writeAuthCookieSync(mergedRecord);
+      writeAuthIdb(mergedRecord);
+      return mergedRecord;
+    } catch (e) { return null; }
+  };
+
+  window.hasVerifiedLocalAuthVault = function() {
+    try {
+      if (localStorage.getItem("gat_explicit_logged_out") === "1") return false;
+      const snap = snapshotCurrentLocalStorageAuth();
+      if (snap.deviceAuthToken || snap.adminSessionToken || snap.waPhone || snap.passCode || (snap.uid && snap.uid.indexOf("wa_") === 0)) {
+        return true;
+      }
+      const ck = readAuthCookieSync();
+      if (ck && (ck.deviceAuthToken || ck.adminSessionToken || ck.waPhone || ck.passCode || (ck.uid && ck.uid.indexOf("wa_") === 0))) {
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  };
+
+  // STEP 1 (SYNCHRONOUS AT MS 0): Hydrate localStorage from 400-day Cookie if localStorage lost any keys!
+  if (localStorage.getItem("gat_explicit_logged_out") !== "1") {
+    const cookieAuth = readAuthCookieSync();
+    if (cookieAuth && (cookieAuth.uid || cookieAuth.waPhone || cookieAuth.passCode || cookieAuth.deviceAuthToken)) {
+      window.persistGatAuthVault(cookieAuth);
+    } else {
+      const existingLs = snapshotCurrentLocalStorageAuth();
+      if (existingLs.uid || existingLs.waPhone || existingLs.passCode || existingLs.adminSessionToken) {
+        window.persistGatAuthVault(existingLs);
+      }
+    }
+  }
+
+  // Upgrade syncAllGatAuthStorageKeys so all legacy callers feed into the 3-layer vault
+  const origSyncKeys = window.syncAllGatAuthStorageKeys;
+  window.syncAllGatAuthStorageKeys = function(opts) {
+    if (typeof origSyncKeys === "function") origSyncKeys(opts);
+    if (opts && typeof opts === "object" && Object.keys(opts).length > 0 && localStorage.getItem("gat_explicit_logged_out") !== "1") {
+      window.persistGatAuthVault(opts);
+    }
+  };
+
+  // Upgrade isGatUserLoggedIn to recognize deviceAuthToken + cookie vault
+  const origIsLogged = window.isGatUserLoggedIn;
+  window.isGatUserLoggedIn = function() {
+    if (localStorage.getItem("gat_explicit_logged_out") === "1") return false;
+    if (window.hasVerifiedLocalAuthVault()) return true;
+    return typeof origIsLogged === "function" ? origIsLogged() : false;
+  };
+
+  // Definitive server session restore + rolling 365-day token refresh
+  window.restoreGatSessionFromServerIfNeeded = async function(forceRefresh) {
+    if (localStorage.getItem("gat_explicit_logged_out") === "1") return false;
+    if (window._gatRestoringSessionV2 && !forceRefresh) return window._gatRestoringSessionPromise;
+
+    window._gatRestoringSessionV2 = true;
+    window._gatRestoringSessionPromise = (async function() {
+      try {
+        // Hydrate from IndexedDB first if localStorage + Cookie are both empty
+        let snap = snapshotCurrentLocalStorageAuth();
+        if (!snap.uid && !snap.waPhone && !snap.passCode && !snap.deviceAuthToken && !snap.adminSessionToken) {
+          const idbRec = await readAuthIdb();
+          if (idbRec && (idbRec.uid || idbRec.waPhone || idbRec.passCode || idbRec.deviceAuthToken)) {
+            window.persistGatAuthVault(idbRec);
+            snap = snapshotCurrentLocalStorageAuth();
+          }
+        }
+        if (!snap.uid && !snap.waPhone && !snap.passCode && !snap.deviceAuthToken && !snap.adminSessionToken) {
+          return false;
+        }
+
+        const res = await fetch(getApiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mode: "restore_wa_session",
+            uid: snap.uid,
+            waPhone: snap.waPhone,
+            passCode: snap.passCode,
+            deviceAuthToken: snap.deviceAuthToken,
+            adminSessionToken: snap.adminSessionToken
+          })
+        });
+        const data = await res.json();
+        if (data && data.ok && (data.masterUid || data.uid)) {
+          const uData = data.userData || {};
+          window.persistGatAuthVault({
+            uid: data.masterUid || data.uid,
+            waPhone: data.whatsappDigits || uData.whatsappDigits || snap.waPhone,
+            passCode: data.permanentPassCode || data.passCode || uData.permanentPassCode || snap.passCode,
+            deviceAuthToken: data.deviceAuthToken || snap.deviceAuthToken,
+            adminSessionToken: data.adminSessionToken || snap.adminSessionToken,
+            customToken: data.customToken || "",
+            unlocked: uData.unlocked,
+            tier: uData.tier,
+            entitlementsMap: uData.entitlementsMap
+          });
+
+          if (data.customToken && typeof firebase !== "undefined" && firebase.auth) {
+            try {
+              if (firebase.auth.Auth && firebase.auth.Auth.Persistence) {
+                await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+              }
+              const curU = firebase.auth().currentUser;
+              const targetUid = data.masterUid || data.uid;
+              if (!curU || curU.isAnonymous || curU.uid !== targetUid) {
+                await firebase.auth().signInWithCustomToken(data.customToken);
+              }
+            } catch (authErr) {
+              console.warn("Firebase customToken sign-in warning:", authErr);
+            }
+          }
+          if (uData.unlocked) {
+            if (typeof window.applyServerVerifiedEntitlements === "function") {
+              window.applyServerVerifiedEntitlements(uData.entitlementsMap, uData.tier);
+            }
+          } else {
+            // Cleanly clear local Pro/Admin cache if admin/unlocked was turned off in Firestore
+            ["gat_pro_unlocked", "gat_pro_tier", "gat_unlocked_tier", "gat_tier", "gat_entitlements_v2", "gat_entitlements_map", "gat_admin_session_tok"].forEach(function(k) {
+              localStorage.removeItem(k);
+            });
+            if (typeof window.renderAll === "function") window.renderAll();
+          }
+          if (!data.adminSessionToken) {
+            localStorage.removeItem("gat_admin_session_tok");
+            try { sessionStorage.removeItem("gat_admin_session_tok"); } catch (e) {}
+          }
+          if (uData && typeof window.applyMergedServerDossierToLocal === "function") {
+            window.applyMergedServerDossierToLocal(uData);
+          }
+          if (typeof window.refreshAllGatAuthIndicators === "function") {
+            window.refreshAllGatAuthIndicators();
+          }
+          return true;
+        }
+      } catch (e) {}
+      return false;
+    })();
+
+    const out = await window._gatRestoringSessionPromise;
+    window._gatRestoringSessionV2 = false;
+    return out;
+  };
+
+  // Explicit Logout ONLY clears all 3 layers
+  window.gatLogOutUser = async function() {
+    if (!confirm("Log out of your account on this device?")) return;
+    try {
+      localStorage.setItem("gat_explicit_logged_out", "1");
+      clearAuthCookieSync();
+      await clearAuthIdb();
+      [
+        "gat_verified_wa_phone", "gat_wa_phone", "gat_permanent_pass_code", "gat_pass_code",
+        "gat_passcode", "gat_uid", "gat_user_email", "gat_auth_custom_token",
+        "gat_device_auth_tok", "gat_admin_session_tok", "gat_pro_unlocked",
+        "gat_pro_tier", "gat_unlocked_tier", "gat_tier", "gat_entitlements_v2",
+        "gat_entitlements_map"
+      ].forEach(function(k) { localStorage.removeItem(k); });
+      try { sessionStorage.removeItem("gat_admin_session_tok"); } catch (e) {}
+      window.gatUid = "";
+      if (typeof firebase !== "undefined" && firebase.auth) {
+        await firebase.auth().signOut();
+      }
+    } catch (e) {}
+    if (typeof window.refreshAllGatAuthIndicators === "function") window.refreshAllGatAuthIndicators();
+    const m = document.getElementById("gat-profile-modal");
+    if (m && typeof window.openGatProfileModal === "function") window.openGatProfileModal();
+  };
+
+  // Global fetch interceptor: Auto-persist any login/claim/restore response across the entire site!
+  const baseFetch = window.fetch;
+  if (typeof baseFetch === "function") {
+    window.fetch = async function(input, init) {
+      const resp = await baseFetch.apply(this, arguments);
+      try {
+        const uStr = typeof input === "string" ? input : (input && input.url) || "";
+        if (uStr.indexOf("auditDoc") !== -1 && resp && resp.clone && init && typeof init.body === "string") {
+          if (/"mode"\s*:\s*"(?:wa_verify_login|claim_pass|restore_wa_session|check_checkout_unlock_status)"/.test(init.body)) {
+            resp.clone().json().then(function(d) {
+              if (d && !d.ghostMode && d.ok && d.unlocked !== false && (d.masterUid || d.uid || d.deviceAuthToken)) {
+              if (d.entitlementsMap && d.tier) { localStorage.setItem("gat_pro_unlocked", "true"); localStorage.setItem("gat_pro_tier", d.tier); localStorage.setItem("gat_tier", d.tier); localStorage.setItem("gat_entitlements_v2", JSON.stringify(d.entitlementsMap)); localStorage.setItem("gat_entitlements_map", JSON.stringify(d.entitlementsMap)); }
+                const uObj = d.userData || d.mergedData || {};
+                window.persistGatAuthVault({
+                  uid: d.masterUid || d.uid || uObj.uid,
+                  waPhone: d.whatsappDigits || uObj.whatsappDigits,
+                  passCode: d.permanentPassCode || d.passCode || uObj.permanentPassCode,
+                  deviceAuthToken: d.deviceAuthToken || "",
+                  adminSessionToken: d.adminSessionToken || "",
+                  customToken: d.customToken || "",
+                  unlocked: d.unlocked !== undefined ? d.unlocked : uObj.unlocked,
+                  tier: d.tier || uObj.tier,
+                  entitlementsMap: d.entitlementsMap || uObj.entitlementsMap
+                });
+              }
+            }).catch(function() {});
+          }
+        }
+      } catch (e) {}
+      return resp;
+    };
+  }
+
+  // Boot: Hydrate IndexedDB -> Cookie/LS immediately, then refresh server session
+  (async function bootPersistentAuth() {
+    if (localStorage.getItem("gat_explicit_logged_out") === "1") return;
+    const idbRec = await readAuthIdb();
+    if (idbRec && (idbRec.uid || idbRec.waPhone || idbRec.passCode || idbRec.deviceAuthToken)) {
+      window.persistGatAuthVault(idbRec);
+    }
+    if (window.hasVerifiedLocalAuthVault()) {
+      if (typeof window.refreshAllGatAuthIndicators === "function") window.refreshAllGatAuthIndicators();
+      await window.restoreGatSessionFromServerIfNeeded(false);
+    }
+  })();
+})();
+// === GAT 365-DAY PERSISTENT AUTH VAULT V1 END ===
+
+// === GAT LIVE ENTITLEMENT GUARD & TAB FOCUS SYNC V1 START ===
+(function initGatLiveEntitlementGuardV1() {
+  if (window._gatLiveEntGuardV1) return;
+  window._gatLiveEntGuardV1 = true;
+
+  let lastFocusSyncMs = 0;
+
+  async function syncEntitlementsNowAndUpgradeUi(forceServer) {
+    try {
+      if (localStorage.getItem("gat_explicit_logged_out") === "1") return false;
+      if (window._gatUploadInProgress || (window._gatFilePickerOpenAt && Date.now() - window._gatFilePickerOpenAt < 10000)) {
+        return typeof window.hasFormsEngineAccess === "function" ? window.hasFormsEngineAccess() : true;
+      }
+
+      if (typeof window.restoreGatSessionFromServerIfNeeded === "function") {
+        await window.restoreGatSessionFromServerIfNeeded(Boolean(forceServer));
+      }
+
+      const isNowFormsPaid = typeof window.hasFormsEngineAccess === "function"
+        ? window.hasFormsEngineAccess()
+        : (localStorage.getItem("gat_pro_unlocked") === "true");
+
+      // ONLY close #pro-paywall-modal if the SPECIFIC service it was opened for is now unlocked!
+      const pwModal = document.getElementById("pro-paywall-modal");
+      if (pwModal && pwModal.classList.contains("open") && typeof window.isPaywallHintNowUnlocked === "function") {
+        if (window.isPaywallHintNowUnlocked(window._gatPaywallFocusHint)) {
+          window.closeProPaywall();
+        }
+      }
+
+      return isNowFormsPaid;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  window.verifyServerEntitlementBeforePaywall = async function(checkFn) {
+    try {
+      if (typeof checkFn === "function" && checkFn()) return true;
+      if (typeof window.isGatUserLoggedIn === "function" && window.isGatUserLoggedIn()) {
+        await syncEntitlementsNowAndUpgradeUi(true);
+        if (typeof checkFn === "function" && checkFn()) return true;
+      }
+    } catch (e) {}
+    return false;
+  };
+
+  window.addEventListener("focus", function() {
+    if (window._gatUploadInProgress || (window._gatFilePickerOpenAt && Date.now() - window._gatFilePickerOpenAt < 10000)) return;
+    // Do NOT run background sync while user is actively viewing a Paywall modal unless a pending Revolut checkout is waiting!
+    const syncOrProfOpen = Boolean((document.getElementById("device-sync-modal") && document.getElementById("device-sync-modal").classList.contains("open")) || document.getElementById("gat-profile-modal") || sessionStorage.getItem("gat_wa_otp_pending_v1"));
+    if (syncOrProfOpen) return;
+    const pwOpen = document.getElementById("pro-paywall-modal") && document.getElementById("pro-paywall-modal").classList.contains("open");
+    if (pwOpen && !localStorage.getItem("gat_pending_checkout_intent")) return;
+    if (Date.now() - lastFocusSyncMs < 5000) return;
+    lastFocusSyncMs = Date.now();
+    if (typeof window.isGatUserLoggedIn === "function" && window.isGatUserLoggedIn()) {
+      syncEntitlementsNowAndUpgradeUi(true);
+    }
+  });
+
+  document.addEventListener("visibilitychange", function() {
+    if (window._gatUploadInProgress || (window._gatFilePickerOpenAt && Date.now() - window._gatFilePickerOpenAt < 10000)) return;
+    const syncOrProfOpen = Boolean((document.getElementById("device-sync-modal") && document.getElementById("device-sync-modal").classList.contains("open")) || document.getElementById("gat-profile-modal") || sessionStorage.getItem("gat_wa_otp_pending_v1"));
+    if (syncOrProfOpen) return;
+    const pwOpen = document.getElementById("pro-paywall-modal") && document.getElementById("pro-paywall-modal").classList.contains("open");
+    if (pwOpen && !localStorage.getItem("gat_pending_checkout_intent")) return;
+    if (document.visibilityState === "visible" && Date.now() - lastFocusSyncMs >= 5000) {
+      lastFocusSyncMs = Date.now();
+      if (typeof window.isGatUserLoggedIn === "function" && window.isGatUserLoggedIn()) {
+        syncEntitlementsNowAndUpgradeUi(true);
+      }
+    }
+  });
+
+  setTimeout(function() { syncEntitlementsNowAndUpgradeUi(false); }, 450);
+})();
+// === GAT LIVE ENTITLEMENT GUARD & TAB FOCUS SYNC V1 END ===
+
+// === GAT DETERMINISTIC COUPLE VAULT RECONCILER V2 START ===
+(function initGatDeterministicCoupleVaultReconcilerV2() {
+  if (window._gatDetVaultReconcilerV2) return;
+  window._gatDetVaultReconcilerV2 = true;
+
+  function normSlotV2(raw) {
+    const s = String(raw || "").toLowerCase();
+    if (/marriage|נישואין|mariage|matrimonio|heirat|брак/.test(s)) return "marriage";
+    if (/teudat|zehut|sefach|ספח|תעודת זהות|\btz\b|israeli_id/.test(s)) return "tz";
+    if (/passport|דרכון|passeport|pasaporte|reisepass|паспорт|laissez/.test(s)) return "passport";
+    if (/birth|לידה|naissance|nacimiento|geburt|рождении/.test(s)) return "birth";
+    if (/police|criminal|fbi|acro|rcmp|יושר|פלילי|casier|antecedentes|führungszeugnis|судимости/.test(s)) return "police";
+    if (/single|marital|רווקות|פנויות|célibat|soltería|ledigkeit/.test(s)) return "single";
+    return s.replace(/[^a-z0-9_]/g, "") || "doc";
+  }
+
+  function fmtIlDate(iso) {
+    const m = String(iso || "").trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return m ? (m[3] + "/" + m[2] + "/" + m[1]) : String(iso || "");
+  }
+
+  function getApiUrl() {
+    return (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+      ? "https://giyuraliyahtrack.com/api/auditDoc"
+      : "/api/auditDoc";
+  }
+
+  function openRawVaultIdb() {
+    return new Promise(function(resolve) {
+      if (!window.indexedDB) return resolve(null);
+      try {
+        const req = window.indexedDB.open("gat_doc_vault_v1", 1);
+        req.onupgradeneeded = function(e) {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains("docs")) db.createObjectStore("docs", { keyPath: "docId" });
+        };
+        req.onsuccess = function(e) { resolve(e.target.result); };
+        req.onerror = function() { resolve(null); };
+      } catch (e) { resolve(null); }
+    });
+  }
+
+  async function swapInvertedIdbDocsIfNeeded(partPassDoc, meTzDoc) {
+    const db = await openRawVaultIdb();
+    const uid = window.gatUid || localStorage.getItem("gat_uid") || "";
+    const syncToServer = function(rec, oldIdToDelete) {
+      if (!uid || uid === "anon" || uid === "guest") return;
+      if (rec && Array.isArray(rec.pages) && rec.pages.length) {
+        fetch(getApiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mode: "save_uploaded_doc",
+            uid: uid,
+            docId: rec.docId,
+            slotKey: rec.slotKey,
+            ownerParty: rec.ownerParty,
+            docType: rec.docType || rec.slotKey,
+            docTitle: rec.docTitle || rec.slotKey,
+            issuingCountry: rec.issuingCountry || "",
+            isComplete: rec.isComplete !== false,
+            incompleteReasons: rec.incompleteReasons || [],
+            hasApostille: Boolean(rec.hasApostille),
+            hasSefach: Boolean(rec.hasSefach),
+            isLongForm: rec.isLongForm !== false,
+            expiryDateIso: rec.expiryDateIso || "",
+            rawScanResult: rec.rawScanResult || null,
+            files: rec.pages
+          })
+        }).catch(function() {});
+      }
+      if (oldIdToDelete && oldIdToDelete !== (rec && rec.docId)) {
+        fetch(getApiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: "delete_uploaded_doc", uid: uid, docId: oldIdToDelete })
+        }).catch(function() {});
+      }
+    };
+
+    if (db) {
+      await new Promise(function(resolve) {
+        try {
+          const tx = db.transaction("docs", "readwrite");
+          const st = tx.objectStore("docs");
+          const g1 = st.get(partPassDoc.docId);
+          const g2 = st.get(meTzDoc.docId);
+          tx.oncomplete = function() { db.close(); resolve(true); };
+          tx.onerror = function() { db.close(); resolve(false); };
+          g1.onsuccess = function() {
+            const r1 = g1.result;
+            if (r1) {
+              const newR1 = Object.assign({}, r1, { docId: "me_passport", slotKey: "passport", ownerParty: "me", updatedAt: Date.now() });
+              st.put(newR1);
+              if (partPassDoc.docId !== "me_passport") st.delete(partPassDoc.docId);
+              syncToServer(newR1, partPassDoc.docId);
+            }
+          };
+          g2.onsuccess = function() {
+            const r2 = g2.result;
+            if (r2) {
+              const newR2 = Object.assign({}, r2, { docId: "partner_tz", slotKey: "tz", ownerParty: "partner", updatedAt: Date.now() });
+              st.put(newR2);
+              if (meTzDoc.docId !== "partner_tz") st.delete(meTzDoc.docId);
+              syncToServer(newR2, meTzDoc.docId);
+            }
+          };
+        } catch (e) { db.close(); resolve(false); }
+      });
+    }
+    partPassDoc.docId = "me_passport";
+    partPassDoc.ownerParty = "me";
+    partPassDoc.slotKey = "passport";
+    meTzDoc.docId = "partner_tz";
+    meTzDoc.ownerParty = "partner";
+    meTzDoc.slotKey = "tz";
+  }
+
+  window.reconcileCoupleRolesAcrossForms = async function() {
+    try {
+      if (typeof window.fetchMergedVaultDocsList !== "function") return;
+      let docs = await window.fetchMergedVaultDocsList();
+      if (!Array.isArray(docs) || docs.length === 0) return;
+
+      const draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}") || {};
+      const state = window.gatFormsState || {};
+      const curForm = String(state.pf_active_form || draft.pf_active_form || state.activeForm || "ash3");
+      const isVisaOrAliyahForm = /^(ash1|ash3|ash6|nespach_alef|ash456|sec_cv)$/.test(curForm);
+
+      // 1. AUTO-HEAL INVERTED COUPLE ROLES:
+      //    If Partner holds Foreign Passport AND Me holds Israeli TZ (for two DIFFERENT people) on a visa/Aliyah form,
+      //    swap Foreign Passport -> Me (Step 1 Foreign Applicant) and Israeli TZ -> Partner (Step 3 Israeli Sponsor)!
+      if (isVisaOrAliyahForm && localStorage.getItem("gat_manual_role_override_v2") !== "1") {
+        const partPass = docs.find(function(d) { return d && d.ownerParty === "partner" && normSlotV2(d.slotKey || d.docType || d.docTitle) === "passport"; });
+        const meTz = docs.find(function(d) { return d && d.ownerParty !== "partner" && normSlotV2(d.slotKey || d.docType || d.docTitle) === "tz"; });
+        const mePass = docs.find(function(d) { return d && d.ownerParty !== "partner" && normSlotV2(d.slotKey || d.docType || d.docTitle) === "passport"; });
+        if (partPass && meTz && !mePass) {
+          const rP = partPass.rawScanResult || {};
+          const rT = meTz.rawScanResult || {};
+          const dobDiffers = Boolean(rP.date_of_birth && rT.date_of_birth && rP.date_of_birth !== rT.date_of_birth);
+          const nameDiffers = Boolean(rP.given_he && rT.given_he && rP.given_he !== rT.given_he) || Boolean(rP.surname_en && !rT.surname_en);
+          if (dobDiffers || nameDiffers || true) {
+            await swapInvertedIdbDocsIfNeeded(partPass, meTz);
+          }
+        }
+      }
+
+      // 2. ONE-TIME UNCHECK OF LEGACY PRE-CHECKED STATUTORY DECLARATIONS
+      if (!localStorage.getItem("gat_unchecked_decl_fix_v1")) {
+        localStorage.setItem("gat_unchecked_decl_fix_v1", "1");
+        ["pf_decl_clean_record", "pf_police_covers_prior", "pf_has_name_change_cert"].forEach(function(ck) {
+          draft[ck] = false;
+          state[ck] = false;
+        });
+      }
+
+      // 3. CLEAN-SLATE SCRUB OF SCAN-DERIVED KEYS BEFORE DETERMINISTIC REBUILD
+      //    (Eliminates leaked 26/02/2021 Apostille dates, swapped Latin/Hebrew names, and wrong citizenships!)
+      const hasMeRawScan = docs.some(function(d) { return Boolean(d && d.ownerParty !== "partner" && normSlotV2(d.slotKey || d.docType || d.docTitle) !== "marriage" && d.rawScanResult); });
+      const hasPartnerRawScan = docs.some(function(d) { return Boolean(d && d.ownerParty === "partner" && d.rawScanResult); });
+      if (hasMeRawScan) {
+        [
+          "pf_surname_en", "pf_given_en", "pf_surname_he", "pf_given_he",
+          "pf_dob", "pf_hebrew_dob", "pf_gender",
+          "pf_pass_num", "pf_pass_issue_date", "pf_pass_exp_date",
+          "pf_tz", "pf_id_num", "pf_citizenship", "pf_citizenship_en", "pf_citizenship_code",
+          "pf_birth_country", "pf_birth_country_en", "pf_birth_country_he", "pf_birth_city_he"
+        ].forEach(function(k) { delete draft[k]; delete state[k]; });
+      }
+      if (hasPartnerRawScan) {
+        [
+          "pf_sp_name_he", "pf_sp_surname_he", "pf_sp_given_he", "pf_sp_surname_en", "pf_sp_given_en",
+          "pf_sp_tz", "pf_sp_dob", "pf_sp_pass_num", "pf_sp_pass_issue", "pf_sp_pass_exp",
+          "pf_sp_citizenship_he", "pf_sp_birth_country_he"
+        ].forEach(function(k) { delete draft[k]; delete state[k]; });
+      }
+
+      function setBoth(k, v) {
+        if (v !== undefined && v !== null && String(v).trim() !== "") {
+          const clean = String(v).trim();
+          draft[k] = clean;
+          state[k] = clean;
+        }
+      }
+      function setBothIfEmpty(k, v) {
+        if (v !== undefined && v !== null && String(v).trim() !== "") {
+          const cur = state[k] || draft[k] || "";
+          if (!String(cur).trim()) {
+            const clean = String(v).trim();
+            draft[k] = clean;
+            state[k] = clean;
+          }
+        }
+      }
+
+      // 4. RE-APPLY NON-MARRIAGE DOCS FIRST (PASSPORT, TZ+SEFACH, BIRTH, POLICE)
+      const orderedDocs = docs.slice().reverse();
+      orderedDocs.forEach(function(d) {
+        if (!d || !d.rawScanResult) return;
+        const r = d.rawScanResult;
+        const nSlot = normSlotV2(d.slotKey || d.docType || d.docTitle);
+        if (nSlot === "marriage") return;
+        const isPartner = (d.ownerParty === "partner");
+        const rawIdDigits = String(r.israeli_id_number || r.teudat_zehut || r.id_number || "").replace(/\D/g, "");
+
+        if (nSlot === "passport") {
+          const pNum = String(r.passport_number || "").trim().toUpperCase().replace(/\s+/g, "");
+          const pIss = r.passport_issue_date || r.issue_date_iso || "";
+          const pExp = r.passport_expiry_date || r.expiry_date_iso || "";
+          let bPlace = r.birth_country_city_he || r.country_or_city_of_birth || "";
+          if (/פלמה דה מיורקה/i.test(bPlace) && !/ספרד/.test(bPlace)) bPlace = "פלמה דה מיורקה, ספרד";
+          const citHe = r.citizenship_he || r.citizenship || "";
+
+          if (isPartner) {
+            setBoth("pf_sp_surname_en", r.surname_en);
+            setBoth("pf_sp_given_en", r.given_en);
+            setBoth("pf_sp_surname_he", r.surname_he);
+            setBoth("pf_sp_given_he", r.given_he);
+            const spFull = [r.given_he, r.surname_he].filter(Boolean).join(" ").trim() || [r.given_en, r.surname_en].filter(Boolean).join(" ").trim();
+            setBoth("pf_sp_name_he", spFull);
+            setBoth("pf_sp_dob", r.date_of_birth);
+            setBoth("pf_sp_pass_num", pNum);
+            setBoth("pf_sp_pass_issue", pIss);
+            setBoth("pf_sp_pass_exp", pExp);
+            setBoth("pf_sp_citizenship_he", citHe);
+            setBoth("pf_sp_birth_country_he", bPlace);
+          } else {
+            setBoth("pf_surname_en", r.surname_en);
+            setBoth("pf_given_en", r.given_en);
+            setBoth("pf_surname_he", r.surname_he || r.surname_en);
+            setBoth("pf_given_he", r.given_he || r.given_en);
+            setBoth("pf_dob", r.date_of_birth);
+            if (r.gender_he) setBoth("pf_gender", r.gender_he);
+            setBoth("pf_pass_num", pNum);
+            setBoth("pf_pass_issue_date", pIss);
+            setBoth("pf_pass_exp_date", pExp);
+            setBoth("pf_birth_country", bPlace);
+            setBoth("pf_citizenship", citHe);
+          }
+        } else if (nSlot === "tz") {
+          const fullHe = [r.given_he, r.surname_he].filter(Boolean).join(" ").trim() || r.person_full_name || "";
+          if (isPartner) {
+            setBoth("pf_sp_tz", rawIdDigits);
+            setBoth("pf_sp_name_he", fullHe);
+            setBoth("pf_sp_surname_he", r.surname_he);
+            setBoth("pf_sp_given_he", r.given_he);
+            setBoth("pf_sp_dob", r.date_of_birth);
+            setBoth("pf_sp_citizenship_he", "ישראלית");
+            setBothIfEmpty("pf_sp_birth_country_he", r.birth_country_city_he || "ישראל");
+            if (r.father_full_name) setBoth("pf_sp_father_he", r.father_full_name);
+            if (r.mother_full_name) setBoth("pf_sp_mother_he", r.mother_full_name);
+            if (r.israeli_address_he) {
+              setBoth("pf_il_addr_he", r.israeli_address_he);
+              setBoth("pf_address_il", r.israeli_address_he);
+            }
+            if (r.marital_he && /נשוי|נשואה/.test(r.marital_he)) {
+              setBothIfEmpty("pf_marital", "נשוי/אה");
+            }
+          } else {
+            setBoth("pf_tz", rawIdDigits);
+            setBoth("pf_id_num", rawIdDigits);
+            setBoth("pf_surname_he", r.surname_he);
+            setBoth("pf_given_he", r.given_he);
+            setBoth("pf_dob", r.date_of_birth);
+            if (r.hebrew_date_of_birth) setBoth("pf_hebrew_dob", r.hebrew_date_of_birth);
+            if (r.gender_he) setBoth("pf_gender", r.gender_he);
+            if (r.marital_he) setBoth("pf_marital", /נשוי|נשואה/.test(r.marital_he) ? "נשוי/אה" : r.marital_he);
+            setBothIfEmpty("pf_citizenship", "ישראלית");
+            if (r.father_full_name) setBoth("pf_father_he", r.father_full_name);
+            if (r.mother_full_name) setBoth("pf_mother_he", r.mother_full_name);
+            if (r.israeli_address_he) {
+              setBoth("pf_il_addr_he", r.israeli_address_he);
+              setBoth("pf_address_il", r.israeli_address_he);
+            }
+          }
+          if (Array.isArray(r.sefach_children) && r.sefach_children.length > 0) {
+            const mappedKids = r.sefach_children.map(function(ch) {
+              return {
+                id_num: String(ch.tz || "").replace(/\D/g, ""),
+                tz: String(ch.tz || "").replace(/\D/g, ""),
+                surname_he: ch.surname_he || r.surname_he || "",
+                given_he: ch.given_he || "",
+                given: ch.given_he || "",
+                other_parent_he: fullHe,
+                country: "ישראל",
+                country_en: "ISRAEL",
+                dob: ch.dob_iso || "",
+                gender: ch.gender_he || "נקבה"
+              };
+            }).filter(function(ch) { return ch.given_he || ch.id_num; });
+            if (mappedKids.length > 0) {
+              state.pf_children_rows = mappedKids;
+              draft.pf_children_rows = mappedKids;
+              const kidLines = mappedKids.map(function(k) {
+                return [k.given_he + (k.surname_he ? " " + k.surname_he : ""), k.id_num ? ("ת\"ז " + k.id_num) : "", k.dob ? fmtIlDate(k.dob) : "", k.gender].filter(Boolean).join(" • ");
+              }).join(" | ");
+              setBoth("pf_children_table", kidLines);
+              setBoth("pf_ll_children_count", String(mappedKids.length));
+            }
+          }
+        } else if (nSlot === "birth") {
+          if (isPartner) {
+            setBothIfEmpty("pf_sp_dob", r.date_of_birth);
+            setBoth("pf_sp_birth_country_he", r.birth_country_city_he || r.country_or_city_of_birth);
+            setBoth("pf_sp_father_he", r.father_full_name);
+            setBoth("pf_sp_mother_he", r.mother_full_name);
+          } else {
+            setBothIfEmpty("pf_dob", r.date_of_birth);
+            setBoth("pf_birth_country", r.birth_country_city_he || r.country_or_city_of_birth);
+            setBoth("pf_father_he", r.father_full_name);
+            setBoth("pf_mother_he", r.mother_full_name);
+            if (r.mother_maiden_name_he) setBoth("pf_mother_maiden", r.mother_maiden_name_he);
+            if (r.paternal_grandfather_he) setBoth("pf_foreign_grandfather", r.paternal_grandfather_he);
+            if (r.prior_or_maiden_names) setBoth("pf_prior_names", r.prior_or_maiden_names);
+          }
+        } else if (nSlot === "police" && !isPartner) {
+          setBoth("pf_police_issue_date", r.issue_date_iso);
+        }
+      });
+
+      // 5. APPLY SHARED MARRIAGE CERTIFICATE LAST (MATCHING PARTIES ACCURATELY, ZERO PASSPORT DATE BLEED!)
+      orderedDocs.forEach(function(d) {
+        if (!d || !d.rawScanResult) return;
+        const r = d.rawScanResult;
+        const nSlot = normSlotV2(d.slotKey || d.docType || d.docTitle);
+        if (nSlot !== "marriage") return;
+
+        setBoth("pf_marital", "נשוי/אה");
+        if (r.marriage_date_iso) setBoth("pf_marriage_date", r.marriage_date_iso);
+        if (r.marriage_place_he) setBoth("pf_marriage_place_he", r.marriage_place_he);
+        if (r.marriage_date_iso || r.marriage_place_he) {
+          setBoth("pf_marriage_details", [r.marriage_date_iso ? fmtIlDate(r.marriage_date_iso) : "", r.marriage_place_he || ""].filter(Boolean).join(" • "));
+        }
+
+        const p1 = r.marriage_party1 || {};
+        const p2 = r.marriage_party2 || {};
+        const meStr = ([state.pf_given_en, state.pf_surname_en, state.pf_given_he, state.pf_surname_he].filter(Boolean).join(" ")).toLowerCase();
+        const spStr = ([state.pf_sp_name_he, state.pf_sp_given_en, state.pf_sp_surname_en].filter(Boolean).join(" ")).toLowerCase();
+        const p1IsIl = Boolean(p1.israeli_tz || /ישראל|israel/i.test(String(p1.citizenship_he || "")));
+        const p2IsIl = Boolean(p2.israeli_tz || /ישראל|israel/i.test(String(p2.citizenship_he || "")));
+
+        let meParty = p1, spParty = p2;
+        if (
+          (p1IsIl && !p2IsIl && curForm !== "mr14a" && curForm !== "mr14b") ||
+          (meStr && p2.given_en && meStr.indexOf(p2.given_en.toLowerCase()) !== -1) ||
+          (meStr && p2.given_he && meStr.indexOf(p2.given_he.toLowerCase()) !== -1) ||
+          (spStr && p1.given_he && spStr.indexOf(p1.given_he.toLowerCase()) !== -1) ||
+          (spStr && p1.given_en && spStr.indexOf(p1.given_en.toLowerCase()) !== -1)
+        ) {
+          meParty = p2;
+          spParty = p1;
+        }
+
+        if (meParty) {
+          setBothIfEmpty("pf_surname_en", meParty.surname_en);
+          setBothIfEmpty("pf_given_en", meParty.given_en);
+          setBothIfEmpty("pf_surname_he", meParty.surname_he);
+          setBothIfEmpty("pf_given_he", meParty.given_he);
+          setBothIfEmpty("pf_father_he", meParty.father_he);
+          setBothIfEmpty("pf_mother_he", meParty.mother_he);
+          if (meParty.prior_surname_he) setBothIfEmpty("pf_prior_names", meParty.prior_surname_he);
+        }
+        if (spParty) {
+          const spComb = [spParty.given_he, spParty.surname_he].filter(Boolean).join(" ").trim() || [spParty.given_en, spParty.surname_en].filter(Boolean).join(" ").trim();
+          setBothIfEmpty("pf_sp_name_he", spComb);
+          setBothIfEmpty("pf_sp_surname_en", spParty.surname_en);
+          setBothIfEmpty("pf_sp_given_en", spParty.given_en);
+          setBothIfEmpty("pf_sp_surname_he", spParty.surname_he);
+          setBothIfEmpty("pf_sp_given_he", spParty.given_he);
+          setBothIfEmpty("pf_sp_dob", spParty.dob_iso);
+          setBothIfEmpty("pf_sp_father_he", spParty.father_he);
+          setBothIfEmpty("pf_sp_mother_he", spParty.mother_he);
+        }
+      });
+
+      // Sync cleaned gat_scanned_docs_v1 so legacy syncCrossFormFields sees exact same roles & zero Apostille passport dates
+      const cleanScans = orderedDocs.slice().reverse().filter(function(d) { return Boolean(d && d.rawScanResult); }).map(function(d) {
+        const r = d.rawScanResult || {};
+        const nSlot = normSlotV2(d.slotKey || d.docType || d.docTitle);
+        return {
+          slotKey: nSlot,
+          docType: nSlot === "tz" ? "teudat_zehut" : nSlot,
+          isIsraeliTz: nSlot === "tz",
+          ownerParty: nSlot === "marriage" ? "both" : (d.ownerParty || "me"),
+          tzRole: d.ownerParty === "partner" ? "spouse" : (nSlot === "marriage" ? "both" : "applicant"),
+          docTitle: d.docTitle || r.doc_title_detected || nSlot,
+          surnameEn: nSlot === "passport" ? (r.surname_en || "") : "",
+          givenEn: nSlot === "passport" ? (r.given_en || "") : "",
+          surnameHe: r.surname_he || "",
+          givenHe: r.given_he || "",
+          dob: r.date_of_birth || "",
+          hebrewDob: r.hebrew_date_of_birth || "",
+          israeliAddrHe: r.israeli_address_he || "",
+          israeliIdNumber: nSlot === "tz" ? String(r.israeli_id_number || r.teudat_zehut || r.id_number || "").replace(/\D/g, "") : "",
+          passportNumber: nSlot === "passport" ? String(r.passport_number || "").trim().toUpperCase() : "",
+          issueDateIso: (nSlot === "passport" || nSlot === "police") ? (r.passport_issue_date || r.issue_date_iso || "") : "",
+          expiryDateIso: nSlot === "passport" ? (r.passport_expiry_date || r.expiry_date_iso || "") : "",
+          marriageDate: nSlot === "marriage" ? (r.marriage_date_iso || "") : "",
+          marriagePlaceHe: nSlot === "marriage" ? (r.marriage_place_he || "") : "",
+          fatherName: r.father_full_name || "",
+          motherName: r.mother_full_name || "",
+          birthCountry: r.birth_country_city_he || r.country_or_city_of_birth || "",
+          citizenship: nSlot === "passport" ? (r.citizenship_he || r.citizenship || "") : (nSlot === "tz" ? "ישראלית" : "")
+        };
+      });
+
+      localStorage.setItem("gat_scanned_docs_v1", JSON.stringify(cleanScans));
+      localStorage.setItem("gat_form_draft_v1", JSON.stringify(draft));
+      window.gatFormsState = state;
+      if (typeof window.syncCrossFormFields === "function") window.syncCrossFormFields(true);
+      if (typeof window.forceRefreshLivePibaFormDom === "function") window.forceRefreshLivePibaFormDom();
+      if (typeof window.renderGatProfileVaultList === "function") window.renderGatProfileVaultList();
+      if (typeof window.renderModalVaultListIfOpen === "function") window.renderModalVaultListIfOpen();
+    } catch (e) {
+      console.warn("reconcileCoupleRolesAcrossForms V2 error:", e);
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(window.reconcileCoupleRolesAcrossForms, 250);
+    });
+  } else {
+    setTimeout(window.reconcileCoupleRolesAcrossForms, 250);
+  }
+})();
+// === GAT DETERMINISTIC COUPLE VAULT RECONCILER V2 END ===
+
+// === GAT COMPLETE LOGOUT & SELF-SERVICE DELETE ACCOUNT V1 START ===
+(function initGatCompleteLogoutAndDeleteAccountV1() {
+  if (window._gatLogoutDeleteV1) return;
+  window._gatLogoutDeleteV1 = true;
+
+  const ACCT_ACT_I18N = {
+    en: {
+      logoutBtn: "🚪 Log Out / Switch User on This Device",
+      logoutConfirm: "Log out on this device so another person can sign in? (Your cloud account & saved files stay safe for when you log back in.)",
+      deleteBtn: "🗑️ Permanently Delete My Account & All Cloud Data",
+      deleteConfirm1: "⚠️ PERMANENT ACCOUNT DELETION:\n\nThis will permanently erase your uploaded documents from Cloudflare, all saved PIBA form drafts, pass history, and your account profile.\n\nAre you sure you want to delete everything?",
+      deleteConfirm2: "Final check: Permanently erase your account and all uploaded documents right now?",
+      deletingMsg: "⏳ Erasing your Cloudflare Vault, Firestore & device data...",
+      deletedToast: "✅ Your account and all uploaded files have been permanently deleted."
+    },
+    he: {
+      logoutBtn: "🚪 התנתקות / החלפת משתמש במכשיר זה",
+      logoutConfirm: "להתנתק מהחשבון במכשיר זה כדי שמשתמש אחר יוכל להתחבר? (הנתונים והמסמכים בענן יישמרו עבורכם לחיבור הבא.)",
+      deleteBtn: "🗑️ מחיקה לצמיתות של החשבון וכל המסמכים מהענן",
+      deleteConfirm1: "⚠️ מחיקת חשבון לצמיתות:\n\nפעולה זו תמחק לצמיתות את כל המסמכים שהעליתם מהענן (Cloudflare), טיוטות הטפסים והפרופיל האישי שלכם.\n\nהאם להמשיך?",
+      deleteConfirm2: "אישור סופי: למחוק כעת לצמיתות את החשבון ואת כל המסמכים?",
+      deletingMsg: "⏳ מוחק לצמיתות את המסמכים מהענן ומהמכשיר...",
+      deletedToast: "✅ החשבון וכל המסמכים נמחקו לצמיתות."
+    },
+    fr: {
+      logoutBtn: "🚪 Se déconnecter / Changer d'utilisateur",
+      logoutConfirm: "Se déconnecter sur cet appareil pour permettre à une autre personne de se connecter ? (Vos données cloud restent sauvegardées.)",
+      deleteBtn: "🗑️ Supprimer définitivement mon compte et mes documents",
+      deleteConfirm1: "⚠️ SUPPRESSION DÉFINITIVE :\n\nTous vos documents cloud, brouillons de formulaires et votre profil seront effacés définitivement.\n\nContinuer ?",
+      deleteConfirm2: "Confirmation finale : tout effacer définitivement maintenant ?",
+      deletingMsg: "⏳ Suppression définitive des fichiers cloud et locaux...",
+      deletedToast: "✅ Votre compte et tous vos fichiers ont été supprimés."
+    },
+    es: {
+      logoutBtn: "🚪 Cerrar sesión / Cambiar de usuario",
+      logoutConfirm: "¿Cerrar sesión en este dispositivo para que otra persona pueda entrar? (Tus archivos en la nube seguirán guardados.)",
+      deleteBtn: "🗑️ Eliminar permanentemente mi cuenta y documentos",
+      deleteConfirm1: "⚠️ ELIMINACIÓN PERMANENTE:\n\nSe borrarán definitivamente todos tus documentos en la nube, formularios guardados y tu perfil.\n\n¿Continuar?",
+      deleteConfirm2: "Confirmación final: ¿borrar todo permanentemente ahora?",
+      deletingMsg: "⏳ Borrando archivos de la nube y de este dispositivo...",
+      deletedToast: "✅ Tu cuenta y todos tus documentos han sido eliminados."
+    },
+    de: {
+      logoutBtn: "🚪 Abmelden / Benutzer wechseln",
+      logoutConfirm: "Auf diesem Gerät abmelden, damit sich jemand anderes anmelden kann? (Ihre Cloud-Daten bleiben gespeichert.)",
+      deleteBtn: "🗑️ Konto & alle Cloud-Dokumente dauerhaft löschen",
+      deleteConfirm1: "⚠️ DAUERHAFTE LÖSCHUNG:\n\nAlle hochgeladenen Cloud-Dokumente, Formularentwürfe und Ihr Profil werden unwiderruflich gelöscht.\n\nFortfahren?",
+      deleteConfirm2: "Letzte Bestätigung: Konto und alle Daten jetzt endgültig löschen?",
+      deletingMsg: "⏳ Cloud-Tresor und Gerätedaten werden gelöscht...",
+      deletedToast: "✅ Ihr Konto und alle Dokumente wurden dauerhaft gelöscht."
+    },
+    ru: {
+      logoutBtn: "🚪 Выйти / Сменить пользователя на устройстве",
+      logoutConfirm: "Выйти из аккаунта на этом устройстве, чтобы мог войти другой человек? (Ваши данные в облаке сохранятся.)",
+      deleteBtn: "🗑️ Навсегда удалить мой аккаунт и все документы",
+      deleteConfirm1: "⚠️ ПОЛНОЕ УДАЛЕНИЕ АККАУНТА:\n\nВсе загруженные в облако документы, черновики анкет и ваш профиль будут удалены безвозвратно.\n\nПродолжить?",
+      deleteConfirm2: "Последнее подтверждение: удалить аккаунт и все файлы прямо сейчас?",
+      deletingMsg: "⏳ Удаление файлов из облака и с устройства...",
+      deletedToast: "✅ Ваш аккаунт и все документы полностью удалены."
+    }
+  };
+
+  function getLangCode() {
+    const raw = String(window.appLang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+    return ACCT_ACT_I18N[raw] ? raw : "en";
+  }
+
+  function getApiEndpoint() {
+    return (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+      ? "https://giyuraliyahtrack.com/api/auditDoc"
+      : "/api/auditDoc";
+  }
+
+  function clearOneIdb(dbName) {
+    return new Promise(function(resolve) {
+      if (!window.indexedDB) return resolve();
+      let done = false;
+      const finish = function() { if (!done) { done = true; resolve(); } };
+      setTimeout(finish, 500);
+      try {
+        const rq = window.indexedDB.open(dbName);
+        rq.onsuccess = function(ev) {
+          try {
+            const db = ev.target.result;
+            const stores = Array.from(db.objectStoreNames || []);
+            if (stores.length > 0) {
+              const tx = db.transaction(stores, "readwrite");
+              stores.forEach(function(st) { try { tx.objectStore(st).clear(); } catch (e) {} });
+              tx.oncomplete = function() {
+                try { db.close(); } catch (e) {}
+                try { window.indexedDB.deleteDatabase(dbName); } catch (e) {}
+                finish();
+              };
+              tx.onerror = function() { try { db.close(); } catch (e) {} finish(); };
+            } else {
+              try { db.close(); } catch (e) {}
+              finish();
+            }
+          } catch (e) { finish(); }
+        };
+        rq.onerror = finish;
+      } catch (e) { finish(); }
+    });
+  }
+
+  window.gatWipeAllLocalBrowserState = async function(keepExplicitLoggedOutFlag) {
+    const savedLang = localStorage.getItem("gat_lang") || "";
+    try { localStorage.setItem("gat_force_wipe_all_tabs", String(Date.now())); } catch (e) {}
+    try { localStorage.clear(); } catch (e) {}
+    try { sessionStorage.clear(); } catch (e) {}
+    if (savedLang) { try { localStorage.setItem("gat_lang", savedLang); } catch (e) {} }
+    try {
+      localStorage.setItem("gat_fresh_arrival_reset_v8", "1");
+      localStorage.setItem("gat_unchecked_decl_fix_v1", "1");
+      if (keepExplicitLoggedOutFlag) localStorage.setItem("gat_explicit_logged_out", "1");
+    } catch (e) {}
+    try {
+      document.cookie = "gat_auth_v1=; Path=/; Max-Age=0; SameSite=Lax";
+      document.cookie = "gat_auth_v1=; Path=/; Max-Age=0; SameSite=Lax; Secure";
+    } catch (e) {}
+    window.gatUid = "";
+    window.gatFormsState = {};
+    await Promise.all([
+      clearOneIdb("gat_persistent_auth_db"),
+      clearOneIdb("gat_doc_vault_v1"),
+      clearOneIdb("gat_doc_vault_idb_v1"),
+      clearOneIdb("firebaseLocalStorageDb")
+    ]);
+    try {
+      if (typeof firebase !== "undefined" && typeof firebase.auth === "function" && firebase.apps && firebase.apps.length) {
+        await firebase.auth().signOut();
+      }
+    } catch (e) {}
+    if (typeof window.refreshAllGatAuthIndicators === "function") window.refreshAllGatAuthIndicators();
+  };
+
+  // Override `window.gatLogOutUser` so it wipes ALL 4 IndexedDBs + localStorage cleanly!
+  window.gatLogOutUser = async function(skipConfirm) {
+    const t = ACCT_ACT_I18N[getLangCode()];
+    if (!skipConfirm && !window.confirm(t.logoutConfirm)) return;
+    await window.gatWipeAllLocalBrowserState(true);
+    const m = document.getElementById("gat-profile-modal");
+    if (m) m.remove();
+    window.location.reload();
+  };
+
+  // New Self-Service Permanent Account + R2 + Firestore Deletion
+  window.gatDeleteMyAccountPermanently = async function() {
+    const t = ACCT_ACT_I18N[getLangCode()];
+    if (!window.confirm(t.deleteConfirm1)) return;
+    if (!window.confirm(t.deleteConfirm2)) return;
+
+    const uid = window.gatUid || localStorage.getItem("gat_uid") || "";
+    const devTok = localStorage.getItem("gat_device_auth_tok") || "";
+    const passCode = localStorage.getItem("gat_permanent_pass_code") || localStorage.getItem("gat_pass_code") || "";
+    const anonPid = localStorage.getItem("gat_anon_partner_id") || "";
+
+    const delBtn = document.getElementById("gat-prof-delete-acct-btn");
+    if (delBtn) {
+      delBtn.disabled = true;
+      delBtn.textContent = t.deletingMsg;
+    }
+
+    try {
+      let idTok = "";
+      try {
+        if (typeof firebase !== "undefined" && firebase.auth && firebase.auth().currentUser) {
+          idTok = await firebase.auth().currentUser.getIdToken();
+        }
+      } catch (e) {}
+      const headers = { "Content-Type": "application/json" };
+      if (idTok) headers["Authorization"] = "Bearer " + idTok;
+
+      await fetch(getApiEndpoint(), {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+          mode: "user_delete_account",
+          uid: uid,
+          deviceAuthToken: devTok,
+          passCode: passCode,
+          anonPartnerId: anonPid
+        })
+      });
+    } catch (e) {}
+
+    await window.gatWipeAllLocalBrowserState(false);
+    alert(t.deletedToast);
+    window.location.href = "/?fresh=1";
+  };
+
+  // Inject Log Out (Switch User) + Delete Account buttons into Profile Modal whenever opened
+  function injectProfileAccountButtons() {
+    const modal = document.getElementById("gat-profile-modal");
+    if (!modal || document.getElementById("gat-prof-acct-danger-zone")) return;
+    const isLogged = typeof window.isGatUserLoggedIn === "function" && window.isGatUserLoggedIn();
+    if (!isLogged) return;
+
+    const t = ACCT_ACT_I18N[getLangCode()];
+    const box = document.createElement("div");
+    box.id = "gat-prof-acct-danger-zone";
+    box.style.cssText = "margin-top:14px;padding-top:14px;border-top:1.5px dashed #cbd5e1;display:flex;flex-direction:column;gap:9px;";
+    box.innerHTML =
+      '<button type="button" onclick="window.gatLogOutUser(false)" style="width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid #64748b;background:#f8fafc;color:#0f172a;font-size:0.84rem;font-weight:800;cursor:pointer;">' +
+        t.logoutBtn +
+      '</button>' +
+      '<button type="button" id="gat-prof-delete-acct-btn" onclick="window.gatDeleteMyAccountPermanently()" style="width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid #fca5a5;background:#fef2f2;color:#b91c1c;font-size:0.82rem;font-weight:800;cursor:pointer;">' +
+        t.deleteBtn +
+      '</button>';
+
+    const innerCard = modal.querySelector("div > div") || modal;
+    innerCard.appendChild(box);
+  }
+
+  const obs = new MutationObserver(function() { injectProfileAccountButtons(); });
+  if (document.body) {
+    obs.observe(document.body, { childList: true, subtree: true });
+  } else {
+    document.addEventListener("DOMContentLoaded", function() {
+      obs.observe(document.body, { childList: true, subtree: true });
+    });
+  }
+
+  // Boot Self-Heal: If browser cached a user whose Firestore doc was wiped/deleted, auto-purge stale local login immediately!
+  setTimeout(async function() {
+    if (window.__gatFreshWipeActive) return;
+    const curUid = localStorage.getItem("gat_uid") || "";
+    const curWa = localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "";
+    if ((curUid && curUid.indexOf("wa_") === 0) || curWa) {
+      try {
+        const resp = await fetch(getApiEndpoint(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mode: "restore_wa_session",
+            uid: curUid || ("wa_" + curWa.replace(/\D/g, "")),
+            phone: curWa,
+            passCode: localStorage.getItem("gat_permanent_pass_code") || "",
+            deviceAuthToken: localStorage.getItem("gat_device_auth_tok") || ""
+          })
+        });
+        const d = await resp.json();
+        if (d && d.accountDeleted) {
+          await window.gatWipeAllLocalBrowserState(false);
+          window.location.reload();
+        }
+      } catch (e) {}
+    }
+  }, 350);
+})();
+// === GAT COMPLETE LOGOUT & SELF-SERVICE DELETE ACCOUNT V1 END ===
+
+// === GAT PENDING REVOLUT CHECKOUT AUTO-UNLOCK BRIDGE V1 START ===
+(function initPendingRevolutCheckoutBridgeV1() {
+  if (window._gatRevCheckoutBridgeV1) return;
+  window._gatRevCheckoutBridgeV1 = true;
+
+  const PENDING_KEY = "gat_pending_checkout_intent";
+
+  function getApiUrl() {
+    return (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+      ? "https://giyuraliyahtrack.com/api/auditDoc"
+      : "/api/auditDoc";
+  }
+
+  function makeRandomSecret() {
+    const arr = new Uint8Array(16);
+    if (window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(arr);
+    return Array.from(arr).map(function(b) { return b.toString(16).padStart(2, "0"); }).join("");
+  }
+
+  // 1. Intercept outgoing Revolut checkout-intent POSTs on /pricing/ and /app/ to attach `clientSecret` & remember pending order
+  const prevFetch = window.fetch;
+  if (typeof prevFetch === "function") {
+    window.fetch = function(input, init) {
+      try {
+        const uStr = typeof input === "string" ? input : (input && input.url) || "";
+        if (uStr.indexOf("auditDoc") !== -1 && init && typeof init.body === "string" && init.body.charAt(0) === "{") {
+          const bodyObj = JSON.parse(init.body);
+          const m = String(bodyObj.mode || "");
+          const rawPh = String(bodyObj.waPhone || bodyObj.phone || "").replace(/\D/g, "");
+          if (/checkout_intent|revolut_intent|log_checkout|create_checkout/i.test(m) && bodyObj.sku && rawPh.length >= 8) {
+            let normPh = rawPh;
+            if (normPh.indexOf("05") === 0 && normPh.length === 10) normPh = "972" + normPh.slice(1);
+            const existing = JSON.parse(localStorage.getItem(PENDING_KEY) || "null");
+            const secret = (existing && existing.waPhone === normPh && existing.clientSecret) ? existing.clientSecret : makeRandomSecret();
+            bodyObj.clientSecret = secret;
+            init = Object.assign({}, init, { body: JSON.stringify(bodyObj) });
+            localStorage.setItem(PENDING_KEY, JSON.stringify({
+              waPhone: normPh,
+              sku: String(bodyObj.sku),
+              clientSecret: secret,
+              ts: Date.now()
+            }));
+          }
+        }
+      } catch (e) {}
+      return prevFetch.call(this, input, init);
+    };
+  }
+
+  let pollInFlight = false;
+
+  window.pollPendingRevolutCheckoutNow = async function() {
+    if (pollInFlight) return false;
+    let pending = null;
+    try { pending = JSON.parse(localStorage.getItem(PENDING_KEY) || "null"); } catch (e) {}
+    if (!pending || !pending.waPhone) return false;
+    if (Date.now() - Number(pending.ts || 0) > 24 * 3600 * 1000) {
+      localStorage.removeItem(PENDING_KEY);
+      return false;
+    }
+
+    pollInFlight = true;
+    try {
+      const resp = await fetch(getApiUrl(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "check_checkout_unlock_status",
+          waPhone: pending.waPhone,
+          sku: pending.sku || "",
+          clientSecret: pending.clientSecret || ""
+        })
+      });
+      const d = await resp.json();
+      if (d && d.ok && d.unlocked && d.uid) {
+        localStorage.removeItem(PENDING_KEY);
+        try { sessionStorage.removeItem("gat_wa_otp_pending_v1"); } catch (e) {}
+      localStorage.removeItem("gat_explicit_logged_out");
+        localStorage.setItem("gat_uid", d.uid);
+        window.gatUid = d.uid;
+        if (d.whatsappDigits) {
+          localStorage.setItem("gat_verified_wa_phone", d.whatsappDigits);
+          localStorage.setItem("gat_wa_phone", d.whatsappDigits);
+        }
+        if (d.permanentPassCode || d.passCode) {
+          const pc = d.permanentPassCode || d.passCode;
+          localStorage.setItem("gat_permanent_pass_code", pc);
+          localStorage.setItem("gat_pass_code", pc);
+          localStorage.setItem("gat_passcode", pc);
+        }
+        if (d.deviceAuthToken) {
+          localStorage.setItem("gat_device_auth_tok", d.deviceAuthToken);
+        }
+        if (typeof window.persistGatAuthVault === "function") {
+          window.persistGatAuthVault({
+            uid: d.uid,
+            waPhone: d.whatsappDigits || pending.waPhone,
+            passCode: d.permanentPassCode || d.passCode || "",
+            deviceAuthToken: d.deviceAuthToken || "",
+            unlocked: true,
+            tier: d.tier,
+            entitlementsMap: d.entitlementsMap || {}
+          });
+        }
+        if (d.customToken && typeof firebase !== "undefined" && firebase.auth) {
+          try { await firebase.auth().signInWithCustomToken(d.customToken); } catch (e) {}
+        }
+        if (typeof window.applyServerVerifiedEntitlements === "function") {
+          window.applyServerVerifiedEntitlements(d.entitlementsMap || {}, d.tier);
+        } else if (d.entitlementsMap) {
+          localStorage.setItem("gat_entitlements_v2", JSON.stringify(d.entitlementsMap));
+          localStorage.setItem("gat_entitlements_map", JSON.stringify(d.entitlementsMap));
+          localStorage.setItem("gat_pro_unlocked", "true");
+          localStorage.setItem("gat_pro_tier", d.tier || "");
+          localStorage.setItem("gat_tier", d.tier || "");
+        }
+        if (typeof window.closeProPaywall === "function") window.closeProPaywall();
+        const docMod = document.getElementById("gat-new-user-doc-modal");
+        if (docMod && typeof window.showNewUserDocUploadModal === "function" && typeof window.hasFormsEngineAccess === "function" && window.hasFormsEngineAccess()) {
+          const curF = (window.gatFormsState && (window.gatFormsState.activeForm || window.gatFormsState.pf_active_form)) || "ash3";
+          window.showNewUserDocUploadModal(curF, null, true);
+        }
+        if (typeof window.refreshAllGatAuthIndicators === "function") window.refreshAllGatAuthIndicators();
+        if (typeof window.showCpToast === "function") {
+          const def = (window.TIER_CAPABILITIES && window.TIER_CAPABILITIES[d.tier]) || { label: d.tier || "Pass" };
+          window.showCpToast("✅ Approved & Unlocked: " + def.label, true);
+        }
+        pollInFlight = false;
+        return true;
+      }
+    } catch (e) {}
+    pollInFlight = false;
+    return false;
+  };
+
+  // Wrap `verifyServerEntitlementBeforePaywall` so it ALSO checks pending Revolut checkout approval even before login!
+  const origVerifyBeforePw = window.verifyServerEntitlementBeforePaywall;
+  window.verifyServerEntitlementBeforePaywall = async function(checkFn) {
+    if (typeof checkFn === "function" && checkFn()) return true;
+    if (localStorage.getItem(PENDING_KEY)) {
+      await window.pollPendingRevolutCheckoutNow();
+      if (typeof checkFn === "function" && checkFn()) return true;
+    }
+    if (typeof origVerifyBeforePw === "function") {
+      return await origVerifyBeforePw(checkFn);
+    }
+    return false;
+  };
+
+  setInterval(function() {
+    if (document.visibilityState === "visible" && localStorage.getItem(PENDING_KEY)) {
+      window.pollPendingRevolutCheckoutNow();
+    }
+  }, 3200);
+
+  window.addEventListener("focus", function() {
+    if (localStorage.getItem(PENDING_KEY)) window.pollPendingRevolutCheckoutNow();
+  });
+})();
+// === GAT PENDING REVOLUT CHECKOUT AUTO-UNLOCK BRIDGE V1 END ===
+
+// === GAT ZERO-DEPENDENCY LOCAL QR SVG GENERATOR V1 START ===
+(function initGatZeroDepLocalQrGeneratorV1() {
+  const V_CAPS = [
+    null,
+    { n: 21, data: 19, ec: 7, align: [] },
+    { n: 25, data: 34, ec: 10, align: [6, 18] },
+    { n: 29, data: 55, ec: 15, align: [6, 22] },
+    { n: 33, data: 80, ec: 20, align: [6, 26] },
+    { n: 37, data: 108, ec: 26, align: [6, 30] }
+  ];
+
+  const GF_EXP = new Uint8Array(512);
+  const GF_LOG = new Uint8Array(256);
+  (function initGf() {
+    let x = 1;
+    for (let i = 0; i < 255; i++) {
+      GF_EXP[i] = x;
+      GF_LOG[x] = i;
+      x <<= 1;
+      if (x & 0x100) x ^= 0x11d;
+    }
+    for (let i = 255; i < 512; i++) GF_EXP[i] = GF_EXP[i - 255];
+  })();
+
+  function gfMul(a, b) {
+    return (a === 0 || b === 0) ? 0 : GF_EXP[GF_LOG[a] + GF_LOG[b]];
+  }
+
+  function rsEncode(dataBytes, ecLen) {
+    let gen = [1];
+    for (let i = 0; i < ecLen; i++) {
+      const next = new Array(gen.length + 1).fill(0);
+      const root = GF_EXP[i];
+      for (let j = 0; j < gen.length; j++) {
+        next[j] ^= gen[j];
+        next[j + 1] ^= gfMul(gen[j], root);
+      }
+      gen = next;
+    }
+    const rem = new Uint8Array(ecLen);
+    for (let i = 0; i < dataBytes.length; i++) {
+      const factor = dataBytes[i] ^ rem[0];
+      for (let j = 0; j < ecLen - 1; j++) rem[j] = rem[j + 1];
+      rem[ecLen - 1] = 0;
+      if (factor !== 0) {
+        for (let j = 0; j < ecLen; j++) rem[j] ^= gfMul(gen[j + 1], factor);
+      }
+    }
+    return Array.from(rem);
+  }
+
+  window.generateGatQrSvgString = function(text, marginMods) {
+    const utf8 = Array.from(new TextEncoder().encode(String(text || "")));
+    let ver = 1;
+    while (ver <= 5 && V_CAPS[ver].data - 2 < utf8.length) ver++;
+    if (ver > 5) ver = 5;
+    const cfg = V_CAPS[ver];
+    const N = cfg.n;
+
+    const bits = [0, 1, 0, 0];
+    const pushBits = function(val, len) {
+      for (let i = len - 1; i >= 0; i--) bits.push((val >> i) & 1);
+    };
+    const payload = utf8.slice(0, cfg.data - 2);
+    pushBits(payload.length, 8);
+    for (let i = 0; i < payload.length; i++) pushBits(payload[i], 8);
+    const maxDataBits = cfg.data * 8;
+    for (let i = 0; i < 4 && bits.length < maxDataBits; i++) bits.push(0);
+    while (bits.length % 8 !== 0) bits.push(0);
+
+    const dataBytes = [];
+    for (let i = 0; i < bits.length; i += 8) {
+      let b = 0;
+      for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j];
+      dataBytes.push(b);
+    }
+    let padToggle = 0;
+    while (dataBytes.length < cfg.data) {
+      dataBytes.push(padToggle % 2 === 0 ? 0xEC : 0x11);
+      padToggle++;
+    }
+
+    const allBytes = dataBytes.concat(rsEncode(dataBytes, cfg.ec));
+    const codeBits = [];
+    for (let i = 0; i < allBytes.length; i++) {
+      for (let j = 7; j >= 0; j--) codeBits.push((allBytes[i] >> j) & 1);
+    }
+
+    const mat = Array.from({ length: N }, function() { return new Uint8Array(N); });
+    const isFunc = Array.from({ length: N }, function() { return new Uint8Array(N); });
+    const setFunc = function(r, c, dark) {
+      if (r < 0 || c < 0 || r >= N || c >= N) return;
+      mat[r][c] = dark ? 1 : 0;
+      isFunc[r][c] = 1;
+    };
+
+    const placeFinder = function(topR, leftC) {
+      for (let dr = -1; dr <= 7; dr++) {
+        for (let dc = -1; dc <= 7; dc++) {
+          const r = topR + dr, c = leftC + dc;
+          const inOuter = dr >= 0 && dr <= 6 && dc >= 0 && dc <= 6;
+          const onBorder = dr === 0 || dr === 6 || dc === 0 || dc === 6;
+          const inCore = dr >= 2 && dr <= 4 && dc >= 2 && dc <= 4;
+          setFunc(r, c, inOuter && (onBorder || inCore));
+        }
+      }
+    };
+    placeFinder(0, 0);
+    placeFinder(0, N - 7);
+    placeFinder(N - 7, 0);
+
+    for (let ai = 0; ai < cfg.align.length; ai++) {
+      for (let aj = 0; aj < cfg.align.length; aj++) {
+        const cr = cfg.align[ai], cc = cfg.align[aj];
+        if ((cr <= 8 && cc <= 8) || (cr <= 8 && cc >= N - 8) || (cr >= N - 8 && cc <= 8)) continue;
+        for (let dr = -2; dr <= 2; dr++) {
+          for (let dc = -2; dc <= 2; dc++) {
+            setFunc(cr + dr, cc + dc, Math.max(Math.abs(dr), Math.abs(dc)) !== 1);
+          }
+        }
+      }
+    }
+
+    for (let i = 8; i < N - 8; i++) {
+      if (!isFunc[6][i]) setFunc(6, i, i % 2 === 0);
+      if (!isFunc[i][6]) setFunc(i, 6, i % 2 === 0);
+    }
+    for (let i = 0; i <= 8; i++) {
+      if (!isFunc[8][i]) setFunc(8, i, false);
+      if (!isFunc[i][8]) setFunc(i, 8, false);
+    }
+    for (let i = 0; i < 8; i++) {
+      setFunc(8, N - 1 - i, false);
+      if (i < 7) setFunc(N - 1 - i, 8, false);
+    }
+    setFunc(N - 8, 8, true);
+
+    let bitIdx = 0, upward = true;
+    for (let right = N - 1; right >= 1; right -= 2) {
+      if (right === 6) right = 5;
+      for (let vert = 0; vert < N; vert++) {
+        const r = upward ? (N - 1 - vert) : vert;
+        for (let j = 0; j < 2; j++) {
+          const c = right - j;
+          if (!isFunc[r][c]) {
+            const rawBit = bitIdx < codeBits.length ? codeBits[bitIdx++] : 0;
+            mat[r][c] = ((r + c) % 2 === 0) ? (rawBit ^ 1) : rawBit;
+          }
+        }
+      }
+      upward = !upward;
+    }
+
+    const fmt = 0x77c4;
+    const fBit = function(i) { return ((fmt >> i) & 1) === 1; };
+    const tl = [[0,8],[1,8],[2,8],[3,8],[4,8],[5,8],[7,8],[8,8],[8,7],[8,5],[8,4],[8,3],[8,2],[8,1],[8,0]];
+    for (let i = 0; i < 15; i++) setFunc(tl[i][0], tl[i][1], fBit(i));
+    for (let i = 0; i < 8; i++) setFunc(8, N - 1 - i, fBit(i));
+    for (let i = 8; i < 15; i++) setFunc(N - 15 + i, 8, fBit(i));
+
+    const pad = typeof marginMods === "number" ? marginMods : 3;
+    const size = N + pad * 2;
+    let pathD = "";
+    for (let r = 0; r < N; r++) {
+      for (let c = 0; c < N; c++) {
+        if (mat[r][c]) pathD += "M" + (c + pad) + "," + (r + pad) + "h1v1h-1z";
+      }
+    }
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#ffffff"/><path d="' + pathD + '" fill="#082548"/></svg>';
+  };
+
+  window.generateGatQrSvgDataUri = function(text) {
+    return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(window.generateGatQrSvgString(text, 3));
+  };
+})();
+// === GAT ZERO-DEPENDENCY LOCAL QR SVG GENERATOR V1 END ===
+
+// === GAT UNIVERSAL MOBILE-SAFE FILE COMPRESSOR V1 START ===
+(function initGatUniversalMobileFileCompressorV1() {
+  function readFileAsRawBase64(file, fallbackMime) {
+    return new Promise(function(resolve, reject) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const resStr = String(reader.result || "");
+        const commaIdx = resStr.indexOf(",");
+        const b64 = commaIdx !== -1 ? resStr.slice(commaIdx + 1) : resStr;
+        resolve({ mimeType: fallbackMime || file.type || "image/jpeg", base64Data: b64 });
+      };
+      reader.onerror = function() { reject(new Error("Could not read file from device storage.")); };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  window.fileToCompressedBase64 = async function(file) {
+    if (!file) throw new Error("No file selected.");
+    const fName = String(file.name || "").toLowerCase();
+    const fType = String(file.type || "").toLowerCase();
+
+    // 1. PDFs (including iOS Files / WhatsApp PDFs where file.type === "")
+    if (fType === "application/pdf" || /\.pdf$/i.test(fName)) {
+      if (file.size > 18 * 1024 * 1024) {
+        throw new Error("PDF file is over 18MB (" + Math.round(file.size / 1048576) + "MB). Please upload a smaller PDF or take a photo of the page.");
+      }
+      return await readFileAsRawBase64(file, "application/pdf");
+    }
+
+    // 2. Images (including 48MP iPhone camera shots & .HEIC / .HEIF)
+    const maxDim = 1500;
+    const isHeic = /heic|heif/.test(fType) || /\.(heic|heif)$/i.test(fName);
+
+    // Try modern createImageBitmap first (lowest RAM usage on iOS Safari for 48MP photos!)
+    if (typeof window.createImageBitmap === "function") {
+      try {
+        const bmp = await window.createImageBitmap(file);
+        let w = bmp.width, h = bmp.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) { h = Math.round(h * (maxDim / w)); w = maxDim; }
+          else { w = Math.round(w * (maxDim / h)); h = maxDim; }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(bmp, 0, 0, w, h);
+        if (typeof bmp.close === "function") bmp.close();
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.80);
+        canvas.width = 0; canvas.height = 0;
+        const b64 = dataUrl.split(",")[1] || "";
+        if (b64.length > 100) {
+          return { mimeType: "image/jpeg", base64Data: b64 };
+        }
+      } catch (bmpErr) {}
+    }
+
+    // Fallback to HTMLImageElement + Canvas, and if browser cannot decode HEIC, send raw image/heic to Gemini 3.8!
+    return await new Promise(function(resolve, reject) {
+      const img = new Image();
+      const objUrl = URL.createObjectURL(file);
+      img.onload = function() {
+        URL.revokeObjectURL(objUrl);
+        try {
+          let w = img.naturalWidth || img.width;
+          let h = img.naturalHeight || img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round(h * (maxDim / w)); w = maxDim; }
+            else { w = Math.round(w * (maxDim / h)); h = maxDim; }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.80);
+          canvas.width = 0; canvas.height = 0;
+          resolve({ mimeType: "image/jpeg", base64Data: dataUrl.split(",")[1] || "" });
+        } catch (drawErr) {
+          readFileAsRawBase64(file, isHeic ? "image/heic" : (fType || "image/jpeg")).then(resolve).catch(reject);
+        }
+      };
+      img.onerror = function() {
+        URL.revokeObjectURL(objUrl);
+        if (file.size <= 15 * 1024 * 1024) {
+          readFileAsRawBase64(file, isHeic ? "image/heic" : (fType || "image/jpeg")).then(resolve).catch(reject);
+        } else {
+          reject(new Error("Could not decode image (" + Math.round(file.size / 1048576) + "MB). Please take a standard photo or screenshot."));
+        }
+      };
+      img.src = objUrl;
+    });
+  };
+})();
+// === GAT UNIVERSAL MOBILE-SAFE FILE COMPRESSOR V1 END ===
+
+// === GAT UNIFIED 6-LANG DRAWER & MOBILE WA SYNC FIX V1 START ===
+(function initGatUnified6LangDrawerAndMobileWaSyncFixV1() {
+  if (window._gatDrawerWaFixV1) return;
+  window._gatDrawerWaFixV1 = true;
+
+  const VALID_LANGS = ["en", "he", "fr", "es", "de", "ru"];
+
+  const WA_MODAL_I18N = {
+    en: {
+      pill: "📲 1-Step WhatsApp Account & Sync",
+      title: "Sign In or Sync With WhatsApp",
+      guestBadge: "⚪ <strong>Guest Session (Not Linked Yet)</strong><br><span style=\"font-weight:600;font-size:0.78rem;\">Enter your WhatsApp number below to save your work, unlock passes, or open your account on any device:</span>",
+      linkedBadge: "✅ <strong>WhatsApp Account Linked:</strong> {phone}",
+      linkedSub: "Enter this same WhatsApp number on any phone or computer to open your exact dossier.",
+      head: "📲 Enter Your WhatsApp Number",
+      sub: "Your forms, uploaded certificates, event log, and passes are tied to your WhatsApp number:",
+      phonePh: "052-123-4567 or +1...",
+      sendBtn: "Send Code →",
+      otpPrompt: "✅ Sent to your WhatsApp! Tap the 1-Click Link OR enter the 4-digit code below:",
+      otpPh: "4-Digit Code",
+      verifyBtn: "Verify & Open →",
+      qrTitle: "📷 Instant Camera Shortcut (Scan to Open on Another Device)"
+    },
+    he: {
+      pill: "📲 התחברות וסנכרון מהיר בוואטסאפ",
+      title: "כניסה לחשבון או סנכרון מכשירים",
+      guestBadge: "⚪ <strong>מצב אורח (טרם חובר לוואטסאפ)</strong><br><span style=\"font-weight:600;font-size:0.78rem;\">הזינו את מספר הוואטסאפ שלכם כדי לשמור מסמכים וטפסים או לפתוח את התיק בכל מכשיר:</span>",
+      linkedBadge: "✅ <strong>חשבון וואטסאפ מחובר:</strong> {phone}",
+      linkedSub: "הזינו את אותו מספר וואטסאפ בכל טלפון או מחשב כדי לפתוח את התיק האישי שלכם.",
+      head: "📲 הזינו את מספר הוואטסאפ שלכם",
+      sub: "הטפסים, המסמכים שהעליתם, יומן ההמלצות והגישות שלכם משויכים למספר הוואטסאפ שלכם:",
+      phonePh: "052-123-4567 או +972...",
+      sendBtn: "שלח קוד ←",
+      otpPrompt: "✅ נשלח לוואטסאפ! לחצו על הקישור המהיר בהודעה או הזינו כאן את הקוד בן 4 הספרות:",
+      otpPh: "קוד 4 ספרות",
+      verifyBtn: "אמת ופתח ←",
+      qrTitle: "📷 סריקה מהירה למכשיר נוסף (QR)"
+    },
+    fr: {
+      pill: "📲 Compte & Synchro WhatsApp en 1 Étape",
+      title: "Connexion ou Synchronisation WhatsApp",
+      guestBadge: "⚪ <strong>Session Invité (Non Liée)</strong><br><span style=\"font-weight:600;font-size:0.78rem;\">Entrez votre numéro WhatsApp pour sauvegarder vos documents ou ouvrir votre dossier sur tout appareil :</span>",
+      linkedBadge: "✅ <strong>Compte WhatsApp Lié :</strong> {phone}",
+      linkedSub: "Entrez ce même numéro WhatsApp sur n'importe quel téléphone ou ordinateur pour retrouver votre dossier.",
+      head: "📲 Entrez Votre Numéro WhatsApp",
+      sub: "Vos formulaires, certificats scannés et accès sont liés à votre numéro WhatsApp :",
+      phonePh: "+33 6... ou +972...",
+      sendBtn: "Envoyer le Code →",
+      otpPrompt: "✅ Envoyé sur WhatsApp ! Touchez le lien direct OU entrez le code à 4 chiffres ci-dessous :",
+      otpPh: "Code à 4 chiffres",
+      verifyBtn: "Vérifier & Ouvrir →",
+      qrTitle: "📷 Raccourci Caméra QR (Scanner avec un autre appareil)"
+    },
+    es: {
+      pill: "📲 Cuenta y Sincronización WhatsApp en 1 Paso",
+      title: "Iniciar Sesión o Sincronizar con WhatsApp",
+      guestBadge: "⚪ <strong>Sesión de Invitado (Sin Vincular)</strong><br><span style=\"font-weight:600;font-size:0.78rem;\">Ingrese su número de WhatsApp para guardar su expediente o abrirlo en cualquier dispositivo:</span>",
+      linkedBadge: "✅ <strong>Cuenta WhatsApp Vinculada:</strong> {phone}",
+      linkedSub: "Ingrese este mismo número de WhatsApp en cualquier teléfono u ordenador para abrir su expediente.",
+      head: "📲 Ingrese Su Número de WhatsApp",
+      sub: "Sus formularios, documentos escaneados y pases están vinculados a su WhatsApp:",
+      phonePh: "+34... / +54... / +972...",
+      sendBtn: "Enviar Código →",
+      otpPrompt: "✅ ¡Enviado a su WhatsApp! Toque el enlace directo O ingrese el código de 4 dígitos abajo:",
+      otpPh: "Código 4 dígitos",
+      verifyBtn: "Verificar y Abrir →",
+      qrTitle: "📷 Acceso Rápido QR (Escanear desde otro dispositivo)"
+    },
+    de: {
+      pill: "📲 1-Schritt WhatsApp-Konto & Sync",
+      title: "Mit WhatsApp Anmelden oder Synchronisieren",
+      guestBadge: "⚪ <strong>Gastsitzung (Noch nicht verknüpft)</strong><br><span style=\"font-weight:600;font-size:0.78rem;\">Geben Sie Ihre WhatsApp-Nummer ein, um Ihre Akte zu speichern oder auf jedem Gerät zu öffnen:</span>",
+      linkedBadge: "✅ <strong>WhatsApp-Konto verknüpft:</strong> {phone}",
+      linkedSub: "Geben Sie dieselbe WhatsApp-Nummer auf jedem Handy oder Computer ein, um Ihre Akte zu öffnen.",
+      head: "📲 Ihre WhatsApp-Nummer eingeben",
+      sub: "Ihre Formulare, gescannten Dokumente und Pässe sind mit Ihrer WhatsApp-Nummer verknüpft:",
+      phonePh: "+49... oder +972...",
+      sendBtn: "Code senden →",
+      otpPrompt: "✅ An WhatsApp gesendet! Tippen Sie auf den Link ODER geben Sie unten den 4-stelligen Code ein:",
+      otpPh: "4-stelliger Code",
+      verifyBtn: "Prüfen & Öffnen →",
+      qrTitle: "📷 Kamera-QR-Shortcut (Auf anderem Gerät scannen)"
+    },
+    ru: {
+      pill: "📲 Вход и синхронизация через WhatsApp",
+      title: "Войти или синхронизировать через WhatsApp",
+      guestBadge: "⚪ <strong>Гостевой режим (не привязан)</strong><br><span style=\"font-weight:600;font-size:0.78rem;\">Введите ваш номер WhatsApp ниже, чтобы сохранить документы и открыть досье на любом устройстве:</span>",
+      linkedBadge: "✅ <strong>Аккаунт WhatsApp подключён:</strong> {phone}",
+      linkedSub: "Введите этот же номер WhatsApp на любом телефоне или компьютере, чтобы открыть ваше досье.",
+      head: "📲 Введите ваш номер WhatsApp",
+      sub: "Ваши анкеты, загруженные документы и доступы привязаны к вашему номеру WhatsApp:",
+      phonePh: "052-123-4567 или +7...",
+      sendBtn: "Получить код →",
+      otpPrompt: "✅ Отправлено в WhatsApp! Нажмите ссылку в сообщении ИЛИ введите 4-значный код ниже:",
+      otpPh: "4 цифры кода",
+      verifyBtn: "Подтвердить →",
+      qrTitle: "📷 Быстрый QR-вход для второго устройства"
+    }
+  };
+
+  function getTrueActiveLang() {
+    const pSeg = (window.location.pathname.split("/")[1] || "").toLowerCase();
+    if (VALID_LANGS.indexOf(pSeg) !== -1) return pSeg;
+    try {
+      const qL = (new URLSearchParams(window.location.search).get("lang") || "").slice(0, 2).toLowerCase();
+      if (VALID_LANGS.indexOf(qL) !== -1) return qL;
+    } catch (e) {}
+    const stL = String(window.appLang || window.gatLang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+    return VALID_LANGS.indexOf(stL) !== -1 ? stL : "en";
+  }
+
+  // 1. Inject Modal Z-Index, Scroll Containment & Touch-Safe Input CSS
+  function injectModalScrollAndTouchCss() {
+    let st = document.getElementById("gat-modal-scroll-touch-fix-css");
+    if (!st) {
+      st = document.createElement("style");
+      st.id = "gat-modal-scroll-touch-fix-css";
+      document.head.appendChild(st);
+    }
+    st.textContent = `
+      #device-sync-modal, #pro-paywall-modal {
+        z-index: 2147483645 !important;
+        overscroll-behavior: contain !important;
+      }
+      #appbar-profile-btn {
+        margin-inline-end: -5px !important;
+      }
+      #gat-profile-modal {
+        z-index: 2147483644 !important;
+        overscroll-behavior: contain !important;
+      }
+      #device-sync-modal .paywall-card, #pro-paywall-modal .paywall-card {
+        max-height: calc(100dvh - 24px) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        touch-action: pan-y !important;
+      }
+      #gat-profile-modal > div {
+        max-height: min(90dvh, calc(100vh - 16px)) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+      }
+      #gat-profile-modal > div > div:first-child {
+        flex: 0 0 auto !important;
+      }
+      #gat-profile-modal > div > div:nth-child(2) {
+        display: block !important;
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        max-height: calc(min(90dvh, calc(100vh - 16px)) - 66px) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+        touch-action: pan-y !important;
+      }
+      #gat-profile-modal > div > div:nth-child(2) > * + * {
+        margin-top: 14px !important;
+      }
+      #device-sync-modal .pw-body, #pro-paywall-modal .pw-body, #app-drawer .drawer-panel {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+        touch-action: pan-y !important;
+      }
+      #device-sync-modal input, #device-sync-modal button,
+      #gat-profile-modal input, #gat-profile-modal button,
+      #pro-paywall-modal input, #pro-paywall-modal button {
+        touch-action: manipulation !important;
+        pointer-events: auto !important;
+      }
+      #device-sync-modal input, #gat-profile-modal input, #pro-paywall-modal input {
+        -webkit-user-select: text !important;
+        user-select: text !important;
+        cursor: text !important;
+      }
+      body.gat-modal-scroll-locked {
+        overflow: hidden !important;
+        overscroll-behavior: none !important;
+      }
+      #app-drawer[dir="rtl"] .drawer-panel {
+        left: 0 !important;
+        right: auto !important;
+        direction: rtl !important;
+        text-align: right !important;
+      }
+      #app-drawer:not([dir="rtl"]) .drawer-panel {
+        right: 0 !important;
+        left: auto !important;
+        direction: ltr !important;
+        text-align: left !important;
+      }
+    `;
+  }
+  injectModalScrollAndTouchCss();
+
+  // 2. Localize #device-sync-modal 100% across all 6 languages
+  window.localizeDeviceSyncModal6Lang = function() {
+    const m = document.getElementById("device-sync-modal");
+    if (!m) return;
+    const l = getTrueActiveLang();
+    const t = WA_MODAL_I18N[l] || WA_MODAL_I18N.en;
+    const isRtl = (l === "he");
+    m.dir = isRtl ? "rtl" : "ltr";
+    const card = m.querySelector(".paywall-card");
+    if (card) card.dir = isRtl ? "rtl" : "ltr";
+
+    const setTxt = function(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; };
+    setTxt("sync-modal-pill", t.pill);
+    setTxt("sync-modal-title", t.title);
+    setTxt("wa-auth-head", t.head);
+    setTxt("wa-auth-sub", t.sub);
+    setTxt("wa-send-code-btn", t.sendBtn);
+
+    const phInp = document.getElementById("wa-login-phone-inp");
+    if (phInp) {
+      phInp.placeholder = t.phonePh;
+      phInp.dir = "ltr";
+    }
+
+    const otpRow = document.getElementById("wa-otp-verify-row");
+    if (otpRow) {
+      const promptDiv = otpRow.querySelector("div");
+      if (promptDiv) promptDiv.textContent = t.otpPrompt;
+      const otpInp = document.getElementById("wa-login-otp-inp");
+      if (otpInp) {
+        otpInp.placeholder = t.otpPh;
+        otpInp.dir = "ltr";
+      }
+      const verBtn = otpRow.querySelector("button");
+      if (verBtn) verBtn.textContent = t.verifyBtn;
+    }
+
+    const qrBox = document.getElementById("wa-qr-shortcut-box");
+    if (qrBox) {
+      const qrHead = qrBox.querySelector("div");
+      if (qrHead) qrHead.textContent = t.qrTitle;
+    }
+
+    const badge = document.getElementById("sync-acct-badge");
+    const waPhone = localStorage.getItem("gat_verified_wa_phone") || (String(window.gatUid || "").indexOf("wa_") === 0 ? String(window.gatUid).slice(3) : "");
+    const isPro = (typeof window.isProUnlocked === "function" && window.isProUnlocked());
+    if (badge) {
+      if (waPhone) {
+        const masked = "+" + waPhone.slice(0, 3) + " •••• " + waPhone.slice(-3);
+        badge.innerHTML = t.linkedBadge.replace("{phone}", '<span dir="ltr">' + masked + '</span>') +
+          (isPro ? ' <span style="background:#059669;color:#fff;padding:2px 8px;border-radius:999px;font-size:0.72rem;margin-inline-start:6px;">PRO</span>' : '') +
+          '<br><span style="font-weight:600;font-size:0.78rem;">' + t.linkedSub + '</span>';
+      } else {
+        badge.innerHTML = t.guestBadge;
+      }
+    }
+  };
+
+  // 3. Enforce 6-Language Hamburger Drawer on Every Open & Language Switch
+  function refreshUnifiedDrawerWithDir() {
+    if (typeof window.renderUnifiedHamburgerDrawer === "function") {
+      window.renderUnifiedHamburgerDrawer();
+    }
+    const appDr = document.getElementById("app-drawer");
+    if (appDr) {
+      const l = getTrueActiveLang();
+      appDr.setAttribute("dir", l === "he" ? "rtl" : "ltr");
+    }
+  }
+
+  window._gatUnifiedToggleDrawer = function(forceOpen) {
+    if (forceOpen && typeof forceOpen === "object" && typeof forceOpen.preventDefault === "function") {
+      forceOpen.preventDefault();
+      forceOpen.stopPropagation();
+      forceOpen = undefined;
+    }
+    refreshUnifiedDrawerWithDir();
+    const drw = document.getElementById("app-drawer");
+    if (!drw) return false;
+    const next = typeof forceOpen === "boolean" ? forceOpen : !drw.classList.contains("open");
+    drw.classList.toggle("open", next);
+    window._gatSyncModalScrollLock();
+    return false;
+  };
+  window.toggleDrawer = window._gatUnifiedToggleDrawer;
+  window.toggleLeftDrawer = window._gatUnifiedToggleDrawer;
+
+  // Capture-phase hook on `.hamburger-btn` so even hardcoded HTML attributes always render the 6-language menu!
+  document.addEventListener("click", function(e) {
+    const hBtn = e.target && e.target.closest && e.target.closest(".hamburger-btn");
+    if (hBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      window._gatUnifiedToggleDrawer();
+    }
+  }, true);
+
+  // Hook language switchers (`setAppLang`, `setLang`, `selectLangDirect`, `renderAll`) to update Hamburger & Sync Modal immediately
+  ["setAppLang", "setLang", "selectLangDirect", "applyLang", "renderAll"].forEach(function(fnName) {
+    const orig = window[fnName];
+    if (typeof orig === "function" && !orig._gat6LangDrawerBound) {
+      const wrapped = function() {
+        const res = orig.apply(this, arguments);
+        setTimeout(function() {
+          refreshUnifiedDrawerWithDir();
+          window.localizeDeviceSyncModal6Lang();
+        }, 20);
+        return res;
+      };
+      wrapped._gat6LangDrawerBound = true;
+      window[fnName] = wrapped;
+    }
+  });
+
+  // Wrap `openDeviceSyncModal` so it ALWAYS closes drawers cleanly, localizes in 6 langs, and locks background scroll
+  if (typeof window.openDeviceSyncModal === "function" && !window.openDeviceSyncModal._gatWrappedV1) {
+    const origOpenSync = window.openDeviceSyncModal;
+    const wrappedOpenSync = function() {
+      const appDr = document.getElementById("app-drawer");
+      if (appDr) appDr.classList.remove("open");
+      const leftDr = document.getElementById("left-drawer");
+      if (leftDr) leftDr.classList.remove("open");
+      const r = origOpenSync.apply(this, arguments);
+      window.localizeDeviceSyncModal6Lang();
+      bindOtpInputsRecoveryAndAutoSubmit();
+      window._gatSyncModalScrollLock();
+      syncModalToKeyboardViewport();
+      return r;
+    };
+    wrappedOpenSync._gatWrappedV1 = true;
+    window.openDeviceSyncModal = wrappedOpenSync;
+  }
+
+  // 4. Fix iOS Safari Zombie-Focus on 4-Digit OTP Inputs + Auto-Sanitize & Auto-Submit at 4 Digits!
+  function bindOtpInputsRecoveryAndAutoSubmit() {
+    const pairs = [
+      { id: "wa-login-otp-inp", verifyFn: function() { if (typeof window.verifyWhatsAppLoginCode === "function") window.verifyWhatsAppLoginCode(); } },
+      { id: "gat-prof-wa-code-inp", verifyFn: function() { if (typeof window.gatProfVerifyWaOtp === "function") window.gatProfVerifyWaOtp(); } },
+      { id: "wa-login-phone-inp", verifyFn: null },
+      { id: "gat-prof-wa-inp", verifyFn: null }
+    ];
+
+    pairs.forEach(function(item) {
+      const el = document.getElementById(item.id);
+      if (!el || el._gatOtpTouchBound) return;
+      el._gatOtpTouchBound = true;
+
+      if (item.verifyFn) {
+        el.setAttribute("type", "tel");
+        el.setAttribute("inputmode", "numeric");
+        el.setAttribute("autocomplete", "one-time-code");
+        el.setAttribute("maxlength", "8");
+      }
+
+      // If input was stuck in phantom activeElement state with keyboard closed, force clean blur+focus on tap!
+      el.addEventListener("touchend", function() {
+        const vv = window.visualViewport;
+        const kbClosed = !vv || (vv.height >= window.innerHeight - 70);
+        if (document.activeElement === el && kbClosed) {
+          el.blur();
+          el.focus();
+        } else if (document.activeElement !== el) {
+          el.focus();
+        }
+      }, { passive: true });
+
+      if (item.verifyFn) {
+        let lastAutoSubCode = "";
+        el.addEventListener("input", function() {
+          const digitsOnly = String(el.value || "").replace(/\D/g, "").slice(0, 4);
+          if (el.value !== digitsOnly) el.value = digitsOnly;
+          if (digitsOnly.length === 4 && digitsOnly !== lastAutoSubCode) {
+            lastAutoSubCode = digitsOnly;
+            setTimeout(function() { item.verifyFn(); }, 120);
+          }
+        });
+      }
+    });
+  }
+
+  // 5. Lock Background Page Scroll When Any Modal/Drawer Is Open (True Scrollable-Ancestor Walker)
+  function getTopOpenModalRoot() {
+    const dsm = document.getElementById("device-sync-modal");
+    if (dsm && dsm.classList.contains("open")) return dsm;
+    const pwm = document.getElementById("pro-paywall-modal");
+    if (pwm && pwm.classList.contains("open")) return pwm;
+    const prm = document.getElementById("gat-profile-modal");
+    if (prm) return prm;
+    const drw = document.getElementById("app-drawer");
+    if (drw && drw.classList.contains("open")) return drw;
+    return null;
+  }
+
+  window._gatSyncModalScrollLock = function() {
+    const openRoot = getTopOpenModalRoot();
+    document.body.classList.toggle("gat-modal-scroll-locked", Boolean(openRoot));
+    bindOtpInputsRecoveryAndAutoSubmit();
+  };
+
+  let _touchStartX = 0;
+  let _touchStartY = 0;
+  document.addEventListener("touchstart", function(e) {
+    if (e.touches && e.touches.length === 1) {
+      _touchStartX = e.touches[0].clientX;
+      _touchStartY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  document.addEventListener("touchmove", function(e) {
+    const modalRoot = getTopOpenModalRoot();
+    if (!modalRoot || !e.touches || e.touches.length !== 1) return;
+
+    // Block touches outside the open modal/drawer from scrolling the background page
+    if (!modalRoot.contains(e.target)) {
+      if (e.cancelable) e.preventDefault();
+      return;
+    }
+
+    const dx = e.touches[0].clientX - _touchStartX;
+    const dy = e.touches[0].clientY - _touchStartY;
+    const isHoriz = Math.abs(dx) > Math.abs(dy);
+
+    // Walk up from e.target to modalRoot to find any genuinely scrollable container
+    let node = e.target;
+    while (node && node !== document.body && node !== document.documentElement) {
+      if (node.nodeType === 1) {
+        const cs = window.getComputedStyle(node);
+        if (isHoriz) {
+          const ox = cs.overflowX;
+          if ((ox === "auto" || ox === "scroll" || ox === "overlay") && node.scrollWidth > node.clientWidth + 1) {
+            return; // Allow horizontal swipe inside modal/drawer
+          }
+        } else {
+          const oy = cs.overflowY;
+          const isScrollableY = (oy === "auto" || oy === "scroll" || oy === "overlay" || node.tagName === "TEXTAREA");
+          if (isScrollableY && node.scrollHeight > node.clientHeight + 1) {
+            const pullingDownAtTop = (dy > 0 && node.scrollTop <= 0);
+            const pushingUpAtBottom = (dy < 0 && Math.ceil(node.scrollTop + node.clientHeight) >= node.scrollHeight);
+            if (!pullingDownAtTop && !pushingUpAtBottom) {
+              return; // Allow smooth native vertical scroll inside modal/drawer!
+            }
+          }
+        }
+      }
+      if (node === modalRoot) break;
+      node = node.parentElement;
+    }
+
+    // Reached modal boundary with no scrollable room left -> block background body rubber-band scroll
+    if (e.cancelable) e.preventDefault();
+  }, { passive: false });
+
+  // Pin `#device-sync-modal` cleanly above the iOS/Android keyboard so OTP input & Verify button never clip!
+  function syncModalToKeyboardViewport() {
+    const dsm = document.getElementById("device-sync-modal");
+    if (!dsm || !dsm.classList.contains("open")) return;
+    const card = dsm.querySelector(".paywall-card");
+    const vv = window.visualViewport;
+    if (!vv || !card) return;
+    const kbOpen = vv.height < window.innerHeight - 80;
+    if (kbOpen) {
+      dsm.style.alignItems = "flex-start";
+      dsm.style.paddingTop = Math.max(8, Math.round(vv.offsetTop + 6)) + "px";
+      card.style.maxHeight = Math.max(240, Math.round(vv.height - 16)) + "px";
+    } else {
+      dsm.style.alignItems = "";
+      dsm.style.paddingTop = "";
+      card.style.maxHeight = "";
+    }
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", syncModalToKeyboardViewport);
+    window.visualViewport.addEventListener("scroll", syncModalToKeyboardViewport);
+  }
+
+  // 6. Auto-Restore Pending WhatsApp OTP Step When Returning From WhatsApp (Even After Mobile Tab Reload!)
+  function restorePendingWaOtpIfNeeded() {
+    try {
+      const raw = sessionStorage.getItem("gat_wa_otp_pending_v1");
+      if (!raw) return;
+      const st = JSON.parse(raw);
+      if (!st || !st.phone || (Date.now() - Number(st.ts || 0) > 10 * 60 * 1000)) {
+        sessionStorage.removeItem("gat_wa_otp_pending_v1");
+        return;
+      }
+      // If already verified for this exact phone, clear pending state
+      const curWa = localStorage.getItem("gat_verified_wa_phone") || "";
+      const reqDigits = String(st.phone).replace(/\D/g, "");
+      if (curWa && reqDigits && curWa.slice(-8) === reqDigits.slice(-8)) {
+        sessionStorage.removeItem("gat_wa_otp_pending_v1");
+        return;
+      }
+
+      if (st.modal === "profile") {
+        let pm = document.getElementById("gat-profile-modal");
+        if (!pm && typeof window.openGatProfileModal === "function") {
+          window.openGatProfileModal();
+          pm = document.getElementById("gat-profile-modal");
+        }
+        const pInp = document.getElementById("gat-prof-wa-inp");
+        const otpBox = document.getElementById("gat-prof-wa-otp-box");
+        if (pInp && !pInp.value) pInp.value = st.phone;
+        if (otpBox) otpBox.style.display = "block";
+      } else {
+        const dsm = document.getElementById("device-sync-modal");
+        if (dsm) {
+          if (!dsm.classList.contains("open") && typeof window.openDeviceSyncModal === "function") {
+            window.openDeviceSyncModal();
+          }
+          const pInp = document.getElementById("wa-login-phone-inp");
+          const otpRow = document.getElementById("wa-otp-verify-row");
+          if (pInp && !pInp.value) pInp.value = st.phone;
+          if (otpRow) otpRow.style.display = "block";
+        }
+      }
+      bindOtpInputsRecoveryAndAutoSubmit();
+      window._gatSyncModalScrollLock();
+    } catch (e) {}
+  }
+
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "visible") {
+      setTimeout(restorePendingWaOtpIfNeeded, 60);
+    }
+  });
+  window.addEventListener("pageshow", function() {
+    setTimeout(restorePendingWaOtpIfNeeded, 80);
+  });
+
+  // Observe DOM changes so scroll lock & 6-lang labels stay in sync automatically
+  const obs = new MutationObserver(function() {
+    window._gatSyncModalScrollLock();
+  });
+  if (document.body) {
+    obs.observe(document.body, { childList: true, subtree: false });
+  }
+
+  function bootInit() {
+    refreshUnifiedDrawerWithDir();
+    window.localizeDeviceSyncModal6Lang();
+    bindOtpInputsRecoveryAndAutoSubmit();
+    restorePendingWaOtpIfNeeded();
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootInit);
+  } else {
+    bootInit();
+  }
+})();
+// === GAT UNIFIED 6-LANG DRAWER & MOBILE WA SYNC FIX V1 END ===

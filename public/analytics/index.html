@@ -391,7 +391,7 @@
       <button type="button" id="gat-gate-send-btn" onclick="window.sendAdminWaOtp()" style="width:100%;padding:12px;border-radius:10px;border:none;background:#0288d1;color:#fff;font-weight:900;font-size:0.92rem;cursor:pointer;">Send 4-Digit WhatsApp Code</button>
     </div>
     <div id="gat-gate-step2" style="display:none;">
-      <input type="text" id="gat-gate-otp-code" placeholder="4-Digit WhatsApp Code" maxlength="6" autocomplete="one-time-code" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #10b981;background:#041226;color:#fff;font-size:1.2rem;letter-spacing:6px;text-align:center;font-weight:900;margin-bottom:10px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')window.verifyAdminWaOtp()" />
+      <input type="text" id="gat-gate-otp-code" placeholder="4-Digit WhatsApp Code" maxlength="32" autocomplete="one-time-code" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #10b981;background:#041226;color:#fff;font-size:1.2rem;letter-spacing:6px;text-align:center;font-weight:900;margin-bottom:10px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')window.verifyAdminWaOtp()" />
       <button type="button" id="gat-gate-verify-btn" onclick="window.verifyAdminWaOtp()" style="width:100%;padding:12px;border-radius:10px;border:none;background:#059669;color:#fff;font-weight:900;font-size:0.92rem;cursor:pointer;">Verify &amp; Open</button>
     </div>
     <div id="gat-gate-err" style="color:#f87171;font-size:0.8rem;font-weight:800;margin-top:10px;display:none;"></div>
@@ -400,6 +400,75 @@
 <script>
 (function(){
   // Auto-delete expired session tokens from localStorage
+  function readGatAuthCookieInline() {
+    try {
+      var m = document.cookie.match(/(?:^|;\s*)gat_auth_v1=([^;]+)/);
+      return m && m[1] ? JSON.parse(decodeURIComponent(m[1])) : null;
+    } catch (e) { return null; }
+  }
+  function saveGatAuthEverywhereInline(data, fallbackPhone) {
+    try {
+      var uObj = (data && (data.userData || data.mergedData)) || {};
+      var ph = String((data && data.whatsappDigits) || uObj.whatsappDigits || fallbackPhone || '').replace(/\D/g, '');
+      var uid = String((data && (data.masterUid || data.uid)) || uObj.uid || (ph ? 'wa_' + ph : '') || '').trim();
+      if (/^(undefined|null|anon|guest)$/i.test(uid)) uid = ph ? ('wa_' + ph) : '';
+      var pass = String((data && (data.permanentPassCode || data.passCode)) || uObj.permanentPassCode || '').trim().toUpperCase();
+      var devTok = String((data && data.deviceAuthToken) || localStorage.getItem('gat_device_auth_tok') || '').trim();
+      var admTok = String((data && data.adminSessionToken) || localStorage.getItem('gat_admin_session_tok') || '').trim();
+      localStorage.removeItem('gat_explicit_logged_out');
+      if (uid) localStorage.setItem('gat_uid', uid);
+      if (ph) { localStorage.setItem('gat_verified_wa_phone', ph); localStorage.setItem('gat_wa_phone', ph); }
+      if (pass) {
+        localStorage.setItem('gat_permanent_pass_code', pass);
+        localStorage.setItem('gat_pass_code', pass);
+        localStorage.setItem('gat_passcode', pass);
+      }
+      if (devTok) localStorage.setItem('gat_device_auth_tok', devTok);
+      if (admTok) {
+        localStorage.setItem('gat_admin_session_tok', admTok);
+        sessionStorage.setItem('gat_admin_session_tok', admTok);
+      }
+      var rec = { uid: uid, waPhone: ph, passCode: pass, deviceAuthToken: devTok, adminSessionToken: admTok, unlocked: true, tier: uObj.tier || 'vip_couple_649', updatedAtMs: Date.now() };
+      var sec = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = 'gat_auth_v1=' + encodeURIComponent(JSON.stringify(rec)) + '; Path=/; Max-Age=34560000; SameSite=Lax' + sec;
+      if (window.indexedDB) {
+        var rq = window.indexedDB.open('gat_persistent_auth_db', 1);
+        rq.onupgradeneeded = function(ev) {
+          var db = ev.target.result;
+          if (!db.objectStoreNames.contains('session')) db.createObjectStore('session');
+        };
+        rq.onsuccess = function(ev) {
+          try {
+            var db = ev.target.result;
+            var tx = db.transaction('session', 'readwrite');
+            tx.objectStore('session').put(rec, 'primary');
+            tx.oncomplete = function() { db.close(); };
+          } catch (ex) {}
+        };
+      }
+    } catch (e) {}
+  }
+  (function hydrateInlineGateFromCookie() {
+    try {
+      var curU = localStorage.getItem('gat_uid') || '';
+      if (/^(undefined|null|anon|guest)$/i.test(curU)) localStorage.removeItem('gat_uid');
+      var ck = readGatAuthCookieInline();
+      if (ck && localStorage.getItem('gat_explicit_logged_out') !== '1') {
+        if (ck.uid && !localStorage.getItem('gat_uid')) localStorage.setItem('gat_uid', ck.uid);
+        if (ck.waPhone && !localStorage.getItem('gat_verified_wa_phone')) {
+          localStorage.setItem('gat_verified_wa_phone', ck.waPhone);
+          localStorage.setItem('gat_wa_phone', ck.waPhone);
+        }
+        if (ck.passCode && !localStorage.getItem('gat_permanent_pass_code')) {
+          localStorage.setItem('gat_permanent_pass_code', ck.passCode);
+          localStorage.setItem('gat_pass_code', ck.passCode);
+          localStorage.setItem('gat_passcode', ck.passCode);
+        }
+        if (ck.deviceAuthToken && !localStorage.getItem('gat_device_auth_tok')) localStorage.setItem('gat_device_auth_tok', ck.deviceAuthToken);
+        if (ck.adminSessionToken && !localStorage.getItem('gat_admin_session_tok')) localStorage.setItem('gat_admin_session_tok', ck.adminSessionToken);
+      }
+    } catch (e) {}
+  })();
   function cleanExpiredTokens() {
     var tok = localStorage.getItem('gat_admin_session_tok') || '';
     if (tok) {
@@ -421,19 +490,27 @@
     }
   }
   function getStoredAuth() {
+    if (window.__gatGhostAdminTok) { return { adminSessionToken: window.__gatGhostAdminTok, deviceAuthToken: '', adminUid: '', adminPassOrMagic: '', adminPin: '' }; }
     cleanExpiredTokens();
-    var tok = localStorage.getItem('gat_admin_session_tok') || sessionStorage.getItem('gat_admin_session_tok') || '';
-    var uid = localStorage.getItem('gat_uid') || sessionStorage.getItem('gat_admin_uid') || '';
-    var pass = localStorage.getItem('gat_passcode') || localStorage.getItem('gat_wa_magic') || '';
-    var pin = sessionStorage.getItem('gat_admin_pin') || '' || '';
+    var ck = (typeof readGatAuthCookieInline === 'function' && readGatAuthCookieInline()) || {};
+    var tok = localStorage.getItem('gat_admin_session_tok') || sessionStorage.getItem('gat_admin_session_tok') || ck.adminSessionToken || '';
+    var devTok = localStorage.getItem('gat_device_auth_tok') || ck.deviceAuthToken || '';
+    var rawUid = localStorage.getItem('gat_uid') || sessionStorage.getItem('gat_admin_uid') || ck.uid || '';
+    var uid = /^(undefined|null|anon|guest)$/i.test(String(rawUid || '').trim()) ? '' : String(rawUid || '').trim();
+    if (!uid) {
+      var waPh = String(localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_wa_phone') || ck.waPhone || '').replace(/\D/g, '');
+      if (waPh.length >= 8) uid = 'wa_' + waPh;
+    }
+    var pass = localStorage.getItem('gat_permanent_pass_code') || localStorage.getItem('gat_pass_code') || localStorage.getItem('gat_passcode') || localStorage.getItem('gat_wa_magic') || ck.passCode || '';
+    var pin = localStorage.getItem('gat_admin_pin') || sessionStorage.getItem('gat_admin_pin') || '';
     if (!uid || !pass) {
       try {
         var st = JSON.parse(localStorage.getItem('gat_state_v2') || '{}');
-        if (!uid && st.uid) uid = st.uid;
+        if (!uid && st.uid && !/^(undefined|null|anon|guest)$/i.test(st.uid)) uid = st.uid;
         if (!pass && st.permanentPassCode) pass = st.permanentPassCode;
       } catch (e) {}
     }
-    return { adminSessionToken: tok, adminUid: uid, adminPassOrMagic: pass, adminPin: pin };
+    return { adminSessionToken: tok, deviceAuthToken: devTok, adminUid: uid, adminPassOrMagic: pass, adminPin: pin };
   }
 
   var origFetch = window.fetch.bind(window);
@@ -443,6 +520,7 @@
         var b = JSON.parse(opts.body);
         var a = getStoredAuth();
         if (a.adminSessionToken) b.adminSessionToken = a.adminSessionToken;
+        if (a.deviceAuthToken && !b.deviceAuthToken) b.deviceAuthToken = a.deviceAuthToken;
         if (a.adminUid) b.adminUid = a.adminUid;
         if (a.adminPassOrMagic) b.adminPassOrMagic = a.adminPassOrMagic;
         if (a.adminPin && !b.adminPin) b.adminPin = a.adminPin;
@@ -452,10 +530,18 @@
     return origFetch(url, opts);
   };
 
-  function unlockConsoleDOM(tok) {
+  function unlockConsoleDOM(tok, isGhost) {
     if (tok) {
-      localStorage.setItem('gat_admin_session_tok', tok);
-      sessionStorage.setItem('gat_admin_session_tok', tok);
+      if (isGhost || window.__gatGhostAdminTok) {
+        window.__gatGhostAdminTok = tok;
+        var gb = document.createElement('div');
+        gb.style.cssText = 'background:#0f172a;color:#38bdf8;border-bottom:1.5px solid #0284c7;padding:6px 14px;font-size:0.76rem;font-weight:800;text-align:center;';
+        gb.textContent = 'Ghost Admin Active (RAM-Only Session — Zero Disk / Zero Firestore Footprint)';
+        document.body.insertBefore(gb, document.body.firstChild);
+      } else {
+        localStorage.setItem('gat_admin_session_tok', tok);
+        sessionStorage.setItem('gat_admin_session_tok', tok);
+      }
     }
     var eb = document.getElementById('error-box');
     if (eb) { eb.style.display = 'none'; eb.textContent = ''; }
@@ -530,9 +616,14 @@
       });
       var data = await res.json();
       if (!res.ok || !data.ok || !data.adminSessionToken) throw new Error('Invalid or expired code');
-      localStorage.setItem('gat_uid', data.uid);
-      if (data.permanentPassCode) localStorage.setItem('gat_passcode', data.permanentPassCode);
-      unlockConsoleDOM(data.adminSessionToken);
+      if (data.ghostMode) {
+        unlockConsoleDOM(data.adminSessionToken, true);
+      } else {
+        saveGatAuthEverywhereInline(data, window._pendingAdminPhone);
+        unlockConsoleDOM(data.adminSessionToken, false);
+      }
+      if (typeof loadDossiers === 'function') loadDossiers();
+      if (typeof loadAnalytics === 'function') loadAnalytics();
     } catch (e) {
       err.textContent = '❌ ' + (e.message || 'Invalid code');
       err.style.display = 'block';
@@ -888,6 +979,165 @@
       toggleAutoRefresh();
     });
   </script>
+
+
+<!-- GAT ANALYTICS UI & CLEAR LOGS ENHANCEMENT START -->
+<style id="gat-analytics-ui-polish">
+  /* 1. Widen filter inputs so placeholders are 100% readable */
+  input[placeholder*="Filter" i],
+  input[placeholder*="Search" i],
+  input[type="search"] {
+    width: 100% !important;
+    max-width: 520px !important;
+    min-width: min(100%, 340px) !important;
+    padding: 10px 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 2. Keep tables inside card bounds & wrap Raw User-Agent cleanly */
+  table {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: auto !important;
+  }
+  table th, table td {
+    vertical-align: top !important;
+  }
+  table th:last-child,
+  table td:last-child {
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    min-width: 200px !important;
+    max-width: 340px !important;
+    line-height: 1.42 !important;
+  }
+  #gat-analytics-clear-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin: 10px 0 14px 0;
+  }
+  .gat-an-clear-btn {
+    border-radius: 10px;
+    padding: 8px 13px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: opacity 0.15s ease;
+  }
+  .gat-an-clear-btn:hover { opacity: 0.9; }
+</style>
+<script id="gat-analytics-clear-logs-js">
+(function initGatAnalyticsClearToolbar() {
+  var lastAnalyticsReqBody = null;
+  var origFetch = window.fetch;
+
+  if (typeof origFetch === "function" && !origFetch._gatAnSpy) {
+    var wrappedFetch = async function(input, init) {
+      try {
+        if (init && typeof init.body === "string" && init.body.indexOf('"admin_get_analytics"') !== -1) {
+          var parsed = JSON.parse(init.body);
+          delete parsed.clearScope;
+          lastAnalyticsReqBody = parsed;
+          setTimeout(mountClearButtonsIfReady, 180);
+        }
+      } catch (e) {}
+      return origFetch.apply(this, arguments);
+    };
+    wrappedFetch._gatAnSpy = true;
+    window.fetch = wrappedFetch;
+  }
+
+  function buildAuthPayload(scope) {
+    var base = Object.assign({ mode: "admin_get_analytics" }, lastAnalyticsReqBody || {});
+    if (!base.adminSessionToken) {
+      base.adminSessionToken = window.__gatGhostAdminTok || sessionStorage.getItem("gat_admin_session_tok") || localStorage.getItem("gat_admin_session_tok") || "";
+    }
+    if (!base.deviceAuthToken) base.deviceAuthToken = localStorage.getItem("gat_device_auth_tok") || "";
+    if (!base.uid) base.uid = localStorage.getItem("gat_uid") || "";
+    if (!base.waPhone) base.waPhone = localStorage.getItem("gat_verified_wa_phone") || "";
+    base.clearScope = scope;
+    return base;
+  }
+
+  window.gatClearAnalyticsScope = async function(scope) {
+    var msg = scope === "all"
+      ? "Reset ALL test visitor, daily, and bot logs to zero? (Use right before launch or clean testing.)"
+      : "Clear all Webcrawler / HeadlessChrome test hits?";
+    if (!window.confirm(msg)) return;
+
+    var btnId = scope === "all" ? "gat-btn-clear-all" : "gat-btn-clear-bots";
+    var btn = document.getElementById(btnId);
+    var origTxt = btn ? btn.textContent : "";
+    if (btn) { btn.disabled = true; btn.textContent = "⏳ Clearing..."; }
+
+    try {
+      var res = await fetch("/api/auditDoc", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildAuthPayload(scope))
+      });
+      var data = await res.json();
+      if (!res.ok || !data || !data.ok) {
+        throw new Error((data && data.error) || "Failed to clear logs");
+      }
+      // Trigger native dashboard refresh function if exposed, otherwise click Refresh button
+      if (typeof window.loadAnalytics === "function") await window.loadAnalytics();
+      else if (typeof window.fetchAnalytics === "function") await window.fetchAnalytics();
+      else if (typeof window.refreshAnalytics === "function") await window.refreshAnalytics();
+      else {
+        var refBtn = Array.from(document.querySelectorAll("button")).find(function(b) {
+          return /refresh|reload/i.test(b.textContent || "");
+        });
+        if (refBtn) refBtn.click();
+        else window.location.reload();
+      }
+    } catch (err) {
+      alert("⚠️ " + (err.message || err));
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = origTxt; }
+    }
+  };
+
+  function mountClearButtonsIfReady() {
+    if (document.getElementById("gat-analytics-clear-bar")) return;
+    // Anchor right above List 2 or the first analytics table once dashboard is unlocked
+    var tables = document.querySelectorAll("table");
+    if (!tables.length) return;
+    tables.forEach(function(tb) {
+      if (tb.parentElement) {
+        tb.parentElement.style.overflowX = "auto";
+        tb.parentElement.style.maxWidth = "100%";
+      }
+    });
+    var anchorHeading = Array.from(document.querySelectorAll("h1, h2, h3, div")).find(function(el) {
+      return el.children.length === 0 && /List 2:\s*Webcrawlers/i.test(el.textContent || "");
+    });
+    var bar = document.createElement("div");
+    bar.id = "gat-analytics-clear-bar";
+    bar.innerHTML =
+      '<button type="button" id="gat-btn-clear-bots" class="gat-an-clear-btn" onclick="window.gatClearAnalyticsScope(\'bots\')" style="background:#fffbeb;color:#b45309;border-color:#f59e0b;">🤖 Clear Bot / Crawler Hits</button>' +
+      '<button type="button" id="gat-btn-clear-all" class="gat-an-clear-btn" onclick="window.gatClearAnalyticsScope(\'all\')" style="background:#fef2f2;color:#b91c1c;border-color:#fca5a5;">🗑️ Reset All Test Logs</button>';
+
+    if (anchorHeading && anchorHeading.parentElement) {
+      anchorHeading.parentElement.insertBefore(bar, anchorHeading.nextSibling);
+    } else if (tables[0] && tables[0].parentElement) {
+      tables[0].parentElement.insertBefore(bar, tables[0]);
+    }
+  }
+
+  var mo = new MutationObserver(function() { mountClearButtonsIfReady(); });
+  if (document.body) mo.observe(document.body, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", mountClearButtonsIfReady);
+  setTimeout(mountClearButtonsIfReady, 400);
+})();
+</script>
+<!-- GAT ANALYTICS UI & CLEAR LOGS ENHANCEMENT END -->
 
 </body>
 </html>

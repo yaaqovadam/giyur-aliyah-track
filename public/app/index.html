@@ -10,7 +10,7 @@
   <meta name="supported-color-schemes" content="light only" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Interactive Command Center & Vetted Concierge | Giyur Aliyah Track</title>
+  <title>Interactive Command Center &amp; Tools | Giyur Aliyah Track</title>
   <link rel="canonical" href="https://giyuraliyahtrack.com/app/">
   <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/app/">
   <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/app/">
@@ -19,7 +19,7 @@
   <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/app/">
   <link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/app/">
   <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/app/">
-  <meta name="description" content="Giyur Aliyah Track Interactive Command Center — Auto-fill all 8 official Hebrew Misrad HaPanim (PIBA) forms, practice 700 Beit Din tribunal flashcards, sync 300 separated-room couples questions, and master 56 Shabbat songs & prayers.">
+  <meta name="description" content="Auto-fill all 8 official Hebrew Misrad HaPanim (PIBA) forms, practice 700 Beit Din questions, sync 300 couples questions &amp; master 56 Shabbat songs." />
   <script src="/i18n/jurisdiction.js?v=1794732270"></script>
   <style>
     :root, html, body {
@@ -552,7 +552,7 @@ span[data-ponr="1"] {
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         <span id="globe-lang-lbl">EN</span>
       </button>
-      <button type="button" class="hamburger-btn" onclick="document.getElementById('app-drawer').classList.toggle('open');" aria-label="Menu">
+      <button type="button" class="hamburger-btn" onclick="return window.toggleDrawer(event);" aria-label="Menu">
         <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#ffffff;stroke-width:2.5;stroke-linecap:round;"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
@@ -562,7 +562,7 @@ span[data-ponr="1"] {
     
     <button class="mod-tab concierge-pill" data-mod="vetted-team" onclick="openMod('vetted-team')">🤝 Vetted Team, Notary & Lawyer</button>
     <button class="mod-tab active" data-mod="hebrew-engine" onclick="openMod('hebrew-engine')">📸 Hebrew & Forms</button>
-    <button class="mod-tab" data-mod="rabbi-letters" onclick="openMod('rabbi-letters')">✍️ Rabbi Letters</button>
+    <button class="mod-tab" data-mod="rabbi-letters" onclick="openMod('rabbi-letters')">✍️ Reference Letters &amp; Log</button>
     <button class="mod-tab" data-mod="beit-din-150" onclick="openMod('beit-din-150')">🕍 700 Beit Din Deck</button>
     <button class="mod-tab" data-mod="couples-sync" onclick="openMod('couples-sync')">📱 300 Couples Sync</button>
     <button class="mod-tab" data-mod="songs-prayers" onclick="openMod('songs-prayers')">🎵 56 Songs &amp; Prayers</button>
@@ -580,7 +580,7 @@ span[data-ponr="1"] {
       <div class="pw-head" style="padding:20px 22px;">
         <div>
           <div id="sync-modal-pill" style="font-size:0.75rem;font-weight:900;color:#38bdf8;text-transform:uppercase;letter-spacing:0.04em;">📲 1-Step WhatsApp Account &amp; Sync</div>
-          <h3 id="sync-modal-title" style="font-size:1.22rem;margin-top:2px;">Sign In or Sync With WhatsApp</h3>
+          <h2 id="sync-modal-title" style="font-size:1.22rem;margin-top:2px;">Sign In or Sync With WhatsApp</h2>
         </div>
         <button class="pw-close" onclick="window.closeDeviceSyncModal()" style="width:38px;height:38px;font-size:1.1rem;">✕</button>
       </div>
@@ -602,7 +602,7 @@ span[data-ponr="1"] {
           <div id="wa-otp-verify-row" style="display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed #10b981;">
             <div style="font-size:0.82rem;font-weight:900;color:#065f46;margin-bottom:6px;">✅ Check your WhatsApp! Tap the 1-Click Link OR enter the 4-digit code below:</div>
             <div style="display:flex;gap:8px;">
-              <input id="wa-login-otp-inp" type="text" maxlength="4" inputmode="numeric" placeholder="4-Digit Code" style="margin:0;flex:1;padding:13px;font-size:1.2rem;font-weight:900;letter-spacing:6px;text-align:center;border:2px solid #0284c7 !important;border-radius:12px;" />
+              <input id="wa-login-otp-inp" type="tel" maxlength="8" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="4-Digit Code" style="margin:0;flex:1;padding:13px;font-size:1.2rem;font-weight:900;letter-spacing:6px;text-align:center;border:2px solid #0284c7 !important;border-radius:12px;" />
               <button type="button" class="btn" style="margin:0;width:auto;padding:13px 20px;font-size:0.92rem;background:#0284c7;border-radius:12px;" onclick="window.verifyWhatsAppLoginCode()">Verify &amp; Open →</button>
             </div>
           </div>
@@ -626,7 +626,7 @@ span[data-ponr="1"] {
       <div class="pw-head">
         <div>
           <div style="font-size:0.72rem;font-weight:800;color:#38bdf8;text-transform:uppercase;">🛡️ Giyur Aliyah Track Command Shield</div>
-          <h3 id="pw-title">Select Your 90-Day Sprint or Lifetime Track Pass</h3>
+          <h2 id="pw-title">Select Your 90-Day Sprint or Lifetime Track Pass</h2>
         </div>
         <button class="pw-close" onclick="closeProPaywall()">✕</button>
       </div>
@@ -762,11 +762,12 @@ span[data-ponr="1"] {
   <script src="/app/bd_vault.js?v=1794921613"></script>
   <script src="/app/cp_vault.js?v=1794931008"></script>
   <script src="/app/songs_vault.js?v=1794902180"></script>
-  <script src="/app/app.js?v=1795008319"></script>
+  <script src="/app/app.js?v=1795165968"></script>
   <script src="/app/vendor/pdf-lib.min.js?v=1794732270"></script>
   <script src="/app/vendor/fontkit.umd.min.js?v=1794732270"></script>
   <script src="/app/stampers/gat_modular_stampers_bundle.js?v=1794989733"></script>
-  <script src="/app/forms_vault.js?v=1795008319"></script>
+  <script src="/app/forms_vault.js?v=1795165968"></script>
+  <script src="/app/ref_letters_vault.js?v=1795165968"></script>
 
 
         <!-- VISIBLE FAQ, TRANSPARENT PRICING & TERMS / REFUND POLICY (SEO + REVOLUT PRO COMPLIANCE) -->
@@ -818,7 +819,7 @@ span[data-ponr="1"] {
 
 
 
-<script>window.toggleDrawer=function(open){var d=document.getElementById('app-drawer');if(d)d.classList.toggle('open',typeof open==='boolean'?open:!d.classList.contains('open'));return false;};</script>
+<script>window.toggleDrawer=window.toggleDrawer||function(open){if(typeof window._gatUnifiedToggleDrawer==='function')return window._gatUnifiedToggleDrawer(open);var d=document.getElementById('app-drawer');if(d)d.classList.toggle('open',typeof open==='boolean'?open:!d.classList.contains('open'));return false;};</script>
 <!-- STATIC SEO HAMBURGER DRAWER -->
 <div id="app-drawer" onclick="if(event.target===this) this.classList.remove('open');">
   <nav class="drawer-panel" aria-label="Main Navigation">
@@ -992,6 +993,6 @@ span[data-ponr="1"] {
   document.addEventListener('click', function(){ setTimeout(syncShareTooltip, 80); });
 })();
 </script>
-  <script src="/i18n/tracking_partner.js?v=1795008319"></script>
+  <script src="/i18n/tracking_partner.js?v=1795166561"></script>
 </body>
 </html>
