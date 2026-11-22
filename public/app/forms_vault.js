@@ -1,3 +1,77 @@
+
+(function lockExplicitUrlFormParamOnBoot() {
+  try {
+    var sp = new URLSearchParams(window.location.search);
+    var rawF = (sp.get("form") || "").trim().toLowerCase();
+    if (!rawF) return;
+    var ALIASES = {
+      "ash1": "ash1",
+      "ash3": "ash3",
+      "ash6": "ash6",
+      "ash456": "ash456",
+      "mr14a": "mr14a",
+      "mr14b": "mr14b",
+      "nespach_alef": "nespach_alef",
+      "nespach-alef": "nespach_alef",
+      "nespachalef": "nespach_alef",
+      "sec_cv": "security_cv",
+      "security_cv": "security_cv",
+      "security-cv": "security_cv"
+    };
+    var targetForm = ALIASES[rawF] || rawF;
+    window.__gatUrlRequestedForm = targetForm;
+    window.activePibaFormKey = targetForm;
+    window.gatFormsState = window.gatFormsState || {};
+    window.gatFormsState.activeForm = targetForm;
+
+    function enforceRequestedFormSelection() {
+      var reqF = window.__gatUrlRequestedForm;
+      if (!reqF) return;
+      window.activePibaFormKey = reqF;
+      if (window.gatFormsState) window.gatFormsState.activeForm = reqF;
+      var sel = document.getElementById("piba-form-select") || document.querySelector("select[onchange*='PibaForm'], select[id*='form-select']");
+      if (sel) {
+        // Check if option exists as reqF or sec_cv/security_cv alias
+        var matchVal = "";
+        for (var i = 0; i < sel.options.length; i++) {
+          var v = sel.options[i].value;
+          if (v === reqF || (reqF === "security_cv" && v === "sec_cv") || (reqF === "sec_cv" && v === "security_cv")) {
+            matchVal = v;
+            break;
+          }
+        }
+        if (matchVal && sel.value !== matchVal) {
+          sel.value = matchVal;
+          window.activePibaFormKey = matchVal;
+          if (window.gatFormsState) window.gatFormsState.activeForm = matchVal;
+          if (typeof window.switchPibaForm === "function") window.switchPibaForm(matchVal);
+          else if (typeof window.onPibaFormChange === "function") window.onPibaFormChange(matchVal);
+          else if (typeof window.renderPibaFormFields === "function") window.renderPibaFormFields(matchVal);
+          else sel.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+      }
+      // Clear lock once user manually interacts with the form dropdown
+      if (sel && !sel._gatUserChangeHooked) {
+        sel._gatUserChangeHooked = true;
+        sel.addEventListener("pointerdown", function() { window.__gatUrlRequestedForm = ""; }, true);
+        sel.addEventListener("keydown", function() { window.__gatUrlRequestedForm = ""; }, true);
+      }
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(enforceRequestedFormSelection, 40);
+        setTimeout(enforceRequestedFormSelection, 250);
+        setTimeout(enforceRequestedFormSelection, 850);
+      });
+    } else {
+      setTimeout(enforceRequestedFormSelection, 40);
+      setTimeout(enforceRequestedFormSelection, 250);
+      setTimeout(enforceRequestedFormSelection, 850);
+    }
+  } catch (e) {}
+})();
+
 /* ==========================================================================
  * Giyur Aliyah Track — 100% 5-Language (EN/FR/ES/DE/HE) Hebrew-First PIBA
  * Forms, Worksheet Scanner & Master Dossier Cross-Checker (forms_vault.js)
@@ -1381,8 +1455,8 @@
   var DOC_ONBOARD_SEEN_KEY = 'gat_doc_onboard_seen_v4';
   var DOC_ONBOARD_I18N = {
     "en": {
-        "badge": "⚡ SMART 2-PARTY FORM ASSISTANT",
-        "titleAllMissing": "Stop Drowning in Paperwork on {form}: Let AI Auto-Fill & Audit Your File in Seconds!",
+        "badge": "⚡ SPOK • 2-PARTY FORM ASSISTANT",
+        "titleAllMissing": "Stop Drowning in Paperwork on {form}: Let Spok Auto-Fill & Audit Your File in Seconds!",
         "titleSomeMissing": "Complete Your {form} Dossier! You Still Need to Upload: {missingList}",
         "lead": "Filling out Misrad HaPanim forms manually is overwhelming—and a single typo, wrong date format, or document flaw can get your file rejected at the clerk's window. Uploading your documents here saves you hours and protects your application:",
         "whoLabel": "👤 1. Whose Document Is This? (Step 1 = Foreign Visa/Aliyah Applicant • Step 3 = Israeli Spouse/Sponsor):",
@@ -1911,6 +1985,9 @@
 
     var closeModal = function() {
       ov.remove();
+      if (typeof window.ensureVaultAutofillAppliedNow === 'function') {
+        window.ensureVaultAutofillAppliedNow(true);
+      }
       if (focusElId) {
         var target = document.getElementById(focusElId);
         if (target && typeof target.focus === 'function') {
@@ -2918,7 +2995,7 @@
       scans.slice().reverse().forEach(function(sc) {
         if (!sc) return;
         var rawT = String(sc.slotKey || '') + ' ' + String(sc.docType || '') + ' ' + String(sc.docTitle || '');
-        var nSlot = sc.isIsraeliTz || /teudat|zehut|תעודת זהות|ספח|tz/i.test(rawT) ? 'tz'
+        var nSlot = sc.isIsraeliTz || /teudat|zehut|תעודת זהות|ספח|\btz\b/i.test(rawT) ? 'tz'
           : (/marriage|נישואין|mariage|matrimonio|heirat|брак/i.test(rawT) || (sc.marriageDate && !sc.passportNumber) ? 'marriage'
           : (/birth|לידה|naissance|nacimiento|geburt/i.test(rawT) ? 'birth'
           : (/police|criminal|fbi|acro|rcmp|יושר|פלילי|single|רווקות/i.test(rawT) ? 'police'

@@ -1,3 +1,227 @@
+
+  // === GAT UNIVERSAL PRICING LADDER & FULL-PACKAGE BREAKDOWN ENFORCER ===
+  const GAT_LADDER_I18N_6L = {
+    en: {
+      forms90: "📄 8 Hebrew PIBA Forms & Clerk Decoder (90-Day Pass • $89)",
+      formsLife: "📄 8 Hebrew PIBA Forms & 5-Yr Renewals (Lifetime Pass • $149)",
+      couples75: "💑 300-Q 2-Phone Couples Sync Only (No AI Doc Audit • $75)",
+      couples90: "💑 Spousal 300-Q 2-Phone + AI Doc Audit (90-Day • Both Partners • $129)",
+      couplesLife: "💑 Spousal 300-Q 2-Phone Lifetime (All 5 Annual Interviews • Both Partners • $229)",
+      bd90: "🕍 700 Beit Din Qs + 56 Songs & Prayers (90-Day Pass • $149)",
+      bdLife: "🕍 700 Beit Din Qs + 56 Songs & Prayers (Lifetime Mastery • $249)",
+      solo90: "🛡️ Full Solo All-Access Suite — All 3 Engines (90-Day • 1 Person • $249)",
+      soloLife: "🛡️ Full Solo All-Access Suite — All 3 Engines (Lifetime • 1 Person • $399)",
+      vip649Btn: "👑 Complete VIP Couple 2-Phone Lifetime Full Package ($649)",
+      samePkgOr: " — or lock in Lifetime ownership of this exact package with ",
+      fullPkgHeader: "👑 WHAT YOU GET IN THE $649 COMPLETE VIP COUPLE FULL PACKAGE (2 PARTNERS • LIFETIME):",
+      fullPkgItems: [
+        "📱 2 Synced Phones for Both Partners for Life (covers all 5 years of Misrad HaPanim renewals)",
+        "📄 All 8 Official Hebrew PIBA Form Stampers (Ash/1, Ash/3, Ash/6, Ash/456, Nespach Alef, MR/14a, MR/14b, 11-Page Security CV) + Clerk Demand Sheet Decoder",
+        "💑 All 300 Separated-Room Couples Interrogation Questions + Live 2-Phone Contradiction Detector",
+        "⚖️ All 700 Beit Din Tribunal Questions + 🎵 All 56 Shabbat Songs, Prayers & Brachot Karaoke + AI Pitch Grader",
+        "✍️ 8-Persona Rabbi, Witness & Host Family Hebrew Letter Studio + 📸 Unlimited Smart Document/Apostille Scanner + ✨ 24/7 Spok"
+      ]
+    },
+    he: {
+      forms90: "📄 מנוע 8 טפסי משרד הפנים בעברית + מפענח מכתבים (90 יום • $89)",
+      formsLife: "📄 מנוע 8 טפסי משרד הפנים + חידושים שנתיים (לכל החיים • $149)",
+      couples75: "💑 סינכרון 300 שאלות שימוע זוגי ב-2 טלפונים (ללא סורק AI • $75)",
+      couples90: "💑 חבילת 300 שאלות שימוע ב-2 טלפונים + סורק מסמכים (90 יום • ל-2 בני הזוג • $129)",
+      couplesLife: "💑 חבילת 300 שאלות שימוע ב-2 טלפונים לכל החיים (כל 5 הראיונות השנתיים • $229)",
+      bd90: "🕍 700 שאלות בית הדין + 56 שירי שבת ותפילות (90 יום • $149)",
+      bdLife: "🕍 700 שאלות בית הדין + 56 שירי שבת ותפילות (לכל החיים עד המקווה • $249)",
+      solo90: "🛡️ חבילת יחיד מלאה — כל 3 המנועים יחד (90 יום • אדם אחד • $249)",
+      soloLife: "🛡️ חבילת יחיד מלאה — כל 3 המנועים יחד (לכל החיים • אדם אחד • $399)",
+      vip649Btn: "👑 החבילה המלאה VIP לזוגות ב-2 טלפונים לכל החיים ($649)",
+      samePkgOr: " — או שדרגו לגישה לכל החיים לאותה חבילה בדיוק עם ",
+      fullPkgHeader: "👑 מה כוללת החבילה המלאה VIP לזוגות ($649 • ל-2 בני הזוג לכל החיים):",
+      fullPkgItems: [
+        "📱 גישה מלאה מ-2 טלפונים מסונכרנים לשני בני הזוג לכל החיים (כל 5 שנות ההליך המדורג)",
+        "📄 כל 8 טפסי משרד הפנים הרשמיים בעברית (אש/1, אש/3, אש/6, אש/456, נספח א׳, מר/14א-ב, קו״ח 11 עמ׳) + מפענח דפי דרישות",
+        "💑 מאגר 300 שאלות השימוע הזוגי בחדרים נפרדים + גלאי סתירות חי בין 2 טלפונים",
+        "⚖️ כל 700 שאלות בית הדין לגיור + 🎵 56 שירי שבת, תפילות וברכות בקריוקי + מאמן הגייה",
+        "✍️ מחולל מכתבי רב מלווה, עדים ומשפחה מאמצת + 📸 סורק מסמכים ואפוסטיל ללא הגבלה + ✨ עוזר AI אישי 24/7"
+      ]
+    },
+    fr: {
+      forms90: "📄 8 Formulaires PIBA en Hébreu & Décodeur (Pass 90 Jours • $89)",
+      formsLife: "📄 8 Formulaires PIBA en Hébreu & Renouvellements 5 Ans (Pass À Vie • $149)",
+      couples75: "💑 300 Questions Couple sur 2 Téléphones (Sans Audit Doc IA • $75)",
+      couples90: "💑 300 Questions Couple sur 2 Téléphones + Audit Doc IA (90 Jours • 2 Partenaires • $129)",
+      couplesLife: "💑 300 Questions Couple sur 2 Téléphones À Vie (Les 5 Entretiens Annuels • $229)",
+      bd90: "🕍 700 Questions Beit Din + 56 Chants & Prières (Pass 90 Jours • $149)",
+      bdLife: "🕍 700 Questions Beit Din + 56 Chants & Prières (Pass À Vie • $249)",
+      solo90: "🛡️ Suite Complète Solo — Les 3 Moteurs (90 Jours • 1 Personne • $249)",
+      soloLife: "🛡️ Suite Complète Solo — Les 3 Moteurs (À Vie • 1 Personne • $399)",
+      vip649Btn: "👑 Pack Complet VIP Couple 2 Téléphones À Vie ($649)",
+      samePkgOr: " — ou passez à l'accès À Vie pour ce même pack avec ",
+      fullPkgHeader: "👑 TOUT CE QUI EST INCLUS DANS LE PACK COMPLET VIP COUPLE ($649 • 2 PARTENAIRES À VIE) :",
+      fullPkgItems: [
+        "📱 2 Téléphones Synchronisés pour les Deux Partenaires À Vie (couvre les 5 ans de renouvellements)",
+        "📄 Les 8 Formulaires Officiels PIBA en Hébreu (Ash/1, Ash/3, Ash/6, Ash/456, Nespach Alef, MR/14a/b, CV 11p) + Décodeur de Lettres",
+        "💑 Les 300 Questions d'Entretien Couple en Salles Séparées + Détecteur de Contradictions sur 2 Téléphones",
+        "⚖️ Les 700 Questions du Beit Din + 🎵 Les 56 Chants de Chabbat, Prières & Brakhot Karaoké + Évaluateur Audio IA",
+        "✍️ Studio de Lettres en Hébreu (Rabbin, Témoins, Famille) + 📸 Scanner Intelligent d'Apostilles Illimité + ✨ IA 24/7"
+      ]
+    },
+    es: {
+      forms90: "📄 8 Formularios PIBA en Hebreo y Decodificador (Pase 90 Días • $89)",
+      formsLife: "📄 8 Formularios PIBA en Hebreo y Renovaciones 5 Años (Pase de por Vida • $149)",
+      couples75: "💑 300 Preguntas Pareja en 2 Móviles (Sin Escáner Doc IA • $75)",
+      couples90: "💑 300 Preguntas Pareja en 2 Móviles + Escáner IA (90 Días • 2 Personas • $129)",
+      couplesLife: "💑 300 Preguntas Pareja en 2 Móviles de por Vida (Las 5 Entrevistas Anuales • $229)",
+      bd90: "🕍 700 Preguntas Beit Din + 56 Canciones y Rezos (Pase 90 Días • $149)",
+      bdLife: "🕍 700 Preguntas Beit Din + 56 Canciones y Rezos (De por Vida • $249)",
+      solo90: "🛡️ Suite Completa Individual — Los 3 Motores (90 Días • 1 Persona • $249)",
+      soloLife: "🛡️ Suite Completa Individual — Los 3 Motores (De por Vida • 1 Persona • $399)",
+      vip649Btn: "👑 Paquete Completo VIP Pareja 2 Móviles de por Vida ($649)",
+      samePkgOr: " — o asegura el acceso De por Vida a este mismo paquete con ",
+      fullPkgHeader: "👑 TODO LO QUE INCLUYE EL PAQUETE COMPLETO VIP PAREJA ($649 • 2 PERSONAS DE POR VIDA):",
+      fullPkgItems: [
+        "📱 2 Teléfonos Sincronizados para Ambos Miembros de la Pareja de por Vida (cubre los 5 años de renovaciones)",
+        "📄 Los 8 Formularios Oficiales PIBA en Hebreo (Ash/1, Ash/3, Ash/6, Ash/456, Nespach Alef, MR/14a/b, CV 11 págs.) + Decodificador",
+        "💑 Las 300 Preguntas de Entrevista en Salas Separadas + Detector de Contradicciones en Vivo en 2 Móviles",
+        "⚖️ Las 700 Preguntas del Beit Din + 🎵 Las 56 Canciones de Shabat, Rezos y Brajot en Karaoke + Evaluador IA",
+        "✍️ Estudio de Cartas en Hebreo (Rabino, Testigos, Familia) + 📸 Escáner Inteligente de Apostillas Ilimitado + ✨ Socio IA 24/7"
+      ]
+    },
+    de: {
+      forms90: "📄 8 Hebräische PIBA-Formulare & Brief-Decoder (90-Tage-Pass • $89)",
+      formsLife: "📄 8 Hebräische PIBA-Formulare & 5-Jahres-Verlängerungen (Lifetime-Pass • $149)",
+      couples75: "💑 300 Paar-Fragen auf 2 Handys (Ohne KI-Dokumentenprüfung • $75)",
+      couples90: "💑 300 Paar-Fragen auf 2 Handys + KI-Dok-Prüfung (90 Tage • Beide Partner • $129)",
+      couplesLife: "💑 300 Paar-Fragen auf 2 Handys Lifetime (Alle 5 Jahres-Interviews • Beide Partner • $229)",
+      bd90: "🕍 700 Beit-Din-Fragen + 56 Lieder & Gebete (90-Tage-Pass • $149)",
+      bdLife: "🕍 700 Beit-Din-Fragen + 56 Lieder & Gebete (Lifetime-Pass • $249)",
+      solo90: "🛡️ Komplettpaket Solo — Alle 3 Systeme (90 Tage • 1 Person • $249)",
+      soloLife: "🛡️ Komplettpaket Solo — Alle 3 Systeme (Lifetime • 1 Person • $399)",
+      vip649Btn: "👑 Komplettpaket VIP Paar (2 Handys • Lifetime • $649)",
+      samePkgOr: " — oder sichern Sie sich den Lifetime-Zugang für genau dieses Paket mit ",
+      fullPkgHeader: "👑 WAS DAS $649 VIP-PAAR-KOMPLETTPAKET ALLES ENTHÄLT (BEIDE PARTNER • LIFETIME):",
+      fullPkgItems: [
+        "📱 2 Synchronisierte Handys für Beide Partner auf Lebenszeit (deckt alle 5 Jahre der PIBA-Verlängerungen ab)",
+        "📄 Alle 8 Offiziellen Hebräischen PIBA-Formular-Generator (Ash/1, Ash/3, Ash/6, Ash/456, Nespach Alef, MR/14a/b, 11-S. CV) + Brief-Decoder",
+        "💑 Alle 300 Paar-Interview-Fragen in getrennten Räumen + Live-Widerspruchs-Detektor auf 2 Handys",
+        "⚖️ Alle 700 Beit-Din-Prüfungsfragen + 🎵 Alle 56 Schabbat-Lieder, Gebete & Brachot Karaoke + KI-Aussprachetrainer",
+        "✍️ Hebräischer Brief-Generator (Rabbiner, Zeugen, Gastfamilie) + 📸 Unbegrenzter Apostille-Smart-Scanner + ✨ 24/7 KI-Partner"
+      ]
+    },
+    ru: {
+      forms90: "📄 8 анкет МВД на иврите + Переводчик писем (Доступ на 90 дней • $89)",
+      formsLife: "📄 8 анкет МВД на иврите + Продления на 5 лет (Безлимит навсегда • $149)",
+      couples75: "💑 300 вопросов МВД на 2 телефонах (Без ИИ-проверки документов • $75)",
+      couples90: "💑 300 вопросов МВД на 2 телефонах + ИИ-сканер (90 дней • Для обоих партнёров • $129)",
+      couplesLife: "💑 300 вопросов МВД на 2 телефонах Навсегда (Все 5 ежегодных интервью • $229)",
+      bd90: "🕍 700 вопросов Бейт-Дина + 56 песен и молитв (90 дней • $149)",
+      bdLife: "🕍 700 вопросов Бейт-Дина + 56 песен и молитв (Навсегда до миквы • $249)",
+      solo90: "🛡️ Полный пакет для 1 человека — Все 3 модуля (90 дней • $249)",
+      soloLife: "🛡️ Полный пакет для 1 человека — Все 3 модуля (Навсегда • $399)",
+      vip649Btn: "👑 Полный VIP-пакет для пары на 2 телефонах Навсегда ($649)",
+      samePkgOr: " — или выберите пожизненный доступ к этому же пакету: ",
+      fullPkgHeader: "👑 ЧТО ВХОДИТ В ПОЛНЫЙ VIP-ПАКЕТ ДЛЯ ПАРЫ ЗА $649 (ДЛЯ ОБОИХ ПАРТНЁРОВ • НАВСЕГДА):",
+      fullPkgItems: [
+        "📱 2 синхронизированных телефона для обоих партнёров навсегда (на все 5 лет ступенчатой процедуры СТУПРО)",
+        "📄 Все 8 официальных анкет МВД на иврите (Аш/1, Аш/3, Аш/6, Аш/456, Неспах Алеф, МР/14а/б, анкета Натива 11 стр.) + Переводчик писем",
+        "💑 Все 300 вопросов перекрёстного допроса пар в разных комнатах + Детектор противоречий на 2 телефонах",
+        "⚖️ Все 700 вопросов суда Бейт-Дина + 🎵 Все 56 субботних песен, молитв и благословений в караоке + ИИ-тренер",
+        "✍️ Генератор писем на иврите (раввин, свидетели, семья) + 📸 Безлимитный Умный Сканер документов и апостилей + ✨ Spok (Спок) 24/7"
+      ]
+    }
+  };
+
+  window.enforceGatPricingLadderOnText = function(rawText, langCode) {
+    if (!rawText || typeof rawText !== "string") return rawText;
+    const lg = (langCode && GAT_LADDER_I18N_6L[langCode]) ? langCode : "en";
+    const L = GAT_LADDER_I18N_6L[lg] || GAT_LADDER_I18N_6L.en;
+    let out = rawText;
+
+    // 1. Standardize button labels inside [[SKU:...|...]] tags so $129 never claims "+ Forms" and always states "2-Phone / Both Partners"
+    out = out.replace(/\[\[SKU:couples_90d_129\|[^\]]+\]\]/g, "[[SKU:couples_90d_129|" + L.couples90 + "]]");
+    out = out.replace(/\[\[SKU:couples_life_229\|[^\]]+\]\]/g, "[[SKU:couples_life_229|" + L.couplesLife + "]]");
+    out = out.replace(/\[\[SKU:forms_90d_89\|[^\]]+\]\]/g, "[[SKU:forms_90d_89|" + L.forms90 + "]]");
+    out = out.replace(/\[\[SKU:forms_life_149\|[^\]]+\]\]/g, "[[SKU:forms_life_149|" + L.formsLife + "]]");
+    out = out.replace(/\[\[SKU:bd_suite_90d_149\|[^\]]+\]\]/g, "[[SKU:bd_suite_90d_149|" + L.bd90 + "]]");
+    out = out.replace(/\[\[SKU:bd_suite_life_249\|[^\]]+\]\]/g, "[[SKU:bd_suite_life_249|" + L.bdLife + "]]");
+    out = out.replace(/\[\[SKU:suite_solo_90d_249\|[^\]]+\]\]/g, "[[SKU:suite_solo_90d_249|" + L.solo90 + "]]");
+    out = out.replace(/\[\[SKU:suite_solo_life_399\|[^\]]+\]\]/g, "[[SKU:suite_solo_life_399|" + L.soloLife + "]]");
+    out = out.replace(/\[\[SKU:vip_couple_649\|[^\]]+\]\]/g, "[[SKU:vip_couple_649|" + L.vip649Btn + "]]");
+
+    // 2. Whenever a 90-Day SKU is shown WITHOUT its matching Lifetime SKU of that same package, automatically insert the Lifetime SKU right after it!
+    if (out.indexOf("SKU:couples_90d_129") !== -1 && out.indexOf("SKU:couples_life_229") === -1) {
+      out = out.replace(/(\[\[SKU:couples_90d_129\|[^\]]+\]\])/, "$1" + L.samePkgOr + "[[SKU:couples_life_229|" + L.couplesLife + "]]");
+    }
+    if (out.indexOf("SKU:forms_90d_89") !== -1 && out.indexOf("SKU:forms_life_149") === -1) {
+      out = out.replace(/(\[\[SKU:forms_90d_89\|[^\]]+\]\])/, "$1" + L.samePkgOr + "[[SKU:forms_life_149|" + L.formsLife + "]]");
+    }
+    if (out.indexOf("SKU:bd_suite_90d_149") !== -1 && out.indexOf("SKU:bd_suite_life_249") === -1) {
+      out = out.replace(/(\[\[SKU:bd_suite_90d_149\|[^\]]+\]\])/, "$1" + L.samePkgOr + "[[SKU:bd_suite_life_249|" + L.bdLife + "]]");
+    }
+    if (out.indexOf("SKU:suite_solo_90d_249") !== -1 && out.indexOf("SKU:suite_solo_life_399") === -1) {
+      out = out.replace(/(\[\[SKU:suite_solo_90d_249\|[^\]]+\]\])/, "$1" + L.samePkgOr + "[[SKU:suite_solo_life_399|" + L.soloLife + "]]");
+    }
+
+    return out;
+  };
+
+  window.buildGatVip649FullPackageBreakdownHtml = function(langCode) {
+    const lg = (langCode && GAT_LADDER_I18N_6L[langCode]) ? langCode : "en";
+    const L = GAT_LADDER_I18N_6L[lg] || GAT_LADDER_I18N_6L.en;
+    const isRtl = (lg === "he");
+    const itemsHtml = L.fullPkgItems.map(function(item) {
+      return '<li style="font-size:0.77rem;color:#1e293b;line-height:1.42;font-weight:700;margin-bottom:4px;">' + item + '</li>';
+    }).join("");
+    return (
+      '<div class="gat-vip649-breakdown-box" dir="' + (isRtl ? "rtl" : "ltr") + '" style="background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);border:1.5px solid #f59e0b;border-radius:12px;padding:10px 12px;margin:8px 0;text-align:start;">' +
+        '<div style="font-size:0.76rem;font-weight:900;color:#92400e;margin-bottom:6px;letter-spacing:0.01em;">' + L.fullPkgHeader + '</div>' +
+        '<ul style="list-style:none;padding:0;margin:0;">' + itemsHtml + '</ul>' +
+      '</div>'
+    );
+  };
+
+(function captureGatInitialUrlBeforeHydration() {
+  if (!window.__GAT_INITIAL_URL_STATE) {
+    window.__GAT_INITIAL_URL_STATE = {
+      search: window.location.search || "",
+      hash: window.location.hash || "",
+      pathname: window.location.pathname || "/",
+      hydrated: false
+    };
+  }
+})();
+(function syncGatPageLangAndChatHistoryOnBoot() {
+  try {
+    var qL = (new URLSearchParams(window.location.search).get("lang") || "").slice(0, 2).toLowerCase();
+    var p = window.location.pathname || "/";
+    var m = p.match(/^\/(he|fr|es|de|ru)(\/|$)/i);
+    var pageLang = "";
+    if (["en", "he", "fr", "es", "de", "ru"].indexOf(qL) !== -1) {
+      pageLang = qL;
+    } else if (m) {
+      pageLang = m[1].toLowerCase();
+    } else if (p.indexOf("/app") !== 0) {
+      var docL = String((document.documentElement && document.documentElement.lang) || "en").slice(0, 2).toLowerCase();
+      pageLang = ["en", "he", "fr", "es", "de", "ru"].indexOf(docL) !== -1 ? docL : "en";
+    }
+    if (pageLang) {
+      window.gatLang = pageLang;
+      window.appLang = pageLang;
+      localStorage.setItem("gat_lang", pageLang);
+      localStorage.setItem("zehut_lang", pageLang);
+      var prevChatLang = localStorage.getItem("gat_hd_hist_lang") || "";
+      var rawHist = (localStorage.getItem("gat_hd_rolling_v2") || "") + " " + (localStorage.getItem("gat_helpdesk_hist_v2") || "") + " " + (sessionStorage.getItem("gat_hd_screen_v6") || "");
+      var hasWrongScript = (pageLang === "en" && /[\u0590-\u05FF\u0400-\u04FF]/.test(rawHist)) ||
+                           (pageLang === "he" && /[a-zA-Z]{15,}/.test(rawHist) && !/[\u0590-\u05FF]/.test(rawHist));
+      if ((prevChatLang && prevChatLang !== pageLang) || hasWrongScript) {
+        localStorage.removeItem("gat_hd_rolling_v2");
+        localStorage.removeItem("gat_helpdesk_hist_v2");
+        sessionStorage.removeItem("gat_hd_screen_v6");
+        window._gatHelpdeskHistory = [];
+      }
+      localStorage.setItem("gat_hd_hist_lang", pageLang);
+    }
+  } catch (e) {}
+})();
+
 // === GAT HARD BROWSER WIPE (?fresh=1) V1 START ===
 (function checkGatHardFreshWipeV1() {
   try {
@@ -126,13 +350,13 @@
 
   const HD_I18N = {
     en: {
-      title: "✨ Tracking Partner",
+      title: "✨ Spok",
       clearBtn: "↺",
       minBtn: "—",
       waBtn: "📲",
       placeholder: "Ask about this form, deadlines, or passes...",
       send: "Ask",
-      welcome: "👋 **Shalom! I'm your personal Giyur & Aliyah Tracking Partner.**\n\n*(Tip: You can drag my ✨ icon anywhere on screen!)*\n\nTap any status or form below — I'll **open that page behind this window**, explain what to watch out for, and you can tap **⎯ Minimize** to read the page and tap **✨** anytime to continue!",
+      welcome: "👋 **Shalom! I'm your personal Giyur & Aliyah Spok.**\n\n*(Tip: You can drag my ✨ icon anywhere on screen!)*\n\nTap any status or form below — I'll **open that page behind this window**, explain what to watch out for, and you can tap **⎯ Minimize** to read the page and tap **✨** anytime to continue!",
       tracksTitle: "📍 TAP YOUR STATUS OR FORM:",
       tracks: [
         { icon: "💑", label: "Spousal / Partner Visa (Form Ash/6 & Ash/3)", mod: "hebrew-engine", form: "ash6", q: "I need the Spousal / Partner Visa (Nohal 5.2.0008 / 5.2.0009 Form Ash/6 & Ash/3). Open it and explain the sections, time limits, and what I need." },
@@ -164,13 +388,13 @@
       jumpReadBtn: "📖 מזער וקרא את העמוד (לחץ ✨ להמשך)"
     },
     fr: {
-      title: "✨ Partenaire de Suivi",
+      title: "✨ Spok",
       clearBtn: "↺",
       minBtn: "—",
       waBtn: "📲",
       placeholder: "Question sur ce formulaire, délais ou pass...",
       send: "Envoyer",
-      welcome: "👋 **Chalom ! Je suis votre Partenaire de Suivi Giyur & Aliyah.**\n\n*(Astuce : vous pouvez déplacer le bouton ✨ où vous voulez sur l'écran !)*\n\nTouchez votre statut ou formulaire ci-dessous : j'ouvre **la page en arrière-plan**, je vous explique les délais et pièges, et vous pouvez toucher **⎯ Réduire** pour lire la page puis **✨** pour continuer !",
+      welcome: "👋 **Chalom ! Je suis votre Spok Giyur & Aliyah.**\n\n*(Astuce : vous pouvez déplacer le bouton ✨ où vous voulez sur l'écran !)*\n\nTouchez votre statut ou formulaire ci-dessous : j'ouvre **la page en arrière-plan**, je vous explique les délais et pièges, et vous pouvez toucher **⎯ Réduire** pour lire la page puis **✨** pour continuer !",
       tracksTitle: "📍 TOUCHEZ VOTRE STATUT OU FORMULAIRE :",
       tracks: [
         { icon: "💑", label: "Visa Conjoint / Partenaire (Ash/6 & Ash/3)", mod: "hebrew-engine", form: "ash6", q: "J'ai besoin du visa conjoint (Nohal 5.2.0008 / 5.2.0009 Formulaire Ash/6 & Ash/3). Ouvrez la page et expliquez-moi." },
@@ -183,13 +407,13 @@
       jumpReadBtn: "📖 Réduire & lire la page (Touchez ✨ pour reprendre)"
     },
     es: {
-      title: "✨ Socio de Seguimiento",
+      title: "✨ Spok",
       clearBtn: "↺",
       minBtn: "—",
       waBtn: "📲",
       placeholder: "Pregunta sobre este formulario, plazos o pases...",
       send: "Enviar",
-      welcome: "👋 **¡Shalom! Soy tu Socio de Seguimiento de Giyur y Aliyah.**\n\n*(Consejo: ¡puedes arrastrar el botón ✨ a cualquier parte de la pantalla!)*\n\nToca el estatus o formulario abajo: abriré **esa página de fondo**, te explicaré las trampas y plazos, y podrás tocar **⎯ Minimizar** para leer la página y **✨** para continuar.",
+      welcome: "👋 **¡Shalom! Soy tu Spok de Giyur y Aliyah.**\n\n*(Consejo: ¡puedes arrastrar el botón ✨ a cualquier parte de la pantalla!)*\n\nToca el estatus o formulario abajo: abriré **esa página de fondo**, te explicaré las trampas y plazos, y podrás tocar **⎯ Minimizar** para leer la página y **✨** para continuar.",
       tracksTitle: "📍 TOCA TU ESTATUS O FORMULARIO:",
       tracks: [
         { icon: "💑", label: "Visa de Pareja / Cónyuge (Formulario Ash/6 y Ash/3)", mod: "hebrew-engine", form: "ash6", q: "Necesito la visa de pareja (Nohal 5.2.0008 / 5.2.0009 Formulario Ash/6 y Ash/3). Abre la página y explícame." },
@@ -808,7 +1032,7 @@
     const fab = document.createElement("button");
     fab.id = "gat-hd-fab";
     fab.type = "button";
-    fab.setAttribute("aria-label", "Tracking Partner");
+    fab.setAttribute("aria-label", "Spok");
     fab.innerHTML = '<span style="pointer-events:none;">✨</span><span id="gat-hd-badge"></span>';
     document.body.appendChild(fab);
 
@@ -1261,7 +1485,7 @@
 
     const loadingBub = document.createElement("div");
     loadingBub.className = "gat-hd-bubble bot";
-    loadingBub.innerHTML = "⏳ <em>...</em>";
+    loadingBub.innerHTML = '<div class="gat-hd-typing-indicator" aria-label="Thinking">' + '<span class="gat-hd-typing-spark">✨</span>' + '<span class="gat-hd-typing-dot"></span>' + '<span class="gat-hd-typing-dot"></span>' + '<span class="gat-hd-typing-dot"></span>' + '</div>';
     msgs.appendChild(loadingBub);
     msgs.scrollTop = msgs.scrollHeight;
 
@@ -3568,6 +3792,7 @@ if (typeof document !== 'undefined') {
       hasSefach: opts.hasSefach !== undefined ? opts.hasSefach : (existing ? existing.hasSefach : false),
       isLongForm: opts.isLongForm !== undefined ? opts.isLongForm : (existing ? existing.isLongForm : true),
       expiryDateIso: opts.expiryDateIso || (existing && existing.expiryDateIso) || "",
+      rawScanResult: opts.rawScanResult || (existing && existing.rawScanResult) || null,
       updatedAt: Date.now(),
       pages: mergedPages
     };
@@ -3824,6 +4049,7 @@ if (typeof document !== 'undefined') {
             hasSefach: Boolean(r.has_full_sefach_visible || r.israeli_address_he),
             isLongForm: r.is_long_form_both_parents !== false,
             expiryDateIso: r.expiry_date_iso || "",
+            rawScanResult: r,
             files: filesArr,
             alreadySavedOnServer: Boolean(data && data.savedDocId)
           });
@@ -5565,7 +5791,7 @@ if (typeof document !== 'undefined') {
 
     const loadingBub = document.createElement("div");
     loadingBub.className = "gat-hd-bubble bot";
-    loadingBub.innerHTML = "⏳ <em>...</em>";
+    loadingBub.innerHTML = '<div class="gat-hd-typing-indicator" aria-label="Thinking">' + '<span class="gat-hd-typing-spark">✨</span>' + '<span class="gat-hd-typing-dot"></span>' + '<span class="gat-hd-typing-dot"></span>' + '<span class="gat-hd-typing-dot"></span>' + '</div>';
     msgs.appendChild(loadingBub);
     msgs.scrollTop = msgs.scrollHeight;
 
@@ -6750,7 +6976,7 @@ if (typeof document !== 'undefined') {
         align-items: center !important;
         justify-content: center !important;
         background: transparent !important;
-        transition: all 0.18s ease !important;
+        transition: none !important;
       }
       nav.bottom-nav .nav-tab.active .nt-pill,
       .bottom-nav .nav-tab.active .nt-pill,
@@ -6905,6 +7131,11 @@ if (typeof document !== 'undefined') {
   };
 
   window.paintBottomNavDeepNavyInline();
+  document.addEventListener("click", function(e) {
+    if (e.target && e.target.closest && e.target.closest(".nav-tab")) {
+      setTimeout(window.paintBottomNavDeepNavyInline, 0);
+    }
+  }, false);
   document.addEventListener("DOMContentLoaded", window.paintBottomNavDeepNavyInline);
   setTimeout(window.paintBottomNavDeepNavyInline, 120);
   setTimeout(window.paintBottomNavDeepNavyInline, 400);
@@ -7952,14 +8183,18 @@ if (typeof document !== 'undefined') {
     await window.reconcileCoupleRolesAcrossForms();
 
     const uid = getActiveUid();
-    if (uid && uid !== "anon" && oldIdbRec && Array.isArray(oldIdbRec.pages) && oldIdbRec.pages.length) {
-      fetch(getApiUrl(), {
+    const preservedScan = targetDoc.rawScanResult || (oldIdbRec && oldIdbRec.rawScanResult) || null;
+    if (uid && uid !== "anon") {
+      await fetch(getApiUrl(), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           mode: "save_uploaded_doc",
           uid: uid,
+          waPhone: localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "",
+          deviceAuthToken: localStorage.getItem("gat_device_auth_tok") || "",
           docId: newDocId,
+          copyFromDocId: oldDocId,
           slotKey: slot,
           ownerParty: newOwner,
           docType: targetDoc.docType || slot,
@@ -7971,14 +8206,21 @@ if (typeof document !== 'undefined') {
           hasSefach: Boolean(targetDoc.hasSefach),
           isLongForm: targetDoc.isLongForm !== false,
           expiryDateIso: targetDoc.expiryDateIso || "",
-          files: oldIdbRec.pages
+          rawScanResult: preservedScan,
+          files: (oldIdbRec && Array.isArray(oldIdbRec.pages)) ? oldIdbRec.pages : []
         })
       }).catch(function() {});
       if (oldDocId !== newDocId) {
-        fetch(getApiUrl(), {
+        await fetch(getApiUrl(), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ mode: "delete_uploaded_doc", uid: uid, docId: oldDocId })
+          body: JSON.stringify({
+            mode: "delete_uploaded_doc",
+            uid: uid,
+            waPhone: localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "",
+            deviceAuthToken: localStorage.getItem("gat_device_auth_tok") || "",
+            docId: oldDocId
+          })
         }).catch(function() {});
       }
     }
@@ -8919,7 +9161,7 @@ if (typeof document !== 'undefined') {
 
   const V6_I18N = {
     en: {
-      s1Hello: "👋 <strong>Shalom{NAME}! I'm your personal Giyur &amp; Aliyah Tracking Partner.</strong>",
+      s1Hello: "👋 <strong>Shalom{NAME}! I'm your personal Giyur &amp; Aliyah Spok.</strong>",
       s1Sub: "Would you like help today with <strong>Giyur (Conversion)</strong>, <strong>Aliyah / Spousal Visa</strong>, or <strong>Both</strong> — or just type any question below?",
       optGiyurLbl: "🕍 Help with Giyur (Shul, Beit Din & Conversion)",
       optGiyurQ: "I'd like help with Giyur (Conversion & Beit Din).",
@@ -9685,6 +9927,7 @@ if (typeof document !== 'undefined') {
   };
 
   window.renderGatSmartWelcomeCard = function(forceSession1) {
+    if (window._gatAiMsgInFlight) return;
     ensureCopyAndDragControls();
     const msgs = document.getElementById("gat-hd-msgs");
     if (!msgs) return;
@@ -9817,7 +10060,16 @@ if (typeof document !== 'undefined') {
     try { sessionStorage.setItem(SENT_THIS_VISIT_KEY, "1"); } catch (e) {}
 
     const curHist = getScreenHistory();
-    if (curHist.length === 0) msgs.innerHTML = "";
+    if (curHist.length === 0) {
+      msgs.innerHTML = "";
+      const ctxTitle = window._gatActiveAiContextBanner || (window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackTitle) || "";
+      if (ctxTitle) {
+        const ctxDiv = document.createElement("div");
+        ctxDiv.style.cssText = "background:#f0f9ff;border:1.5px solid #38bdf8;border-radius:12px;padding:9px 12px;margin-bottom:8px;font-size:0.78rem;font-weight:900;color:#082548;";
+        ctxDiv.textContent = "🎯 " + ctxTitle;
+        msgs.appendChild(ctxDiv);
+      }
+    }
 
     const uBub = document.createElement("div");
     uBub.className = "gat-hd-bubble user";
@@ -9826,7 +10078,7 @@ if (typeof document !== 'undefined') {
 
     const loadingBub = document.createElement("div");
     loadingBub.className = "gat-hd-bubble bot";
-    loadingBub.innerHTML = '<div style="font-size:0.84rem;color:#0369a1;font-weight:800;">✨ ...</div>';
+    loadingBub.innerHTML = '<div class="gat-hd-typing-indicator" aria-label="Thinking">' + '<span class="gat-hd-typing-spark">✨</span>' + '<span class="gat-hd-typing-dot"></span>' + '<span class="gat-hd-typing-dot"></span>' + '<span class="gat-hd-typing-dot"></span>' + '</div>';
     msgs.appendChild(loadingBub);
     msgs.scrollTop = msgs.scrollHeight;
 
@@ -9847,6 +10099,7 @@ if (typeof document !== 'undefined') {
           currentMod: overrideMod || window.currentMod || "",
           currentForm: overrideForm || window.activePibaFormKey || st.activeForm || "",
           startingNewTopic: wasStartingNew,
+          trackBlueprint: window.__gatActiveBlueprint || null,
           formSnapshot: {
             activeForm: overrideForm || window.activePibaFormKey || st.activeForm || "",
             pf_current_visa_type: st.pf_current_visa_type || "",
@@ -10019,11 +10272,26 @@ if (typeof document !== 'undefined') {
     });
   };
 
-  window.forceRefreshLivePibaFormDom = function() {
+  window.forceRefreshLivePibaFormDom = function(allowFullRemount) {
     try {
       const draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}") || {};
       window.gatFormsState = Object.assign({}, draft, window.gatFormsState || {});
       localStorage.setItem("gat_form_draft_v1", JSON.stringify(window.gatFormsState));
+
+      const boundInputs = document.querySelectorAll("#pf-dynamic-body .pf-bound-input");
+      if (!allowFullRemount && boundInputs.length > 0) {
+        boundInputs.forEach(function(el) {
+          if (!el.id || !(el.id in window.gatFormsState)) return;
+          if (document.activeElement === el) return;
+          const v = window.gatFormsState[el.id];
+          if (el.type === "checkbox") {
+            el.checked = Boolean(v);
+          } else if (v !== undefined && v !== null && String(el.value) !== String(v)) {
+            el.value = String(v);
+          }
+        });
+        return;
+      }
 
       const sy = window.scrollY || 0;
       if (typeof window.mountUnifiedPibaFormsEngine === "function") {
@@ -10032,15 +10300,6 @@ if (typeof document !== 'undefined') {
       if (typeof window.restoreSavedFormDraft === "function") {
         window.restoreSavedFormDraft(window.gatFormsState, true);
       }
-      document.querySelectorAll(".pf-bound-input").forEach(function(el) {
-        if (!el.id || !(el.id in window.gatFormsState)) return;
-        const v = window.gatFormsState[el.id];
-        if (el.type === "checkbox") {
-          el.checked = Boolean(v);
-        } else if (v !== undefined && v !== null && String(el.value) !== String(v)) {
-          el.value = String(v);
-        }
-      });
       if (sy > 0) window.scrollTo(0, sy);
     } catch (e) {
       console.warn("forceRefreshLivePibaFormDom warning:", e);
@@ -12318,3 +12577,1605 @@ if (typeof document !== 'undefined') {
   }
 })();
 // === GAT UNIFIED 6-LANG DRAWER & MOBILE WA SYNC FIX V1 END ===
+
+
+// ============================================================================
+// GAT UNIFIED DEEP-STATE BACK BUTTON, HARDCODED-ID ROUTER & EXACT-PAGE SHARER
+// ============================================================================
+(function initGatUnifiedBackAndExactShareEngine() {
+  if (window._gatUnifiedBackAndShareLoaded) return;
+  window._gatUnifiedBackAndShareLoaded = true;
+
+  // 1. Inject 1/3 smaller, 3-pulse-only AI Partner FAB CSS
+  function injectFabGlow3xCss() {
+    if (document.getElementById("gat-fab-glow-3x-style")) return;
+    var st = document.createElement("style");
+    st.id = "gat-fab-glow-3x-style";
+    st.textContent = `@keyframes gatTypingDotBounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  30% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+}
+@keyframes gatSparkleSpin {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+  50% { transform: scale(1.18) rotate(12deg); opacity: 1; }
+}
+.gat-hd-typing-indicator {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 8px !important;
+  min-height: 24px !important;
+}
+.gat-hd-typing-spark {
+  display: inline-block !important;
+  font-size: 0.95rem !important;
+  animation: gatSparkleSpin 1.2s ease-in-out infinite !important;
+}
+.gat-hd-typing-dot {
+  display: inline-block !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #0284c7 !important;
+  animation: gatTypingDotBounce 1.15s ease-in-out infinite !important;
+}
+.gat-hd-typing-dot:nth-child(2) { animation-delay: 0s !important; }
+.gat-hd-typing-dot:nth-child(3) { animation-delay: 0.18s !important; }
+.gat-hd-typing-dot:nth-child(4) { animation-delay: 0.36s !important; }
+/* === GAT AI FAB GLOW: 1/3 SMALLER & 3 PULSES THEN STOP === */
+@keyframes gatFabPulse3x {
+  0% {
+    box-shadow: 0 3px 10px rgba(3, 169, 244, 0.24), 0 0 0 0 rgba(3, 169, 244, 0.38);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 5px 15px rgba(3, 169, 244, 0.34), 0 0 0 7px rgba(3, 169, 244, 0);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 3px 10px rgba(3, 169, 244, 0.24), 0 0 0 0 rgba(3, 169, 244, 0);
+    transform: scale(1);
+  }
+}
+#gat-hd-fab {
+  animation: gatFabPulse3x 1.8s ease-out 3 forwards !important;
+  box-shadow: 0 3px 10px rgba(3, 169, 244, 0.24) !important;
+}
+#gat-hd-fab::before,
+#gat-hd-fab::after {
+  animation-iteration-count: 3 !important;
+  animation-fill-mode: forwards !important;
+  opacity: 0 !important;
+  display: none !important;
+}`;
+    (document.head || document.documentElement).appendChild(st);
+  }
+  injectFabGlow3xCss();
+
+  var LANGS = ["en", "he", "fr", "es", "de", "ru"];
+  var STACK_KEY = "gat_nav_stack_v3";
+  var RESTORE_KEY = "gat_pending_restore_v3";
+
+  function getActiveLang() {
+    if (typeof window.__resolveAuthoritativePageLang === "function") {
+      return window.__resolveAuthoritativePageLang();
+    }
+    var m = (window.location.pathname || "/").match(/^\/(he|fr|es|de|ru)(\/|$)/i);
+    if (m) return m[1].toLowerCase();
+    return "en";
+  }
+
+  // Assign deterministic hardcoded IDs to all obstacle cards if on hub
+  function ensureHardcodedDomIds() {
+    document.querySelectorAll(".enemy-card").forEach(function(card, idx) {
+      if (!card.id) card.id = "gat-obs-card-" + idx;
+    });
+    document.querySelectorAll(".nav-tab").forEach(function(tab, idx) {
+      if (!tab.id) tab.id = "gat-bottom-tab-" + idx;
+    });
+    document.querySelectorAll(".seg-btn").forEach(function(btn, idx) {
+      if (!btn.id) btn.id = "gat-track-seg-" + idx;
+    });
+  }
+
+  // Build the exact, canonical + state-qualified URL for the user's current screen, tab, wizard step, trajectory, or open popup
+  window.buildExactCurrentStateUrl = function(includeOrigin) {
+    var origin = includeOrigin ? "https://giyuraliyahtrack.com" : "";
+    var pathname = window.location.pathname || "/";
+    var lang = getActiveLang();
+
+    // 1. Inside /app/ SPA
+    if (pathname.indexOf("/app") === 0) {
+      var spApp = new URLSearchParams(window.location.search);
+      var mod = window.currentMod || spApp.get("module") || spApp.get("mod") || "hebrew-engine";
+      var selEl = document.getElementById("piba-form-select");
+      var formKey = (selEl && selEl.value) || window.activePibaFormKey || (window.gatFormsState && window.gatFormsState.activeForm) || spApp.get("form") || "";
+      var outApp = new URLSearchParams();
+      if (mod) outApp.set("module", mod);
+      if (formKey && (!mod || mod === "hebrew-engine")) outApp.set("form", formKey);
+      outApp.set("lang", lang);
+      return origin + "/app/?" + outApp.toString();
+    }
+
+    // 2. Inside /pricing/ or /concierge-booking/ or /concierge/
+    if (pathname.indexOf("/pricing") !== -1 || pathname.indexOf("/concierge") !== -1) {
+      var spPr = new URLSearchParams(window.location.search);
+      var outPr = new URLSearchParams();
+      ["sku", "track", "service", "choice"].forEach(function(k) {
+        if (spPr.get(k)) outPr.set(k, spPr.get(k));
+      });
+      var qsPr = outPr.toString();
+      return origin + pathname + (qsPr ? ("?" + qsPr) : "") + (window.location.hash || "");
+    }
+
+    // 3. On a Spoke page, Form page, or Root Hub
+    var isRootHub = (pathname === "/" || pathname === "/index.html" || /^\/(he|fr|es|de|ru)(\/|\/index\.html)?$/i.test(pathname));
+    var basePath = pathname;
+    if (isRootHub) {
+      basePath = (lang === "en") ? "/" : ("/" + lang + "/");
+    }
+
+    var params = new URLSearchParams();
+    var hash = "";
+
+    function appendWizardAnswers(ansObj) {
+      if (!ansObj || typeof ansObj !== "object") return;
+      if (ansObj.q1_goal) params.set("g", ansObj.q1_goal);
+      if (ansObj.q2_household) params.set("h", ansObj.q2_household);
+      if (ansObj.q2b_partner_status) params.set("p", ansObj.q2b_partner_status);
+      if (ansObj.q3_location) params.set("loc", ansObj.q3_location);
+      if (ansObj.q4_detail) params.set("d", ansObj.q4_detail);
+      if (ansObj.em_q1_loc) params.set("em1", ansObj.em_q1_loc);
+      if (ansObj.em_q2_elig) params.set("em2", ansObj.em_q2_elig);
+    }
+
+    // Check open popups first
+    var stepModal = document.getElementById("gat-step-blueprint-modal");
+    var obsSheet = document.getElementById("obstacle-sheet");
+    var isObsSheetOpen = Boolean(obsSheet && obsSheet.classList.contains("open"));
+
+    if (stepModal && window._gatOpenStepModalId) {
+      if (window.__gatActiveBlueprint) {
+        if (window.__gatActiveBlueprint.trackId) params.set("trackId", window.__gatActiveBlueprint.trackId);
+        appendWizardAnswers(window.__gatActiveBlueprint.answers);
+      }
+      params.set("step", window._gatOpenStepModalId);
+      params.set("s", "1");
+      hash = "#gat-step-row-" + window._gatOpenStepModalId;
+    } else if (isObsSheetOpen && window._gatOpenTermKey) {
+      if (isRootHub && typeof window.gatActiveTab === "number" && window.gatActiveTab > 0) {
+        params.set("tab", String(window.gatActiveTab));
+      }
+      params.set("term", window._gatOpenTermKey);
+    } else if (isObsSheetOpen && typeof window._gatOpenObsIdx === "number") {
+      if (isRootHub && typeof window.gatActiveTab === "number" && window.gatActiveTab > 0) {
+        params.set("tab", String(window.gatActiveTab));
+      }
+      params.set("obs", String(window._gatOpenObsIdx));
+      hash = "#gat-obs-card-" + window._gatOpenObsIdx;
+    } else if (isRootHub) {
+      var activeTab = typeof window.gatActiveTab === "number" ? window.gatActiveTab : 0;
+      if (activeTab > 0) {
+        params.set("tab", String(activeTab));
+        if (activeTab === 1 && typeof window.gatActiveTrack === "number") {
+          params.set("track", String(window.gatActiveTrack));
+          hash = "#track-" + window.gatActiveTrack;
+        } else if (activeTab === 3 && typeof window.selectedRabbiOption === "number") {
+          params.set("choice", String(window.selectedRabbiOption));
+          hash = "#view-3";
+        } else {
+          hash = "#view-" + activeTab;
+        }
+      } else if (window.__gatWizardState && !document.getElementById("gat-wiz-step-hero_landing")) {
+        var wm = window.__gatWizardState.mode;
+        if (wm === "timeline" && window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId) {
+          params.set("trackId", window.__gatActiveBlueprint.trackId);
+          appendWizardAnswers(window.__gatActiveBlueprint.answers);
+          params.set("s", "1");
+          hash = "#gat-trajectory-" + window.__gatActiveBlueprint.trackId;
+        } else if (wm && wm !== "hero_landing") {
+          params.set("wiz", wm);
+          appendWizardAnswers(window.__gatWizardState.answers);
+          params.set("s", "1");
+          hash = "#gat-wiz-step-" + wm;
+        }
+      }
+    }
+
+    var qs = params.toString();
+    return origin + basePath + (qs ? ("?" + qs) : "") + hash;
+  };
+
+  // Resolve the human-readable title of the exact current screen/popup/tab/spoke
+  window.resolveExactCurrentStateTitle = function() {
+    var stepModal = document.getElementById("gat-step-blueprint-modal");
+    if (stepModal) {
+      var stH = stepModal.querySelector(".gat-sbm-card div[style*='font-size:1.02rem']");
+      if (stH && stH.textContent.trim()) return stH.textContent.trim();
+    }
+    var obsSheet = document.getElementById("obstacle-sheet");
+    if (obsSheet && obsSheet.classList.contains("open")) {
+      var shT = document.getElementById("sh-title");
+      if (shT && shT.textContent.trim()) return shT.textContent.trim();
+    }
+    var pathname = window.location.pathname || "/";
+    var isRootHub = (pathname === "/" || pathname === "/index.html" || /^\/(he|fr|es|de|ru)(\/|\/index\.html)?$/i.test(pathname));
+    if (!isRootHub) {
+      var artH1 = document.querySelector(".seo-spoke-article h1, main h1, h1");
+      if (artH1 && artH1.textContent.trim()) return artH1.textContent.replace(/\s+/g, " ").trim();
+      return (document.title || "Giyur Aliyah Track").replace(/\s+/g, " ").trim();
+    }
+    var activeTab = typeof window.gatActiveTab === "number" ? window.gatActiveTab : 0;
+    if (activeTab === 1) {
+      var activeTrkCard = document.querySelector(".track-card.active h2");
+      if (activeTrkCard && activeTrkCard.textContent.trim()) return activeTrkCard.textContent.trim();
+    } else if (activeTab > 0) {
+      var viewEl = document.getElementById("view-" + activeTab);
+      var viewH = viewEl ? viewEl.querySelector("h2, h3, h1") : null;
+      if (viewH && viewH.textContent.trim()) return viewH.textContent.trim();
+    }
+    if (window.__gatWizardState && window.__gatWizardState.mode === "timeline" && window.__gatActiveBlueprint) {
+      return window.__gatActiveBlueprint.trackTitle || document.title;
+    }
+    if (window.__gatWizardState && window.__gatWizardState.mode !== "hero_landing") {
+      var qH = document.querySelector("#gat-onboarding-stage .gat-wiz-q-title");
+      if (qH && qH.textContent.trim()) return qH.textContent.trim();
+    }
+    var mainH1 = document.querySelector("#gat-onboarding-stage h1, h1");
+    if (mainH1 && mainH1.textContent.trim()) return mainH1.textContent.replace(/\s+/g, " ").trim();
+    return (document.title || "Giyur Aliyah Track").replace(/\s+/g, " ").trim();
+  };
+
+  // Sync the browser's URL bar non-destructively so copying from the address bar OR tapping Share always has the exact state URL
+  window.syncLiveAddressableUrl = function(forceAllow) {
+    try {
+      if (!forceAllow && window.__GAT_INITIAL_URL_STATE && !window.__GAT_INITIAL_URL_STATE.hydrated) {
+        return;
+      }
+      var pathname = window.location.pathname || "/";
+      var isRootHub = (pathname === "/" || pathname === "/index.html" || /^\/(he|fr|es|de|ru)(\/|\/index\.html)?$/i.test(pathname));
+      var activeTab = typeof window.gatActiveTab === "number" ? window.gatActiveTab : 0;
+
+      // Keep the browser's live URL bar clean on the homepage Start tab ("/" or "/he/", etc.) so refreshing ALWAYS loads the clean Homepage Hero!
+      if (isRootHub && activeTab === 0) {
+        var spNow = new URLSearchParams(window.location.search);
+        if (spNow.get("s") !== "1" && !spNow.has("obs") && !spNow.has("term")) {
+          var lang = getActiveLang();
+          var cleanRoot = (lang === "en") ? "/" : ("/" + lang + "/");
+          var curRel = window.location.pathname + window.location.search + window.location.hash;
+          if (curRel !== cleanRoot) {
+            window.history.replaceState({ gatUrl: cleanRoot }, "", cleanRoot);
+          }
+          return;
+        }
+      }
+
+      var nextRelUrl = window.buildExactCurrentStateUrl(false);
+      var nextFullUrl = window.buildExactCurrentStateUrl(true);
+      var curRelUrl = window.location.pathname + window.location.search + window.location.hash;
+      if (nextRelUrl && nextRelUrl !== curRelUrl) {
+        window.history.replaceState({ gatUrl: nextRelUrl }, "", nextRelUrl);
+      }
+      var canonEl = document.querySelector('link[rel="canonical"]');
+      if (canonEl && nextFullUrl) canonEl.setAttribute("href", nextFullUrl);
+      var ogUrlEl = document.querySelector('meta[property="og:url"]');
+      if (ogUrlEl && nextFullUrl) ogUrlEl.setAttribute("content", nextFullUrl);
+    } catch (e) {}
+  };
+
+  window.getStack = function() {
+    try { return JSON.parse(sessionStorage.getItem(STACK_KEY) || "[]"); } catch (e) { return []; }
+  };
+
+  window.setStack = function(arr) {
+    try {
+      if (arr.length > 35) arr = arr.slice(arr.length - 35);
+      sessionStorage.setItem(STACK_KEY, JSON.stringify(arr));
+    } catch (e) {}
+  };
+
+  window.captureCurrentStateSnapshot = function() {
+    var vp = document.getElementById("viewport");
+    var obsSheet = document.getElementById("obstacle-sheet");
+    var isObsOpen = Boolean(obsSheet && obsSheet.classList.contains("open"));
+    var stepModal = document.getElementById("gat-step-blueprint-modal");
+    return {
+      url: window.buildExactCurrentStateUrl(false),
+      fullUrl: window.buildExactCurrentStateUrl(true),
+      path: (typeof window.normPath === "function") ? window.normPath(window.location.pathname) : window.location.pathname,
+      lang: getActiveLang(),
+      tab: typeof window.gatActiveTab === "number" ? window.gatActiveTab : 0,
+      track: typeof window.gatActiveTrack === "number" ? window.gatActiveTrack : 0,
+      wizMode: (window.__gatWizardState && window.__gatWizardState.mode) ? window.__gatWizardState.mode : "hero_landing",
+      wizAnswers: (window.__gatWizardState && window.__gatWizardState.answers) ? JSON.parse(JSON.stringify(window.__gatWizardState.answers)) : {},
+      hasBlueprint: Boolean(window.__gatActiveBlueprint),
+      blueprint: window.__gatActiveBlueprint ? JSON.parse(JSON.stringify(window.__gatActiveBlueprint)) : null,
+      openStepId: (stepModal && window._gatOpenStepModalId) ? window._gatOpenStepModalId : null,
+      openStepIdx: (stepModal && typeof window._gatOpenStepModalIdx === "number") ? window._gatOpenStepModalIdx : null,
+      openObsIdx: (isObsOpen && typeof window._gatOpenObsIdx === "number") ? window._gatOpenObsIdx : null,
+      openTermKey: (isObsOpen && window._gatOpenTermKey) ? window._gatOpenTermKey : null,
+      scroll: vp ? vp.scrollTop : (window.scrollY || 0),
+      title: window.resolveExactCurrentStateTitle()
+    };
+  };
+
+  window.pushGatStack = function() {
+    if (window._gatRestoringSnapshot) return;
+    var snap = window.captureCurrentStateSnapshot();
+    var st = window.getStack();
+    var last = st.length ? st[st.length - 1] : null;
+    if (!last || last.url !== snap.url || last.wizMode !== snap.wizMode || last.openStepId !== snap.openStepId || last.openObsIdx !== snap.openObsIdx || last.openTermKey !== snap.openTermKey) {
+      st.push(snap);
+      window.setStack(st);
+    }
+    window.updateBackBarUI();
+  };
+
+  // Make #app-nav-back 100% SEO-readable with the exact destination href & aria-label
+  window.updateBackBarUI = function() {
+    var b = document.getElementById("app-nav-back");
+    if (!b) return;
+    var l = getActiveLang();
+    var defaultHubUrl = l === "en" ? "https://giyuraliyahtrack.com/" : ("https://giyuraliyahtrack.com/" + l + "/");
+    var st = window.getStack();
+    var topSnap = st.length ? st[st.length - 1] : null;
+
+    var stepModal = document.getElementById("gat-step-blueprint-modal");
+    var obsSheet = document.getElementById("obstacle-sheet");
+    var isObsOpen = Boolean(obsSheet && obsSheet.classList.contains("open"));
+    var wizPastHero = Boolean(window.__gatWizardState && window.__gatWizardState.mode !== "hero_landing");
+    var isSubPage = (typeof window.isSpokePage === "function" && window.isSpokePage()) || window.location.pathname.indexOf("/app") === 0 || window.location.pathname.indexOf("/pricing") !== -1 || window.location.pathname.indexOf("/concierge") !== -1;
+
+    var show = Boolean(stepModal || isObsOpen || wizPastHero || (window.gatActiveTab > 0) || (st.length > 0) || isSubPage);
+    b.classList.toggle("visible", show);
+
+    if (topSnap && topSnap.fullUrl) {
+      b.setAttribute("href", topSnap.fullUrl);
+      b.setAttribute("aria-label", "Back to " + (topSnap.title || "Previous Step"));
+      b.setAttribute("title", "← " + (topSnap.title || "Back"));
+    } else {
+      b.setAttribute("href", defaultHubUrl);
+      b.setAttribute("aria-label", "Back to Main Diagnostic Hub");
+      b.setAttribute("title", "← Back");
+    }
+  };
+
+  window.applyCapturedStateSnapshot = function(snap) {
+    if (!snap) return false;
+    window._gatRestoringSnapshot = true;
+    try {
+      // 1. Close any currently open modals first
+      var stepModal = document.getElementById("gat-step-blueprint-modal");
+      if (stepModal) stepModal.remove();
+      window._gatOpenStepModalId = null;
+      window._gatOpenStepModalIdx = null;
+
+      var obsSheet = document.getElementById("obstacle-sheet");
+      if (obsSheet) obsSheet.classList.remove("open");
+      window._gatOpenObsIdx = null;
+      window._gatOpenTermKey = null;
+
+      // 2. Restore Tab & Track
+      window.gatActiveTab = typeof snap.tab === "number" ? snap.tab : 0;
+      window.gatActiveTrack = typeof snap.track === "number" ? snap.track : 0;
+      if (typeof window.syncActiveTabAndTrackUI === "function") {
+        window.syncActiveTabAndTrackUI(true);
+      }
+
+      // 3. Restore Onboarding Wizard / Trajectory state
+      if (window.__gatWizardState) {
+        window.__gatWizardState.mode = snap.wizMode || "hero_landing";
+        if (snap.wizAnswers) window.__gatWizardState.answers = snap.wizAnswers;
+        if (snap.hasBlueprint && snap.blueprint) {
+          window.__gatActiveBlueprint = snap.blueprint;
+          window.__gatWizardState.forceRetake = (snap.wizMode !== "timeline");
+        } else {
+          if (snap.wizMode !== "timeline") {
+            window.__gatWizardState.forceRetake = true;
+          }
+        }
+        if (typeof window.renderGatOnboardingStage === "function") window.renderGatOnboardingStage();
+        if (typeof window.renderAdaptiveTrackTracker === "function") window.renderAdaptiveTrackTracker();
+      }
+
+      // 4. Re-open any popup that was open in that state!
+      if (snap.openStepId && typeof window.openGatStepBlueprintModal === "function") {
+        window.openGatStepBlueprintModal(snap.openStepId, snap.openStepIdx || 0, true);
+      } else if (snap.openTermKey && typeof window.openTerm === "function") {
+        window.openTerm(snap.openTermKey, true);
+      } else if (typeof snap.openObsIdx === "number" && typeof window.openObstacle === "function") {
+        window.openObstacle(snap.openObsIdx, true);
+      }
+
+      // 5. Restore exact scroll position & URL bar
+      var vp = document.getElementById("viewport");
+      if (typeof snap.scroll === "number") {
+        setTimeout(function() {
+          if (vp) vp.scrollTop = snap.scroll;
+          else window.scrollTo(0, snap.scroll);
+        }, 25);
+      }
+      if (snap.url) {
+        try { window.history.replaceState({ gatUrl: snap.url }, "", snap.url); } catch (e) {}
+      }
+    } finally {
+      window._gatRestoringSnapshot = false;
+      window.updateBackBarUI();
+    }
+    return true;
+  };
+
+  window.handleSmartBack = function(e) {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    try { sessionStorage.setItem("gat_skip_intro_once", "1"); } catch (err) {}
+
+    // 1. If Spok Drawer or Side Drawers are open, close them first
+    var hdDrw = document.getElementById("gat-hd-drawer");
+    if (hdDrw && hdDrw.classList.contains("open")) {
+      if (typeof window.toggleGatHelpdesk === "function") window.toggleGatHelpdesk(false);
+      else hdDrw.classList.remove("open");
+      return false;
+    }
+    var leftDrw = document.getElementById("left-drawer");
+    if (leftDrw && leftDrw.classList.contains("open")) {
+      if (typeof window.toggleLeftDrawer === "function") window.toggleLeftDrawer(false);
+      else leftDrw.classList.remove("open");
+      return false;
+    }
+    var appDrw = document.getElementById("app-drawer");
+    if (appDrw && appDrw.classList.contains("open")) {
+      if (typeof window.toggleDrawer === "function") window.toggleDrawer(false);
+      else appDrw.classList.remove("open");
+      return false;
+    }
+
+    // 2. Pop from the deep-state navigation stack
+    var st = window.getStack();
+    var curSnap = window.captureCurrentStateSnapshot();
+    while (st.length > 0) {
+      var prev = st.pop();
+      // Skip duplicate snapshot identical to current state
+      if (prev.url === curSnap.url && prev.wizMode === curSnap.wizMode && prev.openStepId === curSnap.openStepId && prev.openObsIdx === curSnap.openObsIdx && prev.openTermKey === curSnap.openTermKey) {
+        continue;
+      }
+      window.setStack(st);
+      var curPath = (typeof window.normPath === "function") ? window.normPath(window.location.pathname) : window.location.pathname;
+      if (prev.path === curPath) {
+        window.applyCapturedStateSnapshot(prev);
+        return false;
+      } else {
+        try { sessionStorage.setItem("gat_back_nav_active", "1"); sessionStorage.setItem(RESTORE_KEY, JSON.stringify(prev)); } catch (err) {}
+        window.location.href = prev.url || (prev.path === "/" ? "/" : (prev.path + "/"));
+        return false;
+      }
+    }
+    window.setStack(st);
+
+    // 3. If stack is empty, close any open modal or step back in wizard/tabs
+    if (document.getElementById("gat-step-blueprint-modal")) {
+      if (typeof window.closeGatStepBlueprintModal === "function") window.closeGatStepBlueprintModal();
+      return false;
+    }
+    var obsSheet = document.getElementById("obstacle-sheet");
+    if (obsSheet && obsSheet.classList.contains("open")) {
+      if (typeof window.closeObstacle === "function") window.closeObstacle();
+      return false;
+    }
+    if (window.__gatWizardState && window.__gatWizardState.mode !== "hero_landing") {
+      if (window.__gatWizardState.mode === "timeline") {
+        window.gatWizRetake();
+      } else if (typeof window.gatWizBack === "function") {
+        window.gatWizBack();
+      }
+      return false;
+    }
+    if (typeof window.gatActiveTab === "number" && window.gatActiveTab > 0) {
+      window.gatActiveTab = 0;
+      window.gatActiveTrack = 0;
+      if (typeof window.syncActiveTabAndTrackUI === "function") window.syncActiveTabAndTrackUI(false);
+      return false;
+    }
+
+    var l = getActiveLang();
+    window.location.href = (l === "en" ? "/" : ("/" + l + "/"));
+    return false;
+  };
+
+  // Wrap openObstacle, openTerm, and closeObstacle so they push state & update the live URL
+  function hookObstacleAndTermModals() {
+    if (typeof window.openObstacle === "function" && !window.openObstacle._gatStateHooked) {
+      var origObs = window.openObstacle;
+      var wrappedObs = function(idx, skipStackPush) {
+        if (!skipStackPush) window.pushGatStack();
+        window._gatOpenObsIdx = Number(idx);
+        window._gatOpenTermKey = null;
+        var r = origObs.apply(this, arguments);
+        window.syncLiveAddressableUrl();
+        window.updateBackBarUI();
+        return r;
+      };
+      wrappedObs._gatStateHooked = true;
+      window.openObstacle = wrappedObs;
+    }
+    if (typeof window.openTerm === "function" && !window.openTerm._gatStateHooked) {
+      var origTerm = window.openTerm;
+      var wrappedTerm = function(key, skipStackPush) {
+        if (!skipStackPush) window.pushGatStack();
+        window._gatOpenTermKey = String(key || "");
+        window._gatOpenObsIdx = null;
+        var r = origTerm.apply(this, arguments);
+        window.syncLiveAddressableUrl();
+        window.updateBackBarUI();
+        return r;
+      };
+      wrappedTerm._gatStateHooked = true;
+      window.openTerm = wrappedTerm;
+    }
+    if (typeof window.closeObstacle === "function" && !window.closeObstacle._gatStateHooked) {
+      var origClose = window.closeObstacle;
+      var wrappedClose = function() {
+        window._gatOpenObsIdx = null;
+        window._gatOpenTermKey = null;
+        var r = origClose.apply(this, arguments);
+        window.syncLiveAddressableUrl();
+        window.updateBackBarUI();
+        return r;
+      };
+      wrappedClose._gatStateHooked = true;
+      window.closeObstacle = wrappedClose;
+    }
+  }
+
+  // Override window.shareExactCurrentPage so it ALWAYS shares the exact page, spoke, form, tab, trajectory, or open popup!
+  var SHARE_UI = {
+    en: { modal: "Share This Exact Page", sub: "Direct link to this exact screen & guide:", wa: "💬 Share via WhatsApp", tg: "✈️ Share via Telegram", cp: "📋 Copy Exact Page Link", ok: "✅ Exact link copied!", cl: "Close", tip: "Share this exact page" },
+    he: { modal: "שיתוף עמוד זה", sub: "קישור ישיר למסך ולמדריך המדויק הזה:", wa: "💬 שלח בוואטסאפ", tg: "✈️ שלח בטלגרם", cp: "📋 העתק קישור מדויק", ok: "✅ הקישור הועתק!", cl: "סגור", tip: "שתף עמוד זה" },
+    fr: { modal: "Partager cette page exacte", sub: "Lien direct vers cet écran ou guide précis :", wa: "💬 Envoyer sur WhatsApp", tg: "✈️ Envoyer sur Telegram", cp: "📋 Copier le lien exact", ok: "✅ Lien copié !", cl: "Fermer", tip: "Partager cette page" },
+    es: { modal: "Compartir esta página exacta", sub: "Enlace directo a esta pantalla o guía exacta:", wa: "💬 Enviar por WhatsApp", tg: "✈️ Enviar por Telegram", cp: "📋 Copiar enlace exacto", ok: "✅ ¡Enlace copiado!", cl: "Cerrar", tip: "Compartir esta página" },
+    de: { modal: "Genau diese Seite teilen", sub: "Direktlink zu genau dieser Ansicht:", wa: "💬 Per WhatsApp senden", tg: "✈️ Per Telegram senden", cp: "📋 Exakten Link kopieren", ok: "✅ Link kopiert!", cl: "Schließen", tip: "Diese Seite teilen" },
+    ru: { modal: "Поделиться этой страницей", sub: "Прямая ссылка именно на этот экран или гид:", wa: "💬 Отправить в WhatsApp", tg: "✈️ Отправить в Telegram", cp: "📋 Скопировать точную ссылку", ok: "✅ Ссылка скопирована!", cl: "Закрыть", tip: "Поделиться страницей" }
+  };
+
+  window.shareExactCurrentPage = function(ev) {
+    if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+    window.syncLiveAddressableUrl();
+    var lang = getActiveLang();
+    var url = window.buildExactCurrentStateUrl(true);
+    var title = window.resolveExactCurrentStateTitle();
+    var u = SHARE_UI[lang] || SHARE_UI.en;
+    var fullText = title + " — " + url;
+
+    var old = document.getElementById("gat-exact-share-modal");
+    if (old) old.remove();
+    var m = document.createElement("div");
+    m.id = "gat-exact-share-modal";
+    m.style.cssText = "position:fixed;inset:0;z-index:2147483646;background:rgba(8,37,72,0.78);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:16px;";
+    var waUrl = "https://wa.me/?text=" + encodeURIComponent(fullText);
+    var tgUrl = "https://t.me/share/url?url=" + encodeURIComponent(url) + "&text=" + encodeURIComponent(title);
+    var dir = lang === "he" ? "rtl" : "ltr";
+    var esc = function(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); };
+    var hasNativeShare = Boolean(navigator.share);
+    var nativeBtnLbl = {
+      en: "📲 More Share Options (iOS / Android)...",
+      he: "📲 אפשרויות שיתוף נוספות בנייד...",
+      fr: "📲 Autres options de partage...",
+      es: "📲 Más opciones para compartir...",
+      de: "📲 Weitere Teilen-Optionen...",
+      ru: "📲 Другие способы поделиться..."
+    }[lang] || "📲 More Share Options...";
+
+    m.innerHTML =
+      '<div dir="' + dir + '" style="background:#0f172a;border:1.5px solid #38bdf8;border-radius:18px;max-width:430px;width:100%;padding:22px;color:#f8fafc;box-shadow:0 20px 50px rgba(0,0,0,0.6);font-family:-apple-system,BlinkMacSystemFont,sans-serif;text-align:center;">' +
+        '<div style="font-size:1.12rem;font-weight:850;margin-bottom:6px;color:#fff;">' + esc(u.modal) + '</div>' +
+        '<div style="font-size:0.84rem;color:#94a3b8;margin-bottom:12px;">' + esc(u.sub) + '</div>' +
+        '<div style="background:#082548;border:1px solid rgba(56,189,248,0.35);border-radius:12px;padding:11px 12px;margin-bottom:16px;text-align:' + (dir==="rtl"?"right":"left") + ';word-break:break-word;">' +
+          '<div style="font-size:0.86rem;font-weight:800;color:#fff;margin-bottom:4px;">' + esc(title) + '</div>' +
+          '<div id="gat-share-exact-url-preview" style="font-size:0.76rem;color:#38bdf8;direction:ltr;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;">' + esc(url) + '</div>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:9px;">' +
+          '<button type="button" id="gat-exact-copy-btn" style="background:linear-gradient(135deg,#0284c7 0%,#03A9F4 100%);color:#fff;border:1.5px solid #7dd3fc;font-weight:900;padding:13px 14px;border-radius:11px;font-size:0.94rem;cursor:pointer;box-shadow:0 6px 16px rgba(3,169,244,0.28);">' + esc(u.cp) + '</button>' +
+          '<a href="' + waUrl + '" target="_blank" rel="noopener" style="display:block;background:#25D366;color:#052e16;font-weight:850;text-decoration:none;padding:12px 14px;border-radius:11px;font-size:0.92rem;">' + esc(u.wa) + '</a>' +
+          '<a href="' + tgUrl + '" target="_blank" rel="noopener" style="display:block;background:#0288E8;color:#fff;font-weight:800;text-decoration:none;padding:12px 14px;border-radius:11px;font-size:0.92rem;">' + esc(u.tg) + '</a>' +
+          (hasNativeShare ? '<button type="button" id="gat-exact-native-btn" style="background:#1e293b;color:#e2e8f0;border:1px solid #475569;font-weight:800;padding:11px 14px;border-radius:11px;font-size:0.86rem;cursor:pointer;">' + esc(nativeBtnLbl) + '</button>' : '') +
+          '<button type="button" id="gat-exact-close-btn" style="background:transparent;color:#94a3b8;border:none;padding:8px;font-size:0.85rem;font-weight:700;cursor:pointer;">' + esc(u.cl) + '</button>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(m);
+    m.addEventListener("click", function(e){ if (e.target === m) m.remove(); });
+    document.getElementById("gat-exact-close-btn").onclick = function(){ m.remove(); };
+    document.getElementById("gat-exact-copy-btn").onclick = function(){
+      var btn = this;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url);
+      }
+      btn.textContent = u.ok;
+      btn.style.background = "#059669";
+      btn.style.borderColor = "#10b981";
+    };
+    var natBtn = document.getElementById("gat-exact-native-btn");
+    if (natBtn) {
+      natBtn.onclick = function() {
+        navigator.share({ title: title, text: fullText, url: url }).catch(function(){});
+      };
+    }
+    return false;
+  };
+
+  // Boot & restore any pending cross-page state or URL deep-link parameters (?obs=..., ?term=..., ?tab=..., ?track=...)
+  function bootDeepStateRestore() {
+    ensureHardcodedDomIds();
+    hookObstacleAndTermModals();
+    try {
+      var rawPending = sessionStorage.getItem(RESTORE_KEY);
+      if (rawPending) {
+        sessionStorage.removeItem(RESTORE_KEY);
+        var snap = JSON.parse(rawPending);
+        var curPath = (typeof window.normPath === "function") ? window.normPath(window.location.pathname) : window.location.pathname;
+        if (snap && snap.path === curPath) {
+          if (window.__GAT_INITIAL_URL_STATE) window.__GAT_INITIAL_URL_STATE.hydrated = true;
+          window.applyCapturedStateSnapshot(snap);
+          return;
+        }
+      }
+
+      var initUrl = window.__GAT_INITIAL_URL_STATE || { search: window.location.search || "", hash: window.location.hash || "" };
+      var rawSearch = initUrl.search || window.location.search || "";
+      var rawHash = initUrl.hash || window.location.hash || "";
+      var sp = new URLSearchParams(rawSearch);
+
+      // 1. Check Tab & Track from query params OR hash (#view-0..4, #track-0..3)
+      var targetTab = null;
+      var targetTrack = null;
+
+      if (sp.has("tab")) {
+        targetTab = parseInt(sp.get("tab"), 10) || 0;
+      } else if (/^#view-([0-4])$/i.test(rawHash)) {
+        targetTab = parseInt(rawHash.match(/^#view-([0-4])$/i)[1], 10);
+      }
+
+      if (sp.has("track")) {
+        targetTrack = parseInt(sp.get("track"), 10) || 0;
+        if (targetTab === null) targetTab = 1;
+      } else if (/^#track-([0-3])$/i.test(rawHash)) {
+        targetTrack = parseInt(rawHash.match(/^#track-([0-3])$/i)[1], 10);
+        targetTab = 1;
+      }
+
+      if (targetTab !== null) {
+        window.gatActiveTab = targetTab;
+        if (targetTrack !== null) window.gatActiveTrack = targetTrack;
+        if (typeof window.syncActiveTabAndTrackUI === "function") {
+          window.syncActiveTabAndTrackUI(false);
+        }
+      }
+      if (targetTrack !== null && typeof window.switchTrack === "function") {
+        window.gatActiveTab = 1;
+        window.gatActiveTrack = targetTrack;
+        if (typeof window.syncActiveTabAndTrackUI === "function") {
+          window.syncActiveTabAndTrackUI(true);
+        }
+      }
+
+      if (sp.has("choice") && typeof window.selectRabbiOption === "function") {
+        var chIdx = parseInt(sp.get("choice"), 10) || 0;
+        var rows = document.querySelectorAll("#rabbi-radios .radio-row");
+        if (rows[chIdx]) window.selectRabbiOption(chIdx, rows[chIdx]);
+      }
+
+      // 2. Check Onboarding Trajectory / Wizard deep links (?trackId=, ?step=, ?wiz=, #gat-trajectory-...)
+      if (typeof window.applyUrlDeepLinkToOnboarding === "function") {
+        window.applyUrlDeepLinkToOnboarding();
+      }
+
+      // 3. Check Obstacle or Term popup deep links (?obs=, ?term=)
+      if (sp.has("obs") && typeof window.openObstacle === "function") {
+        var oIdx = parseInt(sp.get("obs"), 10);
+        if (!isNaN(oIdx)) setTimeout(function() { window.openObstacle(oIdx, true); }, 60);
+      } else if (sp.has("term") && typeof window.openTerm === "function") {
+        var tKey = sp.get("term");
+        if (tKey) setTimeout(function() { window.openTerm(tKey, true); }, 60);
+      }
+
+      // Mark initial hydration complete after 350ms so any async language fetch cannot wipe the URL
+      setTimeout(function() {
+        if (window.__GAT_INITIAL_URL_STATE) {
+          window.__GAT_INITIAL_URL_STATE.hydrated = true;
+        }
+        window.syncLiveAddressableUrl(true);
+        window.updateBackBarUI();
+      }, 350);
+    } catch (e) {
+      if (window.__GAT_INITIAL_URL_STATE) window.__GAT_INITIAL_URL_STATE.hydrated = true;
+    }
+    window.updateBackBarUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function() { setTimeout(bootDeepStateRestore, 30); });
+  } else {
+    setTimeout(bootDeepStateRestore, 30);
+  }
+  window.addEventListener("pageshow", function() { setTimeout(bootDeepStateRestore, 30); });
+  window.addEventListener("popstate", function() { window.handleSmartBack(); });
+})();
+
+
+// ============================================================================
+// GAT 6-LANGUAGE DIRECT PROBLEM & FEEDBACK REPORTER (PRIVATE WHATSAPP PUSH)
+// ============================================================================
+(function initGatDirectProblemReporter() {
+  if (window._gatDirectProblemReporterLoaded) return;
+  window._gatDirectProblemReporterLoaded = true;
+
+  var REPORT_I18N = {
+    en: {
+      title: "🛠️ Report a Problem or Missing Scenario",
+      sub: "Don't get boxed into preset menus. Pick a quick tag (or leave 'Other' selected) and type what went wrong below—it goes straight to our founder's WhatsApp:",
+      cats: [
+        ["other", "✍️ Other / Custom Problem (Write Below)"],
+        ["forms", "📄 Form / Hebrew PDF Stamper Glitch"],
+        ["scanner", "📸 Document Scanner / Upload Error"],
+        ["billing", "💳 Payment / Pass Unlock / Login Issue"],
+        ["study", "🕍 Flashcards / Audio / 2-Phone Sync"],
+        ["legal", "⚖️ Missing Case Scenario / Legal Info"]
+      ],
+      descPh: "Tell us exactly what happened, what page/form you are on, or what scenario is missing...",
+      contactPh: "Your WhatsApp or Email (optional — so we can reply when fixed)",
+      sendBtn: "🚀 Send Report Directly to Founder →",
+      sending: "⏳ Sending directly to founder's desk...",
+      okTitle: "✅ Report Sent Directly to Our Founder's WhatsApp!",
+      okBody: "Thank you! Ticket #{TICKET} has been logged and pinged to our engineering desk. You can keep using the chat below for any Giyur, Aliyah, or visa questions.",
+      errEmpty: "Please write a few words describing the problem first."
+    },
+    he: {
+      title: "🛠️ דיווח ישיר על תקלה או מצב שחסר באתר",
+      sub: "בלי תפריטים מגבילים — בחרו קטגוריה (או השאירו 'אחר') וכתבו בחופשיות מה לא עבד. הדיווח נשלח ישירות לוואטסאפ של מייסד המערכת:",
+      cats: [
+        ["other", "✍️ אחר / פירוט חופשי (כתבו למטה)"],
+        ["forms", "📄 תקלה במילוי או הורדת טופס PDF"],
+        ["scanner", "📸 תקלה בסורק המסמכים או העלאת קובץ"],
+        ["billing", "💳 בעיית תשלום / פתיחת גישה / התחברות"],
+        ["study", "🕍 כרטיסיות בית דין / קריוקי / סינכרון זוגות"],
+        ["legal", "⚖️ מסלול שחסר לי / הערה על מידע משפטי"]
+      ],
+      descPh: "כתבו כאן בדיוק מה קרה, באיזה עמוד או טופס נתקעתם, או איזה מצב חסר לכם...",
+      contactPh: "מספר הוואטסאפ או האימייל שלכם (אופציונלי — כדי שנעדכן אתכם כשיטופל)",
+      sendBtn: "🚀 שלח דיווח ישירות לצוות הפיתוח ←",
+      sending: "⏳ שולח ישירות לוואטסאפ המערכת...",
+      okTitle: "✅ הדיווח נשלח ישירות לוואטסאפ של צוות הפיתוח!",
+      okBody: "תודה רבה! פנייה מס׳ #{TICKET} נקלטה ונשלחה לטיפול מיידי. תוכלו להמשיך לשאול כאן למטה כל שאלה על גיור, עלייה או משרד הפנים.",
+      errEmpty: "אנא כתבו כמה מילים על התקלה לפני השליחה."
+    },
+    fr: {
+      title: "🛠️ Signaler un Problème ou un Cas Manquant",
+      sub: "Choisissez une catégorie (ou laissez « Autre ») et décrivez librement votre problème ci-dessous — votre message est envoyé directement sur le WhatsApp de notre fondateur :",
+      cats: [
+        ["other", "✍️ Autre / Problème personnalisé (écrire ci-dessous)"],
+        ["forms", "📄 Bug Formulaire / Générateur PDF Hébreu"],
+        ["scanner", "📸 Bug Scanner / Téléversement de document"],
+        ["billing", "💳 Paiement / Déblocage du Pass / Connexion"],
+        ["study", "🕍 Cartes Beit Din / Audio / Synchro 2 Téléphones"],
+        ["legal", "⚖️ Cas particulier manquant / Info juridique"]
+      ],
+      descPh: "Décrivez exactement ce qui s'est passé, sur quel formulaire ou quelle page vous êtes bloqué...",
+      contactPh: "Votre WhatsApp ou Email (optionnel — pour vous prévenir dès résolution)",
+      sendBtn: "🚀 Envoyer directement à l'équipe →",
+      sending: "⏳ Envoi direct sur le WhatsApp de l'équipe...",
+      okTitle: "✅ Signalement envoyé directement à notre fondateur !",
+      okBody: "Merci ! Le ticket #{TICKET} a été transmis en direct. Vous pouvez continuer à poser vos questions sur le Giyur, l'Aliyah ou vos visas ci-dessous.",
+      errEmpty: "Veuillez décrire brièvement le problème avant d'envoyer."
+    },
+    es: {
+      title: "🛠️ Reportar un Problema o Caso Faltante",
+      sub: "Sin menús cerrados: elige una etiqueta (o deja «Otro») y escribe libremente qué falló. Tu mensaje llega directo al WhatsApp de nuestro fundador:",
+      cats: [
+        ["other", "✍️ Otro / Problema personalizado (escribir abajo)"],
+        ["forms", "📄 Fallo en Formulario / PDF en Hebreo"],
+        ["scanner", "📸 Error al escanear o subir documento"],
+        ["billing", "💳 Problema de Pago / Acceso al Pase / Login"],
+        ["study", "🕍 Tarjetas Beit Din / Audio / Sync de 2 Móviles"],
+        ["legal", "⚖️ Caso que no aparece / Duda sobre info legal"]
+      ],
+      descPh: "Cuéntanos exactamente qué ocurrió, en qué página o formulario estás o qué situación falta...",
+      contactPh: "Tu WhatsApp o Email (opcional — para avisarte cuando esté resuelto)",
+      sendBtn: "🚀 Enviar reporte directo al fundador →",
+      sending: "⏳ Enviando directo al WhatsApp del equipo...",
+      okTitle: "✅ ¡Reporte enviado directamente al WhatsApp del fundador!",
+      okBody: "¡Gracias! El ticket #{TICKET} fue recibido. Puedes seguir usando el chat abajo para cualquier consulta de Guiur, Aliyá o visas.",
+      errEmpty: "Por favor escribe unas palabras describiendo el problema."
+    },
+    de: {
+      title: "🛠️ Problem oder fehlenden Fall direkt melden",
+      sub: "Keine starren Auswahlmenüs: Wählen Sie eine Kategorie (oder lassen Sie „Sonstiges“) und beschreiben Sie das Problem frei — es geht direkt an das WhatsApp unseres Gründers:",
+      cats: [
+        ["other", "✍️ Sonstiges / Freie Beschreibung (unten eingeben)"],
+        ["forms", "📄 Formular- / Hebräischer PDF-Stamper-Fehler"],
+        ["scanner", "📸 Dokumentenscanner- / Upload-Fehler"],
+        ["billing", "💳 Zahlung / Pass-Freischaltung / Login"],
+        ["study", "🕍 Lernkarten / Audio-Karaoke / 2-Handy-Sync"],
+        ["legal", "⚖️ Fehlende Fallkonstellation / Rechtsinfo"]
+      ],
+      descPh: "Beschreiben Sie kurz, was passiert ist, auf welcher Seite Sie sind oder welcher Fall fehlt...",
+      contactPh: "Ihr WhatsApp oder E-Mail (optional — für unsere Rückmeldung)",
+      sendBtn: "🚀 Direkt an den Gründer senden →",
+      sending: "⏳ Wird direkt an das WhatsApp-Team gesendet...",
+      okTitle: "✅ Meldung direkt an das WhatsApp unseres Gründers gesendet!",
+      okBody: "Vielen Dank! Ticket #{TICKET} wurde übermittelt. Sie können den Chat unten weiter für alle Fragen zu Giur, Alija oder Visum nutzen.",
+      errEmpty: "Bitte beschreiben Sie das Problem kurz vor dem Senden."
+    },
+    ru: {
+      title: "🛠️ Сообщить о проблеме или нестандартной ситуации",
+      sub: "Никаких закрытых меню: выберите категорию (или оставьте «Другое») и опишите проблему своими словами — сообщение мгновенно уйдёт в WhatsApp основателя проекта:",
+      cats: [
+        ["other", "✍️ Другое / Описать своими словами (ниже)"],
+        ["forms", "📄 Ошибка в анкете / генераторе PDF на иврите"],
+        ["scanner", "📸 Проблема со сканером или загрузкой файла"],
+        ["billing", "💳 Оплата / Доступ к пакету / Вход в аккаунт"],
+        ["study", "🕍 Карточки Бейт-Дина / Караоке / Синхронизация"],
+        ["legal", "⚖️ Нет моей ситуации / Вопрос по правилам"]
+      ],
+      descPh: "Напишите подробно, что пошло не так, на какой странице возникла ошибка или какой ситуации не хватает...",
+      contactPh: "Ваш WhatsApp или Email (необязательно — чтобы мы ответили вам)",
+      sendBtn: "🚀 Отправить напрямую основателю →",
+      sending: "⏳ Отправка напрямую в WhatsApp команды...",
+      okTitle: "✅ Сообщение отправлено лично основателю в WhatsApp!",
+      okBody: "Спасибо! Заявка #{TICKET} доставлена. Вы можете продолжать задавать любые вопросы по гиюру, репатриации и МВД в чате ниже.",
+      errEmpty: "Пожалуйста, кратко опишите проблему перед отправкой."
+    }
+  };
+
+  function getActiveLang() {
+    if (typeof window.__resolveAuthoritativePageLang === "function") return window.__resolveAuthoritativePageLang();
+    return "en";
+  }
+
+  window.isProblemReportTrigger = function(txt) {
+    var s = String(txt || "").trim();
+    return /^(i want to report a problem|report a problem|report a bug|something is broken|אשמח לדווח על תקלה|ברצוני לדווח על תקלה|לדווח על תקלה|je veux signaler un problème|signaler un problème|quiero reportar un problema|reportar un problema|ich möchte ein problem melden|problem melden|я хочу сообщить о проблеме|сообщить о проблеме)[.!?]*$/i.test(s);
+  };
+
+  window.openGatDirectProblemReporterCard = function(optionalUserText) {
+    var l = getActiveLang();
+    var u = REPORT_I18N[l] || REPORT_I18N.en;
+    var isRtl = (l === "he");
+    var msgs = document.getElementById("gat-hd-msgs");
+    if (!msgs) return;
+
+    if (optionalUserText) {
+      var uBub = document.createElement("div");
+      uBub.className = "gat-hd-bubble user";
+      uBub.textContent = optionalUserText;
+      msgs.appendChild(uBub);
+    }
+
+    var oldCard = document.getElementById("gat-direct-problem-card");
+    if (oldCard) oldCard.remove();
+
+    var savedContact = "";
+    try {
+      savedContact = localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || localStorage.getItem("gat_user_email") || "";
+    } catch (e) {}
+
+    var card = document.createElement("div");
+    card.id = "gat-direct-problem-card";
+    card.className = "gat-hd-bubble bot";
+    card.dir = isRtl ? "rtl" : "ltr";
+    card.style.cssText = "background:#ffffff;border:2px solid #0284c7;border-radius:16px;padding:14px;box-shadow:0 8px 24px rgba(8,37,72,0.10);max-width:100%;";
+
+    var catsHtml = u.cats.map(function(c, idx) {
+      var isAct = idx === 0;
+      return (
+        '<button type="button" class="gat-pr-cat-btn" data-cat="' + c[0] + '" onclick="window.selectGatProblemCat(this)" style="text-align:start;padding:8px 11px;border-radius:10px;font-size:0.8rem;font-weight:800;cursor:pointer;transition:none;border:' +
+        (isAct ? '2px solid #0284c7;background:#e0f2fe;color:#082548;' : '1.5px solid #cbd5e1;background:#f8fafc;color:#334155;') + '">' +
+        c[1] + '</button>'
+      );
+    }).join("");
+
+    card.innerHTML =
+      '<div style="font-size:0.96rem;font-weight:900;color:#082548;margin-bottom:4px;">' + u.title + '</div>' +
+      '<div style="font-size:0.8rem;color:#475569;line-height:1.45;margin-bottom:10px;font-weight:600;">' + u.sub + '</div>' +
+      '<div id="gat-pr-cats-wrap" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">' + catsHtml + '</div>' +
+      '<textarea id="gat-pr-desc-input" rows="4" placeholder="' + u.descPh.replace(/"/g, "&quot;") + '" style="width:100%;padding:10px 11px;border:1.5px solid #94a3b8;border-radius:11px;font-size:16px;line-height:1.4;color:#0f172a;background:#fff;resize:vertical;margin-bottom:8px;font-family:inherit;"></textarea>' +
+      '<input id="gat-pr-contact-input" type="text" value="' + String(savedContact).replace(/"/g, "&quot;") + '" placeholder="' + u.contactPh.replace(/"/g, "&quot;") + '" style="width:100%;padding:9px 11px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:16px;color:#0f172a;background:#f8fafc;margin-bottom:10px;font-family:inherit;" />' +
+      '<div id="gat-pr-err-msg" style="display:none;color:#dc2626;font-size:0.78rem;font-weight:800;margin-bottom:8px;"></div>' +
+      '<button type="button" id="gat-pr-submit-btn" onclick="window.submitGatDirectProblemReport()" style="width:100%;background:linear-gradient(135deg,#082548 0%,#0284c7 100%);color:#ffffff;border:1.5px solid #38bdf8;border-radius:12px;padding:12px 14px;font-size:0.88rem;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(2,132,199,0.25);">' + u.sendBtn + '</button>';
+
+    msgs.appendChild(card);
+    setTimeout(function() {
+      msgs.scrollTop = Math.max(0, card.offsetTop - 10);
+      var ta = document.getElementById("gat-pr-desc-input");
+      if (ta) ta.focus();
+    }, 50);
+  };
+
+  window.selectGatProblemCat = function(btn) {
+    if (!btn) return;
+    document.querySelectorAll("#gat-pr-cats-wrap .gat-pr-cat-btn").forEach(function(b) {
+      var act = (b === btn);
+      b.setAttribute("data-active", act ? "1" : "0");
+      b.style.border = act ? "2px solid #0284c7" : "1.5px solid #cbd5e1";
+      b.style.background = act ? "#e0f2fe" : "#f8fafc";
+      b.style.color = act ? "#082548" : "#334155";
+    });
+    var ta = document.getElementById("gat-pr-desc-input");
+    if (ta) ta.focus();
+  };
+
+  window.submitGatDirectProblemReport = async function() {
+    var l = getActiveLang();
+    var u = REPORT_I18N[l] || REPORT_I18N.en;
+    var ta = document.getElementById("gat-pr-desc-input");
+    var ci = document.getElementById("gat-pr-contact-input");
+    var errEl = document.getElementById("gat-pr-err-msg");
+    var btn = document.getElementById("gat-pr-submit-btn");
+    var card = document.getElementById("gat-direct-problem-card");
+
+    var desc = ta ? ta.value.trim() : "";
+    if (!desc || desc.length < 3) {
+      if (errEl) {
+        errEl.textContent = u.errEmpty;
+        errEl.style.display = "block";
+      }
+      if (ta) ta.focus();
+      return;
+    }
+    if (errEl) errEl.style.display = "none";
+
+    var activeCatBtn = document.querySelector('#gat-pr-cats-wrap .gat-pr-cat-btn[data-active="1"]') || document.querySelector("#gat-pr-cats-wrap .gat-pr-cat-btn");
+    var catLabel = activeCatBtn ? activeCatBtn.textContent.trim() : "other";
+
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = u.sending;
+      btn.style.opacity = "0.75";
+    }
+
+    var activeTrackTitle = (window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackTitle) || window.currentMod || "";
+    var uidVal = window.gatUid || localStorage.getItem("gat_uid") || localStorage.getItem("gat_anon_partner_id_v6") || "anon";
+    var apiUrl = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+      ? "https://giyuraliyahtrack.com/api/auditDoc"
+      : "/api/auditDoc";
+
+    try {
+      var res = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "submit_problem_report",
+          category: catLabel,
+          description: desc,
+          userContact: ci ? ci.value.trim() : "",
+          lang: l,
+          uid: uidVal,
+          pageUrl: window.location.href,
+          activeTrack: activeTrackTitle,
+          userAgent: navigator.userAgent || ""
+        })
+      });
+      var data = await res.json();
+      var ticketId = (data && data.ticketId) || ("PR-" + Date.now().toString(36).toUpperCase().slice(-5));
+      if (card) {
+        card.style.borderColor = "#10b981";
+        card.style.background = "#f0fdf4";
+        card.innerHTML =
+          '<div style="font-size:0.95rem;font-weight:900;color:#065f46;margin-bottom:6px;">' + u.okTitle + '</div>' +
+          '<div style="font-size:0.83rem;color:#047857;line-height:1.5;font-weight:600;">' + u.okBody.replace("{TICKET}", ticketId) + '</div>';
+      }
+    } catch (e) {
+      if (errEl) {
+        errEl.textContent = "Network error — please try again.";
+        errEl.style.display = "block";
+      }
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = u.sendBtn;
+        btn.style.opacity = "1";
+      }
+    }
+  };
+
+  // Intercept sendGatHelpdeskMsg when the user clicks "Report a problem" chip or types "I want to report a problem"
+  if (typeof window.sendGatHelpdeskMsg === "function" && !window.sendGatHelpdeskMsg._gatProblemHooked) {
+    var origSend = window.sendGatHelpdeskMsg;
+    var wrappedSend = function(optionalText, overrideMod, overrideForm) {
+      var inp = document.getElementById("gat-hd-input");
+      var text = String(optionalText || (inp ? inp.value : "") || "").trim();
+      if (window.isProblemReportTrigger(text)) {
+        if (!optionalText && inp) inp.value = "";
+        window.openGatDirectProblemReporterCard(text);
+        return Promise.resolve();
+      }
+      return origSend.apply(this, arguments);
+    };
+    wrappedSend._gatProblemHooked = true;
+    window.sendGatHelpdeskMsg = wrappedSend;
+  }
+})();
+
+
+  (function initGatLiveSalesLadderObserver() {
+    function getCurLang() {
+      const seg = (window.location.pathname.split("/")[1] || "").toLowerCase();
+      if (["en", "he", "fr", "es", "de", "ru"].indexOf(seg) !== -1) return seg;
+      return String(window.gatLang || window.appLang || document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+    }
+
+    window.upgradeGatRenderedSalesPills = function() {
+      const lg = getCurLang();
+      const L = (typeof GAT_LADDER_I18N_6L !== "undefined" && GAT_LADDER_I18N_6L[lg]) ? GAT_LADDER_I18N_6L[lg] : (typeof GAT_LADDER_I18N_6L !== "undefined" ? GAT_LADDER_I18N_6L.en : null);
+      if (!L) return;
+
+      const skuLabelMap = {
+        "forms_90d_89": L.forms90,
+        "forms_life_149": L.formsLife,
+        "couples_sync_75": L.couples75,
+        "couples_90d_129": L.couples90,
+        "couples_life_229": L.couplesLife,
+        "bd_suite_90d_149": L.bd90,
+        "bd_suite_life_249": L.bdLife,
+        "suite_solo_90d_249": L.solo90,
+        "suite_solo_life_399": L.soloLife,
+        "vip_couple_649": L.vip649Btn
+      };
+
+      const lifetimePairMap = {
+        "forms_90d_89": ["forms_life_149", L.formsLife],
+        "couples_90d_129": ["couples_life_229", L.couplesLife],
+        "bd_suite_90d_149": ["bd_suite_life_249", L.bdLife],
+        "suite_solo_90d_249": ["suite_solo_life_399", L.soloLife]
+      };
+
+      // Find all SKU buttons/links inside #gat-hd-drawer or chat messages
+      const els = document.querySelectorAll('[href*="sku="], [onclick*="openLocCheckoutModal"], [onclick*="sku="], .gat-hd-sku-pill, .gat-sku-pill');
+      els.forEach(function(el) {
+        const attrStr = (el.getAttribute("href") || "") + " " + (el.getAttribute("onclick") || "") + " " + (el.getAttribute("data-sku") || "");
+        let matchedSku = "";
+        Object.keys(skuLabelMap).forEach(function(k) {
+          if (attrStr.indexOf(k) !== -1) matchedSku = k;
+        });
+        if (!matchedSku) {
+          const t = (el.textContent || "").trim();
+          if (t.indexOf("($129)") !== -1 && t.indexOf("300-Q") !== -1) matchedSku = "couples_90d_129";
+          else if (t.indexOf("($649)") !== -1 && t.indexOf("VIP") !== -1) matchedSku = "vip_couple_649";
+          else if (t.indexOf("($89)") !== -1) matchedSku = "forms_90d_89";
+          else if (t.indexOf("($229)") !== -1) matchedSku = "couples_life_229";
+        }
+        if (!matchedSku) return;
+
+        // 1. Update button label so it is 100% accurate (e.g. 2-Phone / Both Partners on $129, never "+ Forms")
+        if (skuLabelMap[matchedSku] && el.textContent !== skuLabelMap[matchedSku]) {
+          el.textContent = skuLabelMap[matchedSku];
+        }
+
+        const parentMsg = el.closest(".gat-hd-msg, .gat-hd-bubble, .gat-welcome-card") || el.parentElement;
+        if (!parentMsg) return;
+
+        // 2. If this message has a 90-Day SKU (`couples_90d_129`, `forms_90d_89`, `bd_suite_90d_149`, `suite_solo_90d_249`)
+        //    and does NOT yet have its matching Lifetime button in the same message, inject the Lifetime button right after it!
+        if (lifetimePairMap[matchedSku]) {
+          const lifeSku = lifetimePairMap[matchedSku][0];
+          const lifeLabel = lifetimePairMap[matchedSku][1];
+          if (parentMsg.innerHTML.indexOf(lifeSku) === -1 && parentMsg.innerHTML.indexOf(lifeLabel) === -1) {
+            const clone = el.cloneNode(true);
+            clone.textContent = lifeLabel;
+            if (clone.hasAttribute("href")) {
+              clone.setAttribute("href", clone.getAttribute("href").replace(matchedSku, lifeSku));
+            }
+            if (clone.hasAttribute("onclick")) {
+              clone.setAttribute("onclick", clone.getAttribute("onclick").replace(matchedSku, lifeSku));
+            }
+            clone.setAttribute("data-sku", lifeSku);
+            clone.style.marginTop = "6px";
+            el.insertAdjacentElement("afterend", clone);
+          }
+        }
+
+        // 3. If this button is `vip_couple_649` ($649 Complete VIP Couple Full Package), ensure the Full Package Breakdown Box is shown right below it!
+        if (matchedSku === "vip_couple_649" && !parentMsg.querySelector(".gat-vip649-breakdown-box")) {
+          const boxWrap = document.createElement("div");
+          boxWrap.innerHTML = window.buildGatVip649FullPackageBreakdownHtml(lg);
+          if (boxWrap.firstChild) {
+            el.insertAdjacentElement("afterend", boxWrap.firstChild);
+          }
+        }
+      });
+    };
+
+    if (typeof MutationObserver !== "undefined" && document.body) {
+      const obs = new MutationObserver(function() {
+        window.upgradeGatRenderedSalesPills();
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+    }
+    if (typeof setInterval === "function") {
+      setInterval(window.upgradeGatRenderedSalesPills, 900);
+    }
+  })();
+
+// === GAT VAULT AUTO-POPULATE & MISSING-OCR SELF-HEAL V1 START ===
+(function initGatVaultAutoPopulateAndSelfHealV1() {
+  if (window._gatVaultAutoPopSelfHealV1) return;
+  window._gatVaultAutoPopSelfHealV1 = true;
+
+  const BTN_AUTOFILL_I18N = {
+    en: {
+      applyBtn: "✅ Auto-Fill Form From My {n} Uploaded Document(s) →",
+      healingMsg: "⚡ Extracting & auto-filling form fields from your Cloud Vault documents..."
+    },
+    he: {
+      applyBtn: "✅ מלאו את הטופס אוטומטית מ-{n} המסמכים שלי ←",
+      healingMsg: "⚡ מחלץ נתונים וממלא את שדות הטופס אוטומטית מהמסמכים השמורים שלכם..."
+    },
+    fr: {
+      applyBtn: "✅ Pré-remplir le formulaire depuis mes {n} document(s) →",
+      healingMsg: "⚡ Extraction automatique des champs depuis votre coffre cloud..."
+    },
+    es: {
+      applyBtn: "✅ Autocompletar formulario con mis {n} documento(s) →",
+      healingMsg: "⚡ Extrayendo y autocompletando campos desde tus documentos en la nube..."
+    },
+    de: {
+      applyBtn: "✅ Formular aus meinen {n} Dokument(en) automatisch ausfüllen →",
+      healingMsg: "⚡ Formularfelder werden automatisch aus Ihrem Cloud-Tresor ausgefüllt..."
+    },
+    ru: {
+      applyBtn: "✅ Автозаполнить анкету из моих документов ({n}) →",
+      healingMsg: "⚡ Автоматическое извлечение данных и заполнение анкеты из вашего облака..."
+    }
+  };
+
+  function getCurLang() {
+    const seg = (window.location.pathname.split("/")[1] || "").toLowerCase();
+    if (["en", "he", "fr", "es", "de", "ru"].indexOf(seg) !== -1) return seg;
+    try {
+      const q = (new URLSearchParams(window.location.search).get("lang") || "").slice(0, 2).toLowerCase();
+      if (["en", "he", "fr", "es", "de", "ru"].indexOf(q) !== -1) return q;
+    } catch (e) {}
+    const st = String(window.appLang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+    return ["en", "he", "fr", "es", "de", "ru"].indexOf(st) !== -1 ? st : "en";
+  }
+
+  function getApiUrl() {
+    return (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+      ? "https://giyuraliyahtrack.com/api/auditDoc"
+      : "/api/auditDoc";
+  }
+
+  // Always prefer authoritative `wa_<digits>` UID over temporary 4G anonymous Firebase UIDs!
+  function getBestAuthObj() {
+    let wa = (localStorage.getItem("gat_verified_wa_phone") || localStorage.getItem("gat_wa_phone") || "").replace(/\D/g, "");
+    if (wa.indexOf("00") === 0) wa = wa.slice(2);
+    if (wa.indexOf("05") === 0 && wa.length === 10) wa = "972" + wa.slice(1);
+    else if (wa.indexOf("5") === 0 && wa.length === 9) wa = "972" + wa;
+
+    let uid = String(window.gatUid || localStorage.getItem("gat_uid") || "").trim();
+    if (wa.length >= 8 && uid.indexOf("wa_") !== 0) {
+      uid = "wa_" + wa;
+    }
+    return {
+      uid: uid,
+      waPhone: wa,
+      deviceAuthToken: localStorage.getItem("gat_device_auth_tok") || ""
+    };
+  }
+
+  const origFetchMerged = window.fetchMergedVaultDocsList;
+  window.fetchMergedVaultDocsList = async function() {
+    const baseList = (typeof origFetchMerged === "function") ? (await origFetchMerged()) : [];
+    const byId = {};
+    (baseList || []).forEach(function(item) {
+      if (item && item.docId && !item.metadataOnly) byId[item.docId] = item;
+    });
+
+    const auth = getBestAuthObj();
+    if ((auth.uid && auth.uid !== "anon" && auth.uid !== "guest") || auth.waPhone || auth.deviceAuthToken) {
+      try {
+        const res = await fetch(getApiUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mode: "list_uploaded_docs",
+            uid: auth.uid,
+            waPhone: auth.waPhone,
+            deviceAuthToken: auth.deviceAuthToken
+          })
+        });
+        const data = await res.json();
+        if (data && data.ok && Array.isArray(data.items)) {
+          data.items.forEach(function(srv) {
+            if (!srv || !srv.docId) return;
+            const prev = byId[srv.docId] || {};
+            const merged = ((srv.updatedAt || 0) >= (prev.updatedAt || 0))
+              ? Object.assign({}, prev, srv)
+              : Object.assign({}, srv, prev);
+            merged.rawScanResult = srv.rawScanResult || prev.rawScanResult || null;
+            byId[srv.docId] = merged;
+          });
+        }
+      } catch (e) {}
+    }
+
+    const finalDocs = Object.values(byId).sort(function(a, b) {
+      return (b.updatedAt || 0) - (a.updatedAt || 0);
+    });
+    updateSmartModalContinueButton(finalDocs.length);
+    return finalDocs;
+  };
+
+  function updateSmartModalContinueButton(docCount) {
+    const btn = document.getElementById("gat-nu-skip-btn");
+    if (!btn) return;
+    if (docCount > 0) {
+      const l = getCurLang();
+      const t = BTN_AUTOFILL_I18N[l] || BTN_AUTOFILL_I18N.en;
+      btn.style.background = "linear-gradient(135deg, #059669 0%, #047857 100%)";
+      btn.style.color = "#ffffff";
+      btn.style.borderColor = "#10b981";
+      btn.style.boxShadow = "0 6px 16px rgba(5, 150, 105, 0.28)";
+      btn.textContent = t.applyBtn.replace("{n}", String(docCount));
+    }
+  }
+
+  function hasExtractedIdentityFields(r) {
+    if (!r || typeof r !== "object") return false;
+    return Boolean(
+      r.surname_en || r.given_en || r.surname_he || r.given_he ||
+      r.passport_number || r.israeli_id_number || r.teudat_zehut ||
+      r.marriage_date_iso || (r.marriage_party1 && (r.marriage_party1.surname_en || r.marriage_party1.surname_he)) ||
+      r.father_full_name || r.israeli_address_he
+    );
+  }
+
+  const healedDocIdsInSession = {};
+  let autofillInFlight = null;
+
+  window.ensureVaultAutofillAppliedNow = async function(forceDomRefresh) {
+    if (autofillInFlight) return autofillInFlight;
+    autofillInFlight = (async function() {
+      try {
+        const docs = await window.fetchMergedVaultDocsList();
+        if (!Array.isArray(docs) || docs.length === 0) return false;
+
+        updateSmartModalContinueButton(docs.length);
+
+        const docsNeedingOcr = docs.filter(function(d) {
+          return d && d.docId && !d.metadataOnly && !hasExtractedIdentityFields(d.rawScanResult) && !healedDocIdsInSession[d.docId];
+        });
+
+        if (docsNeedingOcr.length > 0) {
+          const auth = getBestAuthObj();
+          const l = getCurLang();
+          const t = BTN_AUTOFILL_I18N[l] || BTN_AUTOFILL_I18N.en;
+          const banner = document.getElementById("gat-nu-already-banner");
+          if (banner) {
+            banner.style.display = "block";
+            banner.innerHTML = '<div style="color:#0369a1;font-weight:900;">' + t.healingMsg + '</div>';
+          }
+
+          for (let i = 0; i < docsNeedingOcr.length; i++) {
+            const doc = docsNeedingOcr[i];
+            healedDocIdsInSession[doc.docId] = true;
+            try {
+              let pages = Array.isArray(doc.pages) ? doc.pages : [];
+              if (!pages.length && (auth.uid || auth.waPhone || auth.deviceAuthToken)) {
+                const gRes = await fetch(getApiUrl(), {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    mode: "get_uploaded_doc",
+                    uid: auth.uid,
+                    waPhone: auth.waPhone,
+                    deviceAuthToken: auth.deviceAuthToken,
+                    docId: doc.docId
+                  })
+                });
+                const gData = await gRes.json();
+                if (gData && gData.ok && Array.isArray(gData.pages)) {
+                  pages = gData.pages;
+                }
+              }
+              if (pages.length > 0) {
+                const cleanPages = pages.map(function(p) {
+                  return {
+                    mimeType: p.mimeType || "image/jpeg",
+                    base64Data: String(p.base64Data || "").replace(/^data:[^;]+;base64,/, "")
+                  };
+                }).filter(function(p) { return p.base64Data.length > 50; });
+
+                if (cleanPages.length > 0) {
+                  const aRes = await fetch(getApiUrl(), {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      mode: "audit_and_autofill",
+                      mimeType: cleanPages[0].mimeType,
+                      base64Data: cleanPages[0].base64Data,
+                      files: cleanPages,
+                      slotKey: doc.slotKey || doc.docType || "doc",
+                      ownerParty: doc.ownerParty || "me",
+                      uid: auth.uid,
+                      waPhone: auth.waPhone,
+                      deviceAuthToken: auth.deviceAuthToken,
+                      lang: l
+                    })
+                  });
+                  const aData = await aRes.json();
+                  if (aData && aData.ok && aData.result) {
+                    doc.rawScanResult = aData.result;
+                    if (typeof window.saveScannedDocToVault === "function") {
+                      await window.saveScannedDocToVault(Object.assign({}, doc, { rawScanResult: aData.result }), cleanPages, false);
+                    }
+                  }
+                }
+              }
+            } catch (healErr) {
+              console.warn("Vault OCR self-heal warning for", doc.docId, healErr);
+            }
+          }
+        }
+
+        if (typeof window.reconcileCoupleRolesAcrossForms === "function") {
+          await window.reconcileCoupleRolesAcrossForms();
+        }
+        if (forceDomRefresh && typeof window.forceRefreshLivePibaFormDom === "function") {
+          window.forceRefreshLivePibaFormDom();
+        }
+        if (typeof window.syncFormDraftIfChanged === "function") {
+          window.syncFormDraftIfChanged("vault_autofill_reconciled");
+        }
+        return true;
+      } catch (err) {
+        console.warn("ensureVaultAutofillAppliedNow error:", err);
+        return false;
+      } finally {
+        autofillInFlight = null;
+      }
+    })();
+    return autofillInFlight;
+  };
+
+  // Auto-run when modal opens, when form selector changes, and after 4G auth restore!
+  const mo = new MutationObserver(function(muts) {
+    for (let i = 0; i < muts.length; i++) {
+      const added = muts[i].addedNodes;
+      for (let j = 0; j < added.length; j++) {
+        const n = added[j];
+        if (n && n.id === "gat-new-user-doc-modal") {
+          setTimeout(function() { window.ensureVaultAutofillAppliedNow(false); }, 60);
+        }
+      }
+    }
+  });
+  if (document.body) {
+    mo.observe(document.body, { childList: true, subtree: false });
+  } else {
+    document.addEventListener("DOMContentLoaded", function() {
+      mo.observe(document.body, { childList: true, subtree: false });
+    });
+  }
+
+  const prevFetch = window.fetch;
+  if (typeof prevFetch === "function") {
+    window.fetch = async function(input, init) {
+      const r = await prevFetch.apply(this, arguments);
+      try {
+        if (window.location.pathname.indexOf("/app") === 0 && init && typeof init.body === "string" && /"mode"\s*:\s*"(?:restore_wa_session|wa_verify_login|claim_pass)"/.test(init.body)) {
+          setTimeout(function() { window.ensureVaultAutofillAppliedNow(true); }, 180);
+        }
+      } catch (e) {}
+      return r;
+    };
+  }
+
+  document.addEventListener("change", function(e) {
+    const t = e.target;
+    if (t && (t.id === "pf_active_form" || t.id === "piba-form-select")) {
+      setTimeout(function() { window.ensureVaultAutofillAppliedNow(true); }, 50);
+    }
+  });
+
+  if (window.location.pathname.indexOf("/app") === 0) {
+    setTimeout(function() { window.ensureVaultAutofillAppliedNow(true); }, 450);
+  }
+})();
+// === GAT VAULT AUTO-POPULATE & MISSING-OCR SELF-HEAL V1 END ===
+
+// === GAT SPOK IDENTITY, FIRST-CHAT INTRO & ZERO-FLASH VAULT BAR V1 START ===
+(function initGatSpokIdentityAndSmoothVaultBarV1() {
+  if (window._gatSpokIdentityV1) return;
+  window._gatSpokIdentityV1 = true;
+
+  const SPOK_I18N = {
+    en: {
+      hdrTitle: "✨ Spok • Your Case & Track Guide",
+      fabLabel: "✨ Ask Spok",
+      inpPh: "Ask Spok anything about your track, forms, or Beit Din...",
+      helloIntro: "👋 Hi{name}! I'm <strong>Spok</strong>—your personal Aliyah, Conversion &amp; Misrad HaPanim guide.",
+      vaultLoading: "⚡ Spok is loading your saved Cloud Vault fields...",
+      vaultReady: "✅ Spok auto-filled your saved Cloud Vault fields"
+    },
+    he: {
+      hdrTitle: "✨ Spok (ספוק) • המלווה האישי שלכם",
+      fabLabel: "✨ שאלו את Spok",
+      inpPh: "שאלו את Spok כל שאלה על המסלול, הטפסים או בית הדין...",
+      helloIntro: "👋 שלום{name}! אני <strong>Spok (ספוק)</strong> — המלווה האישי שלכם לעלייה, גיור ומשרד הפנים.",
+      vaultLoading: "⚡ Spok טוען את הנתונים השמורים שלכם מהענן...",
+      vaultReady: "✅ Spok מילא אוטומטית את השדות מהמסמכים השמורים שלכם"
+    },
+    fr: {
+      hdrTitle: "✨ Spok • Votre Guide Personnel",
+      fabLabel: "✨ Demander à Spok",
+      inpPh: "Posez votre question à Spok (parcours, formulaires, Beit Din)...",
+      helloIntro: "👋 Bonjour{name} ! Je suis <strong>Spok</strong>, votre guide personnel pour l'Aliyah, la Conversion et le Misrad HaPanim.",
+      vaultLoading: "⚡ Spok charge vos champs sauvegardés depuis le Cloud...",
+      vaultReady: "✅ Spok a pré-rempli vos champs depuis votre coffre Cloud"
+    },
+    es: {
+      hdrTitle: "✨ Spok • Tu Guía Personal",
+      fabLabel: "✨ Preguntar a Spok",
+      inpPh: "Pregúntale a Spok sobre tu ruta, formularios o Beit Din...",
+      helloIntro: "👋 ¡Hola{name}! Soy <strong>Spok</strong>, tu guía personal de Aliyá, Conversión y Misrad HaPanim.",
+      vaultLoading: "⚡ Spok está cargando tus datos guardados de la nube...",
+      vaultReady: "✅ Spok autocompletó tus campos desde tu bóveda en la nube"
+    },
+    de: {
+      hdrTitle: "✨ Spok • Ihr Persönlicher Lotse",
+      fabLabel: "✨ Spok fragen",
+      inpPh: "Fragen Sie Spok zu Ihrem Plan, Formularen oder Beit Din...",
+      helloIntro: "👋 Hallo{name}! Ich bin <strong>Spok</strong>, Ihr persönlicher Begleiter für Alija, Giur und Misrad HaPanim.",
+      vaultLoading: "⚡ Spok lädt Ihre gespeicherten Felder aus dem Cloud-Tresor...",
+      vaultReady: "✅ Spok hat Ihre gespeicherten Cloud-Felder eingetragen"
+    },
+    ru: {
+      hdrTitle: "✨ Spok (Спок) • Ваш личный гид",
+      fabLabel: "✨ Спросить Spok",
+      inpPh: "Спросите Spok о вашем маршруте, анкетах или Бейт-Дине...",
+      helloIntro: "👋 Привет{name}! Я <strong>Spok (Спок)</strong> — ваш персональный гид по репатриации, гиюру и МВД Израиля.",
+      vaultLoading: "⚡ Spok загружает сохранённые данные из вашего облака...",
+      vaultReady: "✅ Spok автоматически заполнил поля из ваших документов"
+    }
+  };
+
+  function getLang() {
+    const seg = (window.location.pathname.split("/")[1] || "").toLowerCase();
+    if (SPOK_I18N[seg]) return seg;
+    try {
+      const q = (new URLSearchParams(window.location.search).get("lang") || "").slice(0, 2).toLowerCase();
+      if (SPOK_I18N[q]) return q;
+    } catch (e) {}
+    const st = String(window.appLang || window.gatLang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+    return SPOK_I18N[st] ? st : "en";
+  }
+
+  function getKnownFirstName() {
+    try {
+      const st = window.gatFormsState || JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}") || {};
+      const cand = String(st.pf_given_en || st.pf_given_he || "").trim().split(/\s+/)[0] || "";
+      if (cand && cand.length >= 2 && cand.length <= 24) return " " + cand;
+    } catch (e) {}
+    return "";
+  }
+
+  window.syncSpokBrandingAndGreeting = function() {
+    const l = getLang();
+    const s = SPOK_I18N[l] || SPOK_I18N.en;
+
+    const drw = document.getElementById("gat-hd-drawer");
+    if (drw) {
+      const titleEl = drw.querySelector("#gat-hd-title, .gat-hd-title, header strong, .hd-header-title");
+      if (titleEl && titleEl.textContent.indexOf("Spok") === -1) {
+        titleEl.textContent = s.hdrTitle;
+      }
+      const inp = drw.querySelector("#gat-hd-input, #gat-hd-inp, textarea, input[type='text']");
+      if (inp && inp.id !== "gat-pr-contact-input") {
+        inp.placeholder = s.inpPh;
+      }
+    }
+
+    document.querySelectorAll("#gat-hd-fab, #gat-tp-fab, .gat-hd-fab, [onclick*='toggleGatHelpdesk']").forEach(function(btn) {
+      if (btn.title && btn.title.indexOf("Spok") === -1) btn.title = s.fabLabel;
+      if (btn.getAttribute("aria-label") && btn.getAttribute("aria-label").indexOf("Spok") === -1) {
+        btn.setAttribute("aria-label", s.fabLabel);
+      }
+      const lblSpan = btn.querySelector(".fab-lbl, .tp-lbl, span:not(.dot)");
+      if (lblSpan && lblSpan.children.length === 0 && /partner|helpdesk|assistant|ai|ספוק|מעקב|עוזר/i.test(lblSpan.textContent || "")) {
+        lblSpan.textContent = s.fabLabel;
+      }
+    });
+
+    const msgs = document.getElementById("gat-hd-msgs");
+    if (msgs && msgs.firstElementChild && !msgs.firstElementChild.dataset.spokGreeted) {
+      const firstBub = msgs.firstElementChild;
+      firstBub.dataset.spokGreeted = "1";
+      const htmlNow = firstBub.innerHTML || "";
+      if (htmlNow.indexOf("Spok") === -1) {
+        firstBub.innerHTML =
+          '<div style="font-size:0.9rem;font-weight:800;color:#082548;margin-bottom:7px;line-height:1.42;">' +
+            s.helloIntro.replace("{name}", getKnownFirstName()) +
+          '</div>' + htmlNow;
+      }
+    }
+
+    if (msgs) {
+      msgs.querySelectorAll(".gat-hd-bubble.bot, .gat-hd-msg.bot").forEach(function(bub) {
+        if (bub.dataset.listCleaned === "1" || bub.querySelector("textarea, input")) return;
+        const origH = bub.innerHTML;
+        const fixedH = origH
+          .replace(/(^|<br\s*\/?>|<p[^>]*>)\s*(\d+\.)\s*(?:<\/p>\s*<p[^>]*>|(?:<br\s*\/?>\s*)+)/gi, "$1$2 ")
+          .replace(/\bTracking Partner\b/g, "Spok");
+        if (fixedH !== origH) bub.innerHTML = fixedH;
+        bub.dataset.listCleaned = "1";
+      });
+    }
+  };
+
+  function showSpokVaultSyncBar(state) {
+    const host = document.getElementById("pf-dynamic-body");
+    if (!host) return;
+    const l = getLang();
+    const s = SPOK_I18N[l] || SPOK_I18N.en;
+    let bar = document.getElementById("gat-spok-vault-sync-bar");
+
+    if (state === "hide") {
+      if (bar) bar.remove();
+      return;
+    }
+    if (!bar) {
+      bar = document.createElement("div");
+      bar.id = "gat-spok-vault-sync-bar";
+      bar.style.cssText = "transition:opacity 0.25s ease;margin:0 0 10px 0;padding:9px 13px;border-radius:11px;font-size:0.81rem;font-weight:900;display:flex;align-items:center;justify-content:space-between;gap:8px;";
+      host.insertBefore(bar, host.firstChild);
+    }
+    if (state === "loading") {
+      bar.style.opacity = "1";
+      bar.style.background = "#e0f2fe";
+      bar.style.border = "1.5px solid #38bdf8";
+      bar.style.color = "#0369a1";
+      bar.innerHTML = '<span>' + s.vaultLoading + '</span>';
+    } else if (state === "ready") {
+      bar.style.background = "#dcfce7";
+      bar.style.border = "1.5px solid #4ade80";
+      bar.style.color = "#166534";
+      bar.innerHTML = '<span>' + s.vaultReady + '</span>';
+      setTimeout(function() {
+        if (bar) {
+          bar.style.opacity = "0";
+          setTimeout(function() { if (bar && bar.parentNode) bar.remove(); }, 280);
+        }
+      }, 2200);
+    }
+  }
+
+  if (typeof window.ensureVaultAutofillAppliedNow === "function" && !window.ensureVaultAutofillAppliedNow._spokBarWrapped) {
+    const origEnsure = window.ensureVaultAutofillAppliedNow;
+    const wrappedEnsure = async function(forceDomRefresh) {
+      const onFormsPage = Boolean(document.getElementById("pf-dynamic-body"));
+      const hasLocalDraftName = Boolean(window.gatFormsState && (window.gatFormsState.pf_surname_en || window.gatFormsState.pf_surname_he || window.gatFormsState.pf_sp_tz));
+      if (onFormsPage && !hasLocalDraftName) {
+        showSpokVaultSyncBar("loading");
+      }
+      const ok = await origEnsure.call(this, forceDomRefresh);
+      if (onFormsPage) {
+        showSpokVaultSyncBar(ok ? "ready" : "hide");
+      }
+      return ok;
+    };
+    wrappedEnsure._spokBarWrapped = true;
+    window.ensureVaultAutofillAppliedNow = wrappedEnsure;
+  }
+
+  const obs = new MutationObserver(function() { window.syncSpokBrandingAndGreeting(); });
+  if (document.body) obs.observe(document.body, { childList: true, subtree: true });
+  else document.addEventListener("DOMContentLoaded", function() { obs.observe(document.body, { childList: true, subtree: true }); });
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", window.syncSpokBrandingAndGreeting);
+  else window.syncSpokBrandingAndGreeting();
+})();
+// === GAT SPOK IDENTITY, FIRST-CHAT INTRO & ZERO-FLASH VAULT BAR V1 END ===

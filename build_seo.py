@@ -560,6 +560,15 @@ def build_static_funnel_html(lang, d):
     )
 
 base_html = open("public/index.html", encoding="utf-8").read()
+
+if 'id="gat-hub-seo-library-drawer"' in base_html:
+    base_html = re.sub(
+        r'\s*<div id="gat-onboarding-stage">[\s\S]*?<details id="gat-hub-seo-library-drawer"[^>]*>\s*<summary[^>]*>[\s\S]*?</summary>\s*<div[^>]*>([\s\S]*?)</div>\s*</details>',
+        lambda m: "\n" + re.sub(r'<h2(\b[^>]*data-i18n="hero_h1"[^>]*)>([\s\S]*?)</h2>', r'<h1\1>\2</h1>', m.group(1), count=1),
+        base_html,
+        count=1
+    )
+
 base_html = re.sub(r'<link rel="alternate" hreflang="[^"]*" href="[^"]*" />\s*', '', base_html)
 base_html = re.sub(r'[ \t]*<meta\s+property="og:[^"]*"\s+content="[^"]*"\s*/?>\s*\n?', '', base_html)
 base_html = re.sub(r'[ \t]*<meta\s+name="twitter:[^"]*"\s+content="[^"]*"\s*/?>\s*\n?', '', base_html)
@@ -964,6 +973,174 @@ def _inject_article_at_very_top(html_str, article_html):
         count=1
     )
 
+
+# === GAT CLEAN HUB ONBOARDING & SEO DRAWER WRAPPER START ===
+MASTER_HERO_6LANG = {
+    "en": {
+        "title": "Your Shortest, Safest Path to Aliyah, Conversion, or Residency",
+        "lead": "Answer 4 quick questions to map your exact legal track to your Teudat Zehut—for free:",
+        "bullets": [
+            [
+                "✈️ Skip Jewish Agency & NBN Delays",
+                "Bypass the 9–12 month wait and solve in-Israel status, Giyur & spousal visas agencies won't touch."
+            ],
+            [
+                "💸 Save 15,000₪–40,000₪+ on Lawyers",
+                "Get the exact same legal track, official Hebrew forms & insider rules—with zero hidden fees."
+            ],
+            [
+                "🛡️ Expose Every Pitfall Upfront Free",
+                "Avoid the 180-day Apostille cliff, Private Beit Din blocks, B/1 rejections & 300-Q interview traps."
+            ]
+        ],
+        "cta": "🚀 START MY TRACK →"
+    },
+    "he": {
+        "title": "המסלול הקצר והבטוח ביותר לעלייה, גיור או מעמד בישראל",
+        "lead": "ענו על 4 שאלות קצרות לבניית המסלול המשפטי המדויק עד לתעודת הזהות — בחינם:",
+        "bullets": [
+            [
+                "✈️ עקפו המתנה של שנה בסוכנות ונפש בנפש",
+                "פתרון מלא לשינוי מעמד מהארץ, גיור והליך מדורג לבני זוג שגופי העלייה אינם מלווים."
+            ],
+            [
+                "💸 חסכו 15,000–40,000 ₪+ שכר טרחת עו״ד",
+                "אנו בונים בדיוק את אותו מסלול משפטי ופותחים את כל הטפסים והנהלים ללא עמלות נסתרות."
+            ],
+            [
+                "🛡️ חשיפת כל המלכודות הבירוקרטיות בחינם",
+                "הימנעו מצוק 180 הימים לאפוסטיל, חסימת גיור פרטי לתיירים, סירובי B/1 ושימוע 300 השאלות."
+            ]
+        ],
+        "cta": "🚀 התחל את המסלול שלי ←"
+    },
+    "fr": {
+        "title": "Votre Parcours le Plus Sûr vers l'Aliyah, le Giyur ou le Statut",
+        "lead": "4 questions rapides pour tracer gratuitement votre parcours légal jusqu'à la Teoudat Zehout :",
+        "bullets": [
+            [
+                "✈️ Évitez 12 Mois d'Attente Consulaire",
+                "Contournez l'Agence Juive/NBN et réussissez vos démarches sur place (statut, Giyur, visa conjoint)."
+            ],
+            [
+                "💸 Économisez 15 000–40 000 ₪ d'Avocat",
+                "Obtenez exactement le même parcours légal, les formulaires en hébreu et règles internes sans frais cachés."
+            ],
+            [
+                "🛡️ Déjouez Tous les Pièges Gratuitement",
+                "Évitez l'expiration des Apostilles à 180j, le blocage des conversions privées, les refus B/1 et les 300 questions."
+            ]
+        ],
+        "cta": "🚀 DÉMARRER MON PARCOURS →"
+    },
+    "es": {
+        "title": "Tu Camino Más Rápido y Seguro a la Aliyá, Conversión o Visas",
+        "lead": "4 preguntas rápidas para trazar gratis tu ruta legal exacta hasta tu Teudat Zehut:",
+        "bullets": [
+            [
+                "✈️ Salta 12 Meses en Agencia Judía y NBN",
+                "Resuelve cambios de estatus en Israel, conversiones y visas de pareja que las agencias no cubren."
+            ],
+            [
+                "💸 Ahorra 15.000–40.000 ₪+ en Abogados",
+                "Construimos la misma ruta legal y desbloqueamos los formularios en hebreo y reglas sin cargos ocultos."
+            ],
+            [
+                "🛡️ Descubre Cada Trampa Gratis de Antemano",
+                "Evita el límite de 180 días en Apostillas, el bloqueo en Beit Din privado, rechazos B/1 y las 300 preguntas."
+            ]
+        ],
+        "cta": "🚀 COMENZAR MI RUTA →"
+    },
+    "de": {
+        "title": "Ihr Kürzester, Sicherster Weg zu Alija, Giur oder Aufenthalt",
+        "lead": "4 kurze Fragen für Ihren kostenlosen Rechtsweg Schritt für Schritt zur Teudat Zehut:",
+        "bullets": [
+            [
+                "✈️ 12 Monate Agentur-Wartezeit umgehen",
+                "Lösen Sie Inlands-Statuswechsel, Giur und Partner-Visa, bei denen Jewish Agency & NBN nicht helfen."
+            ],
+            [
+                "💸 15.000–40.000 ₪+ Anwaltskosten sparen",
+                "Exakt derselbe Rechtsweg, alle hebräischen Anträge und Insider-Regeln ohne versteckte Gebühren."
+            ],
+            [
+                "🛡️ Alle Bürokratiefallen kostenlos aufdecken",
+                "Vermeiden Sie die 180-Tage-Apostillenfrist, die Touristen-Sperre beim privaten Giur, B/1-Ablehnungen & 300 Fragen."
+            ]
+        ],
+        "cta": "🚀 MEINEN TRACK STARTEN →"
+    },
+    "ru": {
+        "title": "Ваш самый быстрый и надёжный путь к Алии, Гиюру и статусу",
+        "lead": "Ответьте на 4 вопроса, чтобы бесплатно получить точный маршрут до Теудат-Зеута:",
+        "bullets": [
+            [
+                "✈️ В обход 12 месяцев очереди Сохнута",
+                "Пройдите смену статуса в Израиле, гиюр или СТУПРО, которыми обычные агентства не занимаются."
+            ],
+            [
+                "💸 Экономия 15 000–40 000 ₪ на адвокатах",
+                "Точно такой же законный маршрут, все бланки на иврите и закрытые регламенты МВД без переплат."
+            ],
+            [
+                "🛡️ Защита от всех ловушек МВД и Раввината",
+                "Избежите сгорания апостилей за 180 дней, блокировки частного гиюра, отказов по B/1 и 300 вопросов."
+            ]
+        ],
+        "cta": "🚀 НАЧАТЬ МОЙ МАРШРУТ →"
+    }
+}
+
+HUB_DRAWER_SUMMARY_I18N = {
+    "en": "📚 Browse Full Statutory Reference Library, 9 Trap Playbooks & All Official Guides",
+    "he": "📚 לעיון בספריית הנהלים המלאה, 9 מדריכי המלכודות וכל המדריכים הרשמיים",
+    "fr": "📚 Consulter la Bibliothèque Statutaire Complète & Tous les Guides Officiels",
+    "es": "📚 Explorar la Biblioteca Legal Completa y Todas las Guías Oficiales",
+    "de": "📚 Vollständige Rechtsbibliothek, 9 Fallstrick-Analysen & Alle Leitfäden öffnen",
+    "ru": "📚 Открыть полную библиотеку инструкций МВД, разбор 9 ловушек и все руководства"
+}
+
+def wrap_root_hub_for_clean_onboarding(html_out, lang):
+    drw_lbl = HUB_DRAWER_SUMMARY_I18N.get(lang, HUB_DRAWER_SUMMARY_I18N["en"])
+    mh = MASTER_HERO_6LANG.get(lang, MASTER_HERO_6LANG["en"])
+    b_list = mh["bullets"]
+    bullets_li = "".join([
+        f'<li style="display:flex;flex-direction:column;gap:2px;padding-bottom:{"8px;border-bottom:1px solid #e2e8f0;" if i < len(b_list) - 1 else "0;"}">'
+        f'<strong style="display:block;font-size:0.88rem;font-weight:900;color:#082548;line-height:1.25;">{html.escape(b0)}</strong>'
+        f'<span style="display:block;font-size:0.76rem;color:#334155;line-height:1.34;font-weight:600;">{html.escape(b1)}</span></li>'
+        for i, (b0, b1) in enumerate(b_list)
+    ])
+
+    def _wrap_view0(m):
+        open_tag = m.group(1)
+        inner = m.group(2)
+        close_tag = m.group(3)
+        inner_clean = re.sub(r'<h1(\b[^>]*)>([\s\S]*?)</h1>', r'<h2\1>\2</h2>', inner, count=1)
+        stage_ssr = (
+            f'\n        <div id="gat-onboarding-stage">'
+            f'<div id="gat-wiz-step-hero_landing" class="gat-wiz-card" style="max-width:760px;margin:2px auto 58vh auto;text-align:center;padding:13px 13px;background:#ffffff;border:2px solid #03A9F4;border-radius:17px;box-shadow:0 12px 30px rgba(16,56,86,0.10);">'
+            f'<h1 class="gat-ob-h1" style="font-size:clamp(1.14rem,3.8vw,1.48rem);font-weight:900;color:#103856;line-height:1.18;margin:0 0 10px 0;">{html.escape(mh["title"])}</h1>'
+            f'<p class="gat-ob-sub" style="font-size:0.79rem;color:#334155;line-height:1.36;max-width:680px;margin:0 auto 19px auto;font-weight:700;">{html.escape(mh["lead"])}</p>'
+            f'<ul style="list-style:none;padding:10px 12px;margin:0 auto 11px auto;max-width:720px;background:#f8fafc;border:1.5px solid #bae6fd;border-radius:13px;text-align:start;display:flex;flex-direction:column;gap:8px;">{bullets_li}</ul>'
+            f'<button type="button" onclick="window.gatWizStartQuiz()" style="width:100%;background:linear-gradient(135deg,#103856 0%,#03A9F4 100%);color:#ffffff;border:2px solid #38bdf8;border-radius:13px;padding:13px 16px;font-size:1.02rem;font-weight:900;text-transform:uppercase;letter-spacing:0.03em;cursor:pointer;box-shadow:0 7px 18px rgba(3,169,244,0.28);display:flex;align-items:center;justify-content:center;gap:8px;"><strong style="font-weight:900;text-transform:uppercase;letter-spacing:0.03em;">{html.escape(mh["cta"])}</strong></button>'
+            f'</div></div>\n'
+            f'        <details id="gat-hub-seo-library-drawer" class="gat-seo-ref-drawer" style="max-width:760px;margin:18px auto 14px auto;background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:16px;padding:12px 15px;">\n'
+            f'          <summary style="font-size:0.85rem;font-weight:900;color:#103856;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;">'
+            f'<span>{html.escape(drw_lbl)}</span><span style="color:#0284c7;">▼</span></summary>\n'
+            f'          <div style="margin-top:14px;padding-top:12px;border-top:1px solid #e2e8f0;">{inner_clean}</div>\n'
+            f'        </details>\n      '
+        )
+        return open_tag + stage_ssr + close_tag
+
+    return re.sub(
+        r'(<section\b[^>]*\bid="view-0"[^>]*>)([\s\S]*?)(</section>\s*(?=<!-- ===+\s*TAB 2:))',
+        _wrap_view0,
+        html_out,
+        count=1
+    )
+# === GAT CLEAN HUB ONBOARDING & SEO DRAWER WRAPPER END ===
+
 def render_page(lang, canon_url, spoke_cfg=None):
     d = dicts[lang]
     out = base_html
@@ -1077,6 +1254,8 @@ def render_page(lang, canon_url, spoke_cfg=None):
         safe_title = esc_attr(HUB_SEO_TITLES[lang])
         safe_desc = make_meta_desc(f"{d.get('hero_p','')} {st_p}")
         out = re.sub(r'<!-- SEO_LIB_START -->[\s\S]*?<!-- SEO_LIB_END -->', '<!-- SEO_LIB_START --><!-- SEO_LIB_END -->', out, count=1)
+        if 'id="gat-hub-seo-library-drawer"' not in out:
+            out = wrap_root_hub_for_clean_onboarding(out, lang)
         hub_faqs = [{"@type": "Question", "name": st_t, "acceptedAnswer": {"@type": "Answer", "text": st_p}}]
         for ob_item in d.get("_obstacles", [])[:9]:
             q_txt = f"{ob_item.get('tag','')} — {ob_item.get('title','')}".strip(" —")

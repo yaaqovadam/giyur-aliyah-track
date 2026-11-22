@@ -1,3 +1,77 @@
+
+(function lockExplicitUrlFormParamOnBoot() {
+  try {
+    var sp = new URLSearchParams(window.location.search);
+    var rawF = (sp.get("form") || "").trim().toLowerCase();
+    if (!rawF) return;
+    var ALIASES = {
+      "ash1": "ash1",
+      "ash3": "ash3",
+      "ash6": "ash6",
+      "ash456": "ash456",
+      "mr14a": "mr14a",
+      "mr14b": "mr14b",
+      "nespach_alef": "nespach_alef",
+      "nespach-alef": "nespach_alef",
+      "nespachalef": "nespach_alef",
+      "sec_cv": "security_cv",
+      "security_cv": "security_cv",
+      "security-cv": "security_cv"
+    };
+    var targetForm = ALIASES[rawF] || rawF;
+    window.__gatUrlRequestedForm = targetForm;
+    window.activePibaFormKey = targetForm;
+    window.gatFormsState = window.gatFormsState || {};
+    window.gatFormsState.activeForm = targetForm;
+
+    function enforceRequestedFormSelection() {
+      var reqF = window.__gatUrlRequestedForm;
+      if (!reqF) return;
+      window.activePibaFormKey = reqF;
+      if (window.gatFormsState) window.gatFormsState.activeForm = reqF;
+      var sel = document.getElementById("piba-form-select") || document.querySelector("select[onchange*='PibaForm'], select[id*='form-select']");
+      if (sel) {
+        // Check if option exists as reqF or sec_cv/security_cv alias
+        var matchVal = "";
+        for (var i = 0; i < sel.options.length; i++) {
+          var v = sel.options[i].value;
+          if (v === reqF || (reqF === "security_cv" && v === "sec_cv") || (reqF === "sec_cv" && v === "security_cv")) {
+            matchVal = v;
+            break;
+          }
+        }
+        if (matchVal && sel.value !== matchVal) {
+          sel.value = matchVal;
+          window.activePibaFormKey = matchVal;
+          if (window.gatFormsState) window.gatFormsState.activeForm = matchVal;
+          if (typeof window.switchPibaForm === "function") window.switchPibaForm(matchVal);
+          else if (typeof window.onPibaFormChange === "function") window.onPibaFormChange(matchVal);
+          else if (typeof window.renderPibaFormFields === "function") window.renderPibaFormFields(matchVal);
+          else sel.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+      }
+      // Clear lock once user manually interacts with the form dropdown
+      if (sel && !sel._gatUserChangeHooked) {
+        sel._gatUserChangeHooked = true;
+        sel.addEventListener("pointerdown", function() { window.__gatUrlRequestedForm = ""; }, true);
+        sel.addEventListener("keydown", function() { window.__gatUrlRequestedForm = ""; }, true);
+      }
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(enforceRequestedFormSelection, 40);
+        setTimeout(enforceRequestedFormSelection, 250);
+        setTimeout(enforceRequestedFormSelection, 850);
+      });
+    } else {
+      setTimeout(enforceRequestedFormSelection, 40);
+      setTimeout(enforceRequestedFormSelection, 250);
+      setTimeout(enforceRequestedFormSelection, 850);
+    }
+  } catch (e) {}
+})();
+
 const CLERK_CLAUSES = [
   { he: ["יושר", "מרשם פלילי", "משטרה"], k: "police", en: "Federal Fingerprint Police Check + Apostille (<180 Days)", fr: "Casier Judiciaire (Bulletin n°3) + Apostille (<180j)", es: "Certificado de Antecedentes Penales + Apostilla (<180d)", de: "Führungszeugnis (BfJ) + BfAA-Apostille (<180T)", ru: "Справка об отсутствии судимости МВД + Апостиль (<180 дней)", he_lbl: "תעודת יושר פדרלית + אפוסטיל (בתוקף 180 יום)" },
   { he: ["לידה"], k: "birth", en: "Long-Form Vault Birth Certificate (Both Parents Named) + Apostille", fr: "Copie Intégrale d'Acte de Naissance + Apostille", es: "Partida Literal de Nacimiento + Apostilla de La Haya", de: "Beglaubigte Abschrift aus dem Geburtenregister + Apostille", ru: "Полное свидетельство о рождении ЗАГС (оба родителя) + Апостиль", he_lbl: "תעודת לידה מורחבת (כולל שמות הורים) + אפוסטיל" },
@@ -5743,11 +5817,20 @@ window.applyMergedServerDossierToLocal = function(mergedData) {
       localStorage.setItem('gat_permanent_pass_code', mergedData.permanentPassCode);
       localStorage.setItem('gat_pass_code', mergedData.permanentPassCode);
     }
-    const draft = mergedData.formDraft || mergedData.draft || {};
-    if (Object.keys(draft).length) {
-      localStorage.setItem('gat_form_draft_v1', JSON.stringify(draft));
-      window.gatFormsState = draft;
-      if (typeof window.restoreSavedFormDraft === 'function') window.restoreSavedFormDraft(draft);
+    const srvDraft = mergedData.formDraft || mergedData.draft || {};
+    const locDraft = (function() { try { return JSON.parse(localStorage.getItem('gat_form_draft_v1') || '{}') || {}; } catch (e) { return {}; } })();
+    const mergedDraft = Object.assign({}, locDraft, window.gatFormsState || {});
+    Object.keys(srvDraft).forEach(function(k) {
+      const sv = srvDraft[k];
+      if (sv !== undefined && sv !== null && String(sv).trim() !== '') {
+        if (k === 'pf_active_form' && window.__gatUrlRequestedForm) return;
+        mergedDraft[k] = sv;
+      }
+    });
+    if (Object.keys(mergedDraft).length) {
+      localStorage.setItem('gat_form_draft_v1', JSON.stringify(mergedDraft));
+      window.gatFormsState = mergedDraft;
+      if (typeof window.restoreSavedFormDraft === 'function') window.restoreSavedFormDraft(mergedDraft, true);
     }
     if (mergedData.referenceLogger && typeof mergedData.referenceLogger === 'object') {
       localStorage.setItem('gat_ref_logger_v1', JSON.stringify(mergedData.referenceLogger));
@@ -5785,6 +5868,7 @@ window.applyMergedServerDossierToLocal = function(mergedData) {
       if (typeof renderAll === 'function') renderAll();
     }
     if (typeof window.mountUnifiedPibaFormsEngine === 'function') window.mountUnifiedPibaFormsEngine();
+    if (typeof window.ensureVaultAutofillAppliedNow === 'function') setTimeout(function() { window.ensureVaultAutofillAppliedNow(true); }, 60);
     window.refreshSyncAccountBadge();
   } catch (e) {
     console.warn('applyMergedServerDossierToLocal error:', e);
@@ -6518,13 +6602,13 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
 
   const HD_I18N = {
     en: {
-      title: "✨ Tracking Partner",
+      title: "✨ Spok",
       clearBtn: "↺",
       minBtn: "—",
       waBtn: "📲",
       placeholder: "Ask about this form, deadlines, or passes...",
       send: "Ask",
-      welcome: "👋 **Shalom! I'm your personal Giyur & Aliyah Tracking Partner.**\n\n*(Tip: You can drag my ✨ icon anywhere on screen!)*\n\nTap any status or form below — I'll **open that page behind this window**, explain what to watch out for, and you can tap **⎯ Minimize** to read the page and tap **✨** anytime to continue!",
+      welcome: "👋 **Shalom! I'm your personal Giyur & Aliyah Spok.**\n\n*(Tip: You can drag my ✨ icon anywhere on screen!)*\n\nTap any status or form below — I'll **open that page behind this window**, explain what to watch out for, and you can tap **⎯ Minimize** to read the page and tap **✨** anytime to continue!",
       tracksTitle: "📍 TAP YOUR STATUS OR FORM:",
       tracks: [
         { icon: "💑", label: "Spousal / Partner Visa (Form Ash/6 & Ash/3)", mod: "hebrew-engine", form: "ash6", q: "I need the Spousal / Partner Visa (Nohal 5.2.0008 / 5.2.0009 Form Ash/6 & Ash/3). Open it and explain the sections, time limits, and what I need." },
@@ -7176,7 +7260,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
     const fab = document.createElement("button");
     fab.id = "gat-hd-fab";
     fab.type = "button";
-    fab.setAttribute("aria-label", "Tracking Partner");
+    fab.setAttribute("aria-label", "Spok");
     fab.innerHTML = '<span style="pointer-events:none;">✨</span><span id="gat-hd-badge"></span>';
     document.body.appendChild(fab);
 

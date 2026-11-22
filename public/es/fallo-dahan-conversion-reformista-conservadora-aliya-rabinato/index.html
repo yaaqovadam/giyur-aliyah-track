@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
 <head>
+<script>(function captureGatInitialUrlBeforeHydration() {
+  if (!window.__GAT_INITIAL_URL_STATE) {
+    window.__GAT_INITIAL_URL_STATE = {
+      search: window.location.search || "",
+      hash: window.location.hash || "",
+      pathname: window.location.pathname || "/",
+      hydrated: false
+    };
+  }
+})();</script>
 <!-- GAT ANTI-FLASH START -->
 <script>(function(){try{if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){for(var i=0;i<rs.length;i++){rs[i].unregister();}});}}catch(e){}})();</script>
 <style>html.gat-pre-curtain,html.gat-pre-curtain body{background:#082548!important}html.gat-pre-curtain .app-shell{opacity:0!important}
@@ -264,7 +274,7 @@
     document.head.appendChild(st);
   }
 })();</script>
-<script src="/splash.js?v=1794938614"></script>
+<script src="/splash.js?v=1795308536"></script>
 <!-- GAT ANTI-FLASH END -->
   <meta charset="UTF-8" />
   <meta name="color-scheme" content="light only" />
@@ -383,7 +393,7 @@
     .emerald-sub { font-size: 0.88rem; font-weight: 700; color: rgba(7, 42, 64, 0.85); }
 
     /* Tab 1: 8-Box Obstacle Grid */
-    .section-kicker { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .section-kicker { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 3px; margin-bottom: 12px; }
     .section-kicker h2 { font-size: 1rem; font-weight: 850; color: var(--teal-dark); }
     .section-kicker span { font-size: 0.82rem; font-weight: 800; color: var(--sky); }
 
@@ -1196,6 +1206,67 @@
 
 
 
+
+
+
+
+
+<style id="gat-ux-kicker-and-bnav-0ms">
+  /* Image 3: Always stack .section-kicker into 2 clean rows */
+  .section-kicker {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 3px !important;
+    margin-bottom: 12px !important;
+  }
+  .section-kicker h2 {
+    margin: 0 !important;
+    line-height: 1.28 !important;
+  }
+  .section-kicker span {
+    display: block !important;
+    font-size: 0.81rem !important;
+    font-weight: 800 !important;
+    color: #0284c7 !important;
+  }
+  /* Image 4: Zero-lag 0ms bottom navigation pill switching */
+  nav.bottom-nav .nav-tab,
+  nav.bottom-nav .nt-pill,
+  nav.bottom-nav .nt-pill svg,
+  nav.bottom-nav .nt-label,
+  .bottom-nav .nav-tab,
+  .bottom-nav .nt-pill,
+  .bottom-nav .nt-pill svg,
+  .bottom-nav .nt-label {
+    transition: none !important;
+    animation: none !important;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="es_ES" />
   <meta property="og:site_name" content="Giyur Aliyah Track" />
@@ -1307,6 +1378,31 @@
           </div>
         </nav>
               <section id="gat-tab-faq-0" style="margin-top:28px;margin-bottom:18px;padding-top:20px;border-top:2px solid #cbd5e1;"><div class="section-kicker" style="margin-bottom:12px;"><h2>❓ FAQ: Precios Modulares y Ahorro en Honorarios de Abogados</h2><span>Guía Estatutaria y de Software (Misrad HaPanim y Beit Din)</span></div><div style="display:flex;flex-direction:column;gap:10px;"><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">1. ¿Por qué un anticipo de abogado de 15.000₪–40.000₪ es solo el &#x27;precio inicial&#x27;?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">Nuestros motores digitales rellenan en hebreo los 8 formularios oficiales de PIBA (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespaj Alef, CV Nativ), traducen cartas de rechazo con IA y le entrenan en las 700 preguntas del Beit Din y las 300 preguntas de pareja.</p></details><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">2. ¿Cómo funcionan los Precios Modulares (Pase de 90 Días vs. Acceso de por Vida)?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">Cero suscripciones mensuales. Desbloquee solo lo que necesita: Formularios Hebreos ($89 90d / $149 Vitalicio), Suite Beit Din 700-Q y 56 Canciones ($149 90d / $249 Vitalicio), Sincronización de Parejas 300-Q ($129 90d / $229 5 años) o Suites VIP ($249–$649).</p></details><details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);"><summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">3. ¿Los Servicios Humanos de Concierge son independientes de los pases de software?</summary><p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">Sí. Los pases de software desbloquean herramientas digitales 24/7. Los servicios humanos (Notario Cinta Roja $249–$799, Rabino Patrocinador $349, Madrijat Kalá $249, Abogado acompañante $649–$799) se reservan por separado.</p></details></div><div style="margin-top:20px;padding:16px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;font-size:0.77rem;color:#475569;line-height:1.55;"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;"><strong style="color:#082548;font-size:0.81rem;">⚖️ Giyur Aliyah Track • Centro de Comando Legal-Tech y Rabínico</strong><a href="mailto:concierge@giyuraliyahtrack.com" style="color:#0288D1;font-weight:800;text-decoration:none;">✉️ concierge@giyuraliyahtrack.com</a></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;"><details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#082548;cursor:pointer;">📜 Términos de Servicio y Aviso Legal</summary><p style="margin:6px 0 0 0;">Giyur Aliyah Track proporciona automatización de formularios oficiales PIBA, bóvedas de preparación para el Beit Din y orientación procesal. No somos un bufete de abogados; la representación legal opcional es brindada exclusivamente por abogados y notarios israelíes colegiados.</p></details><details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#082548;cursor:pointer;">💳 Política de Finalidad Digital y No Reembolso</summary><p style="margin:6px 0 0 0;">Dado que los pases digitales desbloquean instantáneamente los selladores PDF en hebreo, créditos de IA y las 700/300 preguntas, TODAS LAS VENTAS DE SOFTWARE DIGITAL SON FINALES Y NO REEMBOLSABLES tras su activación.</p></details><details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#082548;cursor:pointer;">🔒 Privacidad y Seguridad de Datos Cero-Fugas</summary><p style="margin:6px 0 0 0;">Todos los borradores de formularios y salas de sincronización de 2 teléfonos están cifrados y aislados en su UID personal de WhatsApp.</p></details></div></div></section>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       </section>
 
       
@@ -2479,7 +2575,9 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     document.querySelectorAll('.track-card').forEach((c, i) => c.classList.toggle('active', i === trIdx));
     const vp = document.getElementById('viewport');
     if (vp && !keepScroll) vp.scrollTop = 0;
+    if (typeof window.syncLiveAddressableUrl === 'function') window.syncLiveAddressableUrl();
     window.updateBackBarUI();
+    if (typeof window.paintBottomNavDeepNavyInline === 'function') window.paintBottomNavDeepNavyInline();
   };
 
   window.gatSwitchTab = window.switchTab = function(idx, skipStack, keepScroll){
@@ -2523,14 +2621,27 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   window.handleBrandClick = function(e){
     if (e) e.preventDefault();
     window.setStack([]);
-    try { sessionStorage.removeItem('gat_pending_restore'); sessionStorage.setItem('gat_skip_intro_once', '1'); } catch(err){}
+    try {
+      sessionStorage.removeItem('gat_pending_restore');
+      sessionStorage.removeItem('gat_pending_restore_v3');
+      sessionStorage.setItem('gat_skip_intro_once', '1');
+    } catch(err){}
     const l = window.gatLang || window.getUrlLang();
     if (window.isSpokePage()) {
       location.href = (l === 'en' ? '/' : '/' + l + '/');
     } else {
+      if (typeof window.closeGatStepBlueprintModal === 'function') window.closeGatStepBlueprintModal(true);
+      if (typeof window.closeObstacle === 'function') window.closeObstacle();
+      if (window.__gatWizardState) {
+        window.__gatWizardState.mode = 'hero_landing';
+        window.__gatWizardState.forceRetake = false;
+      }
+      if (typeof window.renderGatOnboardingStage === 'function') window.renderGatOnboardingStage();
       window.gatActiveTab = 0;
       window.gatActiveTrack = 0;
       window.syncActiveTabAndTrackUI(false);
+      const cleanRoot = (l === 'en' ? '/' : '/' + l + '/');
+      try { window.history.replaceState({ gatUrl: cleanRoot }, '', cleanRoot); } catch(err){}
     }
     return false;
   };
@@ -2579,7 +2690,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   function restoreOnLoad(){
     if (typeof window.rewriteLinksForLang === 'function') window.rewriteLinksForLang(window.gatLang);
     try {
-      const raw = sessionStorage.getItem('gat_pending_restore');
+      const isBackNav = sessionStorage.getItem('gat_back_nav_active') === '1';
+      sessionStorage.removeItem('gat_back_nav_active');
+      const raw = isBackNav ? (sessionStorage.getItem('gat_pending_restore_v3') || sessionStorage.getItem('gat_pending_restore')) : null;
+      sessionStorage.removeItem('gat_pending_restore_v3');
+      sessionStorage.removeItem('gat_pending_restore');
       if (raw) {
         sessionStorage.removeItem('gat_pending_restore');
         const target = JSON.parse(raw);
@@ -2594,10 +2709,21 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       }
     } catch(e){}
 
-    const qTab = new URLSearchParams(location.search).get('tab');
-    if (qTab !== null) {
-      window.gatActiveTab = parseInt(qTab, 10) || 0;
-      window.gatActiveTrack = 0;
+    const initUrl = window.__GAT_INITIAL_URL_STATE || { search: location.search || '', hash: location.hash || '' };
+    const sp = new URLSearchParams(initUrl.search || location.search);
+    const hStr = initUrl.hash || location.hash || '';
+    let qTab = sp.get('tab');
+    let qTrack = sp.get('track');
+    if (qTab === null && /^#view-([0-4])$/i.test(hStr)) {
+      qTab = hStr.match(/^#view-([0-4])$/i)[1];
+    }
+    if (qTrack === null && /^#track-([0-3])$/i.test(hStr)) {
+      qTrack = hStr.match(/^#track-([0-3])$/i)[1];
+      if (qTab === null) qTab = '1';
+    }
+    if (qTab !== null || qTrack !== null) {
+      window.gatActiveTab = qTab !== null ? (parseInt(qTab, 10) || 0) : 1;
+      window.gatActiveTrack = qTrack !== null ? (parseInt(qTrack, 10) || 0) : 0;
       window.syncActiveTabAndTrackUI(false);
       return;
     }
@@ -2608,155 +2734,8 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   window.addEventListener('pageshow', restoreOnLoad);
 })();
 </script>
-  <script src="/i18n/tracking_partner.js?v=1795166561"></script>
-<script id="gat-exact-page-share">
-(function(){
-  var LANGS = ['en','he','fr','es','de','ru'];
-  var UI = {
-    en: { modal: "Share This Exact Page", sub: "Send this exact guide or tool in English:", wa: "💬 Share via WhatsApp", tg: "✈️ Share via Telegram", cp: "📋 Copy Page Link", ok: "✅ Page link copied!", cl: "Close", tip: "Share this exact page" },
-    he: { modal: "שיתוף עמוד זה", sub: "שלחו את העמוד או הכלי המדויק הזה בעברית:", wa: "💬 שלח בוואטסאפ", tg: "✈️ שלח בטלגרם", cp: "📋 העתק קישור לעמוד", ok: "✅ הקישור הועתק!", cl: "סגור", tip: "שתף עמוד זה" },
-    fr: { modal: "Partager cette page", sub: "Envoyer cette page ou cet outil précis en français :", wa: "💬 Envoyer sur WhatsApp", tg: "✈️ Envoyer sur Telegram", cp: "📋 Copier le lien", ok: "✅ Lien copié !", cl: "Fermer", tip: "Partager cette page" },
-    es: { modal: "Compartir esta página", sub: "Enviar esta guía o herramienta exacta en español:", wa: "💬 Enviar por WhatsApp", tg: "✈️ Enviar por Telegram", cp: "📋 Copiar enlace", ok: "✅ ¡Enlace copiado!", cl: "Cerrar", tip: "Compartir esta página" },
-    de: { modal: "Diese Seite teilen", sub: "Genau diese Seite auf Deutsch teilen:", wa: "💬 Per WhatsApp senden", tg: "✈️ Per Telegram senden", cp: "📋 Link kopieren", ok: "✅ Link kopiert!", cl: "Schließen", tip: "Diese Seite teilen" },
-    ru: { modal: "Поделиться этой страницей", sub: "Отправить именно эту страницу или инструмент на русском:", wa: "💬 Отправить в WhatsApp", tg: "✈️ Отправить в Telegram", cp: "📋 Скопировать ссылку", ok: "✅ Ссылка скопирована!", cl: "Закрыть", tip: "Поделиться страницей" }
-  };
-  var MOD_TITLES = {
-    'hebrew-engine': { en:'Official Hebrew PIBA Forms & Clerk Letter Translator', he:'מילוי טפסי משרד הפנים בעברית ותרגום מכתבי פקיד', fr:'Formulaires Officiels PIBA en Hébreu & Traducteur', es:'Formularios Oficiales PIBA en Hebreo y Traductor', de:'Offizielle PIBA-Formulare auf Hebräisch & Übersetzer', ru:'Официальные бланки МВД (PIBA) на иврите и переводчик' },
-    'rabbi-letters': { en:'Sponsoring Rabbi & Community Recommendation Letters', he:'מכתבי המלצה מרב מלווה וקהילה לבית הדין', fr:'Lettres du Rabbin Accompagnateur & Communauté', es:'Cartas de Rabino Patrocinador y Comunidad', de:'Empfehlungsbriefe von Rabbiner & Gemeinde', ru:'Письма от сопровождающего раввина и общины' },
-    'beit-din-150': { en:'700 Real Beit Din Conversion Questions & Flashcards', he:'סימולטור 700 שאלות בית הדין לגיור', fr:'700 Questions Réelles du Beit Din (Conversion)', es:'700 Preguntas Reales del Beit Din (Conversión)', de:'700 Echte Beit-Din-Fragen (Giur-Simulator)', ru:'700 реальных вопросов Бейт-Дина (Тренажёр гиюра)' },
-    'couples-sync': { en:'300 Misrad HaPanim Separated-Room Couples Questions', he:'300 שאלות השימוע הזוגי במשרד הפנים (נוהל 5.2.0008)', fr:'300 Questions Entretien Couple Misrad HaPanim', es:'300 Preguntas Entrevista de Pareja Misrad HaPanim', de:'300 Fragen Paar-Interview Misrad HaPanim', ru:'300 вопросов перекрёстного допроса пар МВД (СТУПРО)' },
-    'songs-prayers': { en:'56 Shabbat Songs, Prayers & Brachot Karaoke Trainer', he:'מאמן קריוקי ל-56 שירי שבת, תפילות וברכות', fr:'Karaoké 56 Chants de Chabbat, Prières & Brakhot', es:'Karaoke de 56 Canciones de Shabat, Rezos y Brajot', de:'Karaoke-Trainer: 56 Schabbat-Lieder, Gebete & Brachot', ru:'Караоке-тренажёр: 56 песен Шаббата, молитв и брахот' }
-  };
-
-  function detectActiveLang() {
-    var badge = document.querySelector('#globe-lang-btn span, #globe-lang-lbl, #appbar-lang-label');
-    if (badge && badge.textContent) {
-      var b = badge.textContent.trim().toLowerCase();
-      if (LANGS.indexOf(b) !== -1) return b;
-    }
-    if (window.appLang && LANGS.indexOf(window.appLang) !== -1) return window.appLang;
-    if (window.gatLang && LANGS.indexOf(window.gatLang) !== -1) return window.gatLang;
-    var m = location.pathname.match(/^\/(he|fr|es|de|ru)(\/|$)/);
-    if (m) return m[1];
-    var spL = new URLSearchParams(location.search).get('lang');
-    if (spL && LANGS.indexOf(spL.toLowerCase()) !== -1) return spL.toLowerCase();
-    var docL = (document.documentElement.lang || '').toLowerCase().slice(0,2);
-    return LANGS.indexOf(docL) !== -1 ? docL : 'en';
-  }
-
-  function resolveExactPageData() {
-    var lang = detectActiveLang();
-    var origin = 'https://giyuraliyahtrack.com';
-    var url = '';
-    var title = '';
-
-    if (location.pathname.indexOf('/app') === 0) {
-      var sp = new URLSearchParams(location.search);
-      var mod = window.currentMod || sp.get('module') || sp.get('mod') || '';
-      var formKey = (window.gatFormsState && window.gatFormsState.activeForm) || sp.get('form') || '';
-      var outSp = new URLSearchParams();
-      if (mod) outSp.set('module', mod);
-      if (formKey && (!mod || mod === 'hebrew-engine')) outSp.set('form', formKey);
-      outSp.set('lang', lang);
-      url = origin + '/app/?' + outSp.toString();
-      if (MOD_TITLES[mod]) {
-        title = MOD_TITLES[mod][lang] || MOD_TITLES[mod].en;
-        if (formKey && mod === 'hebrew-engine') title = formKey.toUpperCase() + ' — ' + title;
-      }
-    } else {
-      var hl = document.querySelector('link[rel="alternate"][hreflang="' + lang + '"]');
-      if (hl && hl.getAttribute('href')) {
-        url = hl.getAttribute('href');
-      } else {
-        var cn = document.querySelector('link[rel="canonical"]');
-        url = (cn && cn.getAttribute('href')) ? cn.getAttribute('href') : (origin + location.pathname);
-      }
-      var curSp = new URLSearchParams(location.search);
-      var keep = new URLSearchParams();
-      if (curSp.get('sku')) keep.set('sku', curSp.get('sku'));
-      var qs = keep.toString();
-      if (qs) url += (url.indexOf('?') === -1 ? '?' : '&') + qs;
-    }
-
-    if (!title) {
-      var h1 = document.querySelector('.seo-spoke-article h1, main h1, h1');
-      if (h1 && h1.textContent.trim()) {
-        title = h1.textContent.replace(/\s+/g, ' ').trim();
-      } else {
-        title = (document.title || 'Giyur Aliyah Track').replace(/\s+/g, ' ').trim();
-      }
-    }
-    return { lang: lang, url: url, title: title };
-  }
-
-  function syncShareTooltip() {
-    var btn = document.getElementById('appbar-share-btn');
-    if (!btn) return;
-    var u = UI[detectActiveLang()] || UI.en;
-    btn.setAttribute('title', u.tip);
-    btn.setAttribute('aria-label', u.tip);
-  }
-
-  window.shareExactCurrentPage = function(ev) {
-    if (ev) { ev.preventDefault(); ev.stopPropagation(); }
-    var info = resolveExactPageData();
-    var u = UI[info.lang] || UI.en;
-    var fullText = info.title + ' — ' + info.url;
-
-    if (navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '')) {
-      navigator.share({ title: info.title, text: info.title, url: info.url }).catch(function(){});
-      return false;
-    }
-
-    var old = document.getElementById('gat-exact-share-modal');
-    if (old) old.remove();
-    var m = document.createElement('div');
-    m.id = 'gat-exact-share-modal';
-    m.style.cssText = 'position:fixed;inset:0;z-index:2147483646;background:rgba(8,37,72,0.78);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:16px;';
-    var waUrl = 'https://wa.me/?text=' + encodeURIComponent(fullText);
-    var tgUrl = 'https://t.me/share/url?url=' + encodeURIComponent(info.url) + '&text=' + encodeURIComponent(info.title);
-    var dir = info.lang === 'he' ? 'rtl' : 'ltr';
-    var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
-
-    m.innerHTML =
-      '<div dir="' + dir + '" style="background:#0f172a;border:1.5px solid #38bdf8;border-radius:18px;max-width:430px;width:100%;padding:22px;color:#f8fafc;box-shadow:0 20px 50px rgba(0,0,0,0.6);font-family:-apple-system,BlinkMacSystemFont,sans-serif;text-align:center;">' +
-        '<div style="font-size:1.12rem;font-weight:850;margin-bottom:6px;color:#fff;">' + esc(u.modal) + '</div>' +
-        '<div style="font-size:0.84rem;color:#94a3b8;margin-bottom:12px;">' + esc(u.sub) + '</div>' +
-        '<div style="background:#082548;border:1px solid rgba(56,189,248,0.35);border-radius:12px;padding:11px 12px;margin-bottom:16px;text-align:' + (dir==='rtl'?'right':'left') + ';word-break:break-word;">' +
-          '<div style="font-size:0.86rem;font-weight:800;color:#fff;margin-bottom:4px;">' + esc(info.title) + '</div>' +
-          '<div style="font-size:0.76rem;color:#38bdf8;direction:ltr;text-align:left;">' + esc(info.url) + '</div>' +
-        '</div>' +
-        '<div style="display:flex;flex-direction:column;gap:9px;">' +
-          '<a href="' + waUrl + '" target="_blank" rel="noopener" style="display:block;background:#25D366;color:#052e16;font-weight:850;text-decoration:none;padding:12px 14px;border-radius:11px;font-size:0.92rem;">' + esc(u.wa) + '</a>' +
-          '<a href="' + tgUrl + '" target="_blank" rel="noopener" style="display:block;background:#0288E8;color:#fff;font-weight:800;text-decoration:none;padding:12px 14px;border-radius:11px;font-size:0.92rem;">' + esc(u.tg) + '</a>' +
-          '<button type="button" id="gat-exact-copy-btn" style="background:#1e293b;color:#fff;border:1px solid #475569;font-weight:800;padding:12px 14px;border-radius:11px;font-size:0.92rem;cursor:pointer;">' + esc(u.cp) + '</button>' +
-          '<button type="button" id="gat-exact-close-btn" style="background:transparent;color:#94a3b8;border:none;padding:8px;font-size:0.85rem;font-weight:700;cursor:pointer;">' + esc(u.cl) + '</button>' +
-        '</div>' +
-      '</div>';
-
-    document.body.appendChild(m);
-    m.addEventListener('click', function(e){ if (e.target === m) m.remove(); });
-    document.getElementById('gat-exact-close-btn').onclick = function(){ m.remove(); };
-    document.getElementById('gat-exact-copy-btn').onclick = function(){
-      var btn = this;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(info.url);
-      }
-      btn.textContent = u.ok;
-      btn.style.background = '#059669';
-      btn.style.borderColor = '#10b981';
-    };
-    return false;
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', syncShareTooltip);
-  } else {
-    syncShareTooltip();
-  }
-  document.addEventListener('click', function(){ setTimeout(syncShareTooltip, 80); });
-})();
-</script>
+  <script src="/i18n/onboarding_trajectory.js?v=1795341990"></script>
+  <script src="/i18n/tracking_partner.js?v=1795341990"></script>
 <noscript><img src="/api/auditDoc?mode=pixel&lang=es&path=/es/fallo-dahan-conversion-reformista-conservadora-aliya-rabinato/" width="1" height="1" alt="" /></noscript>
 </body>
 </html>

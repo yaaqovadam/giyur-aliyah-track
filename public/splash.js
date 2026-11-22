@@ -1,3 +1,5 @@
+/* gat-onboarding-direct-bypass */
+(function(){ try { if (location.search.indexOf('intro=1') === -1) { document.documentElement.classList.remove('gat-pre-curtain'); return; } } catch(e){} })();
 (function(){
   try {
     var sp = new URLSearchParams(window.location.search);

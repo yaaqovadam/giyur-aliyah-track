@@ -1495,7 +1495,17 @@ exports.auditDoc = onRequest(
         if (!uid || uid === "anon") {
           return res.status(200).json({ ok: true, items: [], localOnly: true });
         }
-        const docsCol = db.collection("users").doc(uid).collection("uploaded_docs");
+        const resolvedVaultUid = (() => {
+          if (uid && uid.startsWith("wa_")) return uid;
+          const wDigits = normalizePhoneDigits(b.waPhone || b.phone || "");
+          if (wDigits && wDigits.length >= 8) return "wa_" + wDigits;
+          if (b.deviceAuthToken) {
+            const dt = verifyDeviceAuthToken(String(b.deviceAuthToken));
+            if (dt && dt.uid) return dt.uid;
+          }
+          return uid;
+        })();
+        const docsCol = db.collection("users").doc(resolvedVaultUid).collection("uploaded_docs");
 
         if (b.mode === "list_uploaded_docs") {
           const snap = await docsCol.orderBy("updatedAt", "desc").limit(30).get();
@@ -1559,7 +1569,7 @@ exports.auditDoc = onRequest(
           const metaSnap = await docRef.get();
           if (!metaSnap.exists) return res.status(404).json({ ok: false, error: "Document not found" });
           let pages = [];
-          const r2Res = await r2SignedRequest("GET", r2Key).catch(() => ({ ok: false }));
+          const r2Res = await r2SignedRequest("GET", (metaSnap.data() && metaSnap.data().r2Key) || r2Key).catch(() => ({ ok: false }));
           if (r2Res && r2Res.ok && r2Res.text) {
             try {
               const parsed = JSON.parse(r2Res.text);
@@ -1573,7 +1583,14 @@ exports.auditDoc = onRequest(
           const rawFiles = Array.isArray(b.files) ? b.files.slice(0, 8) : [];
           const appendPages = Boolean(b.appendPages);
           const curSnap = await docRef.get();
-          const curMeta = curSnap.exists ? (curSnap.data() || {}) : {};
+          let curMeta = curSnap.exists ? (curSnap.data() || {}) : {};
+          const copyFromId = String(b.copyFromDocId || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 80);
+          if (copyFromId && copyFromId !== docId) {
+            const srcSnap = await docsCol.doc(copyFromId).get();
+            if (srcSnap.exists) {
+              curMeta = Object.assign({}, srcSnap.data() || {}, curMeta);
+            }
+          }
 
           let existingPages = [];
           if (appendPages && getR2Config().configured) {
@@ -1613,8 +1630,8 @@ exports.auditDoc = onRequest(
             isLongForm: b.isLongForm !== undefined ? Boolean(b.isLongForm) : Boolean(curMeta.isLongForm),
             expiryDateIso: String(b.expiryDateIso || curMeta.expiryDateIso || "").slice(0, 20),
             rawScanResult: b.rawScanResult || curMeta.rawScanResult || null,
-            storageEngine: storedInR2 ? "r2" : "idb_local",
-            r2Key: storedInR2 ? r2Key : "",
+            storageEngine: storedInR2 ? "r2" : (curMeta.storageEngine || "idb_local"),
+            r2Key: storedInR2 ? r2Key : (curMeta.r2Key || ""),
             updatedAt: Date.now()
           };
           await docRef.set(metaObj, { merge: true });
@@ -1624,6 +1641,252 @@ exports.auditDoc = onRequest(
         return res.status(500).json({ ok: false, error: vErr.message || "Vault error" });
       }
     }
+
+    
+    // === GAT CLOUD TRACK BLUEPRINT ENGINE (ZERO-LOCALSTORAGE 5-DEVICE FIRESTORE SYNC) START ===
+    function sanitizeTrackBlueprint(rawBp) {
+      if (!rawBp || typeof rawBp !== "object") return null;
+      const cleanStr = (v, maxLen = 80) => String(v || "").trim().slice(0, maxLen);
+      const ans = (rawBp.answers && typeof rawBp.answers === "object") ? rawBp.answers : {};
+      const comp = Array.isArray(rawBp.completedSteps)
+        ? Array.from(new Set(rawBp.completedSteps.map((x) => cleanStr(x, 48)).filter(Boolean))).slice(0, 32)
+        : [];
+      const timersRaw = (rawBp.timers && typeof rawBp.timers === "object") ? rawBp.timers : {};
+      const cleanTimers = {};
+      for (const tk of ["b2EntryDateMs", "apostilleIssueDateMs", "clerkDemandDateMs", "mikvahDateMs", "aliyahDateMs"]) {
+        const num = Number(timersRaw[tk] || 0);
+        if (Number.isFinite(num) && num > 0) cleanTimers[tk] = num;
+      }
+      return {
+        version: 1,
+        trackId: cleanStr(rawBp.trackId || "aliyah_standard", 64),
+        trackTitle: cleanStr(rawBp.trackTitle || "", 140),
+        isEmergency: Boolean(rawBp.isEmergency),
+        answers: {
+          q1_goal: cleanStr(ans.q1_goal, 48),
+          q2_household: cleanStr(ans.q2_household, 48),
+          q2b_partner_status: cleanStr(ans.q2b_partner_status, 48),
+          q2b_relationship: cleanStr(ans.q2b_relationship, 48),
+          q3_location: cleanStr(ans.q3_location, 48),
+          q4_detail: cleanStr(ans.q4_detail, 64),
+          em_q1_loc: cleanStr(ans.em_q1_loc, 48),
+          em_q2_elig: cleanStr(ans.em_q2_elig, 48)
+        },
+        hasChildrenUnder18: Boolean(rawBp.hasChildrenUnder18 || ans.q2_household === "family_kids"),
+        hasPartner: Boolean(rawBp.hasPartner || ans.q2_household === "couple" || ans.q2_household === "family_kids"),
+        trapWarningKey: cleanStr(rawBp.trapWarningKey || "", 64),
+        activeStepId: cleanStr(rawBp.activeStepId || "", 48),
+        activeStepIdx: Math.max(0, Math.min(25, Number(rawBp.activeStepIdx || 0) || 0)),
+        completedSteps: comp,
+        timers: cleanTimers,
+        lang: cleanStr(rawBp.lang || "en", 8),
+        updatedAtMs: Date.now()
+      };
+    }
+
+    // === GAT PRIVATE WHATSAPP PROBLEM REPORTER ENDPOINT START ===
+    if (req.body && req.body.mode === "submit_problem_report") {
+      try {
+        const b = req.body || {};
+        const db = admin.firestore();
+        const category = String(b.category || "other").slice(0, 80);
+        const description = String(b.description || "").trim().slice(0, 2500);
+        const userContact = String(b.userContact || "").trim().slice(0, 140);
+        const lang = String(b.lang || "en").slice(0, 5);
+        const uid = String(b.uid || "anon").slice(0, 128);
+        const pageUrl = String(b.pageUrl || "/").slice(0, 400);
+        const activeTrack = String(b.activeTrack || "").slice(0, 160);
+        const userAgent = String(b.userAgent || "").slice(0, 250);
+
+        if (!description || description.length < 3) {
+          return res.status(400).json({ ok: false, error: "Please enter a brief description of the problem." });
+        }
+
+        const ticketId = "PR-" + Date.now().toString(36).toUpperCase().slice(-6);
+        const reportDoc = {
+          ticketId,
+          category,
+          description,
+          userContact: userContact || "(not provided)",
+          uid,
+          lang,
+          pageUrl,
+          activeTrack,
+          userAgent,
+          status: "open",
+          createdAtMs: Date.now(),
+          createdAt: admin.firestore.FieldValue.serverTimestamp()
+        };
+
+        await db.collection("problem_reports").doc(ticketId).set(reportDoc);
+
+        // Resolve Admin WhatsApp targets strictly server-side (ZERO client phone leak)
+        const adminTargets = new Set();
+        const envAdminWa = normalizePhoneDigits(process.env.ADMIN_ALERT_WHATSAPP || process.env.ADMIN_WHATSAPP || "");
+        if (envAdminWa.length >= 9) adminTargets.add(envAdminWa);
+
+        try {
+          const adminSnap = await db.collection("users").where("admin", "==", true).limit(10).get();
+          adminSnap.forEach((docSnap) => {
+            const d = docSnap.data() || {};
+            const p1 = normalizePhoneDigits(d.whatsappDigits || d.whatsapp || d.phone || "");
+            const p2 = docSnap.id.startsWith("wa_") ? normalizePhoneDigits(docSnap.id.slice(3)) : "";
+            if (p1.length >= 9) adminTargets.add(p1);
+            if (p2.length >= 9) adminTargets.add(p2);
+          });
+        } catch (admErr) {
+          console.error("Admin lookup warning:", admErr);
+        }
+
+        // Also include the bot's own authorized WhatsApp desk (972525822005) if no admin doc matched
+        if (adminTargets.size === 0) {
+          adminTargets.add("972525822005");
+        }
+
+        const waMsg =
+          `🛠️ *GAT PROBLEM REPORT [${ticketId}]*\n` +
+          `• *Category:* ${category}\n` +
+          `• *Issue:* ${description}\n` +
+          `• *User Contact:* ${userContact || "Not provided"} (UID: ${uid})\n` +
+          `• *Track/State:* ${activeTrack || "None"}\n` +
+          `• *Page:* ${pageUrl}\n` +
+          `• *Lang:* ${lang.toUpperCase()}`;
+
+        const idInstance = process.env.GREEN_API_ID_INSTANCE || "710722709218";
+        const apiToken = process.env.GREEN_API_TOKEN_INSTANCE || "";
+        const baseUrl = (process.env.GREEN_API_URL || "https://7107.api.green-api.com").replace(/\/+$/, "");
+
+        let sentCount = 0;
+        if (apiToken) {
+          const endpoint = `${baseUrl}/waInstance${idInstance}/sendMessage/${apiToken}`;
+          for (const phoneDigits of adminTargets) {
+            try {
+              const resp = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  chatId: `${phoneDigits}@c.us`,
+                  message: waMsg
+                })
+              });
+              if (resp.ok) sentCount++;
+            } catch (wErr) {
+              console.error("Problem report WA send error:", wErr);
+            }
+          }
+        }
+
+        return res.status(200).json({
+          ok: true,
+          ticketId,
+          delivered: sentCount > 0
+        });
+      } catch (prErr) {
+        console.error("submit_problem_report error:", prErr);
+        return res.status(500).json({ ok: false, error: "Could not send report right now." });
+      }
+    }
+    // === GAT PRIVATE WHATSAPP PROBLEM REPORTER ENDPOINT END ===
+
+    if (req.body && req.body.mode === "sync_track_blueprint") {
+      try {
+        const db = admin.firestore();
+        const b = req.body || {};
+        const action = String(b.action || "save").trim().toLowerCase();
+        const rawUid = String(b.uid || "").trim().replace(/[^a-zA-Z0-9_:-]/g, "").slice(0, 96);
+        const passCode = String(b.passCode || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+        const waDigits = normalizePhoneDigits(b.waPhone || b.phone || (rawUid.startsWith("wa_") ? rawUid.slice(3) : ""));
+
+        let targetUid = "";
+        let userDocSnap = null;
+
+        if (passCode && passCode.length >= 5) {
+          const fmtCode = passCode.length === 6 ? (passCode.slice(0, 3) + "-" + passCode.slice(3, 6)) : passCode;
+          let qPass = await db.collection("users").where("permanentPassCode", "==", fmtCode).limit(1).get();
+          if (qPass.empty && fmtCode !== passCode) {
+            qPass = await db.collection("users").where("permanentPassCode", "==", passCode).limit(1).get();
+          }
+          if (!qPass.empty) {
+            userDocSnap = qPass.docs[0];
+            targetUid = userDocSnap.id;
+          }
+        }
+        if (!targetUid && waDigits && waDigits.length >= 8) {
+          targetUid = "wa_" + waDigits;
+          const snapWa = await db.collection("users").doc(targetUid).get();
+          if (snapWa.exists) userDocSnap = snapWa;
+        }
+        if (!targetUid && b.deviceAuthToken) {
+          const dTok = verifyDeviceAuthToken(String(b.deviceAuthToken));
+          if (dTok && dTok.uid) {
+            targetUid = dTok.uid;
+            const snapDev = await db.collection("users").doc(targetUid).get();
+            if (snapDev.exists) userDocSnap = snapDev;
+          }
+        }
+        if (!targetUid && b.adminSessionToken) {
+          const vTok = verifyAdminSessionToken(String(b.adminSessionToken));
+          const vUid = typeof vTok === "string" ? vTok : (vTok && vTok.uid);
+          if (vUid) {
+            targetUid = vUid;
+            const snapAdm = await db.collection("users").doc(targetUid).get();
+            if (snapAdm.exists) userDocSnap = snapAdm;
+          }
+        }
+        if (!targetUid && rawUid && rawUid !== "anon" && rawUid !== "guest") {
+          targetUid = rawUid;
+          const snapRaw = await db.collection("users").doc(targetUid).get();
+          if (snapRaw.exists) userDocSnap = snapRaw;
+        }
+
+        if (!targetUid) {
+          return res.status(200).json({ ok: false, guest: true, error: "Not signed in" });
+        }
+
+        const userRef = db.collection("users").doc(targetUid);
+        const existingData = (userDocSnap && userDocSnap.exists) ? (userDocSnap.data() || {}) : {};
+
+        if (action === "reset" || action === "clear") {
+          await userRef.set({
+            trackBlueprint: admin.firestore.FieldValue.delete(),
+            updatedAtMs: Date.now()
+          }, { merge: true });
+          return res.status(200).json({ ok: true, uid: targetUid, trackBlueprint: null });
+        }
+
+        if (action === "load" || action === "get") {
+          return res.status(200).json({
+            ok: true,
+            uid: targetUid,
+            trackBlueprint: existingData.trackBlueprint || null
+          });
+        }
+
+        // Default: save / merge trackBlueprint
+        const cleanBp = sanitizeTrackBlueprint(b.trackBlueprint || existingData.trackBlueprint);
+        if (!cleanBp) {
+          return res.status(400).json({ ok: false, error: "Invalid trackBlueprint payload" });
+        }
+
+        await userRef.set({
+          uid: targetUid,
+          ...(waDigits ? { whatsappDigits: waDigits } : {}),
+          trackBlueprint: cleanBp,
+          updatedAtMs: Date.now(),
+          updatedAt: admin.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        return res.status(200).json({
+          ok: true,
+          uid: targetUid,
+          trackBlueprint: cleanBp
+        });
+      } catch (bpErr) {
+        console.error("sync_track_blueprint error:", bpErr);
+        return res.status(500).json({ ok: false, error: bpErr.message || "Blueprint sync failed" });
+      }
+    }
+    // === GAT CLOUD TRACK BLUEPRINT ENGINE (ZERO-LOCALSTORAGE 5-DEVICE FIRESTORE SYNC) END ===
 
     if (req.body && (req.body.mode === "save_cloud_draft" || req.body.mode === "restore_wa_session")) {
       try {
@@ -1705,6 +1968,13 @@ exports.auditDoc = onRequest(
           }
           const uRef = typeof userRef !== "undefined" ? userRef : db.collection("users").doc(targetUid);
           const uData = (userDocSnap && userDocSnap.exists) ? (userDocSnap.data() || {}) : {};
+          if (b.trackBlueprint && typeof b.trackBlueprint === "object") {
+            const incomingBp = sanitizeTrackBlueprint(b.trackBlueprint);
+            if (incomingBp) {
+              uData.trackBlueprint = incomingBp;
+              await uRef.set({ trackBlueprint: incomingBp, updatedAtMs: Date.now() }, { merge: true }).catch(() => {});
+            }
+          }
           const ensuredCode = await ensurePermanentPassCode(targetUid, uRef, uData);
           let customToken = "";
           try { customToken = await admin.auth().createCustomToken(targetUid); } catch (e) {}
@@ -2233,8 +2503,19 @@ exports.auditDoc = onRequest(
         };
       }
 
+      
+      // === SPOK CLEAN LIST HELPER START ===
+      function cleanSpokMarkdownLists(txt) {
+        return String(txt || "")
+          .replace(/(^|\n)\s*(\d+\.)\s*\n+\s*(?=\S)/g, "$1$2 ")
+          .replace(/\bTracking Partner\b/g, "Spok");
+      }
+      // === SPOK CLEAN LIST HELPER END ===
+
       function buildRelevantSiteBrainSlice(queryText, histArr, curMod, allowFullVaultAnswers) {
         const corpus = (String(queryText || "") + " " + String(curMod || "") + " " + (histArr || []).map((x) => x && x.text || "").join(" ")).toLowerCase();
+        
+
         const chunks = [];
 
         const isShulOrBd = /shul|synagogue|beit knesset|beth knesset|community|rabbi|prayer|pray|siddur|song|brach|blessing|shabbat|kashrut|kosher|mikvah|beit din|tribunal|dayan|convert|giyur|giur|halach|tefillin|minyan|kallah|niddah|שבת|בית כנסת|קהילה|רב|תפיל|ברכות|בית דין|גיור|כלה|синагог|общин|раввин|шаббат|молитв|гиюр/.test(corpus);
@@ -2278,6 +2559,28 @@ exports.auditDoc = onRequest(
         if (Array.isArray(SITE_BRAIN.site_obstacles_and_truths) && SITE_BRAIN.site_obstacles_and_truths.length) {
           chunks.push("HOMEPAGE STATUTORY PLAYBOOKS: " + SITE_BRAIN.site_obstacles_and_truths.slice(0, 10).join(" || ").slice(0, 2000));
         }
+        
+        // === SPOK PERSONA & STATUTORY CALIBRATION V1 START ===
+        const hasPriorAssistantTurn = Array.isArray(histArr) && histArr.some((m) => m && (m.role === "assistant" || m.role === "model" || m.sender === "bot"));
+        const spokPersonaAndCalibrationBlock = [
+          "=== MANDATORY IDENTITY, TONE & STATUTORY CALIBRATION (HIGHEST PRIORITY OVERRIDE) ===",
+          "1. YOUR NAME IS SPOK: Your name is **Spok** (in Hebrew: **Spok / ספוק**, in Russian: **Spok / Спок**). NEVER call yourself 'Tracking Partner', 'AI Assistant', 'Helpdesk', or 'Bot'. Always refer to yourself as Spok.",
+          (!hasPriorAssistantTurn
+            ? "2. FIRST-MESSAGE SELF-INTRODUCTION: Because this is your first reply in this chat session, open warmly in 1 short sentence introducing yourself as **Spok** in the user's language (e.g., 'Hi! I'm **Spok**, your personal Aliyah, Giyur & Misrad HaPanim guide.' / 'שלום! אני **Spok (ספוק)**, המלווה האישי שלכם לעלייה, גיור ומשרד הפנים.') and immediately answer their question."
+            : "2. CONTINUING CONVERSATION AS SPOK: Speak naturally as Spok without re-introducing yourself on every turn."),
+          "3. ZERO ALARMIST SCARE-COPY OR FAKE CRISIS CLOCKS: Be calm, accurate, empathetic, and grounded—like a sharp senior Israeli regulatory advisor. Do NOT invent dramatic trap badges or push '15,000₪–35,000₪ lawyer retainer' scare copy unless the user asks about legal fees or faces an actual PIBA visa revocation/refusal.",
+          "4. CRITICAL STATUTORY SEPARATION — CONVERSION AUTHORITY (VA'ADAT CHARIGIM) vs. PIBA (MISRAD HAPANIM):",
+          "   - Foreign workers on a **B/1 work visa** (caregiving, agriculture, construction, foreign expert, general work) are **explicitly excluded** by the State Conversion Authority's Exceptions Committee (`ועדת חריגים ללימודי גיור`) criteria and routinely receive a summary rejection from the Conversion Committee.",
+          "   - **NEVER CONFLATE THE TWO AGENCIES:** A rejection letter from the Conversion Authority / Va'adat Charigim (or a Beit Din deferral) **DOES NOT cancel, revoke, or shorten a valid employer-sponsored B/1 work visa** and **DOES NOT trigger a 14-day PIBA departure clock** or Nohal 1.6.0001 deportation enforcement! As long as their B/1 employer sponsorship remains valid and in compliance, their legal stay in Israel is 100% intact.",
+          "   - A **14-day departure order** and **21-day Nohal 1.6.0001 Internal Administrative Appeal (`ערר פנימי`)** apply **ONLY** when **PIBA (Population & Immigration Authority / Misrad HaPanim) itself** formally refuses to renew, cancels, or terminates a person's visa status.",
+          "   - When advising a B/1 worker rejected for conversion: (a) reassure them immediately that a Va'adat Charigim conversion rejection does NOT cancel their valid B/1 work permit or trigger a 14-day departure order; (b) warn them NOT to quit a legal B/1 work permit for a B/2 tourist visa expecting easy admission; (c) check if they have an Israeli citizen partner (since transitioning to the **Graduated Spousal Track Nohal 5.2.0008 / 5.2.0009** grants a spousal B/1 / A/5 status that *does* allow conversion), or help them build Hebrew/Torah foundations now to convert via a recognized Beit Din in their home country after their contract.",
+          "   - If a user says 'it was rejected' without specifying whether **PIBA** refused their visa OR **Va'adat Charigim / Rabbanut** refused conversion admission, briefly distinguish both in 2 calm sentences and ask which letter they received.",
+          "5. CLEAN NUMBERED LIST FORMATTING: Always keep the step number and bold title on the exact same line (`1. **Step Title:** details...`). NEVER put `1.` alone on its own line above a line break!"
+        ].join("\n");
+        chunks.unshift(spokPersonaAndCalibrationBlock);
+        chunks.push(spokPersonaAndCalibrationBlock);
+        // === SPOK PERSONA & STATUTORY CALIBRATION V1 END ===
+
         return chunks.join("\n\n");
       }
 
@@ -2333,6 +2636,32 @@ exports.auditDoc = onRequest(
         if (isRealUid && anonDossierDoc && (anonDossierDoc.discussedTopics || []).length > 0 && !(uData.aiPartnerDossier && (uData.aiPartnerDossier.discussedTopics || []).length >= dossier.discussedTopics.length)) {
           await db.collection("users").doc(rawUid).set({ aiPartnerDossier: dossier }, { merge: true }).catch(() => {});
         }
+
+        
+        const activeTrackBlueprint = (b.trackBlueprint && typeof b.trackBlueprint === "object" && typeof sanitizeTrackBlueprint === "function")
+          ? sanitizeTrackBlueprint(b.trackBlueprint)
+          : ((uData && uData.trackBlueprint) ? uData.trackBlueprint : null);
+        if (activeTrackBlueprint && typeof mergedDossier === "object" && mergedDossier) {
+          if (!mergedDossier.primaryGoal && activeTrackBlueprint.trackTitle) {
+            mergedDossier.primaryGoal = activeTrackBlueprint.trackTitle;
+          }
+          mergedDossier.trackBlueprint = activeTrackBlueprint;
+        }
+
+        const trackBlueprintAiContext = activeTrackBlueprint
+          ? (
+              "\n\n[ACTIVE ONBOARDING TRACK BLUEPRINT FOR THIS USER]:\n" +
+              "- Diagnosed Track ID: " + (activeTrackBlueprint.trackId || "unknown") + "\n" +
+              "- Diagnosed Track Title: " + (activeTrackBlueprint.trackTitle || "") + "\n" +
+              "- Current Active Step ID: " + (activeTrackBlueprint.activeStepId || "") + " (Step #" + ((Number(activeTrackBlueprint.activeStepIdx) || 0) + 1) + ")\n" +
+              "- Completed Steps: " + ((activeTrackBlueprint.completedSteps || []).join(", ") || "none yet") + "\n" +
+              "- Onboarding Answers: " + JSON.stringify(activeTrackBlueprint.answers || {}) + "\n" +
+              "- Children Under 18 Included: " + Boolean(activeTrackBlueprint.hasChildrenUnder18) + "\n" +
+              "- CONSULTATIVE STRATEGY RULE: If the user is asking about a Visa / Va'adat Charigim Rejection, B/1 Work Visa scrutiny, or how to complete their current trajectory step, give them 2-3 concrete, authoritative insider action steps right away (e.g. 21-day Nohal 1.6.0001 written appeal vs. 14-day departure clock, scanning their Hebrew Daf Siruv in Smart Scan, or Nohal 5.2.0008/0009 Sec. ג.10 spousal protection), ask 1 diagnostic follow-up question with [[ASK:...]] chips, and provide a matching [[ACT:app|hebrew-engine|...]] or [[ACT:concierge|concierge_lawyer_349|...]] button!\n"
+            )
+          : "\n\n[SPECIALIZED B/1 WORK VISA & VISA REJECTION RESCUE CONSULTATIVE PLAYBOOK]:\n" +
+            "- IF THE USER ASKS ABOUT A VISA REJECTION OR VA'ADAT CHARIGIM REFUSAL: Lead with calm, authoritative tactical empathy (Chris Voss / Sandler). Explain immediately: (1) A refusal letter (Daf Siruv) usually sets a 14-day departure clock, but under PIBA Nohal 1.6.0001 they have a strict 21-day window to file a formal written Hebrew internal appeal (Arar Pnimi) to freeze removal—verbal arguments at the counter do nothing; (2) They should snap their Hebrew refusal sheet in our Smart Scanner so we decode the exact clause; (3) Ask ONE diagnostic question via [[ASK:...]] chips to identify their exact anchor (e.g. Do they have an Israeli partner for a Nohal 5.2.0008/0009 Sec. ג.10 pivot, or was it a solo tourist/B/1 Va'adat Charigim Form Ash/1 refusal?) and include [[ACT:app|hebrew-engine|📸 Scan My Hebrew Refusal Letter →]].\n" +
+            "- IF THE USER ASKS ABOUT A B/1 WORK VISA: Validate that standard foreign-labor B/1 visas face the highest Va'adat Charigim rejection rates because PIBA fears conversion is being used to bypass immigration expiry—whereas a Spousal B/1 (Nohal 5.2.0008/0009 Sec. ג.10) is protected. Explain how to overcome the presumption (vetted Sponsoring Rabbi + Host Family TZ letters + Form Ash/1 statutory Michtav Hesber) and offer [[ASK:...]] chips to diagnose whether their B/1 is employer-sponsored or spousal.";
 
         if (b.mode === "get_ai_partner_dossier") {
           return res.status(200).json({
@@ -2462,7 +2791,7 @@ ACTIVE MODE: FULL VIP MEMBER MASTERY COACH (ALL GATES UNLOCKED)
 
           MOVE_1_PRIZE_FRAME_DIAGNOSIS: `
 ACTIVE CHESS STAGE: ♟️ MOVE 1 — SANDLER DOCTOR DIAGNOSIS & OREN KLAFF PRIZE FRAME (ZERO ANSWER LEAK + ZERO SALES PITCH!)
-- THE GRANDMASTER RULE FOR MOVE 1: Prescription before diagnosis is malpractice! On Move 1, DO NOT pitch any product, DO NOT mention any dollar prices ($), DO NOT include any /pricing/ links, DO NOT output any [[TRAP:...]] tag, and DO NOT output any green ⚡ checkout button!
+- THE GRANDMASTER RULE FOR MOVE 1: Prescription before diagnosis is malpractice! On Move 1, DO NOT pitch any product, DO NOT mention any dollar prices ($), DO NOT include any /pricing/ links, DO NOT output any green ⚡ checkout button—HOWEVER, you MUST ALWAYS include ONE relevant [[TRAP:key|Short Trap Title|1. How It Actually Works|2. The Common Mistake People Make Alone|3. How GiyurAliyahTrack Makes You Bulletproof|sku_code]] red warning popup tag in ${targetLangName} between Paragraph 1 and Paragraph 2 whenever the question involves any bureaucratic, visa, conversion, Rabbanut, Beit Din, Apostille, or Misrad HaPanim rule!
 - ZERO-LEAK VELVET ROPE (CRITICAL!): If their question touches ANY 🔒 LOCKED gate below, DO NOT answer, confirm, deny, or summarize the rule—NOT EVEN "Yes", "No", "It is forbidden", or "It is permitted"! Giving even a 1-sentence textbook answer ("mixing milk and meat is forbidden") spoils the open loop and gives away the farm!
 - EXACT 2-PARAGRAPH STRUCTURE FOR MOVE 1 (45 to 70 words total):
   • Paragraph 1 (Knowing Intrigue): Warmly note in 1 crisp sentence that their question goes straight to a core area where Beit Din judges (or Misrad HaPanim clerks) never stop at textbook basics—they test split-second real-life slip-ups and edge cases—WITHOUT stating or hinting at what the rule actually is!
@@ -2540,6 +2869,9 @@ B) 7 HUMAN CONCIERGE SERVICES (${lPrefix}/concierge-booking/?sku=<SKU>&lang=${ef
   • concierge_notary_199 ($199 Israeli Notary Translation) | concierge_rabbi_349 ($349 Vetted Rav Melaveh — Solo) | concierge_kallah_249 ($249 Certified Madrichat Kallah — ONLY for Married/Engaged women, NEVER pitch to unengaged singles!) | concierge_couple_499 ($499 Couple Rabbi + Madrichat Kallah) | concierge_hesber_199 ($199 Custom Michtav Hesber) | concierge_audit_249 ($249 Forensic Pre-Clerk Audit) | concierge_lawyer_349 ($349 Licensed Immigration Lawyer Escort)
 
 ================================================================================
+- ANTI-LAWYER RUNAROUND & FREE TRACK BLUEPRINT RULE: Whenever relevant, remind the user that standard Israeli Aliyah/Giyur immigration lawyers charge a 15,000₪ to 40,000₪+ baseline (plus hidden fees and endless runaround) just to gatekeep which forms to file—whereas our free Track Blueprint maps their exact legal trajectory and exposes every bureaucratic pitfall for free, and our self-serve engines let them stamp the exact same Hebrew PDFs for a tiny fraction of the cost.
+
+================================================================================
 4. FORMATTING & BUTTON TAG SYNTAX
 ================================================================================
 - MOBILE BREVITY: Keep visible text strictly 45–95 words across AT MOST 2 short paragraphs separated by a blank line.
@@ -2548,7 +2880,7 @@ B) 7 HUMAN CONCIERGE SERVICES (${lPrefix}/concierge-booking/?sku=<SKU>&lang=${ef
   • Diagnostic / Qualifying / Follow-up question chip: [[ASK:Exact message sent when clicked|1️⃣ Short Button Label]]
   • Free /app/ preview button: [[ACT:app|beit-din-150|🧪 Short Label]] (targets: beit-din-150, songs-prayers, couples-sync, hebrew-engine, apostille-auditor, rabbinic-letters)
   • Checkout / Concierge button (ONLY allowed in MOVE_3, MOVE_4+, or direct pricing queries!): [[ACT:pricing|sku_code|⚡ Short Label →]] or [[ACT:concierge|concierge_sku|⚡ Short Label →]]
-  • Statutory Trap Pill (ONLY allowed in MOVE_2, MOVE_3, or MOVE_4+ — NEVER on MOVE_1!): [[TRAP:key|Short Trap Title|Procedural trap description (ZERO Halachic answers!)|Delay/refusal risk|How our vault solves it|sku_code]]
+  • Statutory Trap Pill (MANDATORY ON ALL MOVES — MOVE_1, MOVE_2, MOVE_3, MOVE_4+, AND VIP — whenever any bureaucratic, legal, visa, or Beit Din risk exists! Always write all 4 text fields inside [[TRAP:...]] in ${targetLangName}): [[TRAP:key|Short Trap Title|Procedural trap description (ZERO Halachic answers!)|Delay/refusal risk|How our vault solves it|sku_code]]
 
 ================================================================================
 5. USER DOSSIER & SITE KNOWLEDGE CONTEXT
@@ -2556,7 +2888,7 @@ B) 7 HUMAN CONCIERGE SERVICES (${lPrefix}/concierge-booking/?sku=<SKU>&lang=${ef
 ${persistentMemoryBlock}
 
 SITE KNOWLEDGE INDEX:
-${dynamicSiteBrain}
+${dynamicSiteBrain}${trackBlueprintAiContext}
 
 ================================================================================
 6. [[STATE:goal=<giyur|aliyah|spousal|both|unknown>|court=<private_beit_din|rabbanut_state|overseas_orthodox|non_orthodox|unknown>|loc=<in_israel|abroad|unknown>|rel=<israeli_partner|foreign_jewish_partner|converting_partner|solo|unknown>|name=<extractedFirstNameOrEmpty>|topic=<Short 3-6 Word Topic in ${targetLangName}>|sku=<primary_sku>]]`;
@@ -2597,6 +2929,118 @@ ${dynamicSiteBrain}
         const parts = (gJson.candidates && gJson.candidates[0] && gJson.candidates[0].content && gJson.candidates[0].content.parts) || [];
         let replyText = parts.filter((p) => !p.thought).map((p) => p.text || "").join("").trim();
         if (!replyText) throw new Error("Empty Gemini response");
+
+
+        // === GUARANTEED 6-LANGUAGE RED WARNING POPUP ([[TRAP:...]]) ENFORCER ===
+        const isTechOrBugReport = /\b(report a problem|bug|glitch|error|not working|broken|cant login|can't login|billingissue|download glitch|platform.*bug)\b|לדווח על תקלה|באג|תקלה באתר|problème technique|signaler un problème|reportar un problema|fallo técnico|problem melden|техническая ошибка|сообщить о проблеме/i.test(userMessage);
+        if (!isTechOrBugReport && !/\[\[TRAP:[^\]]+\]\]/i.test(replyText)) {
+          const TRAP_VAULT_6LANG = {
+            rejection_14d_21d: {
+              sku: "forms_sprint",
+              en: ["The 14-Day Departure vs. 21-Day Appeal Collision", "A Misrad HaPanim or Va'adat Charigim refusal sheet (Daf Siruv) triggers a 14-day exit clock, while PIBA Nohal 1.6.0001 grants 21 days to file a formal written internal appeal (Arar Pnimi).", "Arguing verbally at the counter or waiting past Day 14 without a stamped written appeal triggers an unlawful overstay flag and a multi-year Ben Gurion border ban.", "Our Smart Scanner decodes the exact Hebrew refusal clause and stamps your formal Hebrew appeal & Form Ash/1 / Ash/6 pivot packet to freeze removal legally."],
+              he: ["התנגשות 14 ימי היציאה מול 21 ימי הערעור (נוהל 1.6.0001)", "מכתב סירוב ממשרד הפנים או ועדת חריגים מפעיל שעון יציאה של 14 יום, בעוד נוהל 1.6.0001 מעניק 21 יום להגשת ערר פנימי מנומק בכתב.", "ויכוח בעל-פה מול הפקיד או שהייה מעבר ל-14 יום ללא חותמת הגשת ערעור בכתב גורמים לסימון שהייה בלתי חוקית ואיסור כניסה לישראל לשנים.", "הסורק החכם שלנו מפענח את סעיף הסירוב המדויק ומפיק בקשת ערעור רשמית בעברית וטופס אש/1 או אש/6 לעצירת ההרחקה כחוק."],
+              fr: ["Collision Départ 14 Jours vs Recours 21 Jours (Nohal 1.6.0001)", "Une lettre de refus (Daf Siruv) déclenche un délai de départ de 14 jours, alors que la procédure Nohal 1.6.0001 accorde 21 jours pour déposer un recours interne écrit.", "Contester oralement au guichet ou dépasser les 14 jours sans récépissé de recours écrit entraîne une interdiction de territoire de plusieurs années.", "Notre scanner décode la clause exacte du refus en hébreu et génère votre dossier officiel de recours (Ash/1 ou Ash/6) pour suspendre l'expulsion."],
+              es: ["Choque entre Salida en 14 Días y Apelación de 21 Días (Nohal 1.6.0001)", "Una carta de rechazo (Daf Siruv) activa una orden de salida de 14 días, mientras que el Nohal 1.6.0001 otorga 21 días para presentar una apelación interna formal por escrito.", "Discutir verbalmente en ventanilla o quedarse más de 14 días sin apelación sellada provoca orden de deportación y bloqueo fronterizo por años.", "Nuestro escáner decodifica la cláusula exacta en hebreo y estampa tu apelación formal y formularios Ash/1 o Ash/6 para frenar la salida."],
+              de: ["Kollision: 14-Tage-Ausreisefrist vs. 21-Tage-Einspruch (Nohal 1.6.0001)", "Ein Ablehnungsschreiben (Daf Siruv) setzt eine 14-tägige Ausreisefrist, während PIBA Nohal 1.6.0001 21 Tage für einen schriftlichen internen Einspruch gewährt.", "Mündliche Diskussionen am Schalter oder ein Überziehen der 14 Tage ohne gestempelten Einspruch führen zu Ausweisung und mehrjähriger Einreisesperre.", "Unser Smart-Scanner entschlüsselt den hebräischen Ablehnungsgrund und erstellt Ihren gestempelten Einspruch (Ash/1 / Ash/6) zum sofortigen Friststopp."],
+              ru: ["Коллизия: 14 дней на выезд против 21 дня на апелляцию (Ноаль 1.6.0001)", "Письмо об отказе (Даф Сирув) запускает 14-дневный срок выезда, тогда как инструкция МВД Ноаль 1.6.0001 даёт 21 день на подачу письменной внутренней апелляции.", "Устные споры в окне МВД или пребывание дольше 14 дней без штампа о принятии апелляции ведут к депортации и запрету на въезд на 5 лет.", "Наш сканер расшифровывает точную статью отказа на иврите и формирует официальную письменную апелляцию и анкеты Аш/1 / Аш/6 для заморозки выезда."]
+            },
+            b1_work_scrutiny: {
+              sku: "forms_sprint",
+              en: ["The Foreign-Labor B/1 Work Visa Conversion Rejection Trap", "The Exceptions Committee (PIBA + Conversion Authority) heavily scrutinizes standard foreign-labor B/1 work visas, suspecting conversion is being used to bypass visa expiry—whereas Spousal B/1 visas (Nohal 5.2.0008/0009 Sec. ג.10) are legally protected.", "Submitting Form Ash/1 on a standard B/1 work visa without an Israeli partner anchor or Rabbanut-recognized Sponsoring Rabbi & Host Family TZ letters leads to immediate rejection.", "We structure your statutory Hebrew Michtav Hesber, Form Ash/1, and vetted Sponsoring Rabbi + Host Family attestation dossier to overcome the immigration-bypass presumption."],
+              he: ["מלכודת הסירוב לאשרת עבודה B/1 בוועדת חריגים לגיור", "ועדת החריגים (משרד הפנים ומערך הגיור) בוחנת בחשדנות מחמירה מחזיקי אשרת עבודה רגילה (B/1 עובד זר) מחשש לעקיפת חוקי ההגירה — בעוד אשרת B/1 לבן/בת זוג של ישראלי מוגנת לפי סעיף ג.10.", "הגשת טופס אש/1 באשרת עבודה B/1 ללא עיגון זוגי או מכתבי רב מלווה מוכר ומשפחה מאמצת עם מספרי ת״ז מובילה לדחייה על הסף.", "אנו בונים עבורכם מכתב הסבר משפטי בעברית, טופס אש/1 מדויק ומכתבי רב מלווה ומשפחה מאמצת להפרכת חזקת עקיפת ההגירה."],
+              fr: ["Le Piège du Refus pour Visa de Travail B/1 devant la Va'adat Charigim", "La commission (PIBA + Autorité de Conversion) examine très sévèrement les visas de travailleur étranger B/1 par crainte d'un contournement migratoire, contrairement au visa B/1 conjoint (protégé par l'art. ג.10).", "Déposer le formulaire Ash/1 sous visa B/1 salarié sans ancrage conjoint ni lettres d'un rabbin agréé et d'une famille d'accueil avec TZ entraîne un rejet immédiat.", "Nous générons votre Michtav Hesber statutaire en hébreu, le formulaire Ash/1 et les lettres rabbiniques pour prouver votre sincérité."],
+              es: ["La Trampa de Rechazo en Visas de Trabajo B/1 ante Va'adat Jariguim", "El comité (PIBA + Autoridad de Conversión) examina con dureza las visas laborales B/1 estándar por temor a evasión migratoria, a diferencia de la visa B/1 conyugal (protegida por la Sec. ג.10).", "Presentar el Formulario Ash/1 con visa laboral B/1 sin pareja israelí ni cartas de rabino patrocinador y familia anfitriona con TZ causa rechazo inmediato.", "Estructuramos tu Mijtav Hesber en hebreo, Formulario Ash/1 y cartas rabínicas oficiales para superar el filtro de Misrad HaPanim."],
+              de: ["Die Ablehnungsfalle bei B/1-Arbeitsvisa vor der Va'adat Charigim", "Das Komitee (PIBA + Konversionsbehörde) prüft reguläre B/1-Arbeitsvisa extrem streng wegen Verdachts auf Einwanderungsumgehung — während Partner-B/1-Visa (Abs. ג.10) geschützt sind.", "Ein Formular Ash/1 mit regulärem B/1-Visum ohne Partner-Anker oder Briefe eines anerkannten Rabbiners & einer Gastfamilie mit TZ führt zur sofortigen Ablehnung.", "Wir erstellen Ihr hebräisches Michtav Hesber, Formular Ash/1 und Rabbiner-/Gastfamilienbriefe, um den Behördenverdacht rechtssicher zu widerlegen."],
+              ru: ["Ловушка отказа по рабочей визе B/1 в комиссии Ваадат Харигим", "Комиссия (МВД и Управление гиюра) крайне жёстко проверяет обычные трудовые визы B/1, опасаясь обхода иммиграционных правил — в отличие от супружеской визы B/1 по СТУПРО (п. ג.10).", "Подача анкеты Аш/1 с обычной визой B/1 без партнёра-израильтянина или писем признанного раввина и принимающей семьи с номерами ТЗ ведёт к мгновенному отказу.", "Мы формируем юридически выверенное письмо Михтав Эсбер на иврите, анкету Аш/1 и письма раввина для успешного прохождения фильтра МВД."]
+            },
+            private_tourist_block: {
+              sku: "vip_giyur_sprint",
+              en: ["The Private Beit Din Tourist Aliyah & Rabbanut Marriage Block", "Converting at a private Orthodox Beit Din (Gush Etzion / Bnei Brak) on a tourist visa makes you 100% halachically Jewish, but Misrad HaPanim blocks Aliyah on a tourist private conversion and the Chief Rabbinate refuses marriage registration without State validation.", "Spending a year converting privately as a unanchored tourist leaves you with no Teudat Zehut, no work permit, and blocked Rabbanut marriage registration.", "We map your legal pivot (Va'adat Charigim Form Ash/1 into State Giyur or Nohal 5.2.0008/0009 Spousal anchor + Rabbanut validation) before you lose years."],
+              he: ["חסימת עלייה ונישואין ברבנות בגיור פרטי באשרת תייר", "גיור בבית דין אורתודוקסי פרטי (גוש עציון / בני ברק) באשרת תייר הוא כשר הלכתית ב-100%, אך משרד הפנים חוסם עלייה מכוחו והרבנות הראשית מסרבת לרשום נישואין ללא מסלול אימות ממלכתי.", "שנה של גיור פרטי כתייר ללא עוגן חוקי משאירה אתכם ללא תעודת זהות, ללא אישור עבודה ועם חסימת חופה ברבנות.", "אנו בונים עבורכם את המעבר החוקי (ועדת חריגים טופס אש/1 לגיור ממלכתי או עיגון זוגי 5.2.0008/0009 + אישור גיור ברבנות) מראש."],
+              fr: ["Blocage d'Aliyah & de Mariage au Rabbinat pour Conversion Privée Touriste", "Une conversion orthodoxe privée (Gush Etzion / Bnei Brak) sous visa touriste est 100% cachère, mais le Misrad HaPanim refuse l'Aliyah et le Grand Rabbinat bloque le mariage sans validation d'État.", "Convertir en touriste sans ancrage légal vous laisse sans Teoudat Zehout, sans permis de travail et bloqué au Rabbinat.", "Nous sécurisons votre pivot légal (Va'adat Charigim Ash/1 ou statut conjoint 5.2.0008/0009 + validation rabbinique) dès le premier jour."],
+              es: ["Bloqueo de Aliyá y Boda en el Rabinato por Conversión Privada de Turista", "Convertirse en un Beit Din ortodoxo privado (Gush Etzion / Bnei Brak) como turista es 100% kosher, pero Misrad HaPanim bloquea la Aliyá y el Gran Rabinato rechaza registrar tu boda sin validación estatal.", "Hacer conversión privada como turista sin anclaje legal te deja sin Teudat Zehut, sin permiso laboral y bloqueado en el Rabinato.", "Trazamos tu giro legal (Va'adat Jariguim Ash/1 o vía conyugal 5.2.0008/0009 + validación del Rabinato) sin perder años."],
+              de: ["Alija- & Oberrabbinats-Heiratssperre bei privatem Touristen-Giur", "Ein privater orthodoxer Giur (Gush Etzion / Bnei Brak) mit Touristenvisum ist 100% koscher, doch Misrad HaPanim verweigert die Alija und das Oberrabbinat blockiert die Hochzeit ohne staatliches Prüfverfahren.", "Ein privater Giur als Tourist ohne Rechtsanker lässt Sie ohne Teudat Zehut, ohne Arbeitserlaubnis und ohne Rabbinats-Heiratsrecht zurück.", "Wir sichern Ihren legalen Weg (Va'adat Charigim Ash/1 oder Partner-Anker 5.2.0008/0009 + Rabbinats-Validierung) von Anfang an."],
+              ru: ["Блокировка Алии и брака в Раввинате после частного гиюра по турвизе", "Частный ортодоксальный гиюр (Гуш-Эцион / Бней-Брак) по турвизе 100% кошерен по Галахе, но МВД блокирует Алию, а Главный раввинат отказывает в регистрации брака без гос. подтверждения.", "Годы частного гиюра в статусе туриста без правового якоря оставляют вас без Теудат-Зеута, права на работу и хупы в Раввинате.", "Мы выстраиваем законный переход (Ваадат Харигим Аш/1 или партнёрский трек СТУПРО 5.2.0008/0009 + Ишур Гиюр) без потери лет."]
+            },
+            apostille_180d_clock: {
+              sku: "forms_sprint",
+              en: ["The 180-Day Apostille Expiration Cliff & Unstapled Packet Voiding", "Misrad HaPanim strictly enforces a 180-day freshness clock on foreign Police Checks (FBI/ACRO/RCMP) and Single-Status certificates, and requires federal/Hague Apostilles on every civil document.", "If a single document hits Day 181—or if you remove the staple to scan an Apostille packet—the clerk voids the document and refuses to open your file.", "Our Smart Scanner audits your 5 civil documents & Apostille seals before your appointment and tracks your live 180-day & 90-day countdowns."],
+              he: ["צוק 180 הימים למסמכי אפוסטיל ופסילת תעודות שהופרדו מהסיכה", "משרד הפנים אוכף בתוקף שעון תפוגה של 180 יום על תעודת יושר ותמצית רווקות, ודורש חותמת אפוסטיל מקורית על כל תעודה ציבורית.", "אם תעודה אחת חוצה את היום ה-181 — או אם הוצאתם את סיכת השדכן לסריקה — הפקיד פוסל את המסמך ומסרב לפתוח את התיק.", "הסורק החכם שלנו מאמת את 5 תעודות המקור וחותמות האפוסטיל מראש ומפעיל מעקב חי אחר שעון 180 ו-90 הימים."],
+              fr: ["Le Mur d'Expiration des 180 Jours & Annulation des Apostilles Dégrafées", "Le Misrad HaPanim impose une validité stricte de 180 jours sur le casier judiciaire et le certificat de célibat, avec Apostille officielle sur chaque acte.", "Au 181e jour — ou si vous retirez l'agrafe de l'Apostille pour la scanner — l'agent annule l'acte et refuse d'ouvrir votre dossier.", "Notre scanner audite vos 5 actes apostillés avant le rendez-vous et verrouille votre compte à rebours de 180 jours."],
+              es: ["El Abismo de 180 Días en Apostillas y Anulación por Quitar Grapas", "Misrad HaPanim aplica un límite estricto de 180 días a los antecedentes penales y certificado de soltería, exigiendo Apostilla de La Haya en los 5 documentos.", "En el día 181 —o si quitas la grapa de la Apostilla para escanearla— el funcionario anula el documento y rechaza abrir tu expediente.", "Nuestro escáner verifica tus 5 documentos apostillados antes de la cita y activa tu reloj de 180 días en vivo."],
+              de: ["Die 180-Tage-Apostillenfrist & Ungültigkeit bei gelöster Heftklammer", "Misrad HaPanim setzt eine strikte 180-Tage-Frist für Führungszeugnis und Ledigkeitsbescheinigung und verlangt Original-Apostillen auf allen 5 Urkunden.", "Ab Tag 181 — oder wenn Sie die Heftklammer der Apostille zum Scannen lösen — erklärt der Beamte die Urkunde für ungültig.", "Unser Smart-Scanner prüft alle 5 Apostille-Urkunden vorab und überwacht Ihren 180-Tage-Countdown automatisch."],
+              ru: ["Обрыв 180 дней для апостилей и аннулирование расшитых документов", "МВД Израиля строго ограничивает срок годности справки о несудимости и справки о незамужестве 180 днями и требует оригинал апостиля на всех 5 документах.", "На 181-й день — или если вы сняли скрепку с апостиля для сканирования — чиновник аннулирует документ и отказывает в открытии дела.", "Наш умный сканер проверяет все 5 документов и печати апостиля до визита в МВД и ведёт живой отсчёт 180 дней."]
+            },
+            spousal_5_2_0008: {
+              sku: "couples_sprint",
+              en: ["The Nohal 5.2.0008 / 5.2.0009 Dossier & 300-Question Separated-Room Trap", "Under July 2026 Nohal 5.2.0008 (Ed. 16) & 5.2.0009 (Ed. 17), PIBA clerks audit every date on 6-page Form Ash/6 and Nespach Alef against a separated-room couples interrogation.", "Submitting English/overseas-notarized translations or contradicting your partner on tiny daily details (who paid electric bill, side of bed) triggers a 6–12 month marriage-fraud freeze.", "Our engine stamps coordinate-perfect Hebrew Form Ash/6 & Nespach Alef, generates 4–6 non-identical Israeli witness letters, and syncs both partners on all 300 interview questions on 2 phones."],
+              he: ["מלכודת אוגדן נוהל 5.2.0008 / 5.2.0009 ושימוע 300 השאלות בחדרים נפרדים", "לפי נהלי יולי 2026 (5.2.0008 מהדורה 16 ו-5.2.0009 מהדורה 17), הפקידים מצליבים כל תאריך בטופס אש/6 ונספח א׳ מול תחקיר זוגי בשני חדרים נפרדים.", "הגשת תרגום ללא נוטריון ישראלי או סתירה תמימה בפרטי היומיום (מי שילם חשמל, צד במיטה) גורמת להקפאת חשד לפיקטיביות ל-6–12 חודשים.", "המערכת שלנו מטביעה בעברית את טופס אש/6 ונספח א׳, מפיקה 4–6 מכתבי עדים ייחודיים ומסנכרנת את שניכם על 300 שאלות השימוע ב-2 טלפונים."],
+              fr: ["Le Piège du Dossier Nohal 5.2.0008 / 5.2.0009 & l'Entretien Séparé des 300 Questions", "Selon les procédures Nohal 5.2.0008 (Éd. 16) et 5.2.0009 (Éd. 17), les agents recoupent chaque date du formulaire Ash/6 (6 pages) lors d'un interrogatoire en salles séparées.", "Une traduction non certifiée par un notaire israélien ou des réponses divergentes sur votre quotidien bloquent le dossier pendant 6 à 12 mois.", "Notre moteur remplit Ash/6 et Nespach Alef en hébreu, génère vos lettres de témoins israéliens et synchronise votre couple sur les 300 questions sur 2 téléphones."],
+              es: ["La Trampa del Dossier Nohal 5.2.0008 / 5.2.0009 y las 300 Preguntas en Salas Separadas", "Bajo el Nohal 5.2.0008 (Ed. 16) y 5.2.0009 (Ed. 17), los funcionarios cruzan cada fecha del Formulario Ash/6 (6 páginas) con un interrogatorio de pareja en cuartos separados.", "Traducciones sin notario israelí o contradicciones inocentes sobre la rutina diaria congelan tu expediente de 6 a 12 meses.", "Estampamos Ash/6 y Nespaj Alef en hebreo, generamos 4–6 cartas de testigos israelíes y sincronizamos a la pareja en las 300 preguntas desde 2 móviles."],
+              de: ["Die Nohal 5.2.0008 / 5.2.0009 Akten-Falle & das 300-Fragen-Getrennt-Interview", "Nach Nohal 5.2.0008 (Ed. 16) & 5.2.0009 (Ed. 17) gleichen PIBA-Beamte jedes Datum auf dem 6-seitigen Formular Ash/6 mit einem Paar-Verhör in getrennten Räumen ab.", "Fehlende israelische Notar-Beglaubigungen oder kleine Alltags-Widersprüche lösen eine 6–12-monatige Scheinehe-Sperre aus.", "Wir stempeln Ash/6 & Nespach Alef auf Hebräisch, erstellen 4–6 individuelle Zeugenbriefe und synchronisieren beide Partner auf alle 300 Fragen auf 2 Handys."],
+              ru: ["Ловушка досье СТУПРО (5.2.0008 / 5.2.0009) и перекрёстного допроса из 300 вопросов", "По инструкциям 5.2.0008 (Ред. 16) и 5.2.0009 (Ред. 17) инспекторы МВД сверяют каждую дату в 6-страничной анкете Аш/6 с ответами пары в разных кабинетах.", "Переводы без печати израильского нотариуса или случайные расхождения в мелочах быта вызывают заморозку дела на 6–12 месяцев.", "Мы заполняем анкету Аш/6 и Неспах Алеф на иврите, создаём 4–6 писем свидетелей и синхронизируем пару по всем 300 вопросам на 2 телефонах."]
+            },
+            beit_din_700_tribunal: {
+              sku: "bd_bundle_sprint",
+              en: ["The Ma'amad Beit Din Curveball & Unrecognized Rabbi Trap", "The 3-judge Beit Din tribunal tests lived Halachic reflex, out-loud Brachot/Shema fluency, and sincere humility—and only accepts recommendation letters from Rabbanut-recognized Sponsoring Rabbis.", "Studying with an unrecognized rabbi or freezing on practical Shabbat/Kashrut curveballs and food Brachot triggers an immediate 6-month tribunal deferral.", "Drill all 700 real Dayanim questions (incl. 200 sincerity curveballs), 56 dual-Nusach Shabbat songs/prayers, and generate 5–8 Hebrew community letters."],
+              he: ["מלכודת שאלות ההתקלה במעמד בית הדין ורב מלווה שאינו מוכר", "הרכב שלושת הדיינים בוחן אינסטינקט הלכתי מעשי, קריאת ברכות ושמע ישראל בקול וענווה כנה — ומקבל אך ורק מכתבים מרב מלווה המוכר על ידי הרבנות.", "לימוד אצל רב שאינו מוכר או גמגום בשאלות מעשיות בשבת, כשרות וברכות הנהנין גוררים דחייה של 6 חודשים במעמד בית הדין.", "תרגלו את כל 700 שאלות הדיינים האמיתיות, 56 שירי שבת ותפילות בקריוקי, והפיקו 5–8 מכתבי קהילה בעברית תקנית."],
+              fr: ["Le Piège des Questions Pièges du Beit Din & du Rabbin Non Reconnu", "Les 3 juges (Dayanim) testent vos réflexes halakhiques, la récitation à voix haute des Brakhot/Chema et exigent un rabbin accompagnateur reconnu par le Rabbinat.", "Étudier avec un rabbin non agréé ou hésiter sur les Brakhot et lois pratiques de Chabbat entraîne un ajournement de 6 mois.", "Entraînez-vous aux 700 vraies questions du Beit Din, aux 56 chants/prières audio et générez vos 5 à 8 lettres communautaires en hébreu."],
+              es: ["La Trampa de las Preguntas Curvas del Beit Din y Rabino No Reconocido", "El tribunal de 3 Dayanim evalúa reflejos halájicos prácticos, recitación en voz alta de Brajot/Shemá y exige cartas de un rabino patrocinador reconocido por el Rabinato.", "Estudiar con un rabino no reconocido o dudar en Brajot y leyes prácticas de Shabat provoca un aplazamiento de 6 meses.", "Practica las 700 preguntas reales del Beit Din, las 56 canciones/rezos en karaoke y genera tus 5–8 cartas comunitarias en hebreo."],
+              de: ["Die Beit-Din-Fangfragen & die Falle nicht anerkannter Rabbiner", "Das 3-Richter-Tribunal prüft gelebte Halacha-Reflexe, lautes Vortragen von Brachot/Schema und akzeptiert nur Empfehlungen von Rabbinats-anerkannten Begleitrabbinern.", "Unterricht bei einem nicht anerkannten Rabbiner oder Unsicherheit bei Grund-Brachot und Schabbat-Regeln führt zu 6 Monaten Zurückstellung.", "Trainieren Sie alle 700 echten Beit-Din-Fragen, 56 Schabbat-Lieder/Gebete mit Audio und erstellen Sie 5–8 hebräische Gemeindebriefe."],
+              ru: ["Ловушка каверзных вопросов Бейт-Дина и непризнанного раввина", "Суд из 3 даянов проверяет живые галахические навыки, чтение брахот и Шма вслух и принимает письма только от раввинов, признанных Главным раввинатом.", "Обучение у непризнанного раввина или запинки на базовых благословениях и законах Шаббата ведут к отсрочке суда на 6 месяцев.", "Отработайте все 700 реальных вопросов Бейт-Дина, 56 субботних песен и молитв в караоке и соберите 5–8 писем общины на иврите."]
+            },
+            sal_klita_24mo: {
+              sku: "forms_sprint",
+              en: ["The 24-Month Cumulative Stay Cliff (~21,700₪ Sal Klita Loss) & Form Ash/456", "Filing In-Israel Aliyah (Shinui Ma'amad Form Ash/456) bypasses the 9–12 month overseas Jewish Agency wait, but Misrad HaKlita counts every prior day spent in Israel.", "Exceeding 24 cumulative months inside Israel in the 3 years prior to receiving your Teudat Oleh permanently cancels your ~21,700₪ Sal Klita absorption grant.", "We coordinate-stamp Official Hebrew Form Ash/456, audit your maternal lineage rabbi letter, and track your 24-month Sal Klita eligibility window."],
+              he: ["צוק 24 החודשים השולל מענק סל קליטה (~21,700 ₪) וטופס אש/456", "הגשת שינוי מעמד לעולה מתוך ישראל (טופס אש/456) עוקפת 9–12 חודשי המתנה בסוכנות, אך משרד הקליטה סופר כל יום שהייה קודם בישראל.", "חציית רף 24 חודשים מצטברים בישראל ב-3 השנים שקדמו לקבלת תעודת העולה מבטלת לצמיתות את מענק סל הקליטה (~21,700 ₪).", "אנו מטביעים בעברית תקנית את טופס אש/456, מכינים מכתב רב להוכחת יהדות ומנטרים את חלון 24 החודשים שלכם."],
+              fr: ["Le Piège des 24 Mois Cumulés (Perte des ~21 700 ₪ du Sal Klita) & Ash/456", "L'Aliyah sur place en Israël (Shinui Ma'amad Ash/456) évite les 9–12 mois d'attente de l'Agence Juive, mais le Misrad HaKlita compte chaque jour passé en Israël.", "Dépasser 24 mois cumulés en Israël dans les 3 ans précédant la Teoudat Oleh annule définitivement la prime Sal Klita (~21 700 ₪).", "Nous générons le formulaire officiel Ash/456 en hébreu, vérifions votre lettre rabbinique de filiation et protégeons votre fenêtre de 24 mois."],
+              es: ["El Abismo de 24 Meses Acumulados (Pérdida de ~21.700 ₪ de Sal Klitá) y Ash/456", "Tramitar la Aliyá dentro de Israel (Shinui Ma'amad Ash/456) evita 9–12 meses de espera en la Agencia Judía, pero Misrad HaKlitá suma cada día previo en el país.", "Superar 24 meses acumulados en Israel en los 3 años previos a recibir la Teudat Olé cancela por completo la beca Sal Klitá (~21.700 ₪).", "Estampamos el Formulario Ash/456 oficial en hebreo, preparamos tu carta rabínica de linaje y protegemos tu ventana de 24 meses."],
+              de: ["Die 24-Monate-Aufenthaltsfalle (~21.700 ₪ Sal-Klita-Verlust) & Formular Ash/456", "Die Inlands-Alija (Shinui Ma'amad Ash/456) spart 9–12 Monate Wartezeit bei der Jewish Agency, doch Misrad HaKlita zählt jeden Voraufenthaltstag in Israel.", "Mehr als 24 kumulierte Monate in Israel in den 3 Jahren vor Erhalt der Teudat Oleh streichen den Sal-Klita-Zuschuss (~21.700 ₪) komplett.", "Wir stempeln Formular Ash/456 auf Hebräisch, prüfen Ihren Rabbiner-Abstammungsbrief und überwachen Ihr 24-Monats-Zeitfenster."],
+              ru: ["Ловушка 24 суммарных месяцев (потеря ~21 700 ₪ Саль Клита) и анкета Аш/456", "Репатриация внутри Израиля (Шинуй Маамад Аш/456) позволяет обойти 9–12 месяцев ожидания Сохнута, но Министерство абсорбции считает каждый день в стране.", "Пребывание в Израиле свыше 24 суммарных месяцев за 3 года до получения Теудат-Оле полностью лишает вас корзины абсорбции (~21 700 ₪).", "Мы заполняем официальный бланк Аш/456 на иврите, проверяем раввинское подтверждение корней и защищаем ваше окно 24 месяцев."]
+            },
+            tz_mr14_sefach: {
+              sku: "forms_sprint",
+              en: ["Forms MR/14a & MR/14b Clerk-Only Signature Trap & 30-Day Newborn Sefach Rule", "Issuing your first Biometric Teudat Zehut (Form MR/14a), Israeli Passport (Form MR/14b), or registering a child on your Sefach (Nohal 5.2.0004) requires exact Hebrew & Latin box alignment.", "Pre-signing the bottom declaration before standing in front of the clerk—or delaying newborn Sefach registration past 30 days—triggers form rejection or court paternity holds.", "Our stamper fills Forms MR/14a & MR/14b in royal-blue Hebrew ink while leaving clerk-witnessed signature boxes protected with a Red-X Signing Guide."],
+              he: ["מלכודת החתימה המוקדמת בטופסי מר/14א׳ ומר/14ב׳ ורישום תינוק בספח תוך 30 יום", "הנפקת תעודת זהות ביומטרית ראשונה (מר/14א׳), דרכון (מר/14ב׳) ורישום ילדים בספח (נוהל 5.2.0004) מחייבים התאמה מדויקת בעברית ובאותיות לטיניות.", "חתימה בתחתית הטופס לפני המעמד מול הפקיד — או עיכוב רישום תינוק מעבר ל-30 יום — גורמים לפסילת הטופס או לדרישת צו בית משפט.", "המערכת שלנו מטביעה את טופסי מר/14א׳ ומר/14ב׳ בדיו כחול תקני ומשאירה את משבצות החתימה מול פקיד מוגנות עם מדריך חתימה מאויר."],
+              fr: ["Le Piège des Formulaires MR/14a & MR/14b & la Règle des 30 Jours du Sefach", "L'émission de votre première Teoudat Zehout biométrique (MR/14a), du passeport (MR/14b) et l'inscription d'un enfant au Sefach (Nohal 5.2.0004) exigent un alignement hébreu/latin exact.", "Signer la déclaration avant d'être devant l'agent — ou déclarer un nouveau-né après 30 jours — entraîne le rejet du formulaire ou un blocage judiciaire.", "Notre moteur remplit MR/14a et MR/14b à l'encre bleue réglementaire tout en protégeant les cases réservées au guichet."],
+              es: ["La Trampa de Firma en Formularios MR/14a y MR/14b y Regla de 30 Días del Sefaj", "Emitir tu primera Teudat Zehut biométrica (MR/14a), pasaporte (MR/14b) y registrar hijos en el Sefaj (Nohal 5.2.0004) exige alineación exacta en hebreo y latín.", "Firmar el formulario antes de estar frente al funcionario —o demorar el registro de un recién nacido más de 30 días— anula el trámite.", "Nuestro motor estampa MR/14a y MR/14b en tinta azul oficial protegiendo las casillas de firma presencial con una Guía Roja."],
+              de: ["Die Unterschriftsfalle bei MR/14a & MR/14b & die 30-Tage-Sefach-Regel", "Die erste biometrische Teudat Zehut (MR/14a), der Reisepass (MR/14b) und die Kinder-Eintragung im Sefach (Nohal 5.2.0004) erfordern exakte hebräisch-lateinische Kästchen-Eintragung.", "Vorzeitiges Unterschreiben vor dem Schaltertermin oder eine Neugeborenen-Meldung nach Tag 30 führt zur Ablehnung des Antrags.", "Unser Stamper füllt MR/14a & MR/14b in königsblauer Tinte aus und schützt Schalter-Unterschriftsfelder mit einer Rot-X-Anleitung."],
+              ru: ["Ловушка преждевременной подписи в МР/14а и МР/14б и правило 30 дней для Сефаха", "Получение первого биометрического Теудат-Зеута (МР/14а), Даркона (МР/14б) и вписание детей в Сефах (Ноаль 5.2.0004) требуют точного заполнения на иврите и латинице.", "Подписание бланка до подхода к инспектору или задержка регистрации новорождённого дольше 30 дней ведут к отказу и судебным задержкам.", "Наш генератор заполняет МР/14а и МР/14б синими чернилами, защищая поля подписи перед чиновником специальной инструкцией."]
+            }
+          };
+
+          const qLower = (String(userMessage || "") + " " + String(currentForm || "") + " " + String((activeTrackBlueprint && activeTrackBlueprint.trackId) || "")).toLowerCase();
+          let chosenKey = "apostille_180d_clock";
+          if (/reject|refus|daf siruv|1\.6\.0001|appeal|hassaga|arar|14[- ]?day|21[- ]?day|סירוב|סורב|ערעור|ערר|отказ|апелляц/i.test(qLower)) {
+            chosenKey = "rejection_14d_21d";
+          } else if (/b\/?1|work visa|foreign labor|עבודה|עובד זר|travail|trabajo|arbeitsvisum|рабоч/i.test(qLower)) {
+            chosenKey = "b1_work_scrutiny";
+          } else if (/mr\/?14|mr14|sefach|newborn|baby|biometric|darkon|מר\/?14|ספח|תינוק|ביומטר|сефах|мр14/i.test(qLower)) {
+            chosenKey = "tz_mr14_sefach";
+          } else if (/spous|5\.2\.0008|5\.2\.0009|ash\/?6|ash6|nespach|300|couple|partner|married|מדורג|בן זוג|בת זוג|אש\/?6|ступро|супруг|conjoint|pareja|ehepartner/i.test(qLower)) {
+            chosenKey = "spousal_5_2_0008";
+          } else if (/private|gush etzion|bnei brak|karelitz|ishur giyur|dahan|פרטי|גוש עציון|בני ברק|אישור גיור|частн|гуш/i.test(qLower)) {
+            chosenKey = "private_tourist_block";
+          } else if (/beit din|dayan|700|mikvah|rabbi|kallah|shabbat|brach|shema|song|prayer|בית דין|דיינים|מקווה|רב מלווה|כלה|שבת|ברכות|бейт-дин|даян|шаббат/i.test(qLower)) {
+            chosenKey = "beit_din_700_tribunal";
+          } else if (/aliyah|ash\/?456|ash456|sal klita|24[- ]?month|shinui|עלייה|אש\/?456|סל קליטה|שינוי מעמד|алия|репатриац|аш456/i.test(qLower)) {
+            chosenKey = "sal_klita_24mo";
+          } else if (/charigim|ash\/?1|ash1|ash\/?3|ash3|tourist|b\/?2|90[- ]?day|חריגים|אש\/?1|אש\/?3|תייר|харигим|турист/i.test(qLower)) {
+            chosenKey = "rejection_14d_21d";
+          }
+
+          const trapEntry = TRAP_VAULT_6LANG[chosenKey] || TRAP_VAULT_6LANG.apostille_180d_clock;
+          const locArr = trapEntry[effLang] || trapEntry.en;
+          const trapTag = `[[TRAP:${chosenKey}|${locArr[0]}|${locArr[1]}|${locArr[2]}|${locArr[3]}|${trapEntry.sku}]]`;
+
+          // Insert right after the first paragraph so the red warning pill sits between Paragraph 1 and the diagnostic question!
+          const dblNewline = replyText.indexOf("\n\n");
+          if (dblNewline !== -1) {
+            replyText = replyText.slice(0, dblNewline) + "\n\n" + trapTag + "\n\n" + replyText.slice(dblNewline + 2);
+          } else {
+            replyText = replyText + "\n\n" + trapTag;
+          }
+        }
 
         const stateUpdates = {};
         replyText = replyText.replace(/\[\[STATE:([^\]]+)\]\]/gi, (_, rawPairs) => {
@@ -2833,6 +3277,13 @@ ${dynamicSiteBrain}
         const srcDoc = qSnap.docs[0];
         const masterUid = srcDoc.id;
         const srcData = srcDoc.data() || {};
+        if (req.body.trackBlueprint && typeof req.body.trackBlueprint === "object" && typeof sanitizeTrackBlueprint === "function" && !srcData.trackBlueprint) {
+          const claimedBp = sanitizeTrackBlueprint(req.body.trackBlueprint);
+          if (claimedBp) {
+            srcData.trackBlueprint = claimedBp;
+            await srcDoc.ref.set({ trackBlueprint: claimedBp, updatedAtMs: Date.now() }, { merge: true }).catch(() => {});
+          }
+        }
         let customToken = null;
         try {
           customToken = await admin.auth().createCustomToken(masterUid);
@@ -3118,6 +3569,13 @@ ${dynamicSiteBrain}
 
           // Merge any guest scratchpad data from prevAnonUid if present
           let finalUserData = Object.assign({}, uData);
+          if (req.body.trackBlueprint && typeof req.body.trackBlueprint === "object" && typeof sanitizeTrackBlueprint === "function") {
+            const guestBp = sanitizeTrackBlueprint(req.body.trackBlueprint);
+            if (guestBp) {
+              finalUserData.trackBlueprint = guestBp;
+              await userRef.set({ trackBlueprint: guestBp, updatedAtMs: Date.now() }, { merge: true }).catch(() => {});
+            }
+          }
           delete finalUserData.waOtp;
           delete finalUserData.waMagicToken;
 
@@ -3132,6 +3590,7 @@ ${dynamicSiteBrain}
                 formDraft: mergedDraft,
                 scannedDocs: (uData.scannedDocs && uData.scannedDocs.length) ? uData.scannedDocs : (anonD.scannedDocs || []),
                 masterDossier: uData.masterDossier || anonD.masterDossier || null,
+                trackBlueprint: finalUserData.trackBlueprint || uData.trackBlueprint || anonD.trackBlueprint || null,
                 conciergeOrder: uData.conciergeOrder || anonD.conciergeOrder || null,
                 hasConciergeOrder: Boolean(uData.hasConciergeOrder || anonD.hasConciergeOrder),
                 updatedAtMs: Date.now()
