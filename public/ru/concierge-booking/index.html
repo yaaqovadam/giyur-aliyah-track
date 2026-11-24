@@ -1,161 +1,674 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
 <head>
-<!-- === GAT PASSIVE URL-TO-LANG SYNC (ZERO RELOAD) === -->
-<script id="gat-passive-lang-sync">
-(function() {
-  var p = window.location.pathname || "/";
-  if (p === "/app" || p.indexOf("/app/") === 0 || p.indexOf("/analytics") === 0 || p.indexOf("/concierge/") === 0) return;
-  var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
-  var lg = m ? m[1].toLowerCase() : "en";
-  try {
-    ["gat_lang", "zehut_lang", "giyur_lang", "lang", "selectedLang", "app_lang", "i18n_lang"].forEach(function(k) {
-      localStorage.setItem(k, lg);
-    });
-    window.currentLang = lg;
-    window.lang = lg;
-    window.appLang = lg;
-    window.pLang = lg;
-    document.documentElement.setAttribute("lang", lg);
-    document.documentElement.setAttribute("dir", lg === "he" ? "rtl" : "ltr");
-    // If URL has a stale ?lang= param that contradicts the folder path, clean it silently via replaceState
-    if (window.location.search && window.location.search.indexOf("lang=") !== -1) {
-      var sp = new URLSearchParams(window.location.search);
-      if (sp.get("lang") && sp.get("lang").toLowerCase() !== lg) {
-        sp.delete("lang");
-        var qs = sp.toString();
-        window.history.replaceState({}, "", p + (qs ? "?" + qs : "") + window.location.hash);
-      }
-    }
-  } catch (e) {}
-})();
-</script>
-
-<script id="gat-cb-early-lang-sync">
-  (function() {
-    try {
-      var valid = ['en','he','fr','es','de','ru'];
-      var qL = (new URLSearchParams(location.search).get('lang') || '').toLowerCase();
-      var sL = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').toLowerCase();
-      var pathM = location.pathname.match(/^\/(he|fr|es|de|ru)(\/|$)/);
-      var pathL = pathM ? pathM[1].toLowerCase() : '';
-      var activeL = (valid.indexOf(qL) !== -1) ? qL : ((valid.indexOf(sL) !== -1) ? sL : (pathL || 'en'));
-      localStorage.setItem('gat_lang', activeL);
-      localStorage.setItem('zehut_lang', activeL);
-      window.lang = activeL;
-      window.appLang = activeL;
-      window.gatLang = activeL;
-      document.addEventListener('DOMContentLoaded', function() {
-        if (typeof window.setLang === 'function') window.setLang(activeL);
-      });
-    } catch (e) {}
-  })();
-</script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Запись к проверенному адвокату, нотариусу или раввину</title>
-  <meta property="og:title" content="GiyurAliyahTrack — Гиюр, Репатриация (Алия) и Супружеские Визы в Израиле">
-  <meta property="og:description" content="• Автозаполнение и Перевод Бланков МВД (PIBA) • ИИ-Аудит Документов и Апостилей + Декодер Требований МВД • Симуляторы Бейт-Дина, Пар с 2 Телефонов и Шаббата • Экономия 15 000₪–40 000₪ на Адвокатах">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Заявка на Персональный Консьерж-Сервис ($0 Сегодня) | Giyur Aliyah Track</title>
+  <meta name="description" content="Запрос на сопровождающего раввина (Рав Мелаве), Мадрихат Калла, нотариальный перевод с красной лентой или сопровождение адвоката в МВД Израиля.">
+  <link rel="canonical" href="https://giyuraliyahtrack.com/ru/concierge-booking/">
+  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/concierge-booking/">
+  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/concierge-booking/">
+  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/concierge-booking/">
+  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/concierge-booking/">
+  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/concierge-booking/">
+  <link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/concierge-booking/">
+  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/concierge-booking/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261124">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico?v=20261124">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20261124">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Заявка на Персональный Консьерж-Сервис ($0 Сегодня) | Giyur Aliyah Track">
+  <meta property="og:description" content="Запрос на сопровождающего раввина (Рав Мелаве), Мадрихат Калла, нотариальный перевод с красной лентой или сопровождение адвоката в МВД Израиля.">
+  <meta property="og:url" content="https://giyuraliyahtrack.com/ru/concierge-booking/">
   <meta property="og:image" content="https://giyuraliyahtrack.com/gat-card-w8181-ru.jpg">
-  <meta property="og:image:secure_url" content="https://giyuraliyahtrack.com/gat-card-w8181-ru.jpg">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:width" content="1000">
-  <meta property="og:image:height" content="1000">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="GiyurAliyahTrack — Гиюр, Репатриация (Алия) и Супружеские Визы в Израиле">
-  <meta name="twitter:description" content="• Автозаполнение и Перевод Бланков МВД (PIBA) • ИИ-Аудит Документов и Апостилей + Декодер Требований МВД • Симуляторы Бейт-Дина, Пар с 2 Телефонов и Шаббата • Экономия 15 000₪–40 000₪ на Адвокатах">
-  <meta name="twitter:image" content="https://giyuraliyahtrack.com/gat-card-w8181-ru.jpg">
-  <link rel="icon" href="/favicon.ico?v=1795487702" sizes="48x48">
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=1795487702">
-  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=1795487702">
-  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=1795487702">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1795487702">
-  <link rel="manifest" href="/site.webmanifest?v=1795487702">
-  <style>
-    :root { --navy: #041226; --card: #0b2240; --sky: #0288d1; --emerald: #059669; }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--navy); color: #f8fafc; min-height: 100vh; padding: 20px; }
-    .wrap { max-width: 780px; margin: 0 auto; }
-    .top-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 18px; }
-    .globe-wrap { position: relative; display: inline-flex; align-items: center; background: #0b2240; border: 1.5px solid #0288d1; border-radius: 99px; padding: 6px 14px; gap: 7px; box-shadow: 0 4px 14px rgba(2,136,209,0.25); }
-    .globe-wrap span { font-size: 1.05rem; pointer-events: none; }
-    .globe-select { appearance: none; -webkit-appearance: none; background: transparent; border: none; color: #fff; font-weight: 900; font-size: 0.86rem; cursor: pointer; padding-right: 14px; outline: none; }
-    .globe-select option { background: #0b2240; color: #fff; font-weight: 800; }
-    .globe-caret { font-size: 0.65rem; color: #38bdf8; pointer-events: none; margin-left: -10px; }
-    .card { background: var(--card); border: 2px solid var(--sky); border-radius: 18px; padding: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-bottom: 18px; }
-    .badge { display: inline-block; background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.45); padding: 4px 11px; border-radius: 99px; font-size: 0.74rem; font-weight: 900; margin-bottom: 10px; }
-    h1 { margin: 0 0 8px; font-size: 1.38rem; font-weight: 900; color: #fff; }
-    .sub { color: #94a3b8; font-size: 0.88rem; line-height: 1.5; margin-bottom: 16px; }
-    .steps-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-bottom: 18px; }
-    .step-pill { background: #041226; border: 1px solid #1e293b; border-radius: 10px; padding: 10px; font-size: 0.76rem; font-weight: 800; color: #cbd5e1; text-align: center; }
-    .step-pill b { color: #38bdf8; display: block; font-size: 0.82rem; margin-bottom: 3px; }
-    .svc-box { background: rgba(4,18,38,0.75); border: 1.5px solid #38bdf8; border-radius: 14px; padding: 15px 16px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .svc-name { font-size: 1.02rem; font-weight: 900; color: #fff; }
-    .svc-price { font-size: 1.25rem; font-weight: 900; color: #38bdf8; }
-    .no-pay-tag { font-size: 0.72rem; color: #34d399; font-weight: 800; display: block; margin-top: 2px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 14px; }
-    label { display: block; font-size: 0.74rem; font-weight: 800; color: #cbd5e1; margin-bottom: 5px; text-transform: uppercase; }
-    input, select, textarea { width: 100%; padding: 11px 12px; border-radius: 10px; border: 1.5px solid #334155; background: #041226; color: #fff; font-size: 0.9rem; font-weight: 700; }
-    input::placeholder, textarea::placeholder { color: #64748b; font-weight: 600; }
-    .upload-zone { border: 2px dashed #38bdf8; background: rgba(2,136,209,0.08); border-radius: 14px; padding: 18px; text-align: center; margin-bottom: 16px; cursor: pointer; transition: 0.2s; }
-    .upload-zone:hover { background: rgba(2,136,209,0.15); }
-    .file-list { margin-top: 10px; text-align: left; font-size: 0.8rem; color: #34d399; font-weight: 800; }
-    .btn-submit { width: 100%; padding: 15px; border-radius: 12px; border: none; background: linear-gradient(135deg, #0288d1, #059669); color: #fff; font-size: 1rem; font-weight: 900; cursor: pointer; box-shadow: 0 10px 25px rgba(2,136,209,0.35); }
-    .policy { font-size: 0.76rem; color: #94a3b8; line-height: 1.45; margin-top: 14px; padding-top: 12px; border-top: 1px solid #1e293b; }
+  <!-- === REF_GLOBAL_APPBAR_CSS === -->
+<style>html.gat-pre-curtain,html.gat-pre-curtain body{background:#082548!important}html.gat-pre-curtain .app-shell{opacity:0!important}
+    .exodus-alert { background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%); border: 2px solid #ef4444; border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; color: #fff; cursor: pointer; box-shadow: 0 8px 22px rgba(185, 28, 28, 0.25); transition: transform 0.16s ease, box-shadow 0.16s ease; display: flex; flex-direction: column; gap: 6px; }
+    .exodus-alert:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(185, 28, 28, 0.35); }
+    .ea-top { display: flex; align-items: center; justify-content: space-between; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #fca5a5; }
+    .ea-title { font-size: 16px; font-weight: 900; line-height: 1.25; color: #ffffff; }
+    .ea-desc { font-size: 13px; line-height: 1.45; color: #fecaca; }
+    .ea-cta { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; font-weight: 800; color: #fde047; }
+    html[dir="rtl"] .exodus-alert { text-align: right; }
+
   
-    
-    /* === EXACT SITE-WIDE APPBAR & DRAWER CSS FROM public/index.html === */
-    body { margin: 0 !important; padding: 0 !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--navy); color: #f8fafc; min-height: 100vh; }
-    .wrap { max-width: 1220px; margin: 0 auto; padding: 28px 18px 48px; }
-    .app-header {
-      position: sticky !important;
-      top: 0 !important;
-      height: 62px !important;
-      background: #082548 !important;
-      border-bottom: 1px solid rgba(2, 136, 232, 0.35) !important;
-      box-shadow: 0 2px 10px rgba(8, 37, 72, 0.22) !important;
+    /* Tab 3 Slider & Card Polish */
+    #view-2 { padding-top: 14px !important; }
+    #view-2 .slider-head { display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 12px !important; margin-bottom: 10px !important; }
+    #view-2 .slider-title { font-size: 14px !important; font-weight: 700 !important; line-height: 1.35 !important; flex: 1 !important; }
+    #view-2 .slider-val { white-space: nowrap !important; flex-shrink: 0 !important; background: rgba(2, 152, 236, 0.12) !important; color: #0284c7 !important; padding: 4px 10px !important; border-radius: 999px !important; font-size: 13.5px !important; font-weight: 800 !important; }
+    #view-2 .zehut-select { text-overflow: ellipsis !important; padding-inline-end: 28px !important; }
+    #view-2 .emerald-card { padding: 18px 16px !important; margin-bottom: 16px !important; }
+    #view-2 .emerald-sub { line-height: 1.4 !important; margin-top: 6px !important; }
+
+    /* Fix Drawer Slide Direction in both LTR and RTL (Physical Left vs Physical Right) */
+    .drawer-backdrop { direction: ltr !important; }
+    .drawer-backdrop .drawer-panel { direction: ltr; }
+    html[dir="rtl"] .drawer-backdrop .drawer-panel { direction: rtl; text-align: right; }
+
+    /* LTR: #left-drawer on physical left, #app-drawer (hamburger) on physical right */
+    html:not([dir="rtl"]) #left-drawer { justify-content: flex-start !important; }
+    html:not([dir="rtl"]) #left-drawer .drawer-panel { transform: translateX(-100%) !important; }
+    html:not([dir="rtl"]) #left-drawer.open .drawer-panel { transform: translateX(0) !important; }
+
+    html:not([dir="rtl"]) #app-drawer { justify-content: flex-end !important; }
+    html:not([dir="rtl"]) #app-drawer .drawer-panel { transform: translateX(100%) !important; }
+    html:not([dir="rtl"]) #app-drawer.open .drawer-panel { transform: translateX(0) !important; }
+
+    /* RTL: Hamburger is on physical LEFT, so #app-drawer slides from physical LEFT!
+       Edge tab is on physical RIGHT, so #left-drawer slides from physical RIGHT! */
+    html[dir="rtl"] #app-drawer { justify-content: flex-start !important; }
+    html[dir="rtl"] #app-drawer .drawer-panel { transform: translateX(-100%) !important; border-left: none !important; border-right: 1px solid rgba(255,255,255,0.12) !important; }
+    html[dir="rtl"] #app-drawer.open .drawer-panel { transform: translateX(0) !important; }
+
+    html[dir="rtl"] #left-drawer { justify-content: flex-end !important; }
+    html[dir="rtl"] #left-drawer .drawer-panel { transform: translateX(100%) !important; }
+    html[dir="rtl"] #left-drawer.open .drawer-panel { transform: translateX(0) !important; }
+
+  
+    /* Prevent browser horizontal back-swipe overscroll & allow smooth range slider dragging */
+    html, body { overscroll-behavior-x: none !important; }
+    input[type="range"] { touch-action: pan-x !important; -webkit-user-select: none; user-select: none; cursor: pointer; }
+
+    /* Right-align drawer rows in RTL and polish top dark stats card */
+    .drawer-row { text-align: start !important; }
+    html[dir="rtl"] .drawer-row { text-align: right !important; direction: rtl !important; justify-content: flex-start !important; }
+    .drawer-brand-center { padding: 6px 0 12px !important; text-align: center !important; }
+    .drawer-dark-stats { padding: 12px 10px !important; border-radius: 14px !important; margin-bottom: 12px !important; }
+    .dds-head { display: flex !important; align-items: center !important; justify-content: space-between !important; font-size: 12px !important; font-weight: 800 !important; margin-bottom: 10px !important; padding: 0 4px !important; }
+    .dds-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 6px !important; text-align: center !important; align-items: center !important; }
+    .dds-num { display: block !important; font-size: 14px !important; font-weight: 900 !important; white-space: nowrap !important; line-height: 1.2 !important; margin-bottom: 3px !important; }
+    .dds-lbl { display: block !important; font-size: 11px !important; opacity: 0.85 !important; white-space: nowrap !important; line-height: 1.15 !important; }
+
+  
+    /* Fix .term-link overflow & make <input type="range"> sliders super smooth on iOS */
+    .term-link { white-space: normal !important; display: inline !important; line-height: 1.4 !important; word-break: break-word !important; }
+    html, body { overscroll-behavior-x: none !important; touch-action: pan-y !important; }
+    input[type="range"] {
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      width: 100% !important;
+      height: 28px !important;
+      background: transparent !important;
+      touch-action: pan-x !important;
+      cursor: pointer !important;
+      margin: 4px 0 !important;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 8px !important;
+      border-radius: 999px !important;
+      background: #cbd5e1 !important;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      width: 26px !important;
+      height: 26px !important;
+      border-radius: 50% !important;
+      background: #0284c7 !important;
+      border: 3px solid #ffffff !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25) !important;
+      margin-top: -9px !important;
+    }
+
+  
+    .hero-center h2.h1-style { font-size: 1.55rem; font-weight: 900; color: var(--teal-dark); line-height: 1.22; margin: 0 0 8px 0; letter-spacing: -0.02em; }
+    .seo-spoke-article { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px 16px; margin: 18px 0; box-shadow: 0 4px 12px rgba(15,23,42,0.04); }
+    .seo-spoke-article h2 { font-size: 1.15rem; font-weight: 850; color: var(--teal-dark); margin: 0 0 10px 0; }
+    .seo-spoke-article h3 { font-size: 0.98rem; font-weight: 800; color: #ffffff; margin: 14px 0 6px 0; }
+    .seo-spoke-article p, .seo-spoke-article div { font-size: 0.92rem; color: #334155; line-height: 1.55; }
+    .seo-spoke-mesh { margin-top: 26px; padding-top: 18px; border-top: 1px solid #e2e8f0; }
+    .seo-spoke-mesh h2 { font-size: 0.95rem; font-weight: 850; color: #475569; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.04em; }
+    .seo-mesh-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; }
+    .seo-mesh-link { display: block; padding: 10px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; color: var(--teal-dark); font-size: 0.85rem; font-weight: 700; text-decoration: none; line-height: 1.35; }
+    .seo-mesh-link:hover { border-color: #38bdf8; background: #f0f9ff; }
+    .app-nav-back { display: none; align-items: center; justify-content: center; width: 34px; height: 38px; background: transparent !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; color: #ffffff; text-decoration: none; margin-inline-start: -10px !important; margin-inline-end: 14px !important; padding: 0 !important; cursor: pointer; flex-shrink: 0; transition: transform 0.15s ease, opacity 0.15s ease; }
+    .app-nav-back.visible { display: inline-flex !important; }
+    .app-nav-back:hover { background: transparent !important; opacity: 0.85; transform: scale(1.08); }
+    .app-nav-back svg { width: 30px !important; height: 30px !important; stroke: #ffffff !important; stroke-width: 3.2 !important; fill: none !important; stroke-linecap: round !important; stroke-linejoin: round !important; }
+    html[dir="rtl"] .app-nav-back svg { transform: scaleX(-1); }
+  
+    /* === SEO #1 PLAYBOOK CARDS & ACCORDION === */
+    .seo-obstacle-library { margin: 28px 0 36px 0 !important; }
+    .seo-obstacle-library > details > summary {
+      background: linear-gradient(135deg, #082548 0%, #0b3b59 100%) !important;
+      color: #ffffff !important;
+      padding: 15px 16px !important;
+      border-radius: 14px !important;
+      font-size: 0.94rem !important;
+      font-weight: 900 !important;
+      border: 2px solid #03A9F4 !important;
+      cursor: pointer !important;
+      list-style: none !important;
+      margin-bottom: 16px !important;
+    }
+    .seo-obstacle-library article, .seo-spoke-article {
+      background: #ffffff !important;
+      border: 2px solid #cbd5e1 !important;
+      border-top: 4px solid #03A9F4 !important;
+      border-radius: 16px !important;
+      padding: 16px !important;
+      margin: 0 0 18px 0 !important;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06) !important;
+      line-height: 1.6 !important;
+    }
+    .gat-seo-card-acc > summary {
       display: flex !important;
       align-items: center !important;
       justify-content: space-between !important;
-      padding: 0 18px !important;
-      flex-shrink: 0 !important;
-      z-index: 9500 !important;
-      direction: ltr !important;
-    }
-    .app-nav-back {
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      width: 34px !important;
-      height: 38px !important;
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      border-radius: 0 !important;
-      color: #ffffff !important;
-      text-decoration: none !important;
-      margin-inline-start: -6px !important;
-      margin-inline-end: 10px !important;
-      padding: 0 !important;
-      cursor: pointer !important;
-      flex-shrink: 0 !important;
-      transition: transform 0.15s ease, opacity 0.15s ease !important;
-    }
-    .app-nav-back:hover { background: transparent !important; opacity: 0.85; transform: scale(1.08); }
-    .app-nav-back svg {
-      width: 28px !important;
-      height: 28px !important;
-      stroke: #ffffff !important;
-      stroke-width: 3.2 !important;
-      fill: none !important;
-      stroke-linecap: round !important;
-      stroke-linejoin: round !important;
-    }
-    .app-header .brand {
-      display: flex !important;
-      align-items: center !important;
       gap: 10px !important;
-      text-decoration: none !important;
+      cursor: pointer !important;
+      list-style: none !important;
+      font-size: 0.94rem !important;
+      font-weight: 900 !important;
+      color: #082548 !important;
+    }
+    .gat-seo-card-acc > summary::-webkit-details-marker { display: none !important; }
+    .gat-acc-plus {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: #f0f9ff;
+      border: 1.5px solid #03A9F4;
+      color: #0288D1;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .gat-seo-card-acc[open] .gat-acc-plus { background: #03A9F4; color: #ffffff; }
+    .gat-acc-body {
+      display: block;
+      margin-top: 12px !important;
+      padding-top: 12px !important;
+      border-top: 1.5px solid #e2e8f0 !important;
+    }
+    .seo-obstacle-library article h4, .seo-spoke-article h4 {
+      color: #0288D1 !important;
+      font-size: 0.92rem !important;
+      font-weight: 900 !important;
+      margin: 14px 0 8px 0 !important;
+      padding: 6px 10px !important;
+      background: #f0f9ff !important;
+      border-left: 4px solid #03A9F4 !important;
+      border-radius: 6px !important;
+    }
+    .seo-obstacle-library article button, .seo-obstacle-library article a.btn-sky, .seo-obstacle-library article a.btn-emerald,
+    .seo-spoke-article button, .seo-spoke-article a.btn-sky, .seo-spoke-article a.btn-emerald {
+      display: flex !important;
+      width: 100% !important;
+      margin-top: 14px !important;
+      margin-bottom: 8px !important;
+      justify-content: center !important;
+    }
+
+  
+    
+    /* === ABSOLUTE 1.0x VIEWPORT, INPUT & KEYBOARD LOCK === */
+    *, *::before, *::after {
+      touch-action: pan-y !important;
+      -webkit-text-size-adjust: 100% !important;
+      text-size-adjust: 100% !important;
+    }
+    html, body {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow-x: clip !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      -webkit-user-select: none;
+    }
+    input, textarea, select, #gat-hd-input {
+      font-size: 16px !important;
+      line-height: 1.25 !important;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+    }
+    .drawer-backdrop {
+      overflow: hidden !important;
+      max-width: 100vw !important;
+    }
+
+  
+    /* === HARD iOS & MOBILE VIEWPORT LOCK (ZERO HORIZONTAL SLIDE) === */
+    *, *::before, *::after {
+      box-sizing: border-box !important;
+      touch-action: pan-y !important;
+      -webkit-text-size-adjust: 100% !important;
+      text-size-adjust: 100% !important;
+    }
+    html, body {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow-x: clip !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      position: relative !important;
+      overscroll-behavior-x: none !important;
+    }
+    .app-viewport, .container, .view, main, header, section, details {
+      max-width: 100% !important;
+      overflow-x: clip !important;
+    }
+    #left-drawer, #app-drawer, .drawer-backdrop {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow: hidden !important;
+    }
+
+  </style>
+<style>
+    :root {
+      --teal-dark: #0b3b59;
+      --teal-deep: #072a40;
+      --sky: #0298ec;
+      --sky-hover: #0284ce;
+      --sky-soft: #e6f6fe;
+      --pill-bg: #f1f5f8;
+      --emerald: #38bdf8;
+      --emerald-soft: #e0f2fe;
+      --amber: #f59e0b;
+      --amber-soft: #fef3c7;
+      --danger: #e11d48;
+      --danger-soft: #ffe4e6;
+      --bg: #ffffff;
+      --surface: #f8fafc;
+      --text: #0b3b59;
+      --body: #334e68;
+      --muted: #6e8494;
+      --border: #cbd5e1;
+      --border-light: #e2e8f0;
+      --header-h: 62px;
+      --bottom-h: 74px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; touch-action: pan-y; }
+    html, body, .app-shell, .app-viewport { width: 100%; max-width: 100%; overflow-x: hidden !important; overscroll-behavior: none !important; overscroll-behavior-x: none !important; overscroll-behavior-x: none !important; overflow-wrap: break-word; }
+    html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+    /* App Shell Frame */
+    .app-shell { display: flex; flex-direction: column; height: 100dvh; width: 100%; max-width: 100%; background: var(--bg); position: relative; }
+
+    /* Pure White Top Header (Zehut 2026 Style) */
+    .app-header { height: var(--header-h); background: #ffffff; border-bottom: 2px solid var(--border-light); box-shadow: 0 2px 10px rgba(11, 59, 89, 0.05); display: flex; align-items: center; justify-content: space-between; padding: 0 18px; flex-shrink: 0; z-index: 40; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--teal-dark); }
+    .brand-mark { width: 36px; height: 36px; border-radius: 10px; background: var(--sky); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(2, 152, 236, 0.25); }
+    .brand-mark svg { width: 22px; height: 22px; fill: currentColor; }
+    .brand-title { font-size: 1.25rem; font-weight: 850; letter-spacing: -0.4px; color: var(--teal-dark); }
+    .brand-title span { color: var(--sky); }
+    .header-right { display: flex; align-items: center; gap: 14px; }
+    .lang-btn { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--teal-dark); font-size: 0.68rem; font-weight: 800; line-height: 1.1; cursor: pointer; background: none; border: none; }
+    .lang-btn svg { width: 22px; height: 22px; stroke: var(--sky); fill: none; stroke-width: 2; margin-bottom: 1px; }
+    .hamburger-btn { background: none; border: none; color: #ffffff; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; }
+    .hamburger-btn svg { width: 28px; height: 28px; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+
+    /* Center Viewport */
+    .app-viewport { flex: 1; overflow-y: auto; padding: 20px 18px 32px; background: #ffffff; scroll-behavior: smooth; }
+    .view-container { max-width: 680px; margin: 0 auto; }
+
+    .app-view { display: none; animation: fadeIn 0.16s ease-out; }
+    .app-view.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Zehut-Style Center Shield / Emblem Hero Header */
+    .hero-center { text-align: center; margin-bottom: 22px; }
+    .hero-emblem { width: 58px; height: 58px; margin: 0 auto 12px; background: var(--sky); color: #ffffff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(2, 152, 236, 0.25); }
+    .hero-emblem svg { width: 34px; height: 34px; fill: currentColor; }
+    .hero-center h1 { font-size: clamp(1.5rem, 4.5vw, 2rem); font-weight: 850; color: var(--teal-dark); line-height: 1.18; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .hero-center p { font-size: 0.96rem; color: var(--body); line-height: 1.5; max-width: 560px; margin: 0 auto; }
+
+    /* Primary Sky-Blue Button & Outlined Secondary Card (Exact Zehut Style) */
+    .btn-sky { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: var(--sky); color: #ffffff; border: none; padding: 17px 22px; border-radius: 14px; font-size: 1.12rem; font-weight: 800; text-decoration: none; cursor: pointer; box-shadow: 0 8px 20px rgba(2, 152, 236, 0.28); transition: 0.15s; text-align: center; }
+    .btn-sky:hover { background: var(--sky-hover); transform: translateY(-1px); }
+    .btn-outline-card { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; background: var(--surface); border: 2px solid var(--teal-dark); border-radius: 14px; padding: 15px 20px; text-decoration: none; color: var(--teal-dark); cursor: pointer; transition: 0.15s; margin-top: 12px; }
+    .btn-outline-card:hover { background: var(--sky-soft); border-color: var(--sky); }
+    .boc-text { text-align: center; }
+    .boc-small { display: block; font-size: 0.82rem; font-weight: 700; color: var(--teal-dark); }
+    .boc-big { display: block; font-size: 1.2rem; font-weight: 850; color: var(--sky); }
+
+    /* Solid Emerald Green Result Card (Exact Zehut ₪36000 Card Style) */
+    .emerald-card { background: var(--emerald); color: var(--teal-deep); border-radius: 20px; padding: 26px 22px; text-align: center; box-shadow: 0 12px 32px rgba(25, 148, 245, 0.28); margin: 18px 0; }
+    .emerald-label { font-size: 1.02rem; font-weight: 750; color: var(--teal-deep); margin-bottom: 4px; }
+    .emerald-giant { font-size: clamp(2.3rem, 7vw, 3.2rem); font-weight: 900; color: var(--teal-deep); line-height: 1.1; letter-spacing: -1px; margin-bottom: 6px; }
+    .emerald-sub { font-size: 0.88rem; font-weight: 700; color: rgba(7, 42, 64, 0.85); }
+
+    /* Tab 1: 8-Box Obstacle Grid */
+    .section-kicker { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 3px; margin-bottom: 12px; }
+    .section-kicker h2 { font-size: 1rem; font-weight: 850; color: var(--teal-dark); }
+    .section-kicker span { font-size: 0.82rem; font-weight: 800; color: var(--sky); }
+
+    .enemy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 18px; }
+    @media (max-width: 460px) { .enemy-grid { grid-template-columns: 1fr; } }
+
+    .enemy-card { background: #ffffff; border: 2px solid var(--border); border-radius: 14px; padding: 15px 16px; text-align: left; cursor: pointer; transition: 0.15s; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; }
+    .enemy-card:hover { border-color: var(--sky); background: var(--sky-soft); transform: translateY(-1px); }
+    .ec-top { display: flex; align-items: center; justify-content: space-between; font-size: 0.74rem; font-weight: 800; color: var(--sky); text-transform: uppercase; }
+    .ec-title { font-size: 0.98rem; font-weight: 850; color: var(--teal-dark); line-height: 1.3; }
+    .ec-desc { font-size: 0.84rem; color: var(--body); line-height: 1.42; }
+
+    /* Semantic SEO Articles (100% in DOM for Google, visually tucked) */
+    .seo-obstacle-library { margin-top: 22px; border-top: 1px solid #e2e8f0; padding-top: 16px; }
+    .seo-obstacle-library details { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+    .seo-obstacle-library summary { font-size: 0.9rem; font-weight: 800; color: var(--teal-dark); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    .seo-obstacle-library summary::after { content: "▾"; color: var(--sky); font-size: 0.85rem; }
+    .seo-obstacle-library details[open] summary::after { transform: rotate(180deg); }
+    .seo-obstacle-library article { padding: 8px 0; border-bottom: 1px solid #e2e8f0; }
+    .seo-obstacle-library article:last-child { border-bottom: none; }
+    .seo-obstacle-library h2, .seo-obstacle-library h3 { font-size: 0.88rem; font-weight: 800; color: #ffffff; margin: 6px 0 4px; }
+    .seo-obstacle-library p { font-size: 0.82rem; color: #334155; line-height: 1.5; }
+
+    /* Tab 2: 3-Way Segmented Track Switcher */
+    .seg-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #e2e8f0; padding: 6px; border-radius: 14px; margin-bottom: 16px; }
+    .seg-btn { border: none; background: transparent; padding: 10px 8px; border-radius: 10px; font-size: 12.5px; font-weight: 800; color: #475569; cursor: pointer; transition: all 0.18s ease; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .seg-btn.active { background: var(--sky); color: #ffffff; box-shadow: 0 4px 12px rgba(2, 152, 236, 0.25); }
+
+    .track-card { display: none; background: #ffffff; border: 2px solid var(--border); border-radius: 16px; padding: 22px; }
+    .track-card.active { display: block; }
+    .tc-pill { display: inline-block; background: var(--sky-soft); color: var(--sky); font-size: 0.76rem; font-weight: 800; padding: 5px 11px; border-radius: 8px; text-transform: uppercase; margin-bottom: 10px; }
+    .track-card h2 { font-size: 1.3rem; font-weight: 850; color: var(--teal-dark); margin-bottom: 6px; line-height: 1.25; }
+    .tc-lead { font-size: 0.92rem; color: var(--muted); padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border-light); }
+    .tc-list { list-style: none; margin-bottom: 18px; }
+    .tc-list li { padding: 10px 0; border-bottom: 1px solid var(--border-light); font-size: 0.92rem; color: var(--body); line-height: 1.5; }
+    .tc-list li strong { color: var(--teal-dark); }
+
+    /* Tab 3: Zehut Reservist-Style Sliders & Dropdowns */
+    .zehut-select-wrap { position: relative; margin-bottom: 18px; }
+    .zehut-select-label { display: block; font-size: 0.95rem; font-weight: 800; color: var(--teal-dark); margin-bottom: 8px; }
+    .zehut-select { width: 100%; padding: 16px; border: 2px solid var(--border); border-radius: 14px; font-size: 1.02rem; font-weight: 700; color: var(--teal-dark); background: #ffffff; cursor: pointer; appearance: none; }
+    .zehut-select:focus { outline: none; border-color: var(--sky); }
+
+    .slider-block { margin-bottom: 20px; }
+    .slider-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .slider-title { font-size: 1.02rem; font-weight: 800; color: var(--teal-dark); }
+    .slider-val { font-size: 1.15rem; font-weight: 900; color: var(--sky); }
+    input[type="range"] { -webkit-appearance: none; width: 100%; height: 8px; border-radius: 999px; background: #e2e8f0; outline: none; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; background: var(--sky); cursor: pointer; box-shadow: 0 3px 8px rgba(2, 152, 236, 0.4); border: 3px solid #ffffff; }
+
+    /* Radio Option Rows (Zehut Zefat Style) */
+    .radio-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .radio-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border: 2px solid var(--border-light); border-radius: 14px; cursor: pointer; transition: 0.15s; }
+    .radio-row.active { border-color: var(--sky); background: var(--sky-soft); }
+    .radio-dot { width: 22px; height: 22px; border-radius: 50%; border: 2.5px solid var(--teal-dark); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .radio-row.active .radio-dot { border-color: var(--sky); }
+    .radio-dot-inner { width: 10px; height: 10px; border-radius: 50%; background: transparent; }
+    .radio-row.active .radio-dot-inner { background: var(--sky); }
+    .radio-text { font-size: 0.96rem; font-weight: 700; color: var(--teal-dark); line-height: 1.38; }
+    .radio-sub { display: block; font-size: 0.82rem; font-weight: 500; color: var(--body); margin-top: 2px; }
+
+    /* Tab 4: Vetted Rabbi & Madrichat Kallah Cards */
+    .vetted-card { background: #ffffff; border: 2px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+    .vetted-card h3 { font-size: 1.18rem; font-weight: 850; color: var(--teal-dark); margin-bottom: 6px; }
+    .vetted-card p { font-size: 0.92rem; color: var(--body); line-height: 1.5; margin-bottom: 12px; }
+    .vetted-list { list-style: none; margin-bottom: 16px; }
+    .vetted-list li { font-size: 0.88rem; color: var(--body); padding: 6px 0; border-bottom: 1px solid var(--border-light); }
+
+    /* Tab 5: Live Command Center Tracker + Anti-File-Closure Shield */
+    .shield-banner { background: var(--teal-dark); color: #ffffff; border-radius: 16px; padding: 18px 20px; margin-bottom: 16px; box-shadow: 0 10px 24px rgba(11, 59, 89, 0.16); }
+    .sb-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .sb-tag { font-size: 0.74rem; font-weight: 800; color: #2563eb; text-transform: uppercase; letter-spacing: 0.4px; }
+    .sb-live { font-size: 0.75rem; font-weight: 800; background: rgba(25, 148, 245, 0.2); color: #3b82f6; padding: 3px 9px; border-radius: 999px; }
+    .shield-banner h3 { font-size: 1.15rem; font-weight: 850; margin-bottom: 6px; color: #2563eb; }
+    .shield-banner p { font-size: 0.86rem; color: #e2e8f0; line-height: 1.45; margin-bottom: 12px; }
+    .timer-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .timer-box { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); border-radius: 10px; padding: 10px 12px; }
+    .tb-label { font-size: 0.72rem; color: #cbd5e1; text-transform: uppercase; font-weight: 700; }
+    .tb-val { font-size: 1.02rem; font-weight: 850; color: #ffffff; margin-top: 2px; }
+
+    .two-way-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    @media (max-width: 500px) { .two-way-bar { grid-template-columns: 1fr; } }
+    .btn-action-tile { background: var(--sky-soft); border: 2px solid var(--sky); border-radius: 13px; padding: 13px 14px; text-align: left; cursor: pointer; text-decoration: none; color: var(--teal-dark); transition: 0.15s; }
+    .btn-action-tile:hover { background: var(--sky); color: #fff; }
+    .bat-top { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--sky); margin-bottom: 3px; }
+    .btn-action-tile:hover .bat-top { color: #e0f2fe; }
+    .bat-title { font-size: 0.92rem; font-weight: 850; line-height: 1.25; }
+
+    .milestone-group { background: #ffffff; border: 2px solid var(--border); border-radius: 16px; margin-bottom: 14px; overflow: hidden; }
+    .mg-header { background: var(--surface); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); }
+    .mg-title { font-size: 0.96rem; font-weight: 850; color: var(--teal-dark); }
+    .mg-badge { font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: var(--pill-bg); color: var(--teal-dark); }
+    .sub-item { padding: 13px 16px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .sub-item:last-child { border-bottom: none; }
+    .si-info { flex: 1; }
+    .si-name { font-size: 0.9rem; font-weight: 750; color: var(--teal-dark); line-height: 1.3; }
+    .si-meta { font-size: 0.76rem; color: var(--muted); margin-top: 2px; }
+    .status-pill { border: 2px solid var(--border); background: #ffffff; color: var(--muted); font-size: 0.76rem; font-weight: 800; padding: 7px 12px; border-radius: 999px; cursor: pointer; white-space: nowrap; transition: 0.15s; }
+    .status-pill[data-state="waiting"] { background: var(--amber-soft); border-color: var(--amber); color: #92400e; }
+    .status-pill[data-state="complete"] { background: var(--emerald); border-color: var(--emerald); color: var(--teal-deep); }
+
+    /* Slide-Up Bottom Sheet Modal */
+    .sheet-backdrop { position: fixed; inset: 0; background: rgba(11, 59, 89, 0.55); backdrop-filter: blur(3px); z-index: 80; display: none; align-items: flex-end; justify-content: center; padding: 14px; }
+    .sheet-backdrop.open { display: flex; animation: fadeIn 0.15s ease-out; }
+    @media (min-width: 700px) { .sheet-backdrop { align-items: center; } }
+    .sheet-modal { background: #ffffff; width: 100%; max-width: 680px; max-height: 85dvh; border-radius: 20px; border: 2px solid var(--teal-dark); box-shadow: 0 24px 60px rgba(11, 59, 89, 0.3); display: flex; flex-direction: column; overflow: hidden; }
+    .sheet-header { background: #ffffff; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 2px solid var(--border-light); }
+    .sheet-tag { font-size: 0.76rem; font-weight: 850; color: var(--sky); text-transform: uppercase; }
+    .btn-sheet-close { background: var(--pill-bg); color: var(--teal-dark); border: none; width: 34px; height: 34px; border-radius: 10px; font-size: 1.05rem; font-weight: 800; cursor: pointer; }
+    .sheet-body { padding: 20px; overflow-y: auto; line-height: 1.58; }
+    .sheet-title { font-size: 1.25rem; font-weight: 850; color: var(--teal-dark); margin-bottom: 10px; line-height: 1.28; }
+    .sheet-lead { font-size: 0.94rem; color: var(--body); margin-bottom: 16px; }
+    .sheet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .sheet-grid { grid-template-columns: 1fr; } }
+    .box-trap { background: var(--danger-soft); border-left: 5px solid var(--danger); padding: 14px; border-radius: 12px; }
+    .box-trap h4 { color: #9f1239; font-size: 0.9rem; margin-bottom: 4px; }
+    .box-trap p { color: #881337; font-size: 0.86rem; }
+    .box-fix { background: var(--emerald-soft); border-left: 5px solid var(--emerald); padding: 14px; border-radius: 12px; }
+    .box-fix h4 { color: var(--teal-deep); font-size: 0.9rem; margin-bottom: 4px; }
+    .box-fix p { color: var(--teal-dark); font-size: 0.86rem; }
+    .sheet-footer { padding: 14px 20px; background: var(--surface); border-top: 1px solid var(--border-light); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+    .sheet-saved { font-size: 0.88rem; font-weight: 850; color: #1d4ed8; }
+    .btn-pill-sky { background: var(--sky); color: #ffffff; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 800; font-size: 0.86rem; cursor: pointer; }
+
+    /* Slide-Out Hamburger Drawer (Exact Zehut 2026 Screenshot 3 Style) */
+    .drawer-backdrop { position: fixed; inset: 0; background: rgba(11, 59, 89, 0.5); z-index: 90; display: none; justify-content: flex-end; }
+    
+    /* Smooth Tween Slide-Out Drawers (Left & Right) */
+    .drawer-backdrop { display: flex !important; opacity: 0; pointer-events: none; transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1); backdrop-filter: blur(2px); }
+    .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+    .drawer-panel { transform: translateX(100%); transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; }
+    .drawer-backdrop.open .drawer-panel { transform: translateX(0); }
+    .drawer-backdrop.left { justify-content: flex-start; }
+    .drawer-backdrop.left .drawer-panel { transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.22); }
+    .drawer-backdrop.left.open .drawer-panel { transform: translateX(0); }
+
+    
+    .drawer-panel { background: #ffffff; width: 320px; max-width: 86vw; height: 100%; padding: 22px 18px; display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; box-shadow: -10px 0 30px rgba(0,0,0,0.2); }
+    .drawer-brand-center { text-align: center; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); margin-bottom: 16px; }
+    .drawer-dark-stats { background: #091e2c; color: #ffffff; padding: 16px; border-radius: 14px; margin-bottom: 16px; border: 1.5px solid #eab308; }
+    .dds-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 800; color: #facc15; margin-bottom: 10px; }
+    .dds-grid { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; gap: 6px; }
+    .dds-num { font-size: 1.25rem; font-weight: 900; color: #2563eb; display: block; }
+    .dds-num.green { color: #2563eb; }
+    .dds-lbl { font-size: 0.7rem; color: #94a3b8; }
+    .drawer-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .drawer-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 13px 12px; border: none; border-bottom: 1px solid #f1f5f9; background: transparent; color: var(--teal-dark); font-size: 0.96rem; font-weight: 750; text-align: left; cursor: pointer; text-decoration: none; }
+    .drawer-row:hover { background: var(--pill-bg); border-radius: 10px; }
+    .btn-install-navy { width: 100%; background: var(--teal-dark); color: #ffffff; border: none; padding: 15px; border-radius: 12px; font-size: 0.96rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 14px; }
+
+    
+    /* Always-Visible Pull Handle Synced 1:1 With Left Drawer */
+    .left-edge-handle { position: fixed; left: 0; top: 50%; transform: translate3d(0, -50%, 0); z-index: 99; width: 22px; height: 78px; background: #082548; border: 1.5px solid #1994F5; border-left: none; border-radius: 0 12px 12px 0; box-shadow: 3px 0 14px rgba(8, 37, 72, 0.28); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: grab; touch-action: none !important; user-select: none; -webkit-user-select: none; transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), width 0.18s ease, background 0.18s ease; }
+    .left-edge-handle::after { content: ""; position: absolute; top: -14px; bottom: -14px; left: -6px; right: -18px; }
+    .left-edge-handle:hover, .left-edge-handle:active { width: 26px; background: #0288E8; cursor: grabbing; }
+    .left-edge-handle.open { transform: translate3d(min(320px, 86vw), -50%, 0); }
+    .left-edge-handle.open .leh-arrow { transform: rotate(180deg); }
+    .leh-grip { width: 4px; height: 28px; border-left: 1.5px solid #38bdf8; border-right: 1.5px solid #38bdf8; border-radius: 2px; pointer-events: none; }
+    .leh-arrow { color: #ffffff; font-size: 10px; font-weight: 900; line-height: 1; pointer-events: none; transition: transform 0.25s ease; }
+
+    /* Bottom 5-Tab Bar (Exact Zehut 2026 Uncrowded SVG Pill Style) */
+    .bottom-nav { height: var(--bottom-h); background: #ffffff; border-top: 1px solid var(--border-light); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 4px 6px; flex-shrink: 0; z-index: 50; box-shadow: 0 -4px 16px rgba(11, 59, 89, 0.04); }
+    .nav-tab { border: none; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 4px 2px; cursor: pointer; color: var(--muted); transition: 0.15s; text-decoration: none; }
+    .nt-pill { width: 54px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.15s; }
+    .nav-tab svg { width: 22px; height: 22px; fill: currentColor; }
+    .nt-label { font-size: 0.73rem; font-weight: 750; letter-spacing: -0.1px; }
+    .nav-tab.active { color: var(--sky); }
+    .nav-tab.active .nt-pill { background: var(--pill-bg); color: var(--sky); }
+    .nav-tab.active .nt-label { font-weight: 850; color: var(--sky); }
+  
+    /* Interactive Deep-Dive Term Links */
+    .term-link {
+      color: var(--sky);
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      background: rgba(2, 152, 236, 0.08);
+      padding: 1px 5px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .term-link:active { background: rgba(2, 152, 236, 0.2); }
+  
+    /* True Native Slide-Up Bottom Sheet Override */
+    .modal-overlay {
+      align-items: flex-end !important;
+      justify-content: center !important;
+      padding: 0 !important;
+      background: rgba(7, 42, 64, 0.55) !important;
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease !important;
+      display: flex !important;
+    }
+    .modal-overlay.open {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+    .modal-card {
+      width: 100% !important;
+      max-width: 540px !important;
+      max-height: 86vh !important;
+      border-radius: 24px 24px 0 0 !important;
+      padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+      transform: translateY(100%) !important;
+      transition: transform 0.32s cubic-bezier(0.2, 0.9, 0.2, 1) !important;
+      box-shadow: 0 -10px 40px rgba(7, 42, 64, 0.28) !important;
+    }
+    .modal-overlay.open .modal-card {
+      transform: translateY(0) !important;
+    }
+    .sheet-pill {
+      width: 42px;
+      height: 5px;
+      background: #CBD5E1;
+      border-radius: 99px;
+      margin: 10px auto 4px;
+    }
+  
+    /* True Native Slide-Up Bottom Sheet Override */
+    .modal-overlay {
+      align-items: flex-end !important;
+      justify-content: center !important;
+      padding: 0 !important;
+      background: rgba(7, 42, 64, 0.55) !important;
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease !important;
+      display: flex !important;
+    }
+    .modal-overlay.open {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+    .modal-card {
+      width: 100% !important;
+      max-width: 540px !important;
+      max-height: 86vh !important;
+      border-radius: 24px 24px 0 0 !important;
+      padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+      transform: translateY(100%) !important;
+      transition: transform 0.32s cubic-bezier(0.2, 0.9, 0.2, 1) !important;
+      box-shadow: 0 -10px 40px rgba(7, 42, 64, 0.28) !important;
+    }
+    .modal-overlay.open .modal-card {
+      transform: translateY(0) !important;
+    }
+    .sheet-pill {
+      width: 42px;
+      height: 5px;
+      background: #CBD5E1;
+      border-radius: 99px;
+      margin: 10px auto 4px;
+    }
+  
+    /* Clean Bullet Lists Inside Bottom Sheet */
+    #obstacle-sheet ul {
+      margin: 8px 0 0 0;
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    #obstacle-sheet li {
+      font-size: 13.5px;
+      line-height: 1.45;
+      text-align: left;
+    }
+  
+    /* Light Blue Open Tracker Button in Bottom Sheet */
+    #obstacle-sheet .sh-actions button:first-child,
+    #obstacle-sheet .btn-tracker,
+    #obstacle-sheet a.sh-btn-primary {
+      background: #2563eb !important;
+      color: #ffffff !important;
+      font-weight: 800 !important;
+      border: none !important;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.28) !important;
+    }
+  
+    /* Hide Next Box button globally in obstacle-sheet (Tab 1 & Tab 2) */
+    #obstacle-sheet button[onclick*="next"],
+    #obstacle-sheet .btn-next {
+      display: none !important;
+    }
+  
+    
+  
+  .brand-logo-star svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
+  .lang-globe-icon svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+    color: #38A3FD;
+  }
+  .hero-shield-badge-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 14px auto 12px auto;
+  }
+  .hero-shield-badge {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #0095FF 0%, #0077E6 100%);
+    box-shadow: 0 6px 16px rgba(0, 132, 255, 0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-shield-badge svg {
+    width: 50px;
+    height: 50px;
+    display: block;
+  }
+
+</style>
+<style id="rachel-navy-header-theme">
+    /* Deep Navy App Bar + Vibrant #0288E8 Blue (Strictly Scoped to .app-header) */
+    .app-header {
+      background: #082548 !important;
+      border-bottom: 1px solid rgba(2, 136, 232, 0.35) !important;
+      box-shadow: 0 2px 10px rgba(8, 37, 72, 0.22) !important;
     }
     .app-header .brand-mark {
       background: #0288E8 !important;
@@ -163,53 +676,27 @@
       width: 38px !important;
       height: 38px !important;
       border-radius: 10px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
       box-shadow: 0 3px 10px rgba(2, 136, 232, 0.4) !important;
-      flex-shrink: 0 !important;
     }
+    /* 15% bigger 6-pointed Magen David inside the App Bar squircle */
     .app-header .brand-mark svg {
       width: 26px !important;
       height: 26px !important;
       fill: #FFFFFF !important;
     }
     .app-header .brand-title {
-      font-size: 1.22rem !important;
-      font-weight: 800 !important;
-      letter-spacing: -0.3px !important;
       color: #FFFFFF !important;
     }
     .app-header .brand-title span {
       color: #1994F5 !important;
     }
-    .header-right {
-      display: flex !important;
-      align-items: center !important;
-      gap: 14px !important;
-    }
     .app-header .lang-btn {
-      position: relative !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      text-decoration: none !important;
-      color: #FFFFFF !important;
-      font-size: 0.68rem !important;
-      font-weight: 800 !important;
-      line-height: 1.1 !important;
-      cursor: pointer !important;
       background: transparent !important;
       border: none !important;
-      padding: 2px 4px !important;
+      color: #FFFFFF !important;
     }
     .app-header .lang-btn svg {
-      width: 22px !important;
-      height: 22px !important;
       stroke: #1994F5 !important;
-      fill: none !important;
-      stroke-width: 2 !important;
-      margin-bottom: 1px !important;
     }
     .app-header .lang-btn span {
       color: #FFFFFF !important;
@@ -218,279 +705,69 @@
       background: transparent !important;
       border: none !important;
       color: #FFFFFF !important;
-      cursor: pointer !important;
-      padding: 4px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
     }
     .app-header .hamburger-btn svg {
-      width: 33px !important;
-      height: 33px !important;
       stroke: #FFFFFF !important;
-      stroke-width: 2.4 !important;
-      stroke-linecap: round !important;
     }
-    /* Language Popup Menu when clicking #globe-lang-btn */
-    #gat-lang-pop {
-      display: none;
-      position: fixed;
-      top: 66px;
-      right: 18px;
-      z-index: 99999;
-      background: #082548;
-      border: 1.5px solid #1994F5;
-      border-radius: 14px;
-      padding: 8px;
-      box-shadow: 0 14px 34px rgba(0,0,0,0.55);
-      min-width: 170px;
-      direction: ltr;
+    /* Match .hero-emblem to exact #0288E8 squircle + soft glow from image_f4a91b.png */
+    .hero-emblem {
+      background: #0288E8 !important;
+      border-radius: 19px !important;
+      box-shadow: 0 8px 22px rgba(2, 136, 232, 0.34), 0 2px 6px rgba(2, 136, 232, 0.22) !important;
     }
-    #gat-lang-pop.open { display: block; }
-    .gat-lang-opt {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 9px 12px;
-      border: none;
-      background: transparent;
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 0.86rem;
-      border-radius: 9px;
-      cursor: pointer;
-      text-align: left;
+    .hero-emblem svg {
+      fill: #FFFFFF !important;
     }
-    .gat-lang-opt:hover, .gat-lang-opt.active {
-      background: rgba(25, 148, 245, 0.22);
-      color: #38bdf8;
-    }
-    /* Drawer CSS from public/index.html */
-    .drawer-backdrop {
-      position: fixed !important;
-      inset: 0 !important;
-      background: rgba(11, 37, 69, 0.65) !important;
-      backdrop-filter: blur(4px) !important;
-      z-index: 99990 !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-      transition: opacity 0.25s ease !important;
-      display: flex !important;
-      justify-content: flex-end !important;
-      direction: ltr !important;
-    }
-    .drawer-backdrop.open {
-      opacity: 1 !important;
-      pointer-events: auto !important;
-    }
-    .drawer-panel {
-      width: min(330px, 86vw) !important;
-      height: 100% !important;
-      background: #ffffff !important;
-      color: #0f172a !important;
-      padding: 20px 16px !important;
-      overflow-y: auto !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: space-between !important;
-      box-shadow: -8px 0 30px rgba(0,0,0,0.35) !important;
-      transform: translateX(100%);
-      transition: transform 0.25s ease !important;
-    }
-    .drawer-backdrop.open .drawer-panel {
-      transform: translateX(0);
-    }
-    .drawer-brand-center { text-align: center; margin-bottom: 12px; }
-    .drawer-brand-center .brand-title { font-weight: 900; color: #082548; }
-    .drawer-brand-center .brand-title span { color: #0288E8; }
-    .drawer-dark-stats { background: #082548; color: #fff; border-radius: 12px; padding: 12px; margin-bottom: 12px; }
-    .dds-head { display: flex; justify-content: space-between; font-size: 0.76rem; font-weight: 800; color: #38bdf8; margin-bottom: 8px; }
-    .dds-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center; }
-    .dds-num { display: block; font-size: 0.95rem; font-weight: 900; color: #fff; }
-    .dds-num.green { color: #4ade80; }
-    .dds-lbl { display: block; font-size: 0.66rem; color: #cbd5e1; }
-    .drawer-item, .drawer-link {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 12px; margin-bottom: 6px; border-radius: 10px;
-      background: #f1f5f9; color: #0f172a !important; text-decoration: none;
-      font-weight: 700; font-size: 0.88rem; border: 1px solid #e2e8f0;
-    }
-
   
-  
-  
-  /* === EXACT CONTRAST RULES: LIGHT FAQ CARDS vs. DARK NAVY FOOTER & PLAYBOOKS === */
-  details > summary:not(.gat-dark-summary),
-  details > summary:not(.gat-dark-summary) * {
-    color: #082548 !important;
-    -webkit-text-fill-color: #082548 !important;
-    opacity: 1 !important;
-  }
-  .seo-obstacle-library > details > summary,
-  .seo-obstacle-library > details > summary *,
-  #gat-seo-library > details > summary,
-  #gat-seo-library > details > summary *,
-  .gat-dark-legal-footer details > summary,
-  .gat-dark-legal-footer details > summary *,
-  summary.gat-dark-summary,
-  summary.gat-dark-summary * {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-    opacity: 1 !important;
-  }
-  .gat-dark-legal-footer details p,
-  .gat-dark-legal-footer details p *,
-  p.gat-dark-body,
-  p.gat-dark-body * {
-    color: #e2e8f0 !important;
-    -webkit-text-fill-color: #e2e8f0 !important;
-    opacity: 1 !important;
-  }
-
-  
-  
-  /* === CLEAN iOS FORM INPUT & CONTRAST STABILIZER (ZERO SCROLL YANKING) === */
-  details > summary:not(.gat-dark-summary),
-  details > summary:not(.gat-dark-summary) * {
-    color: #082548 !important;
-    -webkit-text-fill-color: #082548 !important;
-    opacity: 1 !important;
-  }
-  .seo-obstacle-library > details > summary,
-  .seo-obstacle-library > details > summary *,
-  #gat-seo-library > details > summary,
-  #gat-seo-library > details > summary *,
-  .gat-dark-legal-footer details > summary,
-  .gat-dark-legal-footer details > summary *,
-  summary.gat-dark-summary,
-  summary.gat-dark-summary * {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-    opacity: 1 !important;
-  }
-  .gat-dark-legal-footer details p,
-  .gat-dark-legal-footer details p *,
-  p.gat-dark-body,
-  p.gat-dark-body * {
-    color: #e2e8f0 !important;
-    -webkit-text-fill-color: #e2e8f0 !important;
-    opacity: 1 !important;
-  }
-  input, select, textarea {
-    font-size: 16px !important;
-    touch-action: manipulation !important;
-    -webkit-user-select: text !important;
-    user-select: text !important;
-  }
-
-</style>
-    <!-- GAT_SEO_HEAD_START -->
-  <meta name="description" content="Никакой предоплаты: сначала отправьте документы, чтобы наш проверенный адвокат, нотариус или раввин проверил объем страниц и утвердил точную смету ($0)." />
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-  <link rel="canonical" href="https://giyuraliyahtrack.com/ru/concierge-booking/" />
-  <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/concierge-booking/" />
-  <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/concierge-booking/" />
-  <link rel="alternate" hreflang="he" href="https://giyuraliyahtrack.com/he/concierge-booking/" />
-  <link rel="alternate" hreflang="fr" href="https://giyuraliyahtrack.com/fr/concierge-booking/" />
-  <link rel="alternate" hreflang="es" href="https://giyuraliyahtrack.com/es/concierge-booking/" />
-  <link rel="alternate" hreflang="de" href="https://giyuraliyahtrack.com/de/concierge-booking/" />
-  <link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/concierge-booking/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="ru_RU" />
-  <meta property="og:site_name" content="Giyur Aliyah Track" />
-  <meta property="og:url" content="https://giyuraliyahtrack.com/ru/concierge-booking/" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Giyur Aliyah Track",
-          "item": "https://giyuraliyahtrack.com/ru/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Все 23 цифровых модуля и услуги проверенных специалистов (МВД / Гиюр)",
-          "item": "https://giyuraliyahtrack.com/ru/pricing/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Отправьте данные и документы на согласование адвокату / нотариусу / раввину",
-          "item": "https://giyuraliyahtrack.com/ru/concierge-booking/"
-        }
-      ]
-    },
-    {
-      "@type": "LegalService",
-      "name": "Отправьте данные и документы на согласование адвокату / нотариусу / раввину",
-      "description": "Никакой предоплаты вслепую! Сначала вы отправляете детали дела и сканы документов, чтобы мы и профильный адвокат, нотариус или раввин проверили объем страниц, отделение МВД и утвердили точную цену.",
-      "url": "https://giyuraliyahtrack.com/ru/concierge-booking/",
-      "areaServed": [
-        "Jerusalem",
-        "Tel Aviv",
-        "Haifa",
-        "Safed",
-        "Beer Sheva",
-        "Israel"
-      ],
-      "priceRange": "$0 Upfront Quote ($249 - $799 Fixed Fee)"
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Почему заявители застревают на месяцы в МВД (Мисрад а-Пним), Сохнуте или Нефеш бе-Нефеш?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Потому что классические агентства репатриации не готовят к смене статуса внутри Израиля (Шинуй Маамад), правилу 180 дней годности апостилей и справок о несудимости, а также к перекрестному допросу СТУПРО по Ноалю 5.2.0008 / 5.2.0009."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Нужно ли платить 30 000 шекелей адвокату, чтобы подать анкету Аш/6 на СТУПРО?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Нет. Наш генератор переводит ваши данные на официальный иврит и заполняет все 8 бланков МВД. А если вам нужна личная защита у окошка чиновника, вы можете заказать сопровождение адвоката всего на 1 час."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Как работает бесплатный расчет цены (0 $ сегодня) для адвоката, нотариуса с красной лентой, раввина и мадрихат калла?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Вы бесплатно загружаете описание кейса и сканы документов, после чего получаете точную фиксированную цену и проверенного специалиста в вашем регионе до какой-либо оплаты."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "В чем разница между доступом на 90 дней и Пожизненным пакетом (Lifetime)?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Ступенчатая процедура (СТУПРО) длится 5 лет с ежегодным продлением визы А/5 и ежегодными собеседованиями. Пожизненный пакет покрывает все 5 лет проверок."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Можно ли протестировать платформу бесплатно перед покупкой?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Да: 4 карточки в каждой колоде, 2 песни караоке и ввод данных в бланки доступны бесплатно. Поскольку сразу после оплаты открывается скачивание готовых PDF и полных баз, цифровые лицензии являются окончательными и невозвратными."
-          }
-        }
-      ]
+    /* Match Bottom Nav to Top App Bar Height & Navy/Ocean Blue Palette */
+    :root {
+      --bottom-h: var(--header-h, 58px) !important;
     }
-  ]
-}
-</script>
-  <!-- GAT_SEO_HEAD_END -->
+    .bottom-nav {
+      height: var(--header-h, 58px) !important;
+      min-height: var(--header-h, 58px) !important;
+      max-height: var(--header-h, 58px) !important;
+      background: #082548 !important;
+      background-color: #082548 !important;
+      border-top: 1px solid rgba(2, 136, 232, 0.35) !important;
+      box-shadow: 0 -2px 10px rgba(8, 37, 72, 0.22) !important;
+      padding: 2px 6px !important;
+    }
+    .bottom-nav .nav-tab {
+      color: rgba(255, 255, 255, 0.68) !important;
+      padding: 2px 4px !important;
+      gap: 2px !important;
+    }
+    .bottom-nav .nav-tab svg {
+      width: 20px !important;
+      height: 20px !important;
+      stroke: rgba(255, 255, 255, 0.68) !important;
+    }
+    .bottom-nav .nav-tab span,
+    .bottom-nav .nav-tab .nav-label {
+      color: rgba(255, 255, 255, 0.72) !important;
+      font-size: 10.5px !important;
+      font-weight: 600 !important;
+      line-height: 1.1 !important;
+    }
+    /* Active Tab State: Pop with #0288E8 / #1994F5 Ocean Blue & Crisp White */
+    .bottom-nav .nav-tab.active {
+      color: #FFFFFF !important;
+    }
+    .bottom-nav .nav-tab.active .nav-pill,
+    .bottom-nav .nav-tab.active .icon-wrap {
+      background: rgba(2, 136, 232, 0.24) !important;
+      border-radius: 10px !important;
+    }
+    .bottom-nav .nav-tab.active svg {
+      stroke: #1994F5 !important;
+    }
+    .bottom-nav .nav-tab.active span,
+    .bottom-nav .nav-tab.active .nav-label {
+      color: #1994F5 !important;
+      font-weight: 800 !important;
+    }
+  </style>
 <style id="gat-horizontal-tabs-scroll-fix">
   /* Allow horizontal touch-scrolling on top module/track tab rows while keeping page locked */
   .mod-tabs, .mod-tabs *,
@@ -533,7 +810,6 @@
     white-space: nowrap !important;
   }
 </style>
-
 <style id="gat-appbar-compact-share-css">
   .app-header .brand-mark, .topbar .brand-mark { display: none !important; }
   .app-header .app-nav-back, .topbar .app-nav-back {
@@ -609,40 +885,227 @@
     .app-header .hamburger-btn svg, .topbar .hamburger-btn svg { width: 31px !important; height: 31px !important; }
   }
 </style>
-
-
-<style id="gat-head-deepnavy-bnav">
-  nav.bottom-nav, .bottom-nav, nav.gat-injected-bottom-nav {
-    background: #082548 !important;
-    background-color: #082548 !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.14) !important;
-    box-shadow: 0 -6px 24px rgba(4, 18, 38, 0.45), 0 80px 0 80px #082548 !important;
+<style id="gat-spoke-readability-v2">
+  /* Prevent mid-word character chopping inside all spoke & form guides */
+  .seo-spoke-article, .seo-spoke-article * {
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
   }
-  nav.bottom-nav .nav-tab, .bottom-nav .nav-tab { color: rgba(255, 255, 255, 0.72) !important; }
-  nav.bottom-nav .nav-tab.active, .bottom-nav .nav-tab.active { color: #38bdf8 !important; font-weight: 800 !important; }
-  nav.bottom-nav .nt-pill, .bottom-nav .nt-pill { width: 56px !important; height: 34px !important; border-radius: 12px !important; background: transparent !important; }
-  nav.bottom-nav .nav-tab.active .nt-pill, .bottom-nav .nav-tab.active .nt-pill { background: #ffffff !important; background-color: #ffffff !important; }
-  nav.bottom-nav .nt-pill svg, .bottom-nav .nt-pill svg { fill: rgba(255, 255, 255, 0.78) !important; width: 20px !important; height: 20px !important; }
-  nav.bottom-nav .nav-tab.active .nt-pill svg, .bottom-nav .nav-tab.active .nt-pill svg { fill: #0288E8 !important; }
+  .seo-spoke-article {
+    padding: 20px 18px !important;
+    line-height: 1.62 !important;
+  }
+  .seo-spoke-article > div, .seo-spoke-article > p {
+    font-size: 0.95rem !important;
+    color: #1e293b !important;
+    line-height: 1.62 !important;
+  }
+  /* Responsive Semantic Comparison Table (100% HTML <table> for Google, Card Grid for Mac & iPhone) */
+  .seo-spoke-article table.gat-comp-table {
+    display: block !important;
+    width: 100% !important;
+    border: none !important;
+    background: transparent !important;
+    margin: 18px 0 !important;
+  }
+  .seo-spoke-article table.gat-comp-table thead {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    border: 0 !important;
+  }
+  .seo-spoke-article table.gat-comp-table tbody {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+  .seo-spoke-article table.gat-comp-table tbody tr {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    background: #ffffff !important;
+    border: 2px solid #cbd5e1 !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow: 0 6px 18px rgba(8, 37, 72, 0.06) !important;
+  }
+  @media (max-width: 640px) {
+    .seo-spoke-article table.gat-comp-table tbody tr {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  /* Row Topic Header (First <td> spans full width across the top of the card) */
+  .seo-spoke-article table.gat-comp-table tbody td:first-child {
+    grid-column: 1 / -1 !important;
+    background: linear-gradient(135deg, #082548 0%, #0b3b59 100%) !important;
+    color: #ffffff !important;
+    padding: 12px 15px !important;
+    font-size: 0.96rem !important;
+    font-weight: 900 !important;
+    line-height: 1.38 !important;
+    border-bottom: 2.5px solid #03A9F4 !important;
+  }
+  .seo-spoke-article table.gat-comp-table tbody td:first-child strong {
+    color: #ffffff !important;
+    font-size: 0.96rem !important;
+  }
+  .seo-spoke-article table.gat-comp-table tbody td:first-child::before {
+    display: none !important;
+  }
+  /* Comparison Columns (2nd, 3rd, 4th <td>) */
+  .seo-spoke-article table.gat-comp-table tbody td:not(:first-child) {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 13px 14px !important;
+    font-size: 0.87rem !important;
+    line-height: 1.54 !important;
+    border-bottom: none !important;
+  }
+  .seo-spoke-article table.gat-comp-table tbody td:not(:first-child)::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 5px 9px;
+    border-radius: 7px;
+    margin-bottom: 9px;
+    line-height: 1.3;
+  }
+  .seo-spoke-article table.gat-comp-table tbody td:nth-child(2) {
+    background: #f8fafc !important;
+    color: #334155 !important;
+    border-inline-end: 1px solid #e2e8f0 !important;
+  }
+  .seo-spoke-article table.gat-comp-table tbody td:nth-child(2)::before {
+    background: #e2e8f0;
+    color: #1e293b;
+  }
+  .seo-spoke-article table.gat-comp-table tbody td:nth-child(3) {
+    background: #fffafb !important;
+    color: #4c0519 !important;
+    border-inline-end: 1px solid #ffe4e6 !important;
+  }
+  .seo-spoke-article table.gat-comp-table tbody td:nth-child(3)::before {
+    background: #ffe4e6;
+    color: #9f1239;
+  }
+  .seo-spoke-article table.gat-comp-table tbody td:nth-child(4) {
+    background: #f0f9ff !important;
+    color: #082548 !important;
+    font-weight: 600 !important;
+  }
+  .seo-spoke-article table.gat-comp-table tbody td:nth-child(4)::before {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+  }
+  @media (max-width: 640px) {
+    .seo-spoke-article table.gat-comp-table tbody td:nth-child(2),
+    .seo-spoke-article table.gat-comp-table tbody td:nth-child(3) {
+      border-inline-end: none !important;
+      border-bottom: 1.5px solid #e2e8f0 !important;
+    }
+  }
+  /* Clean Callout Boxes for ❌ Traps & ✅ Step-by-Step Action Plans */
+  .gat-spoke-trap-box {
+    background: #fff5f7 !important;
+    border: 1.5px solid #fecdd3 !important;
+    border-inline-start: 5px solid #e11d48 !important;
+    border-radius: 14px !important;
+    padding: 16px !important;
+    margin: 18px 0 !important;
+  }
+  .gat-spoke-trap-box h2, .gat-spoke-trap-box h3 {
+    color: #9f1239 !important;
+    font-size: 1.05rem !important;
+    font-weight: 900 !important;
+    margin: 0 0 10px 0 !important;
+  }
+  .gat-spoke-fix-box {
+    background: #f0f9ff !important;
+    border: 1.5px solid #bae6fd !important;
+    border-inline-start: 5px solid #0284c7 !important;
+    border-radius: 14px !important;
+    padding: 16px !important;
+    margin: 18px 0 !important;
+  }
+  .gat-spoke-fix-box h2, .gat-spoke-fix-box h3 {
+    color: #082548 !important;
+    font-size: 1.05rem !important;
+    font-weight: 900 !important;
+    margin: 0 0 10px 0 !important;
+  }
+  .gat-step-item-card {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1px solid rgba(148, 163, 184, 0.35) !important;
+    border-radius: 10px !important;
+    padding: 11px 13px !important;
+    margin-bottom: 9px !important;
+    font-size: 0.91rem !important;
+    line-height: 1.56 !important;
+    color: #1e293b !important;
+  }
+  .gat-step-item-card:last-child {
+    margin-bottom: 0 !important;
+  }
+  .seo-spoke-article ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 8px 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 9px !important;
+  }
+  .seo-spoke-article ul li {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(148, 163, 184, 0.35) !important;
+    border-radius: 10px !important;
+    padding: 11px 13px !important;
+    font-size: 0.91rem !important;
+    line-height: 1.56 !important;
+  }
 </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Запрос сметы консьержа",
-  "dateModified": "2026-11-20",
-  "author": {
-    "@type": "Organization",
-    "name": "Giyur Aliyah Track Statutory Research Desk",
-    "url": "https://giyuraliyahtrack.com/"
-  },
-  "reviewedBy": {
-    "@type": "Organization",
-    "name": "Vetted Israeli Immigration & Rabbinic Legal-Tech Review Board (Nohal 5.2.0008 Ed. 16 & Nohal 5.2.0009 Ed. 17)"
+<style id="gat-ux-kicker-and-bnav-0ms">
+  /* Image 3: Always stack .section-kicker into 2 clean rows */
+  .section-kicker {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 3px !important;
+    margin-bottom: 12px !important;
   }
-}
-</script>
-<!-- === GAT SCOPED CONTRAST & SPOK PILL RULES === -->
+  .section-kicker h2 {
+    margin: 0 !important;
+    line-height: 1.28 !important;
+  }
+  .section-kicker span {
+    display: block !important;
+    font-size: 0.81rem !important;
+    font-weight: 800 !important;
+    color: #0284c7 !important;
+  }
+  /* Image 4: Zero-lag 0ms bottom navigation pill switching */
+  nav.bottom-nav .nav-tab,
+  nav.bottom-nav .nt-pill,
+  nav.bottom-nav .nt-pill svg,
+  nav.bottom-nav .nt-label,
+  .bottom-nav .nav-tab,
+  .bottom-nav .nt-pill,
+  .bottom-nav .nt-pill svg,
+  .bottom-nav .nt-label {
+    transition: none !important;
+    animation: none !important;
+  }
+</style>
+<style id="gat-hide-top-spok-static">.exodus-alert,#exodus-alert,#gat-spok-top-banner,.gat-spok-top-banner,#spok-intro-card,.spok-intro-card,[data-spok-intro-hidden="1"]{display:none!important;height:0!important;margin:0!important;padding:0!important;border:none!important;overflow:hidden!important;}</style>
 <style id="gat-scoped-contrast-fix">
   summary.gat-faq-q,
   summary.faq-q,
@@ -687,160 +1150,391 @@
     pointer-events: none !important;
   }
 </style>
+<style id="gat-kill-old-spok-pill-css">#gat-ask-spok-bottom-pill,#spok-fab-pill,#left-edge-handle,.left-edge-handle{display:none!important;visibility:hidden!important;pointer-events:none!important;}</style>
+  <style>
+    /* === REF_GLOBAL_APPBAR_CSS === */
+    :root {
+      --bg-navy: #04102d;
+      --card-navy: #0b1d42;
+      --input-navy: #071430;
+      --border-cyan: rgba(56, 189, 248, 0.28);
+      --accent-cyan: #38bdf8;
+      --accent-teal: #10b981;
+      --text-white: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0 0 100px 0;
+      background: radial-gradient(circle at 50% 0%, #0d2554 0%, #04102d 65%);
+      color: var(--text-white);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+    }
+    .cb-wrap {
+      max-width: 820px;
+      margin: 0 auto 24px auto;
+      padding: 12px 16px 28px 16px;
+    }
+    .cb-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .cb-back-link:hover { text-decoration: underline; }
+    .cb-hero-card {
+      background: linear-gradient(180deg, rgba(14, 34, 77, 0.94) 0%, rgba(7, 20, 48, 0.96) 100%);
+      border: 1.5px solid var(--border-cyan);
+      border-radius: 18px;
+      padding: 24px 22px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      margin-bottom: 24px;
+    }
+    .cb-badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #34d399;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.4px;
+      margin-bottom: 12px;
+    }
+    .cb-h1 {
+      margin: 0 0 10px 0;
+      font-size: clamp(1.35rem, 3.2vw, 1.85rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.25;
+    }
+    .cb-sub {
+      margin: 0 0 18px 0;
+      color: #cbd5e1;
+      font-size: 14.5px;
+      line-height: 1.55;
+    }
+    .cb-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    .cb-step-pill {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 10px;
+      padding: 9px 10px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #cbd5e1;
+    }
+    .cb-step-pill.active {
+      background: rgba(2, 132, 199, 0.22);
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+    }
+    .cb-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 640px) {
+      .cb-grid-2 { grid-template-columns: 1fr; }
+      .cb-steps { grid-template-columns: 1fr; }
+    }
+    .cb-field {
+      margin-bottom: 14px;
+    }
+    .cb-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #e2e8f0;
+      margin-bottom: 6px;
+    }
+    .cb-input, .cb-select, .cb-textarea {
+      width: 100%;
+      background: var(--input-navy);
+      border: 1.5px solid rgba(148, 163, 184, 0.3);
+      border-radius: 10px;
+      padding: 11px 13px;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .cb-input:focus, .cb-select:focus, .cb-textarea:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+    }
+    .cb-textarea {
+      min-height: 105px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+    .cb-upload-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(7, 20, 48, 0.75);
+      border: 1.5px dashed rgba(56, 189, 248, 0.45);
+      border-radius: 12px;
+      padding: 16px;
+      color: #bae6fd;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .cb-upload-box:hover {
+      background: rgba(14, 116, 144, 0.18);
+      border-color: var(--accent-cyan);
+    }
+    .cb-submit-btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #0284c7 0%, #10b981 100%);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(16, 185, 129, 0.3);
+      transition: transform 0.12s ease, opacity 0.15s ease;
+    }
+    .cb-submit-btn:hover { transform: translateY(-1px); }
+    .cb-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .cb-guarantee {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+    }
+    .cb-err-box {
+      display: none;
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .cb-ok-box {
+      display: none;
+      background: rgba(16, 185, 129, 0.16);
+      border: 1.5px solid #10b981;
+      color: #a7f3d0;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-top: 14px;
+    }
+  
+    /* === CONCIERGE BOOKING EXACT TOP & BOTTOM ALIGNMENT FIX === */
+    html, body {
+      background: #04102d !important;
+      background-image: radial-gradient(circle at 50% 0%, #0d2554 0%, #04102d 65%) !important;
+      color: #f8fafc !important;
+      margin: 0 !important;
+      padding: 0 0 112px 0 !important;
+      min-height: 100vh !important;
+    }
+    .cb-wrap {
+      max-width: 820px !important;
+      margin: 0 auto !important;
+      padding: 12px 16px 28px 16px !important;
+    }
+    .cb-back-link {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      margin: 2px 0 14px 0 !important;
+    }
+    .cb-hero-card {
+      margin: 0 0 24px 0 !important;
+      padding: 24px 22px 24px 22px !important;
+      border-radius: 18px !important;
+    }
+    .cb-guarantee {
+      margin: 14px 0 2px 0 !important;
+      padding: 0 !important;
+      line-height: 1.45 !important;
+    }
+
+  </style>
+  <style>
+    /* === FLUSH TOP APPBAR & ZERO 75PX TOP GAP === */
+    html, body {
+      margin: 0 !important;
+      padding: 0 0 96px 0 !important;
+      background: #04102d !important;
+      background-image: radial-gradient(circle at 50% 0%, #0d2554 0%, #04102d 65%) !important;
+    }
+    body > header, header.app-bar, .app-bar {
+      position: sticky !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      margin: 0 !important;
+      z-index: 9999 !important;
+    }
+    main.cb-wrap, .cb-wrap {
+      max-width: 820px !important;
+      margin: 0 auto !important;
+      padding: 10px 16px 28px 16px !important;
+    }
+    .cb-back-link {
+      margin: 0 0 10px 0 !important;
+    }
+    </style>
+  <style>
+    /* === UNLOCK VERTICAL SCROLLING ON CONCIERGE BOOKING === */
+    html, body {
+      height: auto !important;
+      min-height: 100vh !important;
+      max-height: none !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      position: static !important;
+      touch-action: pan-y !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    main.cb-wrap, .cb-wrap {
+      height: auto !important;
+      overflow: visible !important;
+      padding-bottom: 110px !important;
+    }
+</style>
 </head>
 <body>
   <header class="app-header">
     <div style="display:flex;align-items:center;">
-      <a href="/ru/pricing/" id="app-nav-back" class="app-nav-back visible" onclick="return window.handleSmartBack(event);" aria-label="Back" title="Назад к предыдущей странице">
+      <a href="https://giyuraliyahtrack.com/ru/" id="app-nav-back" class="app-nav-back" onclick="return window.handleSmartBack(event);" aria-label="Back">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </a>
-      <a href="/ru/" id="appbar-brand-home" class="brand"><div class="brand-title">Giyur<span>Aliyah</span>Track</div>
+      <a href="/ru/" class="brand" onclick="return window.handleBrandClick ? window.handleBrandClick(event) : true;">
+      <div class="brand-title">Giyur<span>Aliyah</span>Track</div>
       </a>
     </div>
     <div class="header-right">
       
       <button type="button" id="appbar-share-btn" class="appbar-share-btn" onclick="return window.shareExactCurrentPage(event);" title="Поделиться этой страницей" aria-label="Поделиться этой страницей"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button>
-            <button type="button" id="globe-lang-btn" class="lang-btn" onclick="window.toggleLang(event)" title="Изменить язык">
+            <button type="button" id="globe-lang-btn" class="lang-btn" onclick="window.toggleLang(event)" title="Сканировать и перевести иврит">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span id="appbar-lang-label" data-i18n="lang_label">RU</span>
+        <span data-i18n="lang_label">RU</span>
       </button>
-      <button type="button" class="hamburger-btn" onclick="return window.toggleDrawer(true);" aria-label="Menu">
+      <button type="button" class="hamburger-btn" onclick="toggleDrawer(true)" aria-label="Menu">
         <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
   </header>
+  <main class="cb-wrap">
+    <a href="/ru/pricing/" class="cb-back-link">← Смотреть все 23 цифровых пакета и консьерж-услуги</a>
 
-  <div id="gat-lang-pop">
-    <button type="button" class="gat-lang-opt" data-lg="en" onclick="window.pickAppbarLang('en')"><span>🇬🇧 English</span><span>EN</span></button>
-    <button type="button" class="gat-lang-opt" data-lg="he" onclick="window.pickAppbarLang('he')"><span>🇮🇱 עברית</span><span>HE</span></button>
-    <button type="button" class="gat-lang-opt" data-lg="fr" onclick="window.pickAppbarLang('fr')"><span>🇫🇷 Français</span><span>FR</span></button>
-    <button type="button" class="gat-lang-opt" data-lg="es" onclick="window.pickAppbarLang('es')"><span>🇪🇸 Español</span><span>ES</span></button>
-    <button type="button" class="gat-lang-opt" data-lg="de" onclick="window.pickAppbarLang('de')"><span>🇩🇪 Deutsch</span><span>DE</span></button>
-    <button type="button" class="gat-lang-opt" data-lg="ru" onclick="window.pickAppbarLang('ru')"><span>🇷🇺 Русский</span><span>RU</span></button>
-  </div>
+    <section class="cb-hero-card">
+      <div class="cb-badge">🤝 ПЕРСОНАЛЬНЫЙ КОНСЬЕРЖ И ПОДБОР ЭКСПЕРТОВ • $0 СЕГОДНЯ</div>
+      <h1 class="cb-h1">Заявка на Консьерж-Сервис и Точный Расчет</h1>
+      <p class="cb-sub">Отправьте детали вашего дела для проверки региональной доступности и получения фиксированной сметы. Сегодня вы платите $0 — оплата только после подтверждения специалиста в вашем городе.</p>
 
-  
-  <script>
-    window.toggleDrawer = function(open) {
-      var d = document.getElementById('app-drawer');
-      if (!d) return;
-      if (open) d.classList.add('open');
-      else d.classList.remove('open');
-    };
-    window.handleSmartBack = function(e) {
-      var ref = document.referrer || '';
-      if (ref && ref.indexOf(location.hostname) !== -1 && ref !== location.href && history.length > 1) {
-        if (e) e.preventDefault();
-        history.back();
-        return false;
-      }
-      return true;
-    };
-    window.toggleLang = function(e) {
-      if (e) e.stopPropagation();
-      var pop = document.getElementById('gat-lang-pop');
-      if (pop) pop.classList.toggle('open');
-    };
-    window.pickAppbarLang = function(lg) {
-      var pop = document.getElementById('gat-lang-pop');
-      if (pop) pop.classList.remove('open');
-      var targetPath = (lg === 'en') ? '/concierge-booking/' : ('/' + lg + '/concierge-booking/');
-      if (location.pathname !== targetPath) { location.href = targetPath + location.search; return; }
-      if (window.setLang) window.setLang(lg);
-    };
-    document.addEventListener('click', function(e) {
-      var pop = document.getElementById('gat-lang-pop');
-      if (pop && pop.classList.contains('open') && !e.target.closest('#gat-lang-pop') && !e.target.closest('#globe-lang-btn')) {
-        pop.classList.remove('open');
-      }
-    });
-  </script>
-  <div class="wrap">
-    
-  <!-- SITE-WIDE ZEHUT 2026 APPBAR -->
-  <header class="gat-site-appbar">
-    <div class="gat-appbar-inner">
-      <a href="/ru/" id="gat-brand-home-link" class="gat-brand-wrap" title="Giyur Aliyah Track Homepage"><div class="brand-logo" style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1994F5,#0284c7);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(25,148,245,0.4);"><svg viewBox="0 0 24 24" width="20" height="20" style="display:block;flex-shrink:0;"><path fill="#ffffff" d="M12 2L14.8 7.5L21 7.5L17.9 12L21 16.5L14.8 16.5L12 22L9.2 16.5L3 16.5L6.1 12L3 7.5L9.2 7.5Z"/></svg></div>
-        <div class="gat-brand-title">Giyur<span>Aliyah</span>Track</div>
-      </a>
-      <div class="gat-appbar-actions">
-        <div class="gat-globe-wrap" title="Изменить язык">
-          <span style="margin-right:4px;">🌐</span>
-          <select id="top-globe-sel" aria-label="Language" onchange="if(window.setLang)setLang(this.value);else if(window.setConciergeLang)setConciergeLang(this.value);">
-            <option value="en">EN</option>
-            <option value="he">HE</option>
-            <option value="fr">FR</option>
-            <option value="es">ES</option>
-            <option value="de">DE</option>
-            <option value="ru">RU</option>
-          </select>
+      <div class="cb-steps">
+        <div class="cb-step-pill active">1. Детали дела и услуги</div>
+        <div class="cb-step-pill">2. Проверка за 24 часа</div>
+        <div class="cb-step-pill">3. Подтверждение и смета</div>
+      </div>
+
+      <form id="cb-intake-form" onsubmit="return window.__submitConciergeBooking(event)">
+        <input type="text" id="cb-hp-web" name="hp_website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" aria-hidden="true">
+
+        <div class="cb-grid-2">
+          <div>
+            <label class="cb-label" for="cb-service-sel">Выберите консьерж-услугу</label>
+            <select id="cb-service-sel" class="cb-select" required>
+              <option value="concierge_rabbi_349">Подбор признанного сопровождающего раввина (Рав Мелаве) — от $349</option>
+              <option value="concierge_kallah_249">Подбор сертифицированной Мадрихат Калла — от $249</option>
+              <option value="concierge_couple_499">Пакет для пары: Сопровождающий раввин + Мадрихат Калла — от $499</option>
+              <option value="concierge_notary_249">Нотариальный перевод в Израиле с красной лентой (стандартный документ, 1 стр.) — от $249 / док.</option>
+              <option value="concierge_notary_349">Нотариальный перевод с красной лентой (судебное решение / многостраничный документ) — от $349 / док.</option>
+              <option value="concierge_bundle_799">Полный пакет нотариального перевода 4 личных документов — от $799</option>
+              <option value="concierge_escort_649">Сопровождение израильского адвоката в отделение МВД на 1 час в день очереди — от $649</option>
+              <option value="concierge_audit_249">Персональный аудит досье и консьерж-консультация — от $249</option>
+            </select>
+          </div>
+          <div>
+            <label class="cb-label" for="cb-region-sel">Ваш город / Округ Бейт-Дина и МВД (Мисрад а-Паним)</label>
+            <select id="cb-region-sel" class="cb-select" required>
+              <option value="Иерусалим и Центральный округ">Иерусалим и Центральный округ</option>
+              <option value="Тель-Авив и округ Гуш-Дан">Тель-Авив и округ Гуш-Дан</option>
+              <option value="Хайфа и Северный округ (Цфат / Тверия / Акко)">Хайфа и Северный округ (Цфат / Тверия / Акко)</option>
+              <option value="Беэр-Шева и Южный округ / Эйлат">Беэр-Шева и Южный округ / Эйлат</option>
+              <option value="Сейчас за границей (подготовка досье до прилета)">Сейчас за границей (подготовка досье до прилета)</option>
+            </select>
+          </div>
         </div>
-        <button type="button" class="gat-hamburger-btn" aria-label="Открыть меню навигации" onclick="return window.toggleDrawer(true);'app-drawer').classList.add('open')">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-  </header>
 
-  <!-- SEO CONTEXTUAL BACK-BAR (Smart Referrer + Localized Hub Fallback) -->
-  <nav class="gat-seo-backbar" aria-label="Breadcrumb">
-    <div class="gat-seo-backbar-inner">
-      <a href="/ru/" id="gat-smart-back-link" class="gat-seo-backlink" onclick="return window.handleGatSmartBack(event);">
-        <span id="gat-back-arrow">←</span>
-        <span id="gat-back-label">Назад к предыдущей странице</span>
-      </a>
-      <div class="gat-seo-breadcrumb">
-        <a href="/ru/" id="gat-bc-home">Giyur Aliyah Track</a> &rsaquo;
-        <a href="/app/?lang=ru" id="gat-bc-app">Центр управления</a> &rsaquo;
-        <span style="color:#38bdf8;" id="gat-bc-current">Запрос сметы консьержа</span>
-      </div>
-    </div>
-  </nav>
-
-  <!-- SITE-WIDE HAMBURGER DRAWER (#app-drawer) -->
-  
-
-
-      <div class="grid">
-        <div>
-          <label id="lbl-name"></label>
-          <input type="text" id="cb-name" />
+        <div class="cb-grid-2">
+          <div>
+            <label class="cb-label" for="cb-name-inp">Полное имя (как в загранпаспорте) *</label>
+            <input type="text" id="cb-name-inp" class="cb-input" placeholder="например, David Cohen" required minlength="2">
+          </div>
+          <div>
+            <label class="cb-label" for="cb-wa-inp">Номер WhatsApp (с кодом страны) *</label>
+            <input type="tel" id="cb-wa-inp" class="cb-input" placeholder="например, +972-5X-XXX-XXXX или +7..." required minlength="9">
+          </div>
         </div>
-        <div>
-          <label id="lbl-wa"></label>
-          <input type="tel" id="cb-wa" />
+
+        <div class="cb-grid-2">
+          <div>
+            <label class="cb-label" for="cb-email-inp">Электронная почта</label>
+            <input type="email" id="cb-email-inp" class="cb-input" placeholder="you@example.com">
+          </div>
+          <div>
+            <label class="cb-label" for="cb-date-inp">Желаемая дата очереди / крайний срок</label>
+            <input type="date" id="cb-date-inp" class="cb-input">
+          </div>
         </div>
-      </div>
 
-      <div class="grid">
-        <div>
-          <label id="lbl-date"></label>
-          <input type="text" id="cb-date" />
+        <div class="cb-field">
+          <label class="cb-label" for="cb-notes-inp">Описание ситуации, текущий визовый статус и задача *</label>
+          <textarea id="cb-notes-inp" class="cb-textarea" placeholder="Укажите ваш текущий статус (турист B/2, СТУПРО 5.2.0008 / 5.2.0009, этап гиюра), отделение МВД или Бейт-Дина и какая помощь требуется..." required minlength="15"></textarea>
         </div>
-        <div>
-          <label id="lbl-doclang"></label>
-          <input type="text" id="cb-doclang" />
+
+        <div class="cb-field">
+          <label class="cb-label">Опционально: Прикрепить письмо из МВД или документ для оценки нотариального перевода (PDF/JPG/PNG)</label>
+          <label class="cb-upload-box" for="cb-file-inp">
+            <span id="cb-file-lbl">📎 Нажмите, чтобы прикрепить документ (опционально — до 10 МБ)</span>
+          </label>
+          <input type="file" id="cb-file-inp" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" onchange="var f=this.files&&this.files[0];if(f)document.getElementById('cb-file-lbl').textContent='✅ '+f.name;">
         </div>
-      </div>
 
-      <div style="margin-bottom:14px;">
-        <label id="lbl-notes"></label>
-        <textarea id="cb-notes" rows="3"></textarea>
-      </div>
+        <div id="cb-err-box" class="cb-err-box"></div>
+        <button type="submit" id="cb-submit-btn" class="cb-submit-btn">🚀 Запросить доступность и точную стоимость ($0 Сегодня) →</button>
+        <div id="cb-ok-box" class="cb-ok-box">✅ Заявка получена! Наш отдел консьерж-сервиса изучит детали вашего дела и свяжется с вами напрямую в WhatsApp.</div>
+        <div class="cb-guarantee">🛡️ Гарантия регионального подбора за 7 рабочих дней • Прямая связь в WhatsApp • $0 предоплаты сегодня</div>
+      </form>
+    </section>
 
-      <label id="lbl-upload"></label>
-      <div class="upload-zone" onclick="document.getElementById('cb-files').click()">
-        <div style="font-size:1.6rem;margin-bottom:4px;">📎</div>
-        <div style="font-weight:900;font-size:0.9rem;color:#fff;" id="ui-up-title"></div>
-        <div style="font-size:0.76rem;color:#94a3b8;margin-top:3px;" id="ui-up-sub"></div>
-        <input type="file" id="cb-files" multiple accept=".pdf,image/*" style="display:none;" onchange="handleFileSelect(this)" />
-        <div class="file-list" id="cb-file-list"></div>
-      </div>
-
-      <button type="button" class="btn-submit" id="ui-submit" onclick="submitForQuoteApproval()"></button>
-      <div id="cb-status" style="margin-top:12px;font-weight:800;font-size:0.88rem;display:none;"></div>
-
-      <div class="policy" id="ui-policy"></div>
+    <div class="policy" id="ui-policy"></div>
       
     <!-- GAT_STATUTORY_SEO_AUTHORITY_START -->
     <section id="gat-pricing-seo-authority" style="margin-top:42px;background:var(--card);border:1.5px solid #1e293b;border-radius:18px;padding:26px;box-shadow:0 12px 30px rgba(0,0,0,0.4);">
@@ -877,6 +1571,7 @@
 </div>
   </div>
 
+    </main>
   <script>
 
     // === SMART SEO BACK-LINK & LOCALIZED HUB ROUTING ===
@@ -1359,7 +2054,104 @@
     })();
   </script>
 
-  <script src="/i18n/tracking_partner.js?v=1795502967"></script>
+  
+  <script>
+  (function() {
+    var openMs = Date.now();
+    // 1. Pre-select service SKU from ?sku= query param (gracefully supports all 7 official SKUs + legacy concierge_audit_249)
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var sku = params.get("sku");
+      var sel = document.getElementById("cb-service-sel");
+      if (sku && sel) {
+        for (var i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].value === sku) {
+            sel.selectedIndex = i;
+            break;
+          }
+        }
+      }
+      // 2. Pre-fill logged-in user's WhatsApp & Name if stored in localStorage
+      var savedWa = localStorage.getItem("gat_wa_phone") || localStorage.getItem("gat_user_phone") || "";
+      if (!savedWa) {
+        var uid = localStorage.getItem("gat_uid") || "";
+        if (uid.indexOf("wa_") === 0) savedWa = "+" + uid.slice(3);
+      }
+      var waInp = document.getElementById("cb-wa-inp");
+      if (savedWa && waInp && !waInp.value) waInp.value = savedWa;
+
+      var savedName = localStorage.getItem("gat_user_name") || "";
+      var nameInp = document.getElementById("cb-name-inp");
+      if (savedName && nameInp && !nameInp.value) nameInp.value = savedName;
+    } catch (e) {}
+
+    window.__submitConciergeBooking = function(ev) {
+      if (ev) ev.preventDefault();
+      var btn = document.getElementById("cb-submit-btn");
+      var errBox = document.getElementById("cb-err-box");
+      var okBox = document.getElementById("cb-ok-box");
+      var svc = (document.getElementById("cb-service-sel") || {}).value || "";
+      var reg = (document.getElementById("cb-region-sel") || {}).value || "";
+      var name = ((document.getElementById("cb-name-inp") || {}).value || "").trim();
+      var wa = ((document.getElementById("cb-wa-inp") || {}).value || "").trim();
+      var email = ((document.getElementById("cb-email-inp") || {}).value || "").trim();
+      var targetDate = ((document.getElementById("cb-date-inp") || {}).value || "").trim();
+      var notes = ((document.getElementById("cb-notes-inp") || {}).value || "").trim();
+      var hp = ((document.getElementById("cb-hp-web") || {}).value || "").trim();
+      var fileInp = document.getElementById("cb-file-inp");
+      var fileName = (fileInp && fileInp.files && fileInp.files[0]) ? fileInp.files[0].name : "";
+
+      errBox.style.display = "none";
+      btn.disabled = true;
+      var origTxt = btn.textContent;
+      btn.textContent = 'Шифрование и отправка в отдел консьерж-сервиса...';
+
+      var fullSummary = [
+        "[CONCIERGE QUOTE REQUEST: " + svc + "]",
+        "• Region: " + reg,
+        email ? ("• Email: " + email) : "",
+        targetDate ? ("• Target Date: " + targetDate) : "",
+        fileName ? ("• Attached File: " + fileName) : "",
+        "• Case Notes: " + notes
+      ].filter(Boolean).join("\n");
+
+      fetch("/api/auditDoc", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "spok_support_escalation",
+          name: name,
+          whatsapp: wa,
+          isLoggedWa: Boolean(localStorage.getItem("gat_wa_phone")),
+          complaint: fullSummary,
+          hp_website: hp,
+          formOpenMs: Math.max(2000, Date.now() - openMs),
+          pageUrl: window.location.pathname + window.location.search,
+          lang: 'ru',
+          uid: localStorage.getItem("gat_uid") || "anon"
+        })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (res && res.ok) {
+          btn.style.display = "none";
+          okBox.style.display = "block";
+        } else {
+          throw new Error((res && res.error) || "Please check your WhatsApp number and case details (15+ chars, 3+ words).");
+        }
+      })
+      .catch(function(err) {
+        btn.disabled = false;
+        btn.textContent = origTxt;
+        errBox.style.display = "block";
+        errBox.textContent = err.message;
+      });
+      return false;
+    };
+  })();
+  </script>
+
+  <script src="/i18n/tracking_partner.js?v=spok_v9_1795514839"></script>
 <!-- SLIDE-OUT HAMBURGER DRAWER (EXACT ZEHUT 2026 STYLE FROM INDEX.HTML) -->
 <style id="gat-pricing-zehut-drawer-css">
   header.app-header {
@@ -2661,5 +3453,160 @@
     </div>
   </nav>
   <!-- GAT-CORE-PILLAR-LINKS-END -->
+
+  <!-- === GAT UNIVERSAL 6-LANGUAGE GLOBE SWITCHER & APPBAR CONTROLLER === -->
+  <style id="gat-cb-globe-menu-css">
+    #gat-cb-lang-pop {
+      position: fixed;
+      top: 58px;
+      right: 14px;
+      background: #071636;
+      border: 1.5px solid rgba(56, 189, 248, 0.45);
+      border-radius: 14px;
+      padding: 6px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
+      z-index: 2147483645;
+      display: none;
+      min-width: 170px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    html[dir="rtl"] #gat-cb-lang-pop {
+      right: auto;
+      left: 14px;
+    }
+    #gat-cb-lang-pop.open {
+      display: block !important;
+    }
+    .gat-cb-lang-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 9px 12px;
+      border: none;
+      background: transparent;
+      color: #e2e8f0;
+      font-size: 13.5px;
+      font-weight: 700;
+      border-radius: 9px;
+      cursor: pointer;
+      text-align: left;
+      text-decoration: none;
+    }
+    .gat-cb-lang-item:hover {
+      background: rgba(56, 189, 248, 0.18);
+      color: #ffffff;
+    }
+    .gat-cb-lang-item.active {
+      background: rgba(2, 132, 199, 0.32);
+      color: #38bdf8;
+    }
+  </style>
+  <script>
+  (function() {
+    var LANG_LIST = [
+      { code: "en", label: "🇬🇧 English", badge: "EN", path: "/concierge-booking/" },
+      { code: "he", label: "🇮🇱 עברית", badge: "HE", path: "/he/concierge-booking/" },
+      { code: "fr", label: "🇫🇷 Français", badge: "FR", path: "/fr/concierge-booking/" },
+      { code: "es", label: "🇪🇸 Español", badge: "ES", path: "/es/concierge-booking/" },
+      { code: "de", label: "🇩🇪 Deutsch", badge: "DE", path: "/de/concierge-booking/" },
+      { code: "ru", label: "🇷🇺 Русский", badge: "RU", path: "/ru/concierge-booking/" }
+    ];
+
+    function getCurrentLang() {
+      var p = (window.location.pathname || "").toLowerCase();
+      var m = p.match(/^\/(he|fr|es|de|ru)(\/|$)/);
+      if (m) return m[1];
+      return (document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+    }
+
+    function buildTargetUrl(targetLangCode) {
+      var qs = window.location.search || "";
+      // Check hreflang link first so this works on ANY page
+      var linkEl = document.querySelector('link[rel="alternate"][hreflang="' + targetLangCode + '"]');
+      if (linkEl && linkEl.href) {
+        try {
+          var u = new URL(linkEl.href, window.location.origin);
+          return u.pathname + qs;
+        } catch (e) {}
+      }
+      var prefix = targetLangCode === "en" ? "" : ("/" + targetLangCode);
+      return prefix + "/concierge-booking/" + qs;
+    }
+
+    function ensureLangMenu() {
+      var cur = getCurrentLang();
+      // Update globe badge text in top appbar to match current page language (EN / HE / FR / ES / DE / RU)
+      var globeBtn = document.getElementById("globe-lang-btn") || document.querySelector("[id*='globe'], .globe-btn, [aria-label*='Language'], [onclick*='Lang']");
+      if (globeBtn) {
+        var spans = globeBtn.querySelectorAll("span, div");
+        for (var i = 0; i < spans.length; i++) {
+          var t = (spans[i].textContent || "").trim().toUpperCase();
+          if (t === "EN" || t === "HE" || t === "FR" || t === "ES" || t === "DE" || t === "RU") {
+            spans[i].textContent = cur.toUpperCase();
+          }
+        }
+      }
+
+      var pop = document.getElementById("gat-cb-lang-pop");
+      if (!pop) {
+        pop = document.createElement("div");
+        pop.id = "gat-cb-lang-pop";
+        document.body.appendChild(pop);
+      }
+
+      var html = "";
+      for (var j = 0; j < LANG_LIST.length; j++) {
+        var it = LANG_LIST[j];
+        var isAct = (it.code === cur);
+        var href = buildTargetUrl(it.code);
+        html += '<a class="gat-cb-lang-item' + (isAct ? ' active' : '') + '" href="' + href + '">' +
+                  '<span>' + it.label + '</span>' +
+                  '<span style="font-size:11px;opacity:0.8;">' + (isAct ? '✓ ' : '') + it.badge + '</span>' +
+                '</a>';
+      }
+      pop.innerHTML = html;
+      return pop;
+    }
+
+    // Intercept clicks on the Globe button in the top appbar
+    document.addEventListener("click", function(e) {
+      var t = e.target;
+      if (!t || !t.closest) return;
+
+      var globeBtn = t.closest("#globe-lang-btn, [id*='globe'], .globe-btn, [onclick*='toggleLang'], [onclick*='openLang']");
+      var pop = document.getElementById("gat-cb-lang-pop");
+
+      if (globeBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        pop = ensureLangMenu();
+        pop.classList.toggle("open");
+        return;
+      }
+
+      // Close menu when clicking outside
+      if (pop && pop.classList.contains("open") && !t.closest("#gat-cb-lang-pop")) {
+        pop.classList.remove("open");
+      }
+
+      // Wire `<` back button in top appbar if clicked
+      var backBtn = t.closest("#app-nav-back, .appbar-back, .back-btn");
+      if (backBtn) {
+        e.preventDefault();
+        var cur = getCurrentLang();
+        window.location.href = (cur === "en" ? "/pricing/" : ("/" + cur + "/pricing/"));
+      }
+    }, true);
+
+    if (document.body) {
+      ensureLangMenu();
+    } else {
+      window.addEventListener("DOMContentLoaded", ensureLangMenu);
+    }
+  })();
+  </script>
+
 </body>
 </html>
+

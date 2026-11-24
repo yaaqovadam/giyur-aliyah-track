@@ -686,5 +686,8 @@
       "dahan": "⚠️ **ALTO — La verdad sobre las conversiones no-ortodoxas ('Fallo Dahan'):**\n\n1. **El Gran Rabinato rechaza al 100% las conversiones no-ortodoxas**—impidiéndote permanentemente a ti y a tus futuros hijos casarse por el Rabinato en Israel.\n2. ¡Puedes completar una **conversión 100% Halájica reconocida por el Rabinato** en el mismo tiempo con nuestro Rabino Patrocinador y Madrijat Kalá!\n\n[[NAV:term|dahan_truth|1️⃣ Leer primero: Verdad fallo Dahan vs. Rabinato]]\n[[NAV:obs|5|2️⃣ Paso 2: Rabino Patrocinador y Madrijat Kalá]]",
       "vc": "🏛️ **Cómo aprobar *Va'adat Jariguim* (Formulario Ash/1) con visa de turista B/2:**\n\nLos turistas deben aprobar el Comité de Excepciones con los Formularios Ash/1 y Ash/3, un *Mijtav Hesber* en hebreo, 5–8+ cartas rabínicas y los 5 documentos apostillados antes de que venzan sus 90 días.\n\n[[NAV:obs|3|1️⃣ Leer primero: Aprobar Va'adat Jariguim y congelar reloj]]\n[[NAV:obs|1|2️⃣ Paso 2: Los 5 documentos apostillados]]\n[[NAV:hebrew-engine|ash1|3️⃣ Abrir motor hebreo Formularios Ash/1 y Ash/3]]"
     }
-  }
+  },
+  "spok_ask_callout": "PREGUNTAR A SPOK",
+  "spok_welcome_back_name": "¡Bienvenido/a de nuevo, {name}!",
+  "spok_welcome_back_anon": "¡Bienvenido/a de nuevo!"
 }

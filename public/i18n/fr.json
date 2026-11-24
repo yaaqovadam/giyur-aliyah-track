@@ -686,5 +686,8 @@
       "dahan": "⚠️ **STOP — La vérité sur les conversions non-orthodoxes ('Arrêt Dahan') :**\n\n1. **Le Grand Rabbinat rejette à 100% les conversions non-orthodoxes**—vous empêchant définitivement (ainsi que vos enfants) de vous marier via le Rabbinat en Israël.\n2. **Vous pouvez accomplir une conversion 100% Halakhique reconnue par le Rabbinat** dans le même délai avec notre Rabbin accompagnateur et Madrichat Kallah !\n\n[[NAV:term|dahan_truth|1️⃣ À lire d'abord : Vérité arrêt Dahan vs Rabbinat]]\n[[NAV:obs|5|2️⃣ Étape 2 : Rabbin accompagnateur & Madrichat Kallah]]",
       "vc": "🏛️ **Passer la *Va'adat Charigim* (Formulaire Ash/1) sous visa touriste B/2 :**\n\nLes touristes doivent obtenir l'autorisation de la Commission des Exceptions avec les formulaires Ash/1 et Ash/3, un *Michtav Hesber* en hébreu, 5–8+ lettres rabbiniques et les 5 documents apostillés avant l'expiration des 90 jours.\n\n[[NAV:obs|3|1️⃣ À lire d'abord : Va'adat Charigim & gel du délai]]\n[[NAV:obs|1|2️⃣ Étape 2 : Les 5 documents apostillés]]\n[[NAV:hebrew-engine|ash1|3️⃣ Ouvrir le moteur hébreu Formulaires Ash/1 & Ash/3]]"
     }
-  }
+  },
+  "spok_ask_callout": "DEMANDER À SPOK",
+  "spok_welcome_back_name": "Bon retour, {name} !",
+  "spok_welcome_back_anon": "Bon retour !"
 }

@@ -10037,10 +10037,12 @@ if (typeof document !== 'undefined') {
     }
 
     const d = loadCachedDossier();
-    // ONLY show "Welcome back!" when this browser session is genuinely a returning visit!
-    const showReturningCard = !forceSession1 && !window._gatStartingNewTopic && isTrueReturningVisit() && (
-      (Array.isArray(d.discussedTopics) && d.discussedTopics.length > 0) ||
-      Number(d.turnCount || 0) > 0
+    const hasSeenIntroForever = (function() {
+      try { return localStorage.getItem("gat_spok_intro_completed_v5") === "1"; } catch (e) { return false; }
+    })();
+    const showReturningCard = !forceSession1 && !window._gatStartingNewTopic && (
+      hasSeenIntroForever ||
+      (isTrueReturningVisit() && ((Array.isArray(d.discussedTopics) && d.discussedTopics.length > 0) || Number(d.turnCount || 0) > 0))
     );
 
     const card = document.createElement("div");
@@ -14192,15 +14194,7 @@ if (typeof document !== 'undefined') {
 
     const msgs = document.getElementById("gat-hd-msgs");
     if (msgs && msgs.firstElementChild && !msgs.firstElementChild.dataset.spokGreeted) {
-      const firstBub = msgs.firstElementChild;
-      firstBub.dataset.spokGreeted = "1";
-      const htmlNow = firstBub.innerHTML || "";
-      if (htmlNow.indexOf("Spok") === -1) {
-        firstBub.innerHTML =
-          '<div style="font-size:0.9rem;font-weight:800;color:#082548;margin-bottom:7px;line-height:1.42;">' +
-            s.helloIntro.replace("{name}", getKnownFirstName()) +
-          '</div>' + htmlNow;
-      }
+      msgs.firstElementChild.dataset.spokGreeted = "1";
     }
 
     if (msgs) {
@@ -14279,241 +14273,6 @@ if (typeof document !== 'undefined') {
   else window.syncSpokBrandingAndGreeting();
 })();
 // === GAT SPOK IDENTITY, FIRST-CHAT INTRO & ZERO-FLASH VAULT BAR V1 END ===
-
-/* === GAT_SPOK_BOTTOM_PILL_NEXT_TO_FAB_V1 === */
-(function initGatSpokBottomPillV2() {
-  const ASK_SPOK_6L = {
-    en: "✨ Ask Spok →",
-    he: "✨ שאלו את ספוק ←",
-    fr: "✨ Demander à Spok →",
-    es: "✨ Preguntar a Spok →",
-    de: "✨ Spok fragen →",
-    ru: "✨ Спросить Спока →"
-  };
-
-  const SPOK_INTRO_MARKERS = [
-    "Hi, I'm Spok",
-    "Hi, I’m Spok",
-    "24/7 Aliyah, Conversion",
-    "נעים מאוד, אני ספוק",
-    "מדריך העלייה, הגיור ומשרד הפנים",
-    "Salut, je suis Spok",
-    "Bonjour, je suis Spok",
-    "Hola, soy Spok",
-    "Hallo, ich bin Spok",
-    "Привет, я Спок",
-    "Здравствуйте, я Спок"
-  ];
-
-  function getActiveLang() {
-    const pathSeg = (window.location.pathname.split("/")[1] || "").toLowerCase();
-    if (["he", "fr", "es", "de", "ru"].includes(pathSeg)) return pathSeg;
-    const urlLang = new URLSearchParams(window.location.search).get("lang");
-    if (urlLang && ASK_SPOK_6L[urlLang.toLowerCase()]) return urlLang.toLowerCase();
-    const gLang = String(window.gatLang || window.appLang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").toLowerCase().slice(0, 2);
-    return ASK_SPOK_6L[gLang] ? gLang : "en";
-  }
-
-  function injectSpokLayoutCss() {
-    let st = document.getElementById("gat-spok-bottom-pill-css");
-    if (!st) {
-      st = document.createElement("style");
-      st.id = "gat-spok-bottom-pill-css";
-      document.head.appendChild(st);
-    }
-    st.textContent = `
-      .exodus-alert,
-      #exodus-alert,
-      #gat-spok-top-banner,
-      .gat-spok-top-banner,
-      #spok-intro-card,
-      .spok-intro-card,
-      #gat-spok-intro-box,
-      .gat-spok-intro-box,
-      [data-spok-intro-hidden="1"] {
-        display: none !important;
-        height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-        border: none !important;
-      }
-      #gat-ask-spok-bottom-pill {
-        position: fixed;
-        z-index: 9998;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-        color: #ffffff !important;
-        font-family: inherit;
-        font-size: 0.92rem;
-        font-weight: 850;
-        padding: 10px 18px;
-        border-radius: 999px;
-        border: 1.5px solid rgba(255, 255, 255, 0.35);
-        box-shadow: 0 6px 18px rgba(2, 132, 199, 0.38), 0 2px 6px rgba(15, 23, 42, 0.18);
-        cursor: pointer;
-        white-space: nowrap;
-        user-select: none;
-        -webkit-tap-highlight-color: transparent;
-        transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
-      }
-      #gat-ask-spok-bottom-pill:active {
-        transform: scale(0.96);
-      }
-    `;
-  }
-
-  function removeTopSpokIntroBox() {
-    // 1. Always hide .exodus-alert and known spok intro IDs
-    document.querySelectorAll(".exodus-alert, #exodus-alert, #gat-spok-top-banner, .gat-spok-top-banner, #spok-intro-card, .spok-intro-card, #gat-spok-intro-box, .gat-spok-intro-box").forEach(el => {
-      el.setAttribute("data-spok-intro-hidden", "1");
-    });
-
-    // 2. Find any element containing the Spok greeting or top "Ask Spok" button
-    const allEls = document.querySelectorAll("div, section, article, aside, header");
-    for (let i = 0; i < allEls.length; i++) {
-      const el = allEls[i];
-      if (el.id === "gat-ask-spok-bottom-pill" || el.getAttribute("data-spok-intro-hidden") === "1") continue;
-      // Never hide a parent that also holds the main funnel content ("Answer 4 quick questions" / "Skip Jewish Agency" / "15,000")
-      const txt = (el.textContent || "").trim();
-      if (!txt || txt.length > 260) continue;
-      if (txt.includes("15,000") || txt.includes("40,000") || txt.includes("Teudat Zehut") || txt.includes("NBN")) continue;
-
-      const hasMarker = SPOK_INTRO_MARKERS.some(m => txt.includes(m)) ||
-        (txt.includes("Spok") && txt.includes("24/7")) ||
-        (txt.includes("ספוק") && txt.includes("24/7"));
-
-      if (hasMarker) {
-        // Walk up to the outermost card wrapper that still only contains this Spok intro (< 260 chars)
-        let target = el;
-        while (
-          target.parentElement &&
-          target.parentElement.tagName !== "BODY" &&
-          target.parentElement.tagName !== "MAIN" &&
-          target.parentElement.id !== "view-0" &&
-          target.parentElement.id !== "gat-3track-funnel-card" &&
-          ((target.parentElement.textContent || "").trim().length < 260)
-        ) {
-          target = target.parentElement;
-        }
-        target.setAttribute("data-spok-intro-hidden", "1");
-      }
-    }
-  }
-
-  function findCircleFab() {
-    return (
-      document.getElementById("gat-hd-fab") ||
-      document.querySelector(".gat-hd-fab") ||
-      document.getElementById("hd-fab") ||
-      document.querySelector("[onclick*='openHdDrawer'], [onclick*='toggleHdDrawer']")
-    );
-  }
-
-  function syncBottomPillPositionAndText() {
-    injectSpokLayoutCss();
-    removeTopSpokIntroBox();
-
-    const fab = findCircleFab();
-    let pill = document.getElementById("gat-ask-spok-bottom-pill");
-    if (!pill) {
-      pill = document.createElement("button");
-      pill.id = "gat-ask-spok-bottom-pill";
-      pill.type = "button";
-      pill.addEventListener("click", function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const f = findCircleFab();
-        if (f) {
-          f.click();
-        } else if (typeof window.openHdDrawer === "function") {
-          window.openHdDrawer();
-        } else if (typeof window.toggleHdDrawer === "function") {
-          window.toggleHdDrawer(true);
-        }
-      });
-      document.body.appendChild(pill);
-    }
-
-    const lang = getActiveLang();
-    const lbl = ASK_SPOK_6L[lang] || ASK_SPOK_6L.en;
-    if (pill.textContent !== lbl) {
-      pill.textContent = lbl;
-    }
-    pill.dir = (lang === "he") ? "rtl" : "ltr";
-
-    if (fab) {
-      const rect = fab.getBoundingClientRect();
-      const fabStyle = window.getComputedStyle(fab);
-      const isHidden = fabStyle.display === "none" || fabStyle.visibility === "hidden" || rect.width === 0;
-      if (isHidden) {
-        pill.style.display = "none";
-        return;
-      }
-      pill.style.display = "inline-flex";
-      const vh = window.innerHeight || document.documentElement.clientHeight;
-      const vw = window.innerWidth || document.documentElement.clientWidth;
-
-      const pillHeight = pill.offsetHeight || 40;
-      const centerY = rect.top + rect.height / 2;
-      const bottomPx = Math.max(12, Math.round(vh - centerY - pillHeight / 2));
-      pill.style.bottom = bottomPx + "px";
-      pill.style.top = "auto";
-
-      if (rect.left > vw / 2) {
-        const rightPx = Math.round(vw - rect.left + 10);
-        pill.style.right = rightPx + "px";
-        pill.style.left = "auto";
-      } else {
-        const leftPx = Math.round(rect.right + 10);
-        pill.style.left = leftPx + "px";
-        pill.style.right = "auto";
-      }
-    } else {
-      pill.style.bottom = "90px";
-      pill.style.right = "84px";
-      pill.style.left = "auto";
-    }
-  }
-
-  window.syncGatSpokBottomPill = syncBottomPillPositionAndText;
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", syncBottomPillPositionAndText);
-  } else {
-    syncBottomPillPositionAndText();
-  }
-  window.addEventListener("resize", syncBottomPillPositionAndText, { passive: true });
-  window.addEventListener("scroll", syncBottomPillPositionAndText, { passive: true });
-  [50, 150, 350, 700, 1200].forEach(ms => setTimeout(syncBottomPillPositionAndText, ms));
-
-  ["setLang", "switchLang", "applyLang"].forEach(fnName => {
-    const orig = window[fnName];
-    if (typeof orig === "function" && !orig._spokPillWrapped) {
-      const wrapped = function() {
-        const r = orig.apply(this, arguments);
-        setTimeout(syncBottomPillPositionAndText, 30);
-        return r;
-      };
-      wrapped._spokPillWrapped = true;
-      window[fnName] = wrapped;
-    }
-  });
-
-  const obs = new MutationObserver(() => {
-    removeTopSpokIntroBox();
-  });
-  if (document.body) {
-    obs.observe(document.body, { childList: true, subtree: true });
-  } else {
-    document.addEventListener("DOMContentLoaded", () => {
-      obs.observe(document.body, { childList: true, subtree: true });
-    });
-  }
-})();
-
 
 // === GAT INSTANT 6-LANG SWITCHER + FAQ WHITE + SPOK PILL CONTROLLER ===
 (function() {
@@ -14596,7 +14355,7 @@ if (typeof document !== 'undefined') {
     var all = document.querySelectorAll("button, a, div, span");
     for (var j = 0; j < all.length; j++) {
       var node = all[j];
-      if (!node || node.children.length > 2) continue;
+      if (!node || node.id === 'gat-hero-inline-spok-pill' || node.id === 'gat-hero-inline-spok-row' || (node.closest && (node.closest('#gat-hero-inline-spok-row') || node.closest('#gat-hero-inline-spok-pill'))) || node.children.length > 2) continue;
       var t = (node.textContent || "").trim();
       if (!t || t.length > 38) continue;
       if (/(Ask\s*Spok|Preguntar\s*a\s*Spok|Demander\s*à\s*Spok|שאל\s*את\s*ספוק|Spok\s*fragen|Спросить\s*Спок|Spok\s*[➔→])/i.test(t)) {
@@ -14725,7 +14484,7 @@ if (typeof document !== 'undefined') {
     fr: 'DEMANDER \u00c0 SPOK',
     es: 'PREGUNTAR A SPOK',
     de: 'SPOK FRAGEN',
-    ru: '\u0421\u041f\u0420\u041e\u0421\u0418\u0422\u042c \u0421\u041f\u041e\u041a'
+    ru: '\u0421\u041f\u0420\u041e\u0421\u0418\u0422\u042c \u0421\u041f\u041e\u041a\u0410'
   };
 
   var userDraggedFab = true;
@@ -14792,13 +14551,16 @@ if (typeof document !== 'undefined') {
       '  border: 1px solid #38bdf8 !important;',
       '}',
       '/* Subtle top-to-bottom silver gradient on the blue-bordered container */',
-      '.gat-blue-card-with-spok {',
-      '  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(250, 250, 252, 0.94) 52%, rgba(236, 238, 242, 0.92) 78%, rgba(216, 220, 228, 0.90) 100%) !important;',
+      '#gat-onboarding-stage { background: transparent !important; }',
+      '.gat-blue-card-with-spok:not(#gat-onboarding-stage) {',
+      '  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 250, 252, 0.95) 55%, rgba(226, 232, 240, 0.92) 100%) !important;',
+      '  border-radius: 20px !important;',
+      '  overflow: hidden !important;',
+      '  background-clip: padding-box !important;',
       '}',
       '/* Lock direction:ltr on the Ask Spok row so on Hebrew RTL (/he/) the arrow still points right into the 🖖 button! */',
       '#gat-hero-inline-spok-row {',
       '  display: flex !important;',
-      '  direction: ltr !important;',
       '  align-items: center !important;',
       '  justify-content: flex-end !important;',
       '  gap: 10px !important;',
@@ -14809,7 +14571,8 @@ if (typeof document !== 'undefined') {
       '}',
       '#gat-hero-inline-spok-pill {',
       '  display: inline-flex !important;',
-      '  direction: ltr !important;',
+      '  width: auto !important;',
+      '  flex: 0 0 auto !important;',
       '  align-items: center !important;',
       '  justify-content: center !important;',
       '  gap: 8px !important;',
@@ -14936,8 +14699,8 @@ if (typeof document !== 'undefined') {
     for (var i = 0; i < all.length; i++) {
       var el = all[i];
       if (!el) continue;
-      if (el.id === 'gat-draggable-spok-fab' || el.id === 'gat-hero-inline-spok-pill' || el.id === 'gat-hero-inline-spok-row') continue;
-      if (el.closest && (el.closest('#gat-hero-inline-spok-row') || el.closest('#gat-draggable-spok-fab'))) continue;
+      if (el.id === 'gat-draggable-spok-fab' || el.id === 'gat-spok-first-time-callout' || el.id === 'gat-hero-inline-spok-pill' || el.id === 'gat-hero-inline-spok-row') continue;
+      if (el.closest && (el.closest('#gat-hero-inline-spok-row') || el.closest('#gat-draggable-spok-fab') || el.closest('#gat-spok-first-time-callout'))) continue;
 
       var st = window.getComputedStyle(el);
       if (st.position === 'fixed') {
@@ -15114,10 +14877,15 @@ if (typeof document !== 'undefined') {
     var arrowChar = '\u2794';
 
     if (isHomepage() && ctaBtn && ctaBtn.parentElement) {
+      var stageEl = document.getElementById('gat-onboarding-stage');
+      if (stageEl) {
+        stageEl.classList.remove('gat-blue-card-with-spok');
+        stageEl.style.setProperty('background', 'transparent', 'important');
+      }
       var cur = ctaBtn.parentElement;
-      while (cur && cur !== document.body && cur !== document.documentElement) {
+      while (cur && cur !== document.body && cur !== document.documentElement && cur.id !== 'gat-onboarding-stage' && cur.id !== 'view-0') {
         var cs = window.getComputedStyle(cur);
-        if (parseFloat(cs.borderTopWidth || '0') >= 1 && cur.getBoundingClientRect().height >= 200) {
+        if (parseFloat(cs.borderTopWidth || '0') >= 1 && parseFloat(cs.borderTopLeftRadius || '0') >= 8 && cur.getBoundingClientRect().height >= 160) {
           cur.classList.add('gat-blue-card-with-spok');
           break;
         }
@@ -15145,7 +14913,7 @@ if (typeof document !== 'undefined') {
       row.style.setProperty('display', 'flex', 'important');
 
       var lblEl = document.getElementById('gat-hero-inline-spok-pill-label');
-      if (lblEl) lblEl.textContent = CALLOUT_TEXT[lg] || CALLOUT_TEXT.en;
+      if (lblEl && !lblEl.getAttribute('data-i18n')) lblEl.setAttribute('data-i18n', 'spok_ask_callout');
       var arrEl = document.getElementById('gat-hero-inline-spok-arrow');
       if (arrEl) arrEl.textContent = arrowChar;
 
@@ -17944,15 +17712,19 @@ if (typeof document !== 'undefined') {
   window.gatFindTrueOuterWizardCard = function() {
     var v0 = document.getElementById('view-0');
     if (!v0) return null;
+    var stage = document.getElementById('gat-onboarding-stage');
+    if (stage) {
+      stage.classList.remove('gat-blue-card-with-spok');
+      stage.style.setProperty('background', 'transparent', 'important');
+    }
     var stepLanding = document.getElementById('gat-wiz-step-hero_landing') || v0.querySelector('[id^="gat-wiz-step-"]');
-    if (stepLanding && stepLanding.parentElement && stepLanding.parentElement !== v0) {
-      var outer = stepLanding.parentElement;
-      outer.classList.add('gat-blue-card-with-spok');
-      return outer;
+    if (stepLanding) {
+      stepLanding.classList.add('gat-blue-card-with-spok');
+      return stepLanding;
     }
     var firstCard = v0.querySelector('.gat-blue-card-with-spok, .hero-card, .card');
-    if (firstCard && firstCard.id !== 'gat-seo-hub-details') return firstCard;
-    return stepLanding ? stepLanding.parentElement : null;
+    if (firstCard && firstCard.id !== 'gat-seo-hub-details' && firstCard.id !== 'gat-onboarding-stage') return firstCard;
+    return null;
   };
 
   // 2. When Onboarding Completes: Save State, Transform Homepage into Active Track Hub,
@@ -18417,15 +18189,15 @@ if (typeof document !== 'undefined') {
   var fabCss = document.createElement("style");
   fabCss.id = "gat-clean-spok-fab-css";
   fabCss.textContent = [
-    "#gat-legacy-noop-fab, #gat-hd-fab, #gat-ask-spok-bottom-pill, #gat-hero-inline-spok-pill, #gat-hero-inline-spok-row { display: none !important; visibility: hidden !important; pointer-events: none !important; }",
+    "#gat-legacy-noop-fab, #gat-hd-fab, #gat-ask-spok-bottom-pill, #gat-spok-first-time-callout { display: none !important; visibility: hidden !important; pointer-events: none !important; }",
     "#gat-draggable-spok-fab {",
     "  position: fixed !important;",
     "  width: 56px !important;",
     "  height: 56px !important;",
     "  border-radius: 50% !important;",
-    "  background: radial-gradient(circle at 30% 30%, #0f2942, #04102d 75%) !important;",
-    "  border: 2.5px solid #38bdf8 !important;",
-    "  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6), 0 0 0 3px rgba(56, 189, 248, 0.2) !important;",
+    "  background: radial-gradient(circle at 65% 72%, #039be5 0%, #0277bd 48%, #0a355c 100%) !important;",
+    "  border: 2.5px solid #29b6f6 !important;",
+    "  box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.24), 0 8px 20px rgba(2, 119, 189, 0.45) !important;",
     "  color: #ffffff !important;",
     "  align-items: center !important;",
     "  justify-content: center !important;",
@@ -18437,7 +18209,46 @@ if (typeof document !== 'undefined') {
     "  padding: 0 !important;",
     "  margin: 0 !important;",
     "}",
-    "#gat-draggable-spok-fab:active { cursor: grabbing !important; }"
+    "#gat-draggable-spok-fab:active { cursor: grabbing !important; }",
+"#gat-hero-inline-spok-row { max-width: 100% !important; box-sizing: border-box !important; flex-wrap: nowrap !important; padding-left: 0 !important; padding-right: 0 !important; justify-content: center !important; min-height: 56px !important; }",
+    "#gat-hero-inline-spok-pill { white-space: nowrap !important; max-width: calc(100% - 68px) !important; overflow: hidden !important; text-overflow: ellipsis !important; transform: none !important; animation: none !important; transition: none !important; }",
+    "#gat-spok-first-time-callout {",
+    "  position: fixed !important;",
+    "  display: inline-flex !important;",
+    "  direction: ltr !important;",
+    "  align-items: center !important;",
+    "  gap: 8px !important;",
+    "  background: rgba(255, 255, 255, 0.95) !important;",
+    "  border: 2px solid #29b6f6 !important;",
+    "  border-radius: 999px !important;",
+    "  padding: 6px 14px 6px 10px !important;",
+    "  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.18), 0 6px 18px rgba(8, 37, 72, 0.22) !important;",
+    "  z-index: 2147483639 !important;",
+    "  cursor: pointer !important;",
+    "  user-select: none !important;",
+    "  -webkit-user-select: none !important;",
+    "  white-space: nowrap !important;",
+    "}",
+    "#gat-spok-first-time-callout .gat-ft-ai-icon {",
+    "  font-size: 26px !important;",
+    "  line-height: 1 !important;",
+    "  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.35)) !important;",
+    "}",
+    "#gat-spok-first-time-callout .gat-ft-ask-txt {",
+    "  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;",
+    "  font-size: 16px !important;",
+    "  font-weight: 900 !important;",
+    "  letter-spacing: 0.5px !important;",
+    "  text-transform: uppercase !important;",
+    "  color: #082548 !important;",
+    "  line-height: 1 !important;",
+    "}",
+    "#gat-spok-first-time-callout .gat-ft-arrow {",
+    "  font-size: 20px !important;",
+    "  font-weight: 900 !important;",
+    "  color: #0284c7 !important;",
+    "  line-height: 1 !important;",
+    "}"
   ].join("\n");
   (document.head || document.documentElement).appendChild(fabCss);
 
@@ -18462,12 +18273,239 @@ if (typeof document !== 'undefined') {
     };
   }
 
+  var SPOK_OPENED_KEYS = ["gat_spok_ever_opened_v5", "gat_spok_opened_ever", "gat_spok_opened", "spok_opened_once", "gat_spok_intro_completed_v5"];
+  var i18nCalloutCache = {"en": "ASK SPOK", "he": "שאל את ספוק", "fr": "DEMANDER À SPOK", "es": "PREGUNTAR A SPOK", "de": "SPOK FRAGEN", "ru": "СПРОСИТЬ СПОКА"};
+
+  function getActivePageLang() {
+    var p = (window.location.pathname || "/").toLowerCase();
+    var m = p.match(/^\/(he|fr|es|de|ru)(\/|$)/);
+    if (m) return m[1];
+    var hl = (document.documentElement.getAttribute("lang") || "").slice(0, 2).toLowerCase();
+    if (["en", "he", "fr", "es", "de", "ru"].indexOf(hl) !== -1 && hl !== "en") return hl;
+    try {
+      var ls = (localStorage.getItem("gat_lang") || localStorage.getItem("zehut_lang") || "").slice(0, 2).toLowerCase();
+      if (["en", "he", "fr", "es", "de", "ru"].indexOf(ls) !== -1) return ls;
+    } catch (e) {}
+    return ["en", "he", "fr", "es", "de", "ru"].indexOf(hl) !== -1 ? hl : "en";
+  }
+
+  function fetchI18nCalloutLabel(lang, cb) {
+    if (i18nCalloutCache[lang]) {
+      cb(i18nCalloutCache[lang]);
+      return;
+    }
+    // Check if page already loaded i18n JSON into window.i18nData / window.dict / DOM data-i18n
+    try {
+      var dictCand = (window.i18nData && window.i18nData[lang]) || window.currentI18nDict || window.i18nDict || null;
+      if (dictCand && dictCand.spok_ask_callout) {
+        i18nCalloutCache[lang] = dictCand.spok_ask_callout;
+        cb(dictCand.spok_ask_callout);
+        return;
+      }
+    } catch (e) {}
+    fetch("/i18n/" + lang + ".json")
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d && d.spok_ask_callout) {
+          i18nCalloutCache[lang] = d.spok_ask_callout;
+          cb(d.spok_ask_callout);
+        }
+      })
+      .catch(function() {});
+  }
+
+  function shouldHideAskSpokForever() {
+    try {
+      for (var i = 0; i < SPOK_OPENED_KEYS.length; i++) {
+        if (localStorage.getItem(SPOK_OPENED_KEYS[i]) === "1") return true;
+      }
+      if (typeof window.isGatOnboardingComplete === "function" && window.isGatOnboardingComplete()) return true;
+      if (localStorage.getItem("gat_onboarding_completed_v3") === "1" || localStorage.getItem("gat_onboarding_done") === "1") return true;
+    } catch (e) {}
+    return false;
+  }
+
+  function dismissFirstTimeCalloutForever() {
+    try {
+      for (var i = 0; i < SPOK_OPENED_KEYS.length; i++) {
+        localStorage.setItem(SPOK_OPENED_KEYS[i], "1");
+      }
+    } catch (e) {}
+    var row = document.getElementById("gat-hero-inline-spok-row");
+    if (row) {
+      row.style.setProperty("display", "none", "important");
+      row.style.setProperty("min-height", "0", "important");
+      row.style.setProperty("height", "0", "important");
+      row.style.setProperty("margin", "0", "important");
+      row.style.setProperty("padding", "0", "important");
+      row.style.setProperty("overflow", "hidden", "important");
+    }
+    var pill = document.getElementById("gat-hero-inline-spok-pill");
+    if (pill) {
+      pill.style.setProperty("display", "none", "important");
+    }
+  }
+
+  function isInlineRowActiveAndVisible() {
+    if (shouldHideAskSpokForever() || isSpokDrawerOpen() || getSavedCoords()) return false;
+    var row = document.getElementById("gat-hero-inline-spok-row");
+    if (!row) return false;
+    var v0 = document.getElementById("view-0");
+    if (v0 && !v0.classList.contains("active") && window.getComputedStyle(v0).display === "none") return false;
+    return true;
+  }
+
+  function fixContainerGradientAndInlineAskSpok() {
+    // 1. Keep #gat-onboarding-stage transparent so grey gradient never bleeds with square corners
+    var stage = document.getElementById("gat-onboarding-stage");
+    if (stage) {
+      stage.classList.remove("gat-blue-card-with-spok");
+      stage.style.setProperty("background", "transparent", "important");
+      stage.style.setProperty("box-shadow", "none", "important");
+    }
+
+    var gradCards = document.querySelectorAll(".gat-blue-card-with-spok");
+    for (var g = 0; g < gradCards.length; g++) {
+      var gc = gradCards[g];
+      if (gc.id === "gat-onboarding-stage" || gc.id === "view-0") {
+        gc.classList.remove("gat-blue-card-with-spok");
+        gc.style.setProperty("background", "transparent", "important");
+      } else {
+        gc.style.setProperty("overflow", "hidden", "important");
+        gc.style.setProperty("background-clip", "padding-box", "important");
+      }
+    }
+
+    var row = document.getElementById("gat-hero-inline-spok-row");
+    var pill = document.getElementById("gat-hero-inline-spok-pill");
+    var fab = document.getElementById("gat-draggable-spok-fab");
+
+    // 2. If Spok was opened once OR onboarding finished -> hide row forever & float fab in document.body
+    if (shouldHideAskSpokForever() || isSpokDrawerOpen()) {
+      if (row) {
+        row.style.setProperty("display", "none", "important");
+        row.style.setProperty("min-height", "0", "important");
+        row.style.setProperty("height", "0", "important");
+        row.style.setProperty("margin", "0", "important");
+        row.style.setProperty("padding", "0", "important");
+      }
+      if (pill) {
+        pill.style.setProperty("display", "none", "important");
+      }
+      if (fab && fab.parentElement !== document.body) {
+        document.body.appendChild(fab);
+        fab.style.setProperty("position", "fixed", "important");
+        applyFabPosition(fab);
+      }
+      return;
+    }
+
+    // 3. First-time un-onboarded user: render [✨] [ASK SPOK] [➔] [🖖] inside #gat-hero-inline-spok-row
+    if (row && pill) {
+      var lg = getActivePageLang();
+      var isHeb = (lg === "he");
+
+      row.style.setProperty("display", "flex", "important");
+      row.style.setProperty("visibility", "visible", "important");
+      row.style.setProperty("opacity", "1", "important");
+      row.style.setProperty(" flex-direction", "row", "important");
+      row.style.setProperty("align-items", "center", "important");
+      row.style.setProperty("justify-content", "flex-end", "important");
+      row.style.setProperty("gap", "10px", "important");
+      row.style.setProperty("min-height", "56px", "important");
+      row.style.setProperty("margin-top", "10px", "important");
+      row.style.setProperty("width", "100%", "important");
+      row.style.setProperty("box-sizing", "border-box", "important");
+
+      if (isHeb) {
+        // Hebrew RTL: starts on the right with ✨ -> שאל את ספוק -> left arrow ← -> 🖖 button on the left
+        row.setAttribute("dir", "rtl");
+        row.style.setProperty("direction", "rtl", "important");
+        row.style.setProperty("padding-left", "4px", "important");
+        row.style.setProperty("padding-right", "4px", "important");
+      } else {
+        // Non-Hebrew LTR: shifted 40px+ right (no 66px padding-right!), ✨ -> ASK SPOK -> ➔ -> 🖖 button on the right
+        row.setAttribute("dir", "ltr");
+        row.style.setProperty("direction", "ltr", "important");
+        row.style.setProperty("padding-right", "4px", "important");
+        row.style.setProperty("padding-left", "4px", "important");
+      }
+
+      pill.setAttribute("dir", isHeb ? "rtl" : "ltr");
+      pill.style.setProperty("display", "inline-flex", "important");
+      pill.style.setProperty("visibility", "visible", "important");
+      pill.style.setProperty("opacity", "1", "important");
+      pill.style.setProperty("direction", isHeb ? "rtl" : "ltr", "important");
+      pill.style.setProperty("flex-direction", "row", "important");
+      pill.style.setProperty("align-items", "center", "important");
+      pill.style.setProperty("justify-content", "center", "important");
+      pill.style.setProperty("width", "auto", "important");
+      pill.style.setProperty("flex", "0 0 auto", "important");
+      pill.style.setProperty("gap", "8px", "important");
+      pill.style.setProperty("padding", "0 2px", "important");
+      pill.style.setProperty("pointer-events", "auto", "important");
+      pill.style.setProperty("cursor", "pointer", "important");
+
+      if (!pill.getAttribute("data-click-wired")) {
+        pill.setAttribute("data-click-wired", "1");
+        pill.addEventListener("click", function(ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          dismissFirstTimeCalloutForever();
+          openSpokUniversal();
+        });
+      }
+
+      var lblEl = document.getElementById("gat-hero-inline-spok-pill-label");
+      if (lblEl) {
+        lblEl.setAttribute("data-i18n", "spok_ask_callout");
+        fetchI18nCalloutLabel(lg, function(translatedText) {
+          if (translatedText && lblEl.textContent !== translatedText) {
+            lblEl.textContent = translatedText;
+          }
+        });
+      }
+
+      var arrEl = document.getElementById("gat-hero-inline-spok-arrow");
+      if (arrEl) {
+        arrEl.textContent = "➔";
+        if (isHeb) {
+          // Flip ➔ horizontally so it points LEFT (←) toward the 🖖 button on the left!
+          arrEl.style.setProperty("display", "inline-block", "important");
+          arrEl.style.setProperty("transform", "scaleX(-1)", "important");
+        } else {
+          arrEl.style.setProperty("display", "inline-block", "important");
+          arrEl.style.setProperty("transform", "none", "important");
+        }
+      }
+
+      // Dock #gat-draggable-spok-fab directly inside #gat-hero-inline-spok-row as the 2nd flex child
+      // (after #gat-hero-inline-spok-pill) unless the user has manually dragged it!
+      if (fab && !getSavedCoords()) {
+        if (fab.parentElement !== row) {
+          row.appendChild(fab);
+        }
+        fab.style.setProperty("position", "relative", "important");
+        fab.style.setProperty("left", "auto", "important");
+        fab.style.setProperty("top", "auto", "important");
+        fab.style.setProperty("right", "auto", "important");
+        fab.style.setProperty("bottom", "auto", "important");
+        fab.style.setProperty("margin", "0", "important");
+        fab.style.setProperty("flex-shrink", "0", "important");
+      }
+    }
+  }
+
   function setFabCoords(fab, leftPx, topPx) {
     fab.style.setProperty("left", leftPx + "px", "important");
     fab.style.setProperty("top", topPx + "px", "important");
     fab.style.setProperty("right", "auto", "important");
     fab.style.setProperty("bottom", "auto", "important");
   }
+
+  setInterval(fixContainerGradientAndInlineAskSpok, 200);
+  window.addEventListener("scroll", fixContainerGradientAndInlineAskSpok, { passive: true });
+  window.addEventListener("resize", fixContainerGradientAndInlineAskSpok, { passive: true });
 
   function applyFabPosition(fab) {
     var saved = getSavedCoords();
@@ -18495,6 +18533,8 @@ if (typeof document !== 'undefined') {
     var fab = document.getElementById("gat-draggable-spok-fab");
     if (!fab) return;
     if (isSpokDrawerOpen()) {
+      var ftc = document.getElementById("gat-spok-first-time-callout");
+      if (ftc) ftc.style.setProperty("display", "none", "important");
       fab.style.setProperty("display", "none", "important");
       fab.style.setProperty("visibility", "hidden", "important");
       fab.style.setProperty("pointer-events", "none", "important");
@@ -18507,6 +18547,7 @@ if (typeof document !== 'undefined') {
   }
 
   function openSpokUniversal() {
+    dismissFirstTimeCalloutForever();
     window.__gatSpokJustOpenedMs = Date.now();
     if (typeof window.toggleGatHelpdesk === "function") {
       window.toggleGatHelpdesk(true);
@@ -18524,8 +18565,9 @@ if (typeof document !== 'undefined') {
     if (!document.body) return;
     var fab = document.getElementById("gat-draggable-spok-fab");
     if (fab && fab.getAttribute("data-pointer-wired") === "1") {
-      if (fab.parentElement !== document.body) {
+      if (!isInlineRowActiveAndVisible() && fab.parentElement !== document.body) {
         document.body.appendChild(fab);
+        fab.style.setProperty("position", "fixed", "important");
       }
       return;
     }
@@ -18571,7 +18613,14 @@ if (typeof document !== 'undefined') {
       var dx = e.clientX - startX;
       var dy = e.clientY - startY;
       if (!hasDragged && Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-      hasDragged = true;
+      if (!hasDragged) {
+        hasDragged = true;
+        dismissFirstTimeCalloutForever();
+        if (fab.parentElement !== document.body) {
+          document.body.appendChild(fab);
+        }
+        fab.style.setProperty("position", "fixed", "important");
+      }
       var c = clampToViewport(startL + dx, startT + dy);
       setFabCoords(fab, c.left, c.top);
     });
@@ -18625,8 +18674,8 @@ if (typeof document !== 'undefined') {
   // ---------------------------------------------------------------------------
   var SPOK_UI_I18N = {
     en: {
-      wbWithName: "Welcome back, {name}! How can I help you today?",
-      wbNoName: "Welcome back! How can I help you today?",
+      wbWithName: "Welcome back, {name}!",
+      wbNoName: "Welcome back!",
       intakeIntro: "Tell us what's happening below. Enter your WhatsApp number and describe your issue — our senior team will message you directly on WhatsApp:",
       formTitle: "📬 Direct Support & Issue Intake",
       waLabelLogged: "📱 Your WhatsApp Number (Pre-filled from your account):",
@@ -18646,8 +18695,8 @@ if (typeof document !== 'undefined') {
       quickEscBtn: "💬 Have a specific problem or need a human? Open Direct Intake Form →"
     },
     he: {
-      wbWithName: "ברוך הבא חזרה, {name}! במה אפשר לעזור לך היום?",
-      wbNoName: "ברוכים השבים! במה אפשר לעזור לך היום?",
+      wbWithName: "ברוך הבא חזרה, {name}!",
+      wbNoName: "ברוכים השבים!",
       intakeIntro: "אנחנו כאן — בלי סיבובים. הזן/י מספר וואטסאפ ופירוט הבעיה למטה והפנייה תישלח ישירות לצוות הבכיר שלנו:",
       formTitle: "📬 טופס פנייה ישירה ודיווח על בעיה",
       waLabelLogged: "📱 מספר הוואטסאפ שלך (מולא אוטומטית מהחשבון שלך):",
@@ -18667,8 +18716,8 @@ if (typeof document !== 'undefined') {
       quickEscBtn: "💬 יש לך בעיה ספציפית או צורך בנציג אנושי? פתח טופס פנייה ישירה ←"
     },
     fr: {
-      wbWithName: "Bon retour, {name} ! Comment puis-je vous aider ?",
-      wbNoName: "Bon retour ! Comment puis-je vous aider ?",
+      wbWithName: "Bon retour, {name} !",
+      wbNoName: "Bon retour !",
       intakeIntro: "Expliquez-nous votre problème ci-dessous. Vérifiez votre numéro WhatsApp et décrivez la situation pour notre équipe :",
       formTitle: "📬 Formulaire Direct — Support & Réclamation",
       waLabelLogged: "📱 Votre numéro WhatsApp (Pré-rempli depuis votre compte) :",
@@ -18688,8 +18737,8 @@ if (typeof document !== 'undefined') {
       quickEscBtn: "💬 Un problème spécifique ou besoin d'un humain ? Ouvrir le formulaire →"
     },
     es: {
-      wbWithName: "¡Bienvenido/a de nuevo, {name}! ¿En qué puedo ayudarte hoy?",
-      wbNoName: "¡Bienvenido/a de nuevo! ¿En qué puedo ayudarte hoy?",
+      wbWithName: "¡Bienvenido/a de nuevo, {name}!",
+      wbNoName: "¡Bienvenido/a de nuevo!",
       intakeIntro: "Cuéntanos tu problema abajo. Confirma tu WhatsApp y describe el inconveniente para que nuestro equipo te responda directamente:",
       formTitle: "📬 Formulario Directo de Soporte",
       waLabelLogged: "📱 Tu Número de WhatsApp (Pre-rellenado de tu cuenta):",
@@ -18709,8 +18758,8 @@ if (typeof document !== 'undefined') {
       quickEscBtn: "💬 ¿Tienes un problema o necesitas a un humano? Abrir formulario →"
     },
     de: {
-      wbWithName: "Willkommen zurück, {name}! Wie kann ich Ihnen heute helfen?",
-      wbNoName: "Willkommen zurück! Wie kann ich Ihnen heute helfen?",
+      wbWithName: "Willkommen zurück, {name}!",
+      wbNoName: "Willkommen zurück!",
       intakeIntro: "Schildern Sie uns Ihr Anliegen unten. Geben Sie Ihre WhatsApp-Nummer und das genaue Problem an — unser Team meldet sich direkt bei Ihnen:",
       formTitle: "📬 Direkter Support & Problem-Meldung",
       waLabelLogged: "📱 Ihre WhatsApp-Nummer (Aus Ihrem Konto vorausgefüllt):",
@@ -18730,8 +18779,8 @@ if (typeof document !== 'undefined') {
       quickEscBtn: "💬 Spezifisches Problem oder Mensch gewünscht? Direkt-Formular öffnen →"
     },
     ru: {
-      wbWithName: "С возвращением, {name}! Чем я могу помочь вам сегодня?",
-      wbNoName: "С возвращением! Чем я могу помочь вам сегодня?",
+      wbWithName: "С возвращением, {name}!",
+      wbNoName: "С возвращением!",
       intakeIntro: "Опишите вашу проблему ниже. Укажите ваш WhatsApp и суть вопроса — наша старшая команда напишет вам напрямую в WhatsApp:",
       formTitle: "📬 Прямая форма обращения в поддержку",
       waLabelLogged: "📱 Ваш номер WhatsApp (Заполнен автоматически из вашего аккаунта):",
@@ -18774,12 +18823,38 @@ if (typeof document !== 'undefined') {
 
   window.__gatGetUserNameForSpok = function() {
     try {
+      var lg = getLang();
+      var wantHebrew = (lg === "he");
+      var st = window.gatFormsState || {};
+      var draft = {};
+      try { draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}") || {}; } catch (e) {}
+
+      if (!wantHebrew) {
+        var latinCands = [
+          st.pf_given_en, st.pf_given_name_en, st.pf_first_name,
+          draft.pf_given_en, draft.pf_given_name_en, draft.pf_first_name,
+          localStorage.getItem("gat_user_name"), localStorage.getItem("gat_last_payer_name")
+        ];
+        for (var c = 0; c < latinCands.length; c++) {
+          var cl = cleanFirstName(latinCands[c]);
+          if (cl && !/[\u0590-\u05FF]/.test(cl)) {
+            return cl.charAt(0).toUpperCase() + cl.slice(1).toLowerCase();
+          }
+        }
+      } else {
+        var hebCands = [st.pf_given_he, draft.pf_given_he, st.pf_given_name_he, draft.pf_given_name_he];
+        for (var h = 0; h < hebCands.length; h++) {
+          var ch = cleanFirstName(hebCands[h]);
+          if (ch) return ch;
+        }
+      }
+
       var directKeys = ["gat_user_name", "gat_spok_user_name", "gat_name", "gat_wa_name", "userName", "displayName"];
       for (var i = 0; i < directKeys.length; i++) {
         var val = cleanFirstName(localStorage.getItem(directKeys[i]));
         if (val) return val;
       }
-      var nameFields = ["pf_first_name", "pf_given_name", "pf_given_name_en", "pf_given_name_he", "pf_applicant_first_name", "firstName", "givenName", "name", "fullName"];
+      var nameFields = ["pf_given_en", "pf_first_name", "pf_given_name", "pf_given_name_en", "pf_given_he", "pf_given_name_he", "firstName", "givenName", "name"];
       for (var k = 0; k < localStorage.length; k++) {
         var key = localStorage.key(k);
         if (!key) continue;
@@ -18791,9 +18866,6 @@ if (typeof document !== 'undefined') {
           for (var f = 0; f < nameFields.length; f++) {
             var nf = nameFields[f];
             if (typeof obj[nf] === "string" && cleanFirstName(obj[nf])) return cleanFirstName(obj[nf]);
-            if (obj.masterDossier && typeof obj.masterDossier[nf] === "string" && cleanFirstName(obj.masterDossier[nf])) {
-              return cleanFirstName(obj.masterDossier[nf]);
-            }
           }
         } catch (e) {}
       }
@@ -18801,42 +18873,55 @@ if (typeof document !== 'undefined') {
     return "";
   };
 
-  var spokOpenCountThisBrowser = 0;
-  try {
-    spokOpenCountThisBrowser = parseInt(localStorage.getItem("gat_spok_open_count_v2") || "0", 10) || 0;
-  } catch (e) {}
+  var INTRO_COMPLETED_KEY = "gat_spok_intro_completed_v5";
+  var isFirstOpenInThisTab = false;
 
-  function handleSpokDrawerOpened() {
-    spokOpenCountThisBrowser += 1;
-    try { localStorage.setItem("gat_spok_open_count_v2", String(spokOpenCountThisBrowser)); } catch (e) {}
-    if (spokOpenCountThisBrowser <= 1) return;
-
+  function applyWelcomeBackToFirstBubble() {
     var msgsBox = document.getElementById("gat-hd-msgs");
     if (!msgsBox) return;
-    var firstBubble = msgsBox.querySelector(".gat-hd-bubble, .gat-welcome-card, .gat-hd-msg");
-    if (!firstBubble || firstBubble.getAttribute("data-wb-shortened") === "1") return;
+    // Only shorten the initial greeting card when no user chat messages have been sent yet
+    if (msgsBox.querySelectorAll(".gat-hd-bubble.user, .gat-hd-msg.user").length > 0) return;
+
+    var firstBubble = msgsBox.querySelector(".gat-hd-bubble") || msgsBox.querySelector(".gat-welcome-card, .gat-hd-msg");
+    if (!firstBubble) return;
 
     var lg = getLang();
     var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
     var uName = window.__gatGetUserNameForSpok();
     var wbText = uName ? L.wbWithName.replace("{name}", uName) : L.wbNoName;
 
-    var pNodes = firstBubble.querySelectorAll("p, div");
-    var replaced = false;
-    for (var i = 0; i < pNodes.length; i++) {
-      var pn = pNodes[i];
-      if (pn.querySelector("button, input, textarea, a")) continue;
-      var txt = (pn.textContent || "").trim();
-      if (txt.length > 35) {
-        pn.innerHTML = "<strong>👋 " + wbText + "</strong>";
-        replaced = true;
-        break;
-      }
-    }
-    if (!replaced && !firstBubble.querySelector("button, input, textarea")) {
-      firstBubble.innerHTML = "<strong>👋 " + wbText + "</strong>";
+    var wantedHtml = '<div style="font-weight:800;font-size:15px;color:#082548;padding:2px 0;">👋 ' + wbText + '</div>';
+    if (firstBubble.innerHTML !== wantedHtml) {
+      firstBubble.innerHTML = wantedHtml;
     }
     firstBubble.setAttribute("data-wb-shortened", "1");
+    firstBubble.setAttribute("data-spok-greeted", "1");
+  }
+
+  function handleSpokDrawerOpened() {
+    dismissFirstTimeCalloutForever();
+    var nowOpen = isSpokDrawerOpen();
+    if (!nowOpen) {
+      isFirstOpenInThisTab = false;
+      return;
+    }
+
+    var alreadyCompletedIntro = false;
+    try {
+      alreadyCompletedIntro = localStorage.getItem(INTRO_COMPLETED_KEY) === "1";
+    } catch (e) {}
+
+    if (alreadyCompletedIntro && !isFirstOpenInThisTab) {
+      applyWelcomeBackToFirstBubble();
+      setTimeout(applyWelcomeBackToFirstBubble, 50);
+      setTimeout(applyWelcomeBackToFirstBubble, 180);
+      setTimeout(applyWelcomeBackToFirstBubble, 450);
+    } else {
+      // Very first open ever! Let them read the full intro right now, and lock INTRO_COMPLETED_KEY = "1"
+      // so if they minimize & reopen OR refresh the page, they never see the intro again.
+      isFirstOpenInThisTab = true;
+      try { localStorage.setItem(INTRO_COMPLETED_KEY, "1"); } catch (e) {}
+    }
   }
 
   function hookToggleHelpdesk() {
@@ -18867,6 +18952,8 @@ if (typeof document !== 'undefined') {
   document.addEventListener("click", function(e) {
     var minBtn = e.target && e.target.closest && e.target.closest("#gat-hd-min, .gat-hd-mini-btn, .gat-hd-jump-btn");
     if (minBtn) {
+      isFirstOpenInThisTab = false;
+      try { localStorage.setItem("gat_spok_intro_completed_v5", "1"); } catch (err) {}
       setTimeout(syncFabVisibility, 25);
       setTimeout(syncFabVisibility, 150);
     }
@@ -19151,6 +19238,15 @@ if (typeof document !== 'undefined') {
   setInterval(hookSendHelpdeskMsg, 400);
 
   var chatObs = new MutationObserver(function(mutations) {
+    try {
+      if (localStorage.getItem("gat_spok_intro_completed_v5") === "1" && !isFirstOpenInThisTab && isSpokDrawerOpen()) {
+        var mb = document.getElementById("gat-hd-msgs");
+        var fb = mb && mb.querySelector(".gat-hd-bubble");
+        if (fb && fb.getAttribute("data-wb-shortened") !== "1") {
+          applyWelcomeBackToFirstBubble();
+        }
+      }
+    } catch (e) {}
     for (var i = 0; i < mutations.length; i++) {
       var added = mutations[i].addedNodes;
       for (var j = 0; j < added.length; j++) {
@@ -19193,3 +19289,24 @@ if (typeof document !== 'undefined') {
   }
 })();
 // === END GAT SPOK UNIFIED CONTROLLER ===
+// === GAT INSTANT LANGUAGE SWITCH PRE-WARMER (LOADS ONCE, ZERO RE-DOWNLOAD) ===
+(function() {
+  if (window.__gatLangPrewarmerActive) return;
+  window.__gatLangPrewarmerActive = true;
+  window.addEventListener("load", function() {
+    setTimeout(function() {
+      var curPath = window.location.pathname || "/";
+      var stripped = curPath.replace(/^\/(he|fr|es|de|ru)(?=\/|$)/i, "");
+      if (!stripped || stripped.charAt(0) !== "/") stripped = "/" + stripped;
+      ["en", "he", "fr", "es", "de", "ru"].forEach(function(lg) {
+        var dest = (lg === "en") ? stripped : ("/" + lg + (stripped === "/" ? "/" : stripped));
+        if (dest === curPath) return;
+        var l = document.createElement("link");
+        l.rel = "prefetch";
+        l.href = dest;
+        l.as = "document";
+        document.head.appendChild(l);
+      });
+    }, 600);
+  }, { once: true });
+})();

@@ -1,184 +1,165 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-<!-- GAT-ANALYTICS-SMART-FILTER-START -->
-<script>
+<script id="gat-telemetry-zero-flicker-guard">
 (function() {
-  try { localStorage.setItem("gat_is_admin_device", "1"); } catch (e) {}
+  var CACHE_KEY = "gat_telemetry_last_good_v2";
+  window.__gatUserClickedResetLogs = false;
 
-  var ADMIN_VIDS = { "u_mwu2hbfa_4ij28z": 1, "gat_admin_uid_ref": 1, "gat_admin_uid_ref": 1 };
-  var OWNER_MAC_HEIGHTS = { "1263": 1, "1024": 1, "853": 1, "986": 1 };
-  var HEADLESS_VPS = ["412x732", "1024x1024", "800x600", "1600x1200", "1280x1280"];
-  window.__gatShowRawDevTraffic = false;
-
-  function getDwellSec(v) {
-    return Number(v.dwellSeconds || v.totalSeconds || v.seconds || v.dwell || v.duration || 0);
-  }
-
-  function classifyVisitor(v) {
-    var vid = String(v.vid || v.uid || v.id || "");
-    var tz = String(v.tz || v.timezone || "Unknown");
-    var vp = String(v.screen || v.viewport || "");
-    var ua = String(v.ua || v.userAgent || "").toLowerCase();
-    var path = String(v.currentPath || v.lastPath || v.path || "/");
-    var dwell = getDwellSec(v);
-    var pulses = Number(v.pulses || v.hits || 1);
-    var vpParts = vp.split("x");
-    var vpW = vpParts[0] || "";
-    var vpH = vpParts[1] || "";
-
-    // 1. Check if Headless Search/Social Bot JS Renderer first
-    var isHeadlessVp = false;
-    for (var i = 0; i < HEADLESS_VPS.length; i++) {
-      if (vp.indexOf(HEADLESS_VPS[i]) !== -1) { isHeadlessVp = true; break; }
+  // Track explicit clicks on "Reset All Logs" so intentional resets still clear immediately
+  document.addEventListener("click", function(e) {
+    var btn = e.target && e.target.closest && e.target.closest("button");
+    if (!btn) return;
+    var txt = (btn.textContent || "").toLowerCase();
+    var oc = (btn.getAttribute("onclick") || "").toLowerCase();
+    if (txt.indexOf("reset all") !== -1 || oc.indexOf("reset") !== -1 || oc.indexOf("clearall") !== -1) {
+      window.__gatUserClickedResetLogs = true;
+      try { localStorage.removeItem(CACHE_KEY); } catch (err) {}
+      setTimeout(function() { window.__gatUserClickedResetLogs = false; }, 10000);
     }
-    var isBotUa = /(bot|crawl|spider|headless|facebookexternalhit|whatsapp|inspectiontool|yandex|ahrefs|bingpreview|google-read-aloud)/i.test(ua);
-    var isMoscowYandexRender = (tz === "Europe/Moscow" && dwell <= 3 && pulses <= 1 && path.indexOf("/ru") === 0);
-    var isUsHeadlessRender = (dwell <= 5 && pulses <= 1 && (tz === "America/Los_Angeles" || tz === "UTC" || tz === "Etc/UTC"));
+  }, true);
 
-    if (isHeadlessVp || isBotUa || isMoscowYandexRender || isUsHeadlessRender) {
-      var botLabel = "Headless Search/AI Renderer";
-      if (isMoscowYandexRender || ua.indexOf("yandex") !== -1) botLabel = "Yandex JS Renderer (RU Spokes)";
-      else if (tz === "America/Los_Angeles" || isHeadlessVp) botLabel = "Google WRS / AI Overview Renderer";
-      return { type: "bot", botName: botLabel };
-    }
-
-    // 2. Check if Owner Mac or iPhone 12 mini Dev/Test Session
-    var isOwnerMac = (tz === "Asia/Jerusalem" && (OWNER_MAC_HEIGHTS[vpH] || dwell > 3600));
-    var isOwnerIphoneQuickTest = (tz === "Asia/Jerusalem" && vpW === "375" && dwell <= 20);
-    if (ADMIN_VIDS[vid] || v.isAdmin || isOwnerMac || isOwnerIphoneQuickTest) {
-      return { type: "owner" };
-    }
-
-    return { type: "human" };
-  }
-
-  function transformAnalyticsPayload(rawPayload) {
-    if (!rawPayload || !Array.isArray(rawPayload.visitors)) return rawPayload;
-    if (window.__gatShowRawDevTraffic) return rawPayload;
-
-    var payload = JSON.parse(JSON.stringify(rawPayload));
-    var cleanHumans = [];
-    var synthBots = {};
-    var ownerRemoved = 0;
-    var botRendersMoved = 0;
-
-    for (var i = 0; i < payload.visitors.length; i++) {
-      var v = payload.visitors[i];
-      var cls = classifyVisitor(v);
-      if (cls.type === "owner") {
-        ownerRemoved++;
-        continue;
-      }
-      if (cls.type === "bot") {
-        botRendersMoved++;
-        var bName = cls.botName;
-        var vPath = String(v.currentPath || v.lastPath || v.path || "/");
-        if (!synthBots[bName]) {
-          synthBots[bName] = {
-            botId: "headless_" + bName.toLowerCase().replace(/[^a-z0-9]+/g, "_"),
-            botName: bName,
-            ua: v.ua || "Headless Chromium Renderer",
-            lastSeen: v.lastSeen || v.updatedAt || Date.now(),
-            day: v.day || (payload.today && payload.today.date) || "",
-            lastPath: vPath,
-            ref: v.ref || "",
-            hits: 0
-          };
+  function loadLastGoodPayload() {
+    if (window.__gatLastGoodTelemetryPayload) return window.__gatLastGoodTelemetryPayload;
+    try {
+      var raw = localStorage.getItem(CACHE_KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          window.__gatLastGoodTelemetryPayload = parsed;
+          return parsed;
         }
-        synthBots[bName].hits += Number(v.pulses || v.hits || 1);
-        synthBots[bName].lastPath = vPath;
-        continue;
       }
-
-      // Cap idle background tabs (e.g. 0x0 viewport or >25m single-pulse tab) at 15m (900s) so 1 idle tab doesn't skew Avg Dwell
-      var dSec = getDwellSec(v);
-      if ((v.screen === "0x0" && dSec > 600) || dSec > 1800) {
-        dSec = 900;
-        if (v.dwellSeconds !== undefined) v.dwellSeconds = dSec;
-        if (v.totalSeconds !== undefined) v.totalSeconds = dSec;
-        if (v.seconds !== undefined) v.seconds = dSec;
-        if (v.dwell !== undefined) v.dwell = dSec;
-      }
-      cleanHumans.push(v);
-    }
-
-    payload.visitors = cleanHumans;
-    if (!Array.isArray(payload.crawlers)) payload.crawlers = [];
-    for (var bk in synthBots) {
-      payload.crawlers.push(synthBots[bk]);
-    }
-
-    window.__gatFilterStats = {
-      externalHumans: cleanHumans.length,
-      ownerRemoved: ownerRemoved,
-      botRendersMoved: botRendersMoved
-    };
-    setTimeout(renderFilterBanner, 80);
-    return payload;
+    } catch (e) {}
+    return null;
   }
 
-  function renderFilterBanner() {
-    var st = window.__gatFilterStats;
-    if (!st && !window.__gatShowRawDevTraffic) return;
-    var bar = document.getElementById("gat-clean-traffic-bar");
-    if (!bar) {
-      bar = document.createElement("div");
-      bar.id = "gat-clean-traffic-bar";
-      bar.style.cssText = "max-width:1280px;margin:10px auto 6px;padding:10px 16px;border-radius:12px;background:#0f172a;color:#f8fafc;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;font-family:system-ui,-apple-system,sans-serif;font-size:13px;box-shadow:0 4px 12px rgba(2,6,23,0.18);";
-      var target = document.querySelector("main") || document.body;
-      target.insertBefore(bar, target.firstChild);
-    }
-    if (window.__gatShowRawDevTraffic) {
-      bar.innerHTML =
-        '<div>⚠️ <strong>Showing Raw Unfiltered Traffic</strong> (Includes your own Mac/iPhone dev tabs & headless 1s renders)</div>' +
-        '<button type="button" onclick="window.__gatToggleCleanTraffic()" style="padding:6px 12px;border-radius:8px;border:1px solid #38bdf8;background:#0284c7;color:#fff;font-weight:700;cursor:pointer;font-size:12.5px;">🛡️ Switch to Clean External Traffic</button>';
-    } else {
-      bar.innerHTML =
-        '<div>🛡️ <strong>Clean External Traffic Mode Active:</strong> Filtered out <strong>' + (st ? st.ownerRemoved : 0) + '</strong> owner Mac/iPhone dev sessions & moved <strong>' + (st ? st.botRendersMoved : 0) + '</strong> headless JS renders to Crawler & Bot Engines.</div>' +
-        '<button type="button" onclick="window.__gatToggleCleanTraffic()" style="padding:6px 12px;border-radius:8px;border:1px solid #64748b;background:#1e293b;color:#e2e8f0;font-weight:700;cursor:pointer;font-size:12.5px;">👁️ Show Raw (+My Dev Tabs)</button>';
-    }
+  function saveLastGoodPayload(data) {
+    if (!data || typeof data !== "object") return;
+    window.__gatLastGoodTelemetryPayload = data;
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+    } catch (e) {}
   }
 
-  window.__gatToggleCleanTraffic = function() {
-    window.__gatShowRawDevTraffic = !window.__gatShowRawDevTraffic;
-    if (typeof window.loadAnalytics === "function") window.loadAnalytics();
-    else if (typeof window.loadQueue === "function") window.loadQueue();
-    else window.location.reload();
-  };
+  function extractVisitorsArray(data) {
+    if (!data || typeof data !== "object") return null;
+    if (Array.isArray(data.visitors)) return { key: "visitors", arr: data.visitors };
+    if (Array.isArray(data.humanVisitors)) return { key: "humanVisitors", arr: data.humanVisitors };
+    if (Array.isArray(data.items)) return { key: "items", arr: data.items };
+    if (Array.isArray(data.rows)) return { key: "rows", arr: data.rows };
+    if (data.telemetry && Array.isArray(data.telemetry.visitors)) return { key: "telemetry.visitors", arr: data.telemetry.visitors };
+    return null;
+  }
 
+  function mergeVisitorLists(oldArr, newArr) {
+    var map = {};
+    (oldArr || []).forEach(function(v) {
+      var id = v && (v.vid || v.uid || v.id || v.visitorId);
+      if (id) map[id] = v;
+    });
+    (newArr || []).forEach(function(v) {
+      var id = v && (v.vid || v.uid || v.id || v.visitorId);
+      if (!id) return;
+      if (!map[id]) {
+        map[id] = v;
+      } else {
+        var prev = map[id];
+        var prevTs = Number(prev.lastActiveMs || prev.updatedAt || prev.lastSeen || 0);
+        var nextTs = Number(v.lastActiveMs || v.updatedAt || v.lastSeen || 0);
+        var prevSec = Number(prev.totalSec || prev.totalDwellSec || prev.dwellSec || 0);
+        var nextSec = Number(v.totalSec || v.totalDwellSec || v.dwellSec || 0);
+        var merged = Object.assign({}, prev, nextTs >= prevTs ? v : {});
+        if (Math.max(prevSec, nextSec) > 0) {
+          if ("totalSec" in merged) merged.totalSec = Math.max(prevSec, nextSec);
+          if ("totalDwellSec" in merged) merged.totalDwellSec = Math.max(prevSec, nextSec);
+          if ("dwellSec" in merged) merged.dwellSec = Math.max(prevSec, nextSec);
+        }
+        map[id] = merged;
+      }
+    });
+    return Object.values(map);
+  }
+
+  // Wrap window.fetch so any telemetry poll that transiently fails, times out, or returns 0 visitors
+  // never wipes out the existing visitors on screen!
   var origFetch = window.fetch;
-  if (typeof origFetch === "function" && !origFetch.__gatAnalyticsWrapped) {
-    var wrappedFetch = function(url, opts) {
-      var isAnalyticsCall = false;
+  if (typeof origFetch === "function") {
+    window.fetch = async function(input, init) {
+      var urlStr = typeof input === "string" ? input : ((input && input.url) || "");
+      var bodyStr = (init && typeof init.body === "string") ? init.body : "";
+      var isTelemetryRead = (
+        urlStr.indexOf("auditDoc") !== -1 &&
+        /(get_analytics|get_telemetry|get_live_telemetry|list_visitors|visitor_telemetry|analytics_dashboard)/i.test(bodyStr) &&
+        !/reset|clear|delete|wipe/i.test(bodyStr)
+      );
+
+      if (!isTelemetryRead) {
+        return origFetch.apply(this, arguments);
+      }
+
       try {
-        if (typeof url === "string" && url.indexOf("auditDoc") !== -1) {
-          if (url.indexOf("get_analytics") !== -1 || (opts && typeof opts.body === "string" && opts.body.indexOf("get_analytics") !== -1)) {
-            isAnalyticsCall = true;
+        var resp = await origFetch.apply(this, arguments);
+        if (!resp || !resp.ok) {
+          var fallbackErr = loadLastGoodPayload();
+          if (fallbackErr && !window.__gatUserClickedResetLogs) {
+            console.warn("[GAT Telemetry Guard] Transient HTTP " + (resp ? resp.status : "ERR") + " — keeping last good snapshot.");
+            return new Response(JSON.stringify(fallbackErr), {
+              status: 200,
+              headers: { "Content-Type": "application/json" }
+            });
+          }
+          return resp;
+        }
+
+        var clone = resp.clone();
+        var data = await clone.json();
+        var extracted = extractVisitorsArray(data);
+        var lastGood = loadLastGoodPayload();
+        var lastExtracted = extractVisitorsArray(lastGood);
+
+        if (extracted) {
+          if (extracted.arr.length === 0 && lastExtracted && lastExtracted.arr.length > 0 && !window.__gatUserClickedResetLogs) {
+            console.warn("[GAT Telemetry Guard] Blocked empty 0-visitor poll from wiping " + lastExtracted.arr.length + " known visitors.");
+            return new Response(JSON.stringify(lastGood), {
+              status: 200,
+              headers: { "Content-Type": "application/json" }
+            });
+          }
+          if (extracted.arr.length > 0) {
+            if (lastExtracted && lastExtracted.arr.length > 0 && !window.__gatUserClickedResetLogs) {
+              var mergedArr = mergeVisitorLists(lastExtracted.arr, extracted.arr);
+              if (extracted.key === "telemetry.visitors") {
+                data.telemetry.visitors = mergedArr;
+              } else {
+                data[extracted.key] = mergedArr;
+              }
+            }
+            saveLastGoodPayload(data);
+            return new Response(JSON.stringify(data), {
+              status: 200,
+              headers: { "Content-Type": "application/json" }
+            });
           }
         }
-      } catch (e) {}
-
-      if (!isAnalyticsCall) return origFetch.apply(this, arguments);
-
-      return origFetch.apply(this, arguments).then(function(resp) {
-        return resp.clone().json().then(function(data) {
-          var cleaned = transformAnalyticsPayload(data);
-          return new Response(JSON.stringify(cleaned), {
-            status: resp.status,
-            statusText: resp.statusText,
+        return resp;
+      } catch (netErr) {
+        var fb = loadLastGoodPayload();
+        if (fb && !window.__gatUserClickedResetLogs) {
+          console.warn("[GAT Telemetry Guard] Network/timeout hiccup — serving cached telemetry snapshot.");
+          return new Response(JSON.stringify(fb), {
+            status: 200,
             headers: { "Content-Type": "application/json" }
           });
-        }).catch(function() {
-          return resp;
-        });
-      });
+        }
+        throw netErr;
+      }
     };
-    wrappedFetch.__gatAnalyticsWrapped = true;
-    window.fetch = wrappedFetch;
   }
 })();
 </script>
+<!-- GAT-ANALYTICS-SMART-FILTER-START -->
+
 <!-- GAT-ANALYTICS-SMART-FILTER-END -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -482,6 +463,7 @@
     .history-meta-label { font-size: 10.5px; text-transform: uppercase; color: #94a3b8; font-weight: 700; }
     .history-meta-val { font-size: 15px; font-weight: 800; color: #fff; margin-top: 3px; word-break: break-all; }
   </style>
+<style id="gat-kill-old-spok-pill-css">#gat-ask-spok-bottom-pill,#spok-fab-pill,#left-edge-handle,.left-edge-handle{display:none!important;visibility:hidden!important;pointer-events:none!important;}</style>
 </head>
 <body>
 

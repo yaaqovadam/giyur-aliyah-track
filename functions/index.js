@@ -746,18 +746,195 @@ exports.auditDoc = onRequest(
       return res.status(204).send("");
     }
 
-    // === SPOK HUMAN SUPPORT & COMPLAINT ESCALATION (ZERO-LEAK SERVER RELAY + SPAM SHIELD) ===
-    const _spokMode = (req.body && req.body.mode) || (req.query && req.query.mode) || "";
+    // === LAYER 0: HARD 10-SECOND SERVER EXECUTION TIMEOUT & PAYLOAD SIZE CAP ===
+    res.setTimeout(10000, () => {
+      if (!res.headersSent) {
+        res.status(504).json({ ok: false, error: "Server execution timeout (10s limit exceeded)." });
+      }
+    });
+    const _contentLen = Number(req.headers["content-length"] || 0);
+    const _reqMode = (req.body && req.body.mode) || (req.query && req.query.mode) || "general_ai";
+    if (_reqMode === "spok_support_escalation" && _contentLen > 25000) {
+      return res.status(413).json({ ok: false, error: "Payload too large." });
+    }
+
+    // === LAYER 1: ZERO-COST IN-MEMORY (RAM) DOS BLACKHOLE & COOLDOWN (0 FIRESTORE READS) ===
+    const _crypto = require("crypto");
+    const _rawForwarded = String(
+      req.headers["x-appengine-user-ip"] ||
+      req.headers["fastly-client-ip"] ||
+      req.headers["x-forwarded-for"] ||
+      req.ip ||
+      "unknown_ip"
+    );
+    const _callerIp = _rawForwarded.split(",")[0].trim() || "unknown_ip";
+    const _ipHash = _crypto.createHash("sha256").update("gat_ip_salt_2026_" + _callerIp).digest("hex").slice(0, 24);
+    const _nowRam = Date.now();
+
+    if (!global.__GAT_RAM_DOS_SHIELD) global.__GAT_RAM_DOS_SHIELD = new Map();
+    if (!global.__GAT_RAM_SURGE) global.__GAT_RAM_SURGE = { winStart: _nowRam, count: 0 };
+
+    // Prevent memory leak if map grows beyond 5,000 unique IPs
+    if (global.__GAT_RAM_DOS_SHIELD.size > 5000) {
+      global.__GAT_RAM_DOS_SHIELD.clear();
+    }
+
+    // 1A. Admin test-cleanup hook (only clears caller's own IP entry after automated security self-test)
+    if (_reqMode === "spok_clear_self_test_lock" && req.headers["x-gat-selftest-clear"] === "gat_clear_own_ip_2026") {
+      global.__GAT_RAM_DOS_SHIELD.delete(_ipHash);
+      try {
+        await Promise.all([
+          admin.firestore().collection("spok_rate_limits").doc("ip_esc_" + _ipHash).delete(),
+          admin.firestore().collection("spok_rate_limits").doc("ip_ai_" + _ipHash).delete(),
+          admin.firestore().collection("spok_rate_limits").doc("ip_otp_" + _ipHash).delete()
+        ]);
+      } catch (e) {}
+      return res.status(200).json({ ok: true, clearedIpHash: _ipHash });
+    }
+
+    // 1B. Global RAM Surge Circuit Breaker (Max 30 requests per 10 seconds across instance in RAM)
+    if (_nowRam - global.__GAT_RAM_SURGE.winStart < 10000) {
+      global.__GAT_RAM_SURGE.count += 1;
+      if (global.__GAT_RAM_SURGE.count > 30) {
+        res.set("Retry-After", "30");
+        return res.status(429).json({
+          ok: false,
+          shield: "RAM_GLOBAL_SURGE_BREAKER",
+          error: "Server busy: Global traffic surge limit reached. Try again in 30 seconds."
+        });
+      }
+    } else {
+      global.__GAT_RAM_SURGE.winStart = _nowRam;
+      global.__GAT_RAM_SURGE.count = 1;
+    }
+
+    // 1C. Per-IP RAM Blackhole & Burst Lockout (0.01ms execution, $0 Firestore cost)
+    let _ipRam = global.__GAT_RAM_DOS_SHIELD.get(_ipHash) || {
+      winStart: _nowRam,
+      burstCount: 0,
+      lastReqMs: 0,
+      lastEscAttemptMs: 0,
+      strikes: 0,
+      banUntilMs: 0
+    };
+
+    // If IP is currently in the RAM Penalty Box, drop immediately at Line 1!
+    if (_ipRam.banUntilMs > _nowRam) {
+      const waitSec = Math.ceil((_ipRam.banUntilMs - _nowRam) / 1000);
+      res.set("Retry-After", String(waitSec));
+      return res.status(429).json({
+        ok: false,
+        shield: "RAM_IP_BLACKHOLE",
+        retryAfterSec: waitSec,
+        error: `IP temporarily locked out due to rapid requests. Try again in ${waitSec}s.`
+      });
+    }
+
+    // General burst rate check (Only applies to public non-admin/non-heartbeat modes)
+    const _skipBurst = ["track_visit", "visitor_pulse", "get_analytics", "admin_get_analytics", "clear_bot_analytics", "reset_analytics", "delete_visitor", "get_concierge_queue", "verify_admin", "admin_set_entitlements"].includes(_reqMode);
+    if (!_skipBurst && (_nowRam - _ipRam.winStart < 10000)) {
+      _ipRam.burstCount += 1;
+      if (_ipRam.burstCount > 10) {
+        _ipRam.banUntilMs = _nowRam + 10 * 60 * 1000;
+        global.__GAT_RAM_DOS_SHIELD.set(_ipHash, _ipRam);
+        res.set("Retry-After", "600");
+        return res.status(429).json({
+          ok: false,
+          shield: "RAM_BURST_BAN",
+          error: "DoS protection triggered: Too many requests in 10 seconds. IP locked for 10 minutes."
+        });
+      }
+    } else {
+      _ipRam.winStart = _nowRam;
+      _ipRam.burstCount = 1;
+    }
+
+    // Escalation-specific RAM Cooldown: Max 1 attempt (even invalid!) every 120 seconds per IP.
+    // Repeat attempts within 120s add strikes; 2+ rapid attempts lock the IP in RAM for 15 minutes!
+    if (_reqMode === "spok_support_escalation") {
+      const sinceLastEsc = _nowRam - _ipRam.lastEscAttemptMs;
+      if (_ipRam.lastEscAttemptMs > 0 && sinceLastEsc < 120 * 1000) {
+        _ipRam.strikes += 1;
+        if (_ipRam.strikes >= 2) {
+          _ipRam.banUntilMs = _nowRam + 15 * 60 * 1000; // 15-minute hard RAM ban
+        }
+        global.__GAT_RAM_DOS_SHIELD.set(_ipHash, _ipRam);
+        const waitSec = _ipRam.banUntilMs > _nowRam
+          ? Math.ceil((_ipRam.banUntilMs - _nowRam) / 1000)
+          : Math.ceil((120000 - sinceLastEsc) / 1000);
+        res.set("Retry-After", String(waitSec));
+        return res.status(429).json({
+          ok: false,
+          shield: "RAM_ESCALATION_TIMEOUT",
+          retryAfterSec: waitSec,
+          error: `Server cooldown active: Please wait ${waitSec} seconds before sending another support request.`
+        });
+      }
+      // Stamp the attempt timestamp in RAM BEFORE touching Firestore or running validation
+      _ipRam.lastEscAttemptMs = _nowRam;
+    }
+
+    _ipRam.lastReqMs = _nowRam;
+    global.__GAT_RAM_DOS_SHIELD.set(_ipHash, _ipRam);
+
+    // === LAYER 2: PERSISTENT FIRESTORE IP RATE LIMITER FOR OTP & AI ROUTES ===
+    const _isTelemetryOrAdmin = ["track_visit", "visitor_pulse", "get_analytics", "admin_get_analytics", "clear_bot_analytics", "reset_analytics", "delete_visitor", "get_concierge_queue", "verify_admin", "admin_set_entitlements", "spok_clear_self_test_lock"].includes(_reqMode);
+    if (_isTelemetryOrAdmin) {
+      global.__GAT_RAM_DOS_SHIELD.delete(_ipHash);
+    }
+    if (_reqMode !== "spok_support_escalation" && !_isTelemetryOrAdmin) {
+      const _isOtp = (_reqMode === "wa_send_login");
+      const _windowMs = _isOtp ? (10 * 60 * 1000) : (60 * 1000);
+      const _maxReqs = _isOtp ? 4 : 15;
+      const _bucketId = (_isOtp ? "ip_otp_" : "ip_ai_") + _ipHash;
+      const _dbShield = admin.firestore();
+      try {
+        const _allowed = await _dbShield.runTransaction(async (t) => {
+          const ref = _dbShield.collection("spok_rate_limits").doc(_bucketId);
+          const snap = await t.get(ref);
+          const d = snap.exists ? (snap.data() || {}) : {};
+          const winStart = Number(d.winStart || 0);
+          const cnt = Number(d.cnt || 0);
+          if (_nowRam - winStart < _windowMs) {
+            if (cnt >= _maxReqs) return false;
+            t.set(ref, { winStart, cnt: cnt + 1, lastMs: _nowRam, mode: _reqMode }, { merge: true });
+          } else {
+            t.set(ref, { winStart: _nowRam, cnt: 1, lastMs: _nowRam, mode: _reqMode });
+          }
+          return true;
+        });
+        if (!_allowed) {
+          _ipRam.banUntilMs = _nowRam + 5 * 60 * 1000;
+          global.__GAT_RAM_DOS_SHIELD.set(_ipHash, _ipRam);
+          return res.status(429).json({
+            ok: false,
+            error: "Rate limit exceeded from your IP address. Please wait 5 minutes."
+          });
+        }
+      } catch (shieldErr) {
+        console.error("IP shield transaction warning:", shieldErr);
+      }
+    }
+
+    // === LAYER 3: SPOK HUMAN SUPPORT & COMPLAINT ESCALATION (STRICT VALIDATION + ATOMIC DB + 5s UPSTREAM TIMEOUT) ===
+    const _spokMode = _reqMode;
     if (_spokMode === "spok_support_escalation") {
+      if (req.method !== "POST") {
+        return res.status(405).json({ ok: false, error: "Method not allowed" });
+      }
       const body = req.body || {};
 
-      // 1. Honeypot & Timing Spam Trap
+      const ua = String(req.headers["user-agent"] || "").trim();
+      if (!ua || ua.length < 8) {
+        return res.status(403).json({ ok: false, error: "Automated requests without a valid client signature are blocked." });
+      }
+
       if (body.hp_website || body.fax_number) {
         return res.status(200).json({ ok: true, ticketId: "tkt_filtered" });
       }
       const dwellMs = Number(body.formOpenMs || 0);
-      if (dwellMs > 0 && dwellMs < 1200) {
-        return res.status(429).json({ ok: false, error: "Submission too fast. Please wait a moment and try again." });
+      if (!dwellMs || dwellMs < 1500 || dwellMs > 86400000) {
+        return res.status(429).json({ ok: false, error: "Invalid form timing signature. Please submit through the support form." });
       }
 
       const rawPhone = String(body.whatsapp || body.phone || "").trim();
@@ -769,11 +946,20 @@ exports.auditDoc = onRequest(
       const isLoggedWa = Boolean(body.isLoggedWa);
       const chatContext = String(body.chatContext || "").trim().slice(0, 1500);
 
-      // 2. Strict WhatsApp Number Validation
+      // Strict WhatsApp Number Validation (blocks any 6+ identical repeating digits anywhere, e.g. 0522222222)
       const cleanDigits = rawPhone.replace(/[^0-9]/g, "");
-      const isFakeDigits = /^(\d)\1{6,}$/.test(cleanDigits) || cleanDigits === "123456789" || cleanDigits === "1234567890" || cleanDigits === "0500000000" || cleanDigits === "0512345678";
+      const isFakeDigits =
+        /(\d)\1{5,}/.test(cleanDigits) ||
+        cleanDigits === "123456789" ||
+        cleanDigits === "1234567890" ||
+        cleanDigits === "0500000000" ||
+        cleanDigits === "0512345678" ||
+        cleanDigits === "987654321";
       if (cleanDigits.length < 9 || cleanDigits.length > 15 || isFakeDigits) {
-        return res.status(400).json({ ok: false, error: "Please enter a valid WhatsApp phone number (9-15 digits)." });
+        return res.status(400).json({ ok: false, error: "Please enter a valid WhatsApp phone number (9-15 digits, no fake repeating numbers)." });
+      }
+      if (cleanDigits.startsWith("05") && cleanDigits.length !== 10) {
+        return res.status(400).json({ ok: false, error: "Israeli mobile numbers must be 10 digits (05X-XXXXXXX)." });
       }
 
       let normUserWa = cleanDigits;
@@ -783,56 +969,108 @@ exports.auditDoc = onRequest(
         normUserWa = "972" + normUserWa;
       }
 
-      // 3. Strict Problem Description Validation (No gibberish / single-word spam)
-      const wordCount = complaint.split(/\s+/).filter(Boolean).length;
-      const isRepeatedChars = /(.)\1{9,}/.test(complaint);
-      if (complaint.length < 15 || wordCount < 3 || isRepeatedChars) {
-        return res.status(400).json({ ok: false, error: "Please describe your specific issue in at least a few words (15+ characters)." });
+      // Strict Problem Text Validation
+      const words = complaint.split(/\s+/).filter((w) => w.length >= 2);
+      const isRepeatedChars = /(.)\1{8,}/.test(complaint);
+      if (complaint.length < 15 || words.length < 3 || isRepeatedChars) {
+        return res.status(400).json({ ok: false, error: "Please describe your specific issue in at least 3 words (15+ characters)." });
       }
 
-      // 4. Firestore Rate-Limit Shield (Max 1 ticket per 2 mins, Max 3 tickets per 24h per phone/UID)
+      // Cross-instance Atomic Firestore Lock (IP + Phone + Global Circuit Breaker)
       const dbRef = admin.firestore();
       const nowMs = Date.now();
-      const rateDocId = "rl_" + normUserWa;
+      const ipDocRef = dbRef.collection("spok_rate_limits").doc("ip_esc_" + _ipHash);
+      const phoneDocRef = dbRef.collection("spok_rate_limits").doc("rl_" + normUserWa);
+      const globalDocRef = dbRef.collection("spok_rate_limits").doc("_global_intake_breaker");
+      const msgHash = _crypto.createHash("sha256").update(complaint.toLowerCase().trim()).digest("hex").slice(0, 16);
+
       try {
-        const rlSnap = await dbRef.collection("spok_rate_limits").doc(rateDocId).get();
-        if (rlSnap.exists) {
-          const rlData = rlSnap.data() || {};
-          const lastMs = Number(rlData.lastSentMs || 0);
-          const dayStartMs = Number(rlData.dayStartMs || 0);
-          let count24h = Number(rlData.count24h || 0);
-          if (nowMs - lastMs < 120 * 1000) {
-            return res.status(429).json({ ok: false, error: "We already received your message. Please wait 2 minutes before sending another." });
-          }
-          if (nowMs - dayStartMs < 24 * 3600 * 1000) {
-            if (count24h >= 3) {
-              return res.status(429).json({ ok: false, error: "Daily support ticket limit (3) reached for this number." });
+        const txResult = await dbRef.runTransaction(async (t) => {
+          const [ipSnap, phoneSnap, globalSnap] = await Promise.all([
+            t.get(ipDocRef),
+            t.get(phoneDocRef),
+            t.get(globalDocRef)
+          ]);
+
+          const ipData = ipSnap.exists ? (ipSnap.data() || {}) : {};
+          const phoneData = phoneSnap.exists ? (phoneSnap.data() || {}) : {};
+          const globalData = globalSnap.exists ? (globalSnap.data() || {}) : {};
+
+          const gWinStart = Number(globalData.winStartMs || 0);
+          let gCount10m = Number(globalData.count10m || 0);
+          if (nowMs - gWinStart < 10 * 60 * 1000) {
+            if (gCount10m >= 5) {
+              return { blocked: true, reason: "Server support queue is currently busy. Please wait 10 minutes and try again." };
             }
-            count24h += 1;
-            await dbRef.collection("spok_rate_limits").doc(rateDocId).set({
-              lastSentMs: nowMs,
-              dayStartMs: dayStartMs,
-              count24h: count24h,
-              lastComplaint: complaint.slice(0, 200)
-            }, { merge: true });
+            if (globalData.lastMsgHash === msgHash && (nowMs - Number(globalData.lastSentMs || 0) < 10 * 60 * 1000)) {
+              return { blocked: true, reason: "Duplicate message detected. Our team already has this report." };
+            }
+            gCount10m += 1;
           } else {
-            await dbRef.collection("spok_rate_limits").doc(rateDocId).set({
-              lastSentMs: nowMs,
-              dayStartMs: nowMs,
-              count24h: 1,
-              lastComplaint: complaint.slice(0, 200)
-            });
+            gCount10m = 1;
           }
-        } else {
-          await dbRef.collection("spok_rate_limits").doc(rateDocId).set({
+
+          const ipLastMs = Number(ipData.lastSentMs || 0);
+          const ipDayStart = Number(ipData.dayStartMs || 0);
+          let ipCount24h = Number(ipData.count24h || 0);
+          if (nowMs - ipLastMs < 120 * 1000) {
+            return { blocked: true, reason: "You just sent a ticket from this connection. Please wait 2 minutes before sending another." };
+          }
+          if (nowMs - ipDayStart < 24 * 3600 * 1000) {
+            if (ipCount24h >= 3) {
+              return { blocked: true, reason: "Daily support ticket limit (3 per 24h) reached for this connection." };
+            }
+            ipCount24h += 1;
+          } else {
+            ipCount24h = 1;
+          }
+
+          const phLastMs = Number(phoneData.lastSentMs || 0);
+          const phDayStart = Number(phoneData.dayStartMs || 0);
+          let phCount24h = Number(phoneData.count24h || 0);
+          if (nowMs - phLastMs < 120 * 1000) {
+            return { blocked: true, reason: "We already received a ticket for this WhatsApp number. Please wait 2 minutes." };
+          }
+          if (nowMs - phDayStart < 24 * 3600 * 1000) {
+            if (phCount24h >= 3) {
+              return { blocked: true, reason: "Daily support ticket limit (3 per 24h) reached for this WhatsApp number." };
+            }
+            phCount24h += 1;
+          } else {
+            phCount24h = 1;
+          }
+
+          t.set(globalDocRef, {
+            winStartMs: (nowMs - gWinStart < 10 * 60 * 1000) ? gWinStart : nowMs,
+            count10m: gCount10m,
             lastSentMs: nowMs,
-            dayStartMs: nowMs,
-            count24h: 1,
+            lastMsgHash: msgHash
+          });
+          t.set(ipDocRef, {
+            lastSentMs: nowMs,
+            dayStartMs: (nowMs - ipDayStart < 24 * 3600 * 1000) ? ipDayStart : nowMs,
+            count24h: ipCount24h,
+            lastPhone: normUserWa
+          });
+          t.set(phoneDocRef, {
+            lastSentMs: nowMs,
+            dayStartMs: (nowMs - phDayStart < 24 * 3600 * 1000) ? phDayStart : nowMs,
+            count24h: phCount24h,
+            lastIpHash: _ipHash,
             lastComplaint: complaint.slice(0, 200)
           });
+
+          return { blocked: false };
+        });
+
+        if (txResult && txResult.blocked) {
+          _ipRam.banUntilMs = nowMs + 5 * 60 * 1000;
+          global.__GAT_RAM_DOS_SHIELD.set(_ipHash, _ipRam);
+          return res.status(429).json({ ok: false, error: txResult.reason });
         }
       } catch (rlErr) {
-        console.error("spok_rate_limits check error:", rlErr);
+        console.error("Atomic spok_rate_limits transaction error:", rlErr);
+        return res.status(503).json({ ok: false, error: "Temporary security check failure. Please try again." });
       }
 
       const ticketId = "tkt_" + nowMs.toString(36);
@@ -847,6 +1085,7 @@ exports.auditDoc = onRequest(
           pageUrl,
           lang,
           visitorUid,
+          ipHash: _ipHash,
           chatContext,
           status: "open",
           createdAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -867,25 +1106,27 @@ exports.auditDoc = onRequest(
           "• *1-Tap Reply:* https://wa.me/" + normUserWa,
           userName && userName !== "Site Visitor" ? ("• *Name:* " + userName) : "",
           "• *Lang / Page:* " + lang.toUpperCase() + " (" + pageUrl + ")",
-          "• *Ticket:* `" + ticketId + "`",
+          "• *Ticket / IP Hash:* `" + ticketId + "` (`" + _ipHash.slice(0, 8) + "`)",
           "",
           "💬 *Problem / Complaint:*",
           complaint,
           chatContext ? ("\n🧾 *Recent Spok Context:*\n" + chatContext) : ""
         ].filter(Boolean).join("\n");
 
+        // 5-SECOND HARD OUTBOUND FETCH TIMEOUT so upstream slowness can NEVER hang the server!
         try {
           const greenUrl = `https://7107.api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`;
           await fetch(greenUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            signal: AbortSignal.timeout(5000),
             body: JSON.stringify({
               chatId: `${targetAdminWa}@c.us`,
               message: waMsg
             })
           });
         } catch (waErr) {
-          console.error("GreenAPI Spok Escalation send error:", waErr);
+          console.error("GreenAPI Spok Escalation send error (or 5s timeout):", waErr);
         }
       }
 

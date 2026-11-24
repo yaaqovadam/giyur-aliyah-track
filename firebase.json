@@ -57,52 +57,43 @@
     ],
     "headers": [
       {
-        "source": "/**",
+        "source": "/**/*.html",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
+            "value": "public, max-age=300, s-maxage=600, stale-while-revalidate=86400"
           }
         ]
       },
       {
-        "source": "/app/**",
+        "source": "/",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
+            "value": "public, max-age=300, s-maxage=600, stale-while-revalidate=86400"
           }
         ]
       },
       {
-        "source": "/index.html",
+        "source": "/(he|fr|es|de|ru)",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
+            "value": "public, max-age=300, s-maxage=600, stale-while-revalidate=86400"
           }
         ]
       },
       {
-        "source": "/splash.js",
+        "source": "/(he|fr|es|de|ru)/**",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache"
+            "value": "public, max-age=300, s-maxage=600, stale-while-revalidate=86400"
           }
         ]
       },
       {
         "source": "/concierge/**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "/concierge",
         "headers": [
           {
             "key": "Cache-Control",
@@ -120,65 +111,11 @@
         ]
       },
       {
-        "source": "/analytics",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "/pricing/**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "/pricing",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "/concierge-booking/**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "/concierge-booking",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "/bg-watercolor.jpg",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=604800"
-          }
-        ]
-      },
-      {
         "source": "/i18n/**",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
+            "value": "public, max-age=31536000, immutable"
           }
         ]
       },
@@ -187,34 +124,25 @@
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
+            "value": "public, max-age=31536000, immutable"
           }
         ]
       },
       {
-        "source": "**/*.@(jpg|jpeg|png|svg|ico|webp|pdf)",
+        "source": "/**/*.css",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "public, max-age=604800"
+            "value": "public, max-age=31536000, immutable"
           }
         ]
       },
       {
-        "source": "/",
+        "source": "**/*.@(jpg|jpeg|png|svg|ico|webp|pdf|ttf|woff|woff2)",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "**/*.html",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
+            "value": "public, max-age=604800, s-maxage=2592000"
           }
         ]
       },
@@ -223,7 +151,7 @@
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
+            "value": "public, max-age=604800, s-maxage=2592000"
           }
         ]
       }
