@@ -2,54 +2,45 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Master User Document & Subcollections (Locked to owner; client CANNOT self-grant paid entitlements!)
-    match /users/{uid} {
-      allow read: if request.auth != null && request.auth.uid == uid;
-      allow create: if request.auth != null && request.auth.uid == uid
-        && (!('unlocked' in request.resource.data) || request.resource.data.unlocked == false)
-        && (!('entitlementsMap' in request.resource.data)) && (!('admin' in request.resource.data)) && (!('isAdmin' in request.resource.data));
-      allow update: if request.auth != null && request.auth.uid == uid
-        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['unlocked', 'tier', 'entitlementsMap', 'lastOrderNumber', 'admin', 'isAdmin']));
-      match /{allSubcollections=**} {
-        allow read, write: if request.auth != null && request.auth.uid == uid;
-      }
+    // 1. Sensitive User Profiles, WhatsApp OTPs, PassCodes & Paid Entitlements:
+    //    Locked to authenticated owner / Admin SDK — prevents DevTools dumping of user PII
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    match /pro_entitlements/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false;
+    }
+    match /concierge_orders/{orderId} {
+      allow read, write: if false;
+    }
+    match /concierge_files/{fileId} {
+      allow read, write: if request.auth != null;
     }
 
-    // 1. E2EE 2-Phone Couples Sync Rooms (Direct doc lookup only; client cannot spoof vipCoupleUnlocked)
+    // 2. Analytics Telemetry Collections: Read-only allowed so /analytics/ client SDK fallback never wipes tables;
+    //    all writes/deletes strictly locked to Cloud Functions Admin SDK
+    match /site_analytics_daily/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /site_visitors_recent/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /site_crawlers_recent/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // 3. 2-Phone Live Separated-Room Couples Interrogation Sync Rooms:
     match /couples_rooms/{roomId} {
-      allow get: if request.auth != null && roomId.size() >= 16;
-      allow create: if request.auth != null && roomId.size() >= 16
-        && (!('vipCoupleUnlocked' in request.resource.data) || request.resource.data.vipCoupleUnlocked == false);
-      allow update: if request.auth != null && roomId.size() >= 16
-        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['vipCoupleUnlocked']));
-      allow delete: if request.auth != null && roomId.size() >= 16;
-      allow list: if false;
+      allow get, create, update: if roomId.size() >= 4;
+      allow list, delete: if false;
     }
-
-    // 2. Smart Form Auto-Save Drafts (Strictly locked to the authenticated user's own UID)
-    match /user_form_drafts/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
-    }
-
-    // 3. Vetted Team, Notary & Lawyer Intake Leads (Strictly locked to the user's own UID)
-    match /concierge_leads/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
-    }
-
-    // 4. Pro Entitlements (Read-only for owner; ONLY Admin SDK paymentWebhook / Cloud Functions can write)
-    match /pro_entitlements/{uid} {
-      allow get: if request.auth != null && request.auth.uid == uid;
-      allow list, write: if false;
-    }
-
-    // 5. Dynamic Promo Codes (No direct client access; verified server-side only)
-    match /promo_codes/{code} {
-      allow read, write: if false;
-    }
-
-    // Default deny everything else
-    match /{document=**} {
-      allow read, write: if false;
+    match /cp_rooms/{roomId} {
+      allow get, create, update: if roomId.size() >= 4;
+      allow list, delete: if false;
     }
   }
 }

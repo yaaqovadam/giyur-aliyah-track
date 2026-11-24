@@ -31,7 +31,10 @@
       "**/_locked_baselines/**",
       "**/_backups/**",
       "**/auto_*.js",
-      "**/*copy*"
+      "**/*copy*",
+      "**/RABBI_*.html",
+      "RABBI_*.html",
+      "**/ls_checkout_map.json"
     ],
     "cleanUrls": true,
     "trailingSlash": true,
@@ -73,15 +76,6 @@
       },
       {
         "source": "/index.html",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "/",
         "headers": [
           {
             "key": "Cache-Control",
@@ -190,6 +184,42 @@
       },
       {
         "source": "/**/*.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|png|svg|ico|webp|pdf)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=604800"
+          }
+        ]
+      },
+      {
+        "source": "/",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "**/*.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "/gat-card-*.jpg",
         "headers": [
           {
             "key": "Cache-Control",

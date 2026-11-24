@@ -683,6 +683,8 @@ const SONGS_I18N = {
     {t:"Kiddusch für Freitagabend (קִדּוּשׁ לֵיל שַׁבָּת)", p:"Yom ha-shishi, vayechulu ha-shamayim veha-aretz...", m:"Wird über einem vollen Becher koscheren Weins (Revi'it) gesprochen, um den Schabbat zu heiligen."},
     {t:"Schema Jisrael & Ve'Ahavta (שְׁמַע יִשְׂרָאֵל)", p:"Shema Yisrael Hashem Elokeinu Hashem Echad. Baruch Shem Kevod Malchuto Le'olam Va'ed...", m:"Morgens und abends gesprochen; beim ersten Vers die Augen mit der rechten Hand bedecken und Baruch Schem Kevod flüstern."}
   ]
+,
+  ru: [{"t": "Шалом алейхем (שָׁלוֹם עֲלֵיכֶם)", "p": "Шалом алейхем малаахей а-шарет малаахей Эльон...", "m": "Поётся в пятницу вечером по возвращении из синагоги перед кидушем (каждая строфа повторяется трижды: «Шалом алейхем», «Боахем ле-шалом», «Бархуни ле-шалом», «Цетхем ле-шалом»)."}, {"t": "Эшет хаиль (אֵשֶׁת חַיִל — Притчи 31)", "p": "Эшет хаиль ми йимца, ве-рахок ми-пниним михра...", "m": "Поётся каждую пятницу вечером после «Шалом алейхем» в честь хозяйки дома и Субботы-Царицы."}, {"t": "Кидуш на вечер Шаббата (קִדּוּשׁ לֵיל שַׁבָּת)", "p": "Йом а-шиши, ва-йехулу а-шамаим ве-а-арец...", "m": "Произносится стоя (или сидя, согласно обычаю) над полным бокалом кошерного вина (объёмом не менее ревиит) для освящения Шаббата."}, {"t": "Шма Исраэль и Ве-ахавта (שְׁמַע יִשְׂרָאֵל)", "p": "Шма Исраэль Ашем Элокейну Ашем Эхад. Барух шем квод малхуто леолам ваэд...", "m": "Читается каждое утро и каждый вечер; во время произнесения первого стиха глаза закрывают правой рукой, а строку «Барух шем квод» произносят шёпотом."}]
 };
 
 window.toggleLang = function(e) {
@@ -715,6 +717,112 @@ window.toggleLang = function(e) {
 let bdIdx = 0, cpIdx = 0;
 window.appLang = localStorage.getItem('gat_lang') || 'en';
 
+
+window.IN_CLERK_I18N = {
+  en: {
+    outPrefix: '📤 3. "OUT" Auto-Filler:',
+    phA: 'Partner A Answer...',
+    phB: 'Partner B Answer...',
+
+    needsRev: "Needs Review",
+    mastered: "Mastered",
+    partA: "Partner A (Room 1)",
+    partB: "Partner B (Room 2)",
+    lockAns: "🔒 Lock In My Answer ↵",
+    conciergeTab: "🤝 Vetted Team, Notary & Lawyer",
+    h2: '📥 1. "IN" Translator: Decode Clerk Deficiency Sheet (Drishat Mismachim)',
+    p: "Handed a mystery Hebrew checklist by a clerk? Paste the Hebrew text below (or load a real sample) to see the exact English translation, statutory protocol, and 180-day clock trap.",
+    ph: "הדביקו כאן את טקסט דרישת המסמכים בעברית ממשרד הפנים או בית הדין...",
+    btnDecode: "🔍 Translate Hebrew Clerk Sheet",
+    btnSample: "📄 Sample"
+  },
+  he: {
+    outPrefix: '📤 3. מחולל מכתבים וטפסים ("OUT"):',
+    phA: 'תשובת בן/בת זוג א׳...',
+    phB: 'תשובת בן/בת זוג ב׳...',
+
+    needsRev: "דורש חזרה",
+    mastered: "שולט/ת בחומר",
+    partA: "בן/בת זוג א׳ (חדר 1)",
+    partB: "בן/בת זוג ב׳ (חדר 2)",
+    lockAns: "🔒 נעל את התשובה שלי ↵",
+    conciergeTab: "🤝 עו״ד, נוטריון ורב מלווה",
+    h2: '📥 1. מפענח דרישת מסמכים ("IN"): תרגום וניתוח טופס ליקויים ממשרד הפנים',
+    p: "קיבלתם רשימת השלמות או דרישת מסמכים מהפקידה? הדביקו את הטקסט כאן (או טענו דוגמה) כדי לראות את המשמעות המדויקת, הנהלים והתראות שעון 180 הימים.",
+    ph: "הדביקו כאן את טקסט דרישת המסמכים בעברית ממשרד הפנים או בית הדין...",
+    btnDecode: "🔍 פענח דרישת מסמכים",
+    btnSample: "📄 דוגמה"
+  },
+  fr: {
+    outPrefix: '📤 3. Générateur "OUT" :',
+    phA: 'Réponse Partenaire A...',
+    phB: 'Réponse Partenaire B...',
+
+    needsRev: "À Réviser",
+    mastered: "Maîtrisé",
+    partA: "Partenaire A (Salle 1)",
+    partB: "Partenaire B (Salle 2)",
+    lockAns: "🔒 Verrouiller Ma Réponse ↵",
+    conciergeTab: "🤝 Équipe Vérifiée, Notaire & Avocat",
+    h2: '📥 1. Traducteur "IN" : Décoder la Fiche d’Exigences (Drishat Mismachim)',
+    p: "L’agent du Misrad HaPanim vous a remis une liste en hébreu ? Collez le texte ci-dessous (ou chargez un exemple) pour voir la traduction exacte et les pièges des 180 jours.",
+    ph: "Collez ici le texte en hébreu de la fiche du Misrad HaPanim (הדביקו כאן)...",
+    btnDecode: "🔍 Traduire la Fiche de l’Agent",
+    btnSample: "📄 Exemple"
+  },
+  es: {
+    outPrefix: '📤 3. Generador "OUT":',
+    phA: 'Respuesta Pareja A...',
+    phB: 'Respuesta Pareja B...',
+
+    needsRev: "Por Repasar",
+    mastered: "Dominado",
+    partA: "Pareja A (Sala 1)",
+    partB: "Pareja B (Sala 2)",
+    lockAns: "🔒 Bloquear Mi Respuesta ↵",
+    conciergeTab: "🤝 Equipo Verificado, Notario y Abogado",
+    h2: '📥 1. Traductor "IN": Decodificar Hoja de Requisitos (Drishat Mismachim)',
+    p: "¿El funcionario de Misrad HaPanim le entregó una lista en hebreo? Pegue el texto abajo (o cargue un ejemplo) para ver la traducción exacta y las trampas de 180 días.",
+    ph: "Pegue aquí el texto en hebreo de Misrad HaPanim (הדביקו כאן)...",
+    btnDecode: "🔍 Traducir Hoja del Funcionario",
+    btnSample: "📄 Ejemplo"
+  },
+  de: {
+    outPrefix: '📤 3. "OUT"-Generator:',
+    phA: 'Antwort Partner A...',
+    phB: 'Antwort Partner B...',
+
+    needsRev: "Wiederholen",
+    mastered: "Gemeistert",
+    partA: "Partner A (Raum 1)",
+    partB: "Partner B (Raum 2)",
+    lockAns: "🔒 Meine Antwort Sperren ↵",
+    conciergeTab: "🤝 Geprüftes Team, Notar & Anwalt",
+    h2: '📥 1. "IN"-Übersetzer: Mängelliste des Sachbearbeiters (Drishat Mismachim)',
+    p: "Haben Sie vom Misrad HaPanim eine hebräische Nachforderungsliste erhalten? Fügen Sie den Text unten ein (oder laden Sie ein Beispiel), um die exakte Übersetzung und 180-Tage-Fallen zu sehen.",
+    ph: "Hebräischen Text vom Misrad HaPanim hier einfügen (הדביקו כאן)...",
+    btnDecode: "🔍 Hebräische Liste Übersetzen",
+    btnSample: "📄 Beispiel"
+  },
+  ru: {
+    outPrefix: '📤 3. Генератор писем и анкет ("OUT"):',
+    phA: 'Ответ Партнера А...',
+    phB: 'Ответ Партнера Б...',
+
+    needsRev: "Повторить",
+    mastered: "Изучено",
+    partA: "Партнер А (Комната 1)",
+    partB: "Партнер Б (Комната 2)",
+    lockAns: "🔒 Зафиксировать Мой Ответ ↵",
+    conciergeTab: "🤝 Проверенный Нотариус, Раввин и Адвокат",
+    h2: '📥 1. Переводчик "IN": Расшифровка Листа Требований МВД (Дришат Мисмахим)',
+    p: "Чиновник МВД выдал непонятный список документов на иврите? Вставьте текст ниже (или загрузите пример), чтобы увидеть точный перевод, номер директивы и ловушки 180 дней.",
+    ph: "Вставьте сюда текст требования документов на иврите из МВД (הדביקו כאן)...",
+    btnDecode: "🔍 Перевести Лист Требований МВД",
+    btnSample: "📄 Пример"
+  }
+};
+
 function renderAll() {
   const lang = window.appLang || 'en';
   const u = APP_UI[lang] || APP_UI.en;
@@ -723,6 +831,9 @@ function renderAll() {
   const backEl = document.querySelector('.back-btn');
   if (backEl) backEl.innerText = u.back;
 
+  const ic = (window.IN_CLERK_I18N && window.IN_CLERK_I18N[lang]) || window.IN_CLERK_I18N.en;
+  const concPill = document.querySelector('.mod-tab.concierge-pill');
+  if (concPill && ic.conciergeTab) concPill.innerText = ic.conciergeTab;
   const tabEls = document.querySelectorAll('.mod-tab:not(.concierge-pill)');
   u.tabs.forEach((lbl, i) => { if (tabEls[i]) tabEls[i].innerText = lbl; });
 
@@ -733,12 +844,12 @@ function renderAll() {
         <strong>${j.flag} ${j.name}:</strong> ${j.police} • ${j.birth}
       </div>
       <div class="card" style="border:2px solid #0284c7;background:#f0f9ff;">
-        <h2>📥 1. "IN" Translator: Decode Clerk Deficiency Sheet (Drishat Mismachim)</h2>
-        <p>Handed a mystery Hebrew checklist by a clerk? Paste the Hebrew text below (or load a real sample) to see the exact homeland & family documents required and activate your 25-day clerk-safe / 45-day statutory file-closure shield:</p>
-        <textarea id="in-clerk-txt" rows="3" dir="rtl" placeholder="הדביקו כאן את טקסט דרישת המסמכים בעברית ממשרד הפנים או הרבנות..."></textarea>
+        <h2>${ic.h2}</h2>
+        <p>${ic.p}</p>
+        <textarea id="in-clerk-txt" rows="3" dir="rtl" placeholder="${ic.ph}"></textarea>
         <div style="display:flex;gap:8px;margin-top:8px;">
-          <button class="btn" style="margin-top:0;flex:2;" onclick="decodeClerkSheet()">🔍 Translate Hebrew Clerk Sheet →</button>
-          <button class="btn" style="margin-top:0;flex:1;background:#334155;" onclick="loadSampleClerk()">📄 Sample</button>
+          <button class="btn" style="margin-top:0;flex:2;" onclick="decodeClerkSheet()">${ic.btnDecode}</button>
+          <button class="btn" style="margin-top:0;flex:1;background:#334155;" onclick="loadSampleClerk()">${ic.btnSample}</button>
         </div>
         <div id="in-clerk-out" style="display:none;margin-top:12px;padding:12px;background:#fef2f2;border:1.5px solid #ef4444;border-radius:12px;font-size:0.86rem;"></div>
       </div>
@@ -801,7 +912,7 @@ function renderAll() {
       </div>
 
       <div class="card">
-        <h2>📤 3. "OUT" Auto-Filler: ${u.m1_h2}</h2>
+        <h2>${ic.outPrefix} ${u.m1_h2}</h2>
         <p>${u.m1_p}</p>
         <label>${u.m1_lbl_type}</label>
         <select id="he-doc-type">
@@ -859,8 +970,8 @@ function renderAll() {
         </div>
         <div style="display:flex;gap:8px;margin-top:8px;">
           <button type="button" class="btn" style="margin:0;flex:1;background:#334155;" onclick="prevBdCard()">←</button>
-          <button type="button" class="btn" style="margin:0;flex:2;background:#d97706;" onclick="markBdScore(0)">🔁 <span id="bd-btn-review">Needs Review</span></button>
-          <button type="button" class="btn btn-emerald" style="margin:0;flex:2;" onclick="markBdScore(1)">✅ <span id="bd-btn-master">Mastered</span></button>
+          <button type="button" class="btn" style="margin:0;flex:2;background:#d97706;" onclick="markBdScore(0)">🔁 <span id="bd-btn-review">${ic.needsRev}</span></button>
+          <button type="button" class="btn btn-emerald" style="margin:0;flex:2;" onclick="markBdScore(1)">✅ <span id="bd-btn-master">${ic.mastered}</span></button>
         </div>
         <button class="btn" style="margin-top:8px;" onclick="nextBdCard()">${u.m3_btn}</button>
       </div>
@@ -879,15 +990,15 @@ function renderAll() {
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
           <div style="display:flex;flex-direction:column;gap:4px;">
-            <span id="cp-lbl-a" style="font-size:0.73rem;font-weight:800;color:#0c4a6e;">Partner A (Room 1)</span>
-            <input id="cp-ans-a" placeholder="Partner A Answer..." onkeydown="if(event.key==='Enter'){event.preventDefault();submitMyCpAns();}" style="margin:0;" />
+            <span id="cp-lbl-a" style="font-size:0.73rem;font-weight:800;color:#0c4a6e;">${ic.partA}</span>
+            <input id="cp-ans-a" placeholder="${ic.phA}" onkeydown="if(event.key==='Enter'){event.preventDefault();submitMyCpAns();}" style="margin:0;" />
           </div>
           <div style="display:flex;flex-direction:column;gap:4px;">
-            <span id="cp-lbl-b" style="font-size:0.73rem;font-weight:800;color:#0c4a6e;">Partner B (Room 2)</span>
-            <input id="cp-ans-b" placeholder="Partner B Answer..." onkeydown="if(event.key==='Enter'){event.preventDefault();submitMyCpAns();}" style="margin:0;" />
+            <span id="cp-lbl-b" style="font-size:0.73rem;font-weight:800;color:#0c4a6e;">${ic.partB}</span>
+            <input id="cp-ans-b" placeholder="${ic.phB}" onkeydown="if(event.key==='Enter'){event.preventDefault();submitMyCpAns();}" style="margin:0;" />
           </div>
         </div>
-        <button type="button" id="cp-submit-btn" class="btn" style="margin-top:8px;padding:11px 14px;background:#0284c7;display:flex;align-items:center;justify-content:center;gap:6px;" onclick="submitMyCpAns()">🔒 Lock In My Answer ↵</button>
+        <button type="button" id="cp-submit-btn" class="btn" style="margin-top:8px;padding:11px 14px;background:#0284c7;display:flex;align-items:center;justify-content:center;gap:6px;" onclick="submitMyCpAns()">${ic.lockAns}</button>
         <div id="cp-match-out" style="margin-top:8px;padding:8px 12px;border-radius:8px;font-size:0.82rem;font-weight:800;display:none;"></div>
         <div style="display:flex;gap:8px;margin-top:8px;">
           <button type="button" class="btn" style="margin-top:0;flex:1;background:#334155;" onclick="prevCpCard()">←</button>
@@ -9133,7 +9244,7 @@ window.shareGatRelief = function(contextKey, customUrl) {
     drawer: baseOrigin + langPrefix + "/"
   };
   const targetUrl = customUrl || urlMap[contextKey] || (baseOrigin + langPrefix + "/");
-  const shareText = (pack.msg[contextKey] || pack.msg.drawer) + " " + targetUrl;
+  const shareText = (pack.msg[contextKey] || pack.msg.drawer) + "\n\n" + targetUrl;
 
   if (navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '')) {
     navigator.share({
@@ -9241,3 +9352,733 @@ if (typeof document !== 'undefined') {
   } catch (e) {}
 })();
 
+/* === GAT_FULL_APP_STATIC_DOM_I18N_V1 === */
+(function initGatFullAppStaticDomI18nV1() {
+  const APP_STATIC_DOM_6L = {
+    en: {
+      docTitle: "Interactive Command Center & Tools | Giyur Aliyah Track",
+      topH1: "Giyur Aliyah Track — Interactive Israeli Ministry of Interior (PIBA) 8-Form Stamper, 700 Beit Din Cards, 300 Couples Sync & Liturgical Audio Trainer",
+      waPill: "📲 1-Step WhatsApp Account & Sync",
+      waTitle: "Sign In or Sync With WhatsApp",
+      waHead: "📲 Enter Your WhatsApp Number",
+      waSub: "Your forms, scanned certificates, and paid passes are tied to your WhatsApp number. Enter your number on any phone or computer to create your account or sync your unlocked tools:",
+      waPh: "+972 58... or +1...",
+      waSendBtn: "Send Code →",
+      waOtpMsg: "✅ Check your WhatsApp! Tap the 1-Click Link OR enter the 4-digit code below:",
+      waVerifyBtn: "Verify →",
+      waQrMsg: "📷 Instant Camera Shortcut (Scan to Open on Your Phone/Computer)",
+      pwShield: "🛡️ Giyur Aliyah Track Command Shield",
+      drawerSync: "📲 Sync Devices & Pass Code",
+      drawerPricing: "All 23 Services & Pricing",
+      drawerHome: "🏠 Home & Track Guide",
+      drawerForms: "📸 Statutory Hebrew & 8 Forms",
+      drawerBd: "🕍 700 Beit Din Flashcards",
+      drawerCp: "📱 300 Couples 2-Phone Sync",
+      drawerSongs: "🎵 56 Songs, Prayers & Brachot",
+      drawerLetters: "✍️ Rabbi & Host Family Letters",
+      drawerTeam: "🤝 Vetted Notary, Rabbi & Lawyer",
+      drawerPasses: "🔓 View Passes & Pricing",
+      litSummary: "📚 Full Printable Text & Beit Din Study Reference (All Shabbat Songs, Morning Prayers & Essential Brachot)",
+      litH3Songs: "🎵 Shabbat Songs (Kabbalat Shabbat, Synagogue & Table Zemirot)",
+      litH3Morning: "☀️ Morning Prayers — Shacharit & Birchot HaShachar",
+      litH3Brachot: "📜 Essential Brachot (Shabbat Candles, Kiddush, Birkat HaMazon, Havdalah & Daily Blessings)",
+      litPlayBtn: "▶️ Load & Auto-Play in Karaoke Trainer",
+      faqHdr: "❓ 180-Day Apostille Clock & 8 PIBA Forms FAQ",
+      faqBadge: "Statutory & Software Guide",
+      faq1Q: "1. Which documents expire after 180 days (6 months)?",
+      faq1A: "Misrad HaPanim strictly enforces a 180-day freshness limit on foreign Police Clearances (Teudat Yosher / FBI / ACRO) and Marital / Single Status Certificates from the date of issuance—unless you have remained continuously inside Israel without exiting since the document was issued.",
+      faq2Q: "2. What is the '3-Bucket' Police Check rule?",
+      faq2A: "Clerks require apostilled federal/national police checks from: (1) every country of citizenship, (2) every country where you resided after age 18 for 6+ months, and (3) explicit coverage of all prior maiden/married names and aliases.",
+      faq3Q: "3. Why must PIBA forms (Ash/1, Ash/3, Ash/6, Ash/456) be stamped in Hebrew?",
+      faq3A: "Misrad HaPanim branch clerks reject handwritten Latin-script forms. Our stamper engine maps your answers in 6 languages onto official calibrated Hebrew PDF coordinates with royal-blue vector ink and generates a localized Red-X Signing Guide.",
+      legalHdr: "• Statutory Legal-Tech & Rabbinic Command Center",
+      legalBody: "Giyur Aliyah Track provides statutory software automation, educational preparation vaults, and optional quote-first introductions to independent licensed Israeli attorneys, notaries, and community mentors. Software engines are self-serve bureaucratic preparation tools and do not constitute formal legal representation.",
+      refundQ: "💳 Digital Finality & No-Refund Policy",
+      refundA: "Because users can freely test the vaults (4 free Beit Din & Couples cards, 2 free Songs/Prayers, free Clerk Sheet Decoder, and free form browsing) and paid digital passes immediately unlock full 8-form PDF stamping, AI document auditing, and all 1,000+ vault cards, all digital software purchases are 100% final and non-refundable upon purchase.",
+      privQ: "🔒 Privacy & Zero-Leakage Data Security",
+      privA: "All form drafts and 2-phone couples rooms are isolated to your personal session and WhatsApp account ID. Zero mock data ever touches your live PDFs, and you can permanently wipe your cloud dossier at any time."
+    },
+    he: {
+      docTitle: "מרכז שליטה וכלים אינטראקטיביים | מסלול גיור ועלייה",
+      topH1: "מסלול גיור ועלייה — מנוע מילוי 8 טפסי משרד הפנים (PIBA), מאגר 700 שאלות בית דין, סימולטור 300 שאלות שימוע זוגי ומאמן שמע לזמירות ותפילות",
+      waPill: "📲 התחברות וסנכרון מהיר בוואטסאפ",
+      waTitle: "התחברות או סנכרון באמצעות וואטסאפ",
+      waHead: "📲 הזינו את מספר הוואטסאפ שלכם",
+      waSub: "הטפסים, התעודות הסרוקות והמכשירים הפתוחים שלכם מקושרים למספר הוואטסאפ שלכם. הזינו את המספר בכל טלפון או מחשב כדי להתחבר או לסנכרן:",
+      waPh: "052... או +972...",
+      waSendBtn: "שלחו קוד ←",
+      waOtpMsg: "✅ בדקו את הוואטסאפ! לחצו על קישור הלחיצה-אחת או הזינו את הקוד בן 4 הספרות:",
+      waVerifyBtn: "אימות ←",
+      waQrMsg: "📷 קיצור דרך למצלמה (סרקו כדי לפתוח בטלפון או במחשב)",
+      pwShield: "🛡️ מגן השליטה של מסלול גיור ועלייה",
+      drawerSync: "📲 סנכרון מכשירים וקוד גישה",
+      drawerPricing: "כל 23 השירותים והמחירים",
+      drawerHome: "🏠 דף הבית ומדריך המסלולים",
+      drawerForms: "📸 עברית מנהלית ו-8 טפסי רשות האוכלוסין",
+      drawerBd: "🕍 700 כרטיסיות בית דין לגיור",
+      drawerCp: "📱 300 שאלות שימוע זוגי (סנכרון 2 טלפונים)",
+      drawerSongs: "🎵 56 זמירות שבת, תפילות וברכות",
+      drawerLetters: "✍️ מכתבי המלצה מרב, משפחה מארחת ועדים",
+      drawerTeam: "🤝 נוטריון, רב מלווה ועו״ד מאומתים",
+      drawerPasses: "🔓 צפייה בחבילות ומחירים",
+      litSummary: "📚 ספריית טקסטים מלאה להדפסה והכנה לבית הדין (כל זמירות השבת, תפילות שחרית וברכות חיוניות)",
+      litH3Songs: "🎵 זמירות שבת (קבלת שבת, בית כנסת ושולחן שבת)",
+      litH3Morning: "☀️ תפילות הבוקר — שחרית וברכות השחר",
+      litH3Brachot: "📜 ברכות חיוניות (הדלקת נרות, קידוש, ברכת המזון, הבדלה וברכות הנהנין)",
+      litPlayBtn: "▶️ טעינה והפעלה במאמן הקריוקי",
+      faqHdr: "❓ שאלות נפוצות: שעון 180 יום לאפוסטיל ו-8 טפסי משרד הפנים",
+      faqBadge: "מדריך נהלים ותוכנה",
+      faq1Q: "1. אילו מסמכים פגים תוקף לאחר 180 יום (6 חודשים)?",
+      faq1A: "משרד הפנים אוכף בחומרה מגבלת תוקף של 180 יום ממועד ההנפקה על תעודות יושר (מרשם פלילי / FBI) ותעודות רווקות או מצב אישי מחו״ל — אלא אם המבקש שהה ברציפות בישראל ללא יציאה מאז הנפקת המסמך.",
+      faq2Q: "2. מהו כלל ׳3 הסלים׳ לתעודת יושר ואפוסטיל?",
+      faq2A: "פקידי רשות האוכלוסין דורשים תעודת יושר פדרלית/ארצית עם אפוסטיל מ-(1) כל מדינת אזרחות, (2) כל מדינה בה התגוררתם מעל גיל 18 במשך 6 חודשים ומעלה, ו-(3) כיסוי מפורש של כל שמות המשפחה הקודמים ושמות הנעורים.",
+      faq3Q: "3. מדוע חובה להגיש טפסי אש/1, אש/3, אש/6 ואש/456 מודפסים בעברית?",
+      faq3A: "פקידי משרד הפנים דוחים טפסים בכתב יד או באותיות לטיניות. מנוע ההחתמה שלנו ממפה את תשובותיכם מ-6 שפות ישירות לקואורדינטות העבריות הרשמיות של ה-PDF בדיו כחול-רויאל ומפיק מדריך חתימות מותאם לשפתכם.",
+      legalHdr: "• מרכז טכנולוגיה משפטית והכנה לבית הדין ולמשרד הפנים",
+      legalBody: "פלטפורמת Giyur Aliyah Track מספקת אוטומציה למילוי טפסים רשמיים, מאגרי תרגול והכנה, וחיבור אופציונלי בהצעת מחיר מראש לעורכי דין, נוטריונים ורבנים מלווים עצמאיים ומורשים בישראל. מנועי התוכנה הם כלי עזר לשירות עצמי ואינם מהווים ייצוג משפטי.",
+      refundQ: "💳 סופיות רכישה דיגיטלית ומדיניות ללא החזרים",
+      refundA: "מאחר שניתן להתנסות בחינם בכל המאגרים (4 כרטיסיות בית דין ושימוע זוגי בחינם, 2 שירים/תפילות בחינם, מפענח דרישת מסמכים וצפייה בשדות הטפסים) ורכישת גישה פותחת באופן מיידי הורדת PDF רשמיים, ביקורת AI וכל 1,000+ הכרטיסיות — כל הרכישות הדיגיטליות הן סופיות לחלוטין וללא החזר כספי.",
+      privQ: "🔒 פרטיות ואבטחת מידע בהפרדה מלאה",
+      privA: "כל טיוטות הטפסים וחדרי הסנכרון הזוגיים מוצפנים ומבודדים לחשבון הוואטסאפ האישי שלכם. שום מידע לדוגמה אינו נכנס לקובצי ה-PDF שלכם, ובאפשרותכם למחוק לצמיתות את נתוני הענן בכל עת."
+    },
+    fr: {
+      docTitle: "Centre de Commande Interactif & Outils | Giyur Aliyah Track",
+      topH1: "Giyur Aliyah Track — Tamponneur Interactif des 8 Formulaires PIBA (Misrad HaPanim), 700 Cartes Beit Din, Sync Couples 300 Questions & Entraîneur Audio Liturgique",
+      waPill: "📲 Compte & Synchronisation WhatsApp en 1 Étape",
+      waTitle: "Se Connecter ou Synchroniser avec WhatsApp",
+      waHead: "📲 Entrez Votre Numéro WhatsApp",
+      waSub: "Vos formulaires, certificats scannés et pass débloqués sont liés à votre numéro WhatsApp. Entrez votre numéro sur n'importe quel téléphone ou ordinateur pour synchroniser vos outils :",
+      waPh: "+33 6... ou +972...",
+      waSendBtn: "Envoyer le Code →",
+      waOtpMsg: "✅ Vérifiez votre WhatsApp ! Appuyez sur le lien en 1 clic OU entrez le code à 4 chiffres ci-dessous :",
+      waVerifyBtn: "Vérifier →",
+      waQrMsg: "📷 Raccourci Caméra Instantané (Scannez pour ouvrir sur téléphone/ordinateur)",
+      pwShield: "🛡️ Bouclier de Commande Giyur Aliyah Track",
+      drawerSync: "📲 Synchroniser Appareils & Code d'Accès",
+      drawerPricing: "Les 23 Services & Tarifs",
+      drawerHome: "🏠 Accueil & Guide des Parcours",
+      drawerForms: "📸 Hébreu Statutaire & 8 Formulaires PIBA",
+      drawerBd: "🕍 700 Cartes Beit Din",
+      drawerCp: "📱 Sync Couples 300 Questions (2 Téléphones)",
+      drawerSongs: "🎵 56 Chants de Chabbat, Prières & Brachot",
+      drawerLetters: "✍️ Lettres de Rabbin, Famille d'Accueil & Témoins",
+      drawerTeam: "🤝 Notaire, Rabbin & Avocat Vérifiés",
+      drawerPasses: "🔓 Voir les Pass & Tarifs",
+      litSummary: "📚 Référence Complète Imprimable pour le Beit Din (Tous les Chants de Chabbat, Prières du Matin & Brachot Essentielles)",
+      litH3Songs: "🎵 Chants de Chabbat (Kabbalat Chabbat, Synagogue & Zemirot de Table)",
+      litH3Morning: "☀️ Prières du Matin — Chaharit & Birkot HaChahar",
+      litH3Brachot: "📜 Brachot Essentielles (Bougies de Chabbat, Kiddouch, Birkat HaMazon, Havdalah & Bénédictions)",
+      litPlayBtn: "▶️ Charger & Écouter dans l'Entraîneur Karaoké",
+      faqHdr: "❓ FAQ : Horloge d'Apostille de 180 Jours & 8 Formulaires PIBA",
+      faqBadge: "Guide Statutaire & Logiciel",
+      faq1Q: "1. Quels documents expirent après 180 jours (6 mois) ?",
+      faq1A: "Le Misrad HaPanim applique strictement une limite de validité de 180 jours aux extraits de casier judiciaire (Bulletin n°3 / FBI) et aux certificats de célibat/statut matrimonial à compter de leur émission — sauf si vous êtes resté en Israël sans interruption depuis cette date.",
+      faq2Q: "2. Quelle est la règle des « 3 Piliers » pour le casier judiciaire ?",
+      faq2A: "Les agents exigent un casier judiciaire national apostillé de : (1) chaque pays de citoyenneté, (2) chaque pays où vous avez résidé 6 mois ou plus après 18 ans, et (3) mentionnant explicitement tous vos anciens noms de jeune fille ou d'époux(se).",
+      faq3Q: "3. Pourquoi les formulaires PIBA (Ash/1, Ash/3, Ash/6, Ash/456) doivent-ils être imprimés en hébreu ?",
+      faq3A: "Les guichets du Misrad HaPanim rejettent les formulaires remplis en caractères latins. Notre moteur traduit et positionne vos réponses en hébreu normatif aux coordonnées exactes du PDF officiel avec un guide de signature traduit en français.",
+      legalHdr: "• Centre Legal-Tech Statutaire & Préparation Rabbinique",
+      legalBody: "Giyur Aliyah Track fournit des outils logiciels d'automatisation administrative, des banques de préparation éducative et une mise en relation sur devis gratuit avec des avocats, notaires et rabbins accompagnateurs indépendants agréés en Israël.",
+      refundQ: "💳 Finalité Numérique & Politique Sans Remboursement",
+      refundA: "Les utilisateurs pouvant tester gratuitement la plateforme (4 cartes Beit Din et Couples gratuites, 2 chants/prières gratuits, décodeur de feuille de guichet et aperçu des formulaires) et l'achat débloquant instantanément l'impression PDF officielle et l'audit IA, tout achat de pass numérique est 100 % définitif et non remboursable.",
+      privQ: "🔒 Confidentialité & Sécurité des Données Sans Fuite",
+      privA: "Tous vos brouillons de formulaires et salles de synchronisation à 2 téléphones sont chiffrés et isolés sur votre identifiant WhatsApp personnel. Vous pouvez effacer définitivement vos données cloud à tout moment."
+    },
+    es: {
+      docTitle: "Centro de Comando Interactivo y Herramientas | Giyur Aliyah Track",
+      topH1: "Giyur Aliyah Track — Estampador Interactivo de los 8 Formularios PIBA (Misrad HaPanim), 700 Tarjetas Beit Din, Sync de Parejas 300 Preguntas y Entrenador de Audio Litúrgico",
+      waPill: "📲 Cuenta y Sincronización por WhatsApp en 1 Paso",
+      waTitle: "Iniciar Sesión o Sincronizar con WhatsApp",
+      waHead: "📲 Ingresa Tu Número de WhatsApp",
+      waSub: "Tus formularios, certificados escaneados y pases pagados están vinculados a tu número de WhatsApp. Ingresa tu número en cualquier teléfono o computadora para sincronizar tus herramientas:",
+      waPh: "+34... o +54... o +972...",
+      waSendBtn: "Enviar Código →",
+      waOtpMsg: "✅ ¡Revisa tu WhatsApp! Toca el enlace de 1 clic O ingresa el código de 4 dígitos abajo:",
+      waVerifyBtn: "Verificar →",
+      waQrMsg: "📷 Acceso Directo con Cámara (Escanea para abrir en tu teléfono/computadora)",
+      pwShield: "🛡️ Escudo de Comando Giyur Aliyah Track",
+      drawerSync: "📲 Sincronizar Dispositivos y Código de Acceso",
+      drawerPricing: "Los 23 Servicios y Precios",
+      drawerHome: "🏠 Inicio y Guía de Rutas",
+      drawerForms: "📸 Hebreo Estatutario y 8 Formularios PIBA",
+      drawerBd: "🕍 700 Tarjetas del Beit Din",
+      drawerCp: "📱 Sync 300 Preguntas de Pareja (2 Teléfonos)",
+      drawerSongs: "🎵 56 Canciones de Shabat, Rezos y Brajot",
+      drawerLetters: "✍️ Cartas de Rabino, Familia Anfitriona y Testigos",
+      drawerTeam: "🤝 Notario, Rabino y Abogado Verificados",
+      drawerPasses: "🔓 Ver Pases y Precios",
+      litSummary: "📚 Referencia Completa Imprimible para el Beit Din (Todas las Canciones de Shabat, Rezos Matutinos y Brajot Esenciales)",
+      litH3Songs: "🎵 Canciones de Shabat (Kabalat Shabat, Sinagoga y Zemirot de Mesa)",
+      litH3Morning: "☀️ Rezos de la Mañana — Shajarit y Birjot HaShajar",
+      litH3Brachot: "📜 Brajot Esenciales (Velas de Shabat, Kidush, Birkat HaMazón, Havdalá y Bendiciones Diarias)",
+      litPlayBtn: "▶️ Cargar y Reproducir en el Entrenador Karaoke",
+      faqHdr: "❓ Preguntas Frecuentes: Reloj de Apostilla de 180 Días y 8 Formularios PIBA",
+      faqBadge: "Guía Normativa y de Software",
+      faq1Q: "1. ¿Qué documentos caducan después de 180 días (6 meses)?",
+      faq1A: "El Misrad HaPanim aplica estrictamente un límite de vigencia de 180 días a los certificados de antecedentes penales y certificados de soltería/estado civil desde su fecha de emisión, salvo que hayas permanecido en Israel sin salir desde que se emitió el documento.",
+      faq2Q: "2. ¿Qué es la regla de los '3 Cubos' para antecedentes penales?",
+      faq2A: "Los funcionarios exigen certificados nacionales/federales apostillados de: (1) cada país de ciudadanía, (2) cada país donde residiste por 6+ meses después de los 18 años, y (3) cubriendo explícitamente todos los apellidos de soltera/casada y nombres anteriores.",
+      faq3Q: "3. ¿Por qué los formularios PIBA (Ash/1, Ash/3, Ash/6, Ash/456) deben estamparse en hebreo?",
+      faq3A: "Las oficinas del Misrad HaPanim rechazan formularios llenados en alfabeto latino. Nuestro motor traduce y estampa tus respuestas en coordenadas hebreas oficiales con tinta azul real y genera una guía de firma en español.",
+      legalHdr: "• Centro Legal-Tech Normativo y Preparación Rabínica",
+      legalBody: "Giyur Aliyah Track ofrece automatización de software normativo, bóvedas educativas de preparación y conexión opcional con presupuesto previo sin cargo con abogados, notarios y rabinos patrocinadores independientes autorizados en Israel.",
+      refundQ: "💳 Finalidad Digital y Política Sin Reembolsos",
+      refundA: "Dado que puedes probar gratuitamente las bóvedas (4 tarjetas Beit Din y Parejas gratis, 2 canciones/rezos gratis, decodificador de hojas del funcionario y vista previa de formularios) y los pases digitales desbloquean al instante la impresión de los 8 PDF oficiales y la auditoría IA, todas las compras digitales son 100 % definitivas y no reembolsables.",
+      privQ: "🔒 Privacidad y Seguridad de Datos Cero Fugas",
+      privA: "Todos los borradores de formularios y salas de sincronización de 2 teléfonos están aislados en tu cuenta personal de WhatsApp. Puedes borrar permanentemente tu expediente en la nube en cualquier momento."
+    },
+    de: {
+      docTitle: "Interaktives Kontrollzentrum & Tools | Giyur Aliyah Track",
+      topH1: "Giyur Aliyah Track — Interaktiver Stempler für 8 PIBA-Formulare (Misrad HaPanim), 700 Beit-Din-Karten, 300-Fragen-Paar-Sync & Liturgischer Audio-Trainer",
+      waPill: "📲 1-Schritt WhatsApp-Konto & Synchronisierung",
+      waTitle: "Mit WhatsApp Anmelden oder Synchronisieren",
+      waHead: "📲 Geben Sie Ihre WhatsApp-Nummer ein",
+      waSub: "Ihre Formulare, gescannten Urkunden und freigeschalteten Pässe sind mit Ihrer WhatsApp-Nummer verknüpft. Geben Sie Ihre Nummer auf jedem Telefon oder Computer ein, um Ihre Tools zu synchronisieren:",
+      waPh: "+49... oder +41... oder +972...",
+      waSendBtn: "Code Senden →",
+      waOtpMsg: "✅ Prüfen Sie Ihr WhatsApp! Tippen Sie auf den 1-Klick-Link ODER geben Sie den 4-stelligen Code unten ein:",
+      waVerifyBtn: "Bestätigen →",
+      waQrMsg: "📷 Sofortiger Kamera-Shortcut (Scannen zum Öffnen auf Telefon/Computer)",
+      pwShield: "🛡️ Giyur Aliyah Track Kommandoschild",
+      drawerSync: "📲 Geräte Synchronisieren & Zugangscode",
+      drawerPricing: "Alle 23 Services & Preise",
+      drawerHome: "🏠 Startseite & Leitfaden",
+      drawerForms: "📸 Amtliches Hebräisch & 8 PIBA-Formulare",
+      drawerBd: "🕍 700 Beit-Din-Lernkarten",
+      drawerCp: "📱 300 Paar-Interview-Fragen (2-Handy-Sync)",
+      drawerSongs: "🎵 56 Schabbat-Lieder, Gebete & Brachot",
+      drawerLetters: "✍️ Rabbiner-, Gastfamilien- & Zeugenbriefe",
+      drawerTeam: "🤝 Geprüfter Notar, Rabbiner & Anwalt",
+      drawerPasses: "🔓 Pässe & Preise Ansehen",
+      litSummary: "📚 Vollständige Druckbare Beit-Din-Studienreferenz (Alle Schabbat-Lieder, Morgengebete & Wichtigen Brachot)",
+      litH3Songs: "🎵 Schabbat-Lieder (Kabbalat Schabbat, Synagoge & Tisch-Semirot)",
+      litH3Morning: "☀️ Morgengebete — Schacharit & Birchot HaSchachar",
+      litH3Brachot: "📜 Wichtige Brachot (Schabbatkerzen, Kiddusch, Birkat HaMason, Hawdala & Tägliche Segenssprüche)",
+      litPlayBtn: "▶️ Im Karaoke-Trainer Laden & Abspielen",
+      faqHdr: "❓ FAQ: 180-Tage-Apostille-Frist & 8 PIBA-Formulare",
+      faqBadge: "Behörden- & Software-Leitfaden",
+      faq1Q: "1. Welche Dokumente verfallen nach 180 Tagen (6 Monaten)?",
+      faq1A: "Das Misrad HaPanim setzt eine strikte 180-Tage-Gültigkeitsfrist ab Ausstellungsdatum für ausländische Führungszeugnisse und Ledigkeits-/Familienstandsbescheinigungen durch — es sei denn, Sie haben Israel seit der Ausstellung nicht mehr verlassen.",
+      faq2Q: "2. Was bedeutet die ‚3-Säulen‘-Regel beim Führungszeugnis?",
+      faq2A: "Sachbearbeiter verlangen apostillierte nationale Führungszeugnisse aus: (1) jedem Land Ihrer Staatsangehörigkeit, (2) jedem Land, in dem Sie ab 18 Jahren mindestens 6 Monate gelebt haben, und (3) unter ausdrücklicher Nennung aller Geburts-, Ehe- und früheren Namen.",
+      faq3Q: "3. Warum müssen PIBA-Formulare (Ash/1, Ash/3, Ash/6, Ash/456) auf Hebräisch gestempelt sein?",
+      faq3A: "Sachbearbeiter des Misrad HaPanim lehnen handschriftliche Formulare in lateinischer Schrift ab. Unsere Engine überträgt Ihre Antworten exakt auf die offiziellen hebräischen PDF-Koordinaten und erstellt eine deutsche Unterschriften-Anleitung.",
+      legalHdr: "• Gesetzliches Legal-Tech- & Rabbinisches Kontrollzentrum",
+      legalBody: "Giyur Aliyah Track bietet behördliche Software-Automatisierung, interaktive Vorbereitungskataloge sowie eine unverbindliche Vorab-Angebotsvermittlung an unabhängige zugelassene israelische Anwälte, Notare und begleitende Rabbiner.",
+      refundQ: "💳 Digitale Endgültigkeit & Keine-Rückerstattung-Richtlinie",
+      refundA: "Da Nutzer die Plattform vorab kostenlos testen können (4 kostenlose Beit-Din- & Paar-Karten, 2 kostenlose Lieder/Gebete, Sachbearbeiter-Decoder und Formular-Vorschau) und bezahlte Pässe sofort den offiziellen PDF-Druck und den KI-Dokumentenprüfer freischalten, sind alle digitalen Käufe zu 100 % endgültig und vom Umtausch ausgeschlossen.",
+      privQ: "🔒 Datenschutz & Zero-Leakage-Datensicherheit",
+      privA: "Alle Formularentwürfe und 2-Handy-Paarräume sind verschlüsselt und strikt auf Ihr persönliches WhatsApp-Konto isoliert. Sie können Ihre Cloud-Daten jederzeit dauerhaft löschen."
+    },
+    ru: {
+      docTitle: "Интерактивный Центр Управления и Инструменты | Giyur Aliyah Track",
+      topH1: "Giyur Aliyah Track — Интерактивный Заполнитель 8 Анкет МВД Израиля (PIBA), 700 Карточек Бейт-Дина, Синхронизация 300 Вопросов СТУПРО и Аудио-Тренажер Молитв",
+      waPill: "📲 Вход и Синхронизация через WhatsApp в 1 Шаг",
+      waTitle: "Войти или Синхронизировать через WhatsApp",
+      waHead: "📲 Введите Ваш Номер WhatsApp",
+      waSub: "Ваши анкеты, отсканированные свидетельства и оплаченные доступы привязаны к вашему номеру WhatsApp. Введите номер на любом телефоне или компьютере для синхронизации:",
+      waPh: "+972... или +7...",
+      waSendBtn: "Отправить Код →",
+      waOtpMsg: "✅ Проверьте WhatsApp! Нажмите на ссылку в 1 клик ИЛИ введите 4-значный код ниже:",
+      waVerifyBtn: "Подтвердить →",
+      waQrMsg: "📷 Быстрый Вход по Камере (Отсканируйте, чтобы открыть на телефоне/компьютере)",
+      pwShield: "🛡️ Командный Щит Giyur Aliyah Track",
+      drawerSync: "📲 Синхронизация Устройств и Код Доступа",
+      drawerPricing: "Все 23 Услуги и Тарифы",
+      drawerHome: "🏠 Главная и Путеводитель",
+      drawerForms: "📸 Иврит для МВД и 8 Официальных Анкет",
+      drawerBd: "🕍 700 Карточек Бейт-Дина",
+      drawerCp: "📱 300 Вопросов СТУПРО (Синхронизация 2 Телефонов)",
+      drawerSongs: "🎵 56 Песен Шаббата, Молитв и Брахот",
+      drawerLetters: "✍️ Письма от Раввина, Принимающей Семьи и Свидетелей",
+      drawerTeam: "🤝 Проверенный Нотариус, Раввин и Адвокат",
+      drawerPasses: "🔓 Посмотреть Тарифы и Доступы",
+      litSummary: "📚 Полный Печатный Справочник для Бейт-Дина (Все Песни Шаббата, Утренние Молитвы и Основные Брахот)",
+      litH3Songs: "🎵 Песни Шаббата (Каббалат Шаббат, Синагога и Застольные Земирот)",
+      litH3Morning: "☀️ Утренние Молитвы — Шахарит и Бирхот ха-Шахар",
+      litH3Brachot: "📜 Основные Брахот (Субботние Свечи, Кидуш, Биркат ха-Мазон, Авдала и Благословения)",
+      litPlayBtn: "▶️ Загрузить и Включить в Караоке-Тренажере",
+      faqHdr: "❓ Частые Вопросы: Срок Апостиля 180 Дней и 8 Анкет МВД (PIBA)",
+      faqBadge: "Справочник по Регламентам и Платформе",
+      faq1Q: "1. Какие документы истекают через 180 дней (6 месяцев)?",
+      faq1A: "МВД Израиля (Мисрад ха-Паним) строго соблюдает 180-дневный срок годности справок о несудимости и справок о семейном положении/незамужестве с даты их выдачи — за исключением случаев, когда вы находились в Израиле непрерывно без выездов с момента выдачи документа.",
+      faq2Q: "2. Что такое правило «3 Корзин» для справки о несудимости?",
+      faq2A: "Чиновники МВД требуют апостилированные справки о несудимости из: (1) каждой страны гражданства, (2) каждой страны, где вы проживали 6+ месяцев после 18 лет, и (3) с обязательным указанием всех девичьих и прежних фамилий.",
+      faq3Q: "3. Почему анкеты МВД (Ash/1, Ash/3, Ash/6, Ash/456) должны быть заполнены печатным ивритом?",
+      faq3A: "Отделения МВД отклоняют анкеты, заполненные латиницей или от руки. Наш генератор переводит ваши ответы и впечатывает их в официальные координаты PDF на иврите синими чернилами, создавая русскую инструкцию по подписи.",
+      legalHdr: "• Юридическо-Технологический и Раввинский Центр Подготовки",
+      legalBody: "Giyur Aliyah Track предоставляет программную автоматизацию официальных анкет, учебные базы подготовки и бесплатную предварительную оценку документов у независимых лицензированных израильских адвокатов, нотариусов и сопровождающих раввинов.",
+      refundQ: "💳 Цифровая Окончательность и Политика Без Возвратов",
+      refundA: "Поскольку пользователи могут бесплатно протестировать платформу (4 карточки Бейт-Дина и СТУПРО, 2 песни/молитвы, декодер бланка МВД и просмотр полей анкет), а оплата мгновенно открывает скачивание всех 8 официальных PDF-анкет, ИИ-аудит документов и более 1000 карточек, все цифровые покупки являются 100 % окончательными и возврату не подлежат.",
+      privQ: "🔒 Конфиденциальность и Защита Данных Без Утечек",
+      privA: "Все черновики анкет и комнаты синхронизации 2 телефонов зашифрованы и изолированы в вашем личном аккаунте WhatsApp. Вы можете полностью удалить свои облачные данные в любой момент."
+    }
+  };
+
+  function localizeLiturgyDirectory(lang, d) {
+    const sec = document.getElementById("gat-seo-liturgy-directory");
+    if (!sec) return;
+    const outerDetails = sec.querySelector("details");
+    if (!outerDetails) return;
+    const outerSummary = outerDetails.querySelector(":scope > summary");
+    if (outerSummary) outerSummary.textContent = d.litSummary;
+
+    const h3s = outerDetails.querySelectorAll("h3");
+    if (h3s[0]) h3s[0].textContent = d.litH3Songs;
+    if (h3s[1]) h3s[1].textContent = d.litH3Morning;
+    if (h3s[2]) h3s[2].textContent = d.litH3Brachot;
+
+    const pickLangVal = (obj, l) => {
+      if (!obj) return "";
+      if (typeof obj === "string") return obj;
+      return obj[l] || obj.en || obj.he || "";
+    };
+
+    const vaults = [
+      { prefix: "seo-prayer-songs-", arr: window.SONGS_VAULT12 || [] },
+      { prefix: "seo-prayer-morning-", arr: window.MORNING_VAULT7 || [] },
+      { prefix: "seo-prayer-brachot-", arr: window.BRACHOT_VAULT8 || [] }
+    ];
+
+    vaults.forEach(v => {
+      v.arr.forEach(item => {
+        const det = document.getElementById(v.prefix + item.id);
+        if (!det) return;
+        const sum = det.querySelector("summary");
+        if (sum) {
+          const whenStr = pickLangVal(item.when, lang);
+          const titleStr = pickLangVal(item.t_i18n || item.t, lang) || item.t || "";
+          sum.innerHTML = `<span style="font-weight:800;color:#0f172a;">${titleStr}</span>` +
+            (whenStr ? ` <span style="font-size:0.75rem;color:#0284c7;font-weight:700;">— ${whenStr}</span>` : "");
+        }
+        const playLink = det.querySelector("a");
+        if (playLink) playLink.textContent = d.litPlayBtn;
+        const ps = det.querySelectorAll("p");
+        if (ps[1]) {
+          const trStr = pickLangVal(item.tr_i18n || item.tr || item.phonetic, lang);
+          if (trStr) ps[1].textContent = trStr;
+        }
+        if (ps[2]) {
+          const tipStr = pickLangVal(item.tip || item.note || item.ctx || item.meaning, lang);
+          if (tipStr) ps[2].textContent = (String(tipStr).startsWith("💡") ? "" : "💡 ") + tipStr;
+        }
+      });
+    });
+  }
+
+  function localizeFaqPricingLegal(lang, d) {
+    const sec = document.getElementById("gat-faq-pricing-legal");
+    if (!sec) return;
+    sec.dir = (lang === "he") ? "rtl" : "ltr";
+    sec.innerHTML = `
+      <div class="section-header" style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <h2 style="font-size:1.05rem;font-weight:900;color:#0c4a6e;margin:0;">${d.faqHdr}</h2>
+        <span style="font-size:0.73rem;font-weight:800;color:#0284c7;background:#e0f2fe;padding:4px 10px;border-radius:999px;">${d.faqBadge}</span>
+      </div>
+      <div style="display:grid;gap:8px;margin-bottom:16px;">
+        <details style="background:#fff;border:1.5px solid #e2e8f0;border-radius:11px;padding:10px 13px;">
+          <summary style="font-weight:850;font-size:0.86rem;color:#0f172a;cursor:pointer;">${d.faq1Q}</summary>
+          <p style="font-size:0.81rem;color:#334155;line-height:1.55;margin:8px 0 0;">${d.faq1A}</p>
+        </details>
+        <details style="background:#fff;border:1.5px solid #e2e8f0;border-radius:11px;padding:10px 13px;">
+          <summary style="font-weight:850;font-size:0.86rem;color:#0f172a;cursor:pointer;">${d.faq2Q}</summary>
+          <p style="font-size:0.81rem;color:#334155;line-height:1.55;margin:8px 0 0;">${d.faq2A}</p>
+        </details>
+        <details style="background:#fff;border:1.5px solid #e2e8f0;border-radius:11px;padding:10px 13px;">
+          <summary style="font-weight:850;font-size:0.86rem;color:#0f172a;cursor:pointer;">${d.faq3Q}</summary>
+          <p style="font-size:0.81rem;color:#334155;line-height:1.55;margin:8px 0 0;">${d.faq3A}</p>
+        </details>
+      </div>
+      <div style="background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:12px;padding:13px 15px;font-size:0.78rem;color:#475569;line-height:1.55;">
+        <div style="font-weight:900;color:#0f172a;margin-bottom:5px;">${d.legalHdr}</div>
+        <p style="margin:0 0 10px;">${d.legalBody}</p>
+        <details style="margin-bottom:6px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:8px 11px;">
+          <summary style="font-weight:850;color:#0f172a;cursor:pointer;">${d.refundQ}</summary>
+          <p style="margin:6px 0 0;color:#334155;">${d.refundA}</p>
+        </details>
+        <details style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:8px 11px;">
+          <summary style="font-weight:850;color:#0f172a;cursor:pointer;">${d.privQ}</summary>
+          <p style="margin:6px 0 0;color:#334155;">${d.privA}</p>
+        </details>
+      </div>
+    `;
+  }
+
+  window._gatApplyFullAppStaticDomI18n = function(forcedLang) {
+    const lang = String(forcedLang || window.appLang || window.gatLang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").toLowerCase().slice(0, 2);
+    const d = APP_STATIC_DOM_6L[lang] || APP_STATIC_DOM_6L.en;
+
+    document.title = d.docTitle;
+    const h1El = document.querySelector("h1");
+    if (h1El) h1El.textContent = d.topH1;
+
+    const setTxt = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+    setTxt("sync-modal-pill", d.waPill);
+    setTxt("sync-modal-title", d.waTitle);
+    setTxt("wa-auth-head", d.waHead);
+    setTxt("wa-auth-sub", d.waSub);
+    setTxt("wa-send-code-btn", d.waSendBtn);
+    const waInp = document.getElementById("wa-login-phone-inp");
+    if (waInp) waInp.setAttribute("placeholder", d.waPh);
+    const otpRow = document.getElementById("wa-otp-verify-row");
+    if (otpRow) {
+      const otpLbl = otpRow.querySelector("div");
+      if (otpLbl) otpLbl.textContent = d.waOtpMsg;
+      const otpBtn = otpRow.querySelector("button");
+      if (otpBtn) otpBtn.textContent = d.waVerifyBtn;
+    }
+    const qrBox = document.getElementById("wa-qr-shortcut-box");
+    if (qrBox) {
+      const qrLbl = qrBox.querySelector("div");
+      if (qrLbl) qrLbl.textContent = d.waQrMsg;
+    }
+
+    const pwModal = document.getElementById("pro-paywall-modal");
+    if (pwModal) {
+      const shieldEl = pwModal.querySelector(".pw-head > div > div:first-child");
+      if (shieldEl) shieldEl.textContent = d.pwShield;
+    }
+    if (typeof window.renderPaywallI18n === "function") {
+      try { window.renderPaywallI18n(); } catch (e) {}
+    }
+    if (typeof window.applyPaywallI18n === "function") {
+      try { window.applyPaywallI18n(lang); } catch (e) {}
+    }
+
+    const syncBtnSpan = document.querySelector("#app-drawer-sync-btn span");
+    if (syncBtnSpan) syncBtnSpan.textContent = d.drawerSync;
+    const prLinkSpans = document.querySelectorAll("#gat-hamburger-pricing-link span span");
+    if (prLinkSpans.length >= 2) prLinkSpans[1].textContent = d.drawerPricing;
+    const prLink = document.getElementById("gat-hamburger-pricing-link");
+    if (prLink) prLink.setAttribute("href", lang === "en" ? "/pricing/" : `/${lang}/pricing/`);
+
+    const ldItems = document.querySelectorAll("#app-drawer a.gat-ld-item");
+    const ldLabels = [d.drawerHome, d.drawerForms, d.drawerBd, d.drawerCp, d.drawerSongs, d.drawerLetters, d.drawerTeam, d.drawerPasses];
+    ldItems.forEach((a, idx) => {
+      if (ldLabels[idx]) a.textContent = ldLabels[idx];
+      if (idx === 0) a.setAttribute("href", lang === "en" ? "/" : `/${lang}/`);
+      if (idx === 7) a.setAttribute("href", lang === "en" ? "/pricing/" : `/${lang}/pricing/`);
+    });
+
+    localizeFaqPricingLegal(lang, d);
+    localizeLiturgyDirectory(lang, d);
+  };
+
+  const prevSetLang = window.setLang;
+  if (typeof prevSetLang === "function" && !window._gatFullStaticDomWrapped) {
+    window._gatFullStaticDomWrapped = true;
+    window.setLang = function(l) {
+      const res = prevSetLang.apply(this, arguments);
+      try { window._gatApplyFullAppStaticDomI18n(l); } catch (e) {}
+      return res;
+    };
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => window._gatApplyFullAppStaticDomI18n());
+  } else {
+    window._gatApplyFullAppStaticDomI18n();
+  }
+  setTimeout(() => window._gatApplyFullAppStaticDomI18n(), 220);
+})();
+
+/* === GAT_SPOK_BOTTOM_PILL_NEXT_TO_FAB_V1 === */
+(function initGatSpokBottomPillV2() {
+  const ASK_SPOK_6L = {
+    en: "✨ Ask Spok →",
+    he: "✨ שאלו את ספוק ←",
+    fr: "✨ Demander à Spok →",
+    es: "✨ Preguntar a Spok →",
+    de: "✨ Spok fragen →",
+    ru: "✨ Спросить Спока →"
+  };
+
+  const SPOK_INTRO_MARKERS = [
+    "Hi, I'm Spok",
+    "Hi, I’m Spok",
+    "24/7 Aliyah, Conversion",
+    "נעים מאוד, אני ספוק",
+    "מדריך העלייה, הגיור ומשרד הפנים",
+    "Salut, je suis Spok",
+    "Bonjour, je suis Spok",
+    "Hola, soy Spok",
+    "Hallo, ich bin Spok",
+    "Привет, я Спок",
+    "Здравствуйте, я Спок"
+  ];
+
+  function getActiveLang() {
+    const pathSeg = (window.location.pathname.split("/")[1] || "").toLowerCase();
+    if (["he", "fr", "es", "de", "ru"].includes(pathSeg)) return pathSeg;
+    const urlLang = new URLSearchParams(window.location.search).get("lang");
+    if (urlLang && ASK_SPOK_6L[urlLang.toLowerCase()]) return urlLang.toLowerCase();
+    const gLang = String(window.gatLang || window.appLang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").toLowerCase().slice(0, 2);
+    return ASK_SPOK_6L[gLang] ? gLang : "en";
+  }
+
+  function injectSpokLayoutCss() {
+    let st = document.getElementById("gat-spok-bottom-pill-css");
+    if (!st) {
+      st = document.createElement("style");
+      st.id = "gat-spok-bottom-pill-css";
+      document.head.appendChild(st);
+    }
+    st.textContent = `
+      .exodus-alert,
+      #exodus-alert,
+      #gat-spok-top-banner,
+      .gat-spok-top-banner,
+      #spok-intro-card,
+      .spok-intro-card,
+      #gat-spok-intro-box,
+      .gat-spok-intro-box,
+      [data-spok-intro-hidden="1"] {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border: none !important;
+      }
+      #gat-ask-spok-bottom-pill {
+        position: fixed;
+        z-index: 9998;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        color: #ffffff !important;
+        font-family: inherit;
+        font-size: 0.92rem;
+        font-weight: 850;
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1.5px solid rgba(255, 255, 255, 0.35);
+        box-shadow: 0 6px 18px rgba(2, 132, 199, 0.38), 0 2px 6px rgba(15, 23, 42, 0.18);
+        cursor: pointer;
+        white-space: nowrap;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+      }
+      #gat-ask-spok-bottom-pill:active {
+        transform: scale(0.96);
+      }
+    `;
+  }
+
+  function removeTopSpokIntroBox() {
+    // 1. Always hide .exodus-alert and known spok intro IDs
+    document.querySelectorAll(".exodus-alert, #exodus-alert, #gat-spok-top-banner, .gat-spok-top-banner, #spok-intro-card, .spok-intro-card, #gat-spok-intro-box, .gat-spok-intro-box").forEach(el => {
+      el.setAttribute("data-spok-intro-hidden", "1");
+    });
+
+    // 2. Find any element containing the Spok greeting or top "Ask Spok" button
+    const allEls = document.querySelectorAll("div, section, article, aside, header");
+    for (let i = 0; i < allEls.length; i++) {
+      const el = allEls[i];
+      if (el.id === "gat-ask-spok-bottom-pill" || el.getAttribute("data-spok-intro-hidden") === "1") continue;
+      // Never hide a parent that also holds the main funnel content ("Answer 4 quick questions" / "Skip Jewish Agency" / "15,000")
+      const txt = (el.textContent || "").trim();
+      if (!txt || txt.length > 260) continue;
+      if (txt.includes("15,000") || txt.includes("40,000") || txt.includes("Teudat Zehut") || txt.includes("NBN")) continue;
+
+      const hasMarker = SPOK_INTRO_MARKERS.some(m => txt.includes(m)) ||
+        (txt.includes("Spok") && txt.includes("24/7")) ||
+        (txt.includes("ספוק") && txt.includes("24/7"));
+
+      if (hasMarker) {
+        // Walk up to the outermost card wrapper that still only contains this Spok intro (< 260 chars)
+        let target = el;
+        while (
+          target.parentElement &&
+          target.parentElement.tagName !== "BODY" &&
+          target.parentElement.tagName !== "MAIN" &&
+          target.parentElement.id !== "view-0" &&
+          target.parentElement.id !== "gat-3track-funnel-card" &&
+          ((target.parentElement.textContent || "").trim().length < 260)
+        ) {
+          target = target.parentElement;
+        }
+        target.setAttribute("data-spok-intro-hidden", "1");
+      }
+    }
+  }
+
+  function findCircleFab() {
+    return (
+      document.getElementById("gat-hd-fab") ||
+      document.querySelector(".gat-hd-fab") ||
+      document.getElementById("hd-fab") ||
+      document.querySelector("[onclick*='openHdDrawer'], [onclick*='toggleHdDrawer']")
+    );
+  }
+
+  function syncBottomPillPositionAndText() {
+    injectSpokLayoutCss();
+    removeTopSpokIntroBox();
+
+    const fab = findCircleFab();
+    let pill = document.getElementById("gat-ask-spok-bottom-pill");
+    if (!pill) {
+      pill = document.createElement("button");
+      pill.id = "gat-ask-spok-bottom-pill";
+      pill.type = "button";
+      pill.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const f = findCircleFab();
+        if (f) {
+          f.click();
+        } else if (typeof window.openHdDrawer === "function") {
+          window.openHdDrawer();
+        } else if (typeof window.toggleHdDrawer === "function") {
+          window.toggleHdDrawer(true);
+        }
+      });
+      document.body.appendChild(pill);
+    }
+
+    const lang = getActiveLang();
+    const lbl = ASK_SPOK_6L[lang] || ASK_SPOK_6L.en;
+    if (pill.textContent !== lbl) {
+      pill.textContent = lbl;
+    }
+    pill.dir = (lang === "he") ? "rtl" : "ltr";
+
+    if (fab) {
+      const rect = fab.getBoundingClientRect();
+      const fabStyle = window.getComputedStyle(fab);
+      const isHidden = fabStyle.display === "none" || fabStyle.visibility === "hidden" || rect.width === 0;
+      if (isHidden) {
+        pill.style.display = "none";
+        return;
+      }
+      pill.style.display = "inline-flex";
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const vw = window.innerWidth || document.documentElement.clientWidth;
+
+      const pillHeight = pill.offsetHeight || 40;
+      const centerY = rect.top + rect.height / 2;
+      const bottomPx = Math.max(12, Math.round(vh - centerY - pillHeight / 2));
+      pill.style.bottom = bottomPx + "px";
+      pill.style.top = "auto";
+
+      if (rect.left > vw / 2) {
+        const rightPx = Math.round(vw - rect.left + 10);
+        pill.style.right = rightPx + "px";
+        pill.style.left = "auto";
+      } else {
+        const leftPx = Math.round(rect.right + 10);
+        pill.style.left = leftPx + "px";
+        pill.style.right = "auto";
+      }
+    } else {
+      pill.style.bottom = "90px";
+      pill.style.right = "84px";
+      pill.style.left = "auto";
+    }
+  }
+
+  window.syncGatSpokBottomPill = syncBottomPillPositionAndText;
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncBottomPillPositionAndText);
+  } else {
+    syncBottomPillPositionAndText();
+  }
+  window.addEventListener("resize", syncBottomPillPositionAndText, { passive: true });
+  window.addEventListener("scroll", syncBottomPillPositionAndText, { passive: true });
+  [50, 150, 350, 700, 1200].forEach(ms => setTimeout(syncBottomPillPositionAndText, ms));
+
+  ["setLang", "switchLang", "applyLang"].forEach(fnName => {
+    const orig = window[fnName];
+    if (typeof orig === "function" && !orig._spokPillWrapped) {
+      const wrapped = function() {
+        const r = orig.apply(this, arguments);
+        setTimeout(syncBottomPillPositionAndText, 30);
+        return r;
+      };
+      wrapped._spokPillWrapped = true;
+      window[fnName] = wrapped;
+    }
+  });
+
+  const obs = new MutationObserver(() => {
+    removeTopSpokIntroBox();
+  });
+  if (document.body) {
+    obs.observe(document.body, { childList: true, subtree: true });
+  } else {
+    document.addEventListener("DOMContentLoaded", () => {
+      obs.observe(document.body, { childList: true, subtree: true });
+    });
+  }
+})();
+
+// === GAT WHATSAPP SHARE PREVIEW CACHE-BUSTER (v=w8181) ===
+(function() {
+  var SHARE_VER = 'w8181';
+  function appendShareVersion(rawUrl) {
+    if (!rawUrl || typeof rawUrl !== 'string') return rawUrl;
+    try {
+      var u = new URL(rawUrl, window.location.origin);
+      if (u.hostname.indexOf('giyuraliyahtrack.com') === -1 && u.hostname.indexOf('localhost') === -1) return rawUrl;
+      u.searchParams.set('s', SHARE_VER);
+      return u.toString();
+    } catch (e) {
+      var sep = rawUrl.indexOf('?') === -1 ? '?' : '&';
+      return rawUrl.replace(/[?&]s=[^&#]*/, '') + sep + 's=' + SHARE_VER;
+    }
+  }
+  window.__gatAppendShareVer = appendShareVersion;
+
+  if (typeof Navigator !== 'undefined' && Navigator.prototype && typeof Navigator.prototype.share === 'function' && !Navigator.prototype.share.__gatBusted) {
+    var origShare = Navigator.prototype.share;
+    var wrappedShare = function(data) {
+      if (data && typeof data === 'object') {
+        var cloned = Object.assign({}, data);
+        if (cloned.title && typeof cloned.title === 'string') {
+          cloned.title = cloned.title.replace(/[\uD800-\uDFFF\uFFFD]/g, '').trim();
+        }
+        if (cloned.url) cloned.url = appendShareVersion(cloned.url);
+        if (cloned.text && typeof cloned.text === 'string') {
+          cloned.text = cloned.text.replace(/[\uD800-\uDFFF\uFFFD]/g, '').trim();
+          cloned.text = cloned.text.replace(/https?:\/\/giyuraliyahtrack\.com[^\s]*/g, function(m) {
+            return appendShareVersion(m);
+          });
+        }
+        return origShare.call(this, cloned);
+      }
+      return origShare.call(this, data);
+    };
+    wrappedShare.__gatBusted = true;
+    try {
+      Object.defineProperty(Navigator.prototype, 'share', {
+        value: wrappedShare,
+        configurable: true,
+        writable: true
+      });
+    } catch (e) {}
+  }
+
+  if (typeof Clipboard !== 'undefined' && Clipboard.prototype && typeof Clipboard.prototype.writeText === 'function' && !Clipboard.prototype.writeText.__gatBusted) {
+    var origClip = Clipboard.prototype.writeText;
+    var wrappedClip = function(txt) {
+      if (typeof txt === 'string' && txt.indexOf('giyuraliyahtrack.com') !== -1) {
+        txt = txt.replace(/https?:\/\/giyuraliyahtrack\.com[^\s]*/g, function(m) {
+          return appendShareVersion(m);
+        });
+      }
+      return origClip.call(this, txt);
+    };
+    wrappedClip.__gatBusted = true;
+    try {
+      Object.defineProperty(Clipboard.prototype, 'writeText', {
+        value: wrappedClip,
+        configurable: true,
+        writable: true
+      });
+    } catch (e) {}
+  }
+})();

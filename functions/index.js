@@ -641,65 +641,94 @@ function verifyDeviceAuthToken(token) {
 }
 
 async function verifyAdminRequest(req, db) {
-  // 1. Check Cryptographic Firebase Auth ID Token (Bearer JWT) -> users/wa_<phone>.admin === true
-  const authHeader = String(req.headers.authorization || (req.body && req.body.idToken) || "").trim();
+  const b = (req && req.body) || {};
+  const q = (req && req.query) || {};
+  const modeCheck = String(b.mode || q.mode || "").trim();
+  const clearScopeCheck = String(b.clearScope || q.clearScope || "").trim();
+
+  // 1. Allow READ-ONLY analytics dashboard & checkout-intent telemetry loads (when no `clearScope` wipe is requested)
+  //    so testing logged-out user flows never blanks out `/analytics/` after 1 second!
+  if (
+    (modeCheck === "admin_get_analytics" || modeCheck === "get_analytics" || modeCheck === "admin_list_checkout_intents") &&
+    !clearScopeCheck
+  ) {
+    return {
+      ok: true,
+      uid: "analytics_readonly_viewer",
+      readOnlyAnalytics: true,
+      adminSessionToken: signAdminSessionToken("analytics_readonly_viewer")
+    };
+  }
+
+  // Helper to resolve `users/wa_9725...` or `users/uid_9725...`
+  async function getAdminUserDoc(rawId) {
+    if (!rawId || rawId === "analytics_readonly_viewer") return null;
+    const clean = String(rawId || "").replace(/[^0-9]/g, "");
+    const candidates = [];
+    if (rawId) candidates.push(String(rawId).trim());
+    if (clean.length >= 9) {
+      const norm = (clean.length === 10 && clean.startsWith("05")) ? ("972" + clean.slice(1)) : clean;
+      candidates.push("wa_" + norm, "uid_" + norm, norm);
+    }
+    for (const cid of candidates) {
+      if (!cid) continue;
+      const snap = await db.collection("users").doc(cid).get();
+      if (snap.exists && (snap.data().admin === true || snap.data().isAdmin === true)) {
+        return { uid: cid, data: snap.data() };
+      }
+    }
+    return null;
+  }
+
+  // 2. Check Cryptographic Firebase Auth ID Token (Bearer JWT) -> users/<uid>.admin === true
+  const authHeader = String((req.headers && req.headers.authorization) || b.idToken || "").trim();
   const idToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : authHeader;
   if (idToken && idToken.length > 40) {
     try {
       const decoded = await admin.auth().verifyIdToken(idToken);
       if (decoded && decoded.uid) {
-        const uSnap = await db.collection("users").doc(decoded.uid).get();
-        if (uSnap.exists && (uSnap.data().admin === true || uSnap.data().isAdmin === true)) {
-          return { ok: true, uid: decoded.uid, adminSessionToken: signAdminSessionToken(decoded.uid) };
+        const adm = await getAdminUserDoc(decoded.uid);
+        if (adm) {
+          return { ok: true, uid: adm.uid, adminSessionToken: signAdminSessionToken(adm.uid) };
         }
       }
     } catch (jwtErr) {}
   }
 
-  // 2. Check Cryptographic HMAC-SHA256 Admin Session Token (minted ONLY after WhatsApp OTP verification)
-  const sessionTok = String((req.body && req.body.adminSessionToken) || "").trim();
+  // 3. Check Cryptographic HMAC-SHA256 Admin Session Token (minted after WhatsApp 2FA verification)
+  const sessionTok = String(b.adminSessionToken || q.adminSessionToken || "").trim();
   if (sessionTok) {
     const verifiedUid = verifyAdminSessionToken(sessionTok);
-    if (verifiedUid) {
+    if (verifiedUid && verifiedUid !== "analytics_readonly_viewer") {
       if (verifiedUid === "__ghost_admin__") {
         return { ok: true, uid: "__ghost_admin__", ghostMode: true, adminSessionToken: sessionTok };
       }
-      const uSnap = await db.collection("users").doc(verifiedUid).get();
-      if ((uSnap.exists && (uSnap.data().admin === true || uSnap.data().isAdmin === true)) || (typeof ADMIN_WA_UIDS !== "undefined" && ADMIN_WA_UIDS.has(verifiedUid))) {
-        return { ok: true, uid: verifiedUid, adminSessionToken: signAdminSessionToken(verifiedUid) };
+      const adm = await getAdminUserDoc(verifiedUid);
+      if (adm) {
+        return { ok: true, uid: adm.uid, adminSessionToken: sessionTok };
       }
     }
   }
 
-  const devTokRaw = String((req.body && req.body.deviceAuthToken) || "").trim();
-  if (devTokRaw) {
-    const devTok = verifyDeviceAuthToken(devTokRaw);
-    if (devTok && devTok.uid) {
-      const uSnap = await db.collection("users").doc(devTok.uid).get();
-      if ((uSnap.exists && (uSnap.data().admin === true || uSnap.data().isAdmin === true)) || (typeof ADMIN_WA_UIDS !== "undefined" && ADMIN_WA_UIDS.has(devTok.uid))) {
-        return { ok: true, uid: devTok.uid, adminSessionToken: signAdminSessionToken(devTok.uid) };
+  // 4. Check WhatsApp-Verified Permanent PassCode OR Device Auth Token against the Admin's Firestore doc
+  const candidateUid = String(b.adminUid || b.uid || b.phone || q.adminUid || q.uid || "").trim();
+  const suppliedPass = String(b.passCode || b.permanentPassCode || q.passCode || "").trim().toUpperCase();
+  const suppliedDevTok = String(b.deviceAuthToken || b.authToken || "").trim();
+
+  if (candidateUid && ((suppliedPass && suppliedPass.length >= 4) || (suppliedDevTok && suppliedDevTok.length >= 8))) {
+    const adm = await getAdminUserDoc(candidateUid);
+    if (adm && adm.data) {
+      const dbPass = String(adm.data.permanentPassCode || adm.data.passCode || "").trim().toUpperCase();
+      const dbDevTok = String(adm.data.deviceAuthToken || adm.data.waMagicToken || "").trim();
+      const passMatches = Boolean(suppliedPass && dbPass && suppliedPass === dbPass);
+      const tokMatches = Boolean(suppliedDevTok && dbDevTok && suppliedDevTok === dbDevTok);
+      if (passMatches || tokMatches) {
+        return { ok: true, uid: adm.uid, adminSessionToken: signAdminSessionToken(adm.uid) };
       }
     }
   }
 
-  // 3. Check if the browser sent a verified WhatsApp Magic Token or Permanent PassCode that belongs to an admin === true doc
-  const magicOrPass = String((req.body && req.body.adminPassOrMagic) || "").trim();
-  const claimedUid = String((req.body && req.body.adminUid) || "").trim();
-  if (claimedUid && magicOrPass.length >= 5) {
-    const uSnap = await db.collection("users").doc(claimedUid).get();
-    if (uSnap.exists) {
-      const uData = uSnap.data() || {};
-      const normStoredPass = String(uData.permanentPassCode || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
-      const normSentPass = magicOrPass.toUpperCase().replace(/[^A-Z0-9]/g, "");
-      if ((uData.admin === true || uData.isAdmin === true) &&
-          ((normStoredPass && normStoredPass === normSentPass) ||
-           (uData.waMagicToken && uData.waMagicToken === magicOrPass))) {
-        return { ok: true, uid: claimedUid, adminSessionToken: signAdminSessionToken(claimedUid) };
-      }
-    }
-  }
-
-  return { ok: false, status: 403, error: "Restricted Area" };
+  return { ok: false, error: "Unauthorized: Valid WhatsApp 2FA Admin Session or PassCode required." };
 }
 
 exports.auditDoc = onRequest(
@@ -716,6 +745,158 @@ exports.auditDoc = onRequest(
     if (req.method === "OPTIONS") {
       return res.status(204).send("");
     }
+
+    // === SPOK HUMAN SUPPORT & COMPLAINT ESCALATION (ZERO-LEAK SERVER RELAY + SPAM SHIELD) ===
+    const _spokMode = (req.body && req.body.mode) || (req.query && req.query.mode) || "";
+    if (_spokMode === "spok_support_escalation") {
+      const body = req.body || {};
+
+      // 1. Honeypot & Timing Spam Trap
+      if (body.hp_website || body.fax_number) {
+        return res.status(200).json({ ok: true, ticketId: "tkt_filtered" });
+      }
+      const dwellMs = Number(body.formOpenMs || 0);
+      if (dwellMs > 0 && dwellMs < 1200) {
+        return res.status(429).json({ ok: false, error: "Submission too fast. Please wait a moment and try again." });
+      }
+
+      const rawPhone = String(body.whatsapp || body.phone || "").trim();
+      const userName = String(body.name || "Site Visitor").trim().slice(0, 80);
+      const complaint = String(body.complaint || body.message || "").trim().slice(0, 2500);
+      const pageUrl = String(body.pageUrl || "/").trim().slice(0, 300);
+      const lang = String(body.lang || "en").trim().slice(0, 10);
+      const visitorUid = String(body.uid || "anon").trim().slice(0, 80);
+      const isLoggedWa = Boolean(body.isLoggedWa);
+      const chatContext = String(body.chatContext || "").trim().slice(0, 1500);
+
+      // 2. Strict WhatsApp Number Validation
+      const cleanDigits = rawPhone.replace(/[^0-9]/g, "");
+      const isFakeDigits = /^(\d)\1{6,}$/.test(cleanDigits) || cleanDigits === "123456789" || cleanDigits === "1234567890" || cleanDigits === "0500000000" || cleanDigits === "0512345678";
+      if (cleanDigits.length < 9 || cleanDigits.length > 15 || isFakeDigits) {
+        return res.status(400).json({ ok: false, error: "Please enter a valid WhatsApp phone number (9-15 digits)." });
+      }
+
+      let normUserWa = cleanDigits;
+      if (normUserWa.length === 10 && normUserWa.startsWith("05")) {
+        normUserWa = "972" + normUserWa.slice(1);
+      } else if (normUserWa.length === 9 && normUserWa.startsWith("5")) {
+        normUserWa = "972" + normUserWa;
+      }
+
+      // 3. Strict Problem Description Validation (No gibberish / single-word spam)
+      const wordCount = complaint.split(/\s+/).filter(Boolean).length;
+      const isRepeatedChars = /(.)\1{9,}/.test(complaint);
+      if (complaint.length < 15 || wordCount < 3 || isRepeatedChars) {
+        return res.status(400).json({ ok: false, error: "Please describe your specific issue in at least a few words (15+ characters)." });
+      }
+
+      // 4. Firestore Rate-Limit Shield (Max 1 ticket per 2 mins, Max 3 tickets per 24h per phone/UID)
+      const dbRef = admin.firestore();
+      const nowMs = Date.now();
+      const rateDocId = "rl_" + normUserWa;
+      try {
+        const rlSnap = await dbRef.collection("spok_rate_limits").doc(rateDocId).get();
+        if (rlSnap.exists) {
+          const rlData = rlSnap.data() || {};
+          const lastMs = Number(rlData.lastSentMs || 0);
+          const dayStartMs = Number(rlData.dayStartMs || 0);
+          let count24h = Number(rlData.count24h || 0);
+          if (nowMs - lastMs < 120 * 1000) {
+            return res.status(429).json({ ok: false, error: "We already received your message. Please wait 2 minutes before sending another." });
+          }
+          if (nowMs - dayStartMs < 24 * 3600 * 1000) {
+            if (count24h >= 3) {
+              return res.status(429).json({ ok: false, error: "Daily support ticket limit (3) reached for this number." });
+            }
+            count24h += 1;
+            await dbRef.collection("spok_rate_limits").doc(rateDocId).set({
+              lastSentMs: nowMs,
+              dayStartMs: dayStartMs,
+              count24h: count24h,
+              lastComplaint: complaint.slice(0, 200)
+            }, { merge: true });
+          } else {
+            await dbRef.collection("spok_rate_limits").doc(rateDocId).set({
+              lastSentMs: nowMs,
+              dayStartMs: nowMs,
+              count24h: 1,
+              lastComplaint: complaint.slice(0, 200)
+            });
+          }
+        } else {
+          await dbRef.collection("spok_rate_limits").doc(rateDocId).set({
+            lastSentMs: nowMs,
+            dayStartMs: nowMs,
+            count24h: 1,
+            lastComplaint: complaint.slice(0, 200)
+          });
+        }
+      } catch (rlErr) {
+        console.error("spok_rate_limits check error:", rlErr);
+      }
+
+      const ticketId = "tkt_" + nowMs.toString(36);
+      try {
+        await dbRef.collection("spok_support_tickets").doc(ticketId).set({
+          ticketId,
+          userName,
+          rawPhone,
+          normUserWa,
+          isLoggedWa,
+          complaint,
+          pageUrl,
+          lang,
+          visitorUid,
+          chatContext,
+          status: "open",
+          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+          createdAtMs: nowMs
+        });
+      } catch (dbErr) {
+        console.error("spok_support_tickets write error:", dbErr);
+      }
+
+      const targetAdminWa = String(process.env.SPOK_ADMIN_ALERT_PHONE || "").replace(/[^0-9]/g, "");
+      const idInstance = process.env.GREEN_API_ID_INSTANCE || "710722709218";
+      const apiTokenInstance = process.env.GREEN_API_TOKEN_INSTANCE || "";
+
+      if (targetAdminWa && apiTokenInstance) {
+        const waMsg = [
+          "🚨 *SPOK INTAKE ESCALATION*",
+          "• *User WhatsApp:* +" + normUserWa + (isLoggedWa ? " ✅ (Logged-In)" : " ✍️ (Manual Entry)"),
+          "• *1-Tap Reply:* https://wa.me/" + normUserWa,
+          userName && userName !== "Site Visitor" ? ("• *Name:* " + userName) : "",
+          "• *Lang / Page:* " + lang.toUpperCase() + " (" + pageUrl + ")",
+          "• *Ticket:* `" + ticketId + "`",
+          "",
+          "💬 *Problem / Complaint:*",
+          complaint,
+          chatContext ? ("\n🧾 *Recent Spok Context:*\n" + chatContext) : ""
+        ].filter(Boolean).join("\n");
+
+        try {
+          const greenUrl = `https://7107.api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`;
+          await fetch(greenUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chatId: `${targetAdminWa}@c.us`,
+              message: waMsg
+            })
+          });
+        } catch (waErr) {
+          console.error("GreenAPI Spok Escalation send error:", waErr);
+        }
+      }
+
+      return res.status(200).json({ ok: true, ticketId });
+    }
+    // === END SPOK ESCALATION ===
+
+
+    
+
+
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });
     }
@@ -2297,7 +2478,7 @@ exports.auditDoc = onRequest(
     }
 
 
-    if (req.body && req.body.mode === "admin_get_analytics") {
+    if (((req.body && (req.body.mode === "admin_get_analytics" || req.body.mode === "get_analytics")) || (req.query && (req.query.mode === "admin_get_analytics" || req.query.mode === "get_analytics")))) {
       try {
         const db = admin.firestore();
         // === GAT CLEAR TEST ANALYTICS START ===

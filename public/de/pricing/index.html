@@ -1,6 +1,36 @@
 <!DOCTYPE html>
 <html lang="de" dir="ltr">
 <head>
+<!-- === GAT PASSIVE URL-TO-LANG SYNC (ZERO RELOAD) === -->
+<script id="gat-passive-lang-sync">
+(function() {
+  var p = window.location.pathname || "/";
+  if (p === "/app" || p.indexOf("/app/") === 0 || p.indexOf("/analytics") === 0 || p.indexOf("/concierge/") === 0) return;
+  var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
+  var lg = m ? m[1].toLowerCase() : "en";
+  try {
+    ["gat_lang", "zehut_lang", "giyur_lang", "lang", "selectedLang", "app_lang", "i18n_lang"].forEach(function(k) {
+      localStorage.setItem(k, lg);
+    });
+    window.currentLang = lg;
+    window.lang = lg;
+    window.appLang = lg;
+    window.pLang = lg;
+    document.documentElement.setAttribute("lang", lg);
+    document.documentElement.setAttribute("dir", lg === "he" ? "rtl" : "ltr");
+    // If URL has a stale ?lang= param that contradicts the folder path, clean it silently via replaceState
+    if (window.location.search && window.location.search.indexOf("lang=") !== -1) {
+      var sp = new URLSearchParams(window.location.search);
+      if (sp.get("lang") && sp.get("lang").toLowerCase() !== lg) {
+        sp.delete("lang");
+        var qs = sp.toString();
+        window.history.replaceState({}, "", p + (qs ? "?" + qs : "") + window.location.hash);
+      }
+    }
+  } catch (e) {}
+})();
+</script>
+
 <script id="gat-pricing-early-lang-sync">
   (function() {
     try {
@@ -30,6 +60,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preise &amp; 23 Modulare Pässe — Giur, Partner-Visum &amp; Alija</title>
+  <meta property="og:title" content="GiyurAliyahTrack — Konversion (Gijur), Alija & Ehepartner-Visa in Israel">
+  <meta property="og:description" content="• Hebräische PIBA-Formulare: Auto-Ausfüller & Übersetzer • KI-Dokumenten- & Apostillen-Prüfer + PIBA-Decoder • Beit-Din-, 2-Handy-Paar- & Schabbat-Simulatoren • 15.000₪–40.000₪ Anwalt Sparen">
+  <meta property="og:image" content="https://giyuraliyahtrack.com/gat-card-w8181-de.jpg">
+  <meta property="og:image:secure_url" content="https://giyuraliyahtrack.com/gat-card-w8181-de.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1000">
+  <meta property="og:image:height" content="1000">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GiyurAliyahTrack — Konversion (Gijur), Alija & Ehepartner-Visa in Israel">
+  <meta name="twitter:description" content="• Hebräische PIBA-Formulare: Auto-Ausfüller & Übersetzer • KI-Dokumenten- & Apostillen-Prüfer + PIBA-Decoder • Beit-Din-, 2-Handy-Paar- & Schabbat-Simulatoren • 15.000₪–40.000₪ Anwalt Sparen">
+  <meta name="twitter:image" content="https://giyuraliyahtrack.com/gat-card-w8181-de.jpg">
+  <link rel="icon" href="/favicon.ico?v=1795487702" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=1795487702">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=1795487702">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=1795487702">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1795487702">
+  <link rel="manifest" href="/site.webmanifest?v=1795487702">
   <meta name="description" content="Schalten Sie digitale Module (8 PIBA-Formulare, 700 Beit-Din-Fragen, 300 Paar-Fragen) sofort frei oder fordern Sie ein 0-$-Angebot für Anwalt/Rabbiner an." />
   <style>
     :root { --navy: #041226; --card: #0b2240; --sky: #0288d1; --emerald: #059669; --gold: #f59e0b; }
@@ -449,7 +496,7 @@
 
 </style>
     <!-- GAT_SEO_HEAD_START -->
-  <meta name="robots" content="noindex, nofollow" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="canonical" href="https://giyuraliyahtrack.com/de/pricing/" />
   <link rel="alternate" hreflang="x-default" href="https://giyuraliyahtrack.com/pricing/" />
   <link rel="alternate" hreflang="en" href="https://giyuraliyahtrack.com/pricing/" />
@@ -461,15 +508,1371 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="de_DE" />
   <meta property="og:site_name" content="Giyur Aliyah Track" />
-  <meta property="og:title" content="Alle 23 Digitalen Module &amp; Geprüften Concierge-Services — Nohal 5.2.0008, PIBA Forms &amp; Beit Din | Giyur Aliyah Track (DE)" />
-  <meta property="og:description" content="Schalten Sie digitale Module (8 PIBA-Formulare, 700 Beit-Din-Fragen, 300 Paar-Fragen) sofort frei oder fordern Sie ein 0-$-Angebot für Anwalt/Rabbiner an." />
   <meta property="og:url" content="https://giyuraliyahtrack.com/de/pricing/" />
-  <meta property="og:image" content="https://giyuraliyahtrack.com/bg-watercolor.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Alle 23 Digitalen Module &amp; Geprüften Concierge-Services — Nohal 5.2.0008, PIBA Forms &amp; Beit Din | Giyur Aliyah Track (DE)" />
-  <meta name="twitter:description" content="Schalten Sie digitale Module (8 PIBA-Formulare, 700 Beit-Din-Fragen, 300 Paar-Fragen) sofort frei oder fordern Sie ein 0-$-Angebot für Anwalt/Rabbiner an." />
   <script type="application/ld+json" id="gat-pricing-schema">
-{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Giyur Aliyah Track", "item": "https://giyuraliyahtrack.com/de/"}, {"@type": "ListItem", "position": 2, "name": "Alle 23 Digitalen Module & Geprüften Concierge-Services", "item": "https://giyuraliyahtrack.com/de/pricing/"}]}, {"@type": "ItemList", "name": "Alle 23 Digitalen Module & Geprüften Concierge-Services", "description": "Schalten Sie genau das benötigte digitale Modul sofort frei oder reichen Sie Ihre Unterlagen für ein Angebot von Anwalt, Notar, Rabbiner oder Madrichat Kallah ein (0 $ heute).", "numberOfItems": 23, "itemListElement": [{"@type": "ListItem", "position": 1, "item": {"@type": "Product", "sku": "vip_couple_649", "name": "👑 VIP-Paar-Lifetime-Suite (2 Handys) + KI-Dossier-Prüfung", "description": "Alle 3 digitalen Suiten lebenslang auf 2 Handys: 8 PIBA-Formulare + 700 Beit-Din-Karten + 56 Lieder/Gebete + 300-F Paar-Sync + KI-Dokumentenprüfung.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "649", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=vip_couple_649"}}}, {"@type": "ListItem", "position": 2, "item": {"@type": "Product", "sku": "suite_solo_life_399", "name": "🛡️ Komplettschutz Lebenslang (Solo — Alle 3 Suiten)", "description": "Lebenslanger Einzelzugang zu allen 8 PIBA-Formularen, 700 Beit-Din-Fragen, 56 Liedern/Gebeten und 300 Interviewfragen.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "399", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=suite_solo_life_399"}}}, {"@type": "ListItem", "position": 3, "item": {"@type": "Product", "sku": "suite_solo_90d_249", "name": "⚡ 90-Tage-Komplettpaket Sprint-Pass (Solo)", "description": "90 Tage unbegrenzter Zugang zu allen 3 digitalen Suiten.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "249", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=suite_solo_90d_249"}}}, {"@type": "ListItem", "position": 4, "item": {"@type": "Product", "sku": "forms_life_149", "name": "📄 8 PIBA-Formulare & Hebräischer Brief-Generator — Lebenslang", "description": "Füllt alle 8 offiziellen PIBA-PDFs auf Hebräisch aus + Briefgenerator für alle jährlichen Visaverlängerungen.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "149", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=forms_life_149"}}}, {"@type": "ListItem", "position": 5, "item": {"@type": "Product", "sku": "forms_90d_89", "name": "📄 90-Tage PIBA-Formular-Pass (Unbegrenzte PDF-Downloads)", "description": "90 Tage unbegrenzte Bearbeitung und Download aller 8 offiziellen PIBA-Formulare auf Hebräisch.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "89", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=forms_90d_89"}}}, {"@type": "ListItem", "position": 6, "item": {"@type": "Product", "sku": "bd_suite_life_249", "name": "🕍 700 Beit-Din-Fragen + 56 Schabbat-Lieder/Gebete — Lebenslang", "description": "Lebenslanger Zugang bis zur Mikwe: alle 700 Tribunalfragen + 56 Karaoke-Lieder, Gebete & Brachot.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "249", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_suite_life_249"}}}, {"@type": "ListItem", "position": 7, "item": {"@type": "Product", "sku": "bd_suite_90d_149", "name": "🕍 700 Beit-Din-Fragen + 56 Lieder — 90-Tage-Pass", "description": "90-Tage-Intensivpass mit allen 700 Beit-Din-Karten und allen 56 Schabbat-Liedern und Gebeten.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "149", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_suite_90d_149"}}}, {"@type": "ListItem", "position": 8, "item": {"@type": "Product", "sku": "bd_all700_179", "name": "📚 Alle 700 Beit-Din-Fragen (Lebenslang — Alle 4 Decks)", "description": "Schaltet alle 4 Decks (200 Basis + 200 Fangfragen + 150 Männer + 150 Frauen) lebenslang frei.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "179", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_all700_179"}}}, {"@type": "ListItem", "position": 9, "item": {"@type": "Product", "sku": "bd_pack1_65", "name": "📘 Deck 1: 200 Kernfragen des Beit Din (Lebenslang)", "description": "Die 200 grundlegenden Fragen zu Schabbat, Kaschrut, Feiertagen und jüdischem Lebenszyklus.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "65", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_pack1_65"}}}, {"@type": "ListItem", "position": 10, "item": {"@type": "Product", "sku": "bd_pack2_65", "name": "🔥 Deck 2: +200 Fangfragen der Rabbinatsrichter (Lebenslang)", "description": "200 anspruchsvolle Praxis- und Motivationsfragen der Richter zur Prüfung echter Observanz.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "65", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_pack2_65"}}}, {"@type": "ListItem", "position": 11, "item": {"@type": "Product", "sku": "bd_pack3_49", "name": "👔 Deck 3: 150 Fragen für Männer (Tefillin, Minjan, Tora)", "description": "150 spezifische Fragen für Männer: Tefillin, Zizit, Minjan, Tora-Aufruf und Brit Mila.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "49", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_pack3_49"}}}, {"@type": "ListItem", "position": 12, "item": {"@type": "Product", "sku": "bd_pack4_49", "name": "🕯️ Deck 4: 150 Fragen für Frauen (Taharat HaMischpacha, Mikwe, Challa)", "description": "150 spezifische Fragen für Frauen: Nidda, Hefsek Tahara, Schiwa Nekijim, Mikwe und Kerzenzünden.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "49", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_pack4_49"}}}, {"@type": "ListItem", "position": 13, "item": {"@type": "Product", "sku": "songs_65", "name": "🎵 Karaoke-Trainer: 56 Schabbat-Lieder, Morgengebete & Brachot", "description": "Alle 56 Wort-für-Wort synchronisierten Audio-Tracks (Sephardisch & Aschkenasisch) mit Lautschrift.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "65", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=songs_65"}}}, {"@type": "ListItem", "position": 14, "item": {"@type": "Product", "sku": "couples_life_229", "name": "💑 Lebenslanger 5-Jahres-Stufenverfahren Paar-Pass (2 Handys)", "description": "Alle 300 Fragen für getrennte Befragungen auf 2 Handys + 80-Fragen-Prüfung + KI-Dokumentenprüfer für alle 5 Jahresinterviews.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "229", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=couples_life_229"}}}, {"@type": "ListItem", "position": 15, "item": {"@type": "Product", "sku": "couples_90d_129", "name": "💑 Pass für 1 Jahresinterview (90 Tage — 2-Handy-Sync + KI-Prüfung)", "description": "90 Tage Zugang zum 300-Fragen-Simulator auf 2 Handys mit Widerspruchserkennung und KI-Dokumentenprüfung.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "129", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=couples_90d_129"}}}, {"@type": "ListItem", "position": 16, "item": {"@type": "Product", "sku": "couples_sync_75", "name": "📱 300-Fragen 2-Handy-Paar-Sync Solo (Ohne KI-Dokumentenprüfung)", "description": "Schaltet alle 300 Paar-Interviewfragen und die Live-Synchronisation zwischen 2 Handys frei.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "75", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/pricing/?sku=couples_sync_75"}}}, {"@type": "ListItem", "position": 17, "item": {"@type": "Product", "sku": "concierge_escort_649", "name": "⚖️ 1-Stunden-Anwaltsbegleitung beim Misrad HaPanim", "description": "Ein zugelassener israelischer Einwanderungsanwalt begleitet Sie 1 Stunde lang persönlich zu Ihrem Termin beim Misrad HaPanim.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": ".649", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_escort_649"}}}, {"@type": "ListItem", "position": 18, "item": {"@type": "Product", "sku": "concierge_couple_499", "name": "🕍 Paarpaket: Begleitender Rabbiner + Madrichat Kallah", "description": "Komplette Paar-Vermittlung mit einem vom Beit Din anerkannten begleitenden Rabbiner und einer zertifizierten Madrichat Kallah.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": ".499", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_couple_499"}}}, {"@type": "ListItem", "position": 19, "item": {"@type": "Product", "sku": "concierge_rabbi_349", "name": "📜 Vermittlung eines begleitenden Rabbiners (Rav Melaveh)", "description": "Garantierte Vermittlung eines vom Beit Din anerkannten Rav Melaveh inkl. Erstgespräch und offiziellem Empfehlungsschreiben.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": ".349", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_rabbi_349"}}}, {"@type": "ListItem", "position": 20, "item": {"@type": "Product", "sku": "concierge_kallah_249", "name": "🕯️ Vermittlung einer zertifizierten Madrichat Kallah", "description": "Prioritäts-Vermittlung einer vom Rabbinat zertifizierten Taharat-HaMischpacha-Lehrerin in Ihrer Sprache inkl. offizieller Bescheinigung.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": ".249", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_kallah_249"}}}, {"@type": "ListItem", "position": 21, "item": {"@type": "Product", "sku": "concierge_notary_249", "name": "🎀 Beglaubigte Notarübersetzung mit rotem Band (1 Seite)", "description": "Amtliche israelische Notarübersetzung ins Hebräische mit rotem Band für eine 1-seitige Standardurkunde (Geburt, Ledigkeit, Führungszeugnis).", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": ".249", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_notary_249"}}}, {"@type": "ListItem", "position": 22, "item": {"@type": "Product", "sku": "concierge_notary_349", "name": "🎀 Beglaubigte Notarübersetzung — Mehrseitiges Urteil/Dekret", "description": "Amtliche israelische Notarübersetzung mit rotem Band für mehrseitige Scheidungsurteile oder Sorgerechtsbeschlüsse.", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": ".349", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_notary_349"}}}, {"@type": "ListItem", "position": 23, "item": {"@type": "Product", "sku": "concierge_bundle_799", "name": "📦 Komplettpaket: 4 Dokumente Notarübersetzung mit rotem Band", "description": "Komplettpaket für 4 Urkunden mit israelischer Notarübersetzung und rotem Band (Geburt + Führungszeugnis + Familienstand + Heirat).", "brand": {"@type": "Brand", "name": "Giyur Aliyah Track"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": ".799", "availability": "https://schema.org/InStock", "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_bundle_799"}}}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Warum geraten so viele Antragsteller beim Misrad HaPanim oder der Jewish Agency in Schwierigkeiten?", "acceptedAnswer": {"@type": "Answer", "text": "Weil klassische Alija-Organisationen kaum auf den Statuswechsel in Israel (Shinui Ma'amad), die 180-Tage-Ablauffrist für apostillierte Urkunden oder die getrennte Befragung nach Nohal 5.2.0008 / 5.2.0009 vorbereiten."}}, {"@type": "Question", "name": "Muss ich 30.000 NIS für einen Anwalt bezahlen, um Formular Ash/6 einzureichen?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Unser Formular-Generator übersetzt Ihre Angaben ins amtliche Hebräisch und erstellt alle 8 offiziellen PIBA-PDFs. Für den Behördentermin können Sie bei Bedarf gezielt 1 Stunde Anwaltsbegleitung buchen."}}, {"@type": "Question", "name": "Wie funktioniert das 0-$-Vorab-Angebot für Anwalt, Rotband-Notar, Rabbiner und Madrichat Kallah?", "acceptedAnswer": {"@type": "Answer", "text": "Sie reichen Ihre Unterlagen kostenlos zur Prüfung ein und erhalten vorab ein verbindliches Festpreisangebot und eine regionale Zuteilung."}}, {"@type": "Question", "name": "Was ist der Unterschied zwischen dem 90-Tage-Pass und dem Lifetime-Pass?", "acceptedAnswer": {"@type": "Answer", "text": "Das Stufenverfahren (StuPro) dauert 5 Jahre mit jährlichen A/5-Verlängerungen. Der Lifetime-Pass deckt alle 5 Jahresinterviews ab."}}, {"@type": "Question", "name": "Kann ich die Plattform vor dem Kauf kostenlos testen?", "acceptedAnswer": {"@type": "Answer", "text": "Ja: 4 Karten pro Deck, 2 Karaoke-Lieder und die Formularvorschau sind kostenlos. Da nach Zahlung alle PDFs und Datenbanken sofort heruntergeladen werden können, sind digitale Lizenzen endgültig und vom Umtausch ausgeschlossen."}}]}]}
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Giyur Aliyah Track",
+          "item": "https://giyuraliyahtrack.com/de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Alle 23 Digitalen Module & Geprüften Concierge-Services",
+          "item": "https://giyuraliyahtrack.com/de/pricing/"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "name": "Alle 23 Digitalen Module & Geprüften Concierge-Services",
+      "description": "Schalten Sie genau das benötigte digitale Modul sofort frei oder reichen Sie Ihre Unterlagen für ein Angebot von Anwalt, Notar, Rabbiner oder Madrichat Kallah ein (0 $ heute).",
+      "numberOfItems": 23,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Product",
+            "sku": "vip_couple_649",
+            "name": "👑 VIP-Paar-Suite Lebenslang (2 Handys) + Vorab-Aktenprüfung",
+            "description": "Lebenslanger Paar-Zugang auf 2 Handys zu allen 8 PIBA-Formularen, 300-Fragen-Paar-Simulator, 700 Beit-Din-Karten, 56 Liedern und Dossier-Prüfung.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "649",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=vip_couple_649",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Product",
+            "sku": "suite_solo_life_399",
+            "name": "🛡️ Komplett-Schutzschild Lebenslang (Solo — Alle 3 Suiten)",
+            "description": "Lebenslanger Solo-Zugang zu allen 8 hebräischen PIBA-Formularen, 700 Beit-Din-Fragen, 56 Schabbat-Liedern/Gebeten und 300 Paar-Interviewfragen.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "399",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=suite_solo_life_399",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Product",
+            "sku": "suite_solo_90d_249",
+            "name": "⚡ 90-Tage-Komplett-Sprint-Pass (Solo — Alle 3 Digital-Suiten)",
+            "description": "90 Tage Vollzugang zu allen 8 hebräischen PIBA-Formularen, 700 Beit-Din-Fragen, 56 Schabbat-Liedern und 300 Paar-Interviewfragen.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "249",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=suite_solo_90d_249",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "Product",
+            "sku": "forms_life_149",
+            "name": "📄 Hebräische 8-Formulare-Engine & Sachbearbeiter-Dekodierer — Lebenslang",
+            "description": "Lebenslanger Zugang zum Ausfüllen aller 8 offiziellen hebräischen PIBA-Formulare, KI-Dokumentenscanner und Empfehlungsschreiben.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "149",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=forms_life_149",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "Product",
+            "sku": "forms_90d_89",
+            "name": "📄 90-Tage-Pass PIBA-Formular-Engine (Unbegrenzte PDF-Ausdrucke)",
+            "description": "90 Tage Zugang zum automatischen Ausfüllen aller 8 offiziellen hebräischen PIBA-Formulare, Schreiben-Dekodierer und Referenzgenerator.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "89",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=forms_90d_89",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@type": "Product",
+            "sku": "bd_suite_life_249",
+            "name": "🕍 Beit-Din-Komplettpaket (700 Fragen + 56 Lieder/Gebete) — Lebenslang",
+            "description": "Unbegrenzter lebenslanger Zugang zu allen 700 Beit-Din-Prüfungskarten (4 Decks) und dem Karaoke-Trainer für 56 Schabbat-Lieder.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "249",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_suite_life_249",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "item": {
+            "@type": "Product",
+            "sku": "bd_suite_90d_149",
+            "name": "🕍 Beit-Din-Komplettpaket (700 Fragen + 56 Lieder) — 90-Tage-Intensivpass",
+            "description": "90 Tage Vollzugang zu allen 700 Beit-Din-Prüfungskarten sowie dem Karaoke-Trainer mit 56 Schabbat-Liedern und Gebeten.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "149",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_suite_90d_149",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "item": {
+            "@type": "Product",
+            "sku": "bd_all700_179",
+            "name": "📚 Alle 700 Beit-Din-Prüfungsfragen (Lebenslang — Alle 4 Decks)",
+            "description": "Lebenslanger Zugang zu allen 700 Beit-Din-Prüfungskarten aus allen 4 Decks (Kernfragen, Fangfragen, Männer- und Frauen-Deck).",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "179",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_all700_179",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "item": {
+            "@type": "Product",
+            "sku": "bd_pack1_65",
+            "name": "📘 Deck 1: 200 Kernfragen des Beit Din (Lebenslang)",
+            "description": "Die 200 grundlegenden Fragen zu Schabbat, Kaschrut, Feiertagen und jüdischem Lebenszyklus.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "65",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_pack1_65",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "item": {
+            "@type": "Product",
+            "sku": "bd_pack2_65",
+            "name": "🔥 Deck 2: +200 Fangfragen der Rabbinatsrichter (Lebenslang)",
+            "description": "200 anspruchsvolle Praxis- und Motivationsfragen der Richter zur Prüfung echter Observanz.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "65",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_pack2_65",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "item": {
+            "@type": "Product",
+            "sku": "bd_pack3_49",
+            "name": "👔 Deck 3: 150 Fragen für Männer (Tefillin, Minjan, Tora)",
+            "description": "150 spezifische Fragen für Männer: Tefillin, Zizit, Minjan, Tora-Aufruf und Brit Mila.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "49",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_pack3_49",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "item": {
+            "@type": "Product",
+            "sku": "bd_pack4_49",
+            "name": "🕯️ Deck 4: 150 Fragen für Frauen (Taharat HaMischpacha, Mikwe, Challa)",
+            "description": "150 spezifische Fragen für Frauen: Nidda, Hefsek Tahara, Schiwa Nekijim, Mikwe und Kerzenzünden.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "49",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=bd_pack4_49",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "item": {
+            "@type": "Product",
+            "sku": "songs_65",
+            "name": "🎵 Karaoke-Trainer: 56 Schabbat-Lieder, Morgengebete & Brachot",
+            "description": "Alle 56 Wort-für-Wort synchronisierten Audio-Tracks (Sephardisch & Aschkenasisch) mit Lautschrift.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "65",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=songs_65",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "item": {
+            "@type": "Product",
+            "sku": "couples_life_229",
+            "name": "💑 Lebenslanger 5-Jahres-Stufenverfahren-Paar-Pass (2 Handys)",
+            "description": "Unbegrenzter lebenslanger Zugang auf 2 Handys zu allen 300 Paar-Befragungsfragen über das gesamte 5-jährige Stufenverfahren.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "229",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=couples_life_229",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "item": {
+            "@type": "Product",
+            "sku": "couples_90d_129",
+            "name": "💑 90-Tage-Pass Jährliches Paar-Interview (2-Handy-Sync + KI-Prüfung)",
+            "description": "90 Tage Zugang auf 2 Handys zum 300-Fragen-Paar-Interview-Simulator für das Misrad HaPanim inklusive KI-Widerspruchsanalyse.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "129",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=couples_90d_129",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "item": {
+            "@type": "Product",
+            "sku": "couples_sync_75",
+            "name": "📱 Standalone 300-Fragen-Paar-Simulator (2-Handy-Sync)",
+            "description": "Zugang zum 2-Handy-Synchronisations-Simulator mit 300 Fragen der getrennten Paar-Befragung und Widerspruchs-Prüfung.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "75",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/pricing/?sku=couples_sync_75",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "item": {
+            "@type": "Product",
+            "sku": "concierge_escort_649",
+            "name": "⚖️ 1-Stunden-Anwaltsbegleitung beim Misrad HaPanim",
+            "description": "Ein zugelassener israelischer Einwanderungsanwalt begleitet Sie 1 Stunde lang persönlich zu Ihrem Termin beim Misrad HaPanim.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": ".649",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_escort_649",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "item": {
+            "@type": "Product",
+            "sku": "concierge_couple_499",
+            "name": "🕍 Paarpaket: Begleitender Rabbiner + Madrichat Kallah",
+            "description": "Komplette Paar-Vermittlung mit einem vom Beit Din anerkannten begleitenden Rabbiner und einer zertifizierten Madrichat Kallah.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": ".499",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_couple_499",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "item": {
+            "@type": "Product",
+            "sku": "concierge_rabbi_349",
+            "name": "📜 Vermittlung eines Anerkannten Begleitenden Rabbiners (Rav Melaveh)",
+            "description": "Vermittlung eines vom Oberrabbinat anerkannten orthodoxen Gemeindevorstehers für Ihre Betreuung und das Beit-Din-Empfehlungsschreiben.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": ".349",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_rabbi_349",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "item": {
+            "@type": "Product",
+            "sku": "concierge_kallah_249",
+            "name": "🕯️ Zertifizierte Madrichat-Kallah-Vermittlung & Offizielle Bestätigung",
+            "description": "Vermittlung einer anerkannten Madrichat Kallah inklusive offizieller Bestätigung für das Beit Din und das Oberrabbinat.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": ".249",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_kallah_249",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "item": {
+            "@type": "Product",
+            "sku": "concierge_notary_249",
+            "name": "🎀 Beglaubigte Notarübersetzung mit rotem Band (1 Seite)",
+            "description": "Amtliche israelische Notarübersetzung ins Hebräische mit rotem Band für eine 1-seitige Standardurkunde (Geburt, Ledigkeit, Führungszeugnis).",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": ".249",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_notary_249",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 22,
+          "item": {
+            "@type": "Product",
+            "sku": "concierge_notary_349",
+            "name": "🎀 Beglaubigte Notarübersetzung — Mehrseitiges Urteil/Dekret",
+            "description": "Amtliche israelische Notarübersetzung mit rotem Band für mehrseitige Scheidungsurteile oder Sorgerechtsbeschlüsse.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": ".349",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_notary_349",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 23,
+          "item": {
+            "@type": "Product",
+            "sku": "concierge_bundle_799",
+            "name": "📦 Komplettpaket: 4 Dokumente Notarübersetzung mit rotem Band",
+            "description": "Komplettpaket für 4 Urkunden mit israelischer Notarübersetzung und rotem Band (Geburt + Führungszeugnis + Familienstand + Heirat).",
+            "brand": {
+              "@type": "Brand",
+              "name": "Giyur Aliyah Track"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": ".799",
+              "availability": "https://schema.org/InStock",
+              "url": "https://giyuraliyahtrack.com/de/concierge-booking/?sku=concierge_bundle_799",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": 0,
+                  "currency": "USD"
+                },
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "IL"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+              }
+            },
+            "image": [
+              "https://giyuraliyahtrack.com/gat-card-w8181-de.jpg"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Warum geraten so viele Antragsteller beim Misrad HaPanim oder der Jewish Agency in Schwierigkeiten?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Weil klassische Alija-Organisationen kaum auf den Statuswechsel in Israel (Shinui Ma'amad), die 180-Tage-Ablauffrist für apostillierte Urkunden oder die getrennte Befragung nach Nohal 5.2.0008 / 5.2.0009 vorbereiten."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Muss ich 30.000 NIS für einen Anwalt bezahlen, um Formular Ash/6 einzureichen?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nein. Unser Formular-Generator übersetzt Ihre Angaben ins amtliche Hebräisch und erstellt alle 8 offiziellen PIBA-PDFs. Für den Behördentermin können Sie bei Bedarf gezielt 1 Stunde Anwaltsbegleitung buchen."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wie funktioniert das 0-$-Vorab-Angebot für Anwalt, Rotband-Notar, Rabbiner und Madrichat Kallah?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sie reichen Ihre Unterlagen kostenlos zur Prüfung ein und erhalten vorab ein verbindliches Festpreisangebot und eine regionale Zuteilung."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Was ist der Unterschied zwischen dem 90-Tage-Pass und dem Lifetime-Pass?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Das Stufenverfahren (StuPro) dauert 5 Jahre mit jährlichen A/5-Verlängerungen. Der Lifetime-Pass deckt alle 5 Jahresinterviews ab."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kann ich die Plattform vor dem Kauf kostenlos testen?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja: 4 Karten pro Deck, 2 Karaoke-Lieder und die Formularvorschau sind kostenlos. Da nach Zahlung alle PDFs und Datenbanken sofort heruntergeladen werden können, sind digitale Lizenzen endgültig und vom Umtausch ausgeschlossen."
+          }
+        }
+      ]
+    }
+  ]
+}
 </script>
   <!-- GAT_SEO_HEAD_END -->
 <style id="gat-horizontal-tabs-scroll-fix">
@@ -684,8 +2087,67 @@
   nav.bottom-nav .nav-tab.active .nt-pill svg, .bottom-nav .nav-tab.active .nt-pill svg { fill: #0288E8 !important; }
 </style>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "23 Services & Preise", "dateModified": "2026-11-20", "author": {"@type": "Organization", "name": "Giyur Aliyah Track Statutory Research Desk", "url": "https://giyuraliyahtrack.com/"}, "reviewedBy": {"@type": "Organization", "name": "Vetted Israeli Immigration & Rabbinic Legal-Tech Review Board (Nohal 5.2.0008 Ed. 16 & Nohal 5.2.0009 Ed. 17)"}}
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "23 Services & Preise",
+  "dateModified": "2026-11-20",
+  "author": {
+    "@type": "Organization",
+    "name": "Giyur Aliyah Track Statutory Research Desk",
+    "url": "https://giyuraliyahtrack.com/"
+  },
+  "reviewedBy": {
+    "@type": "Organization",
+    "name": "Vetted Israeli Immigration & Rabbinic Legal-Tech Review Board (Nohal 5.2.0008 Ed. 16 & Nohal 5.2.0009 Ed. 17)"
+  }
+}
 </script>
+<!-- === GAT SCOPED CONTRAST & SPOK PILL RULES === -->
+<style id="gat-scoped-contrast-fix">
+  summary.gat-faq-q,
+  summary.faq-q,
+  .faq-item > summary,
+  [id^="gat-tab-faq"] details > summary {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-weight: 800 !important;
+    opacity: 1 !important;
+  }
+  .gat-faq-a,
+  .faq-a,
+  .faq-item details > div,
+  .faq-item details > p,
+  [id^="gat-tab-faq"] details > div,
+  [id^="gat-tab-faq"] details > p {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+  }
+  #gat-3track-funnel-card,
+  #gat-3track-funnel-card div:not([style*="background:#0"]):not([style*="linear-gradient"]),
+  #gat-3track-funnel-card p,
+  #gat-3track-funnel-card h2,
+  #gat-3track-funnel-card h3,
+  #gat-3track-funnel-card h4,
+  #gat-3track-funnel-card span:not([style*="color:#fff"]):not([style*="color: #fff"]) {
+    opacity: 1 !important;
+  }
+  html.gat-hide-spok-pill #spok-fab-pill,
+  html.gat-hide-spok-pill #spok-pill,
+  html.gat-hide-spok-pill #ask-spok-pill,
+  html.gat-hide-spok-pill #gat-spok-pill,
+  html.gat-hide-spok-pill .spok-fab-pill,
+  html.gat-hide-spok-pill .spok-pill,
+  html.gat-hide-spok-pill .spok-callout,
+  html.gat-hide-spok-pill .spok-teaser,
+  html.gat-hide-spok-pill [data-spok-pill],
+  html.gat-hide-spok-pill [data-gat-spok-hidden="1"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+</style>
 </head>
 <body>
 
@@ -827,7 +2289,7 @@
 
       <h3 style="margin:0 0 12px;font-size:1.15rem;font-weight:900;color:#38bdf8;">❓ Häufig gestellte Fragen (FAQ) — Nohal 5.2.0008, Va'adat Charigim, PIBA-Formulare &amp; Anwaltskosten</h3>
       <div style="margin-bottom:24px;">
-        <details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">Warum geraten so viele Antragsteller beim Misrad HaPanim oder der Jewish Agency in Schwierigkeiten?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Weil klassische Alija-Organisationen kaum auf den Statuswechsel in Israel (Shinui Ma&#x27;amad), die 180-Tage-Ablauffrist für apostillierte Urkunden oder die getrennte Befragung nach Nohal 5.2.0008 / 5.2.0009 vorbereiten.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">Muss ich 30.000 NIS für einen Anwalt bezahlen, um Formular Ash/6 einzureichen?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Nein. Unser Formular-Generator übersetzt Ihre Angaben ins amtliche Hebräisch und erstellt alle 8 offiziellen PIBA-PDFs. Für den Behördentermin können Sie bei Bedarf gezielt 1 Stunde Anwaltsbegleitung buchen.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">Wie funktioniert das 0-$-Vorab-Angebot für Anwalt, Rotband-Notar, Rabbiner und Madrichat Kallah?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Sie reichen Ihre Unterlagen kostenlos zur Prüfung ein und erhalten vorab ein verbindliches Festpreisangebot und eine regionale Zuteilung.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">Was ist der Unterschied zwischen dem 90-Tage-Pass und dem Lifetime-Pass?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Das Stufenverfahren (StuPro) dauert 5 Jahre mit jährlichen A/5-Verlängerungen. Der Lifetime-Pass deckt alle 5 Jahresinterviews ab.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#38bdf8;cursor:pointer;font-size:0.96rem;">Kann ich die Plattform vor dem Kauf kostenlos testen?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Ja: 4 Karten pro Deck, 2 Karaoke-Lieder und die Formularvorschau sind kostenlos. Da nach Zahlung alle PDFs und Datenbanken sofort heruntergeladen werden können, sind digitale Lizenzen endgültig und vom Umtausch ausgeschlossen.</p></details>
+        <details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#ffffff;cursor:pointer;font-size:0.96rem;">Warum geraten so viele Antragsteller beim Misrad HaPanim oder der Jewish Agency in Schwierigkeiten?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Weil klassische Alija-Organisationen kaum auf den Statuswechsel in Israel (Shinui Ma&#x27;amad), die 180-Tage-Ablauffrist für apostillierte Urkunden oder die getrennte Befragung nach Nohal 5.2.0008 / 5.2.0009 vorbereiten.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#ffffff;cursor:pointer;font-size:0.96rem;">Muss ich 30.000 NIS für einen Anwalt bezahlen, um Formular Ash/6 einzureichen?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Nein. Unser Formular-Generator übersetzt Ihre Angaben ins amtliche Hebräisch und erstellt alle 8 offiziellen PIBA-PDFs. Für den Behördentermin können Sie bei Bedarf gezielt 1 Stunde Anwaltsbegleitung buchen.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#ffffff;cursor:pointer;font-size:0.96rem;">Wie funktioniert das 0-$-Vorab-Angebot für Anwalt, Rotband-Notar, Rabbiner und Madrichat Kallah?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Sie reichen Ihre Unterlagen kostenlos zur Prüfung ein und erhalten vorab ein verbindliches Festpreisangebot und eine regionale Zuteilung.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#ffffff;cursor:pointer;font-size:0.96rem;">Was ist der Unterschied zwischen dem 90-Tage-Pass und dem Lifetime-Pass?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Das Stufenverfahren (StuPro) dauert 5 Jahre mit jährlichen A/5-Verlängerungen. Der Lifetime-Pass deckt alle 5 Jahresinterviews ab.</p></details><details style="background:#071930;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:10px;"><summary style="font-weight:900;color:#ffffff;cursor:pointer;font-size:0.96rem;">Kann ich die Plattform vor dem Kauf kostenlos testen?</summary><p style="margin:10px 0 0;color:#cbd5e1;font-size:0.88rem;line-height:1.55;">Ja: 4 Karten pro Deck, 2 Karaoke-Lieder und die Formularvorschau sind kostenlos. Da nach Zahlung alle PDFs und Datenbanken sofort heruntergeladen werden können, sind digitale Lizenzen endgültig und vom Umtausch ausgeschlossen.</p></details>
       </div>
 
       <h3 style="margin:0 0 10px;font-size:1rem;font-weight:900;color:#94a3b8;">📚 Kostenlose Gesetzes-Leitfäden, Nohal-Handbücher &amp; 8 Offizielle PIBA-Formulare</h3>
@@ -837,7 +2299,7 @@
     </section>
     <!-- GAT_STATUTORY_SEO_AUTHORITY_END -->
 
-    <div class="legal-footer" id="p-legal-footer"><b>Richtlinie zur digitalen Endgültigkeit:</b> Testen Sie vorab kostenlos. Nach Freischaltung sind digitale Software-Pässe aufgrund des sofortigen PDF-Downloads endgültig und nicht erstattungsfähig.<br/><br/><b>🛡️ Hinweis zur Zahlungstrennung (Merchant of Record):</b> Die Online-Zahlung über Lemon Squeezy gilt <b>ausschließlich</b> für 100 % automatisierte digitale Software-Lizenzen (Abschnitte 1–4). Unabhängige persönliche Dienstleistungen (Abschnitt 5: Anwälte, Notare, Rabbiner) sind strikt getrennt und werden niemals über Lemon Squeezy abgerechnet.</div>
+    <div class="legal-footer" id="p-legal-footer"><b>Richtlinie zur digitalen Endgültigkeit:</b> Testen Sie vorab kostenlos. Nach Freischaltung sind digitale Software-Pässe aufgrund des sofortigen PDF-Downloads endgültig und nicht erstattungsfähig.<br/><br/><b>🛡️ Hinweis zur Zahlungstrennung (Merchant of Record):</b> Die Online-Zahlung über Revolut gilt <b>ausschließlich</b> für 100 % automatisierte digitale Software-Lizenzen (Abschnitte 1–4). Unabhängige persönliche Dienstleistungen (Abschnitt 5: Anwälte, Notare, Rabbiner) sind strikt getrennt und werden niemals über Revolut abgerechnet.</div>
   </div>
 
       <!-- 6-Language Single-Card Revolut Pro Checkout Modal -->
@@ -950,7 +2412,7 @@
         btnHuman: 'Submit for Quote ($0 Today) →',
         mBadge: '🔒 INSTANT DIGITAL UNLOCK',
         mTerms: '✓ Instant account activation upon payment.<br/>✓ Linked automatically to your WhatsApp device sync.<br/>✓ Strict Digital Finality: Because all forms, PDF stampers, and 1,000-card vaults unlock immediately upon purchase, all digital passes are final and non-refundable.',
-        footer: '<b>Strict Digital Finality Policy:</b> You can test 4 cards per deck, 2 karaoke songs, and preview form entry for free before paying. Once unlocked, digital software passes grant immediate access to downloadable PDFs and vaults and are 100% final and non-refundable. Human Concierge services are billed only after case & document approval.<br/><br/><b>🛡️ Merchant of Record &amp; Payment Separation Notice:</b> Online checkout via Lemon Squeezy processes <b>exclusively</b> 100% automated, self-serve digital software licenses and downloadable study vaults (Sections 1–4) with zero human consultation. All optional third-party human directory referrals (Section 5: independent Israeli attorneys, notaries, and rabbinic instructors) are strictly separate, are never billed or processed through Lemon Squeezy, and use an offline quote-intake workflow settled directly with independent licensed providers.'
+        footer: '<b>Strict Digital Finality Policy:</b> You can test 4 cards per deck, 2 karaoke songs, and preview form entry for free before paying. Once unlocked, digital software passes grant immediate access to downloadable PDFs and vaults and are 100% final and non-refundable. Human Concierge services are billed only after case & document approval.<br/><br/><b>🛡️ Merchant of Record &amp; Payment Separation Notice:</b> Online checkout via Revolut processes <b>exclusively</b> 100% automated, self-serve digital software licenses and downloadable study vaults (Sections 1–4) with zero human consultation. All optional third-party human directory referrals (Section 5: independent Israeli attorneys, notaries, and rabbinic instructors) are strictly separate, are never billed or processed through Revolut, and use an offline quote-intake workflow settled directly with independent licensed providers.'
       },
       he: {
         dir: 'rtl', home: '→ לדף הבית', app: 'פתיחת האפליקציה',
@@ -965,7 +2427,7 @@
         btnHuman: 'שלח לבדיקה והצעת מחיר (0 ₪ כעת) ←',
         mBadge: '🔒 פתיחה דיגיטלית מיידית',
         mTerms: '✓ הפעלה מיידית של המערכת עם השלמת התשלום.<br/>✓ חיבור אוטומטי למספר הוואטסאפ שלך לסנכרון בין מכשירים.<br/>✓ מדיניות סופיות דיגיטלית: מאחר שכל 8 הטפסים הרשמיים ומאגרי השאלות נפתחים להורדה והדפסה מיידית, רכישת רישיון תוכנה דיגיטלי הינה סופית ואינה ניתנת לביטול או החזר.',
-        footer: '<b>מדיניות סופיות דיגיטלית:</b> ניתן להתנסות בחינם לפני הרכישה. עם פתיחת הגישה הדיגיטלית ניתנת גישה מלאה להפקת טפסי PDF רשמיים ולכל מאגרי התוכן, ולכן כל רכישה דיגיטלית הינה סופית וללא החזרים. שירותי ליווי אנושי מתומחרים ומחויבים רק לאחר בדיקת המסמכים ואישור התיק.<br/><br/><b>🛡️ הצהרת הפרדת סליקה (Merchant of Record):</b> הסליקה המקוונת באמצעות Lemon Squeezy משמשת <b>אך ורק</b> לרישיונות תוכנה דיגיטליים אוטומטיים ומאגרי תרגול להורדה מיידית (חלקים 1–4) ללא מעורבות אנושית. שירותי הליווי האנושי (חלק 5: עורכי דין, נוטריונים, רבנים ומדריכות כלה עצמאיים) מופרדים לחלוטין, אינם נסלקים דרך Lemon Squeezy, ומתבצעים במערכת הצעות מחיר נפרדת ישירות מול נותני השירות.'
+        footer: '<b>מדיניות סופיות דיגיטלית:</b> ניתן להתנסות בחינם לפני הרכישה. עם פתיחת הגישה הדיגיטלית ניתנת גישה מלאה להפקת טפסי PDF רשמיים ולכל מאגרי התוכן, ולכן כל רכישה דיגיטלית הינה סופית וללא החזרים. שירותי ליווי אנושי מתומחרים ומחויבים רק לאחר בדיקת המסמכים ואישור התיק.<br/><br/><b>🛡️ הצהרת הפרדת סליקה (Merchant of Record):</b> הסליקה המקוונת באמצעות Revolut משמשת <b>אך ורק</b> לרישיונות תוכנה דיגיטליים אוטומטיים ומאגרי תרגול להורדה מיידית (חלקים 1–4) ללא מעורבות אנושית. שירותי הליווי האנושי (חלק 5: עורכי דין, נוטריונים, רבנים ומדריכות כלה עצמאיים) מופרדים לחלוטין, אינם נסלקים דרך Revolut, ומתבצעים במערכת הצעות מחיר נפרדת ישירות מול נותני השירות.'
       },
       fr: {
         dir: 'ltr', home: '← Accueil', app: 'Ouvrir l’Application',
@@ -980,7 +2442,7 @@
         btnHuman: 'Demander examen & devis (0 $) →',
         mBadge: '🔒 ACTIVATION NUMÉRIQUE IMMÉDIATE',
         mTerms: '✓ Accès immédiat dès validation du paiement.<br/>✓ Synchronisation multi-appareils via WhatsApp.<br/>✓ Finalité numérique stricte : l’accès aux PDF officiels et aux 1 000 fiches étant immédiat, tout achat numérique est définitif et non remboursable.',
-        footer: '<b>Politique de finalité numérique :</b> Essayez gratuitement les fiches et formulaires avant d’acheter. Une fois débloqués, les accès logiciels permettent le téléchargement immédiat des PDF officiels et sont 100 % définitifs et non remboursables.<br/><br/><b>🛡️ Avis de Séparation des Paiements (Merchant of Record) :</b> Le paiement en ligne via Lemon Squeezy concerne <b>exclusivement</b> les licences logicielles numériques 100 % automatisées (Sections 1 à 4). Les services humains indépendants (Section 5 : avocats, notaires, rabbins) sont strictement séparés et ne sont jamais facturés via Lemon Squeezy.'
+        footer: '<b>Politique de finalité numérique :</b> Essayez gratuitement les fiches et formulaires avant d’acheter. Une fois débloqués, les accès logiciels permettent le téléchargement immédiat des PDF officiels et sont 100 % définitifs et non remboursables.<br/><br/><b>🛡️ Avis de Séparation des Paiements (Merchant of Record) :</b> Le paiement en ligne via Revolut concerne <b>exclusivement</b> les licences logicielles numériques 100 % automatisées (Sections 1 à 4). Les services humains indépendants (Section 5 : avocats, notaires, rabbins) sont strictement séparés et ne sont jamais facturés via Revolut.'
       },
       es: {
         dir: 'ltr', home: '← Inicio', app: 'Abrir Aplicación',
@@ -995,7 +2457,7 @@
         btnHuman: 'Solicitar Revisión y Presupuesto ($0) →',
         mBadge: '🔒 DESBLOQUEO DIGITAL INMEDIATO',
         mTerms: '✓ Activación inmediata tras el pago.<br/>✓ Sincronización por WhatsApp.<br/>✓ Finalidad digital estricta: dado que los PDF oficiales y las bóvedas se desbloquean al instante, todas las licencias digitales son definitivas y no reembolsables.',
-        footer: '<b>Política de Finalidad Digital:</b> Pruebe gratis antes de pagar. Una vez desbloqueado el software, el acceso a los PDF y bóvedas es inmediato, definitivo y no reembolsable.<br/><br/><b>🛡️ Aviso de Separación de Pagos (Merchant of Record):</b> El pago en línea mediante Lemon Squeezy procesa <b>exclusivamente</b> licencias de software digital 100% automatizadas (Secciones 1–4). Los servicios profesionales independientes (Sección 5: abogados, notarios y rabinos) están estrictamente separados y nunca se procesan a través de Lemon Squeezy.'
+        footer: '<b>Política de Finalidad Digital:</b> Pruebe gratis antes de pagar. Una vez desbloqueado el software, el acceso a los PDF y bóvedas es inmediato, definitivo y no reembolsable.<br/><br/><b>🛡️ Aviso de Separación de Pagos (Merchant of Record):</b> El pago en línea mediante Revolut procesa <b>exclusivamente</b> licencias de software digital 100% automatizadas (Secciones 1–4). Los servicios profesionales independientes (Sección 5: abogados, notarios y rabinos) están estrictamente separados y nunca se procesan a través de Revolut.'
       },
       de: {
         dir: 'ltr', home: '← Startseite', app: 'App öffnen',
@@ -1010,7 +2472,7 @@
         btnHuman: 'Prüfung & Angebot anfordern (0 $) →',
         mBadge: '🔒 SOFORTIGE DIGITALE FREISCHALTUNG',
         mTerms: '✓ Sofortige Aktivierung nach Zahlung.<br/>✓ Geräte-Sync per WhatsApp.<br/>✓ Digitale Endgültigkeit: Da alle PDF-Formulare und Datenbanken sofort freigeschaltet werden, sind digitale Lizenzen vom Umtausch ausgeschlossen.',
-        footer: '<b>Richtlinie zur digitalen Endgültigkeit:</b> Testen Sie vorab kostenlos. Nach Freischaltung sind digitale Software-Pässe aufgrund des sofortigen PDF-Downloads endgültig und nicht erstattungsfähig.<br/><br/><b>🛡️ Hinweis zur Zahlungstrennung (Merchant of Record):</b> Die Online-Zahlung über Lemon Squeezy gilt <b>ausschließlich</b> für 100 % automatisierte digitale Software-Lizenzen (Abschnitte 1–4). Unabhängige persönliche Dienstleistungen (Abschnitt 5: Anwälte, Notare, Rabbiner) sind strikt getrennt und werden niemals über Lemon Squeezy abgerechnet.'
+        footer: '<b>Richtlinie zur digitalen Endgültigkeit:</b> Testen Sie vorab kostenlos. Nach Freischaltung sind digitale Software-Pässe aufgrund des sofortigen PDF-Downloads endgültig und nicht erstattungsfähig.<br/><br/><b>🛡️ Hinweis zur Zahlungstrennung (Merchant of Record):</b> Die Online-Zahlung über Revolut gilt <b>ausschließlich</b> für 100 % automatisierte digitale Software-Lizenzen (Abschnitte 1–4). Unabhängige persönliche Dienstleistungen (Abschnitt 5: Anwälte, Notare, Rabbiner) sind strikt getrennt und werden niemals über Revolut abgerechnet.'
       },
       ru: {
         dir: 'ltr', home: '← На главную', app: 'Открыть приложение',
@@ -1025,7 +2487,7 @@
         btnHuman: 'Отправить на расчет цены (0 $) →',
         mBadge: '🔒 МГНОВЕННЫЙ ЦИФРОВОЙ ДОСТУП',
         mTerms: '✓ Мгновенная активация доступа после оплаты.<br/>✓ Привязка к вашему WhatsApp для синхронизации между устройствами.<br/>✓ Политика цифровых покупок: поскольку бланки PDF и базы вопросов открываются для скачивания сразу после оплаты, цифровые лицензии являются окончательными и не подлежат возврату.',
-        footer: '<b>Политика цифровых лицензий:</b> Вы можете протестировать бесплатную версию до оплаты. После покупки открывается мгновенный доступ к скачиванию готовых PDF-бланков МВД и полным базам вопросов, поэтому цифровые покупки окончательны и невозвратны. Услуги профильных специалистов оплачиваются только после согласования документов.<br/><br/><b>🛡️ Уведомление о разделении платежей (Merchant of Record):</b> Онлайн-оплата через Lemon Squeezy используется <b>исключительно</b> для 100% автоматизированных цифровых программных модулей (Разделы 1–4). Услуги профильных специалистов (Раздел 5: адвокаты, нотариусы, раввины) полностью отделены и никогда не оплачиваются через Lemon Squeezy.'
+        footer: '<b>Политика цифровых лицензий:</b> Вы можете протестировать бесплатную версию до оплаты. После покупки открывается мгновенный доступ к скачиванию готовых PDF-бланков МВД и полным базам вопросов, поэтому цифровые покупки окончательны и невозвратны. Услуги профильных специалистов оплачиваются только после согласования документов.<br/><br/><b>🛡️ Уведомление о разделении платежей (Merchant of Record):</b> Онлайн-оплата через Revolut используется <b>исключительно</b> для 100% автоматизированных цифровых программных модулей (Разделы 1–4). Услуги профильных специалистов (Раздел 5: адвокаты, нотариусы, раввины) полностью отделены и никогда не оплачиваются через Revolut.'
       }
     };
 
@@ -2203,7 +3665,7 @@
     })();
   </script>
 
-  <script src="/i18n/tracking_partner.js?v=1795341990"></script>
+  <script src="/i18n/tracking_partner.js?v=1795502967"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -2761,5 +4223,1056 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 })();
 </script>
+  <img src="/api/auditDoc?mode=pixel&amp;lang=de&amp;path=/de/pricing/" alt="" width="1" height="1" loading="eager" decoding="async" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;" />
+<!-- === GAT 6-LANG APPBAR ROUTER & WHITE FAQ CONTROLLER === -->
+<script id="gat-spok-and-lang-controller">
+(function() {
+  var VALID = ['en', 'he', 'fr', 'es', 'de', 'ru'];
+  var KEYS = ['gat_lang', 'zehut_lang', 'giyur_lang', 'lang', 'selectedLang', 'app_lang', 'i18n_lang'];
+
+  function getTargetUrlForLang(targetLang) {
+    var alt = document.querySelector('link[rel="alternate"][hreflang="' + targetLang + '"]');
+    var sp = new URLSearchParams(window.location.search);
+    sp.delete('lang');
+    var cleanSearch = sp.toString() ? ('?' + sp.toString()) : '';
+    if (alt && alt.href) {
+      try {
+        var u = new URL(alt.href, window.location.origin);
+        return u.pathname + cleanSearch + window.location.hash;
+      } catch (e) {}
+    }
+    var curPath = window.location.pathname || '/';
+    var stripped = curPath.replace(/^\/(he|fr|es|de|ru)(?=\/|$)/i, '');
+    if (!stripped || stripped.charAt(0) !== '/') stripped = '/' + stripped;
+    var dest = (targetLang === 'en') ? stripped : ('/' + targetLang + (stripped === '/' ? '/' : stripped));
+    return dest + cleanSearch + window.location.hash;
+  }
+
+  window.gatNavigateToLang = function(lg) {
+    if (!lg) return;
+    lg = String(lg).toLowerCase().trim();
+    if (VALID.indexOf(lg) === -1) return;
+    try {
+      KEYS.forEach(function(k) { localStorage.setItem(k, lg); });
+    } catch (e) {}
+    var curPath = window.location.pathname || '/';
+    if (curPath === '/app' || curPath.indexOf('/app/') === 0) {
+      if (typeof window.setLang === 'function') window.setLang(lg);
+      else if (typeof window.switchLang === 'function') window.switchLang(lg);
+      else window.location.reload();
+      return;
+    }
+    var targetUrl = getTargetUrlForLang(lg);
+    if (targetUrl && targetUrl !== curPath + window.location.search + window.location.hash) {
+      window.location.href = targetUrl;
+    } else {
+      window.location.reload();
+    }
+  };
+
+  window.pickAppbarLang = function(lg) {
+    window.gatNavigateToLang(lg);
+  };
+
+  document.addEventListener('click', function(ev) {
+    if (!ev.isTrusted) return;
+    var el = ev.target;
+    while (el && el !== document.body && el !== document.documentElement) {
+      var lg = (el.getAttribute && (el.getAttribute('data-lg') || el.getAttribute('data-lang') || el.getAttribute('data-set-lang'))) || '';
+      if (!lg && el.getAttribute) {
+        var oc = el.getAttribute('onclick') || '';
+        var m = oc.match(/(?:pickAppbarLang|setLang|switchLang|changeLang|applyLang|setPricingLang)\s*\(\s*['"](en|he|fr|es|de|ru)['"]\s*\)/i);
+        if (m) lg = m[1];
+      }
+      if (lg && VALID.indexOf(lg.toLowerCase()) !== -1) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        window.gatNavigateToLang(lg.toLowerCase());
+        return;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+
+  function enforceFaqWhite() {
+    var sums = document.querySelectorAll('summary.gat-faq-q, summary.faq-q, .faq-item > summary, [id^="gat-tab-faq"] details > summary');
+    for (var i = 0; i < sums.length; i++) {
+      sums[i].style.setProperty('color', '#ffffff', 'important');
+      sums[i].style.setProperty('-webkit-text-fill-color', '#ffffff', 'important');
+    }
+  }
+  enforceFaqWhite();
+  document.addEventListener('DOMContentLoaded', enforceFaqWhite);
+  window.addEventListener('load', enforceFaqWhite);
+})();
+</script>
+<script id="gat-vulcan-icon-upgrader">
+// === GAT 6-LANG DRAGGABLE 🖖 BUTTON + SILVER GRADIENT + BOXES 1-9 RESTORED ===
+(function() {
+  var PILL_TEXT_RX = /(Ask\s*Spok|Preguntar\s*a\s*Spok|Demander\s*\u00e0\s*Spok|\u05e9\u05d0\u05dc\s*\u05d0\u05ea\s*\u05e1\u05e4\u05d5\u05e7|Spok\s*fragen|\u0421\u043f\u0440\u043e\u0441\u0438\u0442\u044c\s*\u0421\u043f\u043e\u043a)/i;
+  var CTA_TEXT_RX = /(START\s*MY\s*TRACK|\u05d4\u05ea\u05d7\u05dc\s*\u05d0\u05ea\s*\u05d4\u05de\u05e1\u05dc\u05d5\u05dc|COMMENCER\s*MON\s*PARCOURS|EMPEZAR\s*MI\s*RUTA|MEINEN\s*WEG\s*STARTEN|\u041d\u0410\u0427\u0410\u0422\u042c\s*\u041c\u041e\u0419\s*\u041f\u0423\u0422\u042c)/i;
+  var SPOK_KEYS = ['gat_spok_opened_ever', 'gat_spok_opened', 'spok_opened_once'];
+  var CALLOUT_TEXT = {
+    en: 'ASK SPOK',
+    he: '\u05e9\u05d0\u05dc \u05d0\u05ea \u05e1\u05e4\u05d5\u05e7',
+    fr: 'DEMANDER \u00c0 SPOK',
+    es: 'PREGUNTAR A SPOK',
+    de: 'SPOK FRAGEN',
+    ru: '\u0421\u041f\u0420\u041e\u0421\u0418\u0422\u042c \u0421\u041f\u041e\u041a'
+  };
+
+  var userDraggedFab = false;
+  var cachedOrigOpener = null;
+
+  function getCurLang() {
+    var p = window.location.pathname || '/';
+    var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
+    if (m) return m[1].toLowerCase();
+    var hl = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
+    if (CALLOUT_TEXT[hl] && hl !== 'en') return hl;
+    try {
+      var lsLg = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').slice(0, 2).toLowerCase();
+      if (CALLOUT_TEXT[lsLg]) return lsLg;
+    } catch (e) {}
+    return CALLOUT_TEXT[hl] ? hl : 'en';
+  }
+
+  function isHomepage() {
+    var p = (window.location.pathname || '/').replace(/\/index\.html$/i, '/');
+    return /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+  }
+
+  function hasOpenedSpok() {
+    try {
+      for (var i = 0; i < SPOK_KEYS.length; i++) {
+        if (localStorage.getItem(SPOK_KEYS[i]) === '1') return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function hideCalloutLabel() {
+    var lbl = document.getElementById('gat-hero-inline-spok-pill');
+    if (lbl) lbl.style.setProperty('display', 'none', 'important');
+  }
+
+  function markSpokOpenedForever() {
+    try {
+      for (var i = 0; i < SPOK_KEYS.length; i++) {
+        localStorage.setItem(SPOK_KEYS[i], '1');
+      }
+    } catch (e) {}
+    hideCalloutLabel();
+  }
+
+  function injectCleanStyles() {
+    var oldSt = document.getElementById('gat-hero-inline-spok-css');
+    if (oldSt && oldSt.getAttribute('data-v') === 'v9') return;
+    if (oldSt && oldSt.parentElement) oldSt.parentElement.removeChild(oldSt);
+    var st = document.createElement('style');
+    st.id = 'gat-hero-inline-spok-css';
+    st.setAttribute('data-v', 'v9');
+    st.textContent = [
+      '/* Hide ONLY the redundant 3-button track selector card — keep Boxes 1-9 and all headers 100% visible! */',
+      '#gat-3track-funnel-card { display: none !important; }',
+      'details > summary:not(.gat-faq-q):not(.faq-q) {',
+      '  background: #0f172a !important;',
+      '  color: #ffffff !important;',
+      '  -webkit-text-fill-color: #ffffff !important;',
+      '  padding: 12px 16px !important;',
+      '  border-radius: 12px !important;',
+      '  font-weight: 800 !important;',
+      '  border: 1px solid #38bdf8 !important;',
+      '}',
+      '/* Subtle top-to-bottom silver gradient on the blue-bordered container */',
+      '.gat-blue-card-with-spok {',
+      '  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(250, 250, 252, 0.94) 52%, rgba(236, 238, 242, 0.92) 78%, rgba(216, 220, 228, 0.90) 100%) !important;',
+      '}',
+      '/* Lock direction:ltr on the Ask Spok row so on Hebrew RTL (/he/) the arrow still points right into the 🖖 button! */',
+      '#gat-hero-inline-spok-row {',
+      '  display: flex !important;',
+      '  direction: ltr !important;',
+      '  align-items: center !important;',
+      '  justify-content: flex-end !important;',
+      '  gap: 10px !important;',
+      '  margin-top: 10px !important;',
+      '  min-height: 54px !important;',
+      '  width: 100% !important;',
+      '  box-sizing: border-box !important;',
+      '}',
+      '#gat-hero-inline-spok-pill {',
+      '  display: inline-flex !important;',
+      '  direction: ltr !important;',
+      '  align-items: center !important;',
+      '  justify-content: center !important;',
+      '  gap: 8px !important;',
+      '  background: transparent !important;',
+      '  border: none !important;',
+      '  box-shadow: none !important;',
+      '  padding: 0 4px !important;',
+      '  pointer-events: none !important;',
+      '  user-select: none !important;',
+      '  cursor: default !important;',
+      '  white-space: nowrap !important;',
+      '}',
+      '#gat-hero-inline-spok-pill .gat-spok-2x-sparkle {',
+      '  font-size: 34px !important;',
+      '  line-height: 1 !important;',
+      '  display: inline-flex !important;',
+      '  align-items: center !important;',
+      '  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.55)) drop-shadow(0 2px 5px rgba(71, 85, 105, 0.32)) !important;',
+      '}',
+      '#gat-hero-inline-spok-pill .gat-spok-caps-text {',
+      '  font-size: 16px !important;',
+      '  font-weight: 900 !important;',
+      '  letter-spacing: 0.5px !important;',
+      '  text-transform: uppercase !important;',
+      '  color: #0f172a !important;',
+      '  -webkit-text-fill-color: #0f172a !important;',
+      '}',
+      '#gat-hero-inline-spok-pill .gat-spok-black-arrow {',
+      '  font-size: 21px !important;',
+      '  font-weight: 900 !important;',
+      '  line-height: 1 !important;',
+      '  color: #000000 !important;',
+      '  -webkit-text-fill-color: #000000 !important;',
+      '}',
+      '#gat-draggable-spok-fab {',
+      '  width: 54px !important;',
+      '  height: 54px !important;',
+      '  min-width: 54px !important;',
+      '  min-height: 54px !important;',
+      '  border-radius: 50% !important;',
+      '  background: radial-gradient(circle at 32% 28%, #38bdf8 0%, #0284c7 52%, #0369a1 100%) !important;',
+      '  border: 2px solid #38bdf8 !important;',
+      '  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.44), inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;',
+      '  display: inline-flex !important;',
+      '  align-items: center !important;',
+      '  justify-content: center !important;',
+      '  padding: 0 !important;',
+      '  cursor: grab !important;',
+      '  touch-action: none !important;',
+      '  user-select: none !important;',
+      '  -webkit-user-select: none !important;',
+      '  flex-shrink: 0 !important;',
+      '  z-index: 9998 !important;',
+      '}',
+      '#gat-draggable-spok-fab:active {',
+      '  cursor: grabbing !important;',
+      '}',
+      '#gat-draggable-spok-fab .gat-vulcan-hand {',
+      '  font-size: 34px !important;',
+      '  line-height: 1 !important;',
+      '  display: inline-flex !important;',
+      '  align-items: center !important;',
+      '  justify-content: center !important;',
+      '  transform: translateY(-1px) !important;',
+      '  pointer-events: none !important;',
+      '  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.32)) !important;',
+      '}',
+      '@media (max-width: 768px) {',
+      '  .gat-blue-card-with-spok {',
+      '    padding-top: 12px !important;',
+      '    padding-bottom: 12px !important;',
+      '    margin-top: 6px !important;',
+      '    margin-bottom: 14px !important;',
+      '  }',
+      '  .gat-blue-card-with-spok h1, .gat-blue-card-with-spok h2 {',
+      '    margin-top: 0 !important;',
+      '    margin-bottom: 6px !important;',
+      '    font-size: 21px !important;',
+      '    line-height: 1.22 !important;',
+      '  }',
+      '}'
+    ].join('\n');
+    document.head.appendChild(st);
+  }
+
+  var openedLibraryOnce = false;
+  function ensureBoxes1To9VisibleAndHideOnly3TrackCard() {
+    var funnel = document.getElementById('gat-3track-funnel-card');
+    if (funnel) {
+      funnel.style.setProperty('display', 'none', 'important');
+      var prev = funnel.previousElementSibling;
+      var steps = 0;
+      while (prev && steps < 4) {
+        prev.classList.remove('gat-dup-hero-hide');
+        if (prev.style && prev.style.display === 'none') {
+          prev.style.removeProperty('display');
+        }
+        prev = prev.previousElementSibling;
+        steps++;
+      }
+      if (!openedLibraryOnce) {
+        var det = funnel.closest ? funnel.closest('details') : document.getElementById('gat-seo-hub-details');
+        if (det) {
+          det.setAttribute('open', '');
+          openedLibraryOnce = true;
+        }
+      }
+    }
+    var hiddenEls = document.querySelectorAll('.gat-dup-hero-hide');
+    for (var i = 0; i < hiddenEls.length; i++) {
+      hiddenEls[i].classList.remove('gat-dup-hero-hide');
+      hiddenEls[i].style.removeProperty('display');
+    }
+  }
+
+  function hideAllLegacyFloatingCirclesAndPills() {
+    var oldIds = ['gat-hero-inline-spok-fab', 'gat-persistent-floating-spok-fab'];
+    for (var k = 0; k < oldIds.length; k++) {
+      var oldEl = document.getElementById(oldIds[k]);
+      if (oldEl && oldEl.parentElement) oldEl.parentElement.removeChild(oldEl);
+    }
+
+    var all = document.querySelectorAll('button, a, div, span');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (!el) continue;
+      if (el.id === 'gat-draggable-spok-fab' || el.id === 'gat-hero-inline-spok-pill' || el.id === 'gat-hero-inline-spok-row') continue;
+      if (el.closest && (el.closest('#gat-hero-inline-spok-row') || el.closest('#gat-draggable-spok-fab'))) continue;
+
+      var st = window.getComputedStyle(el);
+      if (st.position === 'fixed') {
+        var rect = el.getBoundingClientRect();
+        var txt = (el.textContent || '').replace(/\s+/g, ' ').trim();
+        var isRoundCircle = (rect.width >= 36 && rect.width <= 88 && Math.abs(rect.width - rect.height) <= 14 && (st.borderRadius.indexOf('50%') !== -1 || parseFloat(st.borderRadius || '0') >= 20));
+        var isLegacySpok = (
+          PILL_TEXT_RX.test(txt) ||
+          txt === '\u2728' ||
+          txt === '\ud83d\udd96' ||
+          (txt === '' && isRoundCircle && rect.bottom > window.innerHeight * 0.4) ||
+          ((el.id || '') + ' ' + (typeof el.className === 'string' ? el.className : '')).toLowerCase().indexOf('spok') !== -1
+        );
+        if (isLegacySpok && el.id !== 'gat-hd-drawer' && el.id !== 'spok-drawer') {
+          if (!cachedOrigOpener && (el.tagName === 'BUTTON' || el.onclick || el.getAttribute('onclick'))) {
+            cachedOrigOpener = el;
+          }
+          el.style.setProperty('display', 'none', 'important');
+          el.style.setProperty('visibility', 'hidden', 'important');
+          el.style.setProperty('pointer-events', 'none', 'important');
+        }
+      }
+    }
+  }
+
+  function triggerSpokOpen() {
+    markSpokOpenedForever();
+    if (typeof window.openSpok === 'function') { window.openSpok(); return; }
+    if (typeof window.toggleSpok === 'function') { window.toggleSpok(); return; }
+    if (typeof window.openSpokModal === 'function') { window.openSpokModal(); return; }
+    if (typeof window.openAiAssistant === 'function') { window.openAiAssistant(); return; }
+    if (typeof window.openHelpdesk === 'function') { window.openHelpdesk(); return; }
+    if (typeof window.toggleHelpdesk === 'function') { window.toggleHelpdesk(); return; }
+    if (typeof window.toggleGatHd === 'function') { window.toggleGatHd(); return; }
+    if (typeof window.openGatHd === 'function') { window.openGatHd(); return; }
+
+    var target = cachedOrigOpener || document.querySelector('#spok-fab, #spok-btn, #ai-fab, #gat-hd-fab, [onclick*="Spok"], [onclick*="spok"], [onclick*="Helpdesk"], [onclick*="helpdesk"]');
+    if (target && typeof target.click === 'function') {
+      target.click();
+      return;
+    }
+    var hd = document.getElementById('gat-hd-drawer') || document.getElementById('spok-drawer') || document.getElementById('ai-drawer');
+    if (hd) {
+      hd.classList.add('open', 'active');
+      hd.style.display = 'flex';
+    }
+  }
+
+  function makeFabDraggable(fab) {
+    if (fab.getAttribute('data-gat-drag-wired') === '1') return;
+    fab.setAttribute('data-gat-drag-wired', '1');
+
+    var startX = 0, startY = 0, origLeft = 0, origTop = 0;
+    var isDown = false, hasMoved = false;
+
+    function onStart(clientX, clientY) {
+      isDown = true;
+      hasMoved = false;
+      startX = clientX;
+      startY = clientY;
+      var rect = fab.getBoundingClientRect();
+      origLeft = rect.left;
+      origTop = rect.top;
+    }
+
+    function onMove(clientX, clientY, ev) {
+      if (!isDown) return;
+      var dx = clientX - startX;
+      var dy = clientY - startY;
+      if (!hasMoved && Math.sqrt(dx * dx + dy * dy) > 5) {
+        hasMoved = true;
+        userDraggedFab = true;
+        hideCalloutLabel();
+        if (fab.parentElement !== document.body) {
+          document.body.appendChild(fab);
+        }
+        fab.style.setProperty('position', 'fixed', 'important');
+        fab.style.setProperty('bottom', 'auto', 'important');
+        fab.style.setProperty('right', 'auto', 'important');
+        fab.style.setProperty('margin', '0', 'important');
+      }
+      if (hasMoved) {
+        if (ev && ev.cancelable) ev.preventDefault();
+        var newLeft = Math.max(8, Math.min(window.innerWidth - 62, origLeft + dx));
+        var newTop = Math.max(8, Math.min(window.innerHeight - 62, origTop + dy));
+        fab.style.setProperty('left', Math.round(newLeft) + 'px', 'important');
+        fab.style.setProperty('top', Math.round(newTop) + 'px', 'important');
+      }
+    }
+
+    function onEnd(ev) {
+      if (!isDown) return;
+      isDown = false;
+      if (!hasMoved) {
+        if (ev && ev.cancelable) ev.preventDefault();
+        triggerSpokOpen();
+      }
+    }
+
+    fab.addEventListener('mousedown', function(e) {
+      if (e.button !== 0) return;
+      onStart(e.clientX, e.clientY);
+    });
+    window.addEventListener('mousemove', function(e) {
+      onMove(e.clientX, e.clientY, e);
+    });
+    window.addEventListener('mouseup', function(e) {
+      onEnd(e);
+    });
+
+    fab.addEventListener('touchstart', function(e) {
+      if (!e.touches || !e.touches[0]) return;
+      onStart(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+    window.addEventListener('touchmove', function(e) {
+      if (!isDown || !e.touches || !e.touches[0]) return;
+      onMove(e.touches[0].clientX, e.touches[0].clientY, e);
+    }, { passive: false });
+    window.addEventListener('touchend', function(e) {
+      onEnd(e);
+    });
+  }
+
+  function ensureSingleDraggableFab() {
+    var fab = document.getElementById('gat-draggable-spok-fab');
+    if (!fab && document.body) {
+      fab = document.createElement('button');
+      fab.type = 'button';
+      fab.id = 'gat-draggable-spok-fab';
+      fab.setAttribute('aria-label', 'Ask Spok');
+      fab.innerHTML = '<span class="gat-vulcan-hand">\ud83d\udd96</span>';
+      document.body.appendChild(fab);
+    }
+    if (fab) {
+      if (!fab.querySelector('.gat-vulcan-hand')) {
+        fab.innerHTML = '<span class="gat-vulcan-hand">\ud83d\udd96</span>';
+      }
+      makeFabDraggable(fab);
+    }
+    return fab;
+  }
+
+  function findExactCtaButton() {
+    var buttons = document.querySelectorAll('button, a');
+    for (var i = 0; i < buttons.length; i++) {
+      var b = buttons[i];
+      if (!b || b.id === 'gat-draggable-spok-fab' || b.id === 'gat-hero-inline-spok-pill') continue;
+      var t = (b.textContent || '').replace(/\s+/g, ' ').trim();
+      if (CTA_TEXT_RX.test(t) || (t.indexOf('\ud83d\ude80') !== -1 && t.length < 44)) {
+        var r = b.getBoundingClientRect();
+        if (r.width > 120 && r.height >= 28 && r.height <= 110) {
+          return b;
+        }
+      }
+    }
+    return null;
+  }
+
+  function syncSpokLayout() {
+    injectCleanStyles();
+    ensureBoxes1To9VisibleAndHideOnly3TrackCard();
+    hideAllLegacyFloatingCirclesAndPills();
+
+    var fab = ensureSingleDraggableFab();
+    if (!fab) return;
+
+    if (userDraggedFab) {
+      fab.style.setProperty('display', 'inline-flex', 'important');
+      return;
+    }
+
+    var ctaBtn = isHomepage() ? findExactCtaButton() : null;
+    var lg = getCurLang();
+    var arrowChar = '\u2794';
+
+    if (isHomepage() && ctaBtn && ctaBtn.parentElement) {
+      var cur = ctaBtn.parentElement;
+      while (cur && cur !== document.body && cur !== document.documentElement) {
+        var cs = window.getComputedStyle(cur);
+        if (parseFloat(cs.borderTopWidth || '0') >= 1 && cur.getBoundingClientRect().height >= 200) {
+          cur.classList.add('gat-blue-card-with-spok');
+          break;
+        }
+        cur = cur.parentElement;
+      }
+
+      var row = document.getElementById('gat-hero-inline-spok-row');
+      if (!row) {
+        row = document.createElement('div');
+        row.id = 'gat-hero-inline-spok-row';
+
+        var callout = document.createElement('div');
+        callout.id = 'gat-hero-inline-spok-pill';
+        callout.setAttribute('aria-hidden', 'true');
+        callout.innerHTML =
+          '<span class="gat-spok-2x-sparkle">\u2728</span>' +
+          '<span class="gat-spok-caps-text" id="gat-hero-inline-spok-pill-label">' + (CALLOUT_TEXT[lg] || CALLOUT_TEXT.en) + '</span>' +
+          '<span class="gat-spok-black-arrow" id="gat-hero-inline-spok-arrow">' + arrowChar + '</span>';
+        row.appendChild(callout);
+      }
+
+      if (ctaBtn.nextElementSibling !== row) {
+        ctaBtn.insertAdjacentElement('afterend', row);
+      }
+      row.style.setProperty('display', 'flex', 'important');
+
+      var lblEl = document.getElementById('gat-hero-inline-spok-pill-label');
+      if (lblEl) lblEl.textContent = CALLOUT_TEXT[lg] || CALLOUT_TEXT.en;
+      var arrEl = document.getElementById('gat-hero-inline-spok-arrow');
+      if (arrEl) arrEl.textContent = arrowChar;
+
+      var inlineCallout = document.getElementById('gat-hero-inline-spok-pill');
+      if (inlineCallout) {
+        if (hasOpenedSpok()) {
+          inlineCallout.style.setProperty('display', 'none', 'important');
+        } else {
+          inlineCallout.style.setProperty('display', 'inline-flex', 'important');
+        }
+      }
+
+      var rowRect = row.getBoundingClientRect();
+      var isRowVisible = (rowRect.width > 0 && rowRect.height > 0 && rowRect.bottom > 50 && rowRect.top < window.innerHeight - 30);
+      if (isRowVisible) {
+        if (fab.parentElement !== row) {
+          row.appendChild(fab);
+        }
+        fab.style.setProperty('position', 'static', 'important');
+        fab.style.setProperty('left', 'auto', 'important');
+        fab.style.setProperty('top', 'auto', 'important');
+        fab.style.setProperty('bottom', 'auto', 'important');
+        fab.style.setProperty('right', 'auto', 'important');
+        fab.style.setProperty('display', 'inline-flex', 'important');
+      } else {
+        if (fab.parentElement !== document.body) {
+          document.body.appendChild(fab);
+        }
+        fab.style.setProperty('position', 'fixed', 'important');
+        fab.style.setProperty('bottom', '76px', 'important');
+        fab.style.setProperty('right', '16px', 'important');
+        fab.style.setProperty('left', 'auto', 'important');
+        fab.style.setProperty('top', 'auto', 'important');
+        fab.style.setProperty('display', 'inline-flex', 'important');
+      }
+      return;
+    }
+
+    var existingRow = document.getElementById('gat-hero-inline-spok-row');
+    if (existingRow) {
+      existingRow.style.setProperty('display', 'none', 'important');
+    }
+    if (fab.parentElement !== document.body) {
+      document.body.appendChild(fab);
+    }
+    fab.style.setProperty('position', 'fixed', 'important');
+    fab.style.setProperty('bottom', '76px', 'important');
+    fab.style.setProperty('right', '16px', 'important');
+    fab.style.setProperty('left', 'auto', 'important');
+    fab.style.setProperty('top', 'auto', 'important');
+    fab.style.setProperty('display', 'inline-flex', 'important');
+  }
+
+  syncSpokLayout();
+  document.addEventListener('DOMContentLoaded', syncSpokLayout);
+  window.addEventListener('load', syncSpokLayout);
+  window.addEventListener('resize', syncSpokLayout);
+  window.addEventListener('scroll', syncSpokLayout, { passive: true });
+  setInterval(syncSpokLayout, 400);
+})();
+</script>
+<script id="gat-boxes-and-6tracks-upgrader">
+// === GAT 6-LANG BOXES 1-9 PARITY + 6-TRACKS TAB UPGRADE + SMART ONBOARDING GATE ===
+(function() {
+  // Clear legacy v1/v2 test onboarding flags once so current un-onboarded session starts clean
+  try {
+    if (!localStorage.getItem('gat_onboard_v3_migrated')) {
+      localStorage.setItem('gat_onboard_v3_migrated', '1');
+      localStorage.removeItem('gat_onboarding_done');
+      localStorage.removeItem('gat_onboarding_completed_v2');
+      document.cookie = 'perm_gat_onboarding_done=; path=/; max-age=0';
+      document.cookie = 'perm_gat_onboard_v2=; path=/; max-age=0';
+    }
+  } catch (e) {}
+
+  var ONBOARD_KEY_V3 = 'gat_onboarding_completed_v3';
+
+  var TRACKS_TAB_I18N = {
+    en: {
+      headerTitle: 'The 6 Legal Tracks of Israel',
+      headerSub: 'Every path from our diagnostic wizard: 1) Aliyah & Emergency Exit, 2) Private Beit Din, 3) State Giyur, 4) Spousal Visa, 5) Work Visa (B/1), or 6) Visa Rejection / Va\'adat Charigim Appeal.',
+      t1Pill: '\u2708\ufe0f 1. Aliyah & Emergency Exit',
+      t5Pill: '\ud83d\udee0\ufe0f 5. Work Visa (B/1)',
+      t6Pill: '\ud83d\uded1 6. Rejected / Appeal',
+      t5: {
+        badge: 'TRACK 5 \u2022 FOREIGN WORK VISA (B/1) & PIBA SCRUTINY DISCLAIMER',
+        title: 'Applying from a Work Visa (B/1) \u2014 High-Rejection Rules & Legal Pivots',
+        lead: 'Holding a B/1 Foreign Worker, Caregiver (Siud), or Specialist Visa creates intense Ministry of Interior (PIBA) scrutiny if you apply for conversion or a spousal relationship. Know the red lines before filing.',
+        b1Title: '\u26a0\ufe0f The B/1 Conversion Exclusion Rule:',
+        b1Body: 'State Conversion (Nativ) and the Exceptions Committee (Va\'adat Charigim) routinely reject B/1 work-visa holders on suspicion that conversion is being used to bypass sector or geographic work-visa caps.',
+        b2Title: '\ud83d\udc91 B/1 + Israeli Partner (StuPro 5.2.0008 Sector Limits):',
+        b2Body: 'If you hold a B/1 caregiver or construction visa and enter a relationship with an Israeli citizen, PIBA checks your visa expiration, geographic zone restrictions, and prior registration history before opening a StuPro file.',
+        b3Title: '\ud83d\udee1\ufe0f How to Maximize Approval & Avoid Immediate Deportation:',
+        b3Body: 'Never let your B/1 permit lapse into unlawful overstay before filing, document shared household evidence meticulously for 6+ months, and obtain pre-filing legal clearance before submitting Form Ash/1 or Ash/3.',
+        cta: '\ud83d\ude80 Map My B/1 Legal Pivot in the 4-Question Wizard \u2192'
+      },
+      t6: {
+        badge: 'TRACK 6 \u2022 VISA REJECTION, VA\'ADAT CHARIGIM DENIAL & 21-DAY APPEAL',
+        title: 'Rejected by PIBA or Va\'adat Charigim? Your 21-Day Rescue Protocol',
+        lead: 'A rejection letter or 14/30-day departure order from Misrad HaPanim or the Exceptions Committee is NOT the end of your case\u2014if you trigger the statutory appeal sequence before your clock expires.',
+        b1Title: '\u23f1\ufe0f The Strict 21-Day Internal Appeal Clock (Arar Pnimi):',
+        b1Body: 'From the day you receive a written PIBA or Va\'adat Charigim refusal, you have a strict window (typically 21 to 30 days) to file an Exhaustion of Proceedings demand and formal Administrative Appeal (Beit Din L\'Ararim).',
+        b2Title: '\ud83d\uded1 Freezing Deportation (Tzav Beinayim / Interim Injunction):',
+        b2Body: 'Filing an appeal alone does NOT automatically stop enforcement unless paired with a formal request for an Interim Order (Tzav Beinayim) preventing removal while the tribunal reviews your dossier.',
+        b3Title: '\ud83d\udd04 Legal Track Pivots After a Denial:',
+        b3Body: 'Many refusals happen due to missing Apostilles, unvetted rabbinic sponsorship letters, or filing under the wrong directive. We audit your refusal letter and structure your emergency rescue filing.',
+        cta: '\ud83d\uded1 Launch My Rejection & Appeal Rescue Track Now \u2192'
+      }
+    },
+    he: {
+      headerTitle: '6 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc\u05d9\u05dd \u05d4\u05de\u05e9\u05e4\u05d8\u05d9\u05d9\u05dd \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc',
+      headerSub: '\u05db\u05dc \u05d4\u05de\u05e1\u05dc\u05d5\u05dc\u05d9\u05dd \u05de\u05d0\u05e9\u05e3 \u05d4\u05d0\u05d1\u05d7\u05d5\u05df: 1) \u05e2\u05dc\u05d9\u05d9\u05d4 \u05d5\u05d7\u05d9\u05e8\u05d5\u05dd, 2) \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05e4\u05e8\u05d8\u05d9, 3) \u05d2\u05d9\u05d5\u05e8 \u05de\u05de\u05dc\u05db\u05ea\u05d9, 4) \u05d4\u05dc\u05d9\u05da \u05de\u05d3\u05d5\u05e8\u05d2 \u05dc\u05d1\u05e0\u05d9 \u05d6\u05d5\u05d2, 5) \u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 (B/1), 6) \u05e1\u05d9\u05e8\u05d5\u05d1 / \u05d5\u05e2\u05d3\u05ea \u05d7\u05e8\u05d9\u05d2\u05d9\u05dd.',
+      t1Pill: '\u2708\ufe0f 1. \u05e2\u05dc\u05d9\u05d9\u05d4 \u05d5\u05d7\u05d9\u05e8\u05d5\u05dd',
+      t5Pill: '\ud83d\udee0\ufe0f 5. \u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 (B/1)',
+      t6Pill: '\ud83d\uded1 6. \u05e1\u05d9\u05e8\u05d5\u05d1 / \u05e2\u05e8\u05e8',
+      t5: {
+        badge: '\u05de\u05e1\u05dc\u05d5\u05dc 5 \u2022 \u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 (B/1) \u05d5\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea \u05e8\u05e9\u05d5\u05ea \u05d4\u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05df',
+        title: '\u05d4\u05d2\u05e9\u05ea \u05d1\u05e7\u05e9\u05d4 \u05de\u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 (B/1) \u2014 \u05e1\u05d9\u05db\u05d5\u05e0\u05d9 \u05d3\u05d7\u05d9\u05d9\u05d4 \u05d5\u05e4\u05ea\u05e8\u05d5\u05e0\u05d5\u05ea',
+        lead: '\u05de\u05d7\u05d6\u05d9\u05e7\u05d9 \u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 B/1 (\u05e1\u05d9\u05e2\u05d5\u05d3, \u05de\u05d5\u05de\u05d7\u05d9\u05dd \u05d0\u05d5 \u05e2\u05d5\u05d1\u05d3\u05d9\u05dd \u05d6\u05e8\u05d9\u05dd) \u05e2\u05d5\u05de\u05d3\u05d9\u05dd \u05d1\u05e4\u05e0\u05d9 \u05d1\u05d3\u05d9\u05e7\u05d4 \u05de\u05d7\u05de\u05d9\u05e8\u05d4 \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05e2\u05ea \u05d1\u05e7\u05e9\u05d4 \u05dc\u05d2\u05d9\u05d5\u05e8 \u05d0\u05d5 \u05d4\u05dc\u05d9\u05da \u05de\u05d3\u05d5\u05e8\u05d2.',
+        b1Title: '\u26a0\ufe0f \u05d7\u05e1\u05d9\u05de\u05ea \u05d2\u05d9\u05d5\u05e8 \u05dc\u05de\u05d7\u05d6\u05d9\u05e7\u05d9 B/1:',
+        b1Body: '\u05d5\u05e2\u05d3\u05ea \u05d4\u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05d5\u05de\u05e2\u05e8\u05da \u05d4\u05d2\u05d9\u05d5\u05e8 \u05d3\u05d5\u05d7\u05d9\u05dd \u05dc\u05e2\u05d9\u05ea\u05d9\u05dd \u05e7\u05e8\u05d5\u05d1\u05d5\u05ea \u05d1\u05e7\u05e9\u05d5\u05ea B/1 \u05de\u05d7\u05e9\u05e9 \u05dc\u05e2\u05e7\u05d9\u05e4\u05ea \u05de\u05d2\u05d1\u05dc\u05d5\u05ea \u05d0\u05e9\u05e8\u05ea \u05d4\u05e2\u05d1\u05d5\u05d3\u05d4.',
+        b2Title: '\ud83d\udc91 \u05d4\u05dc\u05d9\u05da \u05de\u05d3\u05d5\u05e8\u05d2 (5.2.0008) \u05de\u05d0\u05e9\u05e8\u05ea B/1:',
+        b2Body: '\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05d5\u05d3\u05e7 \u05ea\u05d5\u05e7\u05e3 \u05d0\u05e9\u05e8\u05d4, \u05de\u05d2\u05d1\u05dc\u05d5\u05ea \u05d0\u05d6\u05d5\u05e8 \u05d2\u05d9\u05d0\u05d5\u05d2\u05e8\u05e4\u05d9 \u05d5\u05db\u05e0\u05d5\u05ea \u05d4\u05e7\u05e9\u05e8 \u05dc\u05e4\u05e0\u05d9 \u05e4\u05ea\u05d9\u05d7\u05ea \u05ea\u05d9\u05e7 \u05d6\u05d5\u05d2\u05d9\u05d5\u05ea.',
+        b3Title: '\ud83d\udee1\ufe0f \u05db\u05d9\u05e6\u05d3 \u05dc\u05de\u05e7\u05e1\u05dd \u05e1\u05d9\u05db\u05d5\u05d9\u05d9 \u05d0\u05d9\u05e9\u05d5\u05e8:',
+        b3Body: '\u05d0\u05dc \u05ea\u05d0\u05e4\u05e9\u05e8\u05d5 \u05dc\u05d0\u05e9\u05e8\u05ea B/1 \u05dc\u05e4\u05d5\u05d2 \u05dc\u05e4\u05e0\u05d9 \u05d4\u05d4\u05d2\u05e9\u05d4, \u05d5\u05d4\u05db\u05d9\u05e0\u05d5 \u05ea\u05d9\u05e7 \u05e8\u05d0\u05d9\u05d5\u05ea \u05de\u05dc\u05d0 \u05dc\u05e4\u05e0\u05d9 \u05e4\u05e0\u05d9\u05d9\u05d4 \u05dc\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd.',
+        cta: '\ud83d\ude80 \u05d4\u05ea\u05d0\u05dd \u05d0\u05ea \u05de\u05e1\u05dc\u05d5\u05dc B/1 \u05e9\u05dc\u05d9 \u05d1\u05d0\u05e9\u05e3 4 \u05d4\u05e9\u05d0\u05dc\u05d5\u05ea \u2190'
+      },
+      t6: {
+        badge: '\u05de\u05e1\u05dc\u05d5\u05dc 6 \u2022 \u05e1\u05d9\u05e8\u05d5\u05d1 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd / \u05d5\u05e2\u05d3\u05ea \u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05d5\u05e2\u05e8\u05e8 \u05ea\u05d5\u05da 21 \u05d9\u05d5\u05dd',
+        title: '\u05e7\u05d9\u05d1\u05dc\u05ea\u05dd \u05e1\u05d9\u05e8\u05d5\u05d1? \u05e0\u05d5\u05d4\u05dc \u05d7\u05d9\u05dc\u05d5\u05e5 \u05d5\u05e2\u05e8\u05e8 \u05ea\u05d5\u05da 21 \u05d9\u05d5\u05dd',
+        lead: '\u05de\u05db\u05ea\u05d1 \u05d3\u05d7\u05d9\u05d9\u05d4 \u05d0\u05d5 \u05d3\u05e8\u05d9\u05e9\u05ea \u05d9\u05e6\u05d9\u05d0\u05d4 \u05de\u05d4\u05d0\u05e8\u05e5 \u05d0\u05d9\u05e0\u05dd \u05e1\u05d5\u05e3 \u05d4\u05ea\u05d9\u05e7 \u2014 \u05d0\u05dd \u05de\u05d2\u05d9\u05e9\u05d9\u05dd \u05e2\u05e8\u05e8 \u05e4\u05e0\u05d9\u05de\u05d9 \u05d5\u05e6\u05d5 \u05d1\u05d9\u05e0\u05d9\u05d9\u05dd \u05d1\u05d6\u05de\u05df.',
+        b1Title: '\u23f1\ufe0f \u05d7\u05dc\u05d5\u05df 21 \u05d4\u05d9\u05de\u05d9\u05dd \u05dc\u05d4\u05d2\u05e9\u05ea \u05e2\u05e8\u05e8:',
+        b1Body: '\u05de\u05d9\u05d5\u05dd \u05e7\u05d1\u05dc\u05ea \u05de\u05db\u05ea\u05d1 \u05d4\u05e1\u05d9\u05e8\u05d5\u05d1 \u05e2\u05d5\u05de\u05d3\u05d9\u05dd \u05dc\u05e8\u05e9\u05d5\u05ea\u05db\u05dd 21\u201330 \u05d9\u05d5\u05dd \u05dc\u05d4\u05d2\u05e9\u05ea \u05e2\u05e8\u05e8 \u05e4\u05e0\u05d9\u05de\u05d9 \u05d0\u05d5 \u05e2\u05e8\u05e8 \u05dc\u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05dc\u05e2\u05e8\u05e8\u05d9\u05dd.',
+        b2Title: '\ud83d\uded1 \u05e2\u05e6\u05d9\u05e8\u05ea \u05d4\u05e8\u05d7\u05e7\u05d4 (\u05e6\u05d5 \u05d1\u05d9\u05e0\u05d9\u05d9\u05dd):',
+        b2Body: '\u05d4\u05d2\u05e9\u05ea \u05e2\u05e8\u05e8 \u05d7\u05d9\u05d9\u05d1\u05ea \u05dc\u05db\u05dc\u05d5\u05dc \u05d1\u05e7\u05e9\u05d4 \u05dc\u05e6\u05d5 \u05d1\u05d9\u05e0\u05d9\u05d9\u05dd \u05d4\u05de\u05e7\u05e4\u05d9\u05d0 \u05d0\u05ea \u05d7\u05d5\u05d1\u05ea \u05d4\u05d9\u05e6\u05d9\u05d0\u05d4 \u05de\u05d4\u05d0\u05e8\u05e5 \u05e2\u05d3 \u05dc\u05d4\u05db\u05e8\u05e2\u05d4.',
+        b3Title: '\ud83d\udd04 \u05ea\u05d9\u05e7\u05d5\u05df \u05d4\u05dc\u05d9\u05e7\u05d5\u05d9\u05d9\u05dd \u05d5\u05d4\u05d2\u05e9\u05d4 \u05de\u05d7\u05d3\u05e9:',
+        b3Body: '\u05e8\u05d5\u05d1 \u05d4\u05e1\u05d9\u05e8\u05d5\u05d1\u05d9\u05dd \u05e0\u05d5\u05d1\u05e2\u05d9\u05dd \u05de\u05d7\u05d5\u05e1\u05e8 \u05d1\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05d0\u05d5 \u05de\u05db\u05ea\u05d1 \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05dc\u05d0 \u05de\u05d5\u05db\u05e8. \u05d0\u05e0\u05d5 \u05d1\u05d5\u05e0\u05d9\u05dd \u05d0\u05ea \u05ea\u05d9\u05e7 \u05d4\u05e2\u05e8\u05e8 \u05e9\u05dc\u05db\u05dd.',
+        cta: '\ud83d\uded1 \u05d4\u05e4\u05e2\u05dc \u05d0\u05ea \u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05d7\u05d9\u05dc\u05d5\u05e5 \u05d5\u05d4\u05e2\u05e8\u05e8 \u05db\u05e2\u05ea \u2190'
+      }
+    },
+    fr: {
+      headerTitle: 'Les 6 Parcours L\u00e9gaux en Isra\u00ebl',
+      headerSub: 'Tous les parcours de notre assistant : 1) Aliyah & Urgence, 2) Beit Din Priv\u00e9, 3) Giyur d\u2019\u00c9tat, 4) Visa Conjoint, 5) Visa Travail (B/1) ou 6) Recours Refus / Va\'adat Charigim.',
+      t1Pill: '\u2708\ufe0f 1. Aliyah & Urgence',
+      t5Pill: '\ud83d\udee0\ufe0f 5. Visa Travail (B/1)',
+      t6Pill: '\ud83d\uded1 6. Refus / Recours',
+      t5: {
+        badge: 'PARCOURS 5 \u2022 VISA DE TRAVAIL (B/1) & AVERTISSEMENT PIBA',
+        title: 'Demande depuis un Visa de Travail (B/1) \u2014 Risques de Rejet & Solutions',
+        lead: 'D\u00e9tenir un visa de travail B/1 entra\u00eene un contr\u00f4le strict du Minist\u00e8re de l\u2019Int\u00e9rieur (PIBA) lors d\u2019une demande de conversion ou de visa conjoint.',
+        b1Title: '\u26a0\ufe0f Restriction de Conversion sous Visa B/1 :',
+        b1Body: 'Nativ et la Commission des Exceptions (Va\'adat Charigim) rejettent souvent les visas B/1 par crainte d\u2019un contournement des quotas de travail.',
+        b2Title: '\ud83d\udc91 Visa B/1 + Conjoint Isra\u00e9lien (StuPro 5.2.0008) :',
+        b2Body: 'Le PIBA v\u00e9rifie la validit\u00e9 de votre permis B/1, votre secteur et les preuves de vie commune avant d\u2019ouvrir un dossier StuPro.',
+        b3Title: '\ud83d\udee1\ufe0f Maximiser vos chances d\u2019approbation :',
+        b3Body: 'Ne laissez jamais votre visa B/1 expirer avant le d\u00e9p\u00f4t et pr\u00e9parez un dossier complet de preuves et d\u2019Apostilles.',
+        cta: '\ud83d\ude80 Configurer mon parcours B/1 dans l\u2019assistant \u2192'
+      },
+      t6: {
+        badge: 'PARCOURS 6 \u2022 REFUS DE VISA / VA\'ADAT CHARIGIM & RECOURS 21 JOURS',
+        title: 'Refus\u00e9 par le PIBA ou Va\'adat Charigim ? Protocole de Recours sous 21 Jours',
+        lead: 'Une lettre de refus du Minist\u00e8re de l\u2019Int\u00e9rieur n\u2019est PAS la fin de votre dossier si vous d\u00e9posez votre recours dans le d\u00e9lai l\u00e9gal de 21 jours.',
+        b1Title: '\u23f1\ufe0f Le D\u00e9lai Strict de 21 Jours (Arar Pnimi) :',
+        b1Body: 'Vous disposez de 21 \u00e0 30 jours apr\u00e8s notification pour d\u00e9poser un recours administratif interne ou saisir le Tribunal des Recours.',
+        b2Title: '\ud83d\uded1 Bloquer l\u2019Expulsion (Tzav Beinayim) :',
+        b2Body: 'Votre recours doit \u00eatre accompagn\u00e9 d\u2019une demande d\u2019ordonnance provisoire suspendant toute obligation de quitter le territoire.',
+        b3Title: '\ud83d\udd04 Restructuration Juridique du Dossier :',
+        b3Body: 'Nous corrigeons les motifs du rejet (Apostilles, parrainage rabbinique, directive applicable) pour relancer votre dossier.',
+        cta: '\ud83d\uded1 Lancer mon parcours de recours d\u2019urgence \u2192'
+      }
+    },
+    es: {
+      headerTitle: 'Las 6 Rutas Legales de Israel',
+      headerSub: 'Todas las rutas de nuestro asistente: 1) Aliy\u00e1 y Emergencia, 2) Beit Din Privado, 3) Guiur Estatal, 4) Visa de Pareja, 5) Visa de Trabajo (B/1) o 6) Apelaci\u00f3n por Rechazo / Va\'adat Charigim.',
+      t1Pill: '\u2708\ufe0f 1. Aliy\u00e1 y Emergencia',
+      t5Pill: '\ud83d\udee0\ufe0f 5. Visa Trabajo (B/1)',
+      t6Pill: '\ud83d\uded1 6. Rechazo / Apelaci\u00f3n',
+      t5: {
+        badge: 'RUTA 5 \u2022 VISA DE TRABAJO (B/1) Y ESCRUTINIO DE PIBA',
+        title: 'Solicitud desde Visa de Trabajo (B/1) \u2014 Reglas de Alto Rechazo y Soluciones',
+        lead: 'Tener una visa de trabajo B/1 genera un escrutinio intenso del Ministerio del Interior (PIBA) al solicitar conversi\u00f3n o residencia por pareja.',
+        b1Title: '\u26a0\ufe0f Regla de Exclusi\u00f3n de Conversi\u00f3n en B/1:',
+        b1Body: 'Nativ y el Comit\u00e9 de Excepciones (Va\'adat Charigim) suelen rechazar titulares de B/1 por sospecha de elusi\u00f3n de l\u00edmites laborales.',
+        b2Title: '\ud83d\udc91 Visa B/1 + Pareja Israel\u00ed (StuPro 5.2.0008):',
+        b2Body: 'PIBA verifica la vigencia de su permiso B/1, restricciones sectoriales y pruebas de convivencia antes de abrir un expediente StuPro.',
+        b3Title: '\ud83d\udee1\ufe0f C\u00f3mo Maximizar la Aprobaci\u00f3n:',
+        b3Body: 'Nunca deje vencer su permiso B/1 antes de presentar la solicitud y prepare un expediente completo con Apostillas.',
+        cta: '\ud83d\ude80 Configurar mi ruta B/1 en el asistente \u2192'
+      },
+      t6: {
+        badge: 'RUTA 6 \u2022 RECHAZO DE VISA / VA\'ADAT CHARIGIM Y APELACI\u00d3N EN 21 D\u00cdAS',
+        title: '\u00bfRechazado por PIBA o Va\'adat Charigim? Protocolo de Rescate de 21 D\u00edas',
+        lead: 'Una carta de rechazo u orden de salida NO es el final de su caso si activa la apelaci\u00f3n legal antes de que venza el plazo de 21 d\u00edas.',
+        b1Title: '\u23f1\ufe0f El Plazo Estricto de 21 D\u00edas (Arar Pnimi):',
+        b1Body: 'Desde la notificaci\u00f3n escrita del rechazo, tiene entre 21 y 30 d\u00edas para presentar un Recurso Interno o acudir al Tribunal de Apelaciones.',
+        b2Title: '\ud83d\uded1 Frenar la Deportaci\u00f3n (Tzav Beinayim / Medida Cautelar):',
+        b2Body: 'La apelaci\u00f3n debe incluir una solicitud de Medida Cautelar (Tzav Beinayim) que congele la orden de salida mientras se revisa su caso.',
+        b3Title: '\ud83d\udd04 Reestructuraci\u00f3n Legal tras un Rechazo:',
+        b3Body: 'Auditamos su carta de rechazo y corregimos los documentos o patrocinios faltantes para rescatar su expediente.',
+        cta: '\ud83d\uded1 Iniciar mi ruta de rescate y apelaci\u00f3n ahora \u2192'
+      }
+    },
+    de: {
+      headerTitle: 'Die 6 Rechtswege in Israel',
+      headerSub: 'Alle Wege aus unserem Assistenten: 1) Alija & Notfall, 2) Privates Beit Din, 3) Staatlicher Giur, 4) Partner-Visum, 5) Arbeitsvisum (B/1) oder 6) Ablehnung / Va\'adat Charigim Einspruch.',
+      t1Pill: '\u2708\ufe0f 1. Alija & Notfall',
+      t5Pill: '\ud83d\udee0\ufe0f 5. Arbeitsvisum (B/1)',
+      t6Pill: '\ud83d\uded1 6. Ablehnung / Einspruch',
+      t5: {
+        badge: 'TRACK 5 \u2022 ARBEITSVISUM (B/1) & PIBA-PR\u00dcFUNGSHINWEIS',
+        title: 'Antrag mit Arbeitsvisum (B/1) \u2014 Ablehnungsrisiken & Rechtswege',
+        lead: 'Ein B/1-Arbeitsvisum f\u00fchrt bei Antr\u00e4gen auf Konversion oder Partner-Aufenthalt zu einer strengen Pr\u00fcfung durch das Innenministerium (PIBA).',
+        b1Title: '\u26a0\ufe0f Konversions-Ausschlussregel bei B/1:',
+        b1Body: 'Nativ und der Ausnahmerausschuss (Va\'adat Charigim) lehnen B/1-Inhaber h\u00e4ufig ab, um eine Umgehung von Arbeitsvisum-Quoten zu verhindern.',
+        b2Title: '\ud83d\udc91 B/1 + Israelischer Partner (StuPro 5.2.0008):',
+        b2Body: 'PIBA pr\u00fcft die G\u00fcltigkeit Ihres B/1-Visums, Sektorbindungen und Nachweise des gemeinsamen Haushalts vor Er\u00f6ffnung einer StuPro-Akte.',
+        b3Title: '\ud83d\udee1\ufe0f Genehmigungschancen maximieren:',
+        b3Body: 'Lassen Sie Ihr B/1-Visum niemals vor Antragstellung ablaufen und reichen Sie ein l\u00fcckenloses Apostille-Dossier ein.',
+        cta: '\ud83d\ude80 Meinen B/1-Rechtsweg im Assistenten planen \u2192'
+      },
+      t6: {
+        badge: 'TRACK 6 \u2022 VISUM-ABLEHNUNG / VA\'ADAT CHARIGIM & 21-TAGE-EINSPRUCH',
+        title: 'Abgelehnt von PIBA oder Va\'adat Charigim? Ihr 21-Tage-Rettungsprotokoll',
+        lead: 'Ein Ablehnungsbescheid oder eine Ausreiseaufforderung ist NICHT das Ende Ihres Falls, wenn Sie fristgerecht innerhalb von 21 Tagen Einspruch einlegen.',
+        b1Title: '\u23f1\ufe0f Die strikte 21-Tage-Einspruchsfrist (Arar Pnimi):',
+        b1Body: 'Ab Zustellung der schriftlichen Ablehnung haben Sie 21 bis 30 Tage Zeit f\u00fcr einen internen Widerspruch oder eine Klage beim Berufungsgericht.',
+        b2Title: '\ud83d\uded1 Abschiebung stoppen (Tzav Beinayim / Einstweilige Anordnung):',
+        b2Body: 'Der Einspruch muss mit einem Antrag auf einstweilige Anordnung (Tzav Beinayim) verbunden werden, um die Ausreisepflicht auszusetzen.',
+        b3Title: '\ud83d\udd04 Juristische Neuausrichtung Ihrer Akte:',
+        b3Body: 'Wir beheben die Ablehnungsgr\u00fcnde (fehlende Apostillen, Rabbiner-Empfehlung, Verfahrenswahl) f\u00fcr Ihren Rettungsantrag.',
+        cta: '\ud83d\uded1 Meinen Einspruchs- & Rettungs-Track jetzt starten \u2192'
+      }
+    },
+    ru: {
+      headerTitle: '6 \u041f\u0440\u0430\u0432\u043e\u0432\u044b\u0445 \u041c\u0430\u0440\u0448\u0440\u0443\u0442\u043e\u0432 \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u0435',
+      headerSub: '\u0412\u0441\u0435 \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u044b \u0438\u0437 \u043d\u0430\u0448\u0435\u0439 \u0434\u0438\u0430\u0433\u043d\u043e\u0441\u0442\u0438\u043a\u0438: 1) \u0410\u043b\u0438\u044f \u0438 \u042d\u043a\u0441\u0442\u0440\u0435\u043d\u043d\u044b\u0439 \u0432\u044b\u0435\u0437\u0434, 2) \u0427\u0430\u0441\u0442\u043d\u044b\u0439 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d, 3) \u0413\u043e\u0441. \u0413\u0438\u044e\u0440, 4) \u0421\u0422\u0423\u041f\u0420\u041e, 5) \u0420\u0430\u0431\u043e\u0447\u0430\u044f \u0432\u0438\u0437\u0430 (B/1) \u0438\u043b\u0438 6) \u041e\u0442\u043a\u0430\u0437 / \u0410\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u044f \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c.',
+      t1Pill: '\u2708\ufe0f 1. \u0410\u043b\u0438\u044f \u0438 \u042d\u043a\u0441\u0442\u0440\u0435\u043d\u043d\u043e',
+      t5Pill: '\ud83d\udee0\ufe0f 5. \u0420\u0430\u0431\u043e\u0447\u0430\u044f \u0432\u0438\u0437\u0430 (B/1)',
+      t6Pill: '\ud83d\uded1 6. \u041e\u0442\u043a\u0430\u0437 / \u0410\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u044f',
+      t5: {
+        badge: '\u041c\u0410\u0420\u0428\u0420\u0423\u0422 5 \u2022 \u0420\u0410\u0411\u041e\u0427\u0410\u042f \u0412\u0418\u0417\u0410 (B/1) \u0418 \u041f\u0420\u041e\u0412\u0415\u0420\u041a\u0418 \u041c\u0412\u0414 (PIBA)',
+        title: '\u041f\u043e\u0434\u0430\u0447\u0430 \u0441 \u0440\u0430\u0431\u043e\u0447\u0435\u0439 \u0432\u0438\u0437\u044b (B/1) \u2014 \u0420\u0438\u0441\u043a\u0438 \u043e\u0442\u043a\u0430\u0437\u0430 \u0438 \u0440\u0435\u0448\u0435\u043d\u0438\u044f',
+        lead: '\u041d\u0430\u043b\u0438\u0447\u0438\u0435 \u0440\u0430\u0431\u043e\u0447\u0435\u0439 \u0432\u0438\u0437\u044b B/1 \u0432\u044b\u0437\u044b\u0432\u0430\u0435\u0442 \u043f\u043e\u0432\u044b\u0448\u0435\u043d\u043d\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c \u041c\u0412\u0414 (PIBA) \u043f\u0440\u0438 \u043f\u043e\u0434\u0430\u0447\u0435 \u043d\u0430 \u0433\u0438\u044e\u0440 \u0438\u043b\u0438 \u0421\u0422\u0423\u041f\u0420\u041e.',
+        b1Title: '\u26a0\ufe0f \u041e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f \u043d\u0430 \u0433\u0438\u044e\u0440 \u0434\u043b\u044f \u0432\u0438\u0437 B/1:',
+        b1Body: '\u041d\u0430\u0442\u0438\u0432 \u0438 \u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f \u043f\u043e \u0438\u0441\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u044f\u043c (\u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c) \u0447\u0430\u0441\u0442\u043e \u043e\u0442\u043a\u043b\u043e\u043d\u044f\u044e\u0442 \u0437\u0430\u044f\u0432\u043a\u0438 B/1 \u0438\u0437-\u0437\u0430 \u043f\u043e\u0434\u043e\u0437\u0440\u0435\u043d\u0438\u0439 \u0432 \u043e\u0431\u0445\u043e\u0434\u0435 \u0440\u0430\u0431\u043e\u0447\u0438\u0445 \u043a\u0432\u043e\u0442.',
+        b2Title: '\ud83d\udc91 \u0412\u0438\u0437\u0430 B/1 + \u0418\u0437\u0440\u0430\u0438\u043b\u044c\u0441\u043a\u0438\u0439 \u043f\u0430\u0440\u0442\u043d\u0435\u0440 (\u0421\u0422\u0423\u041f\u0420\u041e 5.2.0008):',
+        b2Body: '\u041c\u0412\u0414 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u0441\u0440\u043e\u043a \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0432\u0438\u0437\u044b B/1, \u0440\u0435\u0433\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0435 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f \u0438 \u0434\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u0430 \u0441\u043e\u0432\u043c\u0435\u0441\u0442\u043d\u043e\u0433\u043e \u0431\u044b\u0442\u0430.',
+        b3Title: '\ud83d\udee1\ufe0f \u041a\u0430\u043a \u043c\u0430\u043a\u0441\u0438\u043c\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0448\u0430\u043d\u0441\u044b \u043d\u0430 \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u0435:',
+        b3Body: '\u041d\u0435 \u0434\u043e\u043f\u0443\u0441\u043a\u0430\u0439\u0442\u0435 \u043f\u0440\u043e\u0441\u0440\u043e\u0447\u043a\u0438 \u0432\u0438\u0437\u044b B/1 \u0434\u043e \u043f\u043e\u0434\u0430\u0447\u0438 \u0438 \u0437\u0430\u0440\u0430\u043d\u0435\u0435 \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u044c\u0442\u0435 \u043f\u043e\u043b\u043d\u044b\u0439 \u043f\u0430\u043a\u0435\u0442 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u0441 \u0430\u043f\u043e\u0441\u0442\u0438\u043b\u0435\u043c.',
+        cta: '\ud83d\ude80 \u041d\u0430\u0441\u0442\u0440\u043e\u0438\u0442\u044c \u043c\u043e\u0439 \u043c\u0430\u0440\u0448\u0440\u0443\u0442 B/1 \u0432 \u0434\u0438\u0430\u0433\u043d\u043e\u0441\u0442\u0438\u043a\u0435 \u2192'
+      },
+      t6: {
+        badge: '\u041c\u0410\u0420\u0428\u0420\u0423\u0422 6 \u2022 \u041e\u0422\u041a\u0410\u0417 \u041c\u0412\u0414 / \u0412\u0410\u0410\u0414\u0410\u0422 \u0425\u0410\u0420\u0418\u0413\u0418\u041c \u0418 \u0410\u041f\u0415\u041b\u041b\u042f\u0426\u0418\u042f \u0417\u0410 21 \u0414\u0415\u041d\u042c',
+        title: '\u041f\u043e\u043b\u0443\u0447\u0438\u043b\u0438 \u043e\u0442\u043a\u0430\u0437 \u041c\u0412\u0414 \u0438\u043b\u0438 \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c? \u041f\u0440\u043e\u0442\u043e\u043a\u043e\u043b \u0437\u0430\u0449\u0438\u0442\u044b \u0437\u0430 21 \u0434\u0435\u043d\u044c',
+        lead: '\u041f\u0438\u0441\u044c\u043c\u043e \u0441 \u043e\u0442\u043a\u0430\u0437\u043e\u043c \u0438\u043b\u0438 \u0442\u0440\u0435\u0431\u043e\u0432\u0430\u043d\u0438\u0435\u043c \u043f\u043e\u043a\u0438\u043d\u0443\u0442\u044c \u0441\u0442\u0440\u0430\u043d\u0443 \u2014 \u044d\u0442\u043e \u041d\u0415 \u043a\u043e\u043d\u0435\u0446 \u0434\u0435\u043b\u0430, \u0435\u0441\u043b\u0438 \u043f\u043e\u0434\u0430\u0442\u044c \u0430\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u044e \u0432 \u0442\u0435\u0447\u0435\u043d\u0438\u0435 21 \u0434\u043d\u044f.',
+        b1Title: '\u23f1\ufe0f \u0416\u0435\u0441\u0442\u043a\u043e\u0435 \u043e\u043a\u043d\u043e 21 \u0434\u0435\u043d\u044c (\u0410\u0440\u0430\u0440 \u041f\u043d\u0438\u043c\u0438):',
+        b1Body: '\u0421 \u043c\u043e\u043c\u0435\u043d\u0442\u0430 \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u044f \u043f\u0438\u0441\u044c\u043c\u0435\u043d\u043d\u043e\u0433\u043e \u043e\u0442\u043a\u0430\u0437\u0430 \u0443 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c 21\u201330 \u0434\u043d\u0435\u0439 \u0434\u043b\u044f \u0432\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0435\u0439 \u0430\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u0438 \u0438\u043b\u0438 \u0438\u0441\u043a\u0430 \u0432 \u0410\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u043e\u043d\u043d\u044b\u0439 \u0442\u0440\u0438\u0431\u0443\u043d\u0430\u043b.',
+        b2Title: '\ud83d\uded1 \u0417\u0430\u043c\u043e\u0440\u043e\u0437\u043a\u0430 \u0434\u0435\u043f\u043e\u0440\u0442\u0430\u0446\u0438\u0438 (\u0426\u0430\u0432 \u0411\u0435\u0439\u043d\u0430\u0438\u043c):',
+        b2Body: '\u0410\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u044f \u0434\u043e\u043b\u0436\u043d\u0430 \u0441\u043e\u043f\u0440\u043e\u0432\u043e\u0436\u0434\u0430\u0442\u044c\u0441\u044f \u0445\u043e\u0434\u0430\u0442\u0430\u0439\u0441\u0442\u0432\u043e\u043c \u043e \u0432\u0440\u0435\u043c\u0435\u043d\u043d\u043e\u043c \u0441\u0443\u0434\u0435\u0431\u043d\u043e\u043c \u0437\u0430\u043f\u0440\u0435\u0442\u0435 \u043d\u0430 \u0432\u044b\u0434\u0432\u043e\u0440\u0435\u043d\u0438\u0435 (\u0426\u0430\u0432 \u0411\u0435\u0439\u043d\u0430\u0438\u043c).',
+        b3Title: '\ud83d\udd04 \u0423\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u043f\u0440\u0438\u0447\u0438\u043d \u043e\u0442\u043a\u0430\u0437\u0430 \u0438 \u043f\u0435\u0440\u0435\u043f\u043e\u0434\u0430\u0447\u0430:',
+        b3Body: '\u041c\u044b \u0443\u0441\u0442\u0440\u0430\u043d\u044f\u0435\u043c \u043f\u0440\u0438\u0447\u0438\u043d\u044b \u043e\u0442\u043a\u0430\u0437\u0430 (\u0430\u043f\u043e\u0441\u0442\u0438\u043b\u0438, \u043f\u0438\u0441\u044c\u043c\u043e \u0440\u0430\u0432\u0432\u0438\u043d\u0430, \u0432\u044b\u0431\u043e\u0440 \u0434\u0438\u0440\u0435\u043a\u0442\u0438\u0432\u044b) \u0434\u043b\u044f \u0441\u043f\u0430\u0441\u0435\u043d\u0438\u044f \u0432\u0430\u0448\u0435\u0433\u043e \u043a\u0435\u0439\u0441\u0430.',
+        cta: '\ud83d\uded1 \u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c \u043c\u0430\u0440\u0448\u0440\u0443\u0442 \u0430\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u0438 \u0438 \u0437\u0430\u0449\u0438\u0442\u044b \u2192'
+      }
+    }
+  };
+
+  var MODAL_CTA_I18N = {
+    en: { start: '\ud83d\ude80 Start My Track \u2192', tracker: '\ud83d\udcca Open My Tracker \u2192', tap: 'TAP \u2192' },
+    he: { start: '\ud83d\ude80 \u05d4\u05ea\u05d7\u05dc \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05d9 \u2190', tracker: '\ud83d\udcca \u05e4\u05ea\u05d7 \u05d0\u05ea \u05de\u05e2\u05e7\u05d1 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u2190', tap: '\u05dc\u05d7\u05e5 \u2190' },
+    fr: { start: '\ud83d\ude80 Commencer mon parcours \u2192', tracker: '\ud83d\udcca Ouvrir mon suivi \u2192', tap: 'VOIR \u2192' },
+    es: { start: '\ud83d\ude80 Empezar mi ruta \u2192', tracker: '\ud83d\udcca Abrir mi rastreador \u2192', tap: 'VER \u2192' },
+    de: { start: '\ud83d\ude80 Meinen Weg starten \u2192', tracker: '\ud83d\udcca Meinen Tracker \u00f6ffnen \u2192', tap: 'TIPPEN \u2192' },
+    ru: { start: '\ud83d\ude80 \u041d\u0430\u0447\u0430\u0442\u044c \u043c\u043e\u0439 \u043f\u0443\u0442\u044c \u2192', tracker: '\ud83d\udcca \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043c\u043e\u0439 \u0442\u0440\u0435\u043a\u0435\u0440 \u2192', tap: '\u041e\u0422\u041a\u0420\u042b\u0422\u042c \u2192' }
+  };
+
+  function getCurLang() {
+    var p = window.location.pathname || '/';
+    var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
+    if (m) return m[1].toLowerCase();
+    var hl = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
+    if (TRACKS_TAB_I18N[hl] && hl !== 'en') return hl;
+    try {
+      var lsLg = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').slice(0, 2).toLowerCase();
+      if (TRACKS_TAB_I18N[lsLg]) return lsLg;
+    } catch (e) {}
+    return TRACKS_TAB_I18N[hl] ? hl : 'en';
+  }
+
+  // Override window.isGatOnboardingComplete & window.markGatOnboardingComplete so ALL modules share ONBOARD_KEY_V3
+  window.isGatOnboardingComplete = function() {
+    try {
+      if (localStorage.getItem(ONBOARD_KEY_V3) === '1') return true;
+      if (document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) {
+        localStorage.setItem(ONBOARD_KEY_V3, '1');
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  };
+
+  var origMarkComplete = window.markGatOnboardingComplete;
+  window.markGatOnboardingComplete = function(customTitle) {
+    try {
+      localStorage.setItem(ONBOARD_KEY_V3, '1');
+      localStorage.setItem('gat_onboarding_completed_v2', '1');
+      document.cookie = 'perm_gat_onboard_v3=1; path=/; max-age=315360000; SameSite=Lax';
+    } catch (e) {}
+    if (typeof origMarkComplete === 'function') {
+      try { origMarkComplete(customTitle); } catch (e) {}
+    }
+    syncModalCtaAndBoxes();
+  };
+
+  // Inject layout CSS for: (1) bottom padding on #view-1 so CTA is never cut off by bottom navbar,
+  // (2) clean space-between on .obs-tag so 'BOX 2 • THE LOOP' and 'TAP →' never collide!
+  function injectTracksAndBoxesCss() {
+    if (document.getElementById('gat-tracks-and-boxes-v3-css')) return;
+    var st = document.createElement('style');
+    st.id = 'gat-tracks-and-boxes-v3-css';
+    st.textContent = [
+      '.view, #view-0, #view-1, #view-2, #view-3, #view-4 { padding-bottom: 115px !important; }',
+      '.obs-card .obs-tag { display: flex !important; justify-content: space-between !important; align-items: center !important; gap: 8px !important; width: 100% !important; }',
+      '.track-tabs, #view-1 .tabs-bar { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; justify-content: center !important; }'
+    ].join('\n');
+    document.head.appendChild(st);
+  }
+
+  // Upgrade #view-1 ('The 4 Tracks of Israel' -> 'The 6 Legal Tracks of Israel') with Track 5 (Work Visa B/1) & Track 6 (Rejected / Appeal)
+  function upgradeTracksTabTo6Tracks() {
+    var v1 = document.getElementById('view-1');
+    if (!v1) return;
+    var lg = getCurLang();
+    var t = TRACKS_TAB_I18N[lg] || TRACKS_TAB_I18N.en;
+    var dir = (lg === 'he') ? 'rtl' : 'ltr';
+
+    // 1. Update #view-1 top heading and subtitle
+    var hEl = v1.querySelector('h1, h2, .section-title, .view-title');
+    if (hEl && hEl.getAttribute('data-gat-6tracks-lg') !== lg) {
+      hEl.setAttribute('data-gat-6tracks-lg', lg);
+      hEl.textContent = t.headerTitle;
+      var subEl = hEl.nextElementSibling;
+      if (subEl && (subEl.tagName === 'P' || subEl.tagName === 'DIV')) {
+        subEl.textContent = t.headerSub;
+      }
+    }
+
+    // 2. Find the track pill buttons container inside #view-1
+    var tabBtn1 = v1.querySelector('[onclick*="switchTrack(0)"], [onclick*="selectTrack(0)"], [data-track="0"]');
+    if (!tabBtn1) {
+      var allBtns = v1.querySelectorAll('button');
+      for (var i = 0; i < allBtns.length; i++) {
+        if (/1\.|Emergency|חירום|Urgence|Emergencia|Notfall|Экстрен/i.test(allBtns[i].textContent || '')) {
+          tabBtn1 = allBtns[i];
+          break;
+        }
+      }
+    }
+    if (!tabBtn1 || !tabBtn1.parentElement) return;
+
+    var pillBar = tabBtn1.parentElement;
+    pillBar.style.display = 'flex';
+    pillBar.style.flexWrap = 'wrap';
+    pillBar.style.gap = '6px';
+
+    // Update Pill 1 label to '✈️ 1. Aliyah & Emergency Exit'
+    if (tabBtn1.getAttribute('data-gat-p1-lg') !== lg) {
+      tabBtn1.setAttribute('data-gat-p1-lg', lg);
+      tabBtn1.textContent = t.t1Pill;
+    }
+
+    // Create Pill 5 (Work Visa B/1) and Pill 6 (Rejected / Appeal) if not present
+    var btn5 = document.getElementById('gat-track-pill-5');
+    var btn6 = document.getElementById('gat-track-pill-6');
+    var baseCls = tabBtn1.className.replace(/\bactive\b/g, '').trim();
+
+    if (!btn5) {
+      btn5 = document.createElement('button');
+      btn5.type = 'button';
+      btn5.id = 'gat-track-pill-5';
+      btn5.className = baseCls;
+      btn5.onclick = function() { window.showGatExtraTrackPanel(5); };
+      pillBar.appendChild(btn5);
+    }
+    if (!btn6) {
+      btn6 = document.createElement('button');
+      btn6.type = 'button';
+      btn6.id = 'gat-track-pill-6';
+      btn6.className = baseCls;
+      btn6.onclick = function() { window.showGatExtraTrackPanel(6); };
+      pillBar.appendChild(btn6);
+    }
+    btn5.textContent = t.t5Pill;
+    btn6.textContent = t.t6Pill;
+
+    // When any of the original 4 track pills is clicked, hide our custom panel 5/6 and show the original card
+    var origPills = pillBar.querySelectorAll('button:not(#gat-track-pill-5):not(#gat-track-pill-6)');
+    for (var j = 0; j < origPills.length; j++) {
+      if (origPills[j].getAttribute('data-gat-orig-hooked') !== '1') {
+        origPills[j].setAttribute('data-gat-orig-hooked', '1');
+        origPills[j].addEventListener('click', function() {
+          if (btn5) btn5.classList.remove('active');
+          if (btn6) btn6.classList.remove('active');
+          var extraPanel = document.getElementById('gat-extra-track-panel');
+          if (extraPanel) extraPanel.style.display = 'none';
+          var hiddenCards = v1.querySelectorAll('[data-gat-hidden-by-extra-track="1"]');
+          for (var k = 0; k < hiddenCards.length; k++) {
+            hiddenCards[k].removeAttribute('data-gat-hidden-by-extra-track');
+            hiddenCards[k].style.display = '';
+          }
+        });
+      }
+    }
+
+    window.showGatExtraTrackPanel = function(trackNum) {
+      var curLg = getCurLang();
+      var curT = TRACKS_TAB_I18N[curLg] || TRACKS_TAB_I18N.en;
+      var d = (trackNum === 5) ? curT.t5 : curT.t6;
+      var curDir = (curLg === 'he') ? 'rtl' : 'ltr';
+
+      // Update active pill styling
+      var allPills = pillBar.querySelectorAll('button');
+      for (var pIdx = 0; pIdx < allPills.length; pIdx++) {
+        allPills[pIdx].classList.remove('active');
+      }
+      if (trackNum === 5 && btn5) btn5.classList.add('active');
+      if (trackNum === 6 && btn6) btn6.classList.add('active');
+
+      // Hide currently visible original track card(s) below pillBar
+      var sib = pillBar.nextElementSibling;
+      while (sib) {
+        if (sib.id !== 'gat-extra-track-panel' && !/^gat-tab-faq/i.test(sib.id || '') && sib.style.display !== 'none') {
+          sib.setAttribute('data-gat-hidden-by-extra-track', '1');
+          sib.style.display = 'none';
+        }
+        sib = sib.nextElementSibling;
+      }
+
+      var panel = document.getElementById('gat-extra-track-panel');
+      if (!panel) {
+        panel = document.createElement('div');
+        panel.id = 'gat-extra-track-panel';
+        pillBar.insertAdjacentElement('afterend', panel);
+      }
+      panel.setAttribute('dir', curDir);
+      panel.style.cssText = 'display:block;background:rgba(255,255,255,0.95);border:1.5px solid #cbd5e1;border-radius:18px;padding:20px 18px;margin-top:14px;box-shadow:0 6px 20px rgba(15,23,42,0.06);text-align:' + (curLg === 'he' ? 'right' : 'left') + ';';
+      panel.innerHTML =
+        '<div style="display:inline-block;background:#e0f2fe;color:#0284c7;font-size:11.5px;font-weight:900;padding:4px 10px;border-radius:6px;margin-bottom:10px;text-transform:uppercase;">' + d.badge + '</div>' +
+        '<h2 style="margin:0 0 10px;font-size:21px;font-weight:900;color:#0f172a;line-height:1.28;">' + d.title + '</h2>' +
+        '<p style="margin:0 0 16px;font-size:14.5px;color:#475569;line-height:1.55;font-weight:600;">' + d.lead + '</p>' +
+        '<div style="border-top:1px solid #e2e8f0;padding-top:12px;margin-bottom:12px;font-size:14px;line-height:1.55;color:#1e293b;"><strong>' + d.b1Title + '</strong> ' + d.b1Body + '</div>' +
+        '<div style="border-top:1px solid #e2e8f0;padding-top:12px;margin-bottom:12px;font-size:14px;line-height:1.55;color:#1e293b;"><strong>' + d.b2Title + '</strong> ' + d.b2Body + '</div>' +
+        '<div style="border-top:1px solid #e2e8f0;padding-top:12px;margin-bottom:18px;font-size:14px;line-height:1.55;color:#1e293b;"><strong>' + d.b3Title + '</strong> ' + d.b3Body + '</div>' +
+        '<button type="button" id="gat-extra-track-cta" style="width:100%;padding:14px 18px;border-radius:14px;border:1.5px solid #38bdf8;background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);color:#ffffff;font-size:15.5px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(2,132,199,0.3);"></button>';
+      var ctaEl = document.getElementById('gat-extra-track-cta');
+      if (ctaEl) {
+        ctaEl.textContent = d.cta;
+        ctaEl.onclick = function() {
+          if (typeof window.startGatChangeTrackFlow === 'function') window.startGatChangeTrackFlow(0);
+          else if (typeof window.launchGatOnboardingNow === 'function') window.launchGatOnboardingNow();
+        };
+      }
+    };
+  }
+
+  // Synchronize the 9 outer cards (`onclick*="openObstacle("`) 1:1 with `window.__GAT_LIVE_OBSTACLES` and update the modal CTA button!
+  var BOX_ICONS = ['\u23f3', '\u2708\ufe0f', '\ud83c\udfdb\ufe0f', '\ud83d\udee1\ufe0f', '\ud83d\udc6b', '\ud83d\udd4d', '\ud83d\udcdc', '\u2696\ufe0f', '\ud83c\udfe2'];
+  function syncModalCtaAndBoxes() {
+    injectTracksAndBoxesCss();
+    upgradeTracksTabTo6Tracks();
+
+    var lg = getCurLang();
+    var mText = MODAL_CTA_I18N[lg] || MODAL_CTA_I18N.en;
+    var onboarded = window.isGatOnboardingComplete();
+
+    // 1. Update the bottom-right CTA button inside the 9 Obstacle Popups
+    var modalBtns = document.querySelectorAll('#m-cta, #obs-modal-cta, [onclick*="closeModal()"][onclick*="switchView(4)"], #obs-modal button');
+    for (var i = 0; i < modalBtns.length; i++) {
+      var btn = modalBtns[i];
+      if (!btn) continue;
+      var bTxt = (btn.textContent || '').trim();
+      if (bTxt === '\u2715' || bTxt === '×' || bTxt.length <= 2) continue;
+      btn.textContent = onboarded ? mText.tracker : mText.start;
+    }
+
+    // 2. Sync the 9 outer cards 1:1 with the popup array
+    var obsArr = window.__GAT_LIVE_OBSTACLES || (window.OBS_I18N && window.OBS_I18N[lg]) || window.OBSTACLES;
+    if (Array.isArray(obsArr) && obsArr.length >= 9) {
+      for (var idx = 0; idx < 9; idx++) {
+        var item = obsArr[idx];
+        if (!item) continue;
+        var rawTag = String(item.tag || item.kicker || ('BOX ' + (idx + 1))).replace(/\s*(?:OF|\u05de\u05ea\u05d5\u05da|SUR|DE|VON|\u0418\u0417)\s*9/i, '').trim();
+        var rawTitle = String(item.title || item.h || '').trim();
+        var rawDesc = String(item.desc || item.sub || item.body || '').trim();
+        if (rawDesc.length > 155) rawDesc = rawDesc.slice(0, 152).replace(/\s+\S*$/, '') + '...';
+        if (!rawTitle) continue;
+        var icon = BOX_ICONS[idx] || '\ud83d\udee1\ufe0f';
+        var cleanTitle = /^[\u2300-\u27bf\ud83c-\ud83e]/.test(rawTitle) ? rawTitle : (icon + ' ' + rawTitle);
+
+        var cards = document.querySelectorAll('[onclick*="openObstacle(' + idx + ')"]');
+        for (var c = 0; c < cards.length; c++) {
+          var card = cards[c];
+          var sig = lg + '|' + idx + '|' + cleanTitle;
+          if (card.getAttribute('data-gat-box-sig') !== sig) {
+            card.setAttribute('data-gat-box-sig', sig);
+            card.innerHTML =
+              '<div class="obs-tag" style="display:flex;justify-content:space-between;align-items:center;gap:8px;">' +
+                '<span>' + rawTag + '</span>' +
+                '<span style="white-space:nowrap;">' + mText.tap + '</span>' +
+              '</div>' +
+              '<div class="obs-title" style="font-size:16.5px;font-weight:900;color:#0f172a;line-height:1.3;margin:6px 0;">' + cleanTitle + '</div>' +
+              '<div class="obs-desc" style="font-size:13.5px;color:#334155;line-height:1.48;">' + rawDesc + '</div>';
+          }
+        }
+      }
+    }
+  }
+
+  syncModalCtaAndBoxes();
+  document.addEventListener('DOMContentLoaded', syncModalCtaAndBoxes);
+  window.addEventListener('load', syncModalCtaAndBoxes);
+  setInterval(syncModalCtaAndBoxes, 400);
+})();
+</script>
+  <!-- GAT-CORE-PILLAR-LINKS-START -->
+  <nav aria-label="Core Pillar Guides" dir="ltr" style="max-width:960px;margin:28px auto;padding:18px 20px;border-radius:14px;background:rgba(7,34,63,0.92);border:1px solid rgba(56,189,248,0.32);text-align:left;">
+    <div style="font-size:15px;font-weight:800;color:#38bdf8;margin-bottom:12px;">📚 Hauptleitfäden: Alija, Konversion (Giur) & Ehepartner-Visum in Israel</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;">
+      <a href="/de/alija-giur-partner-visum-israel-ohne-anwalt-leitfaden/" style="display:block;padding:10px 14px;border-radius:10px;background:rgba(15,23,42,0.75);border:1px solid rgba(56,189,248,0.28);color:#e0f2fe;text-decoration:none;font-size:14px;font-weight:700;line-height:1.4;">→ Alija, Giur & Partner-Visum in Israel ohne teuren Anwalt (2026)</a>
+      <a href="/de/konversion-zum-judentum-in-israel-giur-leitfaden/" style="display:block;padding:10px 14px;border-radius:10px;background:rgba(15,23,42,0.75);border:1px solid rgba(56,189,248,0.28);color:#e0f2fe;text-decoration:none;font-size:14px;font-weight:700;line-height:1.4;">→ Konversion zum Judentum in Israel (Giur) — Vollständiger Guide</a>
+      <a href="/de/ehepartner-visum-israel-misrad-hapanim-nohal-5-2-0008-ash6/" style="display:block;padding:10px 14px;border-radius:10px;background:rgba(15,23,42,0.75);border:1px solid rgba(56,189,248,0.28);color:#e0f2fe;text-decoration:none;font-size:14px;font-weight:700;line-height:1.4;">→ Ehepartner-Visum Israel (Nohal 5.2.0008 / Stufenverfahren)</a>
+      <a href="/de/beit-din-fragen-konversion-giur-israel-700/" style="display:block;padding:10px 14px;border-radius:10px;background:rgba(15,23,42,0.75);border:1px solid rgba(56,189,248,0.28);color:#e0f2fe;text-decoration:none;font-size:14px;font-weight:700;line-height:1.4;">→ 700 Beit-Din-Fragen & Antworten für Giur in Israel (2026)</a>
+      <a href="/de/300-fragen-paar-interview-misrad-hapanim/" style="display:block;padding:10px 14px;border-radius:10px;background:rgba(15,23,42,0.75);border:1px solid rgba(56,189,248,0.28);color:#e0f2fe;text-decoration:none;font-size:14px;font-weight:700;line-height:1.4;">→ 300 Fragen Paar-Interview Misrad HaPanim (Nohal 5.2.0008)</a>
+    </div>
+  </nav>
+  <!-- GAT-CORE-PILLAR-LINKS-END -->
 </body>
 </html>

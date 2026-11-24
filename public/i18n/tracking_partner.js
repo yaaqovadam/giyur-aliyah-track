@@ -3232,7 +3232,7 @@ window.shareGatRelief = function(contextKey, customUrl) {
     drawer: baseOrigin + langPrefix + "/"
   };
   const targetUrl = customUrl || urlMap[contextKey] || (baseOrigin + langPrefix + "/");
-  const shareText = (pack.msg[contextKey] || pack.msg.drawer) + " " + targetUrl;
+  const shareText = (pack.msg[contextKey] || pack.msg.drawer) + "\n\n" + targetUrl;
 
   if (navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '')) {
     navigator.share({
@@ -5008,9 +5008,13 @@ if (typeof document !== 'undefined') {
       primary: "profile|vault",
       backups: ["hebrew-engine|ash6", "obs|1", "hebrew-engine|mr14a"],
       reply: {
-        en: "📂 **Opening Your Document Vault & Auto-Fill Scanner!**\n\n• **View / Download Uploaded Docs:** Tap your **👤 Profile** icon in the top bar anytime to view, download, or add pages to your uploaded Passports, Israeli TZ + unfolded Sefach (`ספח`), Birth Certificates, and Marriage Certificate.\n• **Multi-Page & Apostille Check:** You can select multiple pages at once (e.g., Marriage Certificate + separate Apostille page, or front TZ + unfolded Sefach) and they auto-populate across all 8 PIBA forms.",
-        he: "📂 **פותח את כספת המסמכים ומנוע המילוי האוטומטי שלך!**\n\n• **צפייה והורדה של מסמכים שהועלו:** דרך אייקון **👤 הפרופיל** בסרגל העליון תוכלו לצפות, להוריד או להוסיף עמודים לדרכונים, ת״ז + ספח פתוח, תעודות לידה ותעודת נישואין.\n• **בדיקת אפוסטיל ומסמכים מרובי עמודים:** ניתן לבחור מספר עמודים יחד והנתונים יוזנו אוטומטית לכל 8 טפסי משרד הפנים."
-      }
+        "en": "📂 **Opening Your Document Vault & Auto-Fill Scanner!**\n\n• **View / Download Uploaded Docs:** Tap your **👤 Profile** icon in the top bar anytime to view, download, or add pages to your uploaded Passports, Israeli TZ + unfolded Sefach (`ספח`), Birth Certificates, and Marriage Certificate.\n• **Multi-Page & Apostille Check:** You can select multiple pages at once (e.g., Marriage Certificate + separate Apostille page, or front TZ + unfolded Sefach) and they auto-populate across all 8 PIBA forms.",
+        "he": "📂 **פותח את כספת המסמכים ומנוע המילוי האוטומטי שלך!**\n\n• **צפייה והורדה של מסמכים שהועלו:** דרך אייקון **👤 הפרופיל** בסרגל העליון תוכלו לצפות, להוריד או להוסיף עמודים לדרכונים, ת״ז + ספח פתוח, תעודות לידה ותעודת נישואין.\n• **בדיקת אפוסטיל ומסמכים מרובי עמודים:** ניתן לבחור מספר עמודים יחד והנתונים יוזנו אוטומטית לכל 8 טפסי משרד הפנים.",
+        "fr": "📂 **Ouverture de votre coffre-fort de documents et du scanner de remplissage automatique !**\n\n• **Consulter / Télécharger les documents téléversés :** Appuyez sur l'icône **👤 Profil** dans la barre supérieure à tout moment pour consulter, télécharger ou ajouter des pages à vos passeports, TZ israélienne + Sefach déplié (`ספח`), actes de naissance et certificat de mariage téléversés.\n• **Vérification multi-pages et apostille :** Vous pouvez sélectionner plusieurs pages à la fois (par ex. certificat de mariage + page d'apostille séparée, ou recto de la TZ + Sefach déplié) et elles se pré-rempliront automatiquement dans les 8 formulaires de la PIBA.",
+        "es": "📂 **¡Abriendo su bóveda de documentos y escáner de autorrelleno!**\n\n• **Ver / Descargar documentos subidos:** Toque el icono de su **👤 Perfil** en la barra superior en cualquier momento para ver, descargar o agregar páginas a sus pasaportes subidos, Teudat Zeut israelí + Sefaj desplegado (`ספח`), certificados de nacimiento y certificado de matrimonio.\n• **Verificación de múltiples páginas y apostilla:** Puede seleccionar varias páginas a la vez (por ejemplo, certificado de matrimonio + página de apostilla separada, o anverso del TZ + Sefaj desplegado) y se autorellenarán en los 8 formularios de PIBA.",
+        "de": "📂 **Ihr Dokumententresor & Auto-Fill-Scanner werden geöffnet!**\n\n• **Hochgeladene Dokumente ansehen / herunterladen:** Tippen Sie jederzeit oben in der Leiste auf Ihr **👤 Profil**-Symbol, um Ihre hochgeladenen Reisepässe, israelische TZ + entfalteten Sefach (`ספח`), Geburtsurkunden und Heiratsurkunde anzusehen, herunterzuladen oder Seiten hinzuzufügen.\n• **Mehrseitige Dokumente & Apostillen-Prüfung:** Sie können mehrere Seiten gleichzeitig auswählen (z. B. Heiratsurkunde + separate Apostillen-Seite oder TZ-Vorderseite + entfalteter Sefach), und diese werden automatisch in alle 8 PIBA-Formulare übernommen.",
+        "ru": "📂 **Открываем ваше хранилище документов и сканер автозаполнения!**\n\n• **Просмотр / Скачивание загруженных документов:** Нажмите на иконку **👤 Профиль** на верхней панели в любое время, чтобы просмотреть, скачать или добавить страницы к загруженным загранпаспортам, израильскому Теудат-Зеут + развернутому Сефаху (`ספח`), свидетельствам о рождении и свидетельству о браке.\n• **Многостраничные документы и проверка апостиля:** Вы можете выбрать несколько страниц одновременно (например, свидетельство о браке + отдельный лист с апостилем, или лицевая сторона ТЗ + развернутый Сефах), и данные автоматически заполнят все 8 бланков МВД (PIBA)."
+}
     },
     {
       id: "form_ash6_spousal",
@@ -5019,9 +5023,13 @@ if (typeof document !== 'undefined') {
       primary: "hebrew-engine|ash6",
       backups: ["term|spousal_deep_dive", "couples-sync|", "hebrew-engine|nespach_alef"],
       reply: {
-        en: "💍 **Opening the Spousal Residency Track (*Nohal 5.2.0008 / 5.2.0009* — Form Ash/6)!**\n\n• **Married Couples (*Nohal 5.2.0008*):** File the 6-page **Form Ash/6** (includes Utah Zoom civil marriages under Supreme Court ruling *AAA 7368/22*). Note: Under **Sec. ד.2.ה**, if your Apostilled Marriage Certificate lists your prior status as *Single*, you are exempt from a separate Single-Status certificate!\n• **Unmarried Couples (*Nohal 5.2.0009*):** Also sign the 13-clause **Nespach Alef** affidavit.\n• **Dual-Track Right (Sec. ג.10):** You can run your Spousal Visa AND State Rabbanut Conversion simultaneously!",
-        he: "💍 **פותח את מסלול בני זוג ומנוע טופס אש/6 (נוהל 5.2.0008 / 5.2.0009)!**\n\n• **זוגות נשואים (נוהל 5.2.0008):** מגישים את **טופס אש/6** (כולל נישואי יוטה בזום לפי פס״ד עע״מ 7368/22). לפי **סעיף ד.2.ה**, אם בתעודת הנישואין המאומתת באפוסטיל מצוין מצב קודם 'רווק/ה', יש פטור מתעודת רווקות נפרדת!\n• **ידועים בציבור (נוהל 5.2.0009):** חותמים גם על תצהיר **נספח א׳**.\n• **הליכים במקביל (סעיף ג.10):** ניתן לנהל תיק חיים משותפים ותיק גיור ממלכתי במקביל!"
-      }
+        "en": "💍 **Opening the Spousal Residency Track (*Nohal 5.2.0008 / 5.2.0009* — Form Ash/6)!**\n\n• **Married Couples (*Nohal 5.2.0008*):** File the 6-page **Form Ash/6** (includes Utah Zoom civil marriages under Supreme Court ruling *AAA 7368/22*). Note: Under **Sec. ד.2.ה**, if your Apostilled Marriage Certificate lists your prior status as *Single*, you are exempt from a separate Single-Status certificate!\n• **Unmarried Couples (*Nohal 5.2.0009*):** Also sign the 13-clause **Nespach Alef** affidavit.\n• **Dual-Track Right (Sec. ג.10):** You can run your Spousal Visa AND State Rabbanut Conversion simultaneously!",
+        "he": "💍 **פותח את מסלול בני זוג ומנוע טופס אש/6 (נוהל 5.2.0008 / 5.2.0009)!**\n\n• **זוגות נשואים (נוהל 5.2.0008):** מגישים את **טופס אש/6** (כולל נישואי יוטה בזום לפי פס״ד עע״מ 7368/22). לפי **סעיף ד.2.ה**, אם בתעודת הנישואין המאומתת באפוסטיל מצוין מצב קודם 'רווק/ה', יש פטור מתעודת רווקות נפרדת!\n• **ידועים בציבור (נוהל 5.2.0009):** חותמים גם על תצהיר **נספח א׳**.\n• **הליכים במקביל (סעיף ג.10):** ניתן לנהל תיק חיים משותפים ותיק גיור ממלכתי במקביל!",
+        "fr": "💍 **Ouverture de la procédure de résidence pour conjoints (*Nohal 5.2.0008 / 5.2.0009* — Formulaire Ash/6) !**\n\n• **Couples mariés (*Nohal 5.2.0008*) :** Déposez le **Formulaire Ash/6** de 6 pages (inclut les mariages civils par Zoom en Utah conformément à l'arrêt de la Cour suprême *AAA 7368/22*). Remarque : Selon la **Sec. ד.2.ה**, si votre certificat de mariage apostillé mentionne votre statut antérieur comme *Célibataire*, vous êtes dispensé(e) d'un certificat de célibat séparé !\n• **Couples non mariés (*Nohal 5.2.0009*) :** Signez également la déclaration sur l'honneur en 13 clauses **Nespach Alef**.\n• **Droit à la double procédure (Sec. ג.10) :** Vous pouvez mener de front votre visa de conjoint ET votre conversion auprès du Rabbinat d'État !",
+        "es": "💍 **¡Apertura de la vía de residencia conyugal (*Nohal 5.2.0008 / 5.2.0009* — Formulario Ash/6)!**\n\n• **Parejas casadas (*Nohal 5.2.0008*):** Presenten el **Formulario Ash/6** de 6 páginas (incluye matrimonios civiles por Zoom en Utah bajo el fallo de la Corte Suprema *AAA 7368/22*). Nota: Conforme a la **Sec. ד.2.ה**, si su certificado de matrimonio con apostilla indica su estado civil anterior como *Soltero/a*, ¡está exento de presentar un certificado de soltería por separado!\n• **Parejas no casadas (*Nohal 5.2.0009*):** Firman además la declaración jurada de 13 cláusulas **Nespach Alef**.\n• **Derecho a doble vía (Sec. ג.10):** ¡Puede tramitar su visa conyugal Y su conversión ante el Rabinato Estatal simultáneamente!",
+        "de": "💍 **Eröffnung des Verfahrens zum Ehegatten-Aufenthaltsstatus (*Nohal 5.2.0008 / 5.2.0009* — Formular Ash/6)!**\n\n• **Verheiratete Paare (*Nohal 5.2.0008*):** Reichen Sie das 6-seitige **Formular Ash/6** ein (schließt Utah-Zoom-Zivilehen gemäß dem Urteil des Obersten Gerichtshofs *AAA 7368/22* ein). Hinweis: Gemäß **Sec. ד.2.ה** sind Sie von einer separaten Ledigkeitsbescheinigung befreit, wenn Ihre mit Apostille versehene Heiratsurkunde Ihren vorherigen Status als *Ledig* ausweist!\n• **Nicht verheiratete Paare (*Nohal 5.2.0009*):** Unterzeichnen zusätzlich die eidesstattliche Erklärung **Nespach Alef** mit 13 Klauseln.\n• **Recht auf Parallelverfahren (Sec. ג.10):** Sie können Ihr Ehegatten-Visum UND Ihren staatlichen Rabbinats-Gijur gleichzeitig betreiben!",
+        "ru": "💍 **Открытие ступенчатой процедуры СТУПРО для супругов (*Nohal 5.2.0008 / 5.2.0009* — Форма Ash/6)!**\n\n• **Супруги в браке (*Nohal 5.2.0008*):** Подают 6-страничную **Форму Ash/6** (включая гражданские браки в Юте через Zoom согласно прецеденту Верховного суда *AAA 7368/22*). Примечание: Согласно **Sec. ד.2.ה**, если в вашем свидетельстве о браке с апостилем указан предыдущий статус *Холост/Не замужем*, вы освобождаетесь от отдельной справки о семейном положении!\n• **Сожители / Едуим бе-цибур (*Nohal 5.2.0009*):** Также подписывают декларацию **Nespach Alef** из 13 пунктов.\n• **Право на параллельные процессы (Sec. ג.10):** Вы можете одновременно вести дело по СТУПРО в МВД И процесс гиюра в государственном Раввинате!"
+}
     },
     {
       id: "form_ash456_shinui",
@@ -5030,9 +5038,13 @@ if (typeof document !== 'undefined') {
       primary: "hebrew-engine|ash456",
       backups: ["term|five_docs", "hebrew-engine|mr14a", "term|bridge_health"],
       reply: {
-        en: "✈️ **Opening In-Israel Aliyah (*Shinui Ma'amad* • *Nohal 5.2.0001* — Form Ash/456)!**\n\n• **Zero Fee Exemption:** Under *Nohal 5.2.0001 Sec. ג.7*, tourists changing status to *Oleh* are **exempt** from the 955₪ fee.\n• **🚨 The 24-Month *Sal Klita* Trap:** Exceeding **24 cumulative months** inside Israel in the 3 years prior to receiving your *Teudat Oleh* permanently disqualifies you from the ~21,700₪ *Sal Klita* cash grant!",
-        he: "✈️ **פותח את מסלול עלייה מתוך ישראל (שינוי מעמד • נוהל 5.2.0001 — טופס אש/456)!**\n\n• **פטור מאגרה:** לפי סעיף ג.7 לנוהל 5.2.0001, מבקשי מעמד עולה פטורים מאגרת 955 ₪.\n• **🚨 מלכודת 24 החודשים של סל קליטה:** שהייה מצטברת של מעל 24 חודשים בישראל ב-3 השנים שקדמו לקבלת מעמד עולה שוללת לצמיתות את מענק סל הקליטה (~21,700 ₪)!"
-      }
+        "en": "✈️ **Opening In-Israel Aliyah (*Shinui Ma'amad* • *Nohal 5.2.0001* — Form Ash/456)!**\n\n• **Zero Fee Exemption:** Under *Nohal 5.2.0001 Sec. ג.7*, tourists changing status to *Oleh* are **exempt** from the 955₪ fee.\n• **🚨 The 24-Month *Sal Klita* Trap:** Exceeding **24 cumulative months** inside Israel in the 3 years prior to receiving your *Teudat Oleh* permanently disqualifies you from the ~21,700₪ *Sal Klita* cash grant!",
+        "he": "✈️ **פותח את מסלול עלייה מתוך ישראל (שינוי מעמד • נוהל 5.2.0001 — טופס אש/456)!**\n\n• **פטור מאגרה:** לפי סעיף ג.7 לנוהל 5.2.0001, מבקשי מעמד עולה פטורים מאגרת 955 ₪.\n• **🚨 מלכודת 24 החודשים של סל קליטה:** שהייה מצטברת של מעל 24 חודשים בישראל ב-3 השנים שקדמו לקבלת מעמד עולה שוללת לצמיתות את מענק סל הקליטה (~21,700 ₪)!",
+        "fr": "✈️ **Ouverture de l'Aliyah depuis Israël (*Shinui Ma'amad* • *Nohal 5.2.0001* — Formulaire Ash/456) !**\n\n• **Exonération totale de frais :** En vertu du *Nohal 5.2.0001 Sec. ג.7*, les touristes changeant de statut vers celui d'*Oleh* sont **exemptés** des frais de 955₪.\n• **🚨 Le piège des 24 mois du *Sal Klita* :** Dépasser **24 mois cumulés** en Israël au cours des 3 années précédant l'obtention de votre *Teudat Oleh* vous disqualifie définitivement de la subvention financière du *Sal Klita* d'environ 21 700₪ !",
+        "es": "✈️ **¡Apertura de Aliá desde Israel (*Shinui Ma'amad* • *Nohal 5.2.0001* — Formulario Ash/456)!**\n\n• **Exención total de tarifas:** Según el *Nohal 5.2.0001 Sec. ג.7*, los turistas que cambian su estatus a *Oleh* están **exentos** de la tarifa de 955₪.\n• **🚨 La trampa de los 24 meses del *Sal Klita*:** ¡Superar **24 meses acumulativos** dentro de Israel en los 3 años previos a recibir su *Teudat Oleh* lo descalifica permanentemente de la subvención monetaria de ~21,700₪ del *Sal Klita*!",
+        "de": "✈️ **Eröffnung der Alija aus Israel (*Shinui Ma'amad* • *Nohal 5.2.0001* — Formular Ash/456)!**\n\n• **Befreiung von Gebühren:** Gemäß *Nohal 5.2.0001 Sec. ג.7* sind Touristen, die ihren Status zu *Oleh* ändern, von der Gebühr von 955₪ **befreit**.\n• **🚨 Die 24-Monate-*Sal Klita*-Falle:** Ein kumulierter Aufenthalt von mehr als **24 Monaten** in Israel innerhalb der 3 Jahre vor Erhalt Ihrer *Teudat Oleh* disqualifiziert Sie dauerhaft von dem *Sal Klita*-Zuschuss von ca. 21.700₪!",
+        "ru": "✈️ **Открытие процедуры репатриации внутри Израиля (*Шинуй маамад* • *Нохаль 5.2.0001* — бланк Аш/456)!**\n\n• **Освобождение от уплаты пошлины:** Согласно *Нохаль 5.2.0001 Sec. ג.7*, туристы, меняющие статус на *Оле*, **освобождаются** от пошлины в размере 955₪.\n• **🚨 Ловушка 24 месяцев для корзины абсорбции (*Саль клита*):** Нахождение в Израиле суммарно более **24 месяцев** за 3 года, предшествующих получению *Теудат оле*, навсегда лишает вас права на денежные выплаты корзины абсорбции (*Саль клита*) в размере ~21,700₪!"
+}
     },
     {
       id: "form_ash1_vc",
@@ -5041,9 +5053,13 @@ if (typeof document !== 'undefined') {
       primary: "obs|3",
       backups: ["hebrew-engine|ash1", "hebrew-engine|ash3", "obs|1"],
       reply: {
-        en: "🏛️ **Opening the *Va'adat Charigim* (Exceptions Committee — Form Ash/1) Playbook!**\n\nTourists on a B/2 visa must clear the Exceptions Committee before their 90-day visa expires by submitting **Form Ash/1**, **Form Ash/3**, a Hebrew *Michtav Hesber* (Explanation Letter), **5–8+ Orthodox Rabbi & Host Family letters**, and all **5 Apostilled homeland documents**.",
-        he: "🏛️ **פותח את מדריך ועדת חריגים (טופס אש/1) למבקשי גיור באשרת תייר!**\n\nתיירים באשרת ב/2 חייבים לעבור את ועדת החריגים לפני תום 90 הימים באמצעות הגשת **טופס אש/1**, **טופס אש/3**, מכתב הסבר מנומק בעברית, **5–8+ מכתבי המלצה מרבנים ומשפחות מארחות**, וכל **5 תעודות האפוסטיל**."
-      }
+        "en": "🏛️ **Opening the *Va'adat Charigim* (Exceptions Committee — Form Ash/1) Playbook!**\n\nTourists on a B/2 visa must clear the Exceptions Committee before their 90-day visa expires by submitting **Form Ash/1**, **Form Ash/3**, a Hebrew *Michtav Hesber* (Explanation Letter), **5–8+ Orthodox Rabbi & Host Family letters**, and all **5 Apostilled homeland documents**.",
+        "he": "🏛️ **פותח את מדריך ועדת חריגים (טופס אש/1) למבקשי גיור באשרת תייר!**\n\nתיירים באשרת ב/2 חייבים לעבור את ועדת החריגים לפני תום 90 הימים באמצעות הגשת **טופס אש/1**, **טופס אש/3**, מכתב הסבר מנומק בעברית, **5–8+ מכתבי המלצה מרבנים ומשפחות מארחות**, וכל **5 תעודות האפוסטיל**.",
+        "fr": "🏛️ **Ouverture du guide de la *Va'adat Charigim* (Commission des dérogations — Formulaire Ash/1) !**\n\nLes touristes sous visa B/2 doivent obtenir l'approbation de la Commission des dérogations avant l'expiration de leur visa de 90 jours en soumettant le **Formulaire Ash/1**, le **Formulaire Ash/3**, une *Michtav Hesber* (lettre d'explication) en hébreu, **5 à 8+ lettres de rabbins orthodoxes et de familles d'accueil**, ainsi que l'ensemble des **5 documents du pays d'origine apostillés**.",
+        "es": "🏛️ **¡Abriendo la guía de la *Va'adat Jariguim* (Comité de Excepciones — Formulario Ash/1)!**\n\nLos turistas con visa B/2 deben recibir la aprobación del Comité de Excepciones antes de que venza su visa de 90 días, presentando el **Formulario Ash/1**, el **Formulario Ash/3**, una *Mijtav Hesber* (carta de explicación) en hebreo, **5–8+ cartas de rabinos ortodoxos y familias anfitrionas**, y todos los **5 documentos apostillados del país de origen**.",
+        "de": "🏛️ **Eröffnung des Leitfadens für das *Va'adat Charigim* (Ausnahmekomitee — Formular Ash/1)!**\n\nTouristen mit einem B/2-Visum müssen vor Ablauf ihres 90-Tage-Visums das Ausnahmekomitee durchlaufen, indem sie das **Formular Ash/1**, das **Formular Ash/3**, einen hebräischen *Michtav Hesber* (Erklärungsbrief), **5–8+ Empfehlungsschreiben von orthodoxen Rabbinern & Gastfamilien** sowie alle **5 apostillierten Dokumente aus dem Herkunftsland** einreichen.",
+        "ru": "🏛️ **Открываем руководство по прохождению *Ваадат Харигим* (Комиссии по исключительным случаям — Форма Ash/1)!**\n\nТуристы с визой B/2 обязаны пройти Комиссию по исключительным случаям до истечения срока их 90-дневной визы, подав **Форму Ash/1**, **Форму Ash/3**, *Михтав Хесбер* (разъяснительное письмо) на иврите, **5–8+ рекомендательных писем от ортодоксальных раввинов и принимающих семей**, а также все **5 апостилированных документов из страны исхода**."
+}
     },
     {
       id: "form_ash3_ext",
@@ -5052,9 +5068,13 @@ if (typeof document !== 'undefined') {
       primary: "hebrew-engine|ash3",
       backups: ["obs|3", "hebrew-engine|ash1", "obs|8"],
       reply: {
-        en: "📄 **Opening Form Ash/3 (Visa Extension / Change to A/2 Student or B/1 Visa)!**\n\nUse our bilingual Hebrew/English **Form Ash/3** engine to extend your B/2 tourist permit or switch to an **A/2 Conversion Ulpan Student Visa** without overstaying your 90-day clock.",
-        he: "📄 **פותח את מנוע טופס אש/3 (הארכת אשרת שהייה / החלפה לאשרת תלמיד א/2 או ב/1)!**\n\nמלאו והורידו את **טופס אש/3** המוחתם בעברית ובאנגלית להארכת אשרת תייר ב/2 או מעבר לאשרת לימודי גיור א/2."
-      }
+        "en": "📄 **Opening Form Ash/3 (Visa Extension / Change to A/2 Student or B/1 Visa)!**\n\nUse our bilingual Hebrew/English **Form Ash/3** engine to extend your B/2 tourist permit or switch to an **A/2 Conversion Ulpan Student Visa** without overstaying your 90-day clock.",
+        "he": "📄 **פותח את מנוע טופס אש/3 (הארכת אשרת שהייה / החלפה לאשרת תלמיד א/2 או ב/1)!**\n\nמלאו והורידו את **טופס אש/3** המוחתם בעברית ובאנגלית להארכת אשרת תייר ב/2 או מעבר לאשרת לימודי גיור א/2.",
+        "fr": "📄 **Ouverture du formulaire Ash/3 (Prolongation de visa / Changement vers visa étudiant A/2 ou B/1) !**\n\nUtilisez notre moteur bilingue hébreu/anglais pour le **Formulaire Ash/3** afin de prolonger votre permis touristique B/2 ou de passer à un **Visa étudiant d'Oulpan de conversion A/2** sans dépasser votre délai de 90 jours.",
+        "es": "📄 **¡Abriendo el Formulario Ash/3 (Extensión de visa / Cambio a visa de estudiante A/2 o B/1)!**\n\nUtilice nuestro motor bilingüe hebreo/inglés del **Formulario Ash/3** para extender su permiso de turista B/2 o cambiar a una **Visa de estudiante de Ulpán de conversión A/2** sin exceder su límite de 90 días.",
+        "de": "📄 **Formular Ash/3 wird geöffnet (Visumverlängerung / Wechsel zu A/2-Studentenvisum oder B/1-Visum)!**\n\nNutzen Sie unser zweisprachiges hebräisch-englisches Tool für das **Formular Ash/3**, um Ihre B/2-Touristenerlaubnis zu verlängern oder zu einem **A/2-Gijur-Ulpan-Studentenvisum** zu wechseln, ohne Ihre 90-Tage-Frist zu überschreiten.",
+        "ru": "📄 **Открытие бланка Ash/3 (Продление визы / Смена статуса на студенческую визу А/2 или визу Б/1)!**\n\nВоспользуйтесь нашим двуязычным (иврит/английский) генератором **бланка Ash/3**, чтобы продлить туристическую визу Б/2 или перейти на **студенческую визу А/2 для прохождения ульпана гиюра** без нарушения 90-дневного срока пребывания."
+}
     },
     {
       id: "form_mr14_tz",
@@ -5063,9 +5083,13 @@ if (typeof document !== 'undefined') {
       primary: "hebrew-engine|mr14a",
       backups: ["term|newborn_sefach", "hebrew-engine|ash456", "profile|vault"],
       reply: {
-        en: "🪪 **Opening Form MR/14a & MR/14b (First Biometric Teudat Zehut & Passport Declaration)!**\n\nRemember: Leave the Clerk Remarks box on **MR/14a** and the Specimen Signature box on **MR/14b** blank until you are sitting directly in front of the Misrad HaPanim clerk!",
-        he: "🪪 **פותח את טופס מר/14א׳ ומר/14ב׳ (רישום לתעודת זהות ראשונה והצהרת דרכון)!**\n\nחשוב: השאירו את משבצת הערות הפקיד במר/14א׳ ואת משבצת דוגמת החתימה במר/14ב׳ ריקות עד למעמד החתימה מול הפקיד בלשכה!"
-      }
+        "en": "🪪 **Opening Form MR/14a & MR/14b (First Biometric Teudat Zehut & Passport Declaration)!**\n\nRemember: Leave the Clerk Remarks box on **MR/14a** and the Specimen Signature box on **MR/14b** blank until you are sitting directly in front of the Misrad HaPanim clerk!",
+        "he": "🪪 **פותח את טופס מר/14א׳ ומר/14ב׳ (רישום לתעודת זהות ראשונה והצהרת דרכון)!**\n\nחשוב: השאירו את משבצת הערות הפקיד במר/14א׳ ואת משבצת דוגמת החתימה במר/14ב׳ ריקות עד למעמד החתימה מול הפקיד בלשכה!",
+        "fr": "🪪 **Ouverture du formulaire MR/14a et MR/14b (Première Teoudat Zehout biométrique et déclaration de passeport) !**\n\nN'oubliez pas : laissez la case réservée aux remarques de l'employé sur le formulaire **MR/14a** et la case du spécimen de signature sur le formulaire **MR/14b** vides jusqu'à ce que vous soyez assis directement devant l'employé du Misrad HaPanim !",
+        "es": "🪪 **¡Apertura del formulario MR/14a y MR/14b (Primer Teudat Zehut biométrico y declaración de pasaporte)!**\n\nRecuerde: ¡Deje la casilla de observaciones del funcionario en el **MR/14a** y la casilla de muestra de firma en el **MR/14b** en blanco hasta que esté sentado directamente frente al funcionario del Misrad HaPanim!",
+        "de": "🪪 **Öffnen des Formulars MR/14a & MR/14b (Erste biometrische Teudat Zehut & Passerklärung)!**\n\nDenken Sie daran: Lassen Sie das Feld für Anmerkungen des Sachbearbeiters auf **MR/14a** und das Feld für die Unterschriftsprobe auf **MR/14b** leer, bis Sie direkt vor dem Sachbearbeiter des Misrad HaPanim sitzen!",
+        "ru": "🪪 **Открытие бланка MR/14a и MR/14b (Первый биометрический Теудат-зеут и декларация на загранпаспорт)!**\n\nПомните: оставьте графу примечаний служащего (הערות הפקיד) в **MR/14a** и графу образца подписи в **MR/14b** пустыми до тех пор, пока не будете сидеть непосредственно перед пкидом в Мисрад ха-Паним!"
+}
     },
     {
       id: "form_sec_cv",
@@ -5074,9 +5098,13 @@ if (typeof document !== 'undefined') {
       primary: "hebrew-engine|sec_cv",
       backups: ["hebrew-engine|ash6", "hebrew-engine|ash456", "obs|1"],
       reply: {
-        en: "🛡️ **Opening the 11-Page Nativ / Misrad HaPanim Security CV Auto-Filler!**\n\nOur engine populates all 11 pages of the Hebrew Security & Biography questionnaire (including landscape family tables, travel history, and employment lines) from your single dossier.",
-        he: "🛡️ **פותח את מנוע שאלון קורות חיים (11 עמודים) של נתיב ומשרד הפנים!**\n\nהמערכת ממלאת עבורכם את כל 11 עמודי השאלון בעברית תקנית (כולל טבלאות בני משפחה, היסטוריית נסיעות ותעסוקה)."
-      }
+        "en": "🛡️ **Opening the 11-Page Nativ / Misrad HaPanim Security CV Auto-Filler!**\n\nOur engine populates all 11 pages of the Hebrew Security & Biography questionnaire (including landscape family tables, travel history, and employment lines) from your single dossier.",
+        "he": "🛡️ **פותח את מנוע שאלון קורות חיים (11 עמודים) של נתיב ומשרד הפנים!**\n\nהמערכת ממלאת עבורכם את כל 11 עמודי השאלון בעברית תקנית (כולל טבלאות בני משפחה, היסטוריית נסיעות ותעסוקה).",
+        "fr": "🛡️ **Ouverture du remplisseur automatique du CV de sécurité Nativ / Misrad HaPanim de 11 pages !**\n\nNotre moteur remplit les 11 pages du questionnaire biographique et de sécurité en hébreu (y compris les tableaux familiaux au format paysage, l'historique des voyages et les lignes d'emploi) à partir de votre dossier unique.",
+        "es": "🛡️ **¡Abriendo el rellenador automático del CV de seguridad de 11 páginas de Nativ / Misrad HaPanim!**\n\nNuestro motor completa las 11 páginas del cuestionario biográfico y de seguridad en hebreo (incluidas las tablas familiares en formato horizontal, el historial de viajes y las líneas de empleo) a partir de su expediente único.",
+        "de": "🛡️ **Start des automatischen Ausfüllers für den 11-seitigen Nativ / Misrad HaPanim Sicherheits-Lebenslauf!**\n\nUnsere Engine füllt alle 11 Seiten des hebräischen Sicherheits- & Biografie-Fragebogens (einschließlich Familientabellen im Querformat, Reisehistorie und Beschäftigungsverlauf) aus Ihrem einzigen Dossier aus.",
+        "ru": "🛡️ **Открываем автозаполнение 11-страничной анкеты резюме / безопасности для Натив / Мисрад ха-Паним!**\n\nНаша система заполняет все 11 страниц анкеты безопасности и биографии на иврите (включая горизонтальные таблицы членов семьи, историю поездок и трудовой стаж) на основе вашего единого досье."
+}
     },
     {
       id: "apostille_5docs_180d",
@@ -5085,9 +5113,13 @@ if (typeof document !== 'undefined') {
       primary: "obs|1",
       backups: ["term|five_docs", "term|go_bag", "concierge|"],
       reply: {
-        en: "📜 **Opening the 5 Mandatory Apostilled Documents & 180-Day Clock Guide!**\n\n1. **The 5 Required Originals:** (1) Long-Form Birth Cert listing **both parents**, (2) Single-Status Proof (or Marriage Cert listing prior status as *Single* under *Nohal 5.2.0008 Sec. ד.2.ה*), (3) Prior Divorce/Death certs, (4) Name-Change certs, and (5) Federal Fingerprint Criminal Check (US FBI w/ Federal Dept of State Apostille, UK ACRO, FR Bulletin n°3, etc.).\n2. **Strict 180-Day Expiry:** Police and marital certificates expire **180 days** from issue!\n3. **Never Surrender Originals:** Show originals at the window only for visual inspection and hand the clerk a photocopy or **Red-Ribbon Notarial Translation**.",
-        he: "📜 **פותח את מדריך 5 תעודות האפוסטיל ושעון 180 הימים!**\n\n1. **5 תעודות המקור הנדרשות:** (1) תעודת לידה מורחבת עם שמות שני ההורים, (2) תעודת רווקות (או תעודת נישואין המציינת מצב קודם 'רווק/ה' לפי סעיף ד.2.ה), (3) תעודות גירושין/פטירה קודמות, (4) תעודות שינוי שם, (5) תעודת יושר פדרלית (כגון FBI עם אפוסטיל פדרלי) מכל מדינת אזרחות ומגורים מעל שנה מגיל 14.\n2. **תוקף 180 יום:** תעודות יושר ורווקות פגות תוקף לאחר 180 יום בדיוק!\n3. **לעולם אל תמסרו תעודת מקור לפקיד:** הציגו מקור לעיון בלבד ומסרו העתק או אישור תרגום נוטריוני בסרט אדום."
-      }
+        "en": "📜 **Opening the 5 Mandatory Apostilled Documents & 180-Day Clock Guide!**\n\n1. **The 5 Required Originals:** (1) Long-Form Birth Cert listing **both parents**, (2) Single-Status Proof (or Marriage Cert listing prior status as *Single* under *Nohal 5.2.0008 Sec. ד.2.ה*), (3) Prior Divorce/Death certs, (4) Name-Change certs, and (5) Federal Fingerprint Criminal Check (US FBI w/ Federal Dept of State Apostille, UK ACRO, FR Bulletin n°3, etc.).\n2. **Strict 180-Day Expiry:** Police and marital certificates expire **180 days** from issue!\n3. **Never Surrender Originals:** Show originals at the window only for visual inspection and hand the clerk a photocopy or **Red-Ribbon Notarial Translation**.",
+        "he": "📜 **פותח את מדריך 5 תעודות האפוסטיל ושעון 180 הימים!**\n\n1. **5 תעודות המקור הנדרשות:** (1) תעודת לידה מורחבת עם שמות שני ההורים, (2) תעודת רווקות (או תעודת נישואין המציינת מצב קודם 'רווק/ה' לפי סעיף ד.2.ה), (3) תעודות גירושין/פטירה קודמות, (4) תעודות שינוי שם, (5) תעודת יושר פדרלית (כגון FBI עם אפוסטיל פדרלי) מכל מדינת אזרחות ומגורים מעל שנה מגיל 14.\n2. **תוקף 180 יום:** תעודות יושר ורווקות פגות תוקף לאחר 180 יום בדיוק!\n3. **לעולם אל תמסרו תעודת מקור לפקיד:** הציגו מקור לעיון בלבד ומסרו העתק או אישור תרגום נוטריוני בסרט אדום.",
+        "fr": "📜 **Ouverture du guide des 5 documents apostillés obligatoires et du compte à rebours de 180 jours !**\n\n1. **Les 5 originaux obligatoires :** (1) Acte de naissance intégral mentionnant les **deux parents**, (2) Certificat de célibat (ou acte de mariage mentionnant le statut antérieur de *célibataire* selon le *Nohal 5.2.0008 Sec. ד.2.ה*), (3) Actes de divorce/décès antérieurs, (4) Certificats de changement de nom, et (5) Casier judiciaire fédéral avec empreintes digitales (FBI américain avec apostille fédérale du Dept of State, ACRO britannique, Bulletin n°3 français, etc.).\n2. **Validité stricte de 180 jours :** Les casiers judiciaires et certificats d'état civil expirent **180 jours** après leur délivrance !\n3. **Ne remettez jamais les originaux :** Présentez les originaux au guichet uniquement pour contrôle visuel et remettez à l'agent une photocopie ou une **traduction notariée avec ruban rouge**.",
+        "es": "📜 **¡Abriendo la guía de los 5 documentos apostillados obligatorios y el reloj de 180 días!**\n\n1. **Los 5 originales obligatorios:** (1) Certificado literal/completo de nacimiento que mencione a **ambos padres**, (2) Certificado de soltería (o certificado de matrimonio que indique el estado previo de *soltero/a* según la *Nohal 5.2.0008 Sec. ד.2.ה*), (3) Certificados de divorcio/defunción anteriores, (4) Certificados de cambio de nombre, y (5) Certificado federal de antecedentes penales con huellas dactilares (FBI de EE. UU. con apostilla del Departamento de Estado federal, ACRO del Reino Unido, FR Bulletin n°3, etc.).\n2. **Caducidad estricta de 180 días:** ¡Los certificados penales y de estado civil vencen a los **180 días** de su emisión!\n3. **Nunca entregue los originales:** Muestre los originales en la ventanilla solo para inspección visual y entregue al funcionario una fotocopia o una **traducción notarial con cinta roja**.",
+        "de": "📜 **Leitfaden zu den 5 obligatorischen apostillierten Dokumenten & der 180-Tage-Frist geöffnet!**\n\n1. **Die 5 erforderlichen Originale:** (1) Ausführliche Geburtsurkunde mit Angabe **beider Elternteile**, (2) Ledigkeitsbescheinigung (oder Heiratsurkunde, die den vorherigen Status als *ledig* gemäß *Nohal 5.2.0008 Sec. ד.2.ה* ausweist), (3) Frühere Scheidungs-/Sterbeurkunden, (4) Namensänderungsurkunden und (5) Bundesweites polizeiliches Führungszeugnis mit Fingerabdrücken (US-FBI mit Bundes-Apostille des Dept of State, UK ACRO, FR Bulletin n°3 usw.).\n2. **Strikte 180-Tage-Gültigkeit:** Führungszeugnisse und Personenstandsurkunden verfallen **180 Tage** nach Ausstellung!\n3. **Niemals Originale abgeben:** Zeigen Sie Originale am Schalter nur zur visuellen Überprüfung vor und übergeben Sie dem Sachbearbeiter eine Fotokopie oder eine **notarielle Übersetzung mit rotem Band**.",
+        "ru": "📜 **Открываем руководство по 5 обязательным документам с апостилем и правилу 180 дней!**\n\n1. **5 обязательных оригиналов документов:** (1) Полноформатное свидетельство о рождении с указанием **обоих родителей**, (2) Справка о семейном положении / свидетельство о несостоянии в браке (или свидетельство о браке с указанием предыдущего статуса *«холост/незамужем»* согласно *Nohal 5.2.0008 Sec. ד.2.ה*), (3) Предыдущие свидетельства о разводе/смерти, (4) Свидетельства о перемене имени, и (5) Федеральная справка о несудимости с отпечатками пальцев (US FBI с федеральным апостилем Dept of State, британский ACRO, французский Bulletin n°3 и т. д.).\n2. **Строгий срок действия 180 дней:** Справки о несудимости и семейном положении действуют ровно **180 дней** с даты выдачи!\n3. **Никогда не отдавайте оригиналы:** Предъявляйте оригиналы в окне МВД (Мисрад а-Пним) только для визуальной сверки, а чиновнику отдавайте ксерокопию или **нотариальный перевод с красной лентой**."
+}
     },
     {
       id: "go_bag_pre_flight",
@@ -5096,9 +5128,13 @@ if (typeof document !== 'undefined') {
       primary: "term|go_bag",
       backups: ["obs|1", "term|fx_shield", "term|bridge_health"],
       reply: {
-        en: "🚨 **Opening the 7-Day Pre-Flight Go-Bag & Emergency Aliyah Checklist!**\n\nNever board your flight to Israel without pulling **double-original, double-Apostilled** copies of your Birth Certificate, Police Check (<180d), Marital Proof, and Orthodox *Ishur Yahadut* into your carry-on bag.",
-        he: "🚨 **פותח את רשימת תיק החירום לטיסה (Go-Bag) ועלייה מתוך ישראל!**\n\nאל תעלו על טיסה לישראל לפני שהוצאתם ידנית 2 עותקים מקוריים ומאומתים באפוסטיל של תעודת הלידה המורחבת, תעודת היושר (<180 יום), תמצית הרווקות/נישואין ואישור היהדות."
-      }
+        "en": "🚨 **Opening the 7-Day Pre-Flight Go-Bag & Emergency Aliyah Checklist!**\n\nNever board your flight to Israel without pulling **double-original, double-Apostilled** copies of your Birth Certificate, Police Check (<180d), Marital Proof, and Orthodox *Ishur Yahadut* into your carry-on bag.",
+        "he": "🚨 **פותח את רשימת תיק החירום לטיסה (Go-Bag) ועלייה מתוך ישראל!**\n\nאל תעלו על טיסה לישראל לפני שהוצאתם ידנית 2 עותקים מקוריים ומאומתים באפוסטיל של תעודת הלידה המורחבת, תעודת היושר (<180 יום), תמצית הרווקות/נישואין ואישור היהדות.",
+        "fr": "🚨 **Ouverture de la check-list du sac d'urgence (Go-Bag) et de l'Aliyah 7 jours avant le vol !**\n\nN'embarquez jamais sur votre vol pour Israël sans avoir placé des copies en **double original, doublement apostillées** de votre acte de naissance, extrait de casier judiciaire (<180j), justificatif de situation matrimoniale et *Ishur Yahadut* orthodoxe dans votre bagage à main.",
+        "es": "🚨 **¡Abriendo la lista de verificación de emergencia para el equipaje de mano (Go-Bag) y Aliyá a 7 días del vuelo!**\n\nNunca suba a su vuelo hacia Israel sin guardar en su equipaje de mano copias en **doble original, con doble apostilla** de su certificado de nacimiento, certificado de antecedentes penales (<180d), constancia de estado civil e *Ishur Yahadut* ortodoxo.",
+        "de": "🚨 **Öffnen der 7-Tage-Pre-Flight-Notfalltasche (Go-Bag) & Aliyah-Checkliste!**\n\nGehen Sie niemals an Bord Ihres Fluges nach Israel, ohne **doppelte Originale mit doppelter Apostille** Ihrer Geburtsurkunde, des Führungszeugnisses (<180 Tage), des Familienstandsnachweises und des orthodoxen *Ishur Yahadut* in Ihr Handgepäck zu packen.",
+        "ru": "🚨 **Открываем чек-лист экстренного чемоданчика (Go-Bag) и репатриации за 7 дней до вылета!**\n\nНикогда не садитесь на рейс в Израиль, не положив в ручную кладь **двойные оригиналы с двойным апостилем** свидетельства о рождении, справки о несудимости (<180 дней), документов о семейном положении и ортодоксального *Ишур Яхадут* (*Ishur Yahadut*)."
+}
     },
     {
       id: "beit_din_700_cards",
@@ -5107,9 +5143,13 @@ if (typeof document !== 'undefined') {
       primary: "beit-din-150|",
       backups: ["songs-prayers|", "obs|5", "rabbi-letters|"],
       reply: {
-        en: "🕍 **Opening the 700-Card Ma'amad Beit Din Simulator!**\n\nPractice all 4 packs (200 Core Halacha, 200 Dayanim Curveballs, 150 Men's Pack, and 150 Women's Pack) with native Hebrew audio pronunciation and exact answers Dayanim expect to hear.",
-        he: "🕍 **פותח את סימולטור 700 השאלות למעמד בית הדין!**\n\nתרגלו את כל 4 החבילות (200 שאלות ליבה, 200 שאלות מתקילות של דיינים, 150 לגברים ו-150 לנשים) עם הגייה קולית בעברית."
-      }
+        "en": "🕍 **Opening the 700-Card Ma'amad Beit Din Simulator!**\n\nPractice all 4 packs (200 Core Halacha, 200 Dayanim Curveballs, 150 Men's Pack, and 150 Women's Pack) with native Hebrew audio pronunciation and exact answers Dayanim expect to hear.",
+        "he": "🕍 **פותח את סימולטור 700 השאלות למעמד בית הדין!**\n\nתרגלו את כל 4 החבילות (200 שאלות ליבה, 200 שאלות מתקילות של דיינים, 150 לגברים ו-150 לנשים) עם הגייה קולית בעברית.",
+        "fr": "🕍 **Ouverture du simulateur de Ma'amad Beit Din à 700 cartes !**\n\nEntraînez-vous sur les 4 packs (200 Halakha fondamentale, 200 questions pièges des Dayanim, 150 pack Hommes et 150 pack Femmes) avec prononciation audio en hébreu authentique et les réponses exactes que les Dayanim attendent d'entendre.",
+        "es": "🕍 **¡Abriendo el simulador de Ma'amad Beit Din de 700 tarjetas!**\n\nPractica los 4 paquetes (200 de Halajá fundamental, 200 preguntas capciosas de Dayanim, 150 para hombres y 150 para mujeres) con pronunciación de audio en hebreo nativo y las respuestas exactas que los Dayanim esperan escuchar.",
+        "de": "🕍 **Eröffnung des 700-Karten-Simulators für das Ma'amad Beit Din!**\n\nÜben Sie alle 4 Pakete (200 Kern-Halacha, 200 Fangfragen der Dayanim, 150 Männer-Paket und 150 Frauen-Paket) mit muttersprachlicher hebräischer Audio-Aussprache und den genauen Antworten, die die Dayanim erwarten.",
+        "ru": "🕍 **Открываем тренажер из 700 карточек для Маамад Бейт Дин!**\n\nПрактикуйте все 4 набора (200 вопросов по базовой Галахе, 200 каверзных вопросов от даянов, 150 для мужчин и 150 для женщин) с правильным аудиопроизношением на иврите и точными ответами, которые ожидают услышать даяны."
+}
     },
     {
       id: "songs_prayers_56",
@@ -5118,9 +5158,13 @@ if (typeof document !== 'undefined') {
       primary: "songs-prayers|",
       backups: ["beit-din-150|", "obs|5", "rabbi-letters|"],
       reply: {
-        en: "🎵 **Opening the 56 Shabbat Songs, Morning Prayers & Essential Brachot Karaoke Trainer!**\n\nFollow word-by-word highlighted Hebrew + 6-language phonetic transliteration so you can sing and recite every blessing fluently at the Beit Din.",
-        he: "🎵 **פותח את מאמן הקריוקי ל-56 שירי שבת, תפילות שחרית וברכות!**\n\nתרגלו מילה-במילה עם הדגשה מסונכרנת והגייה מדויקת למעמד בית הדין."
-      }
+        "en": "🎵 **Opening the 56 Shabbat Songs, Morning Prayers & Essential Brachot Karaoke Trainer!**\n\nFollow word-by-word highlighted Hebrew + 6-language phonetic transliteration so you can sing and recite every blessing fluently at the Beit Din.",
+        "he": "🎵 **פותח את מאמן הקריוקי ל-56 שירי שבת, תפילות שחרית וברכות!**\n\nתרגלו מילה-במילה עם הדגשה מסונכרנת והגייה מדויקת למעמד בית הדין.",
+        "fr": "🎵 **Ouverture de l'entraîneur karaoké des 56 chants de Chabbat, prières du matin et bénédictions essentielles !**\n\nSuivez l'hébreu surligné mot à mot + la translittération phonétique en 6 langues pour chanter et réciter chaque bénédiction avec fluidité devant le Beit Din.",
+        "es": "🎵 **¡Abriendo el entrenador de karaoke de 56 canciones de Shabat, rezos matutinos y bendiciones esenciales!**\n\nSiga el hebreo resaltado palabra por palabra + la transliteración fonética en 6 idiomas para que pueda cantar y recitar cada bendición con fluidez ante el Beit Din.",
+        "de": "🎵 **Eröffnung des Karaoke-Trainers für 56 Schabbat-Lieder, Morgengebete und grundlegende Brachot!**\n\nFolgen Sie dem Wort für Wort hervorgehobenen Hebräisch + der phonetischen Transliteration in 6 Sprachen, damit Sie jeden Segensspruch vor dem Beit Din fließend singen und vortragen können.",
+        "ru": "🎵 **Открываем караоке-тренажер для 56 субботних песен (Шаббат), утренних молитв (Шахарит) и основных благословений (Брахот)!**\n\nСледите за синхронным выделением каждого слова на иврите + фонетической транслитерацией на 6 языках, чтобы бегло петь и произносить каждую браху на заседании Бейт Дина."
+}
     },
     {
       id: "couples_300_sync",
@@ -5129,9 +5173,13 @@ if (typeof document !== 'undefined') {
       primary: "couples-sync|",
       backups: ["obs|6", "hebrew-engine|ash6", "term|spousal_deep_dive"],
       reply: {
-        en: "📱 **Opening the 300-Question Separated-Room Couples Interrogation Sync!**\n\nBefore Misrad HaPanim puts you and your partner in separate rooms to ask 80 daily-life questions, practice on 2 phones and instantly spot any mismatched answers.",
-        he: "📱 **פותח את סימולטור 300 השאלות לשימוע זוגי בחדרים נפרדים (סנכרון 2 טלפונים)!**\n\nתרגלו יחד משני טלפונים וגלו כל אי-התאמה בתשובות לפני הראיון במשרד הפנים."
-      }
+        "en": "📱 **Opening the 300-Question Separated-Room Couples Interrogation Sync!**\n\nBefore Misrad HaPanim puts you and your partner in separate rooms to ask 80 daily-life questions, practice on 2 phones and instantly spot any mismatched answers.",
+        "he": "📱 **פותח את סימולטור 300 השאלות לשימוע זוגי בחדרים נפרדים (סנכרון 2 טלפונים)!**\n\nתרגלו יחד משני טלפונים וגלו כל אי-התאמה בתשובות לפני הראיון במשרד הפנים.",
+        "fr": "📱 **Ouverture de la synchronisation du questionnaire d'interrogatoire de couple en pièces séparées (300 questions) !**\n\nAvant que le Misrad HaPanim ne vous place, vous et votre partenaire, dans des pièces séparées pour vous poser 80 questions sur votre vie quotidienne, entraînez-vous sur 2 téléphones et repérez instantanément toute divergence dans vos réponses.",
+        "es": "📱 **¡Abriendo la sincronización del interrogatorio de pareja en salas separadas de 300 preguntas!**\n\nAntes de que Misrad HaPanim los ubique a ti y a tu pareja en salas separadas para hacerles 80 preguntas sobre su vida cotidiana, practiquen en 2 teléfonos y detecten al instante cualquier respuesta discrepante.",
+        "de": "📱 **Öffnen der Synchronisation für die Paar-Befragung in getrennten Räumen (300 Fragen)!**\n\nBevor Misrad HaPanim Sie und Ihren Partner in getrennte Räume setzt, um Ihnen 80 Fragen zum Alltag zu stellen, üben Sie auf 2 Telefonen und erkennen Sie sofort abweichende Antworten.",
+        "ru": "📱 **Открываем синхронизацию симулятора собеседования для пар в раздельных комнатах (300 вопросов)!**\n\nПрежде чем Мисрад ха-Паним разведет вас с партнером по разным комнатам для проверки по 80 бытовым вопросам, потренируйтесь на 2 телефонах и мгновенно выявите любые несовпадения в ответах."
+}
     },
     {
       id: "rabbi_community_letters",
@@ -5140,9 +5188,13 @@ if (typeof document !== 'undefined') {
       primary: "rabbi-letters|",
       backups: ["term|community_letters", "obs|5", "concierge|"],
       reply: {
-        en: "✍️ **Opening the Activity Logger & Orthodox Rabbi / Host Family Letter Builder!**\n\nLog your Shabbat meals, classes, and synagogue attendance with the iPhone-wheel logger to generate custom Hebrew recommendation letters on official formatting (including mandatory passport & ID numbers).",
-        he: "✍️ **פותח את יומן הפעילות הקהילתי ומחולל מכתבי ההמלצה מרב ומשפחה מארחת!**\n\nתעדו סעודות שבת, שיעורים ותפילות והפיקו טיוטות מכתבים תקניות בעברית הכוללות מספרי דרכון ות״ז כנדרש."
-      }
+        "en": "✍️ **Opening the Activity Logger & Orthodox Rabbi / Host Family Letter Builder!**\n\nLog your Shabbat meals, classes, and synagogue attendance with the iPhone-wheel logger to generate custom Hebrew recommendation letters on official formatting (including mandatory passport & ID numbers).",
+        "he": "✍️ **פותח את יומן הפעילות הקהילתי ומחולל מכתבי ההמלצה מרב ומשפחה מארחת!**\n\nתעדו סעודות שבת, שיעורים ותפילות והפיקו טיוטות מכתבים תקניות בעברית הכוללות מספרי דרכון ות״ז כנדרש.",
+        "fr": "✍️ **Ouverture du journal d'activité et du générateur de lettres de recommandation de rabbin orthodoxe / famille d'accueil !**\n\nEnregistrez vos repas de Chabbat, cours et présences à la synagogue grâce au sélecteur de style iPhone pour générer des lettres de recommandation personnalisées en hébreu au format officiel (incluant les numéros obligatoires de passeport et de pièce d'identité).",
+        "es": "✍️ **¡Abriendo el registro de actividad y el generador de cartas de recomendación de rabino ortodoxo / familia anfitriona!**\n\nRegistre sus comidas de Shabat, clases y asistencia a la sinagoga con el selector estilo iPhone para generar cartas de recomendación personalizadas en hebreo con formato oficial (incluyendo los números obligatorios de pasaporte y documento de identidad).",
+        "de": "✍️ **Aktivitätsprotokoll & Generator für Empfehlungsschreiben von orthodoxen Rabbinern / Gastfamilien wird geöffnet!**\n\nErfassen Sie Ihre Schabbat-Mahlzeiten, Shiurim/Unterrichtsstunden und Synagogenbesuche mit dem iPhone-Drehrad-Logger, um individuelle hebräische Empfehlungsschreiben im offiziellen Format zu erstellen (einschließlich obligatorischer Pass- und ID-Nummern).",
+        "ru": "✍️ **Открываем журнал активности и генератор рекомендательных писем от ортодоксального раввина / принимающей семьи!**\n\nФиксируйте трапезы Шаббата, уроки торы и посещение синагоги с помощью колеса прокрутки в стиле iPhone, чтобы сформировать персонализированные рекомендательные письма на иврите установленного образца (включая обязательные номера загранпаспортов и Теудат Зеут)."
+}
     },
     {
       id: "vetted_concierge_team",
@@ -5151,9 +5203,13 @@ if (typeof document !== 'undefined') {
       primary: "concierge|",
       backups: ["obs|5", "pricing|", "obs|1"],
       reply: {
-        en: "🤝 **Opening the Vetted Concierge Desk ($0 Upfront Quote)!**\n\nRequest regional matching (Jerusalem, Tel Aviv, Center, Haifa/Safed/North, South) for:\n• **🎀 Red-Ribbon Israeli Notarial Hebrew Translations** ($249–$799)\n• **🕍 Vetted Rabbanut Sponsoring Rabbi** ($349) & **🕯️ Madrichat Kallah** ($249)\n• **⚖️ 1-Hour Licensed Lawyer Day-Of Appointment Escort** ($649–$799)",
-        he: "🤝 **פותח את מוקד הליווי האנושי המאומת (הצעת מחיר ללא עלות מראש)!**\n\nתיאום אזורי (ירושלים, תל אביב והמרכז, חיפה/צפת והצפון, דרום) עבור:\n• **🎀 תרגום נוטריוני בעברית בסרט אדום** ($249–$799)\n• **🕍 רב מלווה מוכר ע״י הרבנות** ($349) ו-**🕯️ מדריכת כלה מוסמכת** ($249)\n• **⚖️ ליווי עורך דין מומחה לדיני הגירה לשעה בלשכת משרד הפנים** ($649–$799)"
-      }
+        "en": "🤝 **Opening the Vetted Concierge Desk ($0 Upfront Quote)!**\n\nRequest regional matching (Jerusalem, Tel Aviv, Center, Haifa/Safed/North, South) for:\n• **🎀 Red-Ribbon Israeli Notarial Hebrew Translations** ($249–$799)\n• **🕍 Vetted Rabbanut Sponsoring Rabbi** ($349) & **🕯️ Madrichat Kallah** ($249)\n• **⚖️ 1-Hour Licensed Lawyer Day-Of Appointment Escort** ($649–$799)",
+        "he": "🤝 **פותח את מוקד הליווי האנושי המאומת (הצעת מחיר ללא עלות מראש)!**\n\nתיאום אזורי (ירושלים, תל אביב והמרכז, חיפה/צפת והצפון, דרום) עבור:\n• **🎀 תרגום נוטריוני בעברית בסרט אדום** ($249–$799)\n• **🕍 רב מלווה מוכר ע״י הרבנות** ($349) ו-**🕯️ מדריכת כלה מוסמכת** ($249)\n• **⚖️ ליווי עורך דין מומחה לדיני הגירה לשעה בלשכת משרד הפנים** ($649–$799)",
+        "fr": "🤝 **Ouverture du service de conciergerie vérifié (Devis initial à 0 $) !**\n\nDemandez une mise en relation régionale (Jérusalem, Tel Aviv, Centre, Haïfa/Safed/Nord, Sud) pour :\n• **🎀 Traductions notariées israéliennes en hébreu avec ruban rouge** ($249–$799)\n• **🕍 Rabbin accompagnateur agréé par le Rabbinat** ($349) & **🕯️ Madrichat Kallah** ($249)\n• **⚖️ Accompagnement d'une heure le jour du rendez-vous par un avocat agréé** ($649–$799)",
+        "es": "🤝 **¡Apertura del servicio de conserjería verificado (cotización inicial de $0)!**\n\nSolicite asignación regional (Jerusalén, Tel Aviv, Centro, Haifa/Safed/Norte, Sur) para:\n• **🎀 Traducciones notariales israelíes al hebreo con cinta roja** ($249–$799)\n• **🕍 Rabino patrocinador verificado por el Rabinato** ($349) y **🕯️ Madrijat Kalá** ($249)\n• **⚖️ Acompañamiento de 1 hora el día de la cita con abogado colegiado** ($649–$799)",
+        "de": "🤝 **Eröffnung des geprüften Concierge-Desk (Unverbindliches Kostenvoranschlag für 0 $)!**\n\nFordern Sie ein regionales Matching (Jerusalem, Tel Aviv, Zentrum, Haifa/Safed/Nord, Süd) an für:\n• **🎀 Israelische notarielle Übersetzungen ins Hebräische mit rotem Band** ($249–$799)\n• **🕍 Geprüfter, vom Rabbinat anerkannter begleitender Rabbiner** ($349) & **🕯️ Madrichat Kallah** ($249)\n• **⚖️ 1-stündige Begleitung am Termintag durch einen zugelassenen Anwalt** ($649–$799)",
+        "ru": "🤝 **Открытие проверенной консьерж-службы (расчет стоимости — $0 авансом)!**\n\nЗапросите региональный подбор специалистов (Иерусалим, Тель-Авив, Центр, Хайфа/Цфат/Север, Юг) для:\n• **🎀 Израильские нотариальные переводы на иврит с красной лентой** ($249–$799)\n• **🕍 Проверенный раввин-спонсор, признанный Раввинатом** ($349) и **🕯️ Мадрихат кала** ($249)\n• **⚖️ 1 час сопровождения лицензированным адвокатом в день подачи в МВД** ($649–$799)"
+}
     },
     {
       id: "criminal_record_rehab",
@@ -5162,9 +5218,13 @@ if (typeof document !== 'undefined') {
       primary: "obs|7",
       backups: ["concierge|", "obs|1", "hebrew-engine|ash456"],
       reply: {
-        en: "🛡️ **Opening the Criminal Record Rehabilitation Playbook!**\n\nNever check 'Clean Record' if you have an old, minor, or expunged arrest—Misrad HaPanim rejections for 'concealment' freeze files for 2+ years. Disclose upfront with our statutory Hebrew Rehabilitation Dossier.",
-        he: "🛡️ **פותח את מדריך השיקום והגשת בקשה עם רישום פלילי ישן!**\n\nלעולם אל תסמנו 'ללא עבר פלילי' אם קיים רישום ישן או שנמחק — דחייה בגין 'הסתרת מידע' מקפיאה תיקים לשנתיים. הגישו גילוי נאות ומכתב הסבר שיקומי בעברית."
-      }
+        "en": "🛡️ **Opening the Criminal Record Rehabilitation Playbook!**\n\nNever check 'Clean Record' if you have an old, minor, or expunged arrest—Misrad HaPanim rejections for 'concealment' freeze files for 2+ years. Disclose upfront with our statutory Hebrew Rehabilitation Dossier.",
+        "he": "🛡️ **פותח את מדריך השיקום והגשת בקשה עם רישום פלילי ישן!**\n\nלעולם אל תסמנו 'ללא עבר פלילי' אם קיים רישום ישן או שנמחק — דחייה בגין 'הסתרת מידע' מקפיאה תיקים לשנתיים. הגישו גילוי נאות ומכתב הסבר שיקומי בעברית.",
+        "fr": "🛡️ **Ouverture du guide pratique de réhabilitation du casier judiciaire !**\n\nNe cochez jamais « Casier vierge » si vous avez une arrestation ancienne, mineure ou effacée — les refus de Misrad HaPanim pour « dissimulation » gèlent les dossiers pendant plus de 2 ans. Déclarez-le dès le départ avec notre dossier statutaire de réhabilitation en hébreu.",
+        "es": "🛡️ **¡Abriendo el manual de rehabilitación de antecedentes penales!**\n\nNunca marques 'Sin antecedentes penales' si tienes un arresto antiguo, menor o cancelado; los rechazos de Misrad HaPanim por 'ocultación' congelan los expedientes durante más de 2 años. Decláralo desde el principio con nuestro dossier legal de rehabilitación en hebreo.",
+        "de": "🛡️ **Das Handbuch zur Rehabilitierung des Führungszeugnisses wird geöffnet!**\n\nKreuzen Sie niemals „Keine Vorstrafen“ an, wenn Sie eine alte, geringfügige oder getilgte Festnahme haben – Ablehnungen durch Misrad HaPanim wegen „Verschweigen von Tatsachen“ frieren Akten für 2+ Jahre ein. Legen Sie es von Anfang an mit unserem gesetzlichen Rehabilitierungsdossier auf Hebräisch offen.",
+        "ru": "🛡️ **Открываем регламент реабилитации судимости (Criminal Record Rehabilitation Playbook)!**\n\nНикогда не ставьте отметку «Отсутствие судимости», если у вас был старый, незначительный или погашенный/аннулированный привод или судимость — отказ Мисрад ха-Паним (МВД) по причине «сокрытия информации» замораживает дело на 2+ года. Раскрывайте данные сразу с нашим официальным реабилитационным досье на иврите."
+}
     },
     {
       id: "newborn_baby_sefach",
@@ -5173,9 +5233,13 @@ if (typeof document !== 'undefined') {
       primary: "term|newborn_sefach",
       backups: ["term|spousal_deep_dive", "hebrew-engine|mr14a", "concierge|"],
       reply: {
-        en: "👶 **Opening the Newborn Baby Teudat Zehut Sefach & 300-Day Rule Playbook (*Nohal 5.2.0004*)!**\n\nLearn how to register your Israeli-born baby onto the Teudat Zehut Sefach without getting trapped in a Family Court DNA order (*Tzav B'dikat Rekamot*).",
-        he: "👶 **פותח את מדריך רישום יילוד בספח תעודת הזהות וכלל 300 הימים (נוהל 5.2.0004)!**\n\nכיצד לרשום תינוק שנולד בישראל בספח תעודת הזהות ללא עיכוב של צו בדיקת רקמות בבית המשפט למשפחה."
-      }
+        "en": "👶 **Opening the Newborn Baby Teudat Zehut Sefach & 300-Day Rule Playbook (*Nohal 5.2.0004*)!**\n\nLearn how to register your Israeli-born baby onto the Teudat Zehut Sefach without getting trapped in a Family Court DNA order (*Tzav B'dikat Rekamot*).",
+        "he": "👶 **פותח את מדריך רישום יילוד בספח תעודת הזהות וכלל 300 הימים (נוהל 5.2.0004)!**\n\nכיצד לרשום תינוק שנולד בישראל בספח תעודת הזהות ללא עיכוב של צו בדיקת רקמות בבית המשפט למשפחה.",
+        "fr": "👶 **Ouverture du guide d'enregistrement du nouveau-né sur le Sefach de la Teoudat Zehout & de la règle des 300 jours (*Nohal 5.2.0004*) !**\n\nDécouvrez comment enregistrer votre bébé né en Israël sur le Sefach de la Teoudat Zehout sans vous retrouver piégé par une ordonnance de test ADN du tribunal aux affaires familiales (*Tzav B'dikat Rekamot*).",
+        "es": "👶 **¡Abriendo la guía de inscripción del recién nacido en el Séfaj de la Teudat Zehut y la regla de los 300 días (*Nohal 5.2.0004*)!**\n\nAprenda cómo registrar a su bebé nacido en Israel en el Séfaj de la Teudat Zehut sin quedar atrapado en una orden de prueba de ADN del Tribunal de Familia (*Tzav B'dikat Rekamot*).",
+        "de": "👶 **Öffnen des Leitfadens zur Eintragung von Neugeborenen in den Teudat-Zehut-Sefach & der 300-Tage-Regel (*Nohal 5.2.0004*)!**\n\nErfahren Sie, wie Sie Ihr in Israel geborenes Baby im Sefach der Teudat Zehut eintragen lassen, ohne in die Falle einer DNA-Testanordnung des Familiengerichts (*Tzav B'dikat Rekamot*) zu geraten.",
+        "ru": "👶 **Открываем руководство по внесению новорожденного в сефах Теудат-зеут и правилу 300 дней (*Nohal 5.2.0004*)!**\n\nУзнайте, как вписать ребенка, рожденного в Израиле, в сефах Теудат-зеут без попадания под судебный ордер по семейным делам на генетическую экспертизу ДНК (*Tzav B'dikat Rekamot*)."
+}
     },
     {
       id: "fx_rent_and_health",
@@ -5184,9 +5248,13 @@ if (typeof document !== 'undefined') {
       primary: "term|fx_shield",
       backups: ["term|bridge_health", "obs|8", "term|go_bag"],
       reply: {
-        en: "💸🏥 **Opening the Aliyah Currency Rent Bridge & 60–90 Day Medical Insurance Shield!**\n\n• **Pay Rent in ₪ Without a TZ:** Wire funds and pay your Israeli landlord in Shekels while saving ~2.5% over bank fees.\n• **60–90 Day Medical Bridge:** Get Maccabi/Clalit-network coverage ($1.80–$3/day) while waiting for your Teudat Zehut.",
-        he: "💸🏥 **פותח את גשר המט״ח לתשלום שכר דירה ב-₪ ומגן ביטוח הבריאות ל-60–90 יום!**\n\n• **תשלום שכ״ד ב-₪ ללא ת״ז:** העברת כספים לתשלום שכר דירה בשקלים בחיסכון של כ-2.5% מעמלות הבנקים.\n• **ביטוח בריאות גישור:** כיסוי רפואי ברשת מכבי/כללית בזמן ההמתנה לתעודת זהות."
-      }
+        "en": "💸🏥 **Opening the Aliyah Currency Rent Bridge & 60–90 Day Medical Insurance Shield!**\n\n• **Pay Rent in ₪ Without a TZ:** Wire funds and pay your Israeli landlord in Shekels while saving ~2.5% over bank fees.\n• **60–90 Day Medical Bridge:** Get Maccabi/Clalit-network coverage ($1.80–$3/day) while waiting for your Teudat Zehut.",
+        "he": "💸🏥 **פותח את גשר המט״ח לתשלום שכר דירה ב-₪ ומגן ביטוח הבריאות ל-60–90 יום!**\n\n• **תשלום שכ״ד ב-₪ ללא ת״ז:** העברת כספים לתשלום שכר דירה בשקלים בחיסכון של כ-2.5% מעמלות הבנקים.\n• **ביטוח בריאות גישור:** כיסוי רפואי ברשת מכבי/כללית בזמן ההמתנה לתעודת זהות.",
+        "fr": "💸🏥 **Activation de la passerelle de change pour le loyer de l'Aliyah & Bouclier d'assurance médicale de 60–90 jours !**\n\n• **Payer le loyer en ₪ sans Teoudat Zehout (TZ) :** Transférez des fonds et payez votre propriétaire israélien en shekels tout en économisant environ 2,5 % par rapport aux frais bancaires.\n• **Passerelle médicale de 60–90 jours :** Bénéficiez d'une couverture sur le réseau Maccabi/Clalit (1,80 $–3 $/jour) en attendant votre Teoudat Zehout.",
+        "es": "💸🏥 **¡Apertura del puente de divisas para el alquiler de la Aliyá y escudo de seguro médico de 60–90 días!**\n\n• **Pagar el alquiler en ₪ sin Teudat Zehut (TZ):** Transfiera fondos y pague a su arrendador israelí en shekels ahorrando un ~2.5% frente a las comisiones bancarias.\n• **Puente médico de 60–90 días:** Obtenga cobertura de la red Maccabi/Clalit ($1.80–$3/día) mientras espera su Teudat Zehut.",
+        "de": "💸🏥 **Eröffnung der Aliyah-Währungsbrücke für Mietzahlungen & 60–90-tägiger Krankenversicherungsschutz!**\n\n• **Miete in ₪ ohne Teudat Zehut (TZ) zahlen:** Überweisen Sie Gelder und zahlen Sie Ihrem israelischen Vermieter in Schekel – bei einer Ersparnis von ca. 2,5 % gegenüber den Bankgebühren.\n• **60–90-tägige medizinische Übergangsabdeckung:** Erhalten Sie Versicherungsschutz im Maccabi/Clalit-Netzwerk ($1.80–$3/Tag), während Sie auf Ihre Teudat Zehut warten.",
+        "ru": "💸🏥 **Открытие валютного моста для оплаты аренды при репатриации и страховой щит на первые 60–90 дней!**\n\n• **Оплата аренды в ₪ без Теудат-зеут (ТЗ):** Переводите средства и оплачивайте аренду израильскому арендодателю напрямую в шекелях, экономя около 2.5% по сравнению с банковскими комиссиями.\n• **Медицинский мост на 60–90 дней:** Оформите страховое покрытие в сети больничных касс «Макаби»/«Клалит» ($1.80–$3/день) на период ожидания получения Теудат-зеут."
+}
     },
     {
       id: "tourist_survival_work",
@@ -5195,9 +5263,13 @@ if (typeof document !== 'undefined') {
       primary: "obs|8",
       backups: ["obs|3", "term|fx_shield", "term|bridge_health"],
       reply: {
-        en: "💼 **Opening the Tourist Financial & Housing Survival Guide!**\n\nWorking locally in Israel on a B/2 visa is illegal and kills your file—learn how applicants legally sustain themselves via overseas remote work and slash rent through dorm/caretaker housing.",
-        he: "💼 **פותח את מדריך ההישרדות הכלכלית והמגורים לתיירים בהליך גיור/מעמד!**\n\nעבודה מקומית בישראל באשרת תייר פוסלת את התיק — גלו כיצד להתפרנס כחוק מעבודה מרחוק בחו״ל ולצמצם הוצאות דיור."
-      }
+        "en": "💼 **Opening the Tourist Financial & Housing Survival Guide!**\n\nWorking locally in Israel on a B/2 visa is illegal and kills your file—learn how applicants legally sustain themselves via overseas remote work and slash rent through dorm/caretaker housing.",
+        "he": "💼 **פותח את מדריך ההישרדות הכלכלית והמגורים לתיירים בהליך גיור/מעמד!**\n\nעבודה מקומית בישראל באשרת תייר פוסלת את התיק — גלו כיצד להתפרנס כחוק מעבודה מרחוק בחו״ל ולצמצם הוצאות דיור.",
+        "fr": "💼 **Ouverture du guide de survie financière et de logement pour touristes !**\n\nTravailler localement en Israël avec un visa B/2 est illégal et détruit votre dossier — découvrez comment les candidats subviennent légalement à leurs besoins grâce au travail à distance à l'étranger et réduisent leur loyer via des logements en dortoir ou de gardiennage.",
+        "es": "💼 **¡Abriendo la guía de supervivencia financiera y de vivienda para turistas!**\n\nTrabajar localmente en Israel con una visa B/2 es ilegal y destruye tu expediente; descubre cómo los solicitantes se sustentan legalmente mediante el trabajo remoto en el extranjero y reducen el alquiler a través de dormitorios o viviendas de cuidadores.",
+        "de": "💼 **Der Leitfaden zum finanziellen Überleben und Wohnen für Touristen wird geöffnet!**\n\nLokales Arbeiten in Israel mit einem B/2-Visum ist illegal und zerstört Ihre Akte – erfahren Sie, wie sich Antragsteller durch Remote-Arbeit im Ausland legal finanzieren und die Miete durch Wohnheime/Hausmeisterunterkünfte drastisch senken.",
+        "ru": "💼 **Открываем руководство по финансовому выживанию и поиску жилья для туристов!**\n\nРабота в Израиле по визе B/2 (Б/2) незаконна и ставит крест на вашем деле (тике) — узнайте, как кандидаты легально обеспечивают себя удаленной работой за границей и сокращают расходы на аренду благодаря проживанию в общежитиях или в качестве смотрителей (хаусситтеров)."
+}
     },
     {
       id: "clerk_letter_decoder",
@@ -5206,9 +5278,13 @@ if (typeof document !== 'undefined') {
       primary: "obs|4",
       backups: ["tab|4", "hebrew-engine|ash6", "concierge|"],
       reply: {
-        en: "📸 **Opening the Hebrew Clerk Deficiency Sheet Decoder & 30/45-Day Deadline Tracker!**\n\nSnap any Hebrew printout handed to you by a Misrad HaPanim clerk to get an instant translation and start your 25-day safe countdown.",
-        he: "📸 **פותח את מפענח דרישות המסמכים של פקידי משרד הפנים ומחשבון מועדי ההגשה!**\n\nצלמו כל דף דרישת מסמכים שקיבלתם בלשכה לפענוח מיידי והפעלת שעון עצר להגשה בטוחה."
-      }
+        "en": "📸 **Opening the Hebrew Clerk Deficiency Sheet Decoder & 30/45-Day Deadline Tracker!**\n\nSnap any Hebrew printout handed to you by a Misrad HaPanim clerk to get an instant translation and start your 25-day safe countdown.",
+        "he": "📸 **פותח את מפענח דרישות המסמכים של פקידי משרד הפנים ומחשבון מועדי ההגשה!**\n\nצלמו כל דף דרישת מסמכים שקיבלתם בלשכה לפענוח מיידי והפעלת שעון עצר להגשה בטוחה.",
+        "fr": "📸 **Ouverture du Décodeur de Fiche d'Insuffisance du Greffier en Hébreu & Suivi des Délais de 30/45 Jours !**\n\nPrenez en photo n'importe quel document imprimé en hébreu qui vous a été remis par un agent du Misrad HaPanim pour obtenir une traduction instantanée et lancer votre compte à rebours de sécurité de 25 jours.",
+        "es": "📸 **¡Abriendo el Decodificador de Requerimientos de Documentos del Funcionario en Hebreo y Seguimiento de Plazos de 30/45 Días!**\n\nFotografíe cualquier documento impreso en hebreo entregado por un funcionario de Misrad HaPanim para obtener una traducción instantánea y activar su cuenta regresiva segura de 25 días.",
+        "de": "📸 **Öffnen des Dekodierers für hebräische Sachbearbeiter-Mängellisten & Fristen-Trackers für 30/45 Tage!**\n\nFotografieren Sie jeden hebräischen Ausdruck, den Sie von einem Misrad HaPanim-Mitarbeiter erhalten haben, um eine sofortige Übersetzung zu erhalten und Ihren sicheren 25-Tage-Countdown zu starten.",
+        "ru": "📸 **Открываем декодер бланка требований (дефицит-листа) чиновников на иврите и трекер сроков 30/45 дней!**\n\nСфотографируйте любую распечатку на иврите, выданную чиновником в Мисрад ха-Паним, чтобы получить мгновенный перевод и запустить безопасный 25-дневный обратный отсчет."
+}
     },
     {
       id: "pricing_passes",
@@ -5217,9 +5293,13 @@ if (typeof document !== 'undefined') {
       primary: "pricing|",
       backups: ["concierge|", "hebrew-engine|ash6", "beit-din-150|"],
       reply: {
-        en: "💎 **Opening the Modular Pricing & 23 Services Hub!**\n\nZero monthly subscriptions—unlock only what fits your track:\n• **📄 Statutory Hebrew Forms Engine (All 8 PIBA PDFs):** $89 (90-Day) / $149 (Lifetime)\n• **🕍 Beit Din 700-Q & 56 Songs Suite:** $149 (90-Day) / $249 (Lifetime) — or individual packs from $49\n• **📱 Couples 300-Q 2-Phone Sync:** $129 (90-Day) / $229 (Lifetime)\n• **👑 Full VIP Suites:** $249–$649",
-        he: "💎 **פותח את עמוד המסלולים והמחירים המודולריים (23 שירותים)!**\n\nללא מנויים חודשיים — פתחו רק את המנוע הדרוש לכם:\n• **📄 מנוע 8 טפסי משרד הפנים בעברית:** $89 (ל-90 יום) / $149 (לכל החיים)\n• **🕍 חבילת 700 שאלות בית דין ו-56 שירים:** $149 (ל-90 יום) / $249 (לכל החיים)\n• **📱 סימולטור 300 שאלות שימוע זוגי ב-2 טלפונים:** $129 (ל-90 יום) / $229 (לכל החיים)\n• **👑 חבילות VIP מלאות:** $249–$649"
-      }
+        "en": "💎 **Opening the Modular Pricing & 23 Services Hub!**\n\nZero monthly subscriptions—unlock only what fits your track:\n• **📄 Statutory Hebrew Forms Engine (All 8 PIBA PDFs):** $89 (90-Day) / $149 (Lifetime)\n• **🕍 Beit Din 700-Q & 56 Songs Suite:** $149 (90-Day) / $249 (Lifetime) — or individual packs from $49\n• **📱 Couples 300-Q 2-Phone Sync:** $129 (90-Day) / $229 (Lifetime)\n• **👑 Full VIP Suites:** $249–$649",
+        "he": "💎 **פותח את עמוד המסלולים והמחירים המודולריים (23 שירותים)!**\n\nללא מנויים חודשיים — פתחו רק את המנוע הדרוש לכם:\n• **📄 מנוע 8 טפסי משרד הפנים בעברית:** $89 (ל-90 יום) / $149 (לכל החיים)\n• **🕍 חבילת 700 שאלות בית דין ו-56 שירים:** $149 (ל-90 יום) / $249 (לכל החיים)\n• **📱 סימולטור 300 שאלות שימוע זוגי ב-2 טלפונים:** $129 (ל-90 יום) / $229 (לכל החיים)\n• **👑 חבילות VIP מלאות:** $249–$649",
+        "fr": "💎 **Ouverture de la plateforme des tarifs modulaires et des 23 services !**\n\nZéro abonnement mensuel — débloquez uniquement ce qui correspond à votre parcours :\n• **📄 Moteur de formulaires officiels en hébreu (les 8 PDF PIBA) :** $89 (90 jours) / $149 (À vie)\n• **🕍 Suite Beit Din 700 questions & 56 chants :** $149 (90 jours) / $249 (À vie) — ou packs individuels dès $49\n• **📱 Synchro 2 téléphones Couples 300 questions :** $129 (90 jours) / $229 (À vie)\n• **👑 Suites VIP complètes :** $249–$649",
+        "es": "💎 **¡Apertura del centro de precios modulares y 23 servicios!**\n\nCero suscripciones mensuales: desbloquea solo lo que se adapte a tu trámite:\n• **📄 Motor de formularios oficiales en hebreo (los 8 PDF de PIBA):** $89 (90 días) / $149 (De por vida)\n• **🕍 Suite Beit Din 700 preguntas y 56 canciones:** $149 (90 días) / $249 (De por vida) — o paquetes individuales desde $49\n• **📱 Sincronización en 2 teléfonos para parejas 300 preguntas:** $129 (90 días) / $229 (De por vida)\n• **👑 Suites VIP completas:** $249–$649",
+        "de": "💎 **Eröffnung des modularen Preis- & 23-Services-Hubs!**\n\nKeine monatlichen Abonnements – schalten Sie nur das frei, was zu Ihrem Verfahren passt:\n• **📄 Generator für behördliche hebräische Formulare (alle 8 PIBA-PDFs):** $89 (90 Tage) / $149 (Lebenslang)\n• **🕍 Beit-Din-Paket mit 700 Fragen & 56 Liedern:** $149 (90 Tage) / $249 (Lebenslang) — oder Einzelpakete ab $49\n• **📱 2-Handy-Sync für Paare mit 300 Fragen:** $129 (90 Tage) / $229 (Lebenslang)\n• **👑 Komplette VIP-Pakete:** $249–$649",
+        "ru": "💎 **Открытие хаба модульных тарифов и 23 сервисов!**\n\nНикаких ежемесячных подписок — открывайте доступ только к тому, что нужно для вашего трека:\n• **📄 Генератор официальных бланков МВД на иврите (все 8 PDF-форм PIBA):** $89 (на 90 дней) / $149 (бессрочно)\n• **🕍 Комплект для Бейт Дина: 700 вопросов и 56 песен:** $149 (на 90 дней) / $249 (бессрочно) — или отдельные блоки от $49\n• **📱 Синхронизация на 2 телефонах: 300 вопросов для парного собеседования:** $129 (на 90 дней) / $229 (бессрочно)\n• **👑 Полные VIP-пакеты:** $249–$649"
+}
     },
     {
       id: "sync_pass_code",
@@ -5228,9 +5308,13 @@ if (typeof document !== 'undefined') {
       primary: "sync|modal",
       backups: ["profile|vault", "pricing|", "hebrew-engine|ash6"],
       reply: {
-        en: "📲 **Opening Device Sync & Pass Code Recovery!**\n\nLink your WhatsApp number or enter your 6-character Permanent Pass Code (or Passport Number) to sync your unlocked passes, form drafts, and uploaded documents across all your devices.",
-        he: "📲 **פותח את חלון סנכרון המכשירים ושחזור קוד הגישה!**\n\nחברו את מספר הוואטסאפ שלכם או הזינו את קוד הגישה הקבוע בן 6 התווים (או מספר דרכון) לסנכרון מלא של הטפסים והמסמכים בין כל המכשירים."
-      }
+        "en": "📲 **Opening Device Sync & Pass Code Recovery!**\n\nLink your WhatsApp number or enter your 6-character Permanent Pass Code (or Passport Number) to sync your unlocked passes, form drafts, and uploaded documents across all your devices.",
+        "he": "📲 **פותח את חלון סנכרון המכשירים ושחזור קוד הגישה!**\n\nחברו את מספר הוואטסאפ שלכם או הזינו את קוד הגישה הקבוע בן 6 התווים (או מספר דרכון) לסנכרון מלא של הטפסים והמסמכים בין כל המכשירים.",
+        "fr": "📲 **Ouverture de la synchronisation des appareils et de la récupération du code d'accès !**\n\nAssociez votre numéro WhatsApp ou saisissez votre code d'accès permanent à 6 caractères (ou votre numéro de passeport) pour synchroniser vos pass débloqués, vos brouillons de formulaires et vos documents téléchargés sur tous vos appareils.",
+        "es": "📲 **¡Abriendo la sincronización de dispositivos y recuperación del código de acceso!**\n\nVincula tu número de WhatsApp o introduce tu código de acceso permanente de 6 caracteres (o número de pasaporte) para sincronizar tus pases desbloqueados, borradores de formularios y documentos subidos en todos tus dispositivos.",
+        "de": "📲 **Öffnen der Gerätesynchronisierung & Passcode-Wiederherstellung!**\n\nVerknüpfen Sie Ihre WhatsApp-Nummer oder geben Sie Ihren 6-stelligen permanenten Passcode (oder Ihre Reisepassnummer) ein, um Ihre freigeschalteten Pässe, Formular-Entwürfe und hochgeladenen Dokumente auf all Ihren Geräten zu synchronisieren.",
+        "ru": "📲 **Открываем окно синхронизации устройств и восстановления постоянного кода доступа!**\n\nПривяжите свой номер WhatsApp или введите ваш 6-значный постоянный код доступа (или номер загранпаспорта) для синхронизации открытых доступов, черновиков анкет и загруженных документов между всеми вашими устройствами."
+}
     }
   ];
 
@@ -9663,7 +9747,7 @@ if (typeof document !== 'undefined') {
     const bub = miniBtn && miniBtn.closest(".gat-hd-bubble");
     if (!bub) return;
     const ok = await writeClipboardReliable(serializeBubbleElement(bub, 1));
-    miniBtn.textContent = ok ? "✅ Copied" : "⚠️";
+    miniBtn.textContent = ok ? "✅" : "⚠️";
     setTimeout(function() { miniBtn.textContent = "📋"; }, 1400);
   };
 
@@ -12663,12 +12747,18 @@ if (typeof document !== 'undefined') {
   var RESTORE_KEY = "gat_pending_restore_v3";
 
   function getActiveLang() {
+    if (typeof window.getUnifiedGatLang === "function") {
+      return window.getUnifiedGatLang();
+    }
     if (typeof window.__resolveAuthoritativePageLang === "function") {
       return window.__resolveAuthoritativePageLang();
     }
     var m = (window.location.pathname || "/").match(/^\/(he|fr|es|de|ru)(\/|$)/i);
     if (m) return m[1].toLowerCase();
-    return "en";
+    var qL = (new URLSearchParams(window.location.search).get("lang") || "").slice(0, 2).toLowerCase();
+    if (["en", "he", "fr", "es", "de", "ru"].indexOf(qL) !== -1) return qL;
+    var sL = String(window.appLang || window.pLang || window.gatLang || localStorage.getItem("gat_lang") || "en").slice(0, 2).toLowerCase();
+    return ["en", "he", "fr", "es", "de", "ru"].indexOf(sL) !== -1 ? sL : "en";
   }
 
   // Assign deterministic hardcoded IDs to all obstacle cards if on hub
@@ -12710,8 +12800,14 @@ if (typeof document !== 'undefined') {
       ["sku", "track", "service", "choice"].forEach(function(k) {
         if (spPr.get(k)) outPr.set(k, spPr.get(k));
       });
+      var cleanSubPath = pathname;
+      if (pathname.indexOf("/pricing") !== -1) {
+        cleanSubPath = (lang === "en") ? "/pricing/" : ("/" + lang + "/pricing/");
+      } else if (pathname.indexOf("/concierge-booking") !== -1) {
+        cleanSubPath = (lang === "en") ? "/concierge-booking/" : ("/" + lang + "/concierge-booking/");
+      }
       var qsPr = outPr.toString();
-      return origin + pathname + (qsPr ? ("?" + qsPr) : "") + (window.location.hash || "");
+      return origin + cleanSubPath + (qsPr ? ("?" + qsPr) : "") + (includeOrigin ? "" : (window.location.hash || ""));
     }
 
     // 3. On a Spoke page, Form page, or Root Hub
@@ -12789,7 +12885,7 @@ if (typeof document !== 'undefined') {
     }
 
     var qs = params.toString();
-    return origin + basePath + (qs ? ("?" + qs) : "") + hash;
+    return origin + basePath + (qs ? ("?" + qs) : "") + (includeOrigin ? "" : hash);
   };
 
   // Resolve the human-readable title of the exact current screen/popup/tab/spoke
@@ -12935,14 +13031,18 @@ if (typeof document !== 'undefined') {
     var show = Boolean(stepModal || isObsOpen || wizPastHero || (window.gatActiveTab > 0) || (st.length > 0) || isSubPage);
     b.classList.toggle("visible", show);
 
+    var BACK_ARIA_6L = {
+      en: "← Back", he: "→ חזרה", fr: "← Retour", es: "← Volver", de: "← Zurück", ru: "← Назад"
+    };
+    var bkLbl = BACK_ARIA_6L[l] || BACK_ARIA_6L.en;
     if (topSnap && topSnap.fullUrl) {
       b.setAttribute("href", topSnap.fullUrl);
-      b.setAttribute("aria-label", "Back to " + (topSnap.title || "Previous Step"));
-      b.setAttribute("title", "← " + (topSnap.title || "Back"));
+      b.setAttribute("aria-label", bkLbl + (topSnap.title ? (": " + topSnap.title) : ""));
+      b.setAttribute("title", bkLbl + (topSnap.title ? (": " + topSnap.title) : ""));
     } else {
       b.setAttribute("href", defaultHubUrl);
-      b.setAttribute("aria-label", "Back to Main Diagnostic Hub");
-      b.setAttribute("title", "← Back");
+      b.setAttribute("aria-label", bkLbl);
+      b.setAttribute("title", bkLbl);
     }
   };
 
@@ -13149,7 +13249,7 @@ if (typeof document !== 'undefined') {
     var url = window.buildExactCurrentStateUrl(true);
     var title = window.resolveExactCurrentStateTitle();
     var u = SHARE_UI[lang] || SHARE_UI.en;
-    var fullText = title + " — " + url;
+    var fullText = title + "\n\n" + url;
 
     var old = document.getElementById("gat-exact-share-modal");
     if (old) old.remove();
@@ -13202,7 +13302,7 @@ if (typeof document !== 'undefined') {
     var natBtn = document.getElementById("gat-exact-native-btn");
     if (natBtn) {
       natBtn.onclick = function() {
-        navigator.share({ title: title, text: fullText, url: url }).catch(function(){});
+        navigator.share({ title: title, text: title, url: url }).catch(function(){});
       };
     }
     return false;
@@ -13570,7 +13670,7 @@ if (typeof document !== 'undefined') {
       }
     } catch (e) {
       if (errEl) {
-        errEl.textContent = "Network error — please try again.";
+        var NET_ERR_6L = { en: "Network error — please try again.", he: "שגיאת תקשורת — אנא נסו שוב.", fr: "Erreur réseau — veuillez réessayer.", es: "Error de red — inténtelo de nuevo.", de: "Netzwerkfehler — bitte erneut versuchen.", ru: "Ошибка сети — попробуйте снова." }; errEl.textContent = NET_ERR_6L[l] || NET_ERR_6L.en;
         errEl.style.display = "block";
       }
       if (btn) {
@@ -14179,3 +14279,4917 @@ if (typeof document !== 'undefined') {
   else window.syncSpokBrandingAndGreeting();
 })();
 // === GAT SPOK IDENTITY, FIRST-CHAT INTRO & ZERO-FLASH VAULT BAR V1 END ===
+
+/* === GAT_SPOK_BOTTOM_PILL_NEXT_TO_FAB_V1 === */
+(function initGatSpokBottomPillV2() {
+  const ASK_SPOK_6L = {
+    en: "✨ Ask Spok →",
+    he: "✨ שאלו את ספוק ←",
+    fr: "✨ Demander à Spok →",
+    es: "✨ Preguntar a Spok →",
+    de: "✨ Spok fragen →",
+    ru: "✨ Спросить Спока →"
+  };
+
+  const SPOK_INTRO_MARKERS = [
+    "Hi, I'm Spok",
+    "Hi, I’m Spok",
+    "24/7 Aliyah, Conversion",
+    "נעים מאוד, אני ספוק",
+    "מדריך העלייה, הגיור ומשרד הפנים",
+    "Salut, je suis Spok",
+    "Bonjour, je suis Spok",
+    "Hola, soy Spok",
+    "Hallo, ich bin Spok",
+    "Привет, я Спок",
+    "Здравствуйте, я Спок"
+  ];
+
+  function getActiveLang() {
+    const pathSeg = (window.location.pathname.split("/")[1] || "").toLowerCase();
+    if (["he", "fr", "es", "de", "ru"].includes(pathSeg)) return pathSeg;
+    const urlLang = new URLSearchParams(window.location.search).get("lang");
+    if (urlLang && ASK_SPOK_6L[urlLang.toLowerCase()]) return urlLang.toLowerCase();
+    const gLang = String(window.gatLang || window.appLang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").toLowerCase().slice(0, 2);
+    return ASK_SPOK_6L[gLang] ? gLang : "en";
+  }
+
+  function injectSpokLayoutCss() {
+    let st = document.getElementById("gat-spok-bottom-pill-css");
+    if (!st) {
+      st = document.createElement("style");
+      st.id = "gat-spok-bottom-pill-css";
+      document.head.appendChild(st);
+    }
+    st.textContent = `
+      .exodus-alert,
+      #exodus-alert,
+      #gat-spok-top-banner,
+      .gat-spok-top-banner,
+      #spok-intro-card,
+      .spok-intro-card,
+      #gat-spok-intro-box,
+      .gat-spok-intro-box,
+      [data-spok-intro-hidden="1"] {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border: none !important;
+      }
+      #gat-ask-spok-bottom-pill {
+        position: fixed;
+        z-index: 9998;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        color: #ffffff !important;
+        font-family: inherit;
+        font-size: 0.92rem;
+        font-weight: 850;
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1.5px solid rgba(255, 255, 255, 0.35);
+        box-shadow: 0 6px 18px rgba(2, 132, 199, 0.38), 0 2px 6px rgba(15, 23, 42, 0.18);
+        cursor: pointer;
+        white-space: nowrap;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+      }
+      #gat-ask-spok-bottom-pill:active {
+        transform: scale(0.96);
+      }
+    `;
+  }
+
+  function removeTopSpokIntroBox() {
+    // 1. Always hide .exodus-alert and known spok intro IDs
+    document.querySelectorAll(".exodus-alert, #exodus-alert, #gat-spok-top-banner, .gat-spok-top-banner, #spok-intro-card, .spok-intro-card, #gat-spok-intro-box, .gat-spok-intro-box").forEach(el => {
+      el.setAttribute("data-spok-intro-hidden", "1");
+    });
+
+    // 2. Find any element containing the Spok greeting or top "Ask Spok" button
+    const allEls = document.querySelectorAll("div, section, article, aside, header");
+    for (let i = 0; i < allEls.length; i++) {
+      const el = allEls[i];
+      if (el.id === "gat-ask-spok-bottom-pill" || el.getAttribute("data-spok-intro-hidden") === "1") continue;
+      // Never hide a parent that also holds the main funnel content ("Answer 4 quick questions" / "Skip Jewish Agency" / "15,000")
+      const txt = (el.textContent || "").trim();
+      if (!txt || txt.length > 260) continue;
+      if (txt.includes("15,000") || txt.includes("40,000") || txt.includes("Teudat Zehut") || txt.includes("NBN")) continue;
+
+      const hasMarker = SPOK_INTRO_MARKERS.some(m => txt.includes(m)) ||
+        (txt.includes("Spok") && txt.includes("24/7")) ||
+        (txt.includes("ספוק") && txt.includes("24/7"));
+
+      if (hasMarker) {
+        // Walk up to the outermost card wrapper that still only contains this Spok intro (< 260 chars)
+        let target = el;
+        while (
+          target.parentElement &&
+          target.parentElement.tagName !== "BODY" &&
+          target.parentElement.tagName !== "MAIN" &&
+          target.parentElement.id !== "view-0" &&
+          target.parentElement.id !== "gat-3track-funnel-card" &&
+          ((target.parentElement.textContent || "").trim().length < 260)
+        ) {
+          target = target.parentElement;
+        }
+        target.setAttribute("data-spok-intro-hidden", "1");
+      }
+    }
+  }
+
+  function findCircleFab() {
+    return (
+      document.getElementById("gat-hd-fab") ||
+      document.querySelector(".gat-hd-fab") ||
+      document.getElementById("hd-fab") ||
+      document.querySelector("[onclick*='openHdDrawer'], [onclick*='toggleHdDrawer']")
+    );
+  }
+
+  function syncBottomPillPositionAndText() {
+    injectSpokLayoutCss();
+    removeTopSpokIntroBox();
+
+    const fab = findCircleFab();
+    let pill = document.getElementById("gat-ask-spok-bottom-pill");
+    if (!pill) {
+      pill = document.createElement("button");
+      pill.id = "gat-ask-spok-bottom-pill";
+      pill.type = "button";
+      pill.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const f = findCircleFab();
+        if (f) {
+          f.click();
+        } else if (typeof window.openHdDrawer === "function") {
+          window.openHdDrawer();
+        } else if (typeof window.toggleHdDrawer === "function") {
+          window.toggleHdDrawer(true);
+        }
+      });
+      document.body.appendChild(pill);
+    }
+
+    const lang = getActiveLang();
+    const lbl = ASK_SPOK_6L[lang] || ASK_SPOK_6L.en;
+    if (pill.textContent !== lbl) {
+      pill.textContent = lbl;
+    }
+    pill.dir = (lang === "he") ? "rtl" : "ltr";
+
+    if (fab) {
+      const rect = fab.getBoundingClientRect();
+      const fabStyle = window.getComputedStyle(fab);
+      const isHidden = fabStyle.display === "none" || fabStyle.visibility === "hidden" || rect.width === 0;
+      if (isHidden) {
+        pill.style.display = "none";
+        return;
+      }
+      pill.style.display = "inline-flex";
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const vw = window.innerWidth || document.documentElement.clientWidth;
+
+      const pillHeight = pill.offsetHeight || 40;
+      const centerY = rect.top + rect.height / 2;
+      const bottomPx = Math.max(12, Math.round(vh - centerY - pillHeight / 2));
+      pill.style.bottom = bottomPx + "px";
+      pill.style.top = "auto";
+
+      if (rect.left > vw / 2) {
+        const rightPx = Math.round(vw - rect.left + 10);
+        pill.style.right = rightPx + "px";
+        pill.style.left = "auto";
+      } else {
+        const leftPx = Math.round(rect.right + 10);
+        pill.style.left = leftPx + "px";
+        pill.style.right = "auto";
+      }
+    } else {
+      pill.style.bottom = "90px";
+      pill.style.right = "84px";
+      pill.style.left = "auto";
+    }
+  }
+
+  window.syncGatSpokBottomPill = syncBottomPillPositionAndText;
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncBottomPillPositionAndText);
+  } else {
+    syncBottomPillPositionAndText();
+  }
+  window.addEventListener("resize", syncBottomPillPositionAndText, { passive: true });
+  window.addEventListener("scroll", syncBottomPillPositionAndText, { passive: true });
+  [50, 150, 350, 700, 1200].forEach(ms => setTimeout(syncBottomPillPositionAndText, ms));
+
+  ["setLang", "switchLang", "applyLang"].forEach(fnName => {
+    const orig = window[fnName];
+    if (typeof orig === "function" && !orig._spokPillWrapped) {
+      const wrapped = function() {
+        const r = orig.apply(this, arguments);
+        setTimeout(syncBottomPillPositionAndText, 30);
+        return r;
+      };
+      wrapped._spokPillWrapped = true;
+      window[fnName] = wrapped;
+    }
+  });
+
+  const obs = new MutationObserver(() => {
+    removeTopSpokIntroBox();
+  });
+  if (document.body) {
+    obs.observe(document.body, { childList: true, subtree: true });
+  } else {
+    document.addEventListener("DOMContentLoaded", () => {
+      obs.observe(document.body, { childList: true, subtree: true });
+    });
+  }
+})();
+
+
+// === GAT INSTANT 6-LANG SWITCHER + FAQ WHITE + SPOK PILL CONTROLLER ===
+(function() {
+  var VALID = ["en", "he", "fr", "es", "de", "ru"];
+  var KEYS = ["gat_lang", "giyur_lang", "lang", "selectedLang", "app_lang", "i18n_lang"];
+
+  function isHomepageRoute() {
+    var p = (window.location.pathname || "/").replace(/\/index\.html$/i, "/");
+    return /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+  }
+
+  function getTargetUrlForLang(targetLang) {
+    var link = document.querySelector('link[rel="alternate"][hreflang="' + targetLang + '"]');
+    if (link && link.href) {
+      try {
+        var u = new URL(link.href, window.location.origin);
+        return u.pathname + window.location.search + window.location.hash;
+      } catch (e) {}
+    }
+    var curPath = window.location.pathname || "/";
+    var stripped = curPath.replace(/^\/(he|fr|es|de|ru)(?=\/|$)/i, "");
+    if (!stripped || stripped.charAt(0) !== "/") stripped = "/" + stripped;
+    var dest = (targetLang === "en") ? stripped : ("/" + targetLang + (stripped === "/" ? "/" : stripped));
+    return dest + window.location.search + window.location.hash;
+  }
+
+  // Strictly human-initiated language switch (ONLY called on real user click, NEVER on page load)
+  document.addEventListener("click", function(ev) {
+    if (!ev.isTrusted) return;
+    var el = ev.target;
+    while (el && el !== document.body && el !== document.documentElement) {
+      var dl = (el.getAttribute && (el.getAttribute("data-lang") || el.getAttribute("data-language") || el.getAttribute("data-set-lang"))) || "";
+      var oc = (el.getAttribute && el.getAttribute("onclick")) || "";
+      var hit = "";
+
+      if (dl && VALID.indexOf(dl.toLowerCase()) !== -1) {
+        hit = dl.toLowerCase();
+      } else if (oc) {
+        var m = oc.match(/(?:setLang|switchLang|changeLang|applyLang|selectLang|setLanguage|setPricingLang)\s*\(\s*['"](en|he|fr|es|de|ru)['"]\s*\)/i);
+        if (m) hit = m[1].toLowerCase();
+      }
+
+      if (hit && VALID.indexOf(hit) !== -1) {
+        var isToggleBtn = (el.id && /(toggle|btn|trigger|globe|picker-btn)/i.test(el.id) && !dl) || (el.children && el.children.length > 2);
+        if (!isToggleBtn) {
+          try {
+            KEYS.forEach(function(k) { localStorage.setItem(k, hit); });
+          } catch (e) {}
+          var curPath = window.location.pathname || "/";
+          if (curPath !== "/app" && curPath.indexOf("/app/") !== 0) {
+            var targetUrl = getTargetUrlForLang(hit);
+            var curFull = curPath + window.location.search + window.location.hash;
+            if (targetUrl && targetUrl !== curFull) {
+              window.location.href = targetUrl;
+            }
+          }
+          break;
+        }
+      }
+      el = el.parentElement;
+    }
+  }, true);
+
+  // Ask Spok Pill Policy: Homepage-Only + Disappears Forever After First Open
+  var SPOK_KEYS = ["gat_spok_opened_ever", "gat_spok_opened", "spok_opened_once"];
+  function hasEverOpenedSpok() {
+    try {
+      for (var i = 0; i < SPOK_KEYS.length; i++) {
+        if (localStorage.getItem(SPOK_KEYS[i]) === "1") return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function hideAllAskSpokPills() {
+    var known = document.querySelectorAll("#spok-fab-pill, #spok-pill, #ask-spok-pill, #gat-spok-pill, .spok-fab-pill, .spok-pill, .spok-callout, .spok-teaser, [data-spok-pill]");
+    for (var i = 0; i < known.length; i++) {
+      known[i].style.setProperty("display", "none", "important");
+    }
+    var all = document.querySelectorAll("button, a, div, span");
+    for (var j = 0; j < all.length; j++) {
+      var node = all[j];
+      if (!node || node.children.length > 2) continue;
+      var t = (node.textContent || "").trim();
+      if (!t || t.length > 38) continue;
+      if (/(Ask\s*Spok|Preguntar\s*a\s*Spok|Demander\s*à\s*Spok|שאל\s*את\s*ספוק|Spok\s*fragen|Спросить\s*Спок|Spok\s*[➔→])/i.test(t)) {
+        node.style.setProperty("display", "none", "important");
+        node.style.setProperty("visibility", "hidden", "important");
+        node.style.setProperty("opacity", "0", "important");
+        node.style.setProperty("pointer-events", "none", "important");
+      }
+    }
+  }
+
+  function enforceRules() {
+    if (!isHomepageRoute() || hasEverOpenedSpok()) {
+      hideAllAskSpokPills();
+    }
+    var sums = document.querySelectorAll("summary.gat-faq-q, summary.faq-q, .faq-item > summary, [id^='gat-tab-faq'] details > summary");
+    for (var i = 0; i < sums.length; i++) {
+      sums[i].style.setProperty("color", "#ffffff", "important");
+    }
+  }
+
+  document.addEventListener("click", function(ev) {
+    if (!ev.isTrusted) return;
+    var t = ev.target;
+    while (t && t !== document.body) {
+      var idCls = ((t.id || "") + " " + (t.className || "") + " " + ((t.getAttribute && t.getAttribute("onclick")) || "")).toLowerCase();
+      var txt = (t.textContent || "").trim();
+      if (idCls.indexOf("spok") !== -1 || /(Ask\s*Spok|Preguntar\s*a\s*Spok|Demander\s*à\s*Spok|שאל\s*את\s*ספוק|Spok\s*fragen|Спросить\s*Спок|Spok\s*[➔→])/i.test(t)) {
+        try {
+          SPOK_KEYS.forEach(function(k) { localStorage.setItem(k, "1"); });
+        } catch (e) {}
+        hideAllAskSpokPills();
+        break;
+      }
+      t = t.parentElement;
+    }
+  }, true);
+
+  enforceRules();
+  document.addEventListener("DOMContentLoaded", enforceRules);
+  window.addEventListener("load", enforceRules);
+})();
+
+
+// === GAT PERMANENT UID & 10-YEAR LOGIN PERSISTENCE ===
+(function() {
+  var COOKIE_MAX_AGE = 315360000; // 10 years in seconds
+  function getCookie(name) {
+    var m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()\[\]\\\/+^])/g, '\\$1') + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : "";
+  }
+  function setPermanentCookie(name, val) {
+    if (!val) return;
+    try {
+      document.cookie = name + "=" + encodeURIComponent(val) + "; path=/; max-age=" + COOKIE_MAX_AGE + "; SameSite=Lax";
+    } catch (e) {}
+  }
+
+  // 1. Ensure a permanent visitor/user UID exists and never resets
+  var uid = "";
+  try {
+    uid = localStorage.getItem("gat_uid") || localStorage.getItem("gat_visitor_id") || getCookie("gat_uid") || "";
+    if (!uid) {
+      uid = "u_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+    }
+    localStorage.setItem("gat_uid", uid);
+    localStorage.setItem("gat_visitor_id", uid);
+    setPermanentCookie("gat_uid", uid);
+    window.gatPermanentUid = uid;
+  } catch (e) {}
+
+  // 2. Sync & restore permanent login state (WhatsApp phone, passcode, entitlements, auth UID)
+  //    between localStorage and 10-year cookies so login is 100% permanent on this device
+  var AUTH_KEYS = [
+    "gat_wa_phone",
+    "gat_verified_phone",
+    "zehut_wa_phone",
+    "gat_passcode",
+    "gat_user_uid",
+    "gat_entitlements",
+    "gat_paid_skus",
+    "gat_unlocked"
+  ];
+  try {
+    AUTH_KEYS.forEach(function(k) {
+      var lsVal = localStorage.getItem(k);
+      var ckVal = getCookie("perm_" + k);
+      if (lsVal && lsVal !== ckVal) {
+        setPermanentCookie("perm_" + k, lsVal);
+      } else if (!lsVal && ckVal) {
+        localStorage.setItem(k, ckVal);
+      }
+    });
+    // Also bind logged-in phone to gat_uid if available
+    var phone = localStorage.getItem("gat_wa_phone") || localStorage.getItem("gat_verified_phone") || localStorage.getItem("zehut_wa_phone") || "";
+    if (phone) {
+      var cleanPhone = phone.replace(/[^0-9+]/g, "");
+      if (cleanPhone.length >= 8) {
+        var authUid = "uid_" + cleanPhone.replace(/\+/g, "");
+        localStorage.setItem("gat_user_uid", authUid);
+        setPermanentCookie("perm_gat_user_uid", authUid);
+        window.gatPermanentUid = authUid;
+      }
+    }
+  } catch (e) {}
+
+  // Keep cookies synced whenever login state updates
+  window.addEventListener("storage", function() {
+    try {
+      AUTH_KEYS.forEach(function(k) {
+        var v = localStorage.getItem(k);
+        if (v) setPermanentCookie("perm_" + k, v);
+      });
+    } catch (e) {}
+  });
+})();
+
+// === GAT 6-LANG DRAGGABLE 🖖 BUTTON + SILVER GRADIENT + BOXES 1-9 RESTORED ===
+(function() {
+  var PILL_TEXT_RX = /(Ask\s*Spok|Preguntar\s*a\s*Spok|Demander\s*\u00e0\s*Spok|\u05e9\u05d0\u05dc\s*\u05d0\u05ea\s*\u05e1\u05e4\u05d5\u05e7|Spok\s*fragen|\u0421\u043f\u0440\u043e\u0441\u0438\u0442\u044c\s*\u0421\u043f\u043e\u043a)/i;
+  var CTA_TEXT_RX = /(START\s*MY\s*TRACK|\u05d4\u05ea\u05d7\u05dc\s*\u05d0\u05ea\s*\u05d4\u05de\u05e1\u05dc\u05d5\u05dc|COMMENCER\s*MON\s*PARCOURS|EMPEZAR\s*MI\s*RUTA|MEINEN\s*WEG\s*STARTEN|\u041d\u0410\u0427\u0410\u0422\u042c\s*\u041c\u041e\u0419\s*\u041f\u0423\u0422\u042c)/i;
+  var SPOK_KEYS = ['gat_spok_opened_ever', 'gat_spok_opened', 'spok_opened_once'];
+  var CALLOUT_TEXT = {
+    en: 'ASK SPOK',
+    he: '\u05e9\u05d0\u05dc \u05d0\u05ea \u05e1\u05e4\u05d5\u05e7',
+    fr: 'DEMANDER \u00c0 SPOK',
+    es: 'PREGUNTAR A SPOK',
+    de: 'SPOK FRAGEN',
+    ru: '\u0421\u041f\u0420\u041e\u0421\u0418\u0422\u042c \u0421\u041f\u041e\u041a'
+  };
+
+  var userDraggedFab = true;
+  var cachedOrigOpener = null;
+
+  function getCurLang() {
+    var p = window.location.pathname || '/';
+    var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
+    if (m) return m[1].toLowerCase();
+    var hl = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
+    if (CALLOUT_TEXT[hl] && hl !== 'en') return hl;
+    try {
+      var lsLg = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').slice(0, 2).toLowerCase();
+      if (CALLOUT_TEXT[lsLg]) return lsLg;
+    } catch (e) {}
+    return CALLOUT_TEXT[hl] ? hl : 'en';
+  }
+
+  function isHomepage() {
+    var p = (window.location.pathname || '/').replace(/\/index\.html$/i, '/');
+    return /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+  }
+
+  function hasOpenedSpok() {
+    try {
+      for (var i = 0; i < SPOK_KEYS.length; i++) {
+        if (localStorage.getItem(SPOK_KEYS[i]) === '1') return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function hideCalloutLabel() {
+    var lbl = document.getElementById('gat-hero-inline-spok-pill');
+    if (lbl) lbl.style.setProperty('display', 'none', 'important');
+  }
+
+  function markSpokOpenedForever() {
+    try {
+      for (var i = 0; i < SPOK_KEYS.length; i++) {
+        localStorage.setItem(SPOK_KEYS[i], '1');
+      }
+    } catch (e) {}
+    hideCalloutLabel();
+  }
+
+  function injectCleanStyles() {
+    var oldSt = document.getElementById('gat-hero-inline-spok-css');
+    if (oldSt && oldSt.getAttribute('data-v') === 'v9') return;
+    if (oldSt && oldSt.parentElement) oldSt.parentElement.removeChild(oldSt);
+    var st = document.createElement('style');
+    st.id = 'gat-hero-inline-spok-css';
+    st.setAttribute('data-v', 'v9');
+    st.textContent = [
+      '/* Hide ONLY the redundant 3-button track selector card — keep Boxes 1-9 and all headers 100% visible! */',
+      '#gat-3track-funnel-card { display: none !important; }',
+      'details > summary:not(.gat-faq-q):not(.faq-q) {',
+      '  background: #0f172a !important;',
+      '  color: #ffffff !important;',
+      '  -webkit-text-fill-color: #ffffff !important;',
+      '  padding: 12px 16px !important;',
+      '  border-radius: 12px !important;',
+      '  font-weight: 800 !important;',
+      '  border: 1px solid #38bdf8 !important;',
+      '}',
+      '/* Subtle top-to-bottom silver gradient on the blue-bordered container */',
+      '.gat-blue-card-with-spok {',
+      '  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(250, 250, 252, 0.94) 52%, rgba(236, 238, 242, 0.92) 78%, rgba(216, 220, 228, 0.90) 100%) !important;',
+      '}',
+      '/* Lock direction:ltr on the Ask Spok row so on Hebrew RTL (/he/) the arrow still points right into the 🖖 button! */',
+      '#gat-hero-inline-spok-row {',
+      '  display: flex !important;',
+      '  direction: ltr !important;',
+      '  align-items: center !important;',
+      '  justify-content: flex-end !important;',
+      '  gap: 10px !important;',
+      '  margin-top: 10px !important;',
+      '  min-height: 54px !important;',
+      '  width: 100% !important;',
+      '  box-sizing: border-box !important;',
+      '}',
+      '#gat-hero-inline-spok-pill {',
+      '  display: inline-flex !important;',
+      '  direction: ltr !important;',
+      '  align-items: center !important;',
+      '  justify-content: center !important;',
+      '  gap: 8px !important;',
+      '  background: transparent !important;',
+      '  border: none !important;',
+      '  box-shadow: none !important;',
+      '  padding: 0 4px !important;',
+      '  pointer-events: none !important;',
+      '  user-select: none !important;',
+      '  cursor: default !important;',
+      '  white-space: nowrap !important;',
+      '}',
+      '#gat-hero-inline-spok-pill .gat-spok-2x-sparkle {',
+      '  font-size: 34px !important;',
+      '  line-height: 1 !important;',
+      '  display: inline-flex !important;',
+      '  align-items: center !important;',
+      '  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.55)) drop-shadow(0 2px 5px rgba(71, 85, 105, 0.32)) !important;',
+      '}',
+      '#gat-hero-inline-spok-pill .gat-spok-caps-text {',
+      '  font-size: 16px !important;',
+      '  font-weight: 900 !important;',
+      '  letter-spacing: 0.5px !important;',
+      '  text-transform: uppercase !important;',
+      '  color: #0f172a !important;',
+      '  -webkit-text-fill-color: #0f172a !important;',
+      '}',
+      '#gat-hero-inline-spok-pill .gat-spok-black-arrow {',
+      '  font-size: 21px !important;',
+      '  font-weight: 900 !important;',
+      '  line-height: 1 !important;',
+      '  color: #000000 !important;',
+      '  -webkit-text-fill-color: #000000 !important;',
+      '}',
+      '#gat-draggable-spok-fab {',
+      '  width: 54px !important;',
+      '  height: 54px !important;',
+      '  min-width: 54px !important;',
+      '  min-height: 54px !important;',
+      '  border-radius: 50% !important;',
+      '  background: radial-gradient(circle at 32% 28%, #38bdf8 0%, #0284c7 52%, #0369a1 100%) !important;',
+      '  border: 2px solid #38bdf8 !important;',
+      '  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.44), inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;',
+      '  display: inline-flex !important;',
+      '  align-items: center !important;',
+      '  justify-content: center !important;',
+      '  padding: 0 !important;',
+      '  cursor: grab !important;',
+      '  touch-action: none !important;',
+      '  user-select: none !important;',
+      '  -webkit-user-select: none !important;',
+      '  flex-shrink: 0 !important;',
+      '  z-index: 9998 !important;',
+      '}',
+      '#gat-draggable-spok-fab:active {',
+      '  cursor: grabbing !important;',
+      '}',
+      '#gat-draggable-spok-fab .gat-vulcan-hand {',
+      '  font-size: 34px !important;',
+      '  line-height: 1 !important;',
+      '  display: inline-flex !important;',
+      '  align-items: center !important;',
+      '  justify-content: center !important;',
+      '  transform: translateY(-1px) !important;',
+      '  pointer-events: none !important;',
+      '  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.32)) !important;',
+      '}',
+      '@media (max-width: 768px) {',
+      '  .gat-blue-card-with-spok {',
+      '    padding-top: 12px !important;',
+      '    padding-bottom: 12px !important;',
+      '    margin-top: 6px !important;',
+      '    margin-bottom: 14px !important;',
+      '  }',
+      '  .gat-blue-card-with-spok h1, .gat-blue-card-with-spok h2 {',
+      '    margin-top: 0 !important;',
+      '    margin-bottom: 6px !important;',
+      '    font-size: 21px !important;',
+      '    line-height: 1.22 !important;',
+      '  }',
+      '}'
+    ].join('\n');
+    document.head.appendChild(st);
+  }
+
+  var openedLibraryOnce = false;
+  function ensureBoxes1To9VisibleAndHideOnly3TrackCard() {
+    var funnel = document.getElementById('gat-3track-funnel-card');
+    if (funnel) {
+      funnel.style.setProperty('display', 'none', 'important');
+      var prev = funnel.previousElementSibling;
+      var steps = 0;
+      while (prev && steps < 4) {
+        prev.classList.remove('gat-dup-hero-hide');
+        if (prev.style && prev.style.display === 'none') {
+          prev.style.removeProperty('display');
+        }
+        prev = prev.previousElementSibling;
+        steps++;
+      }
+      if (!openedLibraryOnce) {
+        var det = funnel.closest ? funnel.closest('details') : document.getElementById('gat-seo-hub-details');
+        if (det) {
+          det.setAttribute('open', '');
+          openedLibraryOnce = true;
+        }
+      }
+    }
+    var hiddenEls = document.querySelectorAll('.gat-dup-hero-hide');
+    for (var i = 0; i < hiddenEls.length; i++) {
+      hiddenEls[i].classList.remove('gat-dup-hero-hide');
+      hiddenEls[i].style.removeProperty('display');
+    }
+  }
+
+  function hideAllLegacyFloatingCirclesAndPills() {
+    var oldIds = ['gat-hero-inline-spok-fab', 'gat-persistent-floating-spok-fab'];
+    for (var k = 0; k < oldIds.length; k++) {
+      var oldEl = document.getElementById(oldIds[k]);
+      if (oldEl && oldEl.parentElement) oldEl.parentElement.removeChild(oldEl);
+    }
+
+    var all = document.querySelectorAll('button, a, div, span');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (!el) continue;
+      if (el.id === 'gat-draggable-spok-fab' || el.id === 'gat-hero-inline-spok-pill' || el.id === 'gat-hero-inline-spok-row') continue;
+      if (el.closest && (el.closest('#gat-hero-inline-spok-row') || el.closest('#gat-draggable-spok-fab'))) continue;
+
+      var st = window.getComputedStyle(el);
+      if (st.position === 'fixed') {
+        var rect = el.getBoundingClientRect();
+        var txt = (el.textContent || '').replace(/\s+/g, ' ').trim();
+        var isRoundCircle = (rect.width >= 36 && rect.width <= 88 && Math.abs(rect.width - rect.height) <= 14 && (st.borderRadius.indexOf('50%') !== -1 || parseFloat(st.borderRadius || '0') >= 20));
+        var isLegacySpok = (
+          PILL_TEXT_RX.test(txt) ||
+          txt === '\u2728' ||
+          txt === '\ud83d\udd96' ||
+          (txt === '' && isRoundCircle && rect.bottom > window.innerHeight * 0.4) ||
+          ((el.id || '') + ' ' + (typeof el.className === 'string' ? el.className : '')).toLowerCase().indexOf('spok') !== -1
+        );
+        if (isLegacySpok && el.id !== 'gat-hd-drawer' && el.id !== 'spok-drawer') {
+          if (!cachedOrigOpener && (el.tagName === 'BUTTON' || el.onclick || el.getAttribute('onclick'))) {
+            cachedOrigOpener = el;
+          }
+          el.style.setProperty('display', 'none', 'important');
+          el.style.setProperty('visibility', 'hidden', 'important');
+          el.style.setProperty('pointer-events', 'none', 'important');
+        }
+      }
+    }
+  }
+
+  function triggerSpokOpen() {
+    markSpokOpenedForever();
+    if (typeof window.openSpok === 'function') { window.openSpok(); return; }
+    if (typeof window.toggleSpok === 'function') { window.toggleSpok(); return; }
+    if (typeof window.openSpokModal === 'function') { window.openSpokModal(); return; }
+    if (typeof window.openAiAssistant === 'function') { window.openAiAssistant(); return; }
+    if (typeof window.openHelpdesk === 'function') { window.openHelpdesk(); return; }
+    if (typeof window.toggleHelpdesk === 'function') { window.toggleHelpdesk(); return; }
+    if (typeof window.toggleGatHd === 'function') { window.toggleGatHd(); return; }
+    if (typeof window.openGatHd === 'function') { window.openGatHd(); return; }
+
+    var target = cachedOrigOpener || document.querySelector('#spok-fab, #spok-btn, #ai-fab, #gat-hd-fab, [onclick*="Spok"], [onclick*="spok"], [onclick*="Helpdesk"], [onclick*="helpdesk"]');
+    if (target && typeof target.click === 'function') {
+      target.click();
+      return;
+    }
+    var hd = document.getElementById('gat-hd-drawer') || document.getElementById('spok-drawer') || document.getElementById('ai-drawer');
+    if (hd) {
+      hd.classList.add('open', 'active');
+      hd.style.display = 'flex';
+    }
+  }
+
+  function makeFabDraggable(fab) {
+    if (fab.getAttribute('data-gat-drag-wired') === '1') return;
+    fab.setAttribute('data-gat-drag-wired', '1');
+
+    var startX = 0, startY = 0, origLeft = 0, origTop = 0;
+    var isDown = false, hasMoved = false;
+
+    function onStart(clientX, clientY) {
+      isDown = true;
+      hasMoved = false;
+      startX = clientX;
+      startY = clientY;
+      var rect = fab.getBoundingClientRect();
+      origLeft = rect.left;
+      origTop = rect.top;
+    }
+
+    function onMove(clientX, clientY, ev) {
+      if (!isDown) return;
+      var dx = clientX - startX;
+      var dy = clientY - startY;
+      if (!hasMoved && Math.sqrt(dx * dx + dy * dy) > 5) {
+        hasMoved = true;
+        userDraggedFab = true;
+        hideCalloutLabel();
+        if (fab.parentElement !== document.body) {
+          document.body.appendChild(fab);
+        }
+        fab.style.setProperty('position', 'fixed', 'important');
+        fab.style.setProperty('bottom', 'auto', 'important');
+        fab.style.setProperty('right', 'auto', 'important');
+        fab.style.setProperty('margin', '0', 'important');
+      }
+      if (hasMoved) {
+        if (ev && ev.cancelable) ev.preventDefault();
+        var newLeft = Math.max(8, Math.min(window.innerWidth - 62, origLeft + dx));
+        var newTop = Math.max(8, Math.min(window.innerHeight - 62, origTop + dy));
+        fab.style.setProperty('left', Math.round(newLeft) + 'px', 'important');
+        fab.style.setProperty('top', Math.round(newTop) + 'px', 'important');
+      }
+    }
+
+    function onEnd(ev) {
+      if (!isDown) return;
+      isDown = false;
+      if (!hasMoved) {
+        if (ev && ev.cancelable) ev.preventDefault();
+        triggerSpokOpen();
+      }
+    }
+
+    fab.addEventListener('mousedown', function(e) {
+      if (e.button !== 0) return;
+      onStart(e.clientX, e.clientY);
+    });
+    window.addEventListener('mousemove', function(e) {
+      onMove(e.clientX, e.clientY, e);
+    });
+    window.addEventListener('mouseup', function(e) {
+      onEnd(e);
+    });
+
+    fab.addEventListener('touchstart', function(e) {
+      if (!e.touches || !e.touches[0]) return;
+      onStart(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+    window.addEventListener('touchmove', function(e) {
+      if (!isDown || !e.touches || !e.touches[0]) return;
+      onMove(e.touches[0].clientX, e.touches[0].clientY, e);
+    }, { passive: false });
+    window.addEventListener('touchend', function(e) {
+      onEnd(e);
+    });
+  }
+
+  function ensureSingleDraggableFab() {
+    var fab = document.getElementById('gat-legacy-noop-fab');
+    if (!fab && document.body) {
+      fab = document.createElement('button');
+      fab.type = 'button';
+      fab.id = 'gat-legacy-noop-fab';
+      fab.setAttribute('aria-label', 'Ask Spok');
+      fab.innerHTML = '<span class="gat-vulcan-hand">\ud83d\udd96</span>';
+      document.body.appendChild(fab);
+    }
+    if (fab) {
+      if (!fab.querySelector('.gat-vulcan-hand')) {
+        fab.innerHTML = '<span class="gat-vulcan-hand">\ud83d\udd96</span>';
+      }
+      makeFabDraggable(fab);
+    }
+    return fab;
+  }
+
+  function findExactCtaButton() {
+    var buttons = document.querySelectorAll('button, a');
+    for (var i = 0; i < buttons.length; i++) {
+      var b = buttons[i];
+      if (!b || b.id === 'gat-draggable-spok-fab' || b.id === 'gat-hero-inline-spok-pill') continue;
+      var t = (b.textContent || '').replace(/\s+/g, ' ').trim();
+      if (CTA_TEXT_RX.test(t) || (t.indexOf('\ud83d\ude80') !== -1 && t.length < 44)) {
+        var r = b.getBoundingClientRect();
+        if (r.width > 120 && r.height >= 28 && r.height <= 110) {
+          return b;
+        }
+      }
+    }
+    return null;
+  }
+
+  function syncSpokLayout() {
+    injectCleanStyles();
+    ensureBoxes1To9VisibleAndHideOnly3TrackCard();
+    hideAllLegacyFloatingCirclesAndPills();
+
+    var fab = ensureSingleDraggableFab();
+    if (!fab) return;
+
+    if (userDraggedFab) {
+      fab.style.setProperty('display', 'inline-flex', 'important');
+      return;
+    }
+
+    var ctaBtn = isHomepage() ? findExactCtaButton() : null;
+    var lg = getCurLang();
+    var arrowChar = '\u2794';
+
+    if (isHomepage() && ctaBtn && ctaBtn.parentElement) {
+      var cur = ctaBtn.parentElement;
+      while (cur && cur !== document.body && cur !== document.documentElement) {
+        var cs = window.getComputedStyle(cur);
+        if (parseFloat(cs.borderTopWidth || '0') >= 1 && cur.getBoundingClientRect().height >= 200) {
+          cur.classList.add('gat-blue-card-with-spok');
+          break;
+        }
+        cur = cur.parentElement;
+      }
+
+      var row = document.getElementById('gat-hero-inline-spok-row');
+      if (!row) {
+        row = document.createElement('div');
+        row.id = 'gat-hero-inline-spok-row';
+
+        var callout = document.createElement('div');
+        callout.id = 'gat-hero-inline-spok-pill';
+        callout.setAttribute('aria-hidden', 'true');
+        callout.innerHTML =
+          '<span class="gat-spok-2x-sparkle">\u2728</span>' +
+          '<span class="gat-spok-caps-text" id="gat-hero-inline-spok-pill-label">' + (CALLOUT_TEXT[lg] || CALLOUT_TEXT.en) + '</span>' +
+          '<span class="gat-spok-black-arrow" id="gat-hero-inline-spok-arrow">' + arrowChar + '</span>';
+        row.appendChild(callout);
+      }
+
+      if (ctaBtn.nextElementSibling !== row) {
+        ctaBtn.insertAdjacentElement('afterend', row);
+      }
+      row.style.setProperty('display', 'flex', 'important');
+
+      var lblEl = document.getElementById('gat-hero-inline-spok-pill-label');
+      if (lblEl) lblEl.textContent = CALLOUT_TEXT[lg] || CALLOUT_TEXT.en;
+      var arrEl = document.getElementById('gat-hero-inline-spok-arrow');
+      if (arrEl) arrEl.textContent = arrowChar;
+
+      var inlineCallout = document.getElementById('gat-hero-inline-spok-pill');
+      if (inlineCallout) {
+        if (hasOpenedSpok()) {
+          inlineCallout.style.setProperty('display', 'none', 'important');
+        } else {
+          inlineCallout.style.setProperty('display', 'inline-flex', 'important');
+        }
+      }
+
+      var rowRect = row.getBoundingClientRect();
+      var isRowVisible = (rowRect.width > 0 && rowRect.height > 0 && rowRect.bottom > 50 && rowRect.top < window.innerHeight - 30);
+      if (isRowVisible) {
+        if (false) { row.appendChild(fab);
+        }
+        fab.style.setProperty('position', 'static', 'important');
+        fab.style.setProperty('left', 'auto', 'important');
+        fab.style.setProperty('top', 'auto', 'important');
+        fab.style.setProperty('bottom', 'auto', 'important');
+        fab.style.setProperty('right', 'auto', 'important');
+        fab.style.setProperty('display', 'inline-flex', 'important');
+      } else {
+        if (fab.parentElement !== document.body) {
+          document.body.appendChild(fab);
+        }
+        fab.style.setProperty('position', 'fixed', 'important');
+        fab.style.setProperty('bottom', '76px', 'important');
+        fab.style.setProperty('right', '16px', 'important');
+        fab.style.setProperty('left', 'auto', 'important');
+        fab.style.setProperty('top', 'auto', 'important');
+        fab.style.setProperty('display', 'inline-flex', 'important');
+      }
+      return;
+    }
+
+    var existingRow = document.getElementById('gat-hero-inline-spok-row');
+    if (existingRow) {
+      existingRow.style.setProperty('display', 'none', 'important');
+    }
+    if (fab.parentElement !== document.body) {
+      document.body.appendChild(fab);
+    }
+    fab.style.setProperty('position', 'fixed', 'important');
+    fab.style.setProperty('bottom', '76px', 'important');
+    fab.style.setProperty('right', '16px', 'important');
+    fab.style.setProperty('left', 'auto', 'important');
+    fab.style.setProperty('top', 'auto', 'important');
+    fab.style.setProperty('display', 'inline-flex', 'important');
+  }
+
+  syncSpokLayout();
+  document.addEventListener('DOMContentLoaded', syncSpokLayout);
+  window.addEventListener('load', syncSpokLayout);
+  window.addEventListener('resize', syncSpokLayout);
+  window.addEventListener('scroll', syncSpokLayout, { passive: true });
+  setInterval(syncSpokLayout, 400);
+})();
+
+// === GAT 6-LANG 1:1 BOXES 1-9 SYNC & SMART TRACKER ONBOARDING GATE ===
+(function() {
+  var ONBOARD_KEYS = ['gat_onboarding_done', 'gat_track_established', 'gat_wizard_completed', 'gat_diag_completed'];
+  var CTA_TEXT_RX = /(START\s*MY\s*TRACK|\u05d4\u05ea\u05d7\u05dc\s*\u05d0\u05ea\s*\u05d4\u05de\u05e1\u05dc\u05d5\u05dc|COMMENCER\s*MON\s*PARCOURS|EMPEZAR\s*MI\s*RUTA|MEINEN\s*WEG\s*STARTEN|\u041d\u0410\u0427\u0410\u0422\u042c\s*\u041c\u041e\u0419\s*\u041f\u0423\u0422\u042c)/i;
+
+  var GATE_I18N = {
+    en: {
+      badge: '\ud83e\udded TRACK SETUP REQUIRED',
+      title: 'Establish Your Legal Track First',
+      body: 'In order to track your progress, deadlines, and required government documents, your exact legal track must be established first. Answer 4 quick questions now to unlock your personalized Tracker.',
+      btn: '\ud83d\ude80 Start My Track \u2192',
+      openTracker: '\ud83d\udcca Open My Tracker \u2192',
+      tap: 'TAP \u2192'
+    },
+    he: {
+      badge: '\ud83e\udded \u05e0\u05d3\u05e8\u05e9\u05ea \u05d4\u05d2\u05d3\u05e8\u05ea \u05de\u05e1\u05dc\u05d5\u05dc \u05ea\u05d7\u05d9\u05dc\u05d4',
+      title: '\u05e7\u05d5\u05d3\u05dd \u05d9\u05e9 \u05dc\u05e7\u05d1\u05d5\u05e2 \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05de\u05e9\u05e4\u05d8\u05d9 \u05e9\u05dc\u05da',
+      body: '\u05db\u05d3\u05d9 \u05dc\u05e2\u05e7\u05d5\u05d1 \u05d0\u05d7\u05e8 \u05d4\u05d4\u05ea\u05e7\u05d3\u05de\u05d5\u05ea, \u05de\u05d5\u05e2\u05d3\u05d9 \u05d4\u05d9\u05e2\u05d3 \u05d5\u05d4\u05de\u05e1\u05de\u05db\u05d9\u05dd \u05d4\u05e0\u05d3\u05e8\u05e9\u05d9\u05dd \u05e9\u05dc\u05da, \u05d9\u05e9 \u05dc\u05d4\u05d2\u05d3\u05d9\u05e8 \u05ea\u05d7\u05d9\u05dc\u05d4 \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05de\u05d3\u05d5\u05d9\u05e7 \u05e9\u05dc\u05da. \u05e2\u05e0\u05d5 \u05e2\u05dc 4 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e7\u05e6\u05e8\u05d5\u05ea \u05db\u05d3\u05d9 \u05dc\u05e4\u05ea\u05d5\u05d7 \u05d0\u05ea \u05de\u05e2\u05e7\u05d1 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05d0\u05d9\u05e9\u05d9.',
+      btn: '\ud83d\ude80 \u05d4\u05ea\u05d7\u05dc \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05d9 \u2190',
+      openTracker: '\ud83d\udcca \u05e4\u05ea\u05d7 \u05d0\u05ea \u05de\u05e2\u05e7\u05d1 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u2190',
+      tap: '\u05dc\u05d7\u05e5 \u2190'
+    },
+    fr: {
+      badge: '\ud83e\udded CONFIGURATION DU PARCOURS REQUISE',
+      title: '\u00c9tablissez d\u2019abord votre parcours l\u00e9gal',
+      body: 'Pour suivre votre progression, vos d\u00e9lais et vos documents officiels requis, votre parcours l\u00e9gal exact doit d\u2019abord \u00eatre \u00e9tabli. R\u00e9pondez \u00e0 4 questions rapides pour activer votre suivi personnalis\u00e9.',
+      btn: '\ud83d\ude80 Commencer mon parcours \u2192',
+      openTracker: '\ud83d\udcca Ouvrir mon suivi \u2192',
+      tap: 'VOIR \u2192'
+    },
+    es: {
+      badge: '\ud83e\udded CONFIGURACI\u00d3N DE RUTA REQUERIDA',
+      title: 'Primero establezca su ruta legal',
+      body: 'Para hacer seguimiento de su progreso, plazos y documentos oficiales requeridos, primero debe establecerse su ruta legal exacta. Responda 4 preguntas r\u00e1pidas para activar su rastreador personalizado.',
+      btn: '\ud83d\ude80 Empezar mi ruta \u2192',
+      openTracker: '\ud83d\udcca Abrir mi rastreador \u2192',
+      tap: 'VER \u2192'
+    },
+    de: {
+      badge: '\ud83e\udded TRACK-EINRICHTUNG ERFORDERLICH',
+      title: 'Legen Sie zuerst Ihren Rechtsweg fest',
+      body: 'Um Ihren Fortschritt, Fristen und erforderliche Beh\u00f6rdendokumente zu verfolgen, muss zuerst Ihr genauer Rechtsweg festgelegt werden. Beantworten Sie 4 kurze Fragen, um Ihren pers\u00f6nlichen Tracker zu starten.',
+      btn: '\ud83d\ude80 Meinen Weg starten \u2192',
+      openTracker: '\ud83d\udcca Meinen Tracker \u00f6ffnen \u2192',
+      tap: 'TIPPEN \u2192'
+    },
+    ru: {
+      badge: '\ud83e\udded \u0422\u0420\u0415\u0411\u0423\u0415\u0422\u0421\u042f \u041d\u0410\u0421\u0422\u0420\u041e\u0419\u041a\u0410 \u041c\u0410\u0420\u0428\u0420\u0423\u0422\u0410',
+      title: '\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0438\u0442\u0435 \u0432\u0430\u0448 \u043f\u0440\u0430\u0432\u043e\u0432\u043e\u0439 \u043c\u0430\u0440\u0448\u0440\u0443\u0442',
+      body: '\u0427\u0442\u043e\u0431\u044b \u043e\u0442\u0441\u043b\u0435\u0436\u0438\u0432\u0430\u0442\u044c \u0432\u0430\u0448 \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441, \u0441\u0440\u043e\u043a\u0438 \u0438 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b, \u0441\u043d\u0430\u0447\u0430\u043b\u0430 \u043d\u0443\u0436\u043d\u043e \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0438\u0442\u044c \u0432\u0430\u0448 \u0442\u043e\u0447\u043d\u044b\u0439 \u043f\u0440\u0430\u0432\u043e\u0432\u043e\u0439 \u043c\u0430\u0440\u0448\u0440\u0443\u0442. \u041e\u0442\u0432\u0435\u0442\u044c\u0442\u0435 \u043d\u0430 4 \u0431\u044b\u0441\u0442\u0440\u044b\u0445 \u0432\u043e\u043f\u0440\u043e\u0441\u0430, \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u043f\u0435\u0440\u0441\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0442\u0440\u0435\u043a\u0435\u0440.',
+      btn: '\ud83d\ude80 \u041d\u0430\u0447\u0430\u0442\u044c \u043c\u043e\u0439 \u043f\u0443\u0442\u044c \u2192',
+      openTracker: '\ud83d\udcca \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043c\u043e\u0439 \u0442\u0440\u0435\u043a\u0435\u0440 \u2192',
+      tap: '\u041e\u0422\u041a\u0420\u042b\u0422\u042c \u2192'
+    }
+  };
+
+  function getCurLang() {
+    var p = window.location.pathname || '/';
+    var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
+    if (m) return m[1].toLowerCase();
+    var hl = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
+    if (GATE_I18N[hl] && hl !== 'en') return hl;
+    try {
+      var lsLg = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').slice(0, 2).toLowerCase();
+      if (GATE_I18N[lsLg]) return lsLg;
+    } catch (e) {}
+    return GATE_I18N[hl] ? hl : 'en';
+  }
+
+  window.markGatOnboardingComplete = function() {
+    try {
+      for (var i = 0; i < ONBOARD_KEYS.length; i++) {
+        localStorage.setItem(ONBOARD_KEYS[i], '1');
+      }
+      document.cookie = 'perm_gat_onboarding_done=1; path=/; max-age=315360000; SameSite=Lax';
+    } catch (e) {}
+    syncObstacleModalCtaButton();
+  };
+
+  window.isGatOnboardingComplete = function() {
+    try {
+      for (var i = 0; i < ONBOARD_KEYS.length; i++) {
+        if (localStorage.getItem(ONBOARD_KEYS[i]) === '1') return true;
+      }
+      if (document.cookie.indexOf('perm_gat_onboarding_done=1') !== -1) return true;
+      // Also check if user already completed the 4-question wizard and saved a profile/track in localStorage
+      var savedTrack = localStorage.getItem('gat_wizard_state') || localStorage.getItem('gat_selected_track') || localStorage.getItem('gat_user_track') || '';
+      if (savedTrack && savedTrack.indexOf('done') !== -1) return true;
+    } catch (e) {}
+    return false;
+  };
+
+  // Watch the 4-question wizard DOM: when the user completes Question 4 of 4 (or reaches the result playbook), mark onboarding complete!
+  function detectWizardCompletionFromDOM() {
+    var bodyTxt = (document.body && document.body.textContent) || '';
+    // If the user is on the final step/result of the 4-question wizard (e.g., personalized roadmap / action plan visible after Q4)
+    var wizResult = document.querySelector('#gat-wizard-result, .wizard-result, [data-wizard-complete="1"], [data-step="result"], [data-step="5"]');
+    if (wizResult && wizResult.getBoundingClientRect().height > 40) {
+      window.markGatOnboardingComplete();
+    }
+  }
+
+  // Also detect clicks on Question 4 of 4 option buttons
+  document.addEventListener('click', function(ev) {
+    var el = ev.target;
+    // Check if the card currently shows QUESTION 4 OF 4 (or localized equivalent '4 / 4' or '4 OF 4' or '4 מתוך 4' or '4 SUR 4' or '4 DE 4' or '4 VON 4' or '4 ИЗ 4')
+    var card = el && el.closest ? el.closest('.gat-blue-card-with-spok, #view-0, .hero-card, .card') : null;
+    if (card) {
+      var cTxt = (card.textContent || '');
+      if (/(?:QUESTION|ШАГ|ВОПРОС|שאלה|PREGUNTA|FRAGE)\s*4\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*4/i.test(cTxt)) {
+        var optBtn = el.closest('button, a, [onclick], .wiz-opt, .quiz-opt');
+        if (optBtn) {
+          var bTxt = (optBtn.textContent || '').trim();
+          if (!/^(?:\u2190\s*)?(?:Back|חזור|Retour|Atrás|Zurück|Назад)$/i.test(bTxt)) {
+            setTimeout(function() { window.markGatOnboardingComplete(); }, 150);
+          }
+        }
+      }
+    }
+  }, true);
+
+  // Jump straight to the 4-question onboarding wizard and open Question 1 of 4
+  window.launchGatOnboardingNow = function() {
+    // 1. Close any open obstacle modal or gate modal
+    if (typeof window.closeModal === 'function') {
+      try { window.closeModal(); } catch (e) {}
+    }
+    var obsModal = document.getElementById('obs-modal') || document.querySelector('.modal-overlay.open, .modal-overlay.active');
+    if (obsModal) {
+      obsModal.classList.remove('open', 'active');
+      obsModal.style.display = 'none';
+    }
+    var gateModal = document.getElementById('gat-tracker-gate-modal');
+    if (gateModal) gateModal.style.display = 'none';
+
+    // 2. If not on the homepage, navigate to the localized homepage with ?start_onboarding=1
+    var p = (window.location.pathname || '/').replace(/\/index\.html$/i, '/');
+    var isHome = /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+    if (!isHome) {
+      var lg = getCurLang();
+      window.location.href = (lg === 'en' ? '/' : '/' + lg + '/') + '?start_onboarding=1';
+      return;
+    }
+
+    // 3. Switch to Start tab (#view-0) using native switchView if present
+    if (typeof window.gatOpenTab === 'function') window.gatOpenTab(0);
+
+    // 4. Scroll smoothly to the top wizard card and click '🚀 START MY TRACK →' if still on the welcome screen
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(function() {
+      var buttons = document.querySelectorAll('button, a');
+      for (var i = 0; i < buttons.length; i++) {
+        var b = buttons[i];
+        if (!b || b.id === 'gat-draggable-spok-fab' || b.id === 'gat-hero-inline-spok-pill') continue;
+        var t = (b.textContent || '').replace(/\s+/g, ' ').trim();
+        if (CTA_TEXT_RX.test(t) || (t.indexOf('\ud83d\ude80') !== -1 && t.length < 44)) {
+          var r = b.getBoundingClientRect();
+          if (r.width > 120 && r.height >= 28) {
+            b.click();
+            break;
+          }
+        }
+      }
+    }, 120);
+  };
+
+  // Build & show the 6-language 'Establish Your Legal Track First' popup when clicking Tracker in bottom navbar
+  window.showGatTrackerGatePopup = function() {
+    var lg = getCurLang();
+    var t = GATE_I18N[lg] || GATE_I18N.en;
+    var dir = (lg === 'he') ? 'rtl' : 'ltr';
+
+    var modal = document.getElementById('gat-tracker-gate-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'gat-tracker-gate-modal';
+      modal.style.cssText = 'position:fixed;inset:0;z-index:10050;background:rgba(15,23,42,0.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px;';
+      document.body.appendChild(modal);
+    }
+
+    modal.innerHTML =
+      '<div dir="' + dir + '" style="background:#ffffff;border:2px solid #38bdf8;border-radius:20px;max-width:440px;width:100%;padding:22px 20px 20px;box-shadow:0 20px 50px rgba(15,23,42,0.35);position:relative;text-align:' + (lg === 'he' ? 'right' : 'left') + ';">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;">' +
+          '<span style="background:#e0f2fe;color:#0369a1;border:1px solid #7dd3fc;padding:4px 11px;border-radius:999px;font-size:11.5px;font-weight:800;letter-spacing:0.3px;">' + t.badge + '</span>' +
+          '<button type="button" id="gat-gate-close-x" aria-label="Close" style="width:34px;height:34px;border-radius:50%;border:1px solid #cbd5e1;background:#f8fafc;color:#0f172a;font-size:18px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;">\u2715</button>' +
+        '</div>' +
+        '<h3 style="margin:0 0 10px;font-size:21px;line-height:1.25;font-weight:900;color:#0f172a;">' + t.title + '</h3>' +
+        '<p style="margin:0 0 18px;font-size:14.5px;line-height:1.55;color:#334155;font-weight:500;">' + t.body + '</p>' +
+        '<button type="button" id="gat-gate-start-btn" style="width:100%;padding:14px 18px;border-radius:14px;border:1.5px solid #38bdf8;background:linear-gradient(135deg,#0f172a 0%,#0284c7 100%);color:#ffffff;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(2,132,199,0.32);display:flex;align-items:center;justify-content:center;gap:8px;">' + t.btn + '</button>' +
+      '</div>';
+
+    modal.style.display = 'flex';
+
+    function dismissAndGoToOnboarding(ev) {
+      if (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+      }
+      modal.style.display = 'none';
+      window.launchGatOnboardingNow();
+    }
+
+    document.getElementById('gat-gate-close-x').addEventListener('click', dismissAndGoToOnboarding);
+    document.getElementById('gat-gate-start-btn').addEventListener('click', dismissAndGoToOnboarding);
+    modal.onclick = function(e) {
+      if (e.target === modal) dismissAndGoToOnboarding(e);
+    };
+  };
+
+  // Wrap window.switchView so switchView(4) (Tracker) checks onboarding completion first!
+  function hookSwitchViewForTrackerGate() {
+    if (typeof window.switchView === 'function' && !window.switchView.__gatTrackerGated) {
+      var origSv = window.switchView;
+      window.__origSwitchView = origSv;
+      var wrappedSv = function(idx) {
+        if (Number(idx) === 4 && !window.isGatOnboardingComplete()) {
+          window.showGatTrackerGatePopup();
+          return;
+        }
+        return origSv.apply(this, arguments);
+      };
+      wrappedSv.__gatTrackerGated = true;
+      window.switchView = wrappedSv;
+    }
+  }
+
+  // Also intercept direct clicks on the bottom navbar Tracker tab AND the 'Open Tracker' button inside the 9 Trap Popups
+  document.addEventListener('click', function(ev) {
+    var el = ev.target;
+    while (el && el !== document.body && el !== document.documentElement) {
+      var oc = (el.getAttribute && el.getAttribute('onclick')) || '';
+      var dv = (el.getAttribute && el.getAttribute('data-view')) || '';
+      var id = el.id || '';
+
+      // 1. Inside the 9 Obstacle Popups: if user clicks the modal CTA button ('Open Tracker' / 'Start My Track')
+      if (id === 'm-cta' || id === 'obs-modal-cta' || /closeModal\(\)\s*;\s*switchView\(\s*4\s*\)/i.test(oc)) {
+        if (!window.isGatOnboardingComplete()) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          window.launchGatOnboardingNow();
+          return;
+        }
+      }
+
+      // 2. Bottom navbar Tracker tab (switchView(4) or data-view='4')
+      if ((/switchView\(\s*4\s*\)/i.test(oc) || dv === '4') && id !== 'm-cta' && id !== 'obs-modal-cta') {
+        if (!window.isGatOnboardingComplete()) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          window.showGatTrackerGatePopup();
+          return;
+        }
+      }
+      el = el.parentElement;
+    }
+  }, true);
+
+  // Dynamically update the bottom-right CTA button inside the 9 Obstacle Popups
+  // so it says '🚀 Start My Track →' before onboarding, and '📊 Open My Tracker →' after onboarding!
+  function syncObstacleModalCtaButton() {
+    var lg = getCurLang();
+    var t = GATE_I18N[lg] || GATE_I18N.en;
+    var onboarded = window.isGatOnboardingComplete();
+    var modalBtns = document.querySelectorAll('#m-cta, #obs-modal-cta, [onclick*="closeModal()"][onclick*="switchView(4)"], #obs-modal button');
+    for (var i = 0; i < modalBtns.length; i++) {
+      var btn = modalBtns[i];
+      if (!btn) continue;
+      var bTxt = (btn.textContent || '').trim();
+      if (bTxt === '\u2715' || bTxt === '×' || bTxt.length <= 2) continue;
+      btn.textContent = onboarded ? t.openTracker : t.btn;
+    }
+  }
+
+  // Synchronize the 9 outer cards (`onclick*="openObstacle("`) 1:1 with the actual 9 popup definitions (`OBSTACLES` / `OBS_I18N`)
+  var BOX_ICONS = ['\u23f3', '\u2708\ufe0f', '\ud83c\udfdb\ufe0f', '\ud83d\udee1\ufe0f', '\ud83d\udc6b', '\ud83d\udd4d', '\ud83d\udcdc', '\u2696\ufe0f', '\ud83c\udfe2'];
+  function getObstaclesArrayForCurrentLang() {
+    var lg = getCurLang();
+    if (window.OBS_I18N && Array.isArray(window.OBS_I18N[lg]) && window.OBS_I18N[lg].length >= 9) {
+      return window.OBS_I18N[lg];
+    }
+    if (window.GAT_OBSTACLES_I18N && Array.isArray(window.GAT_OBSTACLES_I18N[lg]) && window.GAT_OBSTACLES_I18N[lg].length >= 9) {
+      return window.GAT_OBSTACLES_I18N[lg];
+    }
+    if (Array.isArray(window.OBSTACLES) && window.OBSTACLES.length >= 9) {
+      return window.OBSTACLES;
+    }
+    return null;
+  }
+
+  function syncOuterCards1To9WithModals() {
+    var obsArr = getObstaclesArrayForCurrentLang();
+    if (!obsArr || obsArr.length < 9) return;
+    var lg = getCurLang();
+    var tapLabel = (GATE_I18N[lg] || GATE_I18N.en).tap;
+
+    for (var idx = 0; idx < 9; idx++) {
+      var item = obsArr[idx];
+      if (!item || typeof item !== 'object') continue;
+      var cards = document.querySelectorAll('[onclick*="openObstacle(' + idx + ')"]');
+      for (var c = 0; c < cards.length; c++) {
+        var card = cards[c];
+        if (!card) continue;
+        var rawTag = String(item.tag || item.kicker || ('BOX ' + (idx + 1))).replace(/\s*OF\s*9/i, '').replace(/\s*\u05de\u05ea\u05d5\u05da\s*9/i, '').replace(/\s*SUR\s*9/i, '').replace(/\s*DE\s*9/i, '').replace(/\s*VON\s*9/i, '').replace(/\s*\u0418\u0417\s*9/i, '').trim();
+        var rawTitle = String(item.title || item.h || '').trim();
+        var rawDesc = String(item.desc || item.sub || item.body || item.p || '').trim();
+        if (!rawTitle) continue;
+
+        var icon = BOX_ICONS[idx] || '\ud83d\udee1\ufe0f';
+        var cleanTitle = rawTitle;
+        if (!/^[\u2300-\u27bf\ud83c-\ud83e]/.test(cleanTitle)) {
+          cleanTitle = icon + ' ' + cleanTitle;
+        }
+
+        // Update structured sub-elements if present, or render clean uniform card HTML
+        var tagEl = card.querySelector('.obs-tag, .card-tag, .box-tag');
+        var titleEl = card.querySelector('.obs-title, .card-title, h3, h4');
+        var descEl = card.querySelector('.obs-desc, .card-desc, p');
+        if (tagEl && titleEl && descEl) {
+          tagEl.innerHTML = '<span>' + rawTag + '</span><span style="float:' + (lg === 'he' ? 'left' : 'right') + ';">' + tapLabel + '</span>';
+          titleEl.textContent = cleanTitle;
+          descEl.textContent = rawDesc;
+        } else {
+          card.innerHTML =
+            '<div class="obs-tag" style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;font-weight:800;color:#0284c7;text-transform:uppercase;margin-bottom:6px;">' +
+              '<span>' + rawTag + '</span>' +
+              '<span>' + tapLabel + '</span>' +
+            '</div>' +
+            '<div class="obs-title" style="font-size:16.5px;font-weight:900;color:#0f172a;line-height:1.3;margin-bottom:6px;">' + cleanTitle + '</div>' +
+            '<div class="obs-desc" style="font-size:13.5px;color:#334155;line-height:1.48;">' + rawDesc + '</div>';
+        }
+      }
+    }
+  }
+
+  function runAllGateAndBoxSync() {
+    hookSwitchViewForTrackerGate();
+    detectWizardCompletionFromDOM();
+    syncObstacleModalCtaButton();
+    syncOuterCards1To9WithModals();
+  }
+
+  // Check if page was loaded with ?start_onboarding=1
+  if (window.location.search && window.location.search.indexOf('start_onboarding=1') !== -1) {
+    window.addEventListener('load', function() {
+      setTimeout(function() { window.launchGatOnboardingNow(); }, 250);
+    });
+  }
+
+  runAllGateAndBoxSync();
+  document.addEventListener('DOMContentLoaded', runAllGateAndBoxSync);
+  window.addEventListener('load', runAllGateAndBoxSync);
+  setInterval(runAllGateAndBoxSync, 450);
+})();
+
+// === GAT 6-LANG ONE-TIME ONBOARDING + ACTIVE TRACK HUB + CHANGE/CANCEL ===
+(function() {
+  var ONBOARD_DONE_KEY = 'gat_onboarding_completed_v3';
+  var SAVED_TRACK_SNAPSHOT_KEY = 'gat_saved_track_snapshot_v2';
+  var isEditingTrackMode = false;
+  var returnToViewAfterCancel = 0;
+
+  var CTA_TEXT_RX = /(START\s*MY\s*TRACK|\u05d4\u05ea\u05d7\u05dc\s*\u05d0\u05ea\s*\u05d4\u05de\u05e1\u05dc\u05d5\u05dc|COMMENCER\s*MON\s*PARCOURS|EMPEZAR\s*MI\s*RUTA|MEINEN\s*WEG\s*STARTEN|\u041d\u0410\u0427\u0410\u0422\u042c\s*\u041c\u041e\u0419\s*\u041f\u0423\u0422\u042c)/i;
+  var SETUP_NOW_RX = /(Set\s*Up\s*My\s*Track\s*Now|\u05d4\u05d2\u05d3\u05e8\s*\u05d0\u05ea\s*\u05d4\u05de\u05e1\u05dc\u05d5\u05dc|Configurer\s*mon\s*parcours|Configurar\s*mi\s*ruta|Meinen\s*Track\s*einrichten|\u041d\u0430\u0441\u0442\u0440\u043e\u0438\u0442\u044c\s*\u043c\u043e\u0439\s*\u043c\u0430\u0440\u0448\u0440\u0443\u0442)/i;
+  var CHANGE_ANS_RX = /(Change\s*Answers|\u05e9\u05e0\u05d4\s*\u05ea\u05e9\u05d5\u05d1\u05d5\u05ea|Modifier\s*les\s*r\u00e9ponses|Cambiar\s*respuestas|Antworten\s*\u00e4ndern|\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c\s*\u043e\u0442\u0432\u0435\u0442\u044b)/i;
+
+  var I18N = {
+    en: {
+      gateBadge: '\ud83e\udded TRACK SETUP REQUIRED',
+      gateTitle: 'Establish Your Legal Track First',
+      gateBody: 'In order to track your progress, deadlines, and required government documents, your exact legal track must be established first. Answer 4 quick questions now to unlock your personalized Tracker.',
+      gateBtn: '\ud83d\ude80 Start My Track \u2192',
+      activeBadge: '\u2705 YOUR ACTIVE LEGAL TRACK',
+      activeSub: 'Your onboarding is complete. Your deadline clocks, required PIBA/Rabbanut forms, and step-by-step blueprint are configured for this track:',
+      progressLabel: 'Track Progress',
+      nextFocusLabel: 'Current Focus Step',
+      openTrackerBtn: '\ud83d\udcca Open My Active Tracker \u2192',
+      changeTrackBtn: '\ud83e\udded Change My Track',
+      cancelChangeBtn: '\u2715 Cancel & Keep Current Track',
+      trackerTopMsg: 'Your Tracker is synced to your active legal track. Need to switch to a different visa, conversion, or Aliyah path?',
+      defaultTrackName: '\u2708\ufe0f Fast-Track Aliyah & Residency Blueprint',
+      defaultNextStep: 'Step 1: Pull & Apostille All 5 Home-Country Civil Docs'
+    },
+    he: {
+      gateBadge: '\ud83e\udded \u05e0\u05d3\u05e8\u05e9\u05ea \u05d4\u05d2\u05d3\u05e8\u05ea \u05de\u05e1\u05dc\u05d5\u05dc \u05ea\u05d7\u05d9\u05dc\u05d4',
+      gateTitle: '\u05e7\u05d5\u05d3\u05dd \u05d9\u05e9 \u05dc\u05e7\u05d1\u05d5\u05e2 \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05de\u05e9\u05e4\u05d8\u05d9 \u05e9\u05dc\u05da',
+      gateBody: '\u05db\u05d3\u05d9 \u05dc\u05e2\u05e7\u05d5\u05d1 \u05d0\u05d7\u05e8 \u05d4\u05d4\u05ea\u05e7\u05d3\u05de\u05d5\u05ea, \u05de\u05d5\u05e2\u05d3\u05d9 \u05d4\u05d9\u05e2\u05d3 \u05d5\u05d4\u05de\u05e1\u05de\u05db\u05d9\u05dd \u05d4\u05e0\u05d3\u05e8\u05e9\u05d9\u05dd \u05e9\u05dc\u05da, \u05d9\u05e9 \u05dc\u05d4\u05d2\u05d3\u05d9\u05e8 \u05ea\u05d7\u05d9\u05dc\u05d4 \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05de\u05d3\u05d5\u05d9\u05e7 \u05e9\u05dc\u05da. \u05e2\u05e0\u05d5 \u05e2\u05dc 4 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e7\u05e6\u05e8\u05d5\u05ea \u05db\u05d3\u05d9 \u05dc\u05e4\u05ea\u05d5\u05d7 \u05d0\u05ea \u05de\u05e2\u05e7\u05d1 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05d0\u05d9\u05e9\u05d9.',
+      gateBtn: '\ud83d\ude80 \u05d4\u05ea\u05d7\u05dc \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05d9 \u2190',
+      activeBadge: '\u2705 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05de\u05e9\u05e4\u05d8\u05d9 \u05d4\u05e4\u05e2\u05d9\u05dc \u05e9\u05dc\u05da',
+      activeSub: '\u05d0\u05d1\u05d7\u05d5\u05df \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05d5\u05e9\u05dc\u05dd. \u05e9\u05e2\u05d5\u05e0\u05d9 \u05d4\u05de\u05d5\u05e2\u05d3\u05d9\u05dd, \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd/\u05d4\u05e8\u05d1\u05e0\u05d5\u05ea \u05d5\u05ea\u05d5\u05db\u05e0\u05d9\u05ea \u05d4\u05e4\u05e2\u05d5\u05dc\u05d4 \u05de\u05d5\u05ea\u05d0\u05de\u05d9\u05dd \u05dc\u05de\u05e1\u05dc\u05d5\u05dc \u05d6\u05d4:',
+      progressLabel: '\u05d4\u05ea\u05e7\u05d3\u05de\u05d5\u05ea \u05d1\u05de\u05e1\u05dc\u05d5\u05dc',
+      nextFocusLabel: '\u05d4\u05e9\u05dc\u05d1 \u05d4\u05e0\u05d5\u05db\u05d7\u05d9 \u05dc\u05d1\u05d9\u05e6\u05d5\u05e2',
+      openTrackerBtn: '\ud83d\udcca \u05e4\u05ea\u05d7 \u05d0\u05ea \u05de\u05e2\u05e7\u05d1 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05d9 \u2190',
+      changeTrackBtn: '\ud83e\udded \u05e9\u05e0\u05d4 \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05d9',
+      cancelChangeBtn: '\u2715 \u05d1\u05d9\u05d8\u05d5\u05dc \u05d5\u05d7\u05d6\u05e8\u05d4 \u05dc\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05e7\u05d9\u05d9\u05dd',
+      trackerTopMsg: '\u05de\u05e2\u05e7\u05d1 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05de\u05e1\u05d5\u05e0\u05db\u05e8\u05df \u05dc\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05e4\u05e2\u05d9\u05dc \u05e9\u05dc\u05da. \u05e8\u05d5\u05e6\u05d4 \u05dc\u05d4\u05d7\u05dc\u05d9\u05e3 \u05dc\u05de\u05e1\u05dc\u05d5\u05dc \u05d2\u05d9\u05d5\u05e8, \u05e2\u05dc\u05d9\u05d9\u05d4 \u05d0\u05d5 \u05d0\u05e9\u05e8\u05d4 \u05d0\u05d7\u05e8?',
+      defaultTrackName: '\u2708\ufe0f \u05de\u05e1\u05dc\u05d5\u05dc \u05e2\u05dc\u05d9\u05d9\u05d4 \u05de\u05d4\u05d9\u05e8 \u05d5\u05d4\u05e1\u05d3\u05e8\u05ea \u05de\u05e2\u05de\u05d3',
+      defaultNextStep: '\u05e9\u05dc\u05d1 1: \u05d0\u05d9\u05e1\u05d5\u05e3 \u05d5\u05d7\u05d5\u05ea\u05de\u05ea \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05dc-5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d4\u05de\u05e7\u05d5\u05e8'
+    },
+    fr: {
+      gateBadge: '\ud83e\udded CONFIGURATION DU PARCOURS REQUISE',
+      gateTitle: '\u00c9tablissez d\u2019abord votre parcours l\u00e9gal',
+      gateBody: 'Pour suivre votre progression, vos d\u00e9lais et vos documents officiels requis, votre parcours l\u00e9gal exact doit d\u2019abord \u00eatre \u00e9tabli. R\u00e9pondez \u00e0 4 questions rapides pour activer votre suivi personnalis\u00e9.',
+      gateBtn: '\ud83d\ude80 Commencer mon parcours \u2192',
+      activeBadge: '\u2705 VOTRE PARCOURS L\u00c9GAL ACTIF',
+      activeSub: 'Votre configuration initiale est termin\u00e9e. Vos horloges de d\u00e9lais, formulaires PIBA/Rabbinat et plan d\u2019action sont configur\u00e9s pour ce parcours :',
+      progressLabel: 'Progression du parcours',
+      nextFocusLabel: '\u00c9tape actuelle',
+      openTrackerBtn: '\ud83d\udcca Ouvrir mon suivi actif \u2192',
+      changeTrackBtn: '\ud83e\udded Changer mon parcours',
+      cancelChangeBtn: '\u2715 Annuler et garder mon parcours',
+      trackerTopMsg: 'Votre suivi est synchronis\u00e9 avec votre parcours actif. Besoin de changer de parcours (Giyur, Aliyah ou Visa) ?',
+      defaultTrackName: '\u2708\ufe0f Parcours Aliyah Rapide & R\u00e9sidence',
+      defaultNextStep: '\u00c9tape 1 : Obtenir et apostiller les 5 actes d\u2019\u00e9tat civil'
+    },
+    es: {
+      gateBadge: '\ud83e\udded CONFIGURACI\u00d3N DE RUTA REQUERIDA',
+      gateTitle: 'Primero establezca su ruta legal',
+      gateBody: 'Para hacer seguimiento de su progreso, plazos y documentos oficiales requeridos, primero debe establecerse su ruta legal exacta. Responda 4 preguntas r\u00e1pidas para activar su rastreador personalizado.',
+      gateBtn: '\ud83d\ude80 Empezar mi ruta \u2192',
+      activeBadge: '\u2705 SU RUTA LEGAL ACTIVA',
+      activeSub: 'Su configuraci\u00f3n inicial est\u00e1 completa. Sus relojes de plazos, formularios PIBA/Rabinato y plan paso a paso est\u00e1n listos para esta ruta:',
+      progressLabel: 'Progreso de la ruta',
+      nextFocusLabel: 'Paso actual enfocado',
+      openTrackerBtn: '\ud83d\udcca Abrir mi rastreador activo \u2192',
+      changeTrackBtn: '\ud83e\udded Cambiar mi ruta',
+      cancelChangeBtn: '\u2715 Cancelar y mantener ruta actual',
+      trackerTopMsg: 'Su rastreador est\u00e1 sincronizado con su ruta legal activa. \u00bfNecesita cambiar a otra ruta de Guiur, Aliy\u00e1 o Visa?',
+      defaultTrackName: '\u2708\ufe0f Ruta R\u00e1pida de Aliy\u00e1 y Residencia',
+      defaultNextStep: 'Paso 1: Obtener y apostillar los 5 documentos civiles en persona'
+    },
+    de: {
+      gateBadge: '\ud83e\udded TRACK-EINRICHTUNG ERFORDERLICH',
+      gateTitle: 'Legen Sie zuerst Ihren Rechtsweg fest',
+      gateBody: 'Um Ihren Fortschritt, Fristen und erforderliche Beh\u00f6rdendokumente zu verfolgen, muss zuerst Ihr genauer Rechtsweg festgelegt werden. Beantworten Sie 4 kurze Fragen, um Ihren pers\u00f6nlichen Tracker zu starten.',
+      gateBtn: '\ud83d\ude80 Meinen Weg starten \u2192',
+      activeBadge: '\u2705 IHR AKTIVER RECHTSWEG',
+      activeSub: 'Ihre Einrichtung ist abgeschlossen. Ihre Fristen-Uhren, PIBA-/Rabbinatsformulare und Ihr Schritt-f\u00fcr-Schritt-Plan sind konfiguriert f\u00fcr:',
+      progressLabel: 'Track-Fortschritt',
+      nextFocusLabel: 'Aktueller Fokus-Schritt',
+      openTrackerBtn: '\ud83d\udcca Meinen aktiven Tracker \u00f6ffnen \u2192',
+      changeTrackBtn: '\ud83e\udded Meinen Weg \u00e4ndern',
+      cancelChangeBtn: '\u2715 Abbrechen & aktuellen Weg behalten',
+      trackerTopMsg: 'Ihr Tracker ist mit Ihrem aktiven Rechtsweg synchronisiert. M\u00f6chten Sie zu einem anderen Giur-, Alija- oder Visum-Weg wechseln?',
+      defaultTrackName: '\u2708\ufe0f Fast-Track Alija & Aufenthaltsstatus',
+      defaultNextStep: 'Schritt 1: Alle 5 Personenstandsurkunden mit Apostille beschaffen'
+    },
+    ru: {
+      gateBadge: '\ud83e\udded \u0422\u0420\u0415\u0411\u0423\u0415\u0422\u0421\u042f \u041d\u0410\u0421\u0422\u0420\u041e\u0419\u041a\u0410 \u041c\u0410\u0420\u0428\u0420\u0423\u0422\u0410',
+      gateTitle: '\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0438\u0442\u0435 \u0432\u0430\u0448 \u043f\u0440\u0430\u0432\u043e\u0432\u043e\u0439 \u043c\u0430\u0440\u0448\u0440\u0443\u0442',
+      gateBody: '\u0427\u0442\u043e\u0431\u044b \u043e\u0442\u0441\u043b\u0435\u0436\u0438\u0432\u0430\u0442\u044c \u0432\u0430\u0448 \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441, \u0441\u0440\u043e\u043a\u0438 \u0438 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b, \u0441\u043d\u0430\u0447\u0430\u043b\u0430 \u043d\u0443\u0436\u043d\u043e \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0438\u0442\u044c \u0432\u0430\u0448 \u0442\u043e\u0447\u043d\u044b\u0439 \u043f\u0440\u0430\u0432\u043e\u0432\u043e\u0439 \u043c\u0430\u0440\u0448\u0440\u0443\u0442. \u041e\u0442\u0432\u0435\u0442\u044c\u0442\u0435 \u043d\u0430 4 \u0431\u044b\u0441\u0442\u0440\u044b\u0445 \u0432\u043e\u043f\u0440\u043e\u0441\u0430, \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u043f\u0435\u0440\u0441\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0442\u0440\u0435\u043a\u0435\u0440.',
+      gateBtn: '\ud83d\ude80 \u041d\u0430\u0447\u0430\u0442\u044c \u043c\u043e\u0439 \u043f\u0443\u0442\u044c \u2192',
+      activeBadge: '\u2705 \u0412\u0410\u0428 \u0410\u041a\u0422\u0418\u0412\u041d\u042b\u0419 \u041f\u0420\u0410\u0412\u041e\u0412\u041e\u0419 \u041c\u0410\u0420\u0428\u0420\u0423\u0422',
+      activeSub: '\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u0430. \u0422\u0430\u0439\u043c\u0435\u0440\u044b \u0441\u0440\u043e\u043a\u043e\u0432, \u0430\u043d\u043a\u0435\u0442\u044b \u041c\u0412\u0414/\u0420\u0430\u0432\u0432\u0438\u043d\u0430\u0442\u0430 \u0438 \u043f\u043e\u0448\u0430\u0433\u043e\u0432\u044b\u0439 \u043f\u043b\u0430\u043d \u043d\u0430\u0441\u0442\u0440\u043e\u0435\u043d\u044b \u0434\u043b\u044f:',
+      progressLabel: '\u041f\u0440\u043e\u0433\u0440\u0435\u0441\u0441 \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0430',
+      nextFocusLabel: '\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u0448\u0430\u0433',
+      openTrackerBtn: '\ud83d\udcca \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043c\u043e\u0439 \u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0439 \u0442\u0440\u0435\u043a\u0435\u0440 \u2192',
+      changeTrackBtn: '\ud83e\udded \u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043c\u043e\u0439 \u043c\u0430\u0440\u0448\u0440\u0443\u0442',
+      cancelChangeBtn: '\u2715 \u041e\u0442\u043c\u0435\u043d\u0430 (\u043e\u0441\u0442\u0430\u0432\u0438\u0442\u044c \u0442\u0435\u043a\u0443\u0449\u0438\u0439)',
+      trackerTopMsg: '\u0412\u0430\u0448 \u0442\u0440\u0435\u043a\u0435\u0440 \u0441\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d \u0441 \u0432\u0430\u0448\u0438\u043c \u0430\u043a\u0442\u0438\u0432\u043d\u044b\u043c \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u043e\u043c. \u0425\u043e\u0442\u0438\u0442\u0435 \u0441\u043c\u0435\u043d\u0438\u0442\u044c \u043c\u0430\u0440\u0448\u0440\u0443\u0442 (\u0413\u0438\u044e\u0440, \u0410\u043b\u0438\u044f, \u0412\u0438\u0437\u0430)?',
+      defaultTrackName: '\u2708\ufe0f \u0423\u0441\u043a\u043e\u0440\u0435\u043d\u043d\u0430\u044f \u0410\u043b\u0438\u044f \u0438 \u0441\u0442\u0430\u0442\u0443\u0441 \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u0435',
+      defaultNextStep: '\u0428\u0430\u0433 1: \u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0438 \u0430\u043f\u043e\u0441\u0442\u0438\u043b\u0438\u0440\u043e\u0432\u0430\u0442\u044c 5 \u043b\u0438\u0447\u043d\u044b\u0445 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432'
+    }
+  };
+
+  function getCurLang() {
+    var p = window.location.pathname || '/';
+    var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
+    if (m) return m[1].toLowerCase();
+    var hl = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
+    if (I18N[hl] && hl !== 'en') return hl;
+    try {
+      var lsLg = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').slice(0, 2).toLowerCase();
+      if (I18N[lsLg]) return lsLg;
+    } catch (e) {}
+    return I18N[hl] ? hl : 'en';
+  }
+
+  function isHomepage() {
+    var p = (window.location.pathname || '/').replace(/\/index\.html$/i, '/');
+    return /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+  }
+
+  window.isGatOnboardingComplete = function() {
+    try {
+      if (localStorage.getItem(ONBOARD_DONE_KEY) === '1') return true;
+      if (document.cookie.indexOf('perm_gat_onboard_v2=1') !== -1) {
+        localStorage.setItem(ONBOARD_DONE_KEY, '1');
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  };
+
+  // Read live Track Name, Progress (e.g. '0/7 (0%)'), and Current Focus Step directly from #view-4 Tracker DOM
+  function readLiveTrackerSummaryFromDOM() {
+    var lg = getCurLang();
+    var t = I18N[lg] || I18N.en;
+    var trackTitle = '';
+    var progressRatio = '0/7 (0%)';
+    var nextStepText = '';
+
+    var v4 = document.getElementById('view-4');
+    if (v4) {
+      // Look for the active track title inside #view-4
+      var headings = v4.querySelectorAll('h2, h3, h4, .track-title, [id*="track-title"], [id*="active-track"]');
+      for (var i = 0; i < headings.length; i++) {
+        var hTxt = (headings[i].textContent || '').replace(/\s+/g, ' ').trim();
+        if (hTxt && hTxt.length > 8 && hTxt.length < 110 && !SETUP_NOW_RX.test(hTxt) && hTxt.indexOf('4-question') === -1) {
+          trackTitle = hTxt;
+          break;
+        }
+      }
+      // Fallback: look for the element right after 'ADAPTED TO YOUR ACTIVE TRACK'
+      var allV4 = v4.querySelectorAll('div, span, strong');
+      for (var j = 0; j < allV4.length; j++) {
+        var sTxt = (allV4[j].textContent || '').replace(/\s+/g, ' ').trim();
+        var mProg = sTxt.match(/(\d+\s*\/\s*\d+\s*\(\d+%\))/);
+        if (mProg) {
+          progressRatio = mProg[1];
+        }
+        if (!trackTitle && /^[\u2708\ud83d\ud83c\u2696\ud83e]/.test(sTxt) && sTxt.length > 12 && sTxt.length < 95 && allV4[j].children.length <= 1) {
+          trackTitle = sTxt;
+        }
+      }
+      // Find Step 1 or Current Focus step title
+      var stepCards = v4.querySelectorAll('[id*="step"], .step-card, .tracker-step');
+      for (var k = 0; k < stepCards.length; k++) {
+        var scTxt = (stepCards[k].textContent || '').replace(/\s+/g, ' ').trim();
+        if (scTxt.length > 15) {
+          var lines = (stepCards[k].innerText || '').split('\n').map(function(l){return l.trim();}).filter(Boolean);
+          if (lines.length >= 2) {
+            nextStepText = lines[0].replace(/Current Focus/i, '').trim() + ' — ' + lines[1];
+            break;
+          }
+        }
+      }
+    }
+
+    // Check if we saved a snapshot in localStorage
+    try {
+      var savedRaw = localStorage.getItem(SAVED_TRACK_SNAPSHOT_KEY);
+      if (savedRaw) {
+        var parsed = JSON.parse(savedRaw);
+        if (!trackTitle && parsed.trackTitle) trackTitle = parsed.trackTitle;
+        if (!nextStepText && parsed.nextStepText) nextStepText = parsed.nextStepText;
+      }
+    } catch (e) {}
+
+    return {
+      trackTitle: trackTitle || t.defaultTrackName,
+      progressRatio: progressRatio || '0/7 (0%)',
+      nextStepText: nextStepText || t.defaultNextStep
+    };
+  }
+
+  window.markGatOnboardingComplete = function(customTitle) {
+    try {
+      localStorage.setItem(ONBOARD_DONE_KEY, '1');
+      localStorage.setItem('gat_onboarding_done', '1');
+      document.cookie = 'perm_gat_onboard_v2=1; path=/; max-age=315360000; SameSite=Lax';
+      var summary = readLiveTrackerSummaryFromDOM();
+      if (customTitle) summary.trackTitle = customTitle;
+      localStorage.setItem(SAVED_TRACK_SNAPSHOT_KEY, JSON.stringify(summary));
+    } catch (e) {}
+    isEditingTrackMode = false;
+    var cancelBar = document.getElementById('gat-onboard-cancel-bar');
+    if (cancelBar) cancelBar.style.display = 'none';
+    syncOnboardingAndTrackerLifecycle();
+  };
+
+  // Locate the primary blue-bordered onboarding container on #view-0
+  function findHeroWizardCard() {
+    if (typeof window.gatFindTrueOuterWizardCard === 'function') {
+      var trueOuter = window.gatFindTrueOuterWizardCard();
+      if (trueOuter) return trueOuter;
+    }
+    var v0 = document.getElementById('view-0') || document.body;
+    var existingCard = v0.querySelector('.gat-blue-card-with-spok');
+    if (existingCard) return existingCard;
+
+    var btns = v0.querySelectorAll('button, a');
+    for (var i = 0; i < btns.length; i++) {
+      var b = btns[i];
+      var txt = (b.textContent || '').replace(/\s+/g, ' ').trim();
+      if (CTA_TEXT_RX.test(txt) || (txt.indexOf('\ud83d\ude80') !== -1 && txt.length < 44)) {
+        var cur = b.parentElement;
+        while (cur && cur !== document.body && cur !== document.documentElement) {
+          var cs = window.getComputedStyle(cur);
+          if (parseFloat(cs.borderTopWidth || '0') >= 1 && cur.getBoundingClientRect().height >= 180) {
+            cur.classList.add('gat-blue-card-with-spok');
+            return cur;
+          }
+          cur = cur.parentElement;
+        }
+      }
+    }
+    return null;
+  }
+
+  // Enter Non-Destructive 'Change My Track' Mode (with Cancel button if already onboarded!)
+  window.startGatChangeTrackFlow = function(fromViewIdx) {
+    var alreadyOnboarded = window.isGatOnboardingComplete();
+    isEditingTrackMode = true;
+    returnToViewAfterCancel = (typeof fromViewIdx === 'number') ? fromViewIdx : 0;
+
+    // Switch to #view-0 (Start tab) without triggering the Tracker lock
+    if (typeof window.gatOpenTab === 'function') window.gatOpenTab(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    var heroCard = findHeroWizardCard();
+    if (heroCard) {
+      // Hide the Active Track Summary card and reveal the original wizard children
+      var summaryBox = document.getElementById('gat-onboarded-active-hub');
+      if (summaryBox) summaryBox.style.display = 'none';
+      var kids = heroCard.children;
+      for (var i = 0; i < kids.length; i++) {
+        var kid = kids[i];
+        if (kid.id === 'gat-onboarded-active-hub') continue;
+        if (kid.getAttribute('data-gat-hidden-by-hub') === '1') {
+          kid.removeAttribute('data-gat-hidden-by-hub');
+          kid.style.display = '';
+        }
+      }
+    }
+
+    // Click '🚀 START MY TRACK →' if the welcome screen is showing so the user lands directly on Question 1 of 4
+    setTimeout(function() {
+      var hero = findHeroWizardCard() || document.body;
+      var buttons = hero.querySelectorAll('button, a');
+      for (var j = 0; j < buttons.length; j++) {
+        var b = buttons[j];
+        if (!b || b.id === 'gat-draggable-spok-fab' || b.id === 'gat-hero-inline-spok-pill') continue;
+        var t = (b.textContent || '').replace(/\s+/g, ' ').trim();
+        if (CTA_TEXT_RX.test(t) || (t.indexOf('\ud83d\ude80') !== -1 && t.length < 44)) {
+          var r = b.getBoundingClientRect();
+          if (r.width > 100 && r.height >= 24) {
+            b.click();
+            break;
+          }
+        }
+      }
+      // If user was already onboarded, inject the prominent '✕ Cancel & Keep Current Track' bar at the top of the wizard card!
+      if (alreadyOnboarded) {
+        renderCancelBarInWizard();
+      }
+    }, 90);
+  };
+
+  // Cancel button handler: closes the onboarding wizard without losing any data and returns to the already-onboarded view!
+  window.cancelGatChangeTrackFlow = function(ev) {
+    if (ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+    isEditingTrackMode = false;
+    var cancelBar = document.getElementById('gat-onboard-cancel-bar');
+    if (cancelBar) cancelBar.style.display = 'none';
+    syncOnboardingAndTrackerLifecycle();
+    if (returnToViewAfterCancel === 4 && typeof window.__origSwitchView === 'function') {
+      window.__origSwitchView(4);
+    }
+  };
+
+  function renderCancelBarInWizard() {
+    if (!window.isGatOnboardingComplete() || !isEditingTrackMode) return;
+    var heroCard = findHeroWizardCard();
+    if (!heroCard) return;
+    var lg = getCurLang();
+    var t = I18N[lg] || I18N.en;
+
+    var cancelBar = document.getElementById('gat-onboard-cancel-bar');
+    if (!cancelBar) {
+      cancelBar = document.createElement('div');
+      cancelBar.id = 'gat-onboard-cancel-bar';
+      heroCard.insertBefore(cancelBar, heroCard.firstChild);
+    }
+    cancelBar.style.cssText = 'display:flex;justify-content:flex-end;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed #cbd5e1;width:100%;';
+    cancelBar.innerHTML =
+      '<button type="button" id="gat-cancel-change-track-btn" style="background:#fee2e2;color:#b91c1c;border:1.5px solid #fca5a5;padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(185,28,28,0.12);">' +
+        t.cancelChangeBtn +
+      '</button>';
+    var btn = document.getElementById('gat-cancel-change-track-btn');
+    if (btn) btn.onclick = window.cancelGatChangeTrackFlow;
+  }
+
+  // Render the user-friendly, informative Active Track Hub Card on the Homepage (#view-0) once onboarding is complete
+  function renderOnboardedHomepageHub() {
+    if (!isHomepage()) return;
+    var heroCard = findHeroWizardCard();
+    if (!heroCard) return;
+
+    var onboarded = window.isGatOnboardingComplete();
+    var hub = document.getElementById('gat-onboarded-active-hub');
+
+    // If not onboarded OR currently in 'Change My Track' editing mode, hide the hub and show the wizard
+    if (!onboarded || isEditingTrackMode) {
+      if (hub) hub.style.display = 'none';
+      var restoredKids = heroCard.querySelectorAll('[data-gat-hidden-by-hub="1"]');
+      for (var rk = 0; rk < restoredKids.length; rk++) {
+        restoredKids[rk].removeAttribute('data-gat-hidden-by-hub');
+        restoredKids[rk].style.display = '';
+      }
+      if (onboarded && isEditingTrackMode) {
+        renderCancelBarInWizard();
+      } else {
+        var cBar = document.getElementById('gat-onboard-cancel-bar');
+        if (cBar) cBar.style.display = 'none';
+      }
+      return;
+    }
+
+    // User IS onboarded and NOT editing their track: hide the raw onboarding quiz children (except Ask Spok row & our Hub)
+    var cancelBar = document.getElementById('gat-onboard-cancel-bar');
+    if (cancelBar) cancelBar.style.display = 'none';
+
+    var kids = heroCard.children;
+    for (var i = 0; i < kids.length; i++) {
+      var kid = kids[i];
+      if (!kid) continue;
+      if (kid.id === 'gat-onboarded-active-hub' || kid.id === 'gat-hero-inline-spok-row') continue;
+      if (kid.style.display !== 'none') {
+        kid.setAttribute('data-gat-hidden-by-hub', '1');
+        kid.style.display = 'none';
+      }
+    }
+
+    var lg = getCurLang();
+    var t = I18N[lg] || I18N.en;
+    var dir = (lg === 'he') ? 'rtl' : 'ltr';
+    var summary = readLiveTrackerSummaryFromDOM();
+
+    if (!hub) {
+      hub = document.createElement('div');
+      hub.id = 'gat-onboarded-active-hub';
+      heroCard.insertBefore(hub, heroCard.firstChild);
+    }
+
+    var sig = lg + '|' + summary.trackTitle + '|' + summary.progressRatio + '|' + summary.nextStepText;
+    if (hub.getAttribute('data-render-sig') !== sig) {
+      hub.setAttribute('data-render-sig', sig);
+      hub.setAttribute('dir', dir);
+      hub.style.cssText = 'display:block;width:100%;text-align:' + (lg === 'he' ? 'right' : 'left') + ';padding:4px 2px 6px;';
+      hub.innerHTML =
+        '<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;">' +
+          '<span style="background:#d1fae5;color:#065f46;border:1px solid #34d399;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:900;letter-spacing:0.3px;">' + t.activeBadge + '</span>' +
+          '<button type="button" id="gat-hub-change-track-top" style="background:#f1f5f9;color:#0f172a;border:1px solid #cbd5e1;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:5px;">' + t.changeTrackBtn + '</button>' +
+        '</div>' +
+        '<h2 style="margin:0 0 6px;font-size:21px;line-height:1.25;font-weight:900;color:#0f172a;">' + summary.trackTitle + '</h2>' +
+        '<p style="margin:0 0 12px;font-size:13.5px;line-height:1.48;color:#334155;font-weight:500;">' + t.activeSub + '</p>' +
+        '<div style="background:rgba(255,255,255,0.88);border:1.5px solid #bae6fd;border-radius:14px;padding:12px 14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(2,132,199,0.08);">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+            '<span style="font-size:11.5px;font-weight:800;text-transform:uppercase;color:#0369a1;">\ud83c\udfaf ' + t.progressLabel + '</span>' +
+            '<span style="background:#e0f2fe;color:#0284c7;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:900;">' + summary.progressRatio + '</span>' +
+          '</div>' +
+          '<div style="font-size:13.5px;font-weight:800;color:#0f172a;line-height:1.35;">\ud83d\udccc ' + t.nextFocusLabel + ': <span style="color:#0284c7;">' + summary.nextStepText + '</span></div>' +
+        '</div>' +
+        '<button type="button" id="gat-hub-open-tracker-cta" style="width:100%;padding:14px 18px;border-radius:14px;border:1.5px solid #38bdf8;background:linear-gradient(135deg,#0f172a 0%,#0284c7 100%);color:#ffffff;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 6px 18px rgba(2,132,199,0.35);display:flex;align-items:center;justify-content:center;gap:8px;">' +
+          t.openTrackerBtn +
+        '</button>';
+
+      var openBtn = document.getElementById('gat-hub-open-tracker-cta');
+      if (openBtn) {
+        openBtn.onclick = function() {
+          if (typeof window.gatOpenTab === 'function') window.gatOpenTab(4);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      }
+      var chgBtn = document.getElementById('gat-hub-change-track-top');
+      if (chgBtn) {
+        chgBtn.onclick = function() {
+          window.startGatChangeTrackFlow(0);
+        };
+      }
+    }
+    hub.style.display = 'block';
+  }
+
+  // Update the top banner and 'Change Answers' button on #view-4 (Tracker page):
+  // - When UN-ONBOARDED: #view-4 is completely hidden & locked!
+  // - When ONBOARDED: Change 'Set Up My Track Now' -> '🧭 Change My Track' (localized in all 6 languages)!
+  function syncView4TrackerBannerAndLock() {
+    var v4 = document.getElementById('view-4');
+    if (!v4) return;
+    var onboarded = window.isGatOnboardingComplete();
+    var lg = getCurLang();
+    var t = I18N[lg] || I18N.en;
+
+    // 1. Strict Zero-Access Lock if un-onboarded and #view-4 somehow became active
+    if (false && !onboarded) {
+      v4.classList.remove('active');
+      v4.style.display = 'none';
+      var v0 = document.getElementById('view-0');
+      if (v0) {
+        v0.classList.add('active');
+        v0.style.display = '';
+      }
+      window.showGatTrackerGatePopup();
+      return;
+    }
+
+    // 2. When onboarded: transform the top 'Set Up My Track Now' banner & 'Change Answers' button into '🧭 Change My Track'
+    var v4Btns = v4.querySelectorAll('button, a');
+    for (var i = 0; i < v4Btns.length; i++) {
+      var b = v4Btns[i];
+      var bTxt = (b.textContent || '').replace(/\s+/g, ' ').trim();
+      if (SETUP_NOW_RX.test(bTxt) || b.getAttribute('data-gat-tracker-top-chg') === '1') {
+        b.setAttribute('data-gat-tracker-top-chg', '1');
+        b.textContent = t.changeTrackBtn;
+        // Also update the explanatory text next to it in the top banner box
+        var bannerBox = b.parentElement;
+        if (bannerBox) {
+          var textNodes = bannerBox.querySelectorAll('div, span, p');
+          for (var k = 0; k < textNodes.length; k++) {
+            var tn = textNodes[k];
+            if (tn !== b && tn.children.length === 0 && (tn.textContent || '').length > 20) {
+              tn.textContent = t.trackerTopMsg;
+              break;
+            }
+          }
+        }
+        b.onclick = function(ev) {
+          if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+          window.startGatChangeTrackFlow(4);
+        };
+      } else if (CHANGE_ANS_RX.test(bTxt) || b.getAttribute('data-gat-tracker-sub-chg') === '1') {
+        b.setAttribute('data-gat-tracker-sub-chg', '1');
+        b.textContent = t.changeTrackBtn;
+        b.onclick = function(ev) {
+          if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+          window.startGatChangeTrackFlow(4);
+        };
+      }
+    }
+  }
+
+  // Show the 6-language 'Establish Your Legal Track First' popup when an un-onboarded user taps Tracker
+  window.showGatTrackerGatePopup = function() {
+    var lg = getCurLang();
+    var t = I18N[lg] || I18N.en;
+    var dir = (lg === 'he') ? 'rtl' : 'ltr';
+
+    var modal = document.getElementById('gat-tracker-gate-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'gat-tracker-gate-modal';
+      modal.style.cssText = 'position:fixed;inset:0;z-index:10050;background:rgba(15,23,42,0.74);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px;';
+      document.body.appendChild(modal);
+    }
+
+    modal.innerHTML =
+      '<div dir="' + dir + '" style="background:#ffffff;border:2px solid #38bdf8;border-radius:20px;max-width:440px;width:100%;padding:22px 20px 20px;box-shadow:0 20px 50px rgba(15,23,42,0.35);position:relative;text-align:' + (lg === 'he' ? 'right' : 'left') + ';">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;">' +
+          '<span style="background:#e0f2fe;color:#0369a1;border:1px solid #7dd3fc;padding:4px 11px;border-radius:999px;font-size:11.5px;font-weight:800;letter-spacing:0.3px;">' + t.gateBadge + '</span>' +
+          '<button type="button" id="gat-gate-close-x" aria-label="Close" style="width:34px;height:34px;border-radius:50%;border:1px solid #cbd5e1;background:#f8fafc;color:#0f172a;font-size:18px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;">\u2715</button>' +
+        '</div>' +
+        '<h3 style="margin:0 0 10px;font-size:21px;line-height:1.25;font-weight:900;color:#0f172a;">' + t.gateTitle + '</h3>' +
+        '<p style="margin:0 0 18px;font-size:14.5px;line-height:1.55;color:#334155;font-weight:500;">' + t.gateBody + '</p>' +
+        '<button type="button" id="gat-gate-start-btn" style="width:100%;padding:14px 18px;border-radius:14px;border:1.5px solid #38bdf8;background:linear-gradient(135deg,#0f172a 0%,#0284c7 100%);color:#ffffff;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(2,132,199,0.32);display:flex;align-items:center;justify-content:center;gap:8px;">' + t.gateBtn + '</button>' +
+      '</div>';
+
+    modal.style.display = 'flex';
+
+    function dismissAndOpenOnboarding(ev) {
+      if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+      modal.style.display = 'none';
+      if (typeof window.goToFirstPartOfOnboarding === 'function') window.goToFirstPartOfOnboarding();
+    }
+
+    document.getElementById('gat-gate-close-x').onclick = dismissAndOpenOnboarding;
+    document.getElementById('gat-gate-start-btn').onclick = dismissAndOpenOnboarding;
+    modal.onclick = function(e) {
+      if (e.target === modal) dismissAndOpenOnboarding(e);
+    };
+  };
+
+  // Detect completion of Question 4 of 4 in the native 4-question wizard
+  document.addEventListener('click', function(ev) {
+    var el = ev.target;
+    var hero = findHeroWizardCard();
+    if (hero && hero.contains(el)) {
+      var cTxt = hero.textContent || '';
+      if (/(?:QUESTION|ШАГ|ВОПРОС|שאלה|PREGUNTA|FRAGE)\s*4\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*4/i.test(cTxt)) {
+        var optBtn = el.closest('button, a, [onclick]');
+        if (optBtn && optBtn.id !== 'gat-cancel-change-track-btn') {
+          var bTxt = (optBtn.textContent || '').trim();
+          if (!/^(?:\u2190\s*)?(?:Back|חזור|Retour|Atrás|Zurück|Назад)$/i.test(bTxt)) {
+            setTimeout(function() {
+              window.markGatOnboardingComplete();
+            }, 180);
+          }
+        }
+      }
+    }
+  }, true);
+
+  function syncOnboardingAndTrackerLifecycle() {
+    syncView4TrackerBannerAndLock();
+    renderOnboardedHomepageHub();
+  }
+
+  syncOnboardingAndTrackerLifecycle();
+  document.addEventListener('DOMContentLoaded', syncOnboardingAndTrackerLifecycle);
+  window.addEventListener('load', syncOnboardingAndTrackerLifecycle);
+  setInterval(syncOnboardingAndTrackerLifecycle, 350);
+})();
+
+// === GAT 6-LANG BOXES 1-9 PARITY + 6-TRACKS TAB UPGRADE + SMART ONBOARDING GATE ===
+(function() {
+  // Clear legacy v1/v2 test onboarding flags once so current un-onboarded session starts clean
+  try {
+    if (!localStorage.getItem('gat_onboard_v3_migrated')) {
+      localStorage.setItem('gat_onboard_v3_migrated', '1');
+      localStorage.removeItem('gat_onboarding_done');
+      localStorage.removeItem('gat_onboarding_completed_v2');
+      document.cookie = 'perm_gat_onboarding_done=; path=/; max-age=0';
+      document.cookie = 'perm_gat_onboard_v2=; path=/; max-age=0';
+    }
+  } catch (e) {}
+
+  var ONBOARD_KEY_V3 = 'gat_onboarding_completed_v3';
+
+  var TRACKS_TAB_I18N = {
+    en: {
+      headerTitle: 'The 6 Legal Tracks of Israel',
+      headerSub: 'Every path from our diagnostic wizard: 1) Aliyah & Emergency Exit, 2) Private Beit Din, 3) State Giyur, 4) Spousal Visa, 5) Work Visa (B/1), or 6) Visa Rejection / Va\'adat Charigim Appeal.',
+      t1Pill: '\u2708\ufe0f 1. Aliyah & Emergency Exit',
+      t5Pill: '\ud83d\udee0\ufe0f 5. Work Visa (B/1)',
+      t6Pill: '\ud83d\uded1 6. Rejected / Appeal',
+      t5: {
+        badge: 'TRACK 5 \u2022 FOREIGN WORK VISA (B/1) & PIBA SCRUTINY DISCLAIMER',
+        title: 'Applying from a Work Visa (B/1) \u2014 High-Rejection Rules & Legal Pivots',
+        lead: 'Holding a B/1 Foreign Worker, Caregiver (Siud), or Specialist Visa creates intense Ministry of Interior (PIBA) scrutiny if you apply for conversion or a spousal relationship. Know the red lines before filing.',
+        b1Title: '\u26a0\ufe0f The B/1 Conversion Exclusion Rule:',
+        b1Body: 'State Conversion (Nativ) and the Exceptions Committee (Va\'adat Charigim) routinely reject B/1 work-visa holders on suspicion that conversion is being used to bypass sector or geographic work-visa caps.',
+        b2Title: '\ud83d\udc91 B/1 + Israeli Partner (StuPro 5.2.0008 Sector Limits):',
+        b2Body: 'If you hold a B/1 caregiver or construction visa and enter a relationship with an Israeli citizen, PIBA checks your visa expiration, geographic zone restrictions, and prior registration history before opening a StuPro file.',
+        b3Title: '\ud83d\udee1\ufe0f How to Maximize Approval & Avoid Immediate Deportation:',
+        b3Body: 'Never let your B/1 permit lapse into unlawful overstay before filing, document shared household evidence meticulously for 6+ months, and obtain pre-filing legal clearance before submitting Form Ash/1 or Ash/3.',
+        cta: '\ud83d\ude80 Map My B/1 Legal Pivot in the 4-Question Wizard \u2192'
+      },
+      t6: {
+        badge: 'TRACK 6 \u2022 VISA REJECTION, VA\'ADAT CHARIGIM DENIAL & 21-DAY APPEAL',
+        title: 'Rejected by PIBA or Va\'adat Charigim? Your 21-Day Rescue Protocol',
+        lead: 'A rejection letter or 14/30-day departure order from Misrad HaPanim or the Exceptions Committee is NOT the end of your case\u2014if you trigger the statutory appeal sequence before your clock expires.',
+        b1Title: '\u23f1\ufe0f The Strict 21-Day Internal Appeal Clock (Arar Pnimi):',
+        b1Body: 'From the day you receive a written PIBA or Va\'adat Charigim refusal, you have a strict window (typically 21 to 30 days) to file an Exhaustion of Proceedings demand and formal Administrative Appeal (Beit Din L\'Ararim).',
+        b2Title: '\ud83d\uded1 Freezing Deportation (Tzav Beinayim / Interim Injunction):',
+        b2Body: 'Filing an appeal alone does NOT automatically stop enforcement unless paired with a formal request for an Interim Order (Tzav Beinayim) preventing removal while the tribunal reviews your dossier.',
+        b3Title: '\ud83d\udd04 Legal Track Pivots After a Denial:',
+        b3Body: 'Many refusals happen due to missing Apostilles, unvetted rabbinic sponsorship letters, or filing under the wrong directive. We audit your refusal letter and structure your emergency rescue filing.',
+        cta: '\ud83d\uded1 Launch My Rejection & Appeal Rescue Track Now \u2192'
+      }
+    },
+    he: {
+      headerTitle: '6 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc\u05d9\u05dd \u05d4\u05de\u05e9\u05e4\u05d8\u05d9\u05d9\u05dd \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc',
+      headerSub: '\u05db\u05dc \u05d4\u05de\u05e1\u05dc\u05d5\u05dc\u05d9\u05dd \u05de\u05d0\u05e9\u05e3 \u05d4\u05d0\u05d1\u05d7\u05d5\u05df: 1) \u05e2\u05dc\u05d9\u05d9\u05d4 \u05d5\u05d7\u05d9\u05e8\u05d5\u05dd, 2) \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05e4\u05e8\u05d8\u05d9, 3) \u05d2\u05d9\u05d5\u05e8 \u05de\u05de\u05dc\u05db\u05ea\u05d9, 4) \u05d4\u05dc\u05d9\u05da \u05de\u05d3\u05d5\u05e8\u05d2 \u05dc\u05d1\u05e0\u05d9 \u05d6\u05d5\u05d2, 5) \u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 (B/1), 6) \u05e1\u05d9\u05e8\u05d5\u05d1 / \u05d5\u05e2\u05d3\u05ea \u05d7\u05e8\u05d9\u05d2\u05d9\u05dd.',
+      t1Pill: '\u2708\ufe0f 1. \u05e2\u05dc\u05d9\u05d9\u05d4 \u05d5\u05d7\u05d9\u05e8\u05d5\u05dd',
+      t5Pill: '\ud83d\udee0\ufe0f 5. \u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 (B/1)',
+      t6Pill: '\ud83d\uded1 6. \u05e1\u05d9\u05e8\u05d5\u05d1 / \u05e2\u05e8\u05e8',
+      t5: {
+        badge: '\u05de\u05e1\u05dc\u05d5\u05dc 5 \u2022 \u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 (B/1) \u05d5\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea \u05e8\u05e9\u05d5\u05ea \u05d4\u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05df',
+        title: '\u05d4\u05d2\u05e9\u05ea \u05d1\u05e7\u05e9\u05d4 \u05de\u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 (B/1) \u2014 \u05e1\u05d9\u05db\u05d5\u05e0\u05d9 \u05d3\u05d7\u05d9\u05d9\u05d4 \u05d5\u05e4\u05ea\u05e8\u05d5\u05e0\u05d5\u05ea',
+        lead: '\u05de\u05d7\u05d6\u05d9\u05e7\u05d9 \u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 B/1 (\u05e1\u05d9\u05e2\u05d5\u05d3, \u05de\u05d5\u05de\u05d7\u05d9\u05dd \u05d0\u05d5 \u05e2\u05d5\u05d1\u05d3\u05d9\u05dd \u05d6\u05e8\u05d9\u05dd) \u05e2\u05d5\u05de\u05d3\u05d9\u05dd \u05d1\u05e4\u05e0\u05d9 \u05d1\u05d3\u05d9\u05e7\u05d4 \u05de\u05d7\u05de\u05d9\u05e8\u05d4 \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05e2\u05ea \u05d1\u05e7\u05e9\u05d4 \u05dc\u05d2\u05d9\u05d5\u05e8 \u05d0\u05d5 \u05d4\u05dc\u05d9\u05da \u05de\u05d3\u05d5\u05e8\u05d2.',
+        b1Title: '\u26a0\ufe0f \u05d7\u05e1\u05d9\u05de\u05ea \u05d2\u05d9\u05d5\u05e8 \u05dc\u05de\u05d7\u05d6\u05d9\u05e7\u05d9 B/1:',
+        b1Body: '\u05d5\u05e2\u05d3\u05ea \u05d4\u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05d5\u05de\u05e2\u05e8\u05da \u05d4\u05d2\u05d9\u05d5\u05e8 \u05d3\u05d5\u05d7\u05d9\u05dd \u05dc\u05e2\u05d9\u05ea\u05d9\u05dd \u05e7\u05e8\u05d5\u05d1\u05d5\u05ea \u05d1\u05e7\u05e9\u05d5\u05ea B/1 \u05de\u05d7\u05e9\u05e9 \u05dc\u05e2\u05e7\u05d9\u05e4\u05ea \u05de\u05d2\u05d1\u05dc\u05d5\u05ea \u05d0\u05e9\u05e8\u05ea \u05d4\u05e2\u05d1\u05d5\u05d3\u05d4.',
+        b2Title: '\ud83d\udc91 \u05d4\u05dc\u05d9\u05da \u05de\u05d3\u05d5\u05e8\u05d2 (5.2.0008) \u05de\u05d0\u05e9\u05e8\u05ea B/1:',
+        b2Body: '\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05d5\u05d3\u05e7 \u05ea\u05d5\u05e7\u05e3 \u05d0\u05e9\u05e8\u05d4, \u05de\u05d2\u05d1\u05dc\u05d5\u05ea \u05d0\u05d6\u05d5\u05e8 \u05d2\u05d9\u05d0\u05d5\u05d2\u05e8\u05e4\u05d9 \u05d5\u05db\u05e0\u05d5\u05ea \u05d4\u05e7\u05e9\u05e8 \u05dc\u05e4\u05e0\u05d9 \u05e4\u05ea\u05d9\u05d7\u05ea \u05ea\u05d9\u05e7 \u05d6\u05d5\u05d2\u05d9\u05d5\u05ea.',
+        b3Title: '\ud83d\udee1\ufe0f \u05db\u05d9\u05e6\u05d3 \u05dc\u05de\u05e7\u05e1\u05dd \u05e1\u05d9\u05db\u05d5\u05d9\u05d9 \u05d0\u05d9\u05e9\u05d5\u05e8:',
+        b3Body: '\u05d0\u05dc \u05ea\u05d0\u05e4\u05e9\u05e8\u05d5 \u05dc\u05d0\u05e9\u05e8\u05ea B/1 \u05dc\u05e4\u05d5\u05d2 \u05dc\u05e4\u05e0\u05d9 \u05d4\u05d4\u05d2\u05e9\u05d4, \u05d5\u05d4\u05db\u05d9\u05e0\u05d5 \u05ea\u05d9\u05e7 \u05e8\u05d0\u05d9\u05d5\u05ea \u05de\u05dc\u05d0 \u05dc\u05e4\u05e0\u05d9 \u05e4\u05e0\u05d9\u05d9\u05d4 \u05dc\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd.',
+        cta: '\ud83d\ude80 \u05d4\u05ea\u05d0\u05dd \u05d0\u05ea \u05de\u05e1\u05dc\u05d5\u05dc B/1 \u05e9\u05dc\u05d9 \u05d1\u05d0\u05e9\u05e3 4 \u05d4\u05e9\u05d0\u05dc\u05d5\u05ea \u2190'
+      },
+      t6: {
+        badge: '\u05de\u05e1\u05dc\u05d5\u05dc 6 \u2022 \u05e1\u05d9\u05e8\u05d5\u05d1 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd / \u05d5\u05e2\u05d3\u05ea \u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05d5\u05e2\u05e8\u05e8 \u05ea\u05d5\u05da 21 \u05d9\u05d5\u05dd',
+        title: '\u05e7\u05d9\u05d1\u05dc\u05ea\u05dd \u05e1\u05d9\u05e8\u05d5\u05d1? \u05e0\u05d5\u05d4\u05dc \u05d7\u05d9\u05dc\u05d5\u05e5 \u05d5\u05e2\u05e8\u05e8 \u05ea\u05d5\u05da 21 \u05d9\u05d5\u05dd',
+        lead: '\u05de\u05db\u05ea\u05d1 \u05d3\u05d7\u05d9\u05d9\u05d4 \u05d0\u05d5 \u05d3\u05e8\u05d9\u05e9\u05ea \u05d9\u05e6\u05d9\u05d0\u05d4 \u05de\u05d4\u05d0\u05e8\u05e5 \u05d0\u05d9\u05e0\u05dd \u05e1\u05d5\u05e3 \u05d4\u05ea\u05d9\u05e7 \u2014 \u05d0\u05dd \u05de\u05d2\u05d9\u05e9\u05d9\u05dd \u05e2\u05e8\u05e8 \u05e4\u05e0\u05d9\u05de\u05d9 \u05d5\u05e6\u05d5 \u05d1\u05d9\u05e0\u05d9\u05d9\u05dd \u05d1\u05d6\u05de\u05df.',
+        b1Title: '\u23f1\ufe0f \u05d7\u05dc\u05d5\u05df 21 \u05d4\u05d9\u05de\u05d9\u05dd \u05dc\u05d4\u05d2\u05e9\u05ea \u05e2\u05e8\u05e8:',
+        b1Body: '\u05de\u05d9\u05d5\u05dd \u05e7\u05d1\u05dc\u05ea \u05de\u05db\u05ea\u05d1 \u05d4\u05e1\u05d9\u05e8\u05d5\u05d1 \u05e2\u05d5\u05de\u05d3\u05d9\u05dd \u05dc\u05e8\u05e9\u05d5\u05ea\u05db\u05dd 21\u201330 \u05d9\u05d5\u05dd \u05dc\u05d4\u05d2\u05e9\u05ea \u05e2\u05e8\u05e8 \u05e4\u05e0\u05d9\u05de\u05d9 \u05d0\u05d5 \u05e2\u05e8\u05e8 \u05dc\u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05dc\u05e2\u05e8\u05e8\u05d9\u05dd.',
+        b2Title: '\ud83d\uded1 \u05e2\u05e6\u05d9\u05e8\u05ea \u05d4\u05e8\u05d7\u05e7\u05d4 (\u05e6\u05d5 \u05d1\u05d9\u05e0\u05d9\u05d9\u05dd):',
+        b2Body: '\u05d4\u05d2\u05e9\u05ea \u05e2\u05e8\u05e8 \u05d7\u05d9\u05d9\u05d1\u05ea \u05dc\u05db\u05dc\u05d5\u05dc \u05d1\u05e7\u05e9\u05d4 \u05dc\u05e6\u05d5 \u05d1\u05d9\u05e0\u05d9\u05d9\u05dd \u05d4\u05de\u05e7\u05e4\u05d9\u05d0 \u05d0\u05ea \u05d7\u05d5\u05d1\u05ea \u05d4\u05d9\u05e6\u05d9\u05d0\u05d4 \u05de\u05d4\u05d0\u05e8\u05e5 \u05e2\u05d3 \u05dc\u05d4\u05db\u05e8\u05e2\u05d4.',
+        b3Title: '\ud83d\udd04 \u05ea\u05d9\u05e7\u05d5\u05df \u05d4\u05dc\u05d9\u05e7\u05d5\u05d9\u05d9\u05dd \u05d5\u05d4\u05d2\u05e9\u05d4 \u05de\u05d7\u05d3\u05e9:',
+        b3Body: '\u05e8\u05d5\u05d1 \u05d4\u05e1\u05d9\u05e8\u05d5\u05d1\u05d9\u05dd \u05e0\u05d5\u05d1\u05e2\u05d9\u05dd \u05de\u05d7\u05d5\u05e1\u05e8 \u05d1\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05d0\u05d5 \u05de\u05db\u05ea\u05d1 \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05dc\u05d0 \u05de\u05d5\u05db\u05e8. \u05d0\u05e0\u05d5 \u05d1\u05d5\u05e0\u05d9\u05dd \u05d0\u05ea \u05ea\u05d9\u05e7 \u05d4\u05e2\u05e8\u05e8 \u05e9\u05dc\u05db\u05dd.',
+        cta: '\ud83d\uded1 \u05d4\u05e4\u05e2\u05dc \u05d0\u05ea \u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05d7\u05d9\u05dc\u05d5\u05e5 \u05d5\u05d4\u05e2\u05e8\u05e8 \u05db\u05e2\u05ea \u2190'
+      }
+    },
+    fr: {
+      headerTitle: 'Les 6 Parcours L\u00e9gaux en Isra\u00ebl',
+      headerSub: 'Tous les parcours de notre assistant : 1) Aliyah & Urgence, 2) Beit Din Priv\u00e9, 3) Giyur d\u2019\u00c9tat, 4) Visa Conjoint, 5) Visa Travail (B/1) ou 6) Recours Refus / Va\'adat Charigim.',
+      t1Pill: '\u2708\ufe0f 1. Aliyah & Urgence',
+      t5Pill: '\ud83d\udee0\ufe0f 5. Visa Travail (B/1)',
+      t6Pill: '\ud83d\uded1 6. Refus / Recours',
+      t5: {
+        badge: 'PARCOURS 5 \u2022 VISA DE TRAVAIL (B/1) & AVERTISSEMENT PIBA',
+        title: 'Demande depuis un Visa de Travail (B/1) \u2014 Risques de Rejet & Solutions',
+        lead: 'D\u00e9tenir un visa de travail B/1 entra\u00eene un contr\u00f4le strict du Minist\u00e8re de l\u2019Int\u00e9rieur (PIBA) lors d\u2019une demande de conversion ou de visa conjoint.',
+        b1Title: '\u26a0\ufe0f Restriction de Conversion sous Visa B/1 :',
+        b1Body: 'Nativ et la Commission des Exceptions (Va\'adat Charigim) rejettent souvent les visas B/1 par crainte d\u2019un contournement des quotas de travail.',
+        b2Title: '\ud83d\udc91 Visa B/1 + Conjoint Isra\u00e9lien (StuPro 5.2.0008) :',
+        b2Body: 'Le PIBA v\u00e9rifie la validit\u00e9 de votre permis B/1, votre secteur et les preuves de vie commune avant d\u2019ouvrir un dossier StuPro.',
+        b3Title: '\ud83d\udee1\ufe0f Maximiser vos chances d\u2019approbation :',
+        b3Body: 'Ne laissez jamais votre visa B/1 expirer avant le d\u00e9p\u00f4t et pr\u00e9parez un dossier complet de preuves et d\u2019Apostilles.',
+        cta: '\ud83d\ude80 Configurer mon parcours B/1 dans l\u2019assistant \u2192'
+      },
+      t6: {
+        badge: 'PARCOURS 6 \u2022 REFUS DE VISA / VA\'ADAT CHARIGIM & RECOURS 21 JOURS',
+        title: 'Refus\u00e9 par le PIBA ou Va\'adat Charigim ? Protocole de Recours sous 21 Jours',
+        lead: 'Une lettre de refus du Minist\u00e8re de l\u2019Int\u00e9rieur n\u2019est PAS la fin de votre dossier si vous d\u00e9posez votre recours dans le d\u00e9lai l\u00e9gal de 21 jours.',
+        b1Title: '\u23f1\ufe0f Le D\u00e9lai Strict de 21 Jours (Arar Pnimi) :',
+        b1Body: 'Vous disposez de 21 \u00e0 30 jours apr\u00e8s notification pour d\u00e9poser un recours administratif interne ou saisir le Tribunal des Recours.',
+        b2Title: '\ud83d\uded1 Bloquer l\u2019Expulsion (Tzav Beinayim) :',
+        b2Body: 'Votre recours doit \u00eatre accompagn\u00e9 d\u2019une demande d\u2019ordonnance provisoire suspendant toute obligation de quitter le territoire.',
+        b3Title: '\ud83d\udd04 Restructuration Juridique du Dossier :',
+        b3Body: 'Nous corrigeons les motifs du rejet (Apostilles, parrainage rabbinique, directive applicable) pour relancer votre dossier.',
+        cta: '\ud83d\uded1 Lancer mon parcours de recours d\u2019urgence \u2192'
+      }
+    },
+    es: {
+      headerTitle: 'Las 6 Rutas Legales de Israel',
+      headerSub: 'Todas las rutas de nuestro asistente: 1) Aliy\u00e1 y Emergencia, 2) Beit Din Privado, 3) Guiur Estatal, 4) Visa de Pareja, 5) Visa de Trabajo (B/1) o 6) Apelaci\u00f3n por Rechazo / Va\'adat Charigim.',
+      t1Pill: '\u2708\ufe0f 1. Aliy\u00e1 y Emergencia',
+      t5Pill: '\ud83d\udee0\ufe0f 5. Visa Trabajo (B/1)',
+      t6Pill: '\ud83d\uded1 6. Rechazo / Apelaci\u00f3n',
+      t5: {
+        badge: 'RUTA 5 \u2022 VISA DE TRABAJO (B/1) Y ESCRUTINIO DE PIBA',
+        title: 'Solicitud desde Visa de Trabajo (B/1) \u2014 Reglas de Alto Rechazo y Soluciones',
+        lead: 'Tener una visa de trabajo B/1 genera un escrutinio intenso del Ministerio del Interior (PIBA) al solicitar conversi\u00f3n o residencia por pareja.',
+        b1Title: '\u26a0\ufe0f Regla de Exclusi\u00f3n de Conversi\u00f3n en B/1:',
+        b1Body: 'Nativ y el Comit\u00e9 de Excepciones (Va\'adat Charigim) suelen rechazar titulares de B/1 por sospecha de elusi\u00f3n de l\u00edmites laborales.',
+        b2Title: '\ud83d\udc91 Visa B/1 + Pareja Israel\u00ed (StuPro 5.2.0008):',
+        b2Body: 'PIBA verifica la vigencia de su permiso B/1, restricciones sectoriales y pruebas de convivencia antes de abrir un expediente StuPro.',
+        b3Title: '\ud83d\udee1\ufe0f C\u00f3mo Maximizar la Aprobaci\u00f3n:',
+        b3Body: 'Nunca deje vencer su permiso B/1 antes de presentar la solicitud y prepare un expediente completo con Apostillas.',
+        cta: '\ud83d\ude80 Configurar mi ruta B/1 en el asistente \u2192'
+      },
+      t6: {
+        badge: 'RUTA 6 \u2022 RECHAZO DE VISA / VA\'ADAT CHARIGIM Y APELACI\u00d3N EN 21 D\u00cdAS',
+        title: '\u00bfRechazado por PIBA o Va\'adat Charigim? Protocolo de Rescate de 21 D\u00edas',
+        lead: 'Una carta de rechazo u orden de salida NO es el final de su caso si activa la apelaci\u00f3n legal antes de que venza el plazo de 21 d\u00edas.',
+        b1Title: '\u23f1\ufe0f El Plazo Estricto de 21 D\u00edas (Arar Pnimi):',
+        b1Body: 'Desde la notificaci\u00f3n escrita del rechazo, tiene entre 21 y 30 d\u00edas para presentar un Recurso Interno o acudir al Tribunal de Apelaciones.',
+        b2Title: '\ud83d\uded1 Frenar la Deportaci\u00f3n (Tzav Beinayim / Medida Cautelar):',
+        b2Body: 'La apelaci\u00f3n debe incluir una solicitud de Medida Cautelar (Tzav Beinayim) que congele la orden de salida mientras se revisa su caso.',
+        b3Title: '\ud83d\udd04 Reestructuraci\u00f3n Legal tras un Rechazo:',
+        b3Body: 'Auditamos su carta de rechazo y corregimos los documentos o patrocinios faltantes para rescatar su expediente.',
+        cta: '\ud83d\uded1 Iniciar mi ruta de rescate y apelaci\u00f3n ahora \u2192'
+      }
+    },
+    de: {
+      headerTitle: 'Die 6 Rechtswege in Israel',
+      headerSub: 'Alle Wege aus unserem Assistenten: 1) Alija & Notfall, 2) Privates Beit Din, 3) Staatlicher Giur, 4) Partner-Visum, 5) Arbeitsvisum (B/1) oder 6) Ablehnung / Va\'adat Charigim Einspruch.',
+      t1Pill: '\u2708\ufe0f 1. Alija & Notfall',
+      t5Pill: '\ud83d\udee0\ufe0f 5. Arbeitsvisum (B/1)',
+      t6Pill: '\ud83d\uded1 6. Ablehnung / Einspruch',
+      t5: {
+        badge: 'TRACK 5 \u2022 ARBEITSVISUM (B/1) & PIBA-PR\u00dcFUNGSHINWEIS',
+        title: 'Antrag mit Arbeitsvisum (B/1) \u2014 Ablehnungsrisiken & Rechtswege',
+        lead: 'Ein B/1-Arbeitsvisum f\u00fchrt bei Antr\u00e4gen auf Konversion oder Partner-Aufenthalt zu einer strengen Pr\u00fcfung durch das Innenministerium (PIBA).',
+        b1Title: '\u26a0\ufe0f Konversions-Ausschlussregel bei B/1:',
+        b1Body: 'Nativ und der Ausnahmerausschuss (Va\'adat Charigim) lehnen B/1-Inhaber h\u00e4ufig ab, um eine Umgehung von Arbeitsvisum-Quoten zu verhindern.',
+        b2Title: '\ud83d\udc91 B/1 + Israelischer Partner (StuPro 5.2.0008):',
+        b2Body: 'PIBA pr\u00fcft die G\u00fcltigkeit Ihres B/1-Visums, Sektorbindungen und Nachweise des gemeinsamen Haushalts vor Er\u00f6ffnung einer StuPro-Akte.',
+        b3Title: '\ud83d\udee1\ufe0f Genehmigungschancen maximieren:',
+        b3Body: 'Lassen Sie Ihr B/1-Visum niemals vor Antragstellung ablaufen und reichen Sie ein l\u00fcckenloses Apostille-Dossier ein.',
+        cta: '\ud83d\ude80 Meinen B/1-Rechtsweg im Assistenten planen \u2192'
+      },
+      t6: {
+        badge: 'TRACK 6 \u2022 VISUM-ABLEHNUNG / VA\'ADAT CHARIGIM & 21-TAGE-EINSPRUCH',
+        title: 'Abgelehnt von PIBA oder Va\'adat Charigim? Ihr 21-Tage-Rettungsprotokoll',
+        lead: 'Ein Ablehnungsbescheid oder eine Ausreiseaufforderung ist NICHT das Ende Ihres Falls, wenn Sie fristgerecht innerhalb von 21 Tagen Einspruch einlegen.',
+        b1Title: '\u23f1\ufe0f Die strikte 21-Tage-Einspruchsfrist (Arar Pnimi):',
+        b1Body: 'Ab Zustellung der schriftlichen Ablehnung haben Sie 21 bis 30 Tage Zeit f\u00fcr einen internen Widerspruch oder eine Klage beim Berufungsgericht.',
+        b2Title: '\ud83d\uded1 Abschiebung stoppen (Tzav Beinayim / Einstweilige Anordnung):',
+        b2Body: 'Der Einspruch muss mit einem Antrag auf einstweilige Anordnung (Tzav Beinayim) verbunden werden, um die Ausreisepflicht auszusetzen.',
+        b3Title: '\ud83d\udd04 Juristische Neuausrichtung Ihrer Akte:',
+        b3Body: 'Wir beheben die Ablehnungsgr\u00fcnde (fehlende Apostillen, Rabbiner-Empfehlung, Verfahrenswahl) f\u00fcr Ihren Rettungsantrag.',
+        cta: '\ud83d\uded1 Meinen Einspruchs- & Rettungs-Track jetzt starten \u2192'
+      }
+    },
+    ru: {
+      headerTitle: '6 \u041f\u0440\u0430\u0432\u043e\u0432\u044b\u0445 \u041c\u0430\u0440\u0448\u0440\u0443\u0442\u043e\u0432 \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u0435',
+      headerSub: '\u0412\u0441\u0435 \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u044b \u0438\u0437 \u043d\u0430\u0448\u0435\u0439 \u0434\u0438\u0430\u0433\u043d\u043e\u0441\u0442\u0438\u043a\u0438: 1) \u0410\u043b\u0438\u044f \u0438 \u042d\u043a\u0441\u0442\u0440\u0435\u043d\u043d\u044b\u0439 \u0432\u044b\u0435\u0437\u0434, 2) \u0427\u0430\u0441\u0442\u043d\u044b\u0439 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d, 3) \u0413\u043e\u0441. \u0413\u0438\u044e\u0440, 4) \u0421\u0422\u0423\u041f\u0420\u041e, 5) \u0420\u0430\u0431\u043e\u0447\u0430\u044f \u0432\u0438\u0437\u0430 (B/1) \u0438\u043b\u0438 6) \u041e\u0442\u043a\u0430\u0437 / \u0410\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u044f \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c.',
+      t1Pill: '\u2708\ufe0f 1. \u0410\u043b\u0438\u044f \u0438 \u042d\u043a\u0441\u0442\u0440\u0435\u043d\u043d\u043e',
+      t5Pill: '\ud83d\udee0\ufe0f 5. \u0420\u0430\u0431\u043e\u0447\u0430\u044f \u0432\u0438\u0437\u0430 (B/1)',
+      t6Pill: '\ud83d\uded1 6. \u041e\u0442\u043a\u0430\u0437 / \u0410\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u044f',
+      t5: {
+        badge: '\u041c\u0410\u0420\u0428\u0420\u0423\u0422 5 \u2022 \u0420\u0410\u0411\u041e\u0427\u0410\u042f \u0412\u0418\u0417\u0410 (B/1) \u0418 \u041f\u0420\u041e\u0412\u0415\u0420\u041a\u0418 \u041c\u0412\u0414 (PIBA)',
+        title: '\u041f\u043e\u0434\u0430\u0447\u0430 \u0441 \u0440\u0430\u0431\u043e\u0447\u0435\u0439 \u0432\u0438\u0437\u044b (B/1) \u2014 \u0420\u0438\u0441\u043a\u0438 \u043e\u0442\u043a\u0430\u0437\u0430 \u0438 \u0440\u0435\u0448\u0435\u043d\u0438\u044f',
+        lead: '\u041d\u0430\u043b\u0438\u0447\u0438\u0435 \u0440\u0430\u0431\u043e\u0447\u0435\u0439 \u0432\u0438\u0437\u044b B/1 \u0432\u044b\u0437\u044b\u0432\u0430\u0435\u0442 \u043f\u043e\u0432\u044b\u0448\u0435\u043d\u043d\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c \u041c\u0412\u0414 (PIBA) \u043f\u0440\u0438 \u043f\u043e\u0434\u0430\u0447\u0435 \u043d\u0430 \u0433\u0438\u044e\u0440 \u0438\u043b\u0438 \u0421\u0422\u0423\u041f\u0420\u041e.',
+        b1Title: '\u26a0\ufe0f \u041e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f \u043d\u0430 \u0433\u0438\u044e\u0440 \u0434\u043b\u044f \u0432\u0438\u0437 B/1:',
+        b1Body: '\u041d\u0430\u0442\u0438\u0432 \u0438 \u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f \u043f\u043e \u0438\u0441\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u044f\u043c (\u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c) \u0447\u0430\u0441\u0442\u043e \u043e\u0442\u043a\u043b\u043e\u043d\u044f\u044e\u0442 \u0437\u0430\u044f\u0432\u043a\u0438 B/1 \u0438\u0437-\u0437\u0430 \u043f\u043e\u0434\u043e\u0437\u0440\u0435\u043d\u0438\u0439 \u0432 \u043e\u0431\u0445\u043e\u0434\u0435 \u0440\u0430\u0431\u043e\u0447\u0438\u0445 \u043a\u0432\u043e\u0442.',
+        b2Title: '\ud83d\udc91 \u0412\u0438\u0437\u0430 B/1 + \u0418\u0437\u0440\u0430\u0438\u043b\u044c\u0441\u043a\u0438\u0439 \u043f\u0430\u0440\u0442\u043d\u0435\u0440 (\u0421\u0422\u0423\u041f\u0420\u041e 5.2.0008):',
+        b2Body: '\u041c\u0412\u0414 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u0441\u0440\u043e\u043a \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0432\u0438\u0437\u044b B/1, \u0440\u0435\u0433\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0435 \u043e\u0433\u0440\u0430\u043d\u0438\u0447\u0435\u043d\u0438\u044f \u0438 \u0434\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u0430 \u0441\u043e\u0432\u043c\u0435\u0441\u0442\u043d\u043e\u0433\u043e \u0431\u044b\u0442\u0430.',
+        b3Title: '\ud83d\udee1\ufe0f \u041a\u0430\u043a \u043c\u0430\u043a\u0441\u0438\u043c\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0448\u0430\u043d\u0441\u044b \u043d\u0430 \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u0438\u0435:',
+        b3Body: '\u041d\u0435 \u0434\u043e\u043f\u0443\u0441\u043a\u0430\u0439\u0442\u0435 \u043f\u0440\u043e\u0441\u0440\u043e\u0447\u043a\u0438 \u0432\u0438\u0437\u044b B/1 \u0434\u043e \u043f\u043e\u0434\u0430\u0447\u0438 \u0438 \u0437\u0430\u0440\u0430\u043d\u0435\u0435 \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u044c\u0442\u0435 \u043f\u043e\u043b\u043d\u044b\u0439 \u043f\u0430\u043a\u0435\u0442 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u0441 \u0430\u043f\u043e\u0441\u0442\u0438\u043b\u0435\u043c.',
+        cta: '\ud83d\ude80 \u041d\u0430\u0441\u0442\u0440\u043e\u0438\u0442\u044c \u043c\u043e\u0439 \u043c\u0430\u0440\u0448\u0440\u0443\u0442 B/1 \u0432 \u0434\u0438\u0430\u0433\u043d\u043e\u0441\u0442\u0438\u043a\u0435 \u2192'
+      },
+      t6: {
+        badge: '\u041c\u0410\u0420\u0428\u0420\u0423\u0422 6 \u2022 \u041e\u0422\u041a\u0410\u0417 \u041c\u0412\u0414 / \u0412\u0410\u0410\u0414\u0410\u0422 \u0425\u0410\u0420\u0418\u0413\u0418\u041c \u0418 \u0410\u041f\u0415\u041b\u041b\u042f\u0426\u0418\u042f \u0417\u0410 21 \u0414\u0415\u041d\u042c',
+        title: '\u041f\u043e\u043b\u0443\u0447\u0438\u043b\u0438 \u043e\u0442\u043a\u0430\u0437 \u041c\u0412\u0414 \u0438\u043b\u0438 \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c? \u041f\u0440\u043e\u0442\u043e\u043a\u043e\u043b \u0437\u0430\u0449\u0438\u0442\u044b \u0437\u0430 21 \u0434\u0435\u043d\u044c',
+        lead: '\u041f\u0438\u0441\u044c\u043c\u043e \u0441 \u043e\u0442\u043a\u0430\u0437\u043e\u043c \u0438\u043b\u0438 \u0442\u0440\u0435\u0431\u043e\u0432\u0430\u043d\u0438\u0435\u043c \u043f\u043e\u043a\u0438\u043d\u0443\u0442\u044c \u0441\u0442\u0440\u0430\u043d\u0443 \u2014 \u044d\u0442\u043e \u041d\u0415 \u043a\u043e\u043d\u0435\u0446 \u0434\u0435\u043b\u0430, \u0435\u0441\u043b\u0438 \u043f\u043e\u0434\u0430\u0442\u044c \u0430\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u044e \u0432 \u0442\u0435\u0447\u0435\u043d\u0438\u0435 21 \u0434\u043d\u044f.',
+        b1Title: '\u23f1\ufe0f \u0416\u0435\u0441\u0442\u043a\u043e\u0435 \u043e\u043a\u043d\u043e 21 \u0434\u0435\u043d\u044c (\u0410\u0440\u0430\u0440 \u041f\u043d\u0438\u043c\u0438):',
+        b1Body: '\u0421 \u043c\u043e\u043c\u0435\u043d\u0442\u0430 \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u044f \u043f\u0438\u0441\u044c\u043c\u0435\u043d\u043d\u043e\u0433\u043e \u043e\u0442\u043a\u0430\u0437\u0430 \u0443 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c 21\u201330 \u0434\u043d\u0435\u0439 \u0434\u043b\u044f \u0432\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0435\u0439 \u0430\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u0438 \u0438\u043b\u0438 \u0438\u0441\u043a\u0430 \u0432 \u0410\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u043e\u043d\u043d\u044b\u0439 \u0442\u0440\u0438\u0431\u0443\u043d\u0430\u043b.',
+        b2Title: '\ud83d\uded1 \u0417\u0430\u043c\u043e\u0440\u043e\u0437\u043a\u0430 \u0434\u0435\u043f\u043e\u0440\u0442\u0430\u0446\u0438\u0438 (\u0426\u0430\u0432 \u0411\u0435\u0439\u043d\u0430\u0438\u043c):',
+        b2Body: '\u0410\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u044f \u0434\u043e\u043b\u0436\u043d\u0430 \u0441\u043e\u043f\u0440\u043e\u0432\u043e\u0436\u0434\u0430\u0442\u044c\u0441\u044f \u0445\u043e\u0434\u0430\u0442\u0430\u0439\u0441\u0442\u0432\u043e\u043c \u043e \u0432\u0440\u0435\u043c\u0435\u043d\u043d\u043e\u043c \u0441\u0443\u0434\u0435\u0431\u043d\u043e\u043c \u0437\u0430\u043f\u0440\u0435\u0442\u0435 \u043d\u0430 \u0432\u044b\u0434\u0432\u043e\u0440\u0435\u043d\u0438\u0435 (\u0426\u0430\u0432 \u0411\u0435\u0439\u043d\u0430\u0438\u043c).',
+        b3Title: '\ud83d\udd04 \u0423\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u043f\u0440\u0438\u0447\u0438\u043d \u043e\u0442\u043a\u0430\u0437\u0430 \u0438 \u043f\u0435\u0440\u0435\u043f\u043e\u0434\u0430\u0447\u0430:',
+        b3Body: '\u041c\u044b \u0443\u0441\u0442\u0440\u0430\u043d\u044f\u0435\u043c \u043f\u0440\u0438\u0447\u0438\u043d\u044b \u043e\u0442\u043a\u0430\u0437\u0430 (\u0430\u043f\u043e\u0441\u0442\u0438\u043b\u0438, \u043f\u0438\u0441\u044c\u043c\u043e \u0440\u0430\u0432\u0432\u0438\u043d\u0430, \u0432\u044b\u0431\u043e\u0440 \u0434\u0438\u0440\u0435\u043a\u0442\u0438\u0432\u044b) \u0434\u043b\u044f \u0441\u043f\u0430\u0441\u0435\u043d\u0438\u044f \u0432\u0430\u0448\u0435\u0433\u043e \u043a\u0435\u0439\u0441\u0430.',
+        cta: '\ud83d\uded1 \u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c \u043c\u0430\u0440\u0448\u0440\u0443\u0442 \u0430\u043f\u0435\u043b\u043b\u044f\u0446\u0438\u0438 \u0438 \u0437\u0430\u0449\u0438\u0442\u044b \u2192'
+      }
+    }
+  };
+
+  var MODAL_CTA_I18N = {
+    en: { start: '\ud83d\ude80 Start My Track \u2192', tracker: '\ud83d\udcca Open My Tracker \u2192', tap: 'TAP \u2192' },
+    he: { start: '\ud83d\ude80 \u05d4\u05ea\u05d7\u05dc \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05d9 \u2190', tracker: '\ud83d\udcca \u05e4\u05ea\u05d7 \u05d0\u05ea \u05de\u05e2\u05e7\u05d1 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u2190', tap: '\u05dc\u05d7\u05e5 \u2190' },
+    fr: { start: '\ud83d\ude80 Commencer mon parcours \u2192', tracker: '\ud83d\udcca Ouvrir mon suivi \u2192', tap: 'VOIR \u2192' },
+    es: { start: '\ud83d\ude80 Empezar mi ruta \u2192', tracker: '\ud83d\udcca Abrir mi rastreador \u2192', tap: 'VER \u2192' },
+    de: { start: '\ud83d\ude80 Meinen Weg starten \u2192', tracker: '\ud83d\udcca Meinen Tracker \u00f6ffnen \u2192', tap: 'TIPPEN \u2192' },
+    ru: { start: '\ud83d\ude80 \u041d\u0430\u0447\u0430\u0442\u044c \u043c\u043e\u0439 \u043f\u0443\u0442\u044c \u2192', tracker: '\ud83d\udcca \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043c\u043e\u0439 \u0442\u0440\u0435\u043a\u0435\u0440 \u2192', tap: '\u041e\u0422\u041a\u0420\u042b\u0422\u042c \u2192' }
+  };
+
+  function getCurLang() {
+    var p = window.location.pathname || '/';
+    var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
+    if (m) return m[1].toLowerCase();
+    var hl = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
+    if (TRACKS_TAB_I18N[hl] && hl !== 'en') return hl;
+    try {
+      var lsLg = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').slice(0, 2).toLowerCase();
+      if (TRACKS_TAB_I18N[lsLg]) return lsLg;
+    } catch (e) {}
+    return TRACKS_TAB_I18N[hl] ? hl : 'en';
+  }
+
+  // Override window.isGatOnboardingComplete & window.markGatOnboardingComplete so ALL modules share ONBOARD_KEY_V3
+  window.isGatOnboardingComplete = function() {
+    try {
+      if (localStorage.getItem(ONBOARD_KEY_V3) === '1') return true;
+      if (document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) {
+        localStorage.setItem(ONBOARD_KEY_V3, '1');
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  };
+
+  var origMarkComplete = window.markGatOnboardingComplete;
+  window.markGatOnboardingComplete = function(customTitle) {
+    try {
+      localStorage.setItem(ONBOARD_KEY_V3, '1');
+      localStorage.setItem('gat_onboarding_completed_v2', '1');
+      document.cookie = 'perm_gat_onboard_v3=1; path=/; max-age=315360000; SameSite=Lax';
+    } catch (e) {}
+    if (typeof origMarkComplete === 'function') {
+      try { origMarkComplete(customTitle); } catch (e) {}
+    }
+    syncModalCtaAndBoxes();
+  };
+
+  // Inject layout CSS for: (1) bottom padding on #view-1 so CTA is never cut off by bottom navbar,
+  // (2) clean space-between on .obs-tag so 'BOX 2 • THE LOOP' and 'TAP →' never collide!
+  function injectTracksAndBoxesCss() {
+    if (document.getElementById('gat-tracks-and-boxes-v3-css')) return;
+    var st = document.createElement('style');
+    st.id = 'gat-tracks-and-boxes-v3-css';
+    st.textContent = [
+      '.view, #view-0, #view-1, #view-2, #view-3, #view-4 { padding-bottom: 115px !important; }',
+      '.obs-card .obs-tag { display: flex !important; justify-content: space-between !important; align-items: center !important; gap: 8px !important; width: 100% !important; }',
+      '.track-tabs, #view-1 .tabs-bar { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; justify-content: center !important; }'
+    ].join('\n');
+    document.head.appendChild(st);
+  }
+
+  // Upgrade #view-1 ('The 4 Tracks of Israel' -> 'The 6 Legal Tracks of Israel') with Track 5 (Work Visa B/1) & Track 6 (Rejected / Appeal)
+  function upgradeTracksTabTo6Tracks() {
+    var v1 = document.getElementById('view-1');
+    if (!v1) return;
+    var lg = getCurLang();
+    var t = TRACKS_TAB_I18N[lg] || TRACKS_TAB_I18N.en;
+    var dir = (lg === 'he') ? 'rtl' : 'ltr';
+
+    // 1. Update #view-1 top heading and subtitle
+    var hEl = v1.querySelector('h1, h2, .section-title, .view-title');
+    if (hEl && hEl.getAttribute('data-gat-6tracks-lg') !== lg) {
+      hEl.setAttribute('data-gat-6tracks-lg', lg);
+      hEl.textContent = t.headerTitle;
+      var subEl = hEl.nextElementSibling;
+      if (subEl && (subEl.tagName === 'P' || subEl.tagName === 'DIV')) {
+        subEl.textContent = t.headerSub;
+      }
+    }
+
+    // 2. Find the track pill buttons container inside #view-1
+    var tabBtn1 = v1.querySelector('[onclick*="switchTrack(0)"], [onclick*="selectTrack(0)"], [data-track="0"]');
+    if (!tabBtn1) {
+      var allBtns = v1.querySelectorAll('button');
+      for (var i = 0; i < allBtns.length; i++) {
+        if (/1\.|Emergency|חירום|Urgence|Emergencia|Notfall|Экстрен/i.test(allBtns[i].textContent || '')) {
+          tabBtn1 = allBtns[i];
+          break;
+        }
+      }
+    }
+    if (!tabBtn1 || !tabBtn1.parentElement) return;
+
+    var pillBar = tabBtn1.parentElement;
+    pillBar.style.display = 'flex';
+    pillBar.style.flexWrap = 'wrap';
+    pillBar.style.gap = '6px';
+
+    // Update Pill 1 label to '✈️ 1. Aliyah & Emergency Exit'
+    if (tabBtn1.getAttribute('data-gat-p1-lg') !== lg) {
+      tabBtn1.setAttribute('data-gat-p1-lg', lg);
+      tabBtn1.textContent = t.t1Pill;
+    }
+
+    // Create Pill 5 (Work Visa B/1) and Pill 6 (Rejected / Appeal) if not present
+    var btn5 = document.getElementById('gat-track-pill-5');
+    var btn6 = document.getElementById('gat-track-pill-6');
+    var baseCls = tabBtn1.className.replace(/\bactive\b/g, '').trim();
+
+    if (!btn5) {
+      btn5 = document.createElement('button');
+      btn5.type = 'button';
+      btn5.id = 'gat-track-pill-5';
+      btn5.className = baseCls;
+      btn5.onclick = function() { window.showGatExtraTrackPanel(5); };
+      pillBar.appendChild(btn5);
+    }
+    if (!btn6) {
+      btn6 = document.createElement('button');
+      btn6.type = 'button';
+      btn6.id = 'gat-track-pill-6';
+      btn6.className = baseCls;
+      btn6.onclick = function() { window.showGatExtraTrackPanel(6); };
+      pillBar.appendChild(btn6);
+    }
+    btn5.textContent = t.t5Pill;
+    btn6.textContent = t.t6Pill;
+
+    // When any of the original 4 track pills is clicked, hide our custom panel 5/6 and show the original card
+    var origPills = pillBar.querySelectorAll('button:not(#gat-track-pill-5):not(#gat-track-pill-6)');
+    for (var j = 0; j < origPills.length; j++) {
+      if (origPills[j].getAttribute('data-gat-orig-hooked') !== '1') {
+        origPills[j].setAttribute('data-gat-orig-hooked', '1');
+        origPills[j].addEventListener('click', function() {
+          if (btn5) btn5.classList.remove('active');
+          if (btn6) btn6.classList.remove('active');
+          var extraPanel = document.getElementById('gat-extra-track-panel');
+          if (extraPanel) extraPanel.style.display = 'none';
+          var hiddenCards = v1.querySelectorAll('[data-gat-hidden-by-extra-track="1"]');
+          for (var k = 0; k < hiddenCards.length; k++) {
+            hiddenCards[k].removeAttribute('data-gat-hidden-by-extra-track');
+            hiddenCards[k].style.display = '';
+          }
+        });
+      }
+    }
+
+    window.showGatExtraTrackPanel = function(trackNum) {
+      var curLg = getCurLang();
+      var curT = TRACKS_TAB_I18N[curLg] || TRACKS_TAB_I18N.en;
+      var d = (trackNum === 5) ? curT.t5 : curT.t6;
+      var curDir = (curLg === 'he') ? 'rtl' : 'ltr';
+
+      // Update active pill styling
+      var allPills = pillBar.querySelectorAll('button');
+      for (var pIdx = 0; pIdx < allPills.length; pIdx++) {
+        allPills[pIdx].classList.remove('active');
+      }
+      if (trackNum === 5 && btn5) btn5.classList.add('active');
+      if (trackNum === 6 && btn6) btn6.classList.add('active');
+
+      // Hide currently visible original track card(s) below pillBar
+      var sib = pillBar.nextElementSibling;
+      while (sib) {
+        if (sib.id !== 'gat-extra-track-panel' && !/^gat-tab-faq/i.test(sib.id || '') && sib.style.display !== 'none') {
+          sib.setAttribute('data-gat-hidden-by-extra-track', '1');
+          sib.style.display = 'none';
+        }
+        sib = sib.nextElementSibling;
+      }
+
+      var panel = document.getElementById('gat-extra-track-panel');
+      if (!panel) {
+        panel = document.createElement('div');
+        panel.id = 'gat-extra-track-panel';
+        pillBar.insertAdjacentElement('afterend', panel);
+      }
+      panel.setAttribute('dir', curDir);
+      panel.style.cssText = 'display:block;background:rgba(255,255,255,0.95);border:1.5px solid #cbd5e1;border-radius:18px;padding:20px 18px;margin-top:14px;box-shadow:0 6px 20px rgba(15,23,42,0.06);text-align:' + (curLg === 'he' ? 'right' : 'left') + ';';
+      panel.innerHTML =
+        '<div style="display:inline-block;background:#e0f2fe;color:#0284c7;font-size:11.5px;font-weight:900;padding:4px 10px;border-radius:6px;margin-bottom:10px;text-transform:uppercase;">' + d.badge + '</div>' +
+        '<h2 style="margin:0 0 10px;font-size:21px;font-weight:900;color:#0f172a;line-height:1.28;">' + d.title + '</h2>' +
+        '<p style="margin:0 0 16px;font-size:14.5px;color:#475569;line-height:1.55;font-weight:600;">' + d.lead + '</p>' +
+        '<div style="border-top:1px solid #e2e8f0;padding-top:12px;margin-bottom:12px;font-size:14px;line-height:1.55;color:#1e293b;"><strong>' + d.b1Title + '</strong> ' + d.b1Body + '</div>' +
+        '<div style="border-top:1px solid #e2e8f0;padding-top:12px;margin-bottom:12px;font-size:14px;line-height:1.55;color:#1e293b;"><strong>' + d.b2Title + '</strong> ' + d.b2Body + '</div>' +
+        '<div style="border-top:1px solid #e2e8f0;padding-top:12px;margin-bottom:18px;font-size:14px;line-height:1.55;color:#1e293b;"><strong>' + d.b3Title + '</strong> ' + d.b3Body + '</div>' +
+        '<button type="button" id="gat-extra-track-cta" style="width:100%;padding:14px 18px;border-radius:14px;border:1.5px solid #38bdf8;background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);color:#ffffff;font-size:15.5px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(2,132,199,0.3);"></button>';
+      var ctaEl = document.getElementById('gat-extra-track-cta');
+      if (ctaEl) {
+        ctaEl.textContent = d.cta;
+        ctaEl.onclick = function() {
+          if (typeof window.startGatChangeTrackFlow === 'function') window.startGatChangeTrackFlow(0);
+          else if (typeof window.launchGatOnboardingNow === 'function') window.launchGatOnboardingNow();
+        };
+      }
+    };
+  }
+
+  // Synchronize the 9 outer cards (`onclick*="openObstacle("`) 1:1 with `window.__GAT_LIVE_OBSTACLES` and update the modal CTA button!
+  var BOX_ICONS = ['\u23f3', '\u2708\ufe0f', '\ud83c\udfdb\ufe0f', '\ud83d\udee1\ufe0f', '\ud83d\udc6b', '\ud83d\udd4d', '\ud83d\udcdc', '\u2696\ufe0f', '\ud83c\udfe2'];
+  function syncModalCtaAndBoxes() {
+    injectTracksAndBoxesCss();
+    upgradeTracksTabTo6Tracks();
+
+    var lg = getCurLang();
+    var mText = MODAL_CTA_I18N[lg] || MODAL_CTA_I18N.en;
+    var onboarded = window.isGatOnboardingComplete();
+
+    // 1. Update the bottom-right CTA button inside the 9 Obstacle Popups
+    var modalBtns = document.querySelectorAll('#m-cta, #obs-modal-cta, [onclick*="closeModal()"][onclick*="switchView(4)"], #obs-modal button');
+    for (var i = 0; i < modalBtns.length; i++) {
+      var btn = modalBtns[i];
+      if (!btn) continue;
+      var bTxt = (btn.textContent || '').trim();
+      if (bTxt === '\u2715' || bTxt === '×' || bTxt.length <= 2) continue;
+      btn.textContent = onboarded ? mText.tracker : mText.start;
+    }
+
+    // 2. Sync the 9 outer cards 1:1 with the popup array
+    var obsArr = window.__GAT_LIVE_OBSTACLES || (window.OBS_I18N && window.OBS_I18N[lg]) || window.OBSTACLES;
+    if (Array.isArray(obsArr) && obsArr.length >= 9) {
+      for (var idx = 0; idx < 9; idx++) {
+        var item = obsArr[idx];
+        if (!item) continue;
+        var rawTag = String(item.tag || item.kicker || ('BOX ' + (idx + 1))).replace(/\s*(?:OF|\u05de\u05ea\u05d5\u05da|SUR|DE|VON|\u0418\u0417)\s*9/i, '').trim();
+        var rawTitle = String(item.title || item.h || '').trim();
+        var rawDesc = String(item.desc || item.sub || item.body || '').trim();
+        if (rawDesc.length > 155) rawDesc = rawDesc.slice(0, 152).replace(/\s+\S*$/, '') + '...';
+        if (!rawTitle) continue;
+        var icon = BOX_ICONS[idx] || '\ud83d\udee1\ufe0f';
+        var cleanTitle = /^[\u2300-\u27bf\ud83c-\ud83e]/.test(rawTitle) ? rawTitle : (icon + ' ' + rawTitle);
+
+        var cards = document.querySelectorAll('[onclick*="openObstacle(' + idx + ')"]');
+        for (var c = 0; c < cards.length; c++) {
+          var card = cards[c];
+          var sig = lg + '|' + idx + '|' + cleanTitle;
+          if (card.getAttribute('data-gat-box-sig') !== sig) {
+            card.setAttribute('data-gat-box-sig', sig);
+            card.innerHTML =
+              '<div class="obs-tag" style="display:flex;justify-content:space-between;align-items:center;gap:8px;">' +
+                '<span>' + rawTag + '</span>' +
+                '<span style="white-space:nowrap;">' + mText.tap + '</span>' +
+              '</div>' +
+              '<div class="obs-title" style="font-size:16.5px;font-weight:900;color:#0f172a;line-height:1.3;margin:6px 0;">' + cleanTitle + '</div>' +
+              '<div class="obs-desc" style="font-size:13.5px;color:#334155;line-height:1.48;">' + rawDesc + '</div>';
+          }
+        }
+      }
+    }
+  }
+
+  syncModalCtaAndBoxes();
+  document.addEventListener('DOMContentLoaded', syncModalCtaAndBoxes);
+  window.addEventListener('load', syncModalCtaAndBoxes);
+  setInterval(syncModalCtaAndBoxes, 400);
+})();
+
+// === GAT OPTION A + 6-LANG SYSTEM-DRIVEN LIVE TRACKER + 9-BOX MASTER VAULT ===
+(function() {
+  var MASTER_9BOXES = {"en": {"tap": "TAP \u2192", "toolsHeading": "\ud83d\udee0\ufe0f Tools & Services to Get You Clerk-Ready for This Step:", "startBtn": "\ud83d\ude80 Start My Track \u2192", "trackerBtn": "\ud83d\udcca Open My Tracker \u2192", "nextBoxBtn": "Next Box \u2192", "boxes": [{"tag": "BOX 1 OF 9 \u2022 PRIVATE ORTHODOX BATEI DIN (ISRAEL & ABROAD)", "shortTag": "BOX 1 \u2022 PRIVATE BATEI DIN", "icon": "\ud83d\udd4d", "title": "Private Orthodox Batei Din (Gush Etzion, Bnei Brak, Jerusalem & Diaspora): Status vs. Marriage Rules", "shortDesc": "How conversions at Gush Etzion, Bnei Brak (Rav Karelitz), Jerusalem Badatz, Chabad, or overseas RCA/London/Consistoire courts work for Aliyah & residency vs. Chief Rabbanut marriage.", "desc": "In Israel's landmark Dahan and Ragchova Supreme Court rulings, conversions performed by recognized independent Orthodox Batei Din inside Israel\u2014such as Gush Etzion (Har Etzion), Bnei Brak (Rav Nissim Karelitz Beit Din), Jerusalem Haredi tribunals (Badatz / Edah HaChareidit), Modi'in Illit, and Chabad courts\u2014can qualify you for Law of Return citizenship (Teudat Zehut) and residency at Misrad HaPanim, even without a Va'adat Charigim permit. However, the State Chief Rabbanut (Misrad HaDatot) maintains its own strict registry for Jewish marriage registration and recognizes specific diaspora courts (RCA, London Beth Din, Consistoire, ORD). Our platform maps which tribunal fits your visa, marital goal, and residency status before you invest a year of study.", "trapTitle": "\ud83d\udea8 The Tribunal Mismatch & Clerk Rejection Trap", "trapDesc": "Candidates routinely spend 12\u201318 months studying for a private or overseas Beit Din without realizing their specific court won't be accepted by the Chief Rabbanut for an Israeli wedding\u2014or arrive at Misrad HaPanim without a properly structured Rabbinic Dossier, triggering a multi-year legal freeze.", "winTitle": "\u26a1 Pre-Vetted Tribunal Routing + 700-Q Mastery & Rabbinic Placement", "winDesc": "Our diagnostic engine matches you to the exact State or Private Beit Din that achieves both your civil status and family goals. We pair you with a vetted Sponsoring Rabbi (Rav Melaveh), drill you on all 700 Dayanim tribunal questions and 56 Shabbat songs/prayers, and auto-fill your statutory Misrad HaPanim filings.", "saves": "\u23f1\ufe0f Saves 12 to 24 Months & Prevents Unrecognized Conversions", "tools": [{"label": "\ud83d\udd4d Unlock 700-Q Beit Din + 56 Songs Mastery Suite ($149\u2013$249) \u2192", "url": "/pricing/?sku=bd_suite_life_249", "kind": "paid"}, {"label": "\ud83d\udc68\u200d\u2696\ufe0f Book Vetted Sponsoring Rabbi Placement ($0 Quote Intake) \u2192", "url": "/concierge-booking/?sku=concierge_rabbi_349", "kind": "concierge"}, {"label": "\ud83c\udfa7 Test 4 Free Beit Din Flashcards & 2 Shabbat Songs \u2192", "url": "/app/?module=beit-din", "kind": "free"}]}, {"tag": "BOX 2 OF 9 \u2022 THE 2-YEAR BREADCRUMB LOOP & 5 CIVIL DOCS", "shortTag": "BOX 2 \u2022 THE 5 CIVIL DOCS LOOP", "icon": "\u2708\ufe0f", "title": "The 'Fly Home & Pull All 5 Apostilled Civil Docs in Person' Power Move (vs. Remote Ordering Hell)", "shortDesc": "Why ordering Birth, Single Status, Divorce, Name Change & Police certificates remotely from Israel traps you in an expiring 180-day loop\u2014and how our AI Packet Auditor prepares your file.", "desc": "Every Aliyah, Spousal Visa (Nohal 5.2.0008), and Conversion file requires 5 original Apostilled homeland documents: (1) Long-Form Birth Certificate, (2) Single Status / Non-Impediment Affidavit (Tamtzit Rishum equivalent), (3) Prior Divorce/Marriage Decrees, (4) Name Change Certificates, and (5) 3-Bucket Criminal Background Checks. Misrad HaPanim clerks enforce a strict 180-day expiration clock on police and marital certificates\u2014and if even one Apostille stamp or seal is missing, the clerk hands you a 30-day deficiency notice while your other documents expire.", "trapTitle": "\ud83d\udca5 The Remote Ordering & Rotating 180-Day Expiration Trap", "trapDesc": "Ordering foreign vital records and state/federal Apostilles remotely from inside Israel takes 3\u20135 months and costs thousands in courier fees. By the time Document #5 arrives, Document #1 has passed its 180-day PIBA validity window\u2014trapping you in a 2-year bureaucratic treadmill.", "winTitle": "\u26a1 Pre-Audited Homeland Sprint + Red-Ribbon Notarial Translation", "winDesc": "Before you step up to a clerk's window, our AI Document Vault & 180-Day Clock Auditor inspects every certificate for exact PIBA compliance (wet-ink signatures, Hague Apostille vs. consular chain, and long-form parent names), and our Israeli Notarial Translation team delivers court-ready Red-Ribbon Hebrew translations.", "saves": "\u23f1\ufe0f Saves 1.5 to 2.5 Years & Thousands in Courier/Rejection Costs", "tools": [{"label": "\ud83e\udd16 Unlock Statutory Forms & AI Document Clock Auditor ($89\u2013$149) \u2192", "url": "/pricing/?sku=forms_life_149", "kind": "paid"}, {"label": "\ud83d\udcdc Book 4-Doc Red-Ribbon Notarial Translation Bundle ($0 Quote) \u2192", "url": "/concierge-booking/?sku=concierge_bundle_799", "kind": "concierge"}, {"label": "\ud83d\udd0d Open Free Document Vault & 180-Day Expiration Calculator \u2192", "url": "/app/?module=docs", "kind": "free"}]}, {"tag": "BOX 3 OF 9 \u2022 3-BUCKET CRIMINAL CHECKS & REHABILITATION", "shortTag": "BOX 3 \u2022 CRIMINAL & APOSTILLE CLIFF", "icon": "\ud83d\udee1\ufe0f", "title": "The 3-Bucket Criminal Record & 180-Day Apostille Cliff (FBI / ACRO / RCMP + Old Expunged Arrests)", "shortDesc": "How Nativ and PIBA scrutinize national fingerprint checks, every country lived in >12 months since age 14, and even expunged arrests\u2014and how our Hebrew legal explanation engine protects you.", "desc": "Israeli border and interior authorities (Nativ and PIBA) do not accept local city or state police printouts. They require biometric national/federal criminal certificates (e.g., FBI Identity History Summary with US Dept. of State Federal Apostille, UK ACRO, Canadian RCMP, French Bulletin N\u00b03) from your home country AND every country where you resided for 12+ months since age 14. Furthermore, biometric federal rap sheets often reveal decades-old dismissed or expunged arrests that applicants forgot existed.", "trapTitle": "\ud83d\udea8 The Wrong-Level Apostille & Undisclosed Arrest Refusal", "trapDesc": "Showing up at Misrad HaPanim with a State Secretary Apostille on a Federal FBI check\u2014or checking 'No criminal history' on Form Ash/456 when a 15-year-old dismissed misdemeanor appears on your fingerprint report\u2014triggers an immediate refusal for misrepresentation.", "winTitle": "\u26a1 3-Bucket Compliance Engine + Formal Hebrew Michtav Hesber", "winDesc": "Our platform gives you the exact issuing-authority and federal Apostille checklist for your country, tracks your 180-day countdown to the hour, and uses our Statutory Hebrew Forms Engine to generate a formal Hebrew Rehabilitation & Legal Explanation Letter (Michtav Hesber) before you file.", "saves": "\u23f1\ufe0f Prevents Summary Security Refusals & 6-Month Re-Fingerprinting Delays", "tools": [{"label": "\u2696\ufe0f Unlock Hebrew Michtav Hesber & 8 PIBA Forms Engine ($89\u2013$149) \u2192", "url": "/pricing/?sku=forms_life_149", "kind": "paid"}, {"label": "\ud83d\udc51 Unlock Full Solo Lifetime Shield + AI Pre-Flight Packet Audit ($399) \u2192", "url": "/pricing/?sku=suite_solo_life_399", "kind": "paid"}, {"label": "\ud83c\udfdb\ufe0f Book 1-Hour Lawyer Consultation / Escort ($0 Quote Intake) \u2192", "url": "/concierge-booking/?sku=concierge_escort_649", "kind": "concierge"}]}, {"tag": "BOX 4 OF 9 \u2022 TOURIST B/2 TO STATE GIYUR (VA'ADAT CHARIGIM)", "shortTag": "BOX 4 \u2022 VA'ADAT CHARIGIM PERMIT", "icon": "\ud83c\udfdb\ufe0f", "title": "In Israel on a 90-Day B/2 Tourist Visa? Conquering the Exceptions Committee (Va'adat Charigim)", "shortDesc": "Tourists are barred from State Giyur unless they win written clearance from Va'adat Charigim. See how our Hebrew petition engine, Rabbi sponsorship & Ash/1 stamper build an ironclad file.", "desc": "Under Israeli Prime Minister's Office regulations, non-citizens inside Israel on a B/2 tourist visa cannot simply enroll in the State Conversion Authority (Nativ). You must first petition the inter-ministerial Exceptions Committee (Va'adat Charigim), which sits with Misrad HaPanim to verify that you have genuine Jewish communal roots in Israel, a recognized Sponsoring Rabbi, a verified Orthodox Host Family, and zero history of unlawful visa overstay.", "trapTitle": "\ud83d\uded1 The Casual Tourist Application & 14-Day Departure Order", "trapDesc": "Submitting a hand-written English request or applying after your 90-day B/2 entry slip expires results in a summary denial from Va'adat Charigim and a 14-day order to leave Israel.", "winTitle": "\u26a1 Auto-Stamped Form Ash/1 + Vetted Rabbi & Host Family Dossier", "winDesc": "Our Statutory Forms Engine stamps your official Hebrew Form Ash/1 and formal Va'adat Charigim petition in Hebrew, our Activity Logger documents your synagogue and Shabbat attendance with cryptographic timestamps, and our Concierge team connects you with a recognized Sponsoring Rabbi.", "saves": "\u23f1\ufe0f Saves 6 to 12 Months & Protects Your Lawful Stay in Israel", "tools": [{"label": "\ud83c\udfdb\ufe0f Unlock Hebrew Form Ash/1 & Va'adat Charigim Engine ($89\u2013$149) \u2192", "url": "/pricing/?sku=forms_life_149", "kind": "paid"}, {"label": "\ud83d\udd4d Book Vetted Sponsoring Rabbi & Reference Letter ($0 Quote) \u2192", "url": "/concierge-booking/?sku=concierge_rabbi_349", "kind": "concierge"}, {"label": "\ud83d\udcc5 Open Free Rabbi & Synagogue Activity Logger Preview \u2192", "url": "/app/?module=logger", "kind": "free"}]}, {"tag": "BOX 5 OF 9 \u2022 DUAL-TRACK SPOUSAL VISA + CONVERSION (SEC. \u05d2.10)", "shortTag": "BOX 5 \u2022 DUAL-TRACK SPOUSAL + GIYUR", "icon": "\ud83d\udc6b", "title": "The Dual-Track Power Move: Running Spousal Residency (Nohal 5.2.0008) & Conversion Simultaneously", "shortDesc": "Why couples where one partner is Israeli should lock in a B/1 work-authorized Spousal Visa FIRST while preparing for conversion\u2014and how our VIP Couple Suite automates both tracks.", "desc": "If you are in a serious relationship or married to an Israeli citizen and also want to convert, relying solely on a conversion visa leaves you unable to work and dependent on committee extensions. Instead, launching the Graduated Spousal Process (Tahalich Medurag \u2014 Nohal 5.2.0008 for married couples or 5.2.0009 for common-law partners) secures a legal B/1 work visa within months, and once your A/5 temporary residency or B/1 permit is active, you have statutory standing to study for conversion under Section \u05d2.10.", "trapTitle": "\u26a0\ufe0f The Single-Track Bottleneck & Uncoordinated File Trap", "trapDesc": "Filing conflicting declarations at Misrad HaPanim and the Rabbanut\u2014or failing to synchronize your civil cohabitation proofs with your traditional Jewish household observance\u2014causes both clerks and Dayanim to question your file.", "winTitle": "\u26a1 Coordinated Dual-Track VIP Engine (Forms + 300-Q Sync + 700-Q Beit Din)", "winDesc": "Our platform is the only system in Israel engineered to run both tracks in harmony: auto-filling your 29-page Form Ash/6 spousal dossier, syncing both partners across 300 separated-room PIBA interview questions, and preparing you both for the 700-question Beit Din tribunal.", "saves": "\u23f1\ufe0f Unlocks Legal Work Rights 9\u201318 Months Faster While Completing Giyur", "tools": [{"label": "\ud83d\udc51 Unlock Full VIP Couple 2-Phone Lifetime Suite + AI Audit ($649) \u2192", "url": "/pricing/?sku=vip_couple_649", "kind": "paid"}, {"label": "\ud83d\udcf1 Unlock Spousal 300-Q 2-Phone Sync & Interview Pass ($75\u2013$229) \u2192", "url": "/pricing/?sku=couples_life_229", "kind": "paid"}, {"label": "\ud83d\udc8d Book Vetted Rabbi + Madrichat Kallah Couple Package ($0 Quote) \u2192", "url": "/concierge-booking/?sku=concierge_couple_499", "kind": "concierge"}]}, {"tag": "BOX 6 OF 9 \u2022 VETTED RABBI, MADRICHAT KALLAH, 700-Q & 56 SONGS", "shortTag": "BOX 6 \u2022 700-Q BEIT DIN & 56 SONGS", "icon": "\ud83d\udcd6", "title": "Both Partners Must Pass! Vetted Sponsoring Rabbi, Madrichat Kallah, 700 Tribunal Questions & 56 Songs", "shortDesc": "Why studying with an unrecognized rabbi wastes a full year, why Dayanim test you live on Shabbat melodies & Brachot, and how our 700-card vault + 56-song karaoke trainer guarantees readiness.", "desc": "Even when one partner is a born-Jewish Israeli citizen, the Beit Din requires BOTH partners to study with a recognized Sponsoring Rabbi (Rav Melaveh), complete a certified Family Purity (Taharat HaMishpacha) course with a Rabbanut-recognized Madrichat Kallah, and pass the final Ma'amad Beit Din oral examination. During the hearing, Dayanim don't just ask textbook theology\u2014they ask you to sing Friday night Kiddush, Zemirot, Birkat HaMazon, and Shacharit prayers out loud on the spot.", "trapTitle": "\ud83d\ude30 Unrecognized Teachers & Freezing on Live Shabbat Melodies", "trapDesc": "Studying with a well-meaning teacher who isn't registered with the Rabbanut wastes 12 months\u2014and freezing when a Dayan asks you to chant Kiddush, Havdalah, or Asher Yatzar triggers an automatic 6-month tribunal deferral.", "winTitle": "\u26a1 700-Card Tribunal Simulator + 56-Song Karaoke Grader + Vetted Placement", "winDesc": "We introduce you directly to our vetted, remote-friendly Sponsoring Rabbis and Madrichot Kallah across Israel, while our software drills you on all 700 Beit Din questions (200 Core + 200 Curveballs + 150 Men's + 150 Women's) and 56 Shabbat songs/prayers with 6-language phonetic transliteration and AI pitch grading.", "saves": "\u23f1\ufe0f Saves 6 to 18 Months & Eliminates Beit Din Exam Deferrals", "tools": [{"label": "\ud83d\udd4d Unlock All 700 Beit Din Cards + 56 Songs Mastery Suite ($149\u2013$249) \u2192", "url": "/pricing/?sku=bd_suite_life_249", "kind": "paid"}, {"label": "\ud83e\udd1d Book Vetted Sponsoring Rabbi + Madrichat Kallah ($0 Quote Intake) \u2192", "url": "/concierge-booking/?sku=concierge_couple_499", "kind": "concierge"}, {"label": "\ud83c\udfb5 Test 2 Free Shabbat Karaoke Songs & 4 Beit Din Cards in App \u2192", "url": "/app/?module=songs-prayers", "kind": "free"}]}, {"tag": "BOX 7 OF 9 \u2022 300-QUESTION SEPARATED-ROOM COUPLES INTERROGATION", "shortTag": "BOX 7 \u2022 300-Q COUPLES INTERROGATION", "icon": "\ud83d\udcf1", "title": "Sync With Your Partner on 2 Phones Across All 300 Questions Before PIBA Puts You in Separate Rooms", "shortDesc": "Every year of the 5-year Graduated Spousal Process (Tahalich Medurag), clerks interrogate you and your partner in separate rooms. Train on our 300-question 2-phone live contradiction matcher.", "desc": "Every single year of the 4.5-to-5-year Graduated Spousal Process (Nohal 5.2.0008 / 5.2.0009), Misrad HaPanim clerks separate you and your partner into two rooms and interrogate each of you on intimate daily-life details across 10 categories (how you met, floorplan & furniture, who pays utility bills, morning routines, in-laws, holidays, finances, and children/Sefach rules). The clerk types both sets of answers side-by-side searching for discrepancies.", "trapTitle": "\ud83d\udea9 How Real, Loving Couples Fail the Separated-Room Interview", "trapDesc": "Even genuine couples who live together every day contradict each other under pressure on small details (what you ate last Friday, who paid the Arnona bill, which side of the bed you sleep on, or when you met each other's parents)\u2014triggering a 6\u201312 month fraud-suspicion freeze or bond demand.", "winTitle": "\u26a1 300-Question 2-Phone Live Firestore Matcher (10 Categories + 80-Q Exam Mode)", "winDesc": "Our Spousal Interrogation Suite lets you and your partner link two phones from opposite sides of your couch, answer all 300 real Misrad HaPanim questions (plus our 80-question timed clerk simulation) in your own native languages, and instantly flag every mismatch before your appointment.", "saves": "\u23f1\ufe0f Prevents 6\u201312 Month Suspicion Freezes & 30,000\u20aa Bank Guarantee Demands", "tools": [{"label": "\ud83d\udcf1 Unlock 300-Q 2-Phone Live Sync & Annual Interview Pass ($75\u2013$229) \u2192", "url": "/pricing/?sku=couples_life_229", "kind": "paid"}, {"label": "\ud83d\udc51 Unlock Full VIP Couple 2-Phone Suite + AI Packet Audit ($649) \u2192", "url": "/pricing/?sku=vip_couple_649", "kind": "paid"}, {"label": "\ud83e\uddea Try 4 Free Separated-Room Couples Questions in the App \u2192", "url": "/app/?module=couples", "kind": "free"}]}, {"tag": "BOX 8 OF 9 \u2022 8 OFFICIAL HEBREW PIBA FORMS & CLERK SHEET DECODER", "shortTag": "BOX 8 \u2022 8 HEBREW PIBA PDF STAMPERS", "icon": "\ud83d\udda8\ufe0f", "title": "Auto-Stamp All 8 Official Hebrew PIBA Forms & Decode Clerk Demand Sheets (30-Day Closure Shield)", "shortDesc": "Misrad HaPanim clerks reject English forms and close files after 30 days. Fill once in your native language and print pixel-calibrated Hebrew PDFs (Ash/1, Ash/3, Ash/6, Ash/456, MR/14).", "desc": "Israeli Ministry of Interior clerks require official Hebrew government forms\u2014including the 29-page Spousal Dossier (Form Ash/6), Visa Extension/Change (Ash/3), Visa Entry (Ash/1), In-Israel Aliyah (Ash/456), Registration (MR/14a & MR/14b), Nespach Alef, and Security CV. If you leave fields blank, fill them in English, or fail to respond to a Hebrew Clerk Deficiency Sheet (Daf Drishat Mismachim) within 30 days, PIBA administratively closes your file.", "trapTitle": "\ud83d\udcc4 The Hand-Scribbled Form Rejection & 30-Day File Closure", "trapDesc": "Paying lawyers 15,000\u20aa\u201340,000\u20aa just to fill out Hebrew PDFs\u2014or trying to scribble Hebrew characters by hand at the clerk's counter and misunderstanding a Hebrew deficiency printout\u2014leads to immediate turn-aways and lost appointment slots.", "winTitle": "\u26a1 Fill in Your Language \u2192 Download Pixel-Perfect Hebrew PDFs + Red-X Signing Guide", "winDesc": "Answer every form field in English, Hebrew, French, Spanish, German, or Russian. Our Node/PDF-Lib engine stamps the official Hebrew government PDFs with zero layout shift, generates a localized Red-X Signing Guide showing where to sign at the counter, and decodes any clerk sheet you upload.", "saves": "\u23f1\ufe0f Saves 15,000\u20aa\u201340,000\u20aa in Legal Fees & Stops 30-Day File Closures", "tools": [{"label": "\ud83d\udda8\ufe0f Unlock All 8 Official PIBA Hebrew PDF Stampers ($89\u2013$149) \u2192", "url": "/pricing/?sku=forms_life_149", "kind": "paid"}, {"label": "\u2696\ufe0f Book 1-Hour Day-Of PIBA Appointment Lawyer Escort ($0 Quote) \u2192", "url": "/concierge-booking/?sku=concierge_escort_649", "kind": "concierge"}, {"label": "\ud83d\udccb Preview All 8 Official PIBA Forms & Free Clerk Decoder \u2192", "url": "/app/?module=forms", "kind": "free"}]}, {"tag": "BOX 9 OF 9 \u2022 IN-ISRAEL FAST-TRACK ALIYAH (SHINUI MA'AMAD) VS. JAFI", "shortTag": "BOX 9 \u2022 FAST-TRACK IN-ISRAEL ALIYAH", "icon": "\ud83c\udfe2", "title": "Skip the 9\u201312 Month Overseas Jewish Agency / NBN Queue: File In-Israel Aliyah (Form Ash/456)", "shortDesc": "How eligible Law of Return applicants fly directly to Israel, file Shinui Ma'amad inside the country, pass the Nativ lineage audit, and lock in full 24-month Sal Klita absorption benefits.", "desc": "Most Jewish applicants abroad assume they must wait 9 to 12 months for an overseas Jewish Agency (JAFI) or Nefesh B'Nefesh consular Machon interview before moving to Israel. Under Israel's Law of Return and Ministry of Interior regulations, eligible applicants who bring a complete, Apostilled 5-document civil dossier and maternal Proof-of-Judaism lineage file can enter Israel and file directly for In-Israel Change of Status to Oleh Chadash (Shinui Ma'amad via Form Ash/456).", "trapTitle": "\u23f3 The 12-Month Overseas Wait & Failed Nativ Lineage Audit", "trapDesc": "Waiting a year abroad while antisemitism rises or leases expire\u2014or arriving in Israel with a generic synagogue membership letter that fails Nativ's forensic maternal-lineage audit\u2014leaves you stuck without a Teudat Zehut or health insurance.", "winTitle": "\u26a1 Pre-Audited Nativ Lineage Dossier + Form Ash/456 Stamper & Sal Klita Lock", "winDesc": "Our AI Document Auditor verifies your Proof-of-Judaism letter and vital records against Nativ's exact forensic standards before you fly, auto-stamps your Hebrew Form Ash/456 and Security CV, and guides you step-by-step to your Teudat Zehut, Bituach Leumi, and 24-month Sal Klita cash grant.", "saves": "\u23f1\ufe0f Bypasses 9\u201312 Months of Overseas Bureaucracy & Protects Sal Klita", "tools": [{"label": "\u2708\ufe0f Unlock Form Ash/456 Aliyah Stamper & AI Dossier Pass ($89\u2013$149) \u2192", "url": "/pricing/?sku=forms_life_149", "kind": "paid"}, {"label": "\ud83d\udee1\ufe0f Unlock Complete Solo Lifetime Shield (All Tools + AI Audit) ($399) \u2192", "url": "/pricing/?sku=suite_solo_life_399", "kind": "paid"}, {"label": "\ud83d\udcdc Book 4-Doc Red-Ribbon Notarial Translation Bundle ($0 Quote) \u2192", "url": "/concierge-booking/?sku=concierge_bundle_799", "kind": "concierge"}]}], "categories": [{"title": "\ud83d\udd4d CATEGORY 1: CONVERSION, PRIVATE BATEI DIN & STATE RABBANUT", "sub": "Boxes 1\u20133 \u2022 Free Playbooks"}, {"title": "\ud83c\udfdb\ufe0f CATEGORY 2: TOURIST B/2 PERMITS, DUAL-TRACK & 700-Q TRIBUNAL PREP", "sub": "Boxes 4\u20136 \u2022 Free Playbooks"}, {"title": "\ud83d\udcf1 CATEGORY 3: 300-Q COUPLES INTERVIEW, 8 HEBREW PIBA FORMS & FAST-TRACK ALIYAH", "sub": "Boxes 7\u20139 \u2022 Free Playbooks"}]}, "he": {"tap": "\u05dc\u05d7\u05e5 \u2190", "toolsHeading": "\ud83d\udee0\ufe0f \u05db\u05dc\u05d9\u05dd \u05d5\u05e9\u05d9\u05e8\u05d5\u05ea\u05d9\u05dd \u05e9\u05d9\u05db\u05d9\u05e0\u05d5 \u05d0\u05ea\u05db\u05dd \u05d1-100% \u05de\u05d5\u05dc \u05d4\u05e4\u05e7\u05d9\u05d3\u05d9\u05dd \u05d1\u05e9\u05dc\u05d1 \u05d6\u05d4:", "startBtn": "\ud83d\ude80 \u05d4\u05ea\u05d7\u05dc \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05d9 \u2190", "trackerBtn": "\ud83d\udcca \u05e4\u05ea\u05d7 \u05d0\u05ea \u05de\u05e2\u05e7\u05d1 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u2190", "nextBoxBtn": "\u05d4\u05ea\u05d9\u05d1\u05d4 \u05d4\u05d1\u05d0\u05d4 \u2190", "boxes": [{"tag": "\u05ea\u05d9\u05d1\u05d4 1 \u05de\u05ea\u05d5\u05da 9 \u2022 \u05d1\u05ea\u05d9 \u05d3\u05d9\u05df \u05e4\u05e8\u05d8\u05d9\u05d9\u05dd \u05dc\u05d2\u05d9\u05d5\u05e8 (\u05d1\u05d9\u05e9\u05e8\u05d0\u05dc \u05d5\u05d1\u05d7\u05d5\u05f4\u05dc)", "shortTag": "\u05ea\u05d9\u05d1\u05d4 1 \u2022 \u05d1\u05ea\u05d9 \u05d3\u05d9\u05df \u05e4\u05e8\u05d8\u05d9\u05d9\u05dd \u05dc\u05d2\u05d9\u05d5\u05e8", "icon": "\ud83d\udd4d", "title": "\u05d1\u05ea\u05d9 \u05d3\u05d9\u05df \u05d0\u05d5\u05e8\u05ea\u05d5\u05d3\u05d5\u05e7\u05e1\u05d9\u05d9\u05dd \u05e4\u05e8\u05d8\u05d9\u05d9\u05dd (\u05d2\u05d5\u05e9 \u05e2\u05e6\u05d9\u05d5\u05df, \u05d1\u05e0\u05d9 \u05d1\u05e8\u05e7, \u05d9\u05e8\u05d5\u05e9\u05dc\u05d9\u05dd \u05d5\u05d7\u05d5\u05f4\u05dc): \u05de\u05e2\u05de\u05d3 \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05de\u05d5\u05dc \u05e0\u05d9\u05e9\u05d5\u05d0\u05d9\u05df \u05d1\u05e8\u05d1\u05e0\u05d5\u05ea", "shortDesc": "\u05db\u05d9\u05e6\u05d3 \u05d2\u05d9\u05d5\u05e8 \u05d1\u05d2\u05d5\u05e9 \u05e2\u05e6\u05d9\u05d5\u05df, \u05d1\u05e0\u05d9 \u05d1\u05e8\u05e7 (\u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05d4\u05e8\u05d1 \u05e7\u05e8\u05dc\u05d9\u05e5), \u05d1\u05d3\u05f4\u05e5 \u05d9\u05e8\u05d5\u05e9\u05dc\u05d9\u05dd, \u05d7\u05d1\u05f4\u05d3 \u05d0\u05d5 \u05d1\u05ea\u05d9 \u05d3\u05d9\u05df \u05de\u05d5\u05db\u05e8\u05d9\u05dd \u05d1\u05d7\u05d5\u05f4\u05dc (RCA / \u05dc\u05d5\u05e0\u05d3\u05d5\u05df / \u05e7\u05d5\u05e0\u05e1\u05d9\u05e1\u05d8\u05d5\u05d0\u05e8) \u05e4\u05d5\u05e2\u05dc \u05dc\u05e7\u05d1\u05dc\u05ea \u05ea\u05e2\u05d5\u05d3\u05ea \u05d6\u05d4\u05d5\u05ea \u05de\u05d5\u05dc \u05e8\u05d9\u05e9\u05d5\u05dd \u05e0\u05d9\u05e9\u05d5\u05d0\u05d9\u05df \u05d1\u05e8\u05d1\u05e0\u05d5\u05ea.", "desc": "\u05e2\u05dc \u05e4\u05d9 \u05e4\u05e1\u05d9\u05e7\u05d5\u05ea \u05d1\u05d2\u05f4\u05e5 (\u05d4\u05dc\u05db\u05d5\u05ea \u05d3\u05d4\u05d0\u05df \u05d5\u05e8\u05d2\u05e6\u05f3\u05d5\u05d1\u05d4), \u05d2\u05d9\u05d5\u05e8 \u05e9\u05e0\u05e2\u05e8\u05da \u05d1\u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05d0\u05d5\u05e8\u05ea\u05d5\u05d3\u05d5\u05e7\u05e1\u05d9 \u05e4\u05e8\u05d8\u05d9 \u05de\u05d5\u05db\u05e8 \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc \u2014 \u05db\u05d2\u05d5\u05df \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05d2\u05d5\u05e9 \u05e2\u05e6\u05d9\u05d5\u05df (\u05d4\u05e8 \u05e2\u05e6\u05d9\u05d5\u05df), \u05d1\u05e0\u05d9 \u05d1\u05e8\u05e7 (\u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05d4\u05d2\u05e8\u05f4\u05e0 \u05e7\u05e8\u05dc\u05d9\u05e5), \u05d1\u05ea\u05d9 \u05d3\u05d9\u05df \u05d7\u05e8\u05d3\u05d9\u05d9\u05dd \u05d1\u05d9\u05e8\u05d5\u05e9\u05dc\u05d9\u05dd (\u05d1\u05d3\u05f4\u05e5 \u05d4\u05e2\u05d3\u05d4 \u05d4\u05d7\u05e8\u05d3\u05d9\u05ea), \u05de\u05d5\u05d3\u05d9\u05e2\u05d9\u05df \u05e2\u05d9\u05dc\u05d9\u05ea \u05d5\u05d1\u05ea\u05d9 \u05d3\u05d9\u05df \u05e9\u05dc \u05d7\u05d1\u05f4\u05d3 \u2014 \u05e2\u05e9\u05d5\u05d9 \u05dc\u05d4\u05e7\u05e0\u05d5\u05ea \u05d6\u05db\u05d0\u05d5\u05ea \u05dc\u05de\u05e2\u05de\u05d3 \u05e2\u05d5\u05dc\u05d4 \u05d5\u05ea\u05e2\u05d5\u05d3\u05ea \u05d6\u05d4\u05d5\u05ea \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05de\u05db\u05d5\u05d7 \u05d7\u05d5\u05e7 \u05d4\u05e9\u05d1\u05d5\u05ea \u05d2\u05dd \u05dc\u05dc\u05d0 \u05d0\u05d9\u05e9\u05d5\u05e8 \u05de\u05d5\u05e7\u05d3\u05dd \u05de\u05d5\u05d5\u05e2\u05d3\u05ea \u05d4\u05d7\u05e8\u05d9\u05d2\u05d9\u05dd. \u05de\u05e0\u05d2\u05d3, \u05d4\u05e8\u05d1\u05e0\u05d5\u05ea \u05d4\u05e8\u05d0\u05e9\u05d9\u05ea \u05dc\u05d9\u05e9\u05e8\u05d0\u05dc (\u05de\u05e9\u05e8\u05d3 \u05d4\u05d3\u05ea\u05d5\u05ea) \u05de\u05e0\u05d4\u05dc\u05ea \u05e8\u05e9\u05d9\u05de\u05ea \u05d1\u05ea\u05d9 \u05d3\u05d9\u05df \u05de\u05d5\u05db\u05e8\u05d9\u05dd \u05de\u05e9\u05dc\u05d4 \u05dc\u05e6\u05d5\u05e8\u05da \u05e8\u05d9\u05e9\u05d5\u05dd \u05e0\u05d9\u05e9\u05d5\u05d0\u05d9\u05df \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc \u05d5\u05d1\u05ea\u05d9 \u05d3\u05d9\u05df \u05d1\u05d7\u05d5\u05f4\u05dc (RCA, \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05dc\u05d5\u05e0\u05d3\u05d5\u05df, \u05e7\u05d5\u05e0\u05e1\u05d9\u05e1\u05d8\u05d5\u05d0\u05e8 \u05e4\u05e8\u05d9\u05d6, ORD). \u05d4\u05de\u05e2\u05e8\u05db\u05ea \u05e9\u05dc\u05e0\u05d5 \u05de\u05de\u05e4\u05d4 \u05d1\u05d3\u05d9\u05d5\u05e7 \u05d0\u05d9\u05d6\u05d4 \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05de\u05ea\u05d0\u05d9\u05dd \u05dc\u05d0\u05e9\u05e8\u05d4 \u05e9\u05dc\u05db\u05dd, \u05dc\u05de\u05e2\u05de\u05d3 \u05d4\u05d0\u05d6\u05e8\u05d7\u05d9 \u05d5\u05dc\u05e8\u05d9\u05e9\u05d5\u05dd \u05d4\u05e0\u05d9\u05e9\u05d5\u05d0\u05d9\u05df \u05dc\u05e4\u05e0\u05d9 \u05e9\u05ea\u05e9\u05e7\u05d9\u05e2\u05d5 \u05e9\u05e0\u05ea \u05dc\u05d9\u05de\u05d5\u05d3\u05d9\u05dd.", "trapTitle": "\ud83d\udea8 \u05de\u05dc\u05db\u05d5\u05d3\u05ea \u05d7\u05d5\u05e1\u05e8 \u05d4\u05d4\u05ea\u05d0\u05de\u05d4 \u05d1\u05d9\u05df \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05dc\u05e8\u05d1\u05e0\u05d5\u05ea \u05d0\u05d5 \u05dc\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd", "trapDesc": "\u05de\u05d5\u05e2\u05de\u05d3\u05d9\u05dd \u05e8\u05d1\u05d9\u05dd \u05dc\u05d5\u05de\u05d3\u05d9\u05dd \u05d1\u05de\u05e9\u05da \u05e9\u05e0\u05d4 \u05d5\u05d7\u05e6\u05d9 \u05d1\u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05e4\u05e8\u05d8\u05d9 \u05d0\u05d5 \u05d1\u05d7\u05d5\u05f4\u05dc \u05de\u05d1\u05dc\u05d9 \u05dc\u05d3\u05e2\u05ea \u05e9\u05d4\u05e8\u05d1\u05e0\u05d5\u05ea \u05d4\u05e8\u05d0\u05e9\u05d9\u05ea \u05dc\u05d0 \u05ea\u05db\u05d9\u05e8 \u05d1\u05ea\u05e2\u05d5\u05d3\u05d4 \u05dc\u05e6\u05d5\u05e8\u05da \u05d7\u05d5\u05e4\u05d4 \u05d5\u05e7\u05d9\u05d3\u05d5\u05e9\u05d9\u05df \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc \u2014 \u05d0\u05d5 \u05de\u05d2\u05d9\u05e2\u05d9\u05dd \u05dc\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05dc\u05dc\u05d0 \u05ea\u05d9\u05e7 \u05d4\u05dc\u05db\u05ea\u05d9 \u05de\u05d5\u05d1\u05e0\u05d4 \u05d5\u05e0\u05ea\u05e7\u05e2\u05d9\u05dd \u05d1\u05e1\u05d9\u05e8\u05d5\u05d1 \u05de\u05ea\u05de\u05e9\u05da.", "winTitle": "\u26a1 \u05de\u05d9\u05e4\u05d5\u05d9 \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05de\u05d3\u05d5\u05d9\u05e7 + \u05e1\u05d9\u05de\u05d5\u05dc\u05d8\u05d5\u05e8 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d5\u05e9\u05d9\u05d1\u05d5\u05e5 \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8", "winDesc": "\u05d0\u05e9\u05e3 \u05d4\u05d0\u05d1\u05d7\u05d5\u05df \u05e9\u05dc\u05e0\u05d5 \u05de\u05ea\u05d0\u05d9\u05dd \u05dc\u05db\u05dd \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05de\u05de\u05dc\u05db\u05ea\u05d9 \u05d0\u05d5 \u05d4\u05e4\u05e8\u05d8\u05d9 \u05d4\u05de\u05d3\u05d5\u05d9\u05e7, \u05de\u05e9\u05d1\u05e5 \u05dc\u05db\u05dd \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05d5\u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4 \u05d4\u05de\u05d5\u05db\u05e8\u05d9\u05dd \u05e2\u05dc \u05d9\u05d3\u05d9 \u05d4\u05de\u05e2\u05e8\u05db\u05ea, \u05de\u05d0\u05de\u05df \u05d0\u05ea\u05db\u05dd \u05e2\u05dc \u05db\u05dc 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d4\u05d3\u05d9\u05d9\u05e0\u05d9\u05dd \u05d5-56 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea \u05d5\u05d1\u05e8\u05db\u05d5\u05ea, \u05d5\u05de\u05de\u05dc\u05d0 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea \u05d0\u05ea \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd.", "saves": "\u23f1\ufe0f \u05d7\u05d5\u05e1\u05da 12 \u05e2\u05d3 24 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05d5\u05de\u05d5\u05e0\u05e2 \u05d2\u05d9\u05d5\u05e8 \u05e9\u05d0\u05d9\u05e0\u05d5 \u05de\u05d5\u05db\u05e8 \u05dc\u05de\u05d8\u05e8\u05ea\u05db\u05dd", "tools": [{"label": "\ud83d\udd4d \u05e4\u05ea\u05d9\u05d7\u05ea \u05d7\u05d1\u05d9\u05dc\u05ea 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d9\u05ea \u05d3\u05d9\u05df + 56 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea \u05d5\u05ea\u05e4\u05d9\u05dc\u05d5\u05ea ($149\u2013$249) \u2190", "url": "/he/pricing/?sku=bd_suite_life_249&lang=he", "kind": "paid"}, {"label": "\ud83d\udc68\u200d\u2696\ufe0f \u05ea\u05d9\u05d0\u05d5\u05dd \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8 (\u05d4\u05e6\u05e2\u05ea \u05de\u05d7\u05d9\u05e8 $0 \u05d4\u05d9\u05d5\u05dd) \u2190", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=he", "kind": "concierge"}, {"label": "\ud83c\udfa7 \u05d4\u05ea\u05e0\u05e1\u05d5\u05ea \u05d7\u05d9\u05e0\u05dd \u05d1-4 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9\u05d5\u05ea \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05d5-2 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea \u2190", "url": "/app/?module=beit-din&lang=he", "kind": "free"}]}, {"tag": "\u05ea\u05d9\u05d1\u05d4 2 \u05de\u05ea\u05d5\u05da 9 \u2022 \u05de\u05dc\u05db\u05d5\u05d3\u05ea 5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d4\u05de\u05e7\u05d5\u05e8 \u05d5\u05d7\u05d5\u05ea\u05de\u05ea \u05d4\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc", "shortTag": "\u05ea\u05d9\u05d1\u05d4 2 \u2022 5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05de\u05e7\u05d5\u05e8 \u05d5\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc", "icon": "\u2708\ufe0f", "title": "\u05d0\u05d9\u05e1\u05d5\u05e3 \u05db\u05dc 5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d4\u05de\u05e7\u05d5\u05e8 \u05e2\u05dd \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05d1\u05d1\u05d9\u05e7\u05d5\u05e8 \u05de\u05e8\u05d5\u05db\u05d6 \u05d1\u05de\u05d3\u05d9\u05e0\u05ea \u05d4\u05de\u05d5\u05e6\u05d0 (\u05de\u05d5\u05dc \u05e1\u05d9\u05d5\u05d8 \u05d4\u05d4\u05d6\u05de\u05e0\u05d4 \u05de\u05e8\u05d7\u05d5\u05e7)", "shortDesc": "\u05de\u05d3\u05d5\u05e2 \u05d4\u05d6\u05de\u05e0\u05ea \u05ea\u05e2\u05d5\u05d3\u05ea \u05dc\u05d9\u05d3\u05d4, \u05e8\u05d5\u05d5\u05e7\u05d5\u05ea, \u05d2\u05d9\u05e8\u05d5\u05e9\u05d9\u05df, \u05e9\u05d9\u05e0\u05d5\u05d9 \u05e9\u05dd \u05d5\u05ea\u05e2\u05d5\u05d3\u05ea \u05d9\u05d5\u05e9\u05e8 \u05de\u05e8\u05d7\u05d5\u05e7 \u05e0\u05d5\u05e2\u05dc\u05ea \u05d0\u05ea\u05db\u05dd \u05d1\u05dc\u05d5\u05dc\u05d0\u05ea \u05e4\u05e7\u05d9\u05e2\u05d4 \u05e9\u05dc 180 \u05d9\u05d5\u05dd \u2014 \u05d5\u05db\u05d9\u05e6\u05d3 \u05e1\u05d5\u05e8\u05e7 \u05d4-AI \u05e9\u05dc\u05e0\u05d5 \u05d1\u05d5\u05d3\u05e7 \u05db\u05dc \u05ea\u05e2\u05d5\u05d3\u05d4 \u05de\u05e8\u05d0\u05e9.", "desc": "\u05db\u05dc \u05ea\u05d9\u05e7 \u05e2\u05dc\u05d9\u05d9\u05d4, \u05d4\u05dc\u05d9\u05da \u05de\u05d3\u05d5\u05e8\u05d2 \u05dc\u05d1\u05e0\u05d9 \u05d6\u05d5\u05d2 (\u05e0\u05d5\u05d4\u05dc 5.2.0008) \u05d0\u05d5 \u05d2\u05d9\u05d5\u05e8 \u05de\u05d7\u05d9\u05d9\u05d1 5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05de\u05e7\u05d5\u05e8 \u05de\u05d0\u05d5\u05de\u05ea\u05d5\u05ea \u05d1\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05de\u05de\u05d3\u05d9\u05e0\u05ea \u05d4\u05de\u05d5\u05e6\u05d0: (1) \u05ea\u05e2\u05d5\u05d3\u05ea \u05dc\u05d9\u05d3\u05d4 \u05de\u05dc\u05d0\u05d4 (Long-Form), (2) \u05ea\u05de\u05e6\u05d9\u05ea \u05e8\u05d9\u05e9\u05d5\u05dd / \u05ea\u05e2\u05d5\u05d3\u05ea \u05e8\u05d5\u05d5\u05e7\u05d5\u05ea \u05d0\u05d5 \u05de\u05e6\u05d1 \u05d0\u05d9\u05e9\u05d9, (3) \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05e0\u05d9\u05e9\u05d5\u05d0\u05d9\u05df \u05d0\u05d5 \u05d2\u05d9\u05e8\u05d5\u05e9\u05d9\u05df \u05e7\u05d5\u05d3\u05de\u05d9\u05dd, (4) \u05ea\u05e2\u05d5\u05d3\u05ea \u05e9\u05d9\u05e0\u05d5\u05d9 \u05e9\u05dd, \u05d5-(5) \u05ea\u05e2\u05d5\u05d3\u05ea \u05d9\u05d5\u05e9\u05e8 \u05e4\u05d3\u05e8\u05dc\u05d9\u05ea/\u05d0\u05e8\u05e6\u05d9\u05ea. \u05e4\u05e7\u05d9\u05d3\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d0\u05d5\u05db\u05e4\u05d9\u05dd \u05e9\u05e2\u05d5\u05df \u05ea\u05d5\u05e7\u05e3 \u05e7\u05e9\u05d9\u05d7 \u05e9\u05dc 180 \u05d9\u05d5\u05dd \u05e2\u05dc \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d9\u05d5\u05e9\u05e8 \u05d5\u05de\u05e6\u05d1 \u05d0\u05d9\u05e9\u05d9 \u2014 \u05d5\u05d0\u05dd \u05d7\u05e1\u05e8\u05d4 \u05d7\u05d5\u05ea\u05de\u05ea \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05d0\u05d7\u05ea, \u05ea\u05e7\u05d1\u05dc\u05d5 \u05d3\u05e3 \u05d3\u05e8\u05d9\u05e9\u05ea \u05de\u05e1\u05de\u05db\u05d9\u05dd \u05dc-30 \u05d9\u05d5\u05dd \u05d1\u05d6\u05de\u05df \u05e9\u05e9\u05d0\u05e8 \u05d4\u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05e9\u05dc\u05db\u05dd \u05e4\u05d2\u05d5\u05ea \u05ea\u05d5\u05e7\u05e3.", "trapTitle": "\ud83d\udca5 \u05de\u05dc\u05db\u05d5\u05d3\u05ea \u05d4\u05d4\u05d6\u05de\u05e0\u05d4 \u05de\u05e8\u05d7\u05d5\u05e7 \u05d5\u05e4\u05e7\u05d9\u05e2\u05ea \u05d4-180 \u05d9\u05d5\u05dd \u05d4\u05de\u05ea\u05d2\u05dc\u05d2\u05dc\u05ea", "trapDesc": "\u05d4\u05d6\u05de\u05e0\u05ea \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d5\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05de\u05e8\u05d7\u05d5\u05e7 \u05de\u05ea\u05d5\u05da \u05d9\u05e9\u05e8\u05d0\u05dc \u05d0\u05d5\u05e8\u05db\u05ea \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05d5\u05e2\u05d5\u05dc\u05d4 \u05d0\u05dc\u05e4\u05d9 \u05e9\u05e7\u05dc\u05d9\u05dd \u05d1\u05e9\u05dc\u05d9\u05d7\u05d5\u05d9\u05d5\u05ea. \u05e2\u05d3 \u05e9\u05d4\u05ea\u05e2\u05d5\u05d3\u05d4 \u05d4\u05d7\u05de\u05d9\u05e9\u05d9\u05ea \u05de\u05d2\u05d9\u05e2\u05d4, \u05d4\u05ea\u05e2\u05d5\u05d3\u05d4 \u05d4\u05e8\u05d0\u05e9\u05d5\u05e0\u05d4 \u05db\u05d1\u05e8 \u05e2\u05d1\u05e8\u05d4 \u05d0\u05ea \u05d2\u05d1\u05d5\u05dc 180 \u05d4\u05d9\u05de\u05d9\u05dd \u05d5\u05e0\u05e4\u05e1\u05dc\u05ea \u05d0\u05e6\u05dc \u05d4\u05e4\u05e7\u05d9\u05d3.", "winTitle": "\u26a1 \u05d1\u05e7\u05e8\u05ea \u05ea\u05e7\u05d9\u05e0\u05d5\u05ea AI \u05de\u05e8\u05d0\u05e9 + \u05ea\u05e8\u05d2\u05d5\u05dd \u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05d1\u05e1\u05e8\u05d8 \u05d0\u05d3\u05d5\u05dd", "winDesc": "\u05dc\u05e4\u05e0\u05d9 \u05e9\u05d0\u05ea\u05dd \u05e0\u05d9\u05d2\u05e9\u05d9\u05dd \u05dc\u05d3\u05dc\u05e4\u05e7 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd, \u05db\u05e1\u05e4\u05ea \u05d4\u05de\u05e1\u05de\u05db\u05d9\u05dd \u05d5\u05e1\u05d5\u05e8\u05e7 \u05d4-AI \u05e9\u05dc\u05e0\u05d5 \u05d1\u05d5\u05d3\u05e7\u05d9\u05dd \u05db\u05dc \u05ea\u05e2\u05d5\u05d3\u05d4 \u05d5\u05d7\u05d5\u05ea\u05de\u05ea \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05dc\u05e4\u05d9 \u05e0\u05d4\u05dc\u05d9 \u05e8\u05e9\u05d5\u05ea \u05d4\u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05df, \u05d5\u05e6\u05d5\u05d5\u05ea \u05d4\u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9\u05dd \u05e9\u05dc\u05e0\u05d5 \u05de\u05e4\u05d9\u05e7 \u05ea\u05e8\u05d2\u05d5\u05dd \u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05e8\u05e9\u05de\u05d9 \u05dc\u05e2\u05d1\u05e8\u05d9\u05ea \u05d1\u05e1\u05e8\u05d8 \u05d0\u05d3\u05d5\u05dd.", "saves": "\u23f1\ufe0f \u05d7\u05d5\u05e1\u05da 1.5 \u05e2\u05d3 2.5 \u05e9\u05e0\u05d9\u05dd \u05d5\u05d0\u05dc\u05e4\u05d9 \u05e9\u05e7\u05dc\u05d9\u05dd \u05d1\u05d3\u05d7\u05d9\u05d5\u05ea \u05d5\u05e9\u05dc\u05d9\u05d7\u05d5\u05d9\u05d5\u05ea", "tools": [{"label": "\ud83e\udd16 \u05e4\u05ea\u05d9\u05d7\u05ea \u05de\u05e0\u05d5\u05e2 \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd + \u05e1\u05d5\u05e8\u05e7 \u05de\u05e1\u05de\u05db\u05d9\u05dd \u05d5\u05de\u05d5\u05e2\u05d3\u05d9 AI ($89\u2013$149) \u2190", "url": "/he/pricing/?sku=forms_life_149&lang=he", "kind": "paid"}, {"label": "\ud83d\udcdc \u05d4\u05d6\u05de\u05e0\u05ea \u05d7\u05d1\u05d9\u05dc\u05ea \u05ea\u05e8\u05d2\u05d5\u05dd \u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05dc-4 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea ($0 \u05d4\u05d9\u05d5\u05dd) \u2190", "url": "/concierge-booking/?sku=concierge_bundle_799&lang=he", "kind": "concierge"}, {"label": "\ud83d\udd0d \u05db\u05e0\u05d9\u05e1\u05d4 \u05d7\u05d9\u05e0\u05dd \u05dc\u05db\u05e1\u05e4\u05ea \u05d4\u05de\u05e1\u05de\u05db\u05d9\u05dd \u05d5\u05de\u05d7\u05e9\u05d1\u05d5\u05df 180 \u05d4\u05d9\u05de\u05d9\u05dd \u2190", "url": "/app/?module=docs&lang=he", "kind": "free"}]}, {"tag": "\u05ea\u05d9\u05d1\u05d4 3 \u05de\u05ea\u05d5\u05da 9 \u2022 3 \u05d3\u05dc\u05d9\u05d9 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d4\u05d9\u05d5\u05e9\u05e8 \u05d5\u05de\u05db\u05ea\u05d1 \u05d4\u05e1\u05d1\u05e8 \u05de\u05e9\u05e4\u05d8\u05d9", "shortTag": "\u05ea\u05d9\u05d1\u05d4 3 \u2022 \u05ea\u05e2\u05d5\u05d3\u05ea \u05d9\u05d5\u05e9\u05e8 \u05d5\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc", "icon": "\ud83d\udee1\ufe0f", "title": "\u05de\u05e9\u05d5\u05db\u05ea 3 \u05d3\u05dc\u05d9\u05d9 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d4\u05d9\u05d5\u05e9\u05e8 (FBI / ACRO / RCMP) \u05d5\u05e8\u05d9\u05e9\u05d5\u05de\u05d9\u05dd \u05e4\u05dc\u05d9\u05dc\u05d9\u05d9\u05dd \u05d9\u05e9\u05e0\u05d9\u05dd \u05d0\u05d5 \u05de\u05d7\u05d5\u05e7\u05d9\u05dd", "shortDesc": "\u05db\u05d9\u05e6\u05d3 \u05e0\u05ea\u05d9\u05d1 \u05d5\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05d5\u05d3\u05e7\u05d9\u05dd \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d9\u05d5\u05e9\u05e8 \u05d1\u05d9\u05d5\u05de\u05d8\u05e8\u05d9\u05d5\u05ea \u05de\u05db\u05dc \u05de\u05d3\u05d9\u05e0\u05d4 \u05d1\u05d4 \u05d7\u05d9\u05d9\u05ea\u05dd \u05de\u05e2\u05dc \u05e9\u05e0\u05d4 \u05de\u05d2\u05d9\u05dc 14 \u2014 \u05d5\u05db\u05d9\u05e6\u05d3 \u05de\u05d7\u05d5\u05dc\u05dc \u05de\u05db\u05ea\u05d1 \u05d4\u05d4\u05e1\u05d1\u05e8 \u05e9\u05dc\u05e0\u05d5 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05de\u05d2\u05df \u05e2\u05dc\u05d9\u05db\u05dd \u05de\u05e1\u05d9\u05e8\u05d5\u05d1.", "desc": "\u05e0\u05ea\u05d9\u05d1 \u05d5\u05e8\u05e9\u05d5\u05ea \u05d4\u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05df \u05d0\u05d9\u05e0\u05dd \u05de\u05e7\u05d1\u05dc\u05d9\u05dd \u05d0\u05d9\u05e9\u05d5\u05e8\u05d9 \u05de\u05e9\u05d8\u05e8\u05d4 \u05e2\u05d9\u05e8\u05d5\u05e0\u05d9\u05d9\u05dd \u05d0\u05d5 \u05de\u05d7\u05d5\u05d6\u05d9\u05d9\u05dd. \u05e0\u05d3\u05e8\u05e9\u05ea \u05ea\u05e2\u05d5\u05d3\u05ea \u05d9\u05d5\u05e9\u05e8 \u05e4\u05d3\u05e8\u05dc\u05d9\u05ea/\u05d0\u05e8\u05e6\u05d9\u05ea \u05de\u05d1\u05d5\u05e1\u05e1\u05ea \u05d8\u05d1\u05d9\u05e2\u05d5\u05ea \u05d0\u05e6\u05d1\u05e2 (\u05db\u05d2\u05d5\u05df FBI \u05e4\u05d3\u05e8\u05dc\u05d9 \u05e2\u05dd \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05e9\u05dc \u05de\u05d7\u05dc\u05e7\u05ea \u05d4\u05de\u05d3\u05d9\u05e0\u05d4 \u05d1\u05d5\u05d5\u05e9\u05d9\u05e0\u05d2\u05d8\u05d5\u05df, ACRO \u05d1\u05e8\u05d9\u05d8\u05d9, RCMP \u05e7\u05e0\u05d3\u05d9) \u05de\u05de\u05d3\u05d9\u05e0\u05ea \u05d4\u05d0\u05d6\u05e8\u05d7\u05d5\u05ea \u05d5\u05de\u05db\u05dc \u05de\u05d3\u05d9\u05e0\u05d4 \u05d1\u05d4 \u05e9\u05d4\u05d9\u05ea\u05dd \u05de\u05e2\u05dc 12 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05de\u05d2\u05d9\u05dc 14. \u05d1\u05e0\u05d5\u05e1\u05e3, \u05d3\u05d5\u05d7\u05d5\u05ea \u05e4\u05d3\u05e8\u05dc\u05d9\u05d9\u05dd \u05d7\u05d5\u05e9\u05e4\u05d9\u05dd \u05dc\u05e2\u05d9\u05ea\u05d9\u05dd \u05de\u05e2\u05e6\u05e8\u05d9\u05dd \u05d9\u05e9\u05e0\u05d9\u05dd \u05d0\u05d5 \u05ea\u05d9\u05e7\u05d9\u05dd \u05e9\u05e0\u05e1\u05d2\u05e8\u05d5 \u05d5\u05e0\u05de\u05d7\u05e7\u05d5 \u05dc\u05e4\u05e0\u05d9 \u05e9\u05e0\u05d9\u05dd.", "trapTitle": "\ud83d\udea8 \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05d1\u05e8\u05de\u05d4 \u05e9\u05d2\u05d5\u05d9\u05d4 \u05d5\u05e1\u05d9\u05e8\u05d5\u05d1 \u05d1\u05d2\u05d9\u05df \u05d0\u05d9-\u05d2\u05d9\u05dc\u05d5\u05d9 \u05de\u05e2\u05e6\u05e8 \u05d9\u05e9\u05df", "trapDesc": "\u05d4\u05d2\u05e2\u05d4 \u05dc\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05e2\u05dd \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05de\u05d3\u05d9\u05e0\u05ea\u05d9 (State) \u05e2\u05dc \u05d3\u05d5\u05d7 FBI \u05e4\u05d3\u05e8\u05dc\u05d9 \u2014 \u05d0\u05d5 \u05e1\u05d9\u05de\u05d5\u05df '\u05d0\u05d9\u05df \u05e2\u05d1\u05e8 \u05e4\u05dc\u05d9\u05dc\u05d9' \u05d1\u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/456 \u05db\u05d0\u05e9\u05e8 \u05d1\u05d3\u05d5\u05d7 \u05de\u05d5\u05e4\u05d9\u05e2 \u05de\u05e2\u05e6\u05e8 \u05d9\u05e9\u05df \u05e9\u05e0\u05e1\u05d2\u05e8 \u2014 \u05de\u05d5\u05d1\u05d9\u05dc\u05d9\u05dd \u05dc\u05d3\u05d7\u05d9\u05d9\u05d4 \u05de\u05d9\u05d9\u05d3\u05d9\u05ea \u05d1\u05d2\u05d9\u05df \u05de\u05e1\u05d9\u05e8\u05ea \u05de\u05d9\u05d3\u05e2 \u05db\u05d5\u05d6\u05d1.", "winTitle": "\u26a1 \u05de\u05d3\u05e8\u05d9\u05da \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05e4\u05d3\u05e8\u05dc\u05d9 \u05de\u05d3\u05d5\u05d9\u05e7 + \u05de\u05d7\u05d5\u05dc\u05dc '\u05de\u05db\u05ea\u05d1 \u05d4\u05e1\u05d1\u05e8' \u05e8\u05e9\u05de\u05d9 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea", "winDesc": "\u05d4\u05de\u05e2\u05e8\u05db\u05ea \u05e9\u05dc\u05e0\u05d5 \u05de\u05e6\u05d9\u05d2\u05d4 \u05d0\u05ea \u05e8\u05e9\u05d5\u05ea \u05d4\u05d4\u05e0\u05e4\u05e7\u05d4 \u05d5\u05d4\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05d4\u05de\u05d3\u05d5\u05d9\u05e7\u05ea \u05dc\u05db\u05dc \u05de\u05d3\u05d9\u05e0\u05d4, \u05e2\u05d5\u05e7\u05d1\u05ea \u05d0\u05d7\u05e8 \u05e9\u05e2\u05d5\u05df 180 \u05d4\u05d9\u05de\u05d9\u05dd \u05d5\u05de\u05d9\u05d9\u05e6\u05e8\u05ea \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea '\u05de\u05db\u05ea\u05d1 \u05d4\u05e1\u05d1\u05e8 \u05d5\u05e9\u05d9\u05e7\u05d5\u05dd' \u05de\u05e9\u05e4\u05d8\u05d9 \u05e8\u05e9\u05de\u05d9 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d4\u05de\u05e6\u05d5\u05e8\u05e3 \u05dc\u05ea\u05d9\u05e7 \u05dc\u05e4\u05e0\u05d9 \u05d4\u05d4\u05d2\u05e9\u05d4.", "saves": "\u23f1\ufe0f \u05de\u05d5\u05e0\u05e2 \u05e1\u05d9\u05e8\u05d5\u05d1\u05d9 \u05d1\u05d9\u05d8\u05d7\u05d5\u05df \u05de\u05d9\u05d9\u05d3\u05d9\u05d9\u05dd \u05d5\u05e2\u05d9\u05db\u05d5\u05d1 \u05e9\u05dc \u05d7\u05e6\u05d9 \u05e9\u05e0\u05d4 \u05d1\u05d8\u05d1\u05d9\u05e2\u05d5\u05ea \u05d0\u05e6\u05d1\u05e2 \u05d7\u05d5\u05d6\u05e8\u05d5\u05ea", "tools": [{"label": "\u2696\ufe0f \u05e4\u05ea\u05d9\u05d7\u05ea \u05de\u05e0\u05d5\u05e2 8 \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d5\u05de\u05d7\u05d5\u05dc\u05dc \u05de\u05db\u05ea\u05d1 \u05d4\u05e1\u05d1\u05e8 ($89\u2013$149) \u2190", "url": "/he/pricing/?sku=forms_life_149&lang=he", "kind": "paid"}, {"label": "\ud83d\udc51 \u05d7\u05d1\u05d9\u05dc\u05ea \u05de\u05d2\u05df \u05de\u05dc\u05d0\u05d4 \u05dc\u05db\u05dc \u05d4\u05de\u05e1\u05dc\u05d5\u05dc + \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea AI \u05dc\u05ea\u05d9\u05e7 ($399) \u2190", "url": "/he/pricing/?sku=suite_solo_life_399&lang=he", "kind": "paid"}, {"label": "\ud83c\udfdb\ufe0f \u05ea\u05d9\u05d0\u05d5\u05dd \u05dc\u05d9\u05d5\u05d5\u05d9 \u05e2\u05d5\u05e8\u05da \u05d3\u05d9\u05df \u05dc\u05d9\u05d5\u05dd \u05d4\u05ea\u05d5\u05e8 \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd ($0 \u05d4\u05d9\u05d5\u05dd) \u2190", "url": "/concierge-booking/?sku=concierge_escort_649&lang=he", "kind": "concierge"}]}, {"tag": "\u05ea\u05d9\u05d1\u05d4 4 \u05de\u05ea\u05d5\u05da 9 \u2022 \u05de\u05e2\u05d1\u05e8 \u05de\u05d0\u05e9\u05e8\u05ea \u05ea\u05d9\u05d9\u05e8 B/2 \u05dc\u05d2\u05d9\u05d5\u05e8 \u05de\u05de\u05dc\u05db\u05ea\u05d9 (\u05d5\u05e2\u05d3\u05ea \u05d7\u05e8\u05d9\u05d2\u05d9\u05dd)", "shortTag": "\u05ea\u05d9\u05d1\u05d4 4 \u2022 \u05d5\u05e2\u05d3\u05ea \u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05d5\u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/1", "icon": "\ud83c\udfdb\ufe0f", "title": "\u05e0\u05de\u05e6\u05d0\u05d9\u05dd \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc \u05d1\u05d0\u05e9\u05e8\u05ea \u05ea\u05d9\u05d9\u05e8 B/2 \u05dc-90 \u05d9\u05d5\u05dd? \u05e4\u05d9\u05e6\u05d5\u05d7 \u05d5\u05e2\u05d3\u05ea \u05d4\u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05dc\u05d2\u05d9\u05d5\u05e8 \u05de\u05de\u05dc\u05db\u05ea\u05d9", "shortDesc": "\u05ea\u05d9\u05d9\u05e8\u05d9\u05dd \u05d7\u05e1\u05d5\u05de\u05d9\u05dd \u05de\u05d2\u05d9\u05d5\u05e8 \u05de\u05de\u05dc\u05db\u05ea\u05d9 \u05dc\u05dc\u05d0 \u05d4\u05d9\u05ea\u05e8 \u05de\u05d5\u05d5\u05e2\u05d3\u05ea \u05d4\u05d7\u05e8\u05d9\u05d2\u05d9\u05dd. \u05e8\u05d0\u05d5 \u05db\u05d9\u05e6\u05d3 \u05de\u05d7\u05d5\u05dc\u05dc \u05d4\u05d1\u05e7\u05e9\u05d4 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea, \u05d9\u05d5\u05de\u05df \u05d4\u05e4\u05e2\u05d9\u05dc\u05d5\u05ea \u05d5\u05d7\u05d5\u05ea\u05de\u05ea \u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/1 \u05d1\u05d5\u05e0\u05d9\u05dd \u05ea\u05d9\u05e7 \u05de\u05e0\u05e6\u05d7.", "desc": "\u05dc\u05e4\u05d9 \u05e0\u05d4\u05dc\u05d9 \u05de\u05e2\u05e8\u05da \u05d4\u05d2\u05d9\u05d5\u05e8 \u05d1\u05de\u05e9\u05e8\u05d3 \u05e8\u05d0\u05e9 \u05d4\u05de\u05de\u05e9\u05dc\u05d4, \u05d0\u05d6\u05e8\u05d7 \u05d6\u05e8 \u05d4\u05e9\u05d5\u05d4\u05d4 \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc \u05d1\u05d0\u05e9\u05e8\u05ea \u05ea\u05d9\u05d9\u05e8 B/2 \u05d0\u05d9\u05e0\u05d5 \u05e8\u05e9\u05d0\u05d9 \u05dc\u05d4\u05d9\u05e8\u05e9\u05dd \u05d9\u05e9\u05d9\u05e8\u05d5\u05ea \u05dc\u05db\u05d9\u05ea\u05ea \u05d2\u05d9\u05d5\u05e8 \u05de\u05de\u05dc\u05db\u05ea\u05d9\u05ea (\u05e0\u05ea\u05d9\u05d1). \u05ea\u05d7\u05d9\u05dc\u05d4 \u05d9\u05e9 \u05dc\u05d4\u05d2\u05d9\u05e9 \u05d1\u05e7\u05e9\u05d4 \u05de\u05e0\u05d5\u05de\u05e7\u05ea \u05dc\u05d5\u05d5\u05e2\u05d3\u05ea \u05d4\u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05d4\u05d9\u05d5\u05e9\u05d1\u05ea \u05e2\u05dd \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd, \u05d5\u05dc\u05d4\u05d5\u05db\u05d9\u05d7 \u05d6\u05d9\u05e7\u05d4 \u05db\u05e0\u05d4 \u05dc\u05e7\u05d4\u05d9\u05dc\u05d4 \u05d9\u05d4\u05d5\u05d3\u05d9\u05ea \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc, \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8, \u05de\u05e9\u05e4\u05d7\u05d4 \u05de\u05d0\u05e8\u05d7\u05ea \u05d0\u05d5\u05e8\u05ea\u05d5\u05d3\u05d5\u05e7\u05e1\u05d9\u05ea \u05d5\u05d4\u05d9\u05e2\u05d3\u05e8 \u05e9\u05d4\u05d9\u05d9\u05d4 \u05d1\u05dc\u05ea\u05d9 \u05d7\u05d5\u05e7\u05d9\u05ea.", "trapTitle": "\ud83d\uded1 \u05e4\u05e0\u05d9\u05d9\u05d4 \u05dc\u05d0 \u05de\u05d5\u05d1\u05e0\u05d9\u05ea \u05e9\u05dc \u05ea\u05d9\u05d9\u05e8 \u05d5\u05e6\u05d5 \u05d9\u05e6\u05d9\u05d0\u05d4 \u05de\u05d4\u05d0\u05e8\u05e5 \u05ea\u05d5\u05da 14 \u05d9\u05d5\u05dd", "trapDesc": "\u05d4\u05d2\u05e9\u05ea \u05de\u05db\u05ea\u05d1 \u05de\u05d0\u05d5\u05dc\u05ea\u05e8 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea \u05d0\u05d5 \u05e4\u05e0\u05d9\u05d9\u05d4 \u05dc\u05d0\u05d7\u05e8 \u05e4\u05e7\u05d9\u05e2\u05ea 90 \u05d9\u05de\u05d9 \u05d0\u05e9\u05e8\u05ea \u05d4\u05ea\u05d9\u05d9\u05e8 \u05de\u05d5\u05d1\u05d9\u05dc\u05d5\u05ea \u05dc\u05d3\u05d7\u05d9\u05d9\u05d4 \u05e2\u05dc \u05d4\u05e1\u05e3 \u05de\u05d5\u05d5\u05e2\u05d3\u05ea \u05d4\u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05d5\u05dc\u05d3\u05e8\u05d9\u05e9\u05d4 \u05dc\u05e2\u05d6\u05d5\u05d1 \u05d0\u05ea \u05d9\u05e9\u05e8\u05d0\u05dc \u05ea\u05d5\u05da 14 \u05d9\u05d5\u05dd.", "winTitle": "\u26a1 \u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/1 \u05de\u05d5\u05d7\u05ea\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea + \u05d9\u05d5\u05de\u05df \u05e4\u05e2\u05d9\u05dc\u05d5\u05ea \u05e7\u05d4\u05d9\u05dc\u05ea\u05d9\u05ea \u05d5\u05e9\u05d9\u05d1\u05d5\u05e5 \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4", "winDesc": "\u05de\u05e0\u05d5\u05e2 \u05d4\u05d8\u05e4\u05e1\u05d9\u05dd \u05e9\u05dc\u05e0\u05d5 \u05de\u05e4\u05d9\u05e7 \u05d0\u05ea \u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/1 \u05d5\u05d1\u05e7\u05e9\u05ea \u05d5\u05e2\u05d3\u05ea \u05d4\u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05ea\u05e7\u05e0\u05d9\u05ea, \u05d9\u05d5\u05de\u05df \u05d4\u05e4\u05e2\u05d9\u05dc\u05d5\u05ea \u05de\u05ea\u05e2\u05d3 \u05e9\u05d1\u05ea\u05d5\u05ea \u05d5\u05e9\u05d9\u05e2\u05d5\u05e8\u05d9 \u05ea\u05d5\u05e8\u05d4 \u05dc\u05d4\u05e4\u05e7\u05ea \u05de\u05db\u05ea\u05d1\u05d9 \u05d4\u05de\u05dc\u05e6\u05d4 \u05de\u05e8\u05d1 \u05d5\u05de\u05d1\u05d9\u05ea \u05db\u05e0\u05e1\u05ea, \u05d5\u05e6\u05d5\u05d5\u05ea \u05d4\u05e7\u05d5\u05e0\u05e1\u05d9\u05d9\u05e8\u05d6\u05f3 \u05de\u05d7\u05d1\u05e8 \u05d0\u05ea\u05db\u05dd \u05dc\u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8.", "saves": "\u23f1\ufe0f \u05d7\u05d5\u05e1\u05da 6 \u05e2\u05d3 12 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05d5\u05e9\u05d5\u05de\u05e8 \u05e2\u05dc \u05de\u05e2\u05de\u05d3\u05db\u05dd \u05d4\u05d7\u05d5\u05e7\u05d9 \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc", "tools": [{"label": "\ud83c\udfdb\ufe0f \u05e4\u05ea\u05d9\u05d7\u05ea \u05de\u05e0\u05d5\u05e2 \u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/1 \u05d5\u05d1\u05e7\u05e9\u05ea \u05d5\u05e2\u05d3\u05ea \u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea ($89\u2013$149) \u2190", "url": "/he/pricing/?sku=forms_life_149&lang=he", "kind": "paid"}, {"label": "\ud83d\udd4d \u05ea\u05d9\u05d0\u05d5\u05dd \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8 \u05d5\u05de\u05db\u05ea\u05d1 \u05d4\u05de\u05dc\u05e6\u05d4 \u05e8\u05e9\u05de\u05d9 ($0 \u05d4\u05d9\u05d5\u05dd) \u2190", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=he", "kind": "concierge"}, {"label": "\ud83d\udcc5 \u05e4\u05ea\u05d9\u05d7\u05ea \u05d9\u05d5\u05de\u05df \u05e4\u05e2\u05d9\u05dc\u05d5\u05ea \u05dc\u05d4\u05de\u05dc\u05e6\u05d5\u05ea \u05e8\u05d1 \u05d5\u05d1\u05d9\u05ea \u05db\u05e0\u05e1\u05ea (\u05d7\u05d9\u05e0\u05dd) \u2190", "url": "/app/?module=logger&lang=he", "kind": "free"}]}, {"tag": "\u05ea\u05d9\u05d1\u05d4 5 \u05de\u05ea\u05d5\u05da 9 \u2022 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05db\u05e4\u05d5\u05dc: \u05d4\u05dc\u05d9\u05da \u05de\u05d3\u05d5\u05e8\u05d2 (5.2.0008) + \u05d2\u05d9\u05d5\u05e8 (\u05e1\u05e2\u05d9\u05e3 \u05d2.10)", "shortTag": "\u05ea\u05d9\u05d1\u05d4 5 \u2022 \u05de\u05e1\u05dc\u05d5\u05dc \u05db\u05e4\u05d5\u05dc \u05d6\u05d5\u05d2\u05d9\u05d5\u05ea + \u05d2\u05d9\u05d5\u05e8", "icon": "\ud83d\udc6b", "title": "\u05d4\u05de\u05d4\u05dc\u05da \u05d4\u05de\u05e0\u05e6\u05d7 \u05dc\u05d6\u05d5\u05d2\u05d5\u05ea: \u05d4\u05e4\u05e2\u05dc\u05ea \u05d4\u05dc\u05d9\u05da \u05de\u05d3\u05d5\u05e8\u05d2 (\u05e0\u05d5\u05d4\u05dc 5.2.0008) \u05d5\u05d2\u05d9\u05d5\u05e8 \u05de\u05de\u05dc\u05db\u05ea\u05d9 \u05d1\u05de\u05e7\u05d1\u05d9\u05dc", "shortDesc": "\u05de\u05d3\u05d5\u05e2 \u05d1\u05e0\u05d9 \u05d6\u05d5\u05d2 \u05e9\u05dc \u05d0\u05d6\u05e8\u05d7\u05d9\u05dd \u05d9\u05e9\u05e8\u05d0\u05dc\u05d9\u05dd \u05d7\u05d9\u05d9\u05d1\u05d9\u05dd \u05dc\u05d4\u05d1\u05d8\u05d9\u05d7 \u05e7\u05d5\u05d3\u05dd \u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 B/1 \u05d1\u05d4\u05dc\u05d9\u05da \u05de\u05d3\u05d5\u05e8\u05d2 \u05ea\u05d5\u05da \u05db\u05d3\u05d9 \u05dc\u05d9\u05de\u05d5\u05d3\u05d9 \u05d4\u05d2\u05d9\u05d5\u05e8 \u2014 \u05d5\u05db\u05d9\u05e6\u05d3 \u05d7\u05d1\u05d9\u05dc\u05ea \u05d4-VIP \u05dc\u05d6\u05d5\u05d2\u05d5\u05ea \u05de\u05e1\u05e0\u05db\u05e8\u05e0\u05ea \u05d0\u05ea \u05e9\u05e0\u05d9 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc\u05d9\u05dd.", "desc": "\u05d0\u05dd \u05d0\u05ea\u05dd \u05e0\u05e9\u05d5\u05d0\u05d9\u05dd \u05dc\u05d0\u05d6\u05e8\u05d7/\u05d9\u05ea \u05d9\u05e9\u05e8\u05d0\u05dc \u05d0\u05d5 \u05de\u05e0\u05d4\u05dc\u05d9\u05dd \u05d7\u05d9\u05d9\u05dd \u05de\u05e9\u05d5\u05ea\u05e4\u05d9\u05dd \u05d5\u05d1\u05e8\u05e6\u05d5\u05e0\u05db\u05dd \u05d2\u05dd \u05dc\u05d4\u05ea\u05d2\u05d9\u05d9\u05e8, \u05d4\u05d9\u05e9\u05e2\u05e0\u05d5\u05ea \u05e2\u05dc \u05d0\u05e9\u05e8\u05ea \u05d2\u05d9\u05d5\u05e8 \u05d1\u05dc\u05d1\u05d3 \u05de\u05d5\u05e0\u05e2\u05ea \u05de\u05db\u05dd \u05dc\u05e2\u05d1\u05d5\u05d3 \u05d5\u05de\u05e9\u05d0\u05d9\u05e8\u05d4 \u05d0\u05ea\u05db\u05dd \u05ea\u05dc\u05d5\u05d9\u05d9\u05dd \u05d1\u05d4\u05d0\u05e8\u05db\u05d5\u05ea \u05d5\u05e2\u05d3\u05d4. \u05e4\u05ea\u05d9\u05d7\u05ea \u05d4\u05d4\u05dc\u05d9\u05da \u05d4\u05de\u05d3\u05d5\u05e8\u05d2 \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd (\u05e0\u05d5\u05d4\u05dc 5.2.0008 \u05dc\u05e0\u05e9\u05d5\u05d0\u05d9\u05dd \u05d0\u05d5 5.2.0009 \u05dc\u05d9\u05d3\u05d5\u05e2\u05d9\u05dd \u05d1\u05e6\u05d9\u05d1\u05d5\u05e8) \u05de\u05e2\u05e0\u05d9\u05e7\u05d4 \u05d0\u05e9\u05e8\u05ea \u05e2\u05d1\u05d5\u05d3\u05d4 B/1 \u05ea\u05d5\u05da \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05e1\u05e4\u05d5\u05e8\u05d9\u05dd, \u05d5\u05de\u05e8\u05d2\u05e2 \u05e9\u05d9\u05e9 \u05dc\u05db\u05dd \u05d0\u05e9\u05e8\u05ea B/1 \u05d0\u05d5 \u05ea\u05d5\u05e9\u05d1\u05d5\u05ea \u05d0/5, \u05d4\u05e0\u05db\u05dd \u05d6\u05db\u05d0\u05d9\u05dd \u05dc\u05dc\u05de\u05d5\u05d3 \u05d1\u05d2\u05d9\u05d5\u05e8 \u05d4\u05de\u05de\u05dc\u05db\u05ea\u05d9 \u05dc\u05e4\u05d9 \u05e1\u05e2\u05d9\u05e3 \u05d2.10 \u05dc\u05e0\u05d5\u05d4\u05dc.", "trapTitle": "\u26a0\ufe0f \u05de\u05dc\u05db\u05d5\u05d3\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05d1\u05d5\u05d3\u05d3 \u05d5\u05d4\u05e6\u05d4\u05e8\u05d5\u05ea \u05e1\u05d5\u05ea\u05e8\u05d5\u05ea \u05d1\u05d9\u05df \u05d4\u05e8\u05e9\u05d5\u05d9\u05d5\u05ea", "trapDesc": "\u05d4\u05d2\u05e9\u05ea \u05d4\u05e6\u05d4\u05e8\u05d5\u05ea \u05dc\u05d0 \u05de\u05ea\u05d5\u05d0\u05de\u05d5\u05ea \u05dc\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d5\u05dc\u05de\u05e2\u05e8\u05da \u05d4\u05d2\u05d9\u05d5\u05e8 \u2014 \u05d0\u05d5 \u05d7\u05d5\u05e1\u05e8 \u05e1\u05e0\u05db\u05e8\u05d5\u05df \u05d1\u05d9\u05df \u05d4\u05d5\u05db\u05d7\u05d5\u05ea \u05d4\u05d7\u05d9\u05d9\u05dd \u05d4\u05de\u05e9\u05d5\u05ea\u05e4\u05d9\u05dd \u05dc\u05d1\u05d9\u05df \u05e9\u05de\u05d9\u05e8\u05ea \u05d0\u05d5\u05e8\u05d7 \u05d4\u05d7\u05d9\u05d9\u05dd \u05d4\u05d9\u05d4\u05d5\u05d3\u05d9 \u2014 \u05de\u05e2\u05d5\u05e8\u05e8\u05d9\u05dd \u05d7\u05e9\u05d3 \u05d4\u05df \u05d0\u05e6\u05dc \u05d4\u05e4\u05e7\u05d9\u05d3\u05d9\u05dd \u05d5\u05d4\u05df \u05d1\u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df.", "winTitle": "\u26a1 \u05de\u05e2\u05e8\u05db\u05ea VIP \u05db\u05e4\u05d5\u05dc\u05d4 \u05dc\u05d6\u05d5\u05d2\u05d5\u05ea (\u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/6 + 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd + 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d9\u05ea \u05d3\u05d9\u05df)", "winDesc": "\u05d4\u05e4\u05dc\u05d8\u05e4\u05d5\u05e8\u05de\u05d4 \u05e9\u05dc\u05e0\u05d5 \u05d4\u05d9\u05d0 \u05d4\u05d9\u05d7\u05d9\u05d3\u05d4 \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc \u05d4\u05de\u05e1\u05e0\u05db\u05e8\u05e0\u05ea \u05d0\u05ea \u05e9\u05e0\u05d9 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc\u05d9\u05dd: \u05de\u05d9\u05dc\u05d5\u05d9 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9 \u05e9\u05dc \u05ea\u05d9\u05e7 \u05d0\u05e9/6 (29 \u05e2\u05de\u05d5\u05d3\u05d9\u05dd), \u05e1\u05d9\u05de\u05d5\u05dc\u05d8\u05d5\u05e8 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e8\u05d0\u05d9\u05d5\u05df \u05d6\u05d5\u05d2\u05d9 \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd, \u05d5\u05d4\u05db\u05e0\u05d4 \u05de\u05dc\u05d0\u05d4 \u05e9\u05dc \u05e9\u05e0\u05d9 \u05d1\u05e0\u05d9 \u05d4\u05d6\u05d5\u05d2 \u05dc-700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df.", "saves": "\u23f1\ufe0f \u05de\u05e2\u05e0\u05d9\u05e7 \u05d0\u05d9\u05e9\u05d5\u05e8 \u05e2\u05d1\u05d5\u05d3\u05d4 \u05d7\u05d5\u05e7\u05d9 9\u201318 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05de\u05d4\u05e8 \u05d9\u05d5\u05ea\u05e8 \u05ea\u05d5\u05da \u05d4\u05e9\u05dc\u05de\u05ea \u05d4\u05d2\u05d9\u05d5\u05e8", "tools": [{"label": "\ud83d\udc51 \u05e4\u05ea\u05d9\u05d7\u05ea \u05d7\u05d1\u05d9\u05dc\u05ea VIP \u05de\u05dc\u05d0\u05d4 \u05dc\u05d6\u05d5\u05d2\u05d5\u05ea \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd + \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea AI ($649) \u2190", "url": "/he/pricing/?sku=vip_couple_649&lang=he", "kind": "paid"}, {"label": "\ud83d\udcf1 \u05e4\u05ea\u05d9\u05d7\u05ea \u05e1\u05d9\u05de\u05d5\u05dc\u05d8\u05d5\u05e8 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e8\u05d0\u05d9\u05d5\u05df \u05d6\u05d5\u05d2\u05d9 \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd ($75\u2013$229) \u2190", "url": "/he/pricing/?sku=couples_life_229&lang=he", "kind": "paid"}, {"label": "\ud83d\udc8d \u05ea\u05d9\u05d0\u05d5\u05dd \u05d7\u05d1\u05d9\u05dc\u05ea \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 + \u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4 \u05dc\u05d6\u05d5\u05d2 ($0 \u05d4\u05d9\u05d5\u05dd) \u2190", "url": "/concierge-booking/?sku=concierge_couple_499&lang=he", "kind": "concierge"}]}, {"tag": "\u05ea\u05d9\u05d1\u05d4 6 \u05de\u05ea\u05d5\u05da 9 \u2022 \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4, \u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4, 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d5-56 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea", "shortTag": "\u05ea\u05d9\u05d1\u05d4 6 \u2022 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d5-56 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea", "icon": "\ud83d\udcd6", "title": "\u05e9\u05e0\u05d9 \u05d1\u05e0\u05d9 \u05d4\u05d6\u05d5\u05d2 \u05e0\u05d1\u05d7\u05e0\u05d9\u05dd! \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8, \u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4, 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05d5-56 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea \u05d5\u05d1\u05e8\u05db\u05d5\u05ea", "shortDesc": "\u05de\u05d3\u05d5\u05e2 \u05dc\u05d9\u05de\u05d5\u05d3 \u05e2\u05dd \u05de\u05d5\u05e8\u05d4 \u05dc\u05d0 \u05de\u05d5\u05db\u05e8 \u05de\u05d1\u05d6\u05d1\u05d6 \u05e9\u05e0\u05d4 \u05e9\u05dc\u05de\u05d4, \u05de\u05d3\u05d5\u05e2 \u05d4\u05d3\u05d9\u05d9\u05e0\u05d9\u05dd \u05de\u05d1\u05e7\u05e9\u05d9\u05dd \u05de\u05db\u05dd \u05dc\u05e9\u05d9\u05e8 \u05e7\u05d9\u05d3\u05d5\u05e9 \u05d5\u05d1\u05e8\u05db\u05d5\u05ea \u05d1\u05e7\u05d5\u05dc \u05d1\u05d3\u05d9\u05d5\u05df, \u05d5\u05db\u05d9\u05e6\u05d3 \u05de\u05d0\u05d2\u05e8 700 \u05d4\u05db\u05e8\u05d8\u05d9\u05e1\u05d9\u05d5\u05ea \u05d5\u05de\u05d0\u05de\u05df \u05d4\u05e7\u05e8\u05d9\u05d5\u05e7\u05d9 \u05de\u05db\u05d9\u05e0\u05d9\u05dd \u05d0\u05ea\u05db\u05dd.", "desc": "\u05d2\u05dd \u05db\u05d0\u05e9\u05e8 \u05d0\u05d7\u05d3 \u05de\u05d1\u05e0\u05d9 \u05d4\u05d6\u05d5\u05d2 \u05d4\u05d5\u05d0 \u05d0\u05d6\u05e8\u05d7 \u05d9\u05e9\u05e8\u05d0\u05dc\u05d9 \u05d9\u05d4\u05d5\u05d3\u05d9 \u05de\u05dc\u05d9\u05d3\u05d4, \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05de\u05d7\u05d9\u05d9\u05d1 \u05d0\u05ea \u05e9\u05e0\u05d9 \u05d1\u05e0\u05d9 \u05d4\u05d6\u05d5\u05d2 \u05dc\u05dc\u05de\u05d5\u05d3 \u05e2\u05dd \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8, \u05dc\u05d4\u05e9\u05dc\u05d9\u05dd \u05e7\u05d5\u05e8\u05e1 \u05d8\u05d4\u05e8\u05ea \u05d4\u05de\u05e9\u05e4\u05d7\u05d4 \u05d0\u05e6\u05dc \u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4 \u05de\u05d5\u05e1\u05de\u05db\u05ea \u05d5\u05dc\u05e2\u05d1\u05d5\u05e8 \u05d0\u05ea \u05de\u05e2\u05de\u05d3 \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df. \u05d1\u05de\u05d4\u05dc\u05da \u05d4\u05d3\u05d9\u05d5\u05df, \u05d4\u05d3\u05d9\u05d9\u05e0\u05d9\u05dd \u05dc\u05d0 \u05e9\u05d5\u05d0\u05dc\u05d9\u05dd \u05e8\u05e7 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e2\u05d9\u05d5\u05e0\u05d9\u05d5\u05ea \u2014 \u05d4\u05dd \u05de\u05d1\u05e7\u05e9\u05d9\u05dd \u05de\u05db\u05dd \u05dc\u05e9\u05d9\u05e8 \u05d1\u05e7\u05d5\u05dc \u05e7\u05d9\u05d3\u05d5\u05e9 \u05e9\u05dc \u05dc\u05d9\u05dc \u05e9\u05d1\u05ea, \u05d6\u05de\u05d9\u05e8\u05d5\u05ea, \u05d1\u05e8\u05db\u05ea \u05d4\u05de\u05d6\u05d5\u05df \u05d5\u05ea\u05e4\u05d9\u05dc\u05ea \u05e9\u05d7\u05e8\u05d9\u05ea.", "trapTitle": "\ud83d\ude30 \u05e7\u05d5\u05e8\u05e1\u05d9\u05dd \u05dc\u05d0 \u05de\u05d5\u05db\u05e8\u05d9\u05dd \u05d5\u05e7\u05d9\u05e4\u05d0\u05d5\u05df \u05de\u05d5\u05dc \u05d4\u05d3\u05d9\u05d9\u05e0\u05d9\u05dd \u05d1\u05e9\u05d9\u05e8\u05ea \u05e7\u05d9\u05d3\u05d5\u05e9 \u05d5\u05d1\u05e8\u05db\u05d5\u05ea", "trapDesc": "\u05dc\u05d9\u05de\u05d5\u05d3 \u05d0\u05e6\u05dc \u05e8\u05d1 \u05e9\u05d0\u05d9\u05e0\u05d5 \u05de\u05d5\u05db\u05e8 \u05d1\u05de\u05e2\u05e8\u05db\u05ea \u05de\u05d1\u05d6\u05d1\u05d6 \u05e9\u05e0\u05d4 \u05e9\u05dc\u05de\u05d4 \u2014 \u05d5\u05d2\u05de\u05d2\u05d5\u05dd \u05db\u05d0\u05e9\u05e8 \u05d3\u05d9\u05d9\u05df \u05de\u05d1\u05e7\u05e9 \u05de\u05db\u05dd \u05dc\u05e9\u05d9\u05e8 \u05e7\u05d9\u05d3\u05d5\u05e9, \u05d4\u05d1\u05d3\u05dc\u05d4 \u05d0\u05d5 \u05d1\u05e8\u05db\u05ea '\u05d0\u05e9\u05e8 \u05d9\u05e6\u05e8' \u05d2\u05d5\u05e8\u05e8 \u05d3\u05d7\u05d9\u05d9\u05d4 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea \u05e9\u05dc 6 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05de\u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df.", "winTitle": "\u26a1 \u05e1\u05d9\u05de\u05d5\u05dc\u05d8\u05d5\u05e8 700 \u05e9\u05d0\u05dc\u05d5\u05ea + \u05de\u05d0\u05de\u05df \u05e7\u05e8\u05d9\u05d5\u05e7\u05d9 \u05dc-56 \u05e9\u05d9\u05e8\u05d9\u05dd \u05d5\u05ea\u05e4\u05d9\u05dc\u05d5\u05ea + \u05e9\u05d9\u05d1\u05d5\u05e5 \u05e8\u05d1 \u05d5\u05de\u05d3\u05e8\u05d9\u05db\u05d4", "winDesc": "\u05d0\u05e0\u05d5 \u05de\u05e9\u05d1\u05e6\u05d9\u05dd \u05d0\u05ea\u05db\u05dd \u05dc\u05e8\u05d1\u05e0\u05d9\u05dd \u05de\u05dc\u05d5\u05d5\u05d9\u05dd \u05d5\u05de\u05d3\u05e8\u05d9\u05db\u05d5\u05ea \u05db\u05dc\u05d4 \u05de\u05d5\u05db\u05e8\u05d9\u05dd \u05d1\u05db\u05dc \u05d4\u05d0\u05e8\u05e5 (\u05db\u05d5\u05dc\u05dc \u05dc\u05d9\u05de\u05d5\u05d3 \u05d2\u05de\u05d9\u05e9 \u05de\u05e8\u05d7\u05d5\u05e7), \u05d5\u05de\u05d0\u05de\u05e0\u05d9\u05dd \u05d0\u05ea\u05db\u05dd \u05d1\u05d0\u05e4\u05dc\u05d9\u05e7\u05e6\u05d9\u05d4 \u05e2\u05dc \u05db\u05dc 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05d5-56 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea, \u05ea\u05e4\u05d9\u05dc\u05d5\u05ea \u05d5\u05d1\u05e8\u05db\u05d5\u05ea \u05e2\u05dd \u05ea\u05e2\u05ea\u05d9\u05e7 \u05e4\u05d5\u05e0\u05d8\u05d9 \u05d1-6 \u05e9\u05e4\u05d5\u05ea \u05d5\u05d1\u05d3\u05d9\u05e7\u05ea \u05d4\u05d2\u05d9\u05d9\u05d4 \u05d1-AI.", "saves": "\u23f1\ufe0f \u05d7\u05d5\u05e1\u05da 6 \u05e2\u05d3 18 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05d5\u05de\u05d5\u05e0\u05e2 \u05d3\u05d7\u05d9\u05d5\u05ea \u05d1\u05de\u05e2\u05de\u05d3 \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df", "tools": [{"label": "\ud83d\udd4d \u05e4\u05ea\u05d9\u05d7\u05ea \u05db\u05dc 700 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9\u05d5\u05ea \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df + 56 \u05e9\u05d9\u05e8\u05d9\u05dd \u05d5\u05de\u05d0\u05de\u05df AI ($149\u2013$249) \u2190", "url": "/he/pricing/?sku=bd_suite_life_249&lang=he", "kind": "paid"}, {"label": "\ud83e\udd1d \u05ea\u05d9\u05d0\u05d5\u05dd \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 + \u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4 \u05de\u05d5\u05db\u05e8\u05d9\u05dd ($0 \u05d4\u05e6\u05e2\u05ea \u05de\u05d7\u05d9\u05e8) \u2190", "url": "/concierge-booking/?sku=concierge_couple_499&lang=he", "kind": "concierge"}, {"label": "\ud83c\udfb5 \u05d4\u05ea\u05e0\u05e1\u05d5\u05ea \u05d7\u05d9\u05e0\u05dd \u05d1-2 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea \u05d1\u05e7\u05e8\u05d9\u05d5\u05e7\u05d9 \u05d5-4 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u2190", "url": "/app/?module=songs-prayers&lang=he", "kind": "free"}]}, {"tag": "\u05ea\u05d9\u05d1\u05d4 7 \u05de\u05ea\u05d5\u05da 9 \u2022 \u05ea\u05d7\u05e7\u05d5\u05e8 \u05d6\u05d5\u05d2\u05d9 \u05e9\u05dc 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d7\u05d3\u05e8\u05d9\u05dd \u05e0\u05e4\u05e8\u05d3\u05d9\u05dd", "shortTag": "\u05ea\u05d9\u05d1\u05d4 7 \u2022 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e8\u05d0\u05d9\u05d5\u05df \u05d6\u05d5\u05d2\u05d9", "icon": "\ud83d\udcf1", "title": "\u05e1\u05e0\u05db\u05e8\u05e0\u05d5 \u05ea\u05e9\u05d5\u05d1\u05d5\u05ea \u05e2\u05dd \u05d1\u05df/\u05d1\u05ea \u05d4\u05d6\u05d5\u05d2 \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd \u05e2\u05dc \u05db\u05dc 300 \u05d4\u05e9\u05d0\u05dc\u05d5\u05ea \u05dc\u05e4\u05e0\u05d9 \u05e9\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05de\u05e4\u05e8\u05d9\u05d3 \u05d1\u05d9\u05e0\u05d9\u05db\u05dd", "shortDesc": "\u05d1\u05db\u05dc \u05e9\u05e0\u05d4 \u05de-5 \u05e9\u05e0\u05d5\u05ea \u05d4\u05d4\u05dc\u05d9\u05da \u05d4\u05de\u05d3\u05d5\u05e8\u05d2, \u05e4\u05e7\u05d9\u05d3\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05de\u05ea\u05d7\u05e7\u05e8\u05d9\u05dd \u05d0\u05ea\u05db\u05dd \u05d1\u05e9\u05e0\u05d9 \u05d7\u05d3\u05e8\u05d9\u05dd \u05e0\u05e4\u05e8\u05d3\u05d9\u05dd. \u05d4\u05ea\u05d0\u05de\u05e0\u05d5 \u05d1\u05de\u05e2\u05e8\u05db\u05ea 300 \u05d4\u05e9\u05d0\u05dc\u05d5\u05ea \u05e9\u05dc\u05e0\u05d5 \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd \u05dc\u05d6\u05d9\u05d4\u05d5\u05d9 \u05e1\u05ea\u05d9\u05e8\u05d5\u05ea \u05d1\u05d6\u05de\u05df \u05d0\u05de\u05ea.", "desc": "\u05d1\u05db\u05dc \u05e9\u05e0\u05d4 \u05dc\u05d0\u05d5\u05e8\u05da \u05d4\u05d4\u05dc\u05d9\u05da \u05d4\u05de\u05d3\u05d5\u05e8\u05d2 (\u05e0\u05d5\u05d4\u05dc 5.2.0008 \u05dc\u05e0\u05e9\u05d5\u05d0\u05d9\u05dd \u05d5-5.2.0009 \u05dc\u05d9\u05d3\u05d5\u05e2\u05d9\u05dd \u05d1\u05e6\u05d9\u05d1\u05d5\u05e8), \u05e4\u05e7\u05d9\u05d3\u05d9 \u05e8\u05e9\u05d5\u05ea \u05d4\u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05df \u05de\u05e4\u05e8\u05d9\u05d3\u05d9\u05dd \u05d1\u05d9\u05e0\u05da \u05dc\u05d1\u05d9\u05df \u05d1\u05df/\u05d1\u05ea \u05d6\u05d5\u05d2\u05da \u05dc\u05e9\u05e0\u05d9 \u05d7\u05d3\u05e8\u05d9\u05dd \u05e0\u05e4\u05e8\u05d3\u05d9\u05dd \u05d5\u05e9\u05d5\u05d0\u05dc\u05d9\u05dd \u05e9\u05d0\u05dc\u05d5\u05ea \u05d0\u05d9\u05e9\u05d9\u05d5\u05ea \u05de\u05ea\u05d5\u05da \u05de\u05d0\u05d2\u05e8 \u05e9\u05dc 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1-10 \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea \u05d7\u05d9\u05d9 \u05d9\u05d5\u05de\u05d9\u05d5\u05dd (\u05d4\u05d9\u05db\u05e8\u05d5\u05ea, \u05de\u05d1\u05e0\u05d4 \u05d4\u05d3\u05d9\u05e8\u05d4, \u05de\u05d9 \u05de\u05e9\u05dc\u05dd \u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea, \u05e9\u05d2\u05e8\u05ea \u05d1\u05d5\u05e7\u05e8, \u05de\u05e9\u05e4\u05d7\u05d4 \u05de\u05d5\u05e8\u05d7\u05d1\u05ea, \u05d7\u05d2\u05d9\u05dd, \u05db\u05e1\u05e4\u05d9\u05dd \u05d5\u05d9\u05dc\u05d3\u05d9\u05dd/\u05e1\u05e4\u05d7). \u05d4\u05e4\u05e7\u05d9\u05d3 \u05de\u05e9\u05d5\u05d5\u05d4 \u05d0\u05ea \u05e9\u05ea\u05d9 \u05d4\u05d2\u05e8\u05e1\u05d0\u05d5\u05ea \u05de\u05d9\u05dc\u05d4 \u05d1\u05de\u05d9\u05dc\u05d4 \u05dc\u05d0\u05d9\u05ea\u05d5\u05e8 \u05e1\u05ea\u05d9\u05e8\u05d5\u05ea.", "trapTitle": "\ud83d\udea9 \u05db\u05d9\u05e6\u05d3 \u05d6\u05d5\u05d2\u05d5\u05ea \u05d0\u05de\u05d9\u05ea\u05d9\u05d9\u05dd \u05d5\u05d0\u05d5\u05d4\u05d1\u05d9\u05dd \u05e0\u05db\u05e9\u05dc\u05d9\u05dd \u05d1\u05e8\u05d0\u05d9\u05d5\u05df \u05d1\u05d7\u05d3\u05e8\u05d9\u05dd \u05e0\u05e4\u05e8\u05d3\u05d9\u05dd", "trapDesc": "\u05d2\u05dd \u05d6\u05d5\u05d2\u05d5\u05ea \u05d4\u05d7\u05d9\u05d9\u05dd \u05d9\u05d7\u05d3 \u05e9\u05e0\u05d9\u05dd \u05e1\u05d5\u05ea\u05e8\u05d9\u05dd \u05d6\u05d4 \u05d0\u05ea \u05d6\u05d4 \u05ea\u05d7\u05ea \u05dc\u05d7\u05e5 \u05e2\u05dc \u05e4\u05e8\u05d8\u05d9\u05dd \u05e7\u05d8\u05e0\u05d9\u05dd (\u05de\u05d4 \u05d0\u05db\u05dc\u05ea\u05dd \u05d1\u05e9\u05d9\u05e9\u05d9, \u05de\u05d9 \u05e9\u05d9\u05dc\u05dd \u05d0\u05e8\u05e0\u05d5\u05e0\u05d4, \u05d1\u05d0\u05d9\u05d6\u05d4 \u05e6\u05d3 \u05e9\u05dc \u05d4\u05de\u05d9\u05d8\u05d4 \u05db\u05dc \u05d0\u05d7\u05d3 \u05d9\u05e9\u05df \u05d0\u05d5 \u05de\u05ea\u05d9 \u05e4\u05d2\u05e9\u05ea\u05dd \u05d0\u05ea \u05d4\u05d4\u05d5\u05e8\u05d9\u05dd) \u2014 \u05d3\u05d1\u05e8 \u05d4\u05d2\u05d5\u05e8\u05e8 \u05d4\u05e7\u05e4\u05d0\u05ea \u05ea\u05d9\u05e7 \u05dc-6\u201312 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05d0\u05d5 \u05d3\u05e8\u05d9\u05e9\u05ea \u05e2\u05e8\u05d1\u05d5\u05ea \u05d1\u05e0\u05e7\u05d0\u05d9\u05ea \u05e9\u05dc 30,000\u20aa.", "winTitle": "\u26a1 \u05e1\u05d9\u05de\u05d5\u05dc\u05d8\u05d5\u05e8 \u05d7\u05d9 \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd \u05e2\u05dc \u05db\u05dc 300 \u05d4\u05e9\u05d0\u05dc\u05d5\u05ea (10 \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea + \u05de\u05e6\u05d1 \u05de\u05d1\u05d7\u05df 80 \u05e9\u05d0\u05dc\u05d5\u05ea)", "winDesc": "\u05d4\u05de\u05e2\u05e8\u05db\u05ea \u05e9\u05dc\u05e0\u05d5 \u05de\u05d7\u05d1\u05e8\u05ea \u05d0\u05ea \u05e9\u05e0\u05d9 \u05d4\u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd \u05e9\u05dc\u05db\u05dd \u05d1\u05d6\u05de\u05df \u05d0\u05de\u05ea \u05de\u05d4\u05e1\u05e4\u05d4 \u05d1\u05d1\u05d9\u05ea: \u05db\u05dc \u05d0\u05d7\u05d3 \u05e2\u05d5\u05e0\u05d4 \u05d1\u05e9\u05e4\u05ea \u05d4\u05d0\u05dd \u05e9\u05dc\u05d5 \u05e2\u05dc 300 \u05d4\u05e9\u05d0\u05dc\u05d5\u05ea \u05d4\u05d0\u05de\u05d9\u05ea\u05d9\u05d5\u05ea \u05e9\u05dc \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd, \u05d5\u05d4\u05de\u05e2\u05e8\u05db\u05ea \u05de\u05e1\u05de\u05e0\u05ea \u05de\u05d9\u05d3 \u05db\u05dc \u05d0\u05d9-\u05d4\u05ea\u05d0\u05de\u05d4 \u05dc\u05e4\u05e0\u05d9 \u05e9\u05ea\u05d2\u05d9\u05e2\u05d5 \u05dc\u05e4\u05e7\u05d9\u05d3.", "saves": "\u23f1\ufe0f \u05de\u05d5\u05e0\u05e2 \u05d4\u05e7\u05e4\u05d0\u05d5\u05ea \u05d7\u05e9\u05d3 \u05e9\u05dc 6\u201312 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05d5\u05d3\u05e8\u05d9\u05e9\u05d5\u05ea \u05e2\u05e8\u05d1\u05d5\u05ea \u05e9\u05dc \u05e2\u05e9\u05e8\u05d5\u05ea \u05d0\u05dc\u05e4\u05d9 \u05e9\u05e7\u05dc\u05d9\u05dd", "tools": [{"label": "\ud83d\udcf1 \u05e4\u05ea\u05d9\u05d7\u05ea \u05e1\u05d9\u05de\u05d5\u05dc\u05d8\u05d5\u05e8 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd \u05dc\u05db\u05dc \u05d4\u05e8\u05d0\u05d9\u05d5\u05e0\u05d5\u05ea ($75\u2013$229) \u2190", "url": "/he/pricing/?sku=couples_life_229&lang=he", "kind": "paid"}, {"label": "\ud83d\udc51 \u05e4\u05ea\u05d9\u05d7\u05ea \u05d7\u05d1\u05d9\u05dc\u05ea VIP \u05de\u05dc\u05d0\u05d4 \u05dc\u05d6\u05d5\u05d2\u05d5\u05ea + \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea AI \u05dc\u05ea\u05d9\u05e7 ($649) \u2190", "url": "/he/pricing/?sku=vip_couple_649&lang=he", "kind": "paid"}, {"label": "\ud83e\uddea \u05ea\u05e8\u05d2\u05d5\u05dc \u05d7\u05d9\u05e0\u05dd \u05e9\u05dc 4 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e8\u05d0\u05d9\u05d5\u05df \u05d6\u05d5\u05d2\u05d9 \u05d1\u05d0\u05e4\u05dc\u05d9\u05e7\u05e6\u05d9\u05d4 \u2190", "url": "/app/?module=couples&lang=he", "kind": "free"}]}, {"tag": "\u05ea\u05d9\u05d1\u05d4 8 \u05de\u05ea\u05d5\u05da 9 \u2022 8 \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d5\u05de\u05e4\u05e2\u05e0\u05d7 \u05d3\u05e4\u05d9 \u05d3\u05e8\u05d9\u05e9\u05d5\u05ea", "shortTag": "\u05ea\u05d9\u05d1\u05d4 8 \u2022 8 \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea", "icon": "\ud83d\udda8\ufe0f", "title": "\u05d4\u05d7\u05ea\u05de\u05d4 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea \u05e9\u05dc \u05db\u05dc 8 \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d5\u05e4\u05e2\u05e0\u05d5\u05d7 \u05d3\u05e4\u05d9 \u05d3\u05e8\u05d9\u05e9\u05ea \u05de\u05e1\u05de\u05db\u05d9\u05dd (\u05d4\u05d2\u05e0\u05d4 \u05de\u05e1\u05d2\u05d9\u05e8\u05ea \u05ea\u05d9\u05e7 \u05d1-30 \u05d9\u05d5\u05dd)", "shortDesc": "\u05e4\u05e7\u05d9\u05d3\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d3\u05d5\u05d7\u05d9\u05dd \u05d8\u05e4\u05e1\u05d9\u05dd \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea \u05d5\u05e1\u05d5\u05d2\u05e8\u05d9\u05dd \u05ea\u05d9\u05e7\u05d9\u05dd \u05ea\u05d5\u05da 30 \u05d9\u05d5\u05dd. \u05de\u05dc\u05d0\u05d5 \u05e4\u05e2\u05dd \u05d0\u05d7\u05ea \u05d1\u05e9\u05e4\u05ea\u05db\u05dd \u05d5\u05d4\u05d3\u05e4\u05d9\u05e1\u05d5 PDF \u05e8\u05e9\u05de\u05d9 \u05de\u05d5\u05d7\u05ea\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea (\u05d0\u05e9/1, \u05d0\u05e9/3, \u05d0\u05e9/6, \u05d0\u05e9/456, \u05de\u05e8/14).", "desc": "\u05e8\u05e9\u05d5\u05ea \u05d4\u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05df \u05d5\u05d4\u05d2\u05d9\u05e8\u05d4 \u05de\u05d7\u05d9\u05d9\u05d1\u05ea \u05d4\u05d2\u05e9\u05ea \u05d8\u05e4\u05e1\u05d9\u05dd \u05de\u05de\u05e9\u05dc\u05ea\u05d9\u05d9\u05dd \u05e8\u05e9\u05de\u05d9\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d1\u05dc\u05d1\u05d3 \u2014 \u05db\u05d5\u05dc\u05dc \u05ea\u05d9\u05e7 \u05d4\u05d4\u05dc\u05d9\u05da \u05d4\u05de\u05d3\u05d5\u05e8\u05d2 \u05d1\u05df 29 \u05d4\u05e2\u05de\u05d5\u05d3\u05d9\u05dd (\u05d0\u05e9/6), \u05d4\u05d0\u05e8\u05db\u05ea/\u05e9\u05d9\u05e0\u05d5\u05d9 \u05d0\u05e9\u05e8\u05d4 (\u05d0\u05e9/3), \u05d1\u05e7\u05e9\u05ea \u05db\u05e0\u05d9\u05e1\u05d4 (\u05d0\u05e9/1), \u05e2\u05dc\u05d9\u05d9\u05d4 \u05de\u05ea\u05d5\u05da \u05d9\u05e9\u05e8\u05d0\u05dc (\u05d0\u05e9/456), \u05e8\u05d9\u05e9\u05d5\u05dd \u05de\u05e8\u05e9\u05dd (\u05de\u05e8/14\u05d0 \u05d5-\u05de\u05e8/14\u05d1), \u05e0\u05e1\u05e4\u05d7 \u05d0\u05f3 \u05d5\u05e7\u05d5\u05e8\u05d5\u05ea \u05d7\u05d9\u05d9\u05dd \u05d1\u05d9\u05d8\u05d7\u05d5\u05e0\u05d9\u05d9\u05dd. \u05d4\u05d2\u05e9\u05ea \u05d8\u05d5\u05e4\u05e1 \u05d7\u05dc\u05e7\u05d9 \u05d0\u05d5 \u05d0\u05d9-\u05d4\u05e9\u05dc\u05de\u05ea '\u05d3\u05e3 \u05d3\u05e8\u05d9\u05e9\u05ea \u05de\u05e1\u05de\u05db\u05d9\u05dd' \u05ea\u05d5\u05da 30 \u05d9\u05d5\u05dd \u05de\u05d1\u05d9\u05d0\u05d9\u05dd \u05dc\u05e1\u05d2\u05d9\u05e8\u05d4 \u05de\u05e0\u05d4\u05dc\u05d9\u05ea \u05e9\u05dc \u05d4\u05ea\u05d9\u05e7.", "trapTitle": "\ud83d\udcc4 \u05d3\u05d7\u05d9\u05d9\u05ea \u05d8\u05e4\u05e1\u05d9\u05dd \u05d1\u05db\u05ea\u05d1 \u05d9\u05d3 \u05d5\u05e1\u05d2\u05d9\u05e8\u05ea \u05ea\u05d9\u05e7 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea \u05dc\u05d0\u05d7\u05e8 30 \u05d9\u05d5\u05dd", "trapDesc": "\u05ea\u05e9\u05dc\u05d5\u05dd \u05e9\u05dc 15,000\u20aa\u201340,000\u20aa \u05dc\u05e2\u05d5\u05e8\u05db\u05d9 \u05d3\u05d9\u05df \u05e8\u05e7 \u05e2\u05d1\u05d5\u05e8 \u05de\u05d9\u05dc\u05d5\u05d9 \u05d8\u05e4\u05e1\u05d9\u05dd \u2014 \u05d0\u05d5 \u05e0\u05d9\u05e1\u05d9\u05d5\u05df \u05dc\u05de\u05dc\u05d0 \u05d8\u05e4\u05e1\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d1\u05db\u05ea\u05d1 \u05d9\u05d3 \u05de\u05d5\u05dc \u05d4\u05e4\u05e7\u05d9\u05d3 \u05d5\u05d0\u05d9-\u05d4\u05d1\u05e0\u05ea \u05d3\u05e3 \u05d3\u05e8\u05d9\u05e9\u05d5\u05ea \u05d4\u05de\u05e1\u05de\u05db\u05d9\u05dd \u2014 \u05de\u05d5\u05d1\u05d9\u05dc\u05d9\u05dd \u05dc\u05d0\u05d5\u05d1\u05d3\u05df \u05d4\u05ea\u05d5\u05e8 \u05d5\u05dc\u05d3\u05d7\u05d9\u05d9\u05d4 \u05e9\u05dc \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd.", "winTitle": "\u26a1 \u05de\u05d9\u05dc\u05d5\u05d9 \u05d1-6 \u05e9\u05e4\u05d5\u05ea \u2190 \u05d4\u05e4\u05e7\u05ea PDF \u05de\u05de\u05e9\u05dc\u05ea\u05d9 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea + \u05de\u05d3\u05e8\u05d9\u05da \u05d7\u05ea\u05d9\u05de\u05d5\u05ea X \u05d0\u05d3\u05d5\u05dd", "winDesc": "\u05e2\u05e0\u05d5 \u05e2\u05dc \u05d4\u05e9\u05d3\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea, \u05e2\u05d1\u05e8\u05d9\u05ea, \u05e6\u05e8\u05e4\u05ea\u05d9\u05ea, \u05e1\u05e4\u05e8\u05d3\u05d9\u05ea, \u05d2\u05e8\u05de\u05e0\u05d9\u05ea \u05d0\u05d5 \u05e8\u05d5\u05e1\u05d9\u05ea. \u05d4\u05de\u05e0\u05d5\u05e2 \u05e9\u05dc\u05e0\u05d5 \u05de\u05d8\u05d1\u05d9\u05e2 \u05d0\u05ea \u05d4\u05ea\u05e9\u05d5\u05d1\u05d5\u05ea \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05ea\u05e7\u05e0\u05d9\u05ea \u05d1\u05d3\u05d9\u05d5\u05e7 \u05de\u05d9\u05dc\u05d9\u05de\u05d8\u05e8\u05d9 \u05e2\u05dc \u05d4-PDF \u05d4\u05e8\u05e9\u05de\u05d9 \u05e9\u05dc \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd, \u05de\u05e4\u05d9\u05e7 \u05de\u05d3\u05e8\u05d9\u05da \u05d7\u05ea\u05d9\u05de\u05d5\u05ea \u05de\u05e1\u05d5\u05de\u05df \u05d1-X \u05d0\u05d3\u05d5\u05dd \u05d5\u05de\u05e4\u05e2\u05e0\u05d7 \u05db\u05dc \u05d3\u05e3 \u05d3\u05e8\u05d9\u05e9\u05d5\u05ea \u05e4\u05e7\u05d9\u05d3.", "saves": "\u23f1\ufe0f \u05d7\u05d5\u05e1\u05da 15,000\u20aa\u201340,000\u20aa \u05d1\u05e9\u05db\u05e8 \u05d8\u05e8\u05d7\u05d4 \u05d5\u05de\u05d5\u05e0\u05e2 \u05e1\u05d2\u05d9\u05e8\u05ea \u05ea\u05d9\u05e7 \u05ea\u05d5\u05da 30 \u05d9\u05d5\u05dd", "tools": [{"label": "\ud83d\udda8\ufe0f \u05e4\u05ea\u05d9\u05d7\u05ea \u05de\u05e0\u05d5\u05e2 \u05db\u05dc 8 \u05d8\u05e4\u05e1\u05d9 \u05d4-PDF \u05d4\u05e8\u05e9\u05de\u05d9\u05d9\u05dd \u05e9\u05dc \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd ($89\u2013$149) \u2190", "url": "/he/pricing/?sku=forms_life_149&lang=he", "kind": "paid"}, {"label": "\u2696\ufe0f \u05ea\u05d9\u05d0\u05d5\u05dd \u05dc\u05d9\u05d5\u05d5\u05d9 \u05e2\u05d5\u05e8\u05da \u05d3\u05d9\u05df \u05dc\u05d9\u05d5\u05dd \u05d4\u05ea\u05d5\u05e8 \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd ($0 \u05d4\u05d9\u05d5\u05dd) \u2190", "url": "/concierge-booking/?sku=concierge_escort_649&lang=he", "kind": "concierge"}, {"label": "\ud83d\udccb \u05ea\u05e6\u05d5\u05d2\u05d4 \u05de\u05e7\u05d3\u05d9\u05de\u05d4 \u05d7\u05d9\u05e0\u05dd \u05e9\u05dc 8 \u05d4\u05d8\u05e4\u05e1\u05d9\u05dd \u05d5\u05de\u05e4\u05e2\u05e0\u05d7 \u05d3\u05e4\u05d9 \u05e4\u05e7\u05d9\u05d3 \u2190", "url": "/app/?module=forms&lang=he", "kind": "free"}]}, {"tag": "\u05ea\u05d9\u05d1\u05d4 9 \u05de\u05ea\u05d5\u05da 9 \u2022 \u05e2\u05dc\u05d9\u05d9\u05d4 \u05de\u05d4\u05d9\u05e8\u05d4 \u05de\u05ea\u05d5\u05da \u05d9\u05e9\u05e8\u05d0\u05dc (\u05e9\u05d9\u05e0\u05d5\u05d9 \u05de\u05e2\u05de\u05d3) \u05de\u05d5\u05dc \u05d4\u05de\u05ea\u05e0\u05d4 \u05e9\u05dc \u05e9\u05e0\u05d4 \u05d1\u05e1\u05d5\u05db\u05e0\u05d5\u05ea", "shortTag": "\u05ea\u05d9\u05d1\u05d4 9 \u2022 \u05e2\u05dc\u05d9\u05d9\u05d4 \u05de\u05d4\u05d9\u05e8\u05d4 \u05de\u05ea\u05d5\u05da \u05d9\u05e9\u05e8\u05d0\u05dc", "icon": "\ud83c\udfe2", "title": "\u05d3\u05dc\u05d2\u05d5 \u05e2\u05dc \u05d4\u05de\u05ea\u05e0\u05d4 \u05e9\u05dc 9\u201312 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05d1\u05e1\u05d5\u05db\u05e0\u05d5\u05ea \u05d4\u05d9\u05d4\u05d5\u05d3\u05d9\u05ea / \u05e0\u05e4\u05e9 \u05d1\u05e0\u05e4\u05e9: \u05e2\u05dc\u05d9\u05d9\u05d4 \u05de\u05ea\u05d5\u05da \u05d9\u05e9\u05e8\u05d0\u05dc (\u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/456)", "shortDesc": "\u05db\u05d9\u05e6\u05d3 \u05d6\u05db\u05d0\u05d9 \u05d7\u05d5\u05e7 \u05d4\u05e9\u05d1\u05d5\u05ea \u05d9\u05db\u05d5\u05dc\u05d9\u05dd \u05dc\u05d8\u05d5\u05e1 \u05d9\u05e9\u05d9\u05e8\u05d5\u05ea \u05dc\u05d9\u05e9\u05e8\u05d0\u05dc, \u05dc\u05d4\u05d2\u05d9\u05e9 \u05d1\u05e7\u05e9\u05ea \u05e9\u05d9\u05e0\u05d5\u05d9 \u05de\u05e2\u05de\u05d3 \u05dc\u05e2\u05d5\u05dc\u05d4 \u05d7\u05d3\u05e9 \u05d1\u05d0\u05e8\u05e5, \u05dc\u05e2\u05d1\u05d5\u05e8 \u05d1\u05d4\u05e6\u05dc\u05d7\u05d4 \u05d0\u05ea \u05d1\u05d3\u05d9\u05e7\u05ea \u05e0\u05ea\u05d9\u05d1 \u05d5\u05dc\u05d4\u05d1\u05d8\u05d9\u05d7 \u05e1\u05dc \u05e7\u05dc\u05d9\u05d8\u05d4 \u05de\u05dc\u05d0 \u05dc-24 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd.", "desc": "\u05de\u05d5\u05e2\u05de\u05d3\u05d9 \u05e2\u05dc\u05d9\u05d9\u05d4 \u05e8\u05d1\u05d9\u05dd \u05d1\u05d7\u05d5\u05f4\u05dc \u05e1\u05d1\u05d5\u05e8\u05d9\u05dd \u05e9\u05e2\u05dc\u05d9\u05d4\u05dd \u05dc\u05d4\u05de\u05ea\u05d9\u05df 9 \u05e2\u05d3 12 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd \u05dc\u05ea\u05d5\u05e8 \u05d1\u05e7\u05d5\u05e0\u05e1\u05d5\u05dc\u05d9\u05d4 \u05d0\u05d5 \u05d1\u05e1\u05d5\u05db\u05e0\u05d5\u05ea \u05d4\u05d9\u05d4\u05d5\u05d3\u05d9\u05ea \u05dc\u05e4\u05e0\u05d9 \u05d4\u05de\u05e2\u05d1\u05e8 \u05dc\u05d9\u05e9\u05e8\u05d0\u05dc. \u05e2\u05dc \u05e4\u05d9 \u05d7\u05d5\u05e7 \u05d4\u05e9\u05d1\u05d5\u05ea \u05d5\u05e0\u05d4\u05dc\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd, \u05d6\u05db\u05d0\u05d9\u05dd \u05d4\u05de\u05d2\u05d9\u05e2\u05d9\u05dd \u05dc\u05d9\u05e9\u05e8\u05d0\u05dc \u05e2\u05dd \u05ea\u05d9\u05e7 \u05de\u05dc\u05d0 \u05e9\u05dc 5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05de\u05e7\u05d5\u05e8 \u05d1\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05d5\u05d0\u05d9\u05e9\u05d5\u05e8 \u05d9\u05d4\u05d3\u05d5\u05ea \u05ea\u05e7\u05e0\u05d9 \u05dc\u05e4\u05d9 \u05e7\u05d5 \u05d0\u05d9\u05de\u05d4\u05d9 \u05e8\u05e9\u05d0\u05d9\u05dd \u05dc\u05d4\u05d2\u05d9\u05e9 \u05d1\u05e7\u05e9\u05ea '\u05e9\u05d9\u05e0\u05d5\u05d9 \u05de\u05e2\u05de\u05d3 \u05dc\u05e2\u05d5\u05dc\u05d4 \u05d7\u05d3\u05e9' \u05d9\u05e9\u05d9\u05e8\u05d5\u05ea \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05d9\u05e9\u05e8\u05d0\u05dc (\u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/456).", "trapTitle": "\u23f3 \u05d4\u05de\u05ea\u05e0\u05d4 \u05e9\u05dc \u05e9\u05e0\u05d4 \u05d1\u05d7\u05d5\u05f4\u05dc \u05d5\u05e4\u05e1\u05d9\u05dc\u05ea \u05de\u05db\u05ea\u05d1\u05d9 \u05d9\u05d4\u05d3\u05d5\u05ea \u05d1\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea \u05e0\u05ea\u05d9\u05d1", "trapDesc": "\u05d4\u05de\u05ea\u05e0\u05d4 \u05e9\u05dc \u05e9\u05e0\u05d4 \u05d1\u05d7\u05d5\u05f4\u05dc \u2014 \u05d0\u05d5 \u05d4\u05d2\u05e2\u05d4 \u05dc\u05d9\u05e9\u05e8\u05d0\u05dc \u05e2\u05dd \u05de\u05db\u05ea\u05d1 \u05d7\u05d1\u05e8\u05d5\u05ea \u05db\u05dc\u05dc\u05d9 \u05d1\u05d1\u05d9\u05ea \u05db\u05e0\u05e1\u05ea \u05e9\u05d0\u05d9\u05e0\u05d5 \u05e2\u05d5\u05de\u05d3 \u05d1\u05d3\u05e8\u05d9\u05e9\u05d5\u05ea \u05d4\u05d1\u05d3\u05d9\u05e7\u05d4 \u05e9\u05dc '\u05e0\u05ea\u05d9\u05d1' \u05dc\u05d4\u05d5\u05db\u05d7\u05ea \u05d9\u05d4\u05d3\u05d5\u05ea \u05d0\u05d9\u05de\u05d4\u05d9\u05ea \u2014 \u05de\u05e9\u05d0\u05d9\u05e8\u05d5\u05ea \u05d0\u05ea\u05db\u05dd \u05dc\u05dc\u05d0 \u05ea\u05e2\u05d5\u05d3\u05ea \u05d6\u05d4\u05d5\u05ea \u05d5\u05dc\u05dc\u05d0 \u05d1\u05d9\u05d8\u05d5\u05d7 \u05e8\u05e4\u05d5\u05d0\u05d9.", "winTitle": "\u26a1 \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea AI \u05dc\u05ea\u05d9\u05e7 \u05d9\u05d4\u05d3\u05d5\u05ea (\u05e0\u05ea\u05d9\u05d1) + \u05d4\u05d7\u05ea\u05de\u05ea \u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/456 \u05d5\u05d4\u05d1\u05d8\u05d7\u05ea \u05e1\u05dc \u05e7\u05dc\u05d9\u05d8\u05d4", "winDesc": "\u05e1\u05d5\u05e8\u05e7 \u05d4-AI \u05e9\u05dc\u05e0\u05d5 \u05d1\u05d5\u05d3\u05e7 \u05d0\u05ea \u05de\u05db\u05ea\u05d1 \u05d4\u05e8\u05d1 \u05d5\u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d4\u05dc\u05d9\u05d3\u05d4/\u05db\u05ea\u05d5\u05d1\u05d4 \u05de\u05d5\u05dc \u05d3\u05e8\u05d9\u05e9\u05d5\u05ea \u05e0\u05ea\u05d9\u05d1 \u05e2\u05d5\u05d3 \u05dc\u05e4\u05e0\u05d9 \u05d4\u05d8\u05d9\u05e1\u05d4, \u05de\u05de\u05dc\u05d0 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea \u05d0\u05ea \u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/456 \u05d5\u05e7\u05d5\u05e8\u05d5\u05ea \u05d4\u05d7\u05d9\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea, \u05d5\u05de\u05dc\u05d5\u05d5\u05d4 \u05d0\u05ea\u05db\u05dd \u05e2\u05d3 \u05dc\u05e7\u05d1\u05dc\u05ea \u05ea\u05e2\u05d5\u05d3\u05ea \u05d4\u05d6\u05d4\u05d5\u05ea, \u05d1\u05d9\u05d8\u05d5\u05d7 \u05dc\u05d0\u05d5\u05de\u05d9 \u05d5\u05de\u05e2\u05e0\u05e7\u05d9 \u05e1\u05dc \u05d4\u05e7\u05dc\u05d9\u05d8\u05d4.", "saves": "\u23f1\ufe0f \u05d7\u05d5\u05e1\u05da 9\u201312 \u05d7\u05d5\u05d3\u05e9\u05d9 \u05d4\u05de\u05ea\u05e0\u05d4 \u05d1\u05d7\u05d5\u05f4\u05dc \u05d5\u05de\u05d2\u05df \u05e2\u05dc \u05d6\u05db\u05d0\u05d5\u05ea \u05e1\u05dc \u05d4\u05e7\u05dc\u05d9\u05d8\u05d4", "tools": [{"label": "\u2708\ufe0f \u05e4\u05ea\u05d9\u05d7\u05ea \u05de\u05e0\u05d5\u05e2 \u05d8\u05d5\u05e4\u05e1 \u05d0\u05e9/456 \u05dc\u05e2\u05dc\u05d9\u05d9\u05d4 + \u05e1\u05d5\u05e8\u05e7 \u05de\u05e1\u05de\u05db\u05d9 \u05e0\u05ea\u05d9\u05d1 ($89\u2013$149) \u2190", "url": "/he/pricing/?sku=forms_life_149&lang=he", "kind": "paid"}, {"label": "\ud83d\udee1\ufe0f \u05d7\u05d1\u05d9\u05dc\u05ea \u05de\u05d2\u05df \u05de\u05dc\u05d0\u05d4 \u05dc\u05db\u05dc \u05d4\u05d7\u05d9\u05d9\u05dd (\u05db\u05dc \u05d4\u05d8\u05e4\u05e1\u05d9\u05dd + \u05d4\u05de\u05d0\u05d2\u05e8\u05d9\u05dd + AI) ($399) \u2190", "url": "/he/pricing/?sku=suite_solo_life_399&lang=he", "kind": "paid"}, {"label": "\ud83d\udcdc \u05d4\u05d6\u05de\u05e0\u05ea \u05d7\u05d1\u05d9\u05dc\u05ea \u05ea\u05e8\u05d2\u05d5\u05dd \u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05dc-4 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea ($0 \u05d4\u05d9\u05d5\u05dd) \u2190", "url": "/concierge-booking/?sku=concierge_bundle_799&lang=he", "kind": "concierge"}]}], "categories": [{"title": "\ud83d\udd4d \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d4 1: \u05d2\u05d9\u05d5\u05e8, \u05d1\u05ea\u05d9 \u05d3\u05d9\u05df \u05e4\u05e8\u05d8\u05d9\u05d9\u05dd, \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05de\u05e7\u05d5\u05e8 \u05d5\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc", "sub": "\u05ea\u05d9\u05d1\u05d5\u05ea 1\u20133 \u2022 \u05de\u05d3\u05e8\u05d9\u05db\u05d9\u05dd \u05d7\u05d9\u05e0\u05dd"}, {"title": "\ud83c\udfdb\ufe0f \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d4 2: \u05d5\u05e2\u05d3\u05ea \u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05dc\u05ea\u05d9\u05d9\u05e8\u05d9\u05dd, \u05de\u05e1\u05dc\u05d5\u05dc \u05db\u05e4\u05d5\u05dc \u05d5\u05d4\u05db\u05e0\u05d4 \u05dc-700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df", "sub": "\u05ea\u05d9\u05d1\u05d5\u05ea 4\u20136 \u2022 \u05de\u05d3\u05e8\u05d9\u05db\u05d9\u05dd \u05d7\u05d9\u05e0\u05dd"}, {"title": "\ud83d\udcf1 \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d4 3: 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e8\u05d0\u05d9\u05d5\u05df \u05d6\u05d5\u05d2\u05d9, 8 \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d5\u05e2\u05dc\u05d9\u05d9\u05d4 \u05de\u05d4\u05d9\u05e8\u05d4 \u05d1\u05d0\u05e8\u05e5", "sub": "\u05ea\u05d9\u05d1\u05d5\u05ea 7\u20139 \u2022 \u05de\u05d3\u05e8\u05d9\u05db\u05d9\u05dd \u05d7\u05d9\u05e0\u05dd"}]}, "fr": {"tap": "VOIR \u2192", "toolsHeading": "\ud83d\udee0\ufe0f Outils & Services pour vous pr\u00e9parer face aux agents sur cette \u00e9tape :", "startBtn": "\ud83d\ude80 Commencer mon parcours \u2192", "trackerBtn": "\ud83d\udcca Ouvrir mon suivi \u2192", "nextBoxBtn": "Carte suivante \u2192", "boxes": [{"tag": "CARTE 1 SUR 9 \u2022 BATEI DIN ORTHODOXES PRIV\u00c9S (ISRA\u00cbL & DIASPORA)", "shortTag": "CARTE 1 \u2022 BATEI DIN PRIV\u00c9S", "icon": "\ud83d\udd4d", "title": "Batei Din Orthodoxes Priv\u00e9s (Gush Etzion, Bnei Brak, J\u00e9rusalem & Diaspora) : Statut Civil vs Mariage", "shortDesc": "Comment les conversions \u00e0 Gush Etzion, Bnei Brak (Rav Karelitz), Badatz J\u00e9rusalem, Chabad ou \u00e0 l'\u00e9tranger (Consistoire, RCA, Londres) fonctionnent pour l'Aliyah vs le Grand Rabbinat.", "desc": "Selon les arr\u00eats historiques Dahan et Ragchova de la Cour Supr\u00eame isra\u00e9lienne, les conversions effectu\u00e9es par des tribunaux orthodoxes ind\u00e9pendants reconnus en Isra\u00ebl \u2014 tels que Gush Etzion (Har Etzion), Bnei Brak (Beit Din du Rav Nissim Karelitz), les tribunaux Haredi de J\u00e9rusalem (Badatz / Edah HaChareidit), Modi'in Illit et Chabad \u2014 permettent d'obtenir la citoyennet\u00e9 (Loi du Retour / Teudat Zehut) au Minist\u00e8re de l'Int\u00e9rieur (PIBA) sans passer par Va'adat Charigim. Toutefois, le Grand Rabbinat d'\u00c9tat (Misrad HaDatot) applique sa propre liste de tribunaux reconnus (dont le Consistoire de Paris, le Beth Din de Londres et le RCA) pour l'enregistrement du mariage juif. Notre plateforme identifie exactement quel tribunal correspond \u00e0 votre visa et \u00e0 votre projet.", "trapTitle": "\ud83d\udea8 Le Pi\u00e8ge du Tribunal Non Reconnu pour le Mariage ou le Statut", "trapDesc": "Beaucoup de candidats \u00e9tudient 12 \u00e0 18 mois aupr\u00e8s d'un Beit Din priv\u00e9 ou \u00e9tranger sans savoir que le Grand Rabbinat refusera d'enregistrer leur mariage en Isra\u00ebl, ou se pr\u00e9sentent au PIBA sans dossier rabbinique conforme.", "winTitle": "\u26a1 Orientation Tribunal V\u00e9rifi\u00e9e + Suite 700 Questions & Placement de Rabbin", "winDesc": "Notre diagnostic vous oriente vers le tribunal d'\u00c9tat ou priv\u00e9 exact, vous met en relation avec un Rabbin accompagnateur (Rav Melaveh) reconnu, vous entra\u00eene sur les 700 questions du Beit Din et les 56 chants/pri\u00e8res de Chabbat, et remplit vos formulaires h\u00e9breux.", "saves": "\u23f1\ufe0f \u00c9conomise 12 \u00e0 24 mois et \u00e9vite les conversions non reconnues", "tools": [{"label": "\ud83d\udd4d D\u00e9bloquer la Suite 700 Questions Beit Din + 56 Chants ($149\u2013$249) \u2192", "url": "/fr/pricing/?sku=bd_suite_life_249&lang=fr", "kind": "paid"}, {"label": "\ud83d\udc68\u200d\u2696\ufe0f R\u00e9server un Rabbin Accompagnateur V\u00e9rifi\u00e9 (Devis $0) \u2192", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=fr", "kind": "concierge"}, {"label": "\ud83c\udfa7 Tester gratuitement 4 cartes Beit Din & 2 chants de Chabbat \u2192", "url": "/app/?module=beit-din&lang=fr", "kind": "free"}]}, {"tag": "CARTE 2 SUR 9 \u2022 LA BOUCLE DE 2 ANS & LES 5 ACTES D'\u00c9TAT CIVIL", "shortTag": "CARTE 2 \u2022 LES 5 ACTES APOSTILL\u00c9S", "icon": "\u2708\ufe0f", "title": "Obtenir vos 5 Actes d'\u00c9tat Civil Apostill\u00e9s en Personne au Pays (vs l'Enfer des Commandes \u00e0 Distance)", "shortDesc": "Pourquoi commander actes de naissance, c\u00e9libat, divorce et casier judiciaire depuis Isra\u00ebl vous pi\u00e8ge dans la r\u00e8gle d'expiration de 180 jours \u2014 et comment notre auditeur IA v\u00e9rifie tout.", "desc": "Tout dossier d'Aliyah, de Visa Conjoint (Nohal 5.2.0008) ou de Giyur exige 5 documents originaux apostill\u00e9s : (1) Acte de naissance int\u00e9gral, (2) Certificat de c\u00e9libat / coutume, (3) Jugements de divorce/mariage, (4) Acte de changement de nom et (5) Casier judiciaire national. Les agents du PIBA appliquent une validit\u00e9 stricte de 180 jours : s'il manque une seule Apostille, vous recevez un avis de carence de 30 jours pendant que vos autres actes expirent.", "trapTitle": "\ud83d\udca5 Le Pi\u00e8ge de l'Expiration Tournante \u00e0 180 Jours", "trapDesc": "Commander des actes et Apostilles \u00e0 distance depuis Isra\u00ebl prend 3 \u00e0 5 mois. Lorsque le 5e document arrive enfin, le 1er a d\u00e9pass\u00e9 sa validit\u00e9 de 180 jours et est rejet\u00e9 au guichet.", "winTitle": "\u26a1 Audit IA Pr\u00e9-Rendez-Vous + Traduction Notari\u00e9e au Ruban Rouge", "winDesc": "Notre Coffre-Fort IA v\u00e9rifie chaque acte et Apostille selon les normes exactes du PIBA et suit votre compte \u00e0 rebours de 180 jours, tandis que nos notaires isra\u00e9liens produisent vos traductions officielles en h\u00e9breu au ruban rouge.", "saves": "\u23f1\ufe0f \u00c9conomise 1,5 \u00e0 2,5 ans et \u00e9vite les rejets de dossier au guichet", "tools": [{"label": "\ud83e\udd16 D\u00e9bloquer les 8 Formulaires PIBA & l'Auditeur IA 180 Jours ($89\u2013$149) \u2192", "url": "/fr/pricing/?sku=forms_life_149&lang=fr", "kind": "paid"}, {"label": "\ud83d\udcdc Commander le Pack Traduction Notari\u00e9e 4 Actes (Devis $0) \u2192", "url": "/concierge-booking/?sku=concierge_bundle_799&lang=fr", "kind": "concierge"}, {"label": "\ud83d\udd0d Ouvrir gratuitement le Coffre-Fort & Calculateur 180 Jours \u2192", "url": "/app/?module=docs&lang=fr", "kind": "free"}]}, {"tag": "CARTE 3 SUR 9 \u2022 CASIER JUDICIAIRE EN 3 VOLETS & LETTRE D'EXPLICATION", "shortTag": "CARTE 3 \u2022 CASIER & APOSTILLE 180J", "icon": "\ud83d\udee1\ufe0f", "title": "La Falaise du Casier Judiciaire National (Bulletin N\u00b03 / FBI / ACRO / RCMP) & Ant\u00e9c\u00e9dents Anciens", "shortDesc": "Comment Nativ et le PIBA contr\u00f4lent chaque pays habit\u00e9 >12 mois depuis l'\u00e2ge de 14 ans \u2014 et comment notre g\u00e9n\u00e9rateur de Michtav Hesber en h\u00e9breu prot\u00e8ge votre dossier.", "desc": "Les autorit\u00e9s isra\u00e9liennes (Nativ et PIBA) exigent un extrait de casier judiciaire national apostill\u00e9 de votre pays d'origine ET de chaque pays o\u00f9 vous avez r\u00e9sid\u00e9 plus de 12 mois depuis vos 14 ans. De plus, les relev\u00e9s biom\u00e9triques r\u00e9v\u00e8lent parfois d'anciennes proc\u00e9dures class\u00e9es ou effac\u00e9es.", "trapTitle": "\ud83d\udea8 Mauvais Niveau d'Apostille & Refus pour Omission involontaire", "trapDesc": "Pr\u00e9senter une Apostille non conforme ou cocher 'Aucun ant\u00e9c\u00e9dent' sur le formulaire Ash/456 alors qu'une ancienne mention appara\u00eet sur le relev\u00e9 entra\u00eene un refus imm\u00e9diat pour fausse d\u00e9claration.", "winTitle": "\u26a1 Liste de Contr\u00f4le par Pays + Lettre Juridique H\u00e9bra\u00efque (Michtav Hesber)", "winDesc": "Notre moteur g\u00e9n\u00e8re automatiquement votre lettre formelle d'explication et de r\u00e9habilitation en h\u00e9breu juridique (Michtav Hesber) et valide la conformit\u00e9 de vos Apostilles avant le d\u00e9p\u00f4t.", "saves": "\u23f1\ufe0f \u00c9vite les refus de s\u00e9curit\u00e9 et 6 mois de d\u00e9lais d'empreintes", "tools": [{"label": "\u2696\ufe0f D\u00e9bloquer le G\u00e9n\u00e9rateur Michtav Hesber & 8 Formulaires ($89\u2013$149) \u2192", "url": "/fr/pricing/?sku=forms_life_149&lang=fr", "kind": "paid"}, {"label": "\ud83d\udc51 D\u00e9bloquer le Bouclier Solo Complet \u00e0 Vie + Audit IA ($399) \u2192", "url": "/fr/pricing/?sku=suite_solo_life_399&lang=fr", "kind": "paid"}, {"label": "\ud83c\udfdb\ufe0f R\u00e9server un Avocat Accompagnateur au Rendez-Vous (Devis $0) \u2192", "url": "/concierge-booking/?sku=concierge_escort_649&lang=fr", "kind": "concierge"}]}, {"tag": "CARTE 4 SUR 9 \u2022 TOURISTE B/2 VERS GIYUR D'\u00c9TAT (VA'ADAT CHARIGIM)", "shortTag": "CARTE 4 \u2022 PERMIS VA'ADAT CHARIGIM", "icon": "\ud83c\udfdb\ufe0f", "title": "En Isra\u00ebl avec un Visa Touriste B/2 de 90 Jours ? R\u00e9ussir la Commission des Exceptions (Va'adat Charigim)", "shortDesc": "Les touristes ne peuvent pas int\u00e9grer le Giyur d'\u00c9tat sans l'accord \u00e9crit de Va'adat Charigim. Voyez comment notre moteur de requ\u00eate h\u00e9bra\u00efque et le formulaire Ash/1 b\u00e2tissent votre dossier.", "desc": "Un ressortissant \u00e9tranger en Isra\u00ebl sous visa touriste B/2 ne peut pas s'inscrire directement au Giyur d'\u00c9tat (Nativ). Il doit obtenir une autorisation sp\u00e9ciale de la Commission des Exceptions (Va'adat Charigim) en prouvant son int\u00e9gration communautaire, le parrainage d'un Rabbin reconnu, une famille d'accueil orthodoxe et un s\u00e9jour 100 % l\u00e9gal.", "trapTitle": "\ud83d\uded1 Demande Informelle en Anglais & Ordre de D\u00e9part sous 14 Jours", "trapDesc": "D\u00e9poser une lettre non structur\u00e9e en anglais ou laisser expirer son visa B/2 de 90 jours entra\u00eene un rejet imm\u00e9diat et une obligation de quitter Isra\u00ebl sous 14 jours.", "winTitle": "\u26a1 Formulaire Ash/1 Pr\u00e9-Rempli en H\u00e9breu + Journal d'Activit\u00e9 & Rabbin Parrain", "winDesc": "Notre moteur g\u00e9n\u00e8re votre formulaire officiel Ash/1 et votre requ\u00eate Va'adat Charigim en h\u00e9breu, notre Journal d'Activit\u00e9 documente vos Chabbats et cours pour g\u00e9n\u00e9rer vos lettres de recommandation, et notre conciergerie vous place aupr\u00e8s d'un Rabbin reconnu.", "saves": "\u23f1\ufe0f \u00c9conomise 6 \u00e0 12 mois et s\u00e9curise votre maintien l\u00e9gal en Isra\u00ebl", "tools": [{"label": "\ud83c\udfdb\ufe0f D\u00e9bloquer le Formulaire Ash/1 & Requ\u00eate Va'adat Charigim ($89\u2013$149) \u2192", "url": "/fr/pricing/?sku=forms_life_149&lang=fr", "kind": "paid"}, {"label": "\ud83d\udd4d R\u00e9server un Rabbin Accompagnateur V\u00e9rifi\u00e9 (Devis $0) \u2192", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=fr", "kind": "concierge"}, {"label": "\ud83d\udcc5 Ouvrir gratuitement le Journal d'Activit\u00e9 & Lettres de R\u00e9f\u00e9rence \u2192", "url": "/app/?module=logger&lang=fr", "kind": "free"}]}, {"tag": "CARTE 5 SUR 9 \u2022 DOUBLE PARCOURS VISA CONJOINT + CONVERSION (SEC. \u05d2.10)", "shortTag": "CARTE 5 \u2022 DOUBLE PARCOURS CONJOINT + GIYUR", "icon": "\ud83d\udc6b", "title": "La Strat\u00e9gie Double Parcours : Visa Conjoint (Nohal 5.2.0008) & Conversion d'\u00c9tat en Parall\u00e8le", "shortDesc": "Pourquoi les couples mixtes avec un citoyen isra\u00e9lien doivent s\u00e9curiser le visa de travail B/1 par le dossier conjoint TOUT en pr\u00e9parant le Giyur \u2014 et comment la Suite VIP synchronise tout.", "desc": "En couple ou mari\u00e9(e) avec un(e) citoyen(ne) isra\u00e9lien(ne), lancer la proc\u00e9dure gradu\u00e9e de visa conjoint (Nohal 5.2.0008 ou 5.2.0009) vous octroie rapidement un visa B/1 avec permis de travail complet, tout en vous donnant le droit statutaire d'\u00e9tudier au Giyur d'\u00c9tat selon la Section \u05d2.10.", "trapTitle": "\u26a0\ufe0f Le Pi\u00e8ge des D\u00e9clarations Contradictoires entre PIBA et Rabbinat", "trapDesc": "D\u00e9poser des dossiers non coordonn\u00e9s entre le Minist\u00e8re de l'Int\u00e9rieur et le Beit Din retarde \u00e0 la fois votre permis de travail et votre conversion.", "winTitle": "\u26a1 Suite VIP Couple (Formulaire Ash/6 + Sync 300 Questions + 700 Questions Beit Din)", "winDesc": "Notre plateforme remplit votre dossier Ash/6 de 29 pages en h\u00e9breu, synchronise vos 2 t\u00e9l\u00e9phones sur les 300 questions d'entretien s\u00e9par\u00e9 du PIBA et pr\u00e9pare les deux partenaires aux 700 questions du Beit Din.", "saves": "\u23f1\ufe0f D\u00e9bloque le permis de travail 9 \u00e0 18 mois plus t\u00f4t tout en validant le Giyur", "tools": [{"label": "\ud83d\udc51 D\u00e9bloquer la Suite VIP Couple 2 T\u00e9l\u00e9phones \u00e0 Vie + Audit IA ($649) \u2192", "url": "/fr/pricing/?sku=vip_couple_649&lang=fr", "kind": "paid"}, {"label": "\ud83d\udcf1 D\u00e9bloquer la Sync 300 Questions Couple sur 2 T\u00e9l\u00e9phones ($75\u2013$229) \u2192", "url": "/fr/pricing/?sku=couples_life_229&lang=fr", "kind": "paid"}, {"label": "\ud83d\udc8d R\u00e9server le Pack Rabbin + Madrichat Kallah pour Couple (Devis $0) \u2192", "url": "/concierge-booking/?sku=concierge_couple_499&lang=fr", "kind": "concierge"}]}, {"tag": "CARTE 6 SUR 9 \u2022 RABBIN, MADRICHAT KALLAH, 700 QUESTIONS & 56 CHANTS", "shortTag": "CARTE 6 \u2022 700 QUESTIONS & 56 CHANTS", "icon": "\ud83d\udcd6", "title": "Les Deux Partenaires Sont Interrog\u00e9s ! Rabbin V\u00e9rifi\u00e9, Madrichat Kallah, 700 Questions & 56 Chants", "shortDesc": "Pourquoi \u00e9tudier avec un enseignant non reconnu fait perdre un an, pourquoi les Dayanim vous font chanter le Kiddouch en direct, et comment notre simulateur 700 cartes + 56 chants vous pr\u00e9pare.", "desc": "M\u00eame si l'un des conjoints est citoyen isra\u00e9lien juif de naissance, le Beit Din exige que les DEUX partenaires \u00e9tudient avec un Rabbin reconnu, suivent le cours de puret\u00e9 familiale avec une Madrichat Kallah certifi\u00e9e et r\u00e9ussissent l'examen oral (700 questions + 56 chants de Chabbat, pri\u00e8res de Chaharit et Brachot chant\u00e9s \u00e0 voix haute devant les juges).", "trapTitle": "\ud83d\ude30 Enseignants Non Agr\u00e9\u00e9s & Blocage Vocal devant les Dayanim", "trapDesc": "H\u00e9siter lorsqu'un Dayan vous demande de chanter le Kiddouch, Havdalah ou Birkat HaMazon entra\u00eene un report automatique de 6 mois du tribunal.", "winTitle": "\u26a1 Simulateur 700 Cartes + Karaok\u00e9 56 Chants avec IA + Placement Rabbin/Madricha", "winDesc": "Nous vous pr\u00e9sentons \u00e0 nos Rabbins et Madrichot Kallah agr\u00e9\u00e9s et vous entra\u00eenons sur les 700 questions du Beit Din et les 56 chants liturgiques avec phon\u00e9tique fran\u00e7aise et notation vocale IA.", "saves": "\u23f1\ufe0f \u00c9conomise 6 \u00e0 18 mois et \u00e9vite tout ajournement au Beit Din", "tools": [{"label": "\ud83d\udd4d D\u00e9bloquer les 700 Cartes Beit Din + 56 Chants & IA ($149\u2013$249) \u2192", "url": "/fr/pricing/?sku=bd_suite_life_249&lang=fr", "kind": "paid"}, {"label": "\ud83e\udd1d R\u00e9server Rabbin + Madrichat Kallah V\u00e9rifi\u00e9s (Devis $0) \u2192", "url": "/concierge-booking/?sku=concierge_couple_499&lang=fr", "kind": "concierge"}, {"label": "\ud83c\udfb5 Tester gratuitement 2 Chants Karaok\u00e9 & 4 Cartes Beit Din \u2192", "url": "/app/?module=songs-prayers&lang=fr", "kind": "free"}]}, {"tag": "CARTE 7 SUR 9 \u2022 INTERROGATOIRE COUPLE DE 300 QUESTIONS EN SALLES S\u00c9PAR\u00c9ES", "shortTag": "CARTE 7 \u2022 300 QUESTIONS COUPLE PIBA", "icon": "\ud83d\udcf1", "title": "Synchronisez-Vous sur 2 T\u00e9l\u00e9phones sur les 300 Questions Avant l'Entretien en Salles S\u00e9par\u00e9es", "shortDesc": "Chaque ann\u00e9e du processus gradu\u00e9 (Tahalich Medurag), les agents du PIBA vous interrogent dans deux pi\u00e8ces s\u00e9par\u00e9es. Entra\u00eenez-vous sur notre d\u00e9tecteur de contradictions de 300 questions.", "desc": "Chaque ann\u00e9e pendant 5 ans (Nohal 5.2.0008 / 5.2.0009), les inspecteurs du Minist\u00e8re de l'Int\u00e9rieur s\u00e9parent les conjoints dans deux bureaux pour poser jusqu'\u00e0 80 questions tir\u00e9es de notre banque de 300 questions r\u00e9parties en 10 cat\u00e9gories du quotidien (rencontre, appartement, factures, routine matinale, belle-famille, f\u00eates, finances, enfants). Les r\u00e9ponses sont compar\u00e9es mot \u00e0 mot.", "trapTitle": "\ud83d\udea9 Comment de Vrais Couples \u00c9chouent \u00e0 l'Entretien S\u00e9par\u00e9", "trapDesc": "Se contredire sous le stress sur de petits d\u00e9tails (qui a pay\u00e9 la facture d'\u00e9lectricit\u00e9, de quel c\u00f4t\u00e9 du lit vous dormez, le repas de vendredi dernier) d\u00e9clenche un gel de suspicion de 6 \u00e0 12 mois.", "winTitle": "\u26a1 Synchronisation Live sur 2 T\u00e9l\u00e9phones (300 Questions + Mode Examen 80 Questions)", "winDesc": "Connectez vos deux t\u00e9l\u00e9phones depuis votre canap\u00e9 : r\u00e9pondez chacun dans votre langue aux 300 questions officielles et voyez instantan\u00e9ment chaque divergence avant le jour J.", "saves": "\u23f1\ufe0f \u00c9vite les gels de dossier de 6 \u00e0 12 mois et les cautions de 30 000 \u20aa", "tools": [{"label": "\ud83d\udcf1 D\u00e9bloquer le Simulateur 300 Questions sur 2 T\u00e9l\u00e9phones ($75\u2013$229) \u2192", "url": "/fr/pricing/?sku=couples_life_229&lang=fr", "kind": "paid"}, {"label": "\ud83d\udc51 D\u00e9bloquer la Suite VIP Couple Compl\u00e8te + Audit IA ($649) \u2192", "url": "/fr/pricing/?sku=vip_couple_649&lang=fr", "kind": "paid"}, {"label": "\ud83e\uddea Tester gratuitement 4 Questions Couple en Salles S\u00e9par\u00e9es \u2192", "url": "/app/?module=couples&lang=fr", "kind": "free"}]}, {"tag": "CARTE 8 SUR 9 \u2022 8 FORMULAIRES H\u00c9BREUX PIBA & D\u00c9CODEUR DE FEUILLES D'AGENT", "shortTag": "CARTE 8 \u2022 8 FORMULAIRES PDF H\u00c9BREUX", "icon": "\ud83d\udda8\ufe0f", "title": "Remplissez en Fran\u00e7ais \u2192 Imprimez les 8 Formulaires Officiels PIBA en H\u00e9breu (Ash/1, Ash/3, Ash/6, Ash/456)", "shortDesc": "Les agents du PIBA rejettent les formulaires en anglais/fran\u00e7ais et ferment les dossiers sous 30 jours. Remplissez dans votre langue et t\u00e9l\u00e9chargez les PDF officiels tamponn\u00e9s en h\u00e9breu.", "desc": "Le Minist\u00e8re de l'Int\u00e9rieur exige ses 8 formulaires officiels remplis exclusivement en h\u00e9breu (dossier conjoint Ash/6 de 29 pages, Ash/3, Ash/1, Aliyah Ash/456, MR/14a, MR/14b, Nespach Alef, CV S\u00e9curit\u00e9). De plus, toute feuille de carence (Daf Drishat Mismachim) doit \u00eatre compl\u00e9t\u00e9e sous 30 jours sous peine de cl\u00f4ture administrative.", "trapTitle": "\ud83d\udcc4 Le Rejet des Formulaires Manuscrits & la Cl\u00f4ture sous 30 Jours", "trapDesc": "Payer 15 000 \u20aa \u00e0 40 000 \u20aa d'avocat juste pour remplir des PDF ou pr\u00e9senter un formulaire mal rempli au guichet vous fait perdre des mois d'attente.", "winTitle": "\u26a1 Tamponnage PDF H\u00e9breu Calibr\u00e9 au Pixel + Guide de Signature X Rouge", "winDesc": "Saisissez vos r\u00e9ponses en fran\u00e7ais : notre moteur g\u00e9n\u00e8re les PDF officiels en h\u00e9breu avec un Guide de Signature X Rouge indiquant o\u00f9 signer devant l'agent, et traduit instantan\u00e9ment toute feuille de demande du PIBA.", "saves": "\u23f1\ufe0f \u00c9conomise 15 000 \u20aa \u00e0 40 000 \u20aa de frais et bloque la cl\u00f4ture \u00e0 30 jours", "tools": [{"label": "\ud83d\udda8\ufe0f D\u00e9bloquer les 8 Formulaires PDF Officiels PIBA en H\u00e9breu ($89\u2013$149) \u2192", "url": "/fr/pricing/?sku=forms_life_149&lang=fr", "kind": "paid"}, {"label": "\u2696\ufe0f R\u00e9server un Avocat Accompagnateur au Guichet PIBA (Devis $0) \u2192", "url": "/concierge-booking/?sku=concierge_escort_649&lang=fr", "kind": "concierge"}, {"label": "\ud83d\udccb Aper\u00e7u gratuit des 8 Formulaires & D\u00e9codeur de Feuille PIBA \u2192", "url": "/app/?module=forms&lang=fr", "kind": "free"}]}, {"tag": "CARTE 9 SUR 9 \u2022 ALIYAH RAPIDE EN ISRA\u00cbL (SHINUI MA'AMAD) VS AGENCE JUIVE", "shortTag": "CARTE 9 \u2022 ALIYAH RAPIDE EN ISRA\u00cbL", "icon": "\ud83c\udfe2", "title": "\u00c9vitez les 9\u201312 Mois d'Attente de l'Agence Juive : Faites votre Aliyah en Isra\u00ebl (Formulaire Ash/456)", "shortDesc": "Comment les candidats \u00e9ligibles \u00e0 la Loi du Retour d\u00e9posent leur changement de statut directement en Isra\u00ebl, r\u00e9ussissent l'audit Nativ et s\u00e9curisent le Sal Klita de 24 mois.", "desc": "Au lieu d'attendre 9 \u00e0 12 mois \u00e0 l'\u00e9tranger pour un entretien consulaire de l'Agence Juive, les candidats munis de leurs 5 actes apostill\u00e9s et d'une preuve de juda\u00eft\u00e9 maternelle conforme peuvent entrer en Isra\u00ebl et d\u00e9poser directement une demande d'Aliyah interne (Shinui Ma'amad \u2014 Formulaire Ash/456) aupr\u00e8s du PIBA.", "trapTitle": "\u23f3 L'Attente d'un An \u00e0 l'\u00c9tranger & le Rejet d'Attestation par Nativ", "trapDesc": "Arriver en Isra\u00ebl avec une simple attestation communautaire qui \u00e9choue au contr\u00f4le g\u00e9n\u00e9alogique de Nativ bloque votre Teudat Zehut et votre couverture sant\u00e9.", "winTitle": "\u26a1 Audit IA de Juda\u00eft\u00e9 Nativ + Formulaire Ash/456 & Protection du Sal Klita", "winDesc": "Notre auditeur IA valide vos preuves de lign\u00e9e maternelle selon les crit\u00e8res exacts de Nativ avant le d\u00e9part, g\u00e9n\u00e8re votre formulaire h\u00e9breu Ash/456 et prot\u00e8ge vos droits au Sal Klita pendant 24 mois.", "saves": "\u23f1\ufe0f \u00c9vite 9 \u00e0 12 mois d'attente consulaire et s\u00e9curise le Sal Klita", "tools": [{"label": "\u2708\ufe0f D\u00e9bloquer le Formulaire Ash/456 Aliyah & Auditeur IA ($89\u2013$149) \u2192", "url": "/fr/pricing/?sku=forms_life_149&lang=fr", "kind": "paid"}, {"label": "\ud83d\udee1\ufe0f D\u00e9bloquer le Bouclier Solo Complet \u00e0 Vie (Tous les Outils) ($399) \u2192", "url": "/fr/pricing/?sku=suite_solo_life_399&lang=fr", "kind": "paid"}, {"label": "\ud83d\udcdc Commander le Pack Traduction Notari\u00e9e 4 Actes (Devis $0) \u2192", "url": "/concierge-booking/?sku=concierge_bundle_799&lang=fr", "kind": "concierge"}]}], "categories": [{"title": "\ud83d\udd4d CAT\u00c9GORIE 1 : CONVERSION, BATEI DIN PRIV\u00c9S & 5 ACTES APOSTILL\u00c9S", "sub": "Cartes 1\u20133 \u2022 Guides Gratuits"}, {"title": "\ud83c\udfdb\ufe0f CAT\u00c9GORIE 2 : VA'ADAT CHARIGIM, DOUBLE PARCOURS & 700 QUESTIONS BEIT DIN", "sub": "Cartes 4\u20136 \u2022 Guides Gratuits"}, {"title": "\ud83d\udcf1 CAT\u00c9GORIE 3 : 300 QUESTIONS COUPLE, 8 FORMULAIRES PIBA & ALIYAH EN ISRA\u00cbL", "sub": "Cartes 7\u20139 \u2022 Guides Gratuits"}]}, "es": {"tap": "VER \u2192", "toolsHeading": "\ud83d\udee0\ufe0f Herramientas y Servicios para prepararle al 100% ante los funcionarios en este paso:", "startBtn": "\ud83d\ude80 Empezar mi ruta \u2192", "trackerBtn": "\ud83d\udcca Abrir mi rastreador \u2192", "nextBoxBtn": "Siguiente \u2192", "boxes": [{"tag": "CAJA 1 DE 9 \u2022 BATEI DIN ORTODOXOS PRIVADOS (ISRAEL Y DI\u00c1SPORA)", "shortTag": "CAJA 1 \u2022 BATEI DIN PRIVADOS", "icon": "\ud83d\udd4d", "title": "Batei Din Ortodoxos Privados (Gush Etzion, Bnei Brak, Jerusal\u00e9n y Exterior): Residencia vs Matrimonio", "shortDesc": "C\u00f3mo funcionan las conversiones en Gush Etzion, Bnei Brak (Rav Karelitz), Badatz Jerusal\u00e9n, Jabad o tribunales del exterior (RCA, Londres, Consistoire) para Aliy\u00e1 vs el Gran Rabinato.", "desc": "Bajo los fallos Dahan y Ragchova de la Corte Suprema de Israel, las conversiones realizadas en tribunales ortodoxos independientes reconocidos dentro de Israel \u2014como Gush Etzion (Har Etzion), Bnei Brak (Beit Din del Rav Nissim Karelitz), tribunales Haredi de Jerusal\u00e9n (Badatz / Edah HaChareidit), Modi'in Illit y Jabad\u2014 pueden otorgar derecho a ciudadan\u00eda (Ley del Retorno / Teudat Zehut) en Misrad HaPanim sin permiso previo de Va'adat Charigim. Sin embargo, el Gran Rabinato Estatal (Misrad HaDatot) mantiene su propia lista de tribunales reconocidos para registrar matrimonios jud\u00edos en Israel. Nuestra plataforma define exactamente qu\u00e9 tribunal se ajusta a su visa y objetivo familiar.", "trapTitle": "\ud83d\udea8 La Trampa del Tribunal No Reconocido para Matrimonio o Estatus", "trapDesc": "Muchos candidatos estudian 12\u201318 meses en un Beit Din privado o extranjero sin saber que el Gran Rabinato no registrar\u00e1 su boda en Israel, o llegan a PIBA sin un expediente rab\u00ednico v\u00e1lido.", "winTitle": "\u26a1 Ruta de Tribunal Verificada + Suite 700 Preguntas y Rabino Patrocinador", "winDesc": "Nuestro diagn\u00f3stico le asigna el tribunal estatal o privado exacto, lo conecta con un Rabino Patrocinador (Rav Melaveh) reconocido, lo entrena en las 700 preguntas del Beit Din y 56 cantos de Shabat, y completa sus formularios hebreos.", "saves": "\u23f1\ufe0f Ahorra 12 a 24 meses y evita conversiones no reconocidas", "tools": [{"label": "\ud83d\udd4d Desbloquear Suite 700 Preguntas Beit Din + 56 Cantos ($149\u2013$249) \u2192", "url": "/es/pricing/?sku=bd_suite_life_249&lang=es", "kind": "paid"}, {"label": "\ud83d\udc68\u200d\u2696\ufe0f Reservar Rabino Patrocinador Verificado (Cotizaci\u00f3n $0) \u2192", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=es", "kind": "concierge"}, {"label": "\ud83c\udfa7 Probar gratis 4 tarjetas Beit Din y 2 cantos de Shabat \u2192", "url": "/app/?module=beit-din&lang=es", "kind": "free"}]}, {"tag": "CAJA 2 DE 9 \u2022 EL BUCLE DE 2 A\u00d1OS Y LOS 5 DOCUMENTOS CIVILES", "shortTag": "CAJA 2 \u2022 LOS 5 DOCS APOSTILLADOS", "icon": "\u2708\ufe0f", "title": "El Movimiento Maestro: Obtener los 5 Documentos Civiles Apostillados en Persona (vs Pedidos Remotos)", "shortDesc": "Por qu\u00e9 pedir actas de nacimiento, solter\u00eda, divorcio y antecedentes desde Israel lo atrapa en el vencimiento de 180 d\u00edas \u2014 y c\u00f3mo nuestro auditor IA revisa su expediente antes de la cita.", "desc": "Todo expediente de Aliy\u00e1, Visa de Pareja (Nohal 5.2.0008) o Guiur exige 5 documentos originales apostillados: (1) Partida de nacimiento literal, (2) Certificado de solter\u00eda/estado civil, (3) Sentencias de divorcio/matrimonio, (4) Cambio de nombre y (5) Antecedentes penales federales/nacionales. Los funcionarios de PIBA aplican un reloj estricto de 180 d\u00edas: si falta una sola Apostilla, le dan 30 d\u00edas para subsanar mientras el resto de sus documentos caduca.", "trapTitle": "\ud83d\udca5 La Trampa del Vencimiento Rotativo de 180 D\u00edas", "trapDesc": "Pedir documentos y Apostillas a distancia desde Israel tarda de 3 a 5 meses. Cuando llega el quinto documento, el primero ya super\u00f3 los 180 d\u00edas de validez y el funcionario lo rechaza.", "winTitle": "\u26a1 Auditor\u00eda IA Previa a la Cita + Traducci\u00f3n Notarial con Cinta Roja", "winDesc": "Nuestra B\u00f3veda IA inspecciona cada certificado y Apostilla seg\u00fan las normas exactas de PIBA y controla su reloj de 180 d\u00edas, mientras nuestro equipo notarial emite traducciones oficiales al hebreo con cinta roja.", "saves": "\u23f1\ufe0f Ahorra 1.5 a 2.5 a\u00f1os y miles de d\u00f3lares en env\u00edos y rechazos", "tools": [{"label": "\ud83e\udd16 Desbloquear 8 Formularios PIBA y Auditor IA de 180 D\u00edas ($89\u2013$149) \u2192", "url": "/es/pricing/?sku=forms_life_149&lang=es", "kind": "paid"}, {"label": "\ud83d\udcdc Reservar Paquete de Traducci\u00f3n Notarial 4 Docs (Cotizaci\u00f3n $0) \u2192", "url": "/concierge-booking/?sku=concierge_bundle_799&lang=es", "kind": "concierge"}, {"label": "\ud83d\udd0d Abrir gratis la B\u00f3veda de Documentos y Calculadora de 180 D\u00edas \u2192", "url": "/app/?module=docs&lang=es", "kind": "free"}]}, {"tag": "CAJA 3 DE 9 \u2022 ANTECEDENTES PENALES EN 3 NIVELES Y CARTA DE EXPLICACI\u00d3N", "shortTag": "CAJA 3 \u2022 ANTECEDENTES Y APOSTILLA", "icon": "\ud83d\udee1\ufe0f", "title": "El Acantilado de Antecedentes Penales (FBI / ACRO / RCMP / Federal) y Arrestos Antiguos", "shortDesc": "C\u00f3mo Nativ y PIBA auditan certificados nacionales con huellas de cada pa\u00eds habitado >12 meses desde los 14 a\u00f1os \u2014 y c\u00f3mo nuestro generador de Michtav Hesber en hebreo protege su caso.", "desc": "Las autoridades israel\u00edes (Nativ y PIBA) no aceptan certificados policiales municipales. Exigen antecedentes penales nacionales/federales apostillados de su pa\u00eds de origen Y de cada pa\u00eds donde haya residido m\u00e1s de 12 meses desde los 14 a\u00f1os. Adem\u00e1s, los reportes biom\u00e9tricos suelen mostrar arrestos antiguos archivados o borrados.", "trapTitle": "\ud83d\udea8 Apostilla de Nivel Incorrecto y Rechazo por Omisi\u00f3n", "trapDesc": "Presentar una Apostilla estatal en un reporte federal o marcar 'Sin antecedentes' en el formulario Ash/456 cuando aparece una detenci\u00f3n antigua provoca una denegaci\u00f3n inmediata por ocultamiento.", "winTitle": "\u26a1 Gu\u00eda Exacta por Pa\u00eds + Carta Legal en Hebreo (Michtav Hesber)", "winDesc": "Nuestro motor genera autom\u00e1ticamente su Carta Formal de Explicaci\u00f3n y Rehabilitaci\u00f3n en hebreo jur\u00eddico (Michtav Hesber) y verifica sus Apostillas antes de presentar el expediente.", "saves": "\u23f1\ufe0f Evita rechazos de seguridad y 6 meses de demoras por nuevas huellas", "tools": [{"label": "\u2696\ufe0f Desbloquear Generador Michtav Hesber y 8 Formularios ($89\u2013$149) \u2192", "url": "/es/pricing/?sku=forms_life_149&lang=es", "kind": "paid"}, {"label": "\ud83d\udc51 Desbloquear Escudo Solo Completo de por Vida + Auditor\u00eda IA ($399) \u2192", "url": "/es/pricing/?sku=suite_solo_life_399&lang=es", "kind": "paid"}, {"label": "\ud83c\udfdb\ufe0f Reservar Abogado Acompa\u00f1ante para el D\u00eda de la Cita (Cotizaci\u00f3n $0) \u2192", "url": "/concierge-booking/?sku=concierge_escort_649&lang=es", "kind": "concierge"}]}, {"tag": "CAJA 4 DE 9 \u2022 TURISTA B/2 A GUIUR ESTATAL (VA'ADAT CHARIGIM)", "shortTag": "CAJA 4 \u2022 PERMISO VA'ADAT CHARIGIM", "icon": "\ud83c\udfdb\ufe0f", "title": "\u00bfEn Israel con Visa de Turista B/2 de 90 D\u00edas? C\u00f3mo Superar el Comit\u00e9 de Excepciones (Va'adat Charigim)", "shortDesc": "Los turistas no pueden entrar al Guiur Estatal sin permiso escrito de Va'adat Charigim. Vea c\u00f3mo nuestro motor de petici\u00f3n en hebreo y el formulario Ash/1 arman un expediente s\u00f3lido.", "desc": "Un extranjero en Israel con visa de turista B/2 no puede inscribirse directamente en la Autoridad Estatal de Conversi\u00f3n (Nativ). Primero debe obtener autorizaci\u00f3n del Comit\u00e9 de Excepciones (Va'adat Charigim) demostrando ra\u00edces comunitarias, un Rabino Patrocinador reconocido, familia anfitriona ortodoxa y estad\u00eda 100% legal.", "trapTitle": "\ud83d\uded1 Solicitud Informal en Ingl\u00e9s y Orden de Salida en 14 D\u00edas", "trapDesc": "Presentar una carta improvisada en ingl\u00e9s o dejar vencer los 90 d\u00edas de su visa B/2 resulta en un rechazo inmediato y una orden de abandonar Israel en 14 d\u00edas.", "winTitle": "\u26a1 Formulario Ash/1 Sellado en Hebreo + Registro de Actividad y Rabino Patrocinador", "winDesc": "Nuestro motor estampa su formulario oficial Ash/1 y su petici\u00f3n a Va'adat Charigim en hebreo, nuestro Registro de Actividad documenta sus Shabatot y clases para generar cartas de recomendaci\u00f3n, y nuestro equipo le asigna un Rabino reconocido.", "saves": "\u23f1\ufe0f Ahorra 6 a 12 meses y protege su estad\u00eda legal en Israel", "tools": [{"label": "\ud83c\udfdb\ufe0f Desbloquear Formulario Ash/1 y Petici\u00f3n Va'adat Charigim ($89\u2013$149) \u2192", "url": "/es/pricing/?sku=forms_life_149&lang=es", "kind": "paid"}, {"label": "\ud83d\udd4d Reservar Rabino Patrocinador Verificado (Cotizaci\u00f3n $0) \u2192", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=es", "kind": "concierge"}, {"label": "\ud83d\udcc5 Abrir gratis el Registro de Actividad para Cartas de Rabino \u2192", "url": "/app/?module=logger&lang=es", "kind": "free"}]}, {"tag": "CAJA 5 DE 9 \u2022 DOBLE V\u00cdA: VISA DE PAREJA (5.2.0008) + CONVERSI\u00d3N (SEC. \u05d2.10)", "shortTag": "CAJA 5 \u2022 DOBLE V\u00cdA PAREJA + GUIUR", "icon": "\ud83d\udc6b", "title": "La Estrategia de Doble V\u00eda: Residencia por Pareja (Nohal 5.2.0008) y Conversi\u00f3n Simult\u00e1nea", "shortDesc": "Por qu\u00e9 las parejas con un ciudadano israel\u00ed deben asegurar primero la visa de trabajo B/1 mediante el proceso gradual MIENTRAS preparan la conversi\u00f3n \u2014 y c\u00f3mo la Suite VIP coordina ambos.", "desc": "Si est\u00e1 casado(a) o en pareja estable con un(a) ciudadano(a) israel\u00ed y desea convertirse, iniciar el Proceso Gradual de Pareja (Nohal 5.2.0008 o 5.2.0009) le otorga r\u00e1pidamente una visa B/1 con permiso de trabajo legal, lo que le habilita autom\u00e1ticamente para estudiar en el Guiur Estatal bajo la Secci\u00f3n \u05d2.10.", "trapTitle": "\u26a0\ufe0f El Cuello de Botella de V\u00eda \u00danica y Declaraciones Incoherentes", "trapDesc": "Presentar declaraciones no coordinadas entre Misrad HaPanim y el Beit Din retrasa tanto su permiso de trabajo como su conversi\u00f3n.", "winTitle": "\u26a1 Suite VIP Parejas (Formulario Ash/6 + Sync 300 Preguntas + 700 Preguntas Beit Din)", "winDesc": "Nuestra plataforma completa su expediente Ash/6 de 29 p\u00e1ginas en hebreo, sincroniza sus 2 tel\u00e9fonos en las 300 preguntas de entrevista en salas separadas de PIBA y prepara a ambos para las 700 preguntas del Beit Din.", "saves": "\u23f1\ufe0f Obtiene permiso de trabajo 9 a 18 meses antes mientras completa el Guiur", "tools": [{"label": "\ud83d\udc51 Desbloquear Suite VIP Parejas 2 Tel\u00e9fonos de por Vida + IA ($649) \u2192", "url": "/es/pricing/?sku=vip_couple_649&lang=es", "kind": "paid"}, {"label": "\ud83d\udcf1 Desbloquear Sync de 300 Preguntas de Pareja en 2 Tel\u00e9fonos ($75\u2013$229) \u2192", "url": "/es/pricing/?sku=couples_life_229&lang=es", "kind": "paid"}, {"label": "\ud83d\udc8d Reservar Paquete Rabino + Madrichat Kallah para Pareja ($0 Hoy) \u2192", "url": "/concierge-booking/?sku=concierge_couple_499&lang=es", "kind": "concierge"}]}, {"tag": "CAJA 6 DE 9 \u2022 RABINO, MADRICHAT KALLAH, 700 PREGUNTAS Y 56 CANTOS", "shortTag": "CAJA 6 \u2022 700 PREGUNTAS Y 56 CANTOS", "icon": "\ud83d\udcd6", "title": "\u00a1Ambos Miembros de la Pareja Son Evaluados! Rabino Verificado, Madrichat Kallah, 700 Preguntas y 56 Cantos", "shortDesc": "Por qu\u00e9 estudiar con un maestro no reconocido desperdicia un a\u00f1o, por qu\u00e9 los Dayanim le piden cantar Kidush y Brajot en vivo, y c\u00f3mo nuestro simulador de 700 tarjetas + 56 cantos lo prepara.", "desc": "Incluso cuando uno de los c\u00f3nyuges es ciudadano israel\u00ed jud\u00edo de nacimiento, el Beit Din exige que AMBOS estudien con un Rabino Patrocinador reconocido, completen el curso de pureza familiar con una Madrichat Kallah certificada y aprueben el examen oral (700 preguntas del tribunal + 56 cantos de Shabat, rezos de Shajarit y Brajot cantados en vivo frente a los jueces).", "trapTitle": "\ud83d\ude30 Cursos No Reconocidos y Bloqueo al Cantar Kidush frente a los Jueces", "trapDesc": "Quedarse en blanco cuando un Dayan le pide entonar el Kidush, Havdal\u00e1 o Birkat HaMaz\u00f3n provoca un aplazamiento autom\u00e1tico de 6 meses.", "winTitle": "\u26a1 Simulador de 700 Tarjetas + Karaoke de 56 Cantos con IA + Asignaci\u00f3n de Rabino", "winDesc": "Lo conectamos con nuestros Rabinos y Madrijot Kal\u00e1 reconocidos en todo Israel y lo entrenamos en las 700 preguntas del Beit Din y los 56 cantos/rezos con fon\u00e9tica en espa\u00f1ol y evaluador de pronunciaci\u00f3n IA.", "saves": "\u23f1\ufe0f Ahorra 6 a 18 meses y elimina aplazamientos en el Beit Din", "tools": [{"label": "\ud83d\udd4d Desbloquear las 700 Tarjetas Beit Din + 56 Cantos con IA ($149\u2013$249) \u2192", "url": "/es/pricing/?sku=bd_suite_life_249&lang=es", "kind": "paid"}, {"label": "\ud83e\udd1d Reservar Rabino + Madrichat Kallah Verificados (Cotizaci\u00f3n $0) \u2192", "url": "/concierge-booking/?sku=concierge_couple_499&lang=es", "kind": "concierge"}, {"label": "\ud83c\udfb5 Probar gratis 2 Cantos en Karaoke y 4 Tarjetas Beit Din \u2192", "url": "/app/?module=songs-prayers&lang=es", "kind": "free"}]}, {"tag": "CAJA 7 DE 9 \u2022 INTERROGATORIO DE PAREJA DE 300 PREGUNTAS EN SALAS SEPARADAS", "shortTag": "CAJA 7 \u2022 300 PREGUNTAS DE PAREJA", "icon": "\ud83d\udcf1", "title": "Sincron\u00edcese con su Pareja en 2 Tel\u00e9fonos en las 300 Preguntas Antes de la Entrevista en Salas Separadas", "shortDesc": "Cada a\u00f1o del Proceso Gradual de Pareja (Tahalich Medurag), los funcionarios de PIBA los interrogan en dos salas separadas. Entrene con nuestro detector de contradicciones de 300 preguntas.", "desc": "Cada a\u00f1o durante los 5 a\u00f1os del Proceso Gradual de Pareja (Nohal 5.2.0008 / 5.2.0009), los inspectores de Misrad HaPanim separan a la pareja en dos oficinas distintas para hacerles preguntas \u00edntimas de nuestra base de 300 preguntas en 10 categor\u00edas de la vida diaria (c\u00f3mo se conocieron, distribuci\u00f3n de la casa, qui\u00e9n paga las facturas, rutina matutina, suegros, fiestas, finanzas e hijos). El funcionario compara ambas respuestas palabra por palabra.", "trapTitle": "\ud83d\udea9 C\u00f3mo Parejas Reales Reprueban la Entrevista en Salas Separadas", "trapDesc": "Contradecirse bajo presi\u00f3n en detalles cotidianos (qui\u00e9n pag\u00f3 la electricidad, de qu\u00e9 lado de la cama duerme cada uno, qu\u00e9 cenaron el viernes pasado) dispara una congelaci\u00f3n por sospecha de 6 a 12 meses.", "winTitle": "\u26a1 Sincronizaci\u00f3n en Vivo en 2 Tel\u00e9fonos (300 Preguntas + Modo Examen de 80 Preguntas)", "winDesc": "Vincule dos tel\u00e9fonos desde su sof\u00e1: respondan cada uno en su idioma a las 300 preguntas reales de Misrad HaPanim y detecten al instante cualquier discrepancia antes de su cita.", "saves": "\u23f1\ufe0f Evita congelaciones de 6 a 12 meses y fianzas bancarias de 30,000 \u20aa", "tools": [{"label": "\ud83d\udcf1 Desbloquear Simulador de 300 Preguntas en 2 Tel\u00e9fonos ($75\u2013$229) \u2192", "url": "/es/pricing/?sku=couples_life_229&lang=es", "kind": "paid"}, {"label": "\ud83d\udc51 Desbloquear Suite VIP Parejas Completa + Auditor\u00eda IA ($649) \u2192", "url": "/es/pricing/?sku=vip_couple_649&lang=es", "kind": "paid"}, {"label": "\ud83e\uddea Probar gratis 4 Preguntas de Pareja en Salas Separadas \u2192", "url": "/app/?module=couples&lang=es", "kind": "free"}]}, {"tag": "CAJA 8 DE 9 \u2022 8 FORMULARIOS OFICIALES PIBA EN HEBREO Y DECODIFICADOR DE CARTAS", "shortTag": "CAJA 8 \u2022 8 FORMULARIOS PDF HEBREOS", "icon": "\ud83d\udda8\ufe0f", "title": "Complete en Espa\u00f1ol \u2192 Imprima los 8 Formularios Oficiales PIBA en Hebreo (Ash/1, Ash/3, Ash/6, Ash/456)", "shortDesc": "Los funcionarios de PIBA rechazan formularios en ingl\u00e9s/espa\u00f1ol y cierran expedientes a los 30 d\u00edas. Complete en su idioma y descargue los PDF oficiales estampados en hebreo.", "desc": "El Ministerio del Interior exige sus 8 formularios oficiales completados exclusivamente en hebreo (expediente de pareja Ash/6 de 29 p\u00e1ginas, Ash/3, Ash/1, Aliy\u00e1 Ash/456, MR/14a, MR/14b, Nespach Alef, CV de Seguridad). Adem\u00e1s, cualquier hoja de requerimiento (Daf Drishat Mismachim) debe responderse en 30 d\u00edas para evitar el cierre del expediente.", "trapTitle": "\ud83d\udcc4 Rechazo de Formularios a Mano y Cierre Administrativo a los 30 D\u00edas", "trapDesc": "Pagar 15,000 \u20aa\u201340,000 \u20aa a abogados solo por llenar formularios o intentar escribir en hebreo a mano en la ventanilla provoca rechazos inmediatos y p\u00e9rdida de citas.", "winTitle": "\u26a1 Estampado PDF Hebreo Calibrado al P\u00edxel + Gu\u00eda de Firma con X Roja", "winDesc": "Complete los campos en espa\u00f1ol: nuestro motor estampa los PDF oficiales en hebreo con una Gu\u00eda de Firma X Roja que muestra d\u00f3nde firmar frente al funcionario, y traduce cualquier hoja de requerimiento de PIBA.", "saves": "\u23f1\ufe0f Ahorra 15,000 \u20aa\u201340,000 \u20aa en honorarios y evita cierres a los 30 d\u00edas", "tools": [{"label": "\ud83d\udda8\ufe0f Desbloquear los 8 Formularios PDF Oficiales PIBA en Hebreo ($89\u2013$149) \u2192", "url": "/es/pricing/?sku=forms_life_149&lang=es", "kind": "paid"}, {"label": "\u2696\ufe0f Reservar Abogado Acompa\u00f1ante para Cita en PIBA (Cotizaci\u00f3n $0) \u2192", "url": "/concierge-booking/?sku=concierge_escort_649&lang=es", "kind": "concierge"}, {"label": "\ud83d\udccb Vista previa gratis de los 8 Formularios y Decodificador PIBA \u2192", "url": "/app/?module=forms&lang=es", "kind": "free"}]}, {"tag": "CAJA 9 DE 9 \u2022 ALIY\u00c1 R\u00c1PIDA EN ISRAEL (SHINUI MA'AMAD) VS AGENCIA JUD\u00cdA", "shortTag": "CAJA 9 \u2022 ALIY\u00c1 R\u00c1PIDA EN ISRAEL", "icon": "\ud83c\udfe2", "title": "Evite la Espera de 9\u201312 Meses en la Agencia Jud\u00eda: Tramite su Aliy\u00e1 Dentro de Israel (Formulario Ash/456)", "shortDesc": "C\u00f3mo los solicitantes elegibles bajo la Ley del Retorno viajan directamente a Israel, tramitan Shinui Ma'amad en el pa\u00eds, superan la auditor\u00eda de Nativ y aseguran su Sal Klita de 24 meses.", "desc": "En lugar de esperar 9 a 12 meses en el extranjero por una entrevista consular de la Agencia Jud\u00eda (JAFI), quienes viajan con sus 5 documentos civiles apostillados y una prueba de juda\u00edsmo materno conforme pueden presentar su solicitud de Aliy\u00e1 interna (Shinui Ma'amad \u2014 Formulario Ash/456) directamente ante Misrad HaPanim en Israel.", "trapTitle": "\u23f3 Un A\u00f1o de Espera en el Exterior y Cartas Rechazadas por Nativ", "trapDesc": "Llegar a Israel con una carta comunitaria gen\u00e9rica que no supera la auditor\u00eda geneal\u00f3gica materna de Nativ deja su Teudat Zehut y su seguro m\u00e9dico bloqueados.", "winTitle": "\u26a1 Auditor\u00eda IA de Linaje Nativ + Formulario Ash/456 y Protecci\u00f3n del Sal Klita", "winDesc": "Nuestro auditor IA valida su carta rab\u00ednica y partidas de linaje materno seg\u00fan el est\u00e1ndar exacto de Nativ antes de volar, estampa su formulario hebreo Ash/456 y asegura sus 24 meses de beneficios Sal Klita.", "saves": "\u23f1\ufe0f Evita 9 a 12 meses de espera consular y protege su Sal Klita", "tools": [{"label": "\u2708\ufe0f Desbloquear Formulario Ash/456 de Aliy\u00e1 y Auditor IA ($89\u2013$149) \u2192", "url": "/es/pricing/?sku=forms_life_149&lang=es", "kind": "paid"}, {"label": "\ud83d\udee1\ufe0f Desbloquear Escudo Solo Completo de por Vida (Todo Incluido) ($399) \u2192", "url": "/es/pricing/?sku=suite_solo_life_399&lang=es", "kind": "paid"}, {"label": "\ud83d\udcdc Reservar Paquete de Traducci\u00f3n Notarial 4 Docs (Cotizaci\u00f3n $0) \u2192", "url": "/concierge-booking/?sku=concierge_bundle_799&lang=es", "kind": "concierge"}]}], "categories": [{"title": "\ud83d\udd4d CATEGOR\u00cdA 1: CONVERSI\u00d3N, BATEI DIN PRIVADOS Y 5 DOCUMENTOS APOSTILLADOS", "sub": "Cajas 1\u20133 \u2022 Gu\u00edas Gratis"}, {"title": "\ud83c\udfdb\ufe0f CATEGOR\u00cdA 2: VA'ADAT CHARIGIM, DOBLE V\u00cdA Y 700 PREGUNTAS BEIT DIN", "sub": "Cajas 4\u20136 \u2022 Gu\u00edas Gratis"}, {"title": "\ud83d\udcf1 CATEGOR\u00cdA 3: 300 PREGUNTAS DE PAREJA, 8 FORMULARIOS PIBA Y ALIY\u00c1 EN ISRAEL", "sub": "Cajas 7\u20139 \u2022 Gu\u00edas Gratis"}]}, "de": {"tap": "TIPPEN \u2192", "toolsHeading": "\ud83d\udee0\ufe0f Tools & Services, die Sie f\u00fcr diesen Beh\u00f6rdengang zu 100 % vorbereiten:", "startBtn": "\ud83d\ude80 Meinen Weg starten \u2192", "trackerBtn": "\ud83d\udcca Meinen Tracker \u00f6ffnen \u2192", "nextBoxBtn": "N\u00e4chste Box \u2192", "boxes": [{"tag": "BOX 1 VON 9 \u2022 PRIVATE ORTHODOXE BATEI DIN (ISRAEL & DIASPORA)", "shortTag": "BOX 1 \u2022 PRIVATE BATEI DIN", "icon": "\ud83d\udd4d", "title": "Private Orthodoxe Batei Din (Gush Etzion, Bnei Brak, Jerusalem & Ausland): Status vs. Heirat", "shortDesc": "Wie Konversionen in Gush Etzion, Bnei Brak (Rav Karelitz), Badatz Jerusalem, Chabad oder im Ausland (ORD, RCA, London, Consistoire) f\u00fcr Alija vs. Oberrabbinat-Heirat funktionieren.", "desc": "Nach den Grundsatzurteilen Dahan und Ragchova des Obersten Gerichtshofs Israels k\u00f6nnen Konversionen an anerkannten unabh\u00e4ngigen orthodoxen Batei Din in Israel \u2014 wie Gush Etzion (Har Etzion), Bnei Brak (Beit Din von Rav Nissim Karelitz), Haredi-Gerichten in Jerusalem (Badatz / Edah HaChareidit), Modi'in Illit und Chabad \u2014 den Anspruch auf Staatsb\u00fcrgerschaft (R\u00fcckkehrgesetz / Teudat Zehut) beim Innenministerium (PIBA) auch ohne Va'adat Charigim begr\u00fcnden. Das Staatliche Oberrabbinat (Misrad HaDatot) f\u00fchrt jedoch eine eigene Liste anerkannter Gerichte (darunter ORD Deutschland, London Beth Din, RCA, Consistoire) f\u00fcr die j\u00fcdische Eheschlie\u00dfung. Unsere Plattform zeigt Ihnen vorab genau, welches Gericht Ihr Aufenthalts- und Heiratsziel erf\u00fcllt.", "trapTitle": "\ud83d\udea8 Die Falle nicht anerkannter Gerichte f\u00fcr Heirat oder Aufenthaltsstatus", "trapDesc": "Viele Kandidaten studieren 12\u201318 Monate an einem privaten oder ausl\u00e4ndischen Beit Din, ohne zu wissen, dass das Oberrabbinat ihre Hochzeit in Israel nicht registriert oder PIBA die Akte ablehnt.", "winTitle": "\u26a1 Gepr\u00fcfte Gerichts-Zuordnung + 700-Fragen-Simulator & Rabbiner-Vermittlung", "winDesc": "Unsere Diagnose ordnet Sie dem exakten staatlichen oder privaten Beit Din zu, vermittelt Ihnen einen anerkannten betreuenden Rabbiner (Rav Melaveh), trainiert Sie auf alle 700 Beit-Din-Fragen und 56 Schabbat-Lieder und f\u00fcllt Ihre hebr\u00e4ischen PIBA-Formulare aus.", "saves": "\u23f1\ufe0f Spart 12 bis 24 Monate und verhindert nicht anerkannte Konversionen", "tools": [{"label": "\ud83d\udd4d 700-Fragen Beit Din + 56 Schabbat-Lieder Suite freischalten ($149\u2013$249) \u2192", "url": "/de/pricing/?sku=bd_suite_life_249&lang=de", "kind": "paid"}, {"label": "\ud83d\udc68\u200d\u2696\ufe0f Anerkannten Betreuungs-Rabbiner anfragen ($0 Angebot) \u2192", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=de", "kind": "concierge"}, {"label": "\ud83c\udfa7 Kostenlos 4 Beit-Din-Karten & 2 Schabbat-Lieder testen \u2192", "url": "/app/?module=beit-din&lang=de", "kind": "free"}]}, {"tag": "BOX 2 VON 9 \u2022 DIE 2-JAHRES-SCHLEIFE & DIE 5 PERSONENSTANDSURKUNDEN", "shortTag": "BOX 2 \u2022 DIE 5 APOSTILLE-DOKUMENTE", "icon": "\u2708\ufe0f", "title": "Alle 5 Apostillierten Heimat-Urkunden Pers\u00f6nlich Beschaffen (statt Fernbestellungs-H\u00f6lle)", "shortDesc": "Warum die Fernbestellung von Geburts-, Ledigkeits-, Scheidungs- und F\u00fchrungszeugnissen aus Israel Sie in der 180-Tage-Ablauffalle f\u00e4ngt \u2014 und wie unser KI-Auditor Ihre Akte vorab pr\u00fcft.", "desc": "Jede Alija-, Partner-Visum- (Nohal 5.2.0008) und Giur-Akte erfordert 5 apostillierte Originalurkunden aus dem Heimatland: (1) Vollst\u00e4ndige Geburtsurkunde, (2) Ledigkeits-/Familienstandsbescheinigung, (3) Scheidungs-/Heiratsurkunden, (4) Namens\u00e4nderungsurkunde und (5) F\u00fchrungszeugnis mit Apostille. PIBA-Beamte setzen eine strikte 180-Tage-G\u00fcltigkeit durch: Fehlt auch nur ein Stempel, erhalten Sie eine 30-Tage-Nachfrist, w\u00e4hrend Ihre \u00fcbrigen Dokumente ablaufen.", "trapTitle": "\ud83d\udca5 Die Rotierende 180-Tage-Ablauffalle bei Fernbestellungen", "trapDesc": "Urkunden und Apostillen aus Israel per Post anzufordern dauert 3\u20135 Monate. Wenn Dokument Nr. 5 eintrifft, ist Dokument Nr. 1 bereits \u00fcber 180 Tage alt und wird am Schalter abgelehnt.", "winTitle": "\u26a1 KI-Dokumenten-Audit vor dem Termin + Notarielle Rotband-\u00dcbersetzung", "winDesc": "Unser KI-Dokumententresor pr\u00fcft jede Urkunde und Apostille auf exakte PIBA-Konformit\u00e4t und \u00fcberwacht Ihre 180-Tage-Frist, w\u00e4hrend unsere israelischen Notare beglaubigte hebr\u00e4ische Rotband-\u00dcbersetzungen erstellen.", "saves": "\u23f1\ufe0f Spart 1,5 bis 2,5 Jahre sowie Tausende Euro an Kurier- und Ablehnungskosten", "tools": [{"label": "\ud83e\udd16 8 PIBA-Formulare & KI-180-Tage-Dokumentenpr\u00fcfer freischalten ($89\u2013$149) \u2192", "url": "/de/pricing/?sku=forms_life_149&lang=de", "kind": "paid"}, {"label": "\ud83d\udcdc Notarielles 4-Urkunden-\u00dcbersetzungspaket anfragen ($0 Angebot) \u2192", "url": "/concierge-booking/?sku=concierge_bundle_799&lang=de", "kind": "concierge"}, {"label": "\ud83d\udd0d Kostenlos Dokumententresor & 180-Tage-Rechner \u00f6ffnen \u2192", "url": "/app/?module=docs&lang=de", "kind": "free"}]}, {"tag": "BOX 3 VON 9 \u2022 F\u00dcHRUNGSZEUGNISSE AUS ALLEN L\u00c4NDERN & REHABILITATIONSBRIEF", "shortTag": "BOX 3 \u2022 F\u00dcHRUNGSZEUGNIS & APOSTILLE", "icon": "\ud83d\udee1\ufe0f", "title": "Die 3-S\u00e4ulen-F\u00fchrungszeugnis-Klippe (BZR / FBI / ACRO / RCMP) & Alte Gel\u00f6schte Eintr\u00e4ge", "shortDesc": "Wie Nativ und PIBA nationale F\u00fchrungszeugnisse aus jedem Land (>12 Monate Aufenthalt ab 14 J.) pr\u00fcfen \u2014 und wie unser hebr\u00e4ischer Michtav-Hesber-Generator Sie vor Ablehnung sch\u00fctzt.", "desc": "Nativ und PIBA verlangen nationale/f\u00f6derale F\u00fchrungszeugnisse mit Apostille aus Ihrem Heimatland UND jedem Land, in dem Sie seit Ihrem 14. Lebensjahr l\u00e4nger als 12 Monate gelebt haben. Zudem zeigen biometrische Bundesregister oft Jahrzehnte alte eingestellte Verfahren.", "trapTitle": "\ud83d\udea8 Falsche Apostille-Ebene & Ablehnung wegen Nichtangabe", "trapDesc": "Eine Landes-Apostille auf einer Bundesurkunde oder das Ankreuzen von 'Keine Vorstrafen' im Formular Ash/456 bei einem alten Registereintrag f\u00fchrt zur sofortigen Ablehnung wegen T\u00e4uschung.", "winTitle": "\u26a1 L\u00e4nder-Checkliste + Formeller Hebr\u00e4ischer Erkl\u00e4rungsbrief (Michtav Hesber)", "winDesc": "Unser System erstellt automatisch Ihren formellen juristischen Erkl\u00e4rungs- und Rehabilitationsbrief auf Hebr\u00e4isch (Michtav Hesber) und pr\u00fcft jede Apostille vor der Einreichung.", "saves": "\u23f1\ufe0f Verhindert Sicherheitsablehnungen und 6 Monate Verz\u00f6gerung", "tools": [{"label": "\u2696\ufe0f Hebr\u00e4ischen Michtav-Hesber-Generator & 8 Formulare freischalten ($89\u2013$149) \u2192", "url": "/de/pricing/?sku=forms_life_149&lang=de", "kind": "paid"}, {"label": "\ud83d\udc51 Kompletten Solo-Lifetime-Schutz + KI-Aktenpr\u00fcfung freischalten ($399) \u2192", "url": "/de/pricing/?sku=suite_solo_life_399&lang=de", "kind": "paid"}, {"label": "\ud83c\udfdb\ufe0f 1-Stunden-Anwaltsbegleitung zum PIBA-Termin anfragen ($0 Angebot) \u2192", "url": "/concierge-booking/?sku=concierge_escort_649&lang=de", "kind": "concierge"}]}, {"tag": "BOX 4 VON 9 \u2022 TOURISTENVISUM B/2 ZUM STAATLICHEN GIUR (VA'ADAT CHARIGIM)", "shortTag": "BOX 4 \u2022 VA'ADAT CHARIGIM GENEHMIGUNG", "icon": "\ud83c\udfdb\ufe0f", "title": "Mit 90-Tage-Touristenvisum (B/2) in Israel? So \u00dcberzeugen Sie den Ausnahmerausschuss (Va'adat Charigim)", "shortDesc": "Touristen sind vom staatlichen Giur ausgeschlossen, sofern Va'adat Charigim keine Sondergenehmigung erteilt. Sehen Sie, wie unser hebr\u00e4ischer Antrags-Generator und Formular Ash/1 helfen.", "desc": "Ausl\u00e4nder mit B/2-Touristenvisum d\u00fcrfen sich nicht direkt beim staatlichen Konversionsprogramm (Nativ) anmelden. Sie m\u00fcssen zuerst beim interministeriellen Ausnahmerausschuss (Va'adat Charigim) eine Genehmigung erwirken und Gemeindebindung, einen anerkannten Rabbiner, eine Gastfamilie sowie legalen Aufenthalt nachweisen.", "trapTitle": "\ud83d\uded1 Formloser Englischer Antrag & 14-Tage-Ausreiseaufforderung", "trapDesc": "Ein formloses englisches Schreiben oder ein Antrag nach Ablauf der 90-Tage-Frist f\u00fchrt zur sofortigen Ablehnung und einer 14-Tage-Ausreiseverf\u00fcgung.", "winTitle": "\u26a1 Hebr\u00e4isches Formular Ash/1 + Aktivit\u00e4ts-Logger & Rabbiner-Empfehlung", "winDesc": "Unsere Engine stempelt Ihr offizielles hebr\u00e4isches Formular Ash/1 samt Va'adat-Charigim-Antrag, unser Aktivit\u00e4ts-Logger dokumentiert Ihre Schabbat- und Unterrichtsstunden f\u00fcr Rabbinerbriefe, und unser Concierge-Team vermittelt Ihnen einen anerkannten Rabbiner.", "saves": "\u23f1\ufe0f Spart 6 bis 12 Monate und sch\u00fctzt Ihren legalen Aufenthalt in Israel", "tools": [{"label": "\ud83c\udfdb\ufe0f Hebr\u00e4isches Formular Ash/1 & Va'adat-Charigim-Engine ($89\u2013$149) \u2192", "url": "/de/pricing/?sku=forms_life_149&lang=de", "kind": "paid"}, {"label": "\ud83d\udd4d Anerkannten Betreuungs-Rabbiner & Empfehlungsbrief ($0 Angebot) \u2192", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=de", "kind": "concierge"}, {"label": "\ud83d\udcc5 Kostenlos Aktivit\u00e4ts-Logger f\u00fcr Rabbiner-Referenzen \u00f6ffnen \u2192", "url": "/app/?module=logger&lang=de", "kind": "free"}]}, {"tag": "BOX 5 VON 9 \u2022 DOPPEL-TRACK: PARTNER-VISUM (5.2.0008) + GIUR (ABS. \u05d2.10)", "shortTag": "BOX 5 \u2022 DOPPEL-TRACK PARTNER + GIUR", "icon": "\ud83d\udc6b", "title": "Der Doppel-Track-Vorteil: Partner-Residenz (Nohal 5.2.0008) & Staatlichen Giur Parallel F\u00fchren", "shortDesc": "Warum Paare mit israelischem Partner zuerst das B/1-Arbeitsvisum \u00fcber das Stufenverfahren sichern sollten, W\u00c4HREND sie den Giur vorbereiten \u2014 und wie die VIP-Suite beides synchronisiert.", "desc": "Wenn Sie mit einem israelischen Staatsb\u00fcrger verheiratet oder liiert sind und konvertieren m\u00f6chten, sichert Ihnen das Stufenverfahren (Nohal 5.2.0008 / 5.2.0009) innerhalb weniger Monate ein B/1-Visum mit voller Arbeitserlaubnis und berechtigt Sie nach Abschnitt \u05d2.10 parallel zum staatlichen Giur.", "trapTitle": "\u26a0\ufe0f Widerspr\u00fcchliche Angaben zwischen PIBA und Beit Din", "trapDesc": "Nicht abgestimmte Einreichungen beim Innenministerium und Rabbinat verz\u00f6gern sowohl Ihre Arbeitserlaubnis als auch Ihre Konversion.", "winTitle": "\u26a1 VIP-Paar-Suite (Formular Ash/6 + 300-Fragen-Sync + 700-Fragen Beit Din)", "winDesc": "Unsere Plattform f\u00fcllt Ihr 29-seitiges Formular Ash/6 auf Hebr\u00e4isch aus, synchronisiert Ihre 2 Telefone f\u00fcr die 300 Fragen des getrennten PIBA-Interviews und bereitet beide Partner auf die 700 Fragen des Beit Din vor.", "saves": "\u23f1\ufe0f Sichert die Arbeitserlaubnis 9\u201318 Monate fr\u00fcher bei parallelem Giur", "tools": [{"label": "\ud83d\udc51 Komplette VIP-Paar-Suite f\u00fcr 2 Telefone + KI-Audit ($649) \u2192", "url": "/de/pricing/?sku=vip_couple_649&lang=de", "kind": "paid"}, {"label": "\ud83d\udcf1 300-Fragen-Paar-Sync auf 2 Telefonen freischalten ($75\u2013$229) \u2192", "url": "/de/pricing/?sku=couples_life_229&lang=de", "kind": "paid"}, {"label": "\ud83d\udc8d Rabbiner + Madrichat Kallah Paar-Paket anfragen ($0 Angebot) \u2192", "url": "/concierge-booking/?sku=concierge_couple_499&lang=de", "kind": "concierge"}]}, {"tag": "BOX 6 VON 9 \u2022 RABBINER, MADRICHAT KALLAH, 700 FRAGEN & 56 SCHABBAT-LIEDER", "shortTag": "BOX 6 \u2022 700 FRAGEN & 56 LIEDER", "icon": "\ud83d\udcd6", "title": "Beide Partner Werden Gepr\u00fcft! Anerkannter Rabbiner, Madrichat Kallah, 700 Fragen & 56 Lieder", "shortDesc": "Warum Unterricht bei nicht anerkannten Lehrern ein Jahr kostet, warum Dayanim Sie live Kiddusch und Brachot singen lassen, und wie unser 700-Karten- & 56-Lieder-Trainer Sie vorbereitet.", "desc": "Selbst wenn ein Partner geb\u00fcrtiger j\u00fcdischer Israeli ist, verlangt das Beit Din von BEIDEN Partnern Unterricht bei einem anerkannten Rabbiner (Rav Melaveh), einen Familienreinheitskurs bei einer zertifizierten Madrichat Kallah sowie das Bestehen der m\u00fcndlichen Pr\u00fcfung (700 Fragen + 56 Schabbat-Lieder, Schacharit-Gebete und Brachot, die live vor den Richtern gesungen werden m\u00fcssen).", "trapTitle": "\ud83d\ude30 Nicht Anerkannte Kurse & Blackout beim Live-Singen vor dem Beit Din", "trapDesc": "Wer stockt, wenn ein Dayan das Vorsingen von Kiddusch, Hawdala oder Birkat HaMason verlangt, riskiert eine sofortige 6-monatige Zur\u00fcckstellung.", "winTitle": "\u26a1 700-Karten-Simulator + 56-Lieder-Karaoke mit KI + Rabbiner-Vermittlung", "winDesc": "Wir vermitteln Ihnen anerkannte Rabbiner und Madrichot Kallah in ganz Israel und trainieren Sie mit 700 Flashcards und 56 Liedern/Gebeten inklusive deutscher Lautschrift und KI-Tonh\u00f6henbewertung.", "saves": "\u23f1\ufe0f Spart 6 bis 18 Monate und verhindert R\u00fcckstellungen beim Beit Din", "tools": [{"label": "\ud83d\udd4d Alle 700 Beit-Din-Karten + 56 Lieder & KI-Trainer ($149\u2013$249) \u2192", "url": "/de/pricing/?sku=bd_suite_life_249&lang=de", "kind": "paid"}, {"label": "\ud83e\udd1d Anerkannten Rabbiner + Madrichat Kallah anfragen ($0 Angebot) \u2192", "url": "/concierge-booking/?sku=concierge_couple_499&lang=de", "kind": "concierge"}, {"label": "\ud83c\udfb5 Kostenlos 2 Karaoke-Schabbatlieder & 4 Beit-Din-Karten testen \u2192", "url": "/app/?module=songs-prayers&lang=de", "kind": "free"}]}, {"tag": "BOX 7 VON 9 \u2022 300-FRAGEN-PAARVERH\u00d6R IN GETRENNTEN R\u00c4UMEN", "shortTag": "BOX 7 \u2022 300-FRAGEN-PAARINTERVIEW", "icon": "\ud83d\udcf1", "title": "Synchronisieren Sie Sich auf 2 Telefonen \u00fcber Alle 300 Fragen vor dem Getrennten PIBA-Interview", "shortDesc": "Jedes Jahr des 5-j\u00e4hrigen Stufenverfahrens (Tahalich Medurag) befragen PIBA-Beamte Sie und Ihren Partner in getrennten R\u00e4umen. Trainieren Sie mit unserem 300-Fragen-Widerspruchsdetektor.", "desc": "In jedem der 5 Jahre des Stufenverfahrens (Nohal 5.2.0008 / 5.2.0009) trennen die Sachbearbeiter von Misrad HaPanim Sie und Ihren Partner in zwei B\u00fcros und stellen Fragen aus unserem 300-Fragen-Katalog \u00fcber 10 Alltagskategorien (Kennenlernen, Wohnung, Rechnungen, Morgenroutine, Schwiegereltern, Feiertage, Finanzen, Kinder). Beide Protokolle werden Wort f\u00fcr Wort abgeglichen.", "trapTitle": "\ud83d\udea9 Wie Echte Paare im Getrennten Verh\u00f6r Durchfallen", "trapDesc": "Widerspr\u00fcche unter Stress bei kleinen Alltagsdetails (wer die Stromrechnung bezahlt hat, wer auf welcher Bettseite schl\u00e4ft, das letzte Freitagsessen) l\u00f6sen eine 6\u201312-monatige Verdachtssperre aus.", "winTitle": "\u26a1 Live-Sync auf 2 Telefonen (300 Fragen + 80-Fragen-Pr\u00fcfungsmodus)", "winDesc": "Verbinden Sie zwei Telefone auf Ihrem Sofa: Beantworten Sie alle 300 echten PIBA-Fragen jeweils in Ihrer Muttersprache und sehen Sie jede Abweichung sofort vor Ihrem Termin.", "saves": "\u23f1\ufe0f Verhindert 6\u201312 Monate Aktenstopp und 30.000 \u20aa Bankb\u00fcrgschaften", "tools": [{"label": "\ud83d\udcf1 300-Fragen-Simulator f\u00fcr 2 Telefone freischalten ($75\u2013$229) \u2192", "url": "/de/pricing/?sku=couples_life_229&lang=de", "kind": "paid"}, {"label": "\ud83d\udc51 Komplette VIP-Paar-Suite + KI-Aktenpr\u00fcfung freischalten ($649) \u2192", "url": "/de/pricing/?sku=vip_couple_649&lang=de", "kind": "paid"}, {"label": "\ud83e\uddea Kostenlos 4 Paar-Interviewfragen in der App testen \u2192", "url": "/app/?module=couples&lang=de", "kind": "free"}]}, {"tag": "BOX 8 VON 9 \u2022 8 OFFIZIELLE HEBR\u00c4ISCHE PIBA-FORMULARE & BEAMTENBRIEF-DECODER", "shortTag": "BOX 8 \u2022 8 HEBR\u00c4ISCHE PIBA-PDFS", "icon": "\ud83d\udda8\ufe0f", "title": "Auf Deutsch Ausf\u00fcllen \u2192 Alle 8 Offiziellen PIBA-Formulare auf Hebr\u00e4isch Drucken (Ash/1, Ash/3, Ash/6, Ash/456)", "shortDesc": "PIBA-Beamte lehnen englische/deutsche Formulare ab und schlie\u00dfen Akten nach 30 Tagen. F\u00fcllen Sie alles in Ihrer Sprache aus und laden Sie pixelgenaue hebr\u00e4ische Regierungs-PDFs herunter.", "desc": "Das Innenministerium verlangt seine 8 offiziellen Formulare ausschlie\u00dflich auf Hebr\u00e4isch (29-seitiges Partner-Dossier Ash/6, Ash/3, Ash/1, Alija Ash/456, MR/14a, MR/14b, Nespach Alef, Sicherheits-CV). Zudem muss jedes hebr\u00e4ische Nachforderungsschreiben (Daf Drishat Mismachim) innerhalb von 30 Tagen erf\u00fcllt werden, sonst wird die Akte geschlossen.", "trapTitle": "\ud83d\udcc4 Ablehnung Handschriftlicher Formulare & 30-Tage-Aktenschlie\u00dfung", "trapDesc": "Anw\u00e4lten 15.000 \u20aa\u201340.000 \u20aa nur f\u00fcr das Ausf\u00fcllen von Formularen zu zahlen oder am Schalter unleserlich per Hand auszuf\u00fcllen, kostet Monate an Wartezeit.", "winTitle": "\u26a1 Pixelgenauer Hebr\u00e4ischer PDF-Stempler + Rot-X-Unterschriftenf\u00fchrer", "winDesc": "Geben Sie Ihre Daten auf Deutsch ein: Unsere Engine stempelt die offiziellen hebr\u00e4ischen PDFs samt Rot-X-Unterschriftenf\u00fchrer f\u00fcr den Schalter und \u00fcbersetzt jedes PIBA-Nachforderungsschreiben.", "saves": "\u23f1\ufe0f Spart 15.000 \u20aa\u201340.000 \u20aa Anwaltskosten & stoppt 30-Tage-Schlie\u00dfungen", "tools": [{"label": "\ud83d\udda8\ufe0f Alle 8 Offiziellen Hebr\u00e4ischen PIBA-PDF-Stempler ($89\u2013$149) \u2192", "url": "/de/pricing/?sku=forms_life_149&lang=de", "kind": "paid"}, {"label": "\u2696\ufe0f 1-Stunden-Anwaltsbegleitung zum PIBA-Termin ($0 Angebot) \u2192", "url": "/concierge-booking/?sku=concierge_escort_649&lang=de", "kind": "concierge"}, {"label": "\ud83d\udccb Kostenlose Vorschau der 8 Formulare & Beamtenbrief-Decoder \u2192", "url": "/app/?module=forms&lang=de", "kind": "free"}]}, {"tag": "BOX 9 VON 9 \u2022 FAST-TRACK IN-ISRAEL ALIJA (SHINUI MA'AMAD) STATT JAFI-WARTESCHLANGE", "shortTag": "BOX 9 \u2022 FAST-TRACK ALIJA IN ISRAEL", "icon": "\ud83c\udfe2", "title": "\u00dcberspringen Sie 9\u201312 Monate Wartezeit bei der Jewish Agency: In-Israel Alija (Formular Ash/456)", "shortDesc": "Wie Berechtigte nach dem R\u00fcckkehrgesetz direkt nach Israel fliegen, Shinui Ma'amad im Land beantragen, die Nativ-Abstammungspr\u00fcfung bestehen und 24 Monate Sal Klita sichern.", "desc": "Statt 9 bis 12 Monate im Ausland auf ein Konsularinterview der Jewish Agency zu warten, k\u00f6nnen Berechtigte mit ihren 5 apostillierten Urkunden und einem Nativ-konformen m\u00fctterlichen Judentumsnachweis direkt in Israel den Statuswechsel zum Oleh Chadash (Shinui Ma'amad \u2014 Formular Ash/456) beantragen.", "trapTitle": "\u23f3 1 Jahr Wartezeit im Ausland & Abgelehnte Gemeindebriefe bei Nativ", "trapDesc": "Mit einer allgemeinen Gemeindebescheinigung nach Israel zu fliegen, die bei Nativs strenger m\u00fctterlicher Abstammungspr\u00fcfung durchf\u00e4llt, blockiert Ihre Teudat Zehut und Krankenversicherung.", "winTitle": "\u26a1 KI-Nativ-Abstammungspr\u00fcfung + Formular Ash/456 & Sal-Klita-Schutz", "winDesc": "Unser KI-Auditor pr\u00fcft Ihren Rabbinerbrief und Ihre Abstammungsurkunden vor dem Flug nach Nativ-Standards, stempelt Ihr hebr\u00e4isches Formular Ash/456 und sichert Ihren 24-monatigen Sal-Klita-Anspruch.", "saves": "\u23f1\ufe0f Umgeht 9\u201312 Monate Konsularb\u00fcrokratie und sch\u00fctzt Ihr Sal Klita", "tools": [{"label": "\u2708\ufe0f Formular Ash/456 Alija-Stempler & KI-Nativ-Pr\u00fcfer ($89\u2013$149) \u2192", "url": "/de/pricing/?sku=forms_life_149&lang=de", "kind": "paid"}, {"label": "\ud83d\udee1\ufe0f Kompletter Solo-Lifetime-Schutz (Alle Tools + KI-Audit) ($399) \u2192", "url": "/de/pricing/?sku=suite_solo_life_399&lang=de", "kind": "paid"}, {"label": "\ud83d\udcdc Notarielles 4-Urkunden-\u00dcbersetzungspaket anfragen ($0 Angebot) \u2192", "url": "/concierge-booking/?sku=concierge_bundle_799&lang=de", "kind": "concierge"}]}], "categories": [{"title": "\ud83d\udd4d KATEGORIE 1: KONVERSION, PRIVATE BATEI DIN & 5 APOSTILLE-URKUNDEN", "sub": "Boxen 1\u20133 \u2022 Gratis-Guides"}, {"title": "\ud83c\udfdb\ufe0f KATEGORIE 2: VA'ADAT CHARIGIM, DOPPEL-TRACK & 700 BEIT-DIN-FRAGEN", "sub": "Boxen 4\u20136 \u2022 Gratis-Guides"}, {"title": "\ud83d\udcf1 KATEGORIE 3: 300 PAAR-FRAGEN, 8 HEBR\u00c4ISCHE PIBA-FORMULARE & IN-ISRAEL ALIJA", "sub": "Boxen 7\u20139 \u2022 Gratis-Guides"}]}, "ru": {"tap": "\u041e\u0422\u041a\u0420\u042b\u0422\u042c \u2192", "toolsHeading": "\ud83d\udee0\ufe0f \u0418\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b \u0438 \u0441\u0435\u0440\u0432\u0438\u0441\u044b \u0434\u043b\u044f 100% \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u043a\u0438 \u043a \u0447\u0438\u043d\u043e\u0432\u043d\u0438\u043a\u0430\u043c \u043d\u0430 \u044d\u0442\u043e\u043c \u044d\u0442\u0430\u043f\u0435:", "startBtn": "\ud83d\ude80 \u041d\u0430\u0447\u0430\u0442\u044c \u043c\u043e\u0439 \u043f\u0443\u0442\u044c \u2192", "trackerBtn": "\ud83d\udcca \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043c\u043e\u0439 \u0442\u0440\u0435\u043a\u0435\u0440 \u2192", "nextBoxBtn": "\u0421\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u2192", "boxes": [{"tag": "\u0411\u041b\u041e\u041a 1 \u0418\u0417 9 \u2022 \u0427\u0410\u0421\u0422\u041d\u042b\u0415 \u041e\u0420\u0422\u041e\u0414\u041e\u041a\u0421\u0410\u041b\u042c\u041d\u042b\u0415 \u0411\u0415\u0419\u0422-\u0414\u0418\u041d\u042b (\u0418\u0417\u0420\u0410\u0418\u041b\u042c \u0418 \u0414\u0418\u0410\u0421\u041f\u041e\u0420\u0410)", "shortTag": "\u0411\u041b\u041e\u041a 1 \u2022 \u0427\u0410\u0421\u0422\u041d\u042b\u0415 \u0411\u0415\u0419\u0422-\u0414\u0418\u041d\u042b", "icon": "\ud83d\udd4d", "title": "\u0427\u0430\u0441\u0442\u043d\u044b\u0435 \u041e\u0440\u0442\u043e\u0434\u043e\u043a\u0441\u0430\u043b\u044c\u043d\u044b\u0435 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u044b (\u0413\u0443\u0448-\u042d\u0446\u0438\u043e\u043d, \u0411\u043d\u0435\u0439-\u0411\u0440\u0430\u043a, \u0418\u0435\u0440\u0443\u0441\u0430\u043b\u0438\u043c \u0438 \u0417\u0430\u0440\u0443\u0431\u0435\u0436\u044c\u0435): \u0421\u0442\u0430\u0442\u0443\u0441 vs \u0411\u0440\u0430\u043a", "shortDesc": "\u041a\u0430\u043a \u0433\u0438\u044e\u0440 \u0432 \u0413\u0443\u0448-\u042d\u0446\u0438\u043e\u043d\u0435, \u0411\u043d\u0435\u0439-\u0411\u0440\u0430\u043a\u0435 (\u0440\u0430\u0432 \u041a\u0430\u0440\u0435\u043b\u0438\u0446), \u0411\u0430\u0434\u0430\u0446 \u0418\u0435\u0440\u0443\u0441\u0430\u043b\u0438\u043c\u0430, \u0425\u0430\u0431\u0430\u0434\u0435 \u0438\u043b\u0438 \u0437\u0430\u0440\u0443\u0431\u0435\u0436\u043d\u044b\u0445 \u0441\u0443\u0434\u0430\u0445 (RCA, \u041b\u043e\u043d\u0434\u043e\u043d, \u041a\u043e\u043d\u0441\u0438\u0441\u0442\u043e\u0440\u0438\u044f, ORD) \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u0434\u043b\u044f \u0410\u043b\u0438\u0438 \u0438 \u041c\u0412\u0414 \u043f\u0440\u043e\u0442\u0438\u0432 \u0431\u0440\u0430\u043a\u0430 \u0432 \u0420\u0430\u0432\u0432\u0438\u043d\u0430\u0442\u0435.", "desc": "\u0421\u043e\u0433\u043b\u0430\u0441\u043d\u043e \u043f\u0440\u0435\u0446\u0435\u0434\u0435\u043d\u0442\u043d\u044b\u043c \u0440\u0435\u0448\u0435\u043d\u0438\u044f\u043c \u0411\u0410\u0413\u0410\u0426 (\u0434\u0435\u043b\u0430 \u0414\u0430\u0445\u0430\u043d \u0438 \u0420\u0430\u0433\u0447\u043e\u0432\u0430), \u0433\u0438\u044e\u0440, \u043f\u0440\u043e\u0439\u0434\u0435\u043d\u043d\u044b\u0439 \u0432 \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u044b\u0445 \u043d\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u044b\u0445 \u043e\u0440\u0442\u043e\u0434\u043e\u043a\u0441\u0430\u043b\u044c\u043d\u044b\u0445 \u0440\u0430\u0432\u0432\u0438\u043d\u0441\u043a\u0438\u0445 \u0441\u0443\u0434\u0430\u0445 \u0432\u043d\u0443\u0442\u0440\u0438 \u0418\u0437\u0440\u0430\u0438\u043b\u044f \u2014 \u0442\u0430\u043a\u0438\u0445 \u043a\u0430\u043a \u0413\u0443\u0448-\u042d\u0446\u0438\u043e\u043d (\u0425\u0430\u0440-\u042d\u0446\u0438\u043e\u043d), \u0411\u043d\u0435\u0439-\u0411\u0440\u0430\u043a (\u0411\u0435\u0439\u0442-\u0414\u0438\u043d \u0440\u0430\u0432\u0430 \u041d\u0438\u0441\u0438\u043c\u0430 \u041a\u0430\u0440\u0435\u043b\u0438\u0446\u0430), \u0445\u0430\u0440\u0435\u0434\u0438\u043c\u043d\u044b\u0435 \u0441\u0443\u0434\u044b \u0418\u0435\u0440\u0443\u0441\u0430\u043b\u0438\u043c\u0430 (\u0411\u0430\u0434\u0430\u0446 / \u042d\u0434\u0430 \u0425\u0430\u0440\u0435\u0434\u0438\u0442), \u041c\u043e\u0434\u0438\u0438\u043d-\u0418\u043b\u0438\u0442 \u0438 \u0441\u0443\u0434\u044b \u0425\u0430\u0431\u0430\u0434\u0430 \u2014 \u0434\u0430\u0435\u0442 \u043f\u0440\u0430\u0432\u043e \u043d\u0430 \u0433\u0440\u0430\u0436\u0434\u0430\u043d\u0441\u0442\u0432\u043e \u043f\u043e \u0417\u0430\u043a\u043e\u043d\u0443 \u043e \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0435\u043d\u0438\u0438 (\u0422\u0435\u0443\u0434\u0430\u0442-\u0417\u0435\u0443\u0442) \u0432 \u041c\u0412\u0414 (PIBA) \u0434\u0430\u0436\u0435 \u0431\u0435\u0437 \u043f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c. \u041e\u0434\u043d\u0430\u043a\u043e \u0413\u043b\u0430\u0432\u043d\u044b\u0439 \u0420\u0430\u0432\u0432\u0438\u043d\u0430\u0442 \u0418\u0437\u0440\u0430\u0438\u043b\u044f (\u041c\u0438\u0441\u0440\u0430\u0434 \u0445\u0430-\u0414\u0430\u0442\u043e\u0442) \u0432\u0435\u0434\u0435\u0442 \u0441\u043e\u0431\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439 \u0440\u0435\u0435\u0441\u0442\u0440 \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u044b\u0445 \u0441\u0443\u0434\u043e\u0432 (\u0432\u043a\u043b\u044e\u0447\u0430\u044f RCA, \u041b\u043e\u043d\u0434\u043e\u043d\u0441\u043a\u0438\u0439 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d, \u041a\u043e\u043d\u0441\u0438\u0441\u0442\u043e\u0440\u0438\u044e \u041f\u0430\u0440\u0438\u0436\u0430, ORD) \u0434\u043b\u044f \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438 \u0435\u0432\u0440\u0435\u0439\u0441\u043a\u0438\u0445 \u0431\u0440\u0430\u043a\u043e\u0432. \u041d\u0430\u0448\u0430 \u043f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u0430 \u0437\u0430\u0440\u0430\u043d\u0435\u0435 \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442, \u043a\u0430\u043a\u043e\u0439 \u0441\u0443\u0434 \u043f\u043e\u0434\u0445\u043e\u0434\u0438\u0442 \u043f\u043e\u0434 \u0432\u0430\u0448\u0443 \u0432\u0438\u0437\u0443, \u0441\u0442\u0430\u0442\u0443\u0441 \u0438 \u0441\u0435\u043c\u0435\u0439\u043d\u044b\u0435 \u0446\u0435\u043b\u0438.", "trapTitle": "\ud83d\udea8 \u041b\u043e\u0432\u0443\u0448\u043a\u0430 \u043d\u0435\u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u0441\u0443\u0434\u0430 \u0434\u043b\u044f \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438 \u0431\u0440\u0430\u043a\u0430 \u0438\u043b\u0438 \u041c\u0412\u0414", "trapDesc": "\u041a\u0430\u043d\u0434\u0438\u0434\u0430\u0442\u044b \u0447\u0430\u0441\u0442\u043e \u0443\u0447\u0430\u0442\u0441\u044f 12\u201318 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u0432 \u0447\u0430\u0441\u0442\u043d\u043e\u043c \u0438\u043b\u0438 \u0437\u0430\u0440\u0443\u0431\u0435\u0436\u043d\u043e\u043c \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0435, \u043d\u0435 \u0437\u043d\u0430\u044f, \u0447\u0442\u043e \u0413\u043b\u0430\u0432\u043d\u044b\u0439 \u0420\u0430\u0432\u0432\u0438\u043d\u0430\u0442 \u043d\u0435 \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u0443\u0435\u0442 \u0438\u0445 \u0445\u0443\u043f\u0443 \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u0435, \u0438\u043b\u0438 \u043f\u0440\u0438\u0445\u043e\u0434\u044f\u0442 \u0432 \u041c\u0412\u0414 \u0431\u0435\u0437 \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e \u043e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0432\u0432\u0438\u043d\u0441\u043a\u043e\u0433\u043e \u0434\u043e\u0441\u044c\u0435.", "winTitle": "\u26a1 \u0422\u043e\u0447\u043d\u044b\u0439 \u043f\u043e\u0434\u0431\u043e\u0440 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430 + \u0422\u0440\u0435\u043d\u0430\u0436\u0435\u0440 700 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0438 \u0420\u0430\u0432\u0432\u0438\u043d-\u043a\u0443\u0440\u0430\u0442\u043e\u0440", "winDesc": "\u041d\u0430\u0448\u0430 \u0434\u0438\u0430\u0433\u043d\u043e\u0441\u0442\u0438\u043a\u0430 \u043f\u043e\u0434\u0431\u0438\u0440\u0430\u0435\u0442 \u0442\u043e\u0447\u043d\u044b\u0439 \u0433\u043e\u0441\u0443\u0434\u0430\u0440\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439 \u0438\u043b\u0438 \u0447\u0430\u0441\u0442\u043d\u044b\u0439 \u0441\u0443\u0434, \u043f\u0440\u0435\u0434\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0432\u0432\u0438\u043d\u0430-\u043a\u0443\u0440\u0430\u0442\u043e\u0440\u0430 (\u0420\u0430\u0432 \u041c\u0435\u043b\u0430\u0432\u0435), \u0442\u0440\u0435\u043d\u0438\u0440\u0443\u0435\u0442 \u043f\u043e \u0432\u0441\u0435\u043c 700 \u0432\u043e\u043f\u0440\u043e\u0441\u0430\u043c \u0441\u0443\u0434\u0435\u0439 \u0438 56 \u043f\u0435\u0441\u043d\u044f\u043c/\u043c\u043e\u043b\u0438\u0442\u0432\u0430\u043c \u0428\u0430\u0431\u0431\u0430\u0442\u0430 \u0438 \u0437\u0430\u043f\u043e\u043b\u043d\u044f\u0435\u0442 \u0431\u043b\u0430\u043d\u043a\u0438 \u041c\u0412\u0414 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435.", "saves": "\u23f1\ufe0f \u042d\u043a\u043e\u043d\u043e\u043c\u0438\u0442 12\u201324 \u043c\u0435\u0441\u044f\u0446\u0430 \u0438 \u0437\u0430\u0449\u0438\u0449\u0430\u0435\u0442 \u043e\u0442 \u043d\u0435\u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u0433\u0438\u044e\u0440\u0430", "tools": [{"label": "\ud83d\udd4d \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043f\u0430\u043a\u0435\u0442: 700 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430 + 56 \u043f\u0435\u0441\u0435\u043d \u0428\u0430\u0431\u0431\u0430\u0442\u0430 ($149\u2013$249) \u2192", "url": "/ru/pricing/?sku=bd_suite_life_249&lang=ru", "kind": "paid"}, {"label": "\ud83d\udc68\u200d\u2696\ufe0f \u0417\u0430\u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u0420\u0430\u0432\u0432\u0438\u043d\u0430-\u043a\u0443\u0440\u0430\u0442\u043e\u0440\u0430 ($0 \u0440\u0430\u0441\u0447\u0435\u0442 \u0441\u0435\u0433\u043e\u0434\u043d\u044f) \u2192", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=ru", "kind": "concierge"}, {"label": "\ud83c\udfa7 \u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e \u043f\u0440\u043e\u0442\u0435\u0441\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c 4 \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0438 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430 \u0438 2 \u043f\u0435\u0441\u043d\u0438 \u2192", "url": "/app/?module=beit-din&lang=ru", "kind": "free"}]}, {"tag": "\u0411\u041b\u041e\u041a 2 \u0418\u0417 9 \u2022 \u041f\u0415\u0422\u041b\u042f \u0412 2 \u0413\u041e\u0414\u0410 \u0418 5 \u041b\u0418\u0427\u041d\u042b\u0425 \u0414\u041e\u041a\u0423\u041c\u0415\u041d\u0422\u041e\u0412 \u0421 \u0410\u041f\u041e\u0421\u0422\u0418\u041b\u0415\u041c", "shortTag": "\u0411\u041b\u041e\u041a 2 \u2022 5 \u0414\u041e\u041a\u0423\u041c\u0415\u041d\u0422\u041e\u0412 \u0421 \u0410\u041f\u041e\u0421\u0422\u0418\u041b\u0415\u041c", "icon": "\u2708\ufe0f", "title": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0412\u0441\u0435 5 \u041b\u0438\u0447\u043d\u044b\u0445 \u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u0441 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u0435\u043c \u041b\u0438\u0447\u043d\u043e \u043d\u0430 \u0420\u043e\u0434\u0438\u043d\u0435 (\u043f\u0440\u043e\u0442\u0438\u0432 \u0410\u0434\u0430 \u0423\u0434\u0430\u043b\u0435\u043d\u043d\u043e\u0433\u043e \u0417\u0430\u043a\u0430\u0437\u0430)", "shortDesc": "\u041f\u043e\u0447\u0435\u043c\u0443 \u0443\u0434\u0430\u043b\u0435\u043d\u043d\u044b\u0439 \u0437\u0430\u043a\u0430\u0437 \u0441\u0432\u0438\u0434\u0435\u0442\u0435\u043b\u044c\u0441\u0442\u0432 \u043e \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u0438, \u0441\u0435\u043c\u0435\u0439\u043d\u043e\u043c \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u0438\u0438, \u0440\u0430\u0437\u0432\u043e\u0434\u0435 \u0438 \u043d\u0435\u0441\u0443\u0434\u0438\u043c\u043e\u0441\u0442\u0438 \u0438\u0437 \u0418\u0437\u0440\u0430\u0438\u043b\u044f \u0437\u0430\u0433\u043e\u043d\u044f\u0435\u0442 \u0432\u0430\u0441 \u0432 \u043f\u0435\u0442\u043b\u044e \u0438\u0441\u0442\u0435\u0447\u0435\u043d\u0438\u044f 180 \u0434\u043d\u0435\u0439 \u2014 \u0438 \u043a\u0430\u043a \u043d\u0430\u0448 \u0418\u0418-\u0430\u0443\u0434\u0438\u0442\u043e\u0440 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u0432\u0441\u0451 \u0437\u0430\u0440\u0430\u043d\u0435\u0435.", "desc": "\u041b\u044e\u0431\u043e\u0435 \u0434\u0435\u043b\u043e \u043f\u043e \u0410\u043b\u0438\u0435, \u0421\u0422\u0423\u041f\u0420\u041e (\u0414\u0438\u0440\u0435\u043a\u0442\u0438\u0432\u0430 5.2.0008) \u0438\u043b\u0438 \u0413\u0438\u044e\u0440\u0443 \u0442\u0440\u0435\u0431\u0443\u0435\u0442 5 \u043e\u0440\u0438\u0433\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0445 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u0441 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u0435\u043c: (1) \u041f\u043e\u043b\u043d\u043e\u0435 \u0441\u0432\u0438\u0434\u0435\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e \u043e \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u0438, (2) \u0421\u043f\u0440\u0430\u0432\u043a\u0430 \u043e \u0441\u0435\u043c\u0435\u0439\u043d\u043e\u043c \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u0438\u0438 / \u043e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0438 \u0431\u0440\u0430\u043a\u0430, (3) \u0421\u0432\u0438\u0434\u0435\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u0430 \u0438 \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u043e \u0440\u0430\u0437\u0432\u043e\u0434\u0435/\u0431\u0440\u0430\u043a\u0435, (4) \u0421\u043f\u0440\u0430\u0432\u043a\u0430 \u043e \u0441\u043c\u0435\u043d\u0435 \u0438\u043c\u0435\u043d\u0438 \u0438 (5) \u0421\u043f\u0440\u0430\u0432\u043a\u0430 \u043e \u043d\u0435\u0441\u0443\u0434\u0438\u043c\u043e\u0441\u0442\u0438. \u0427\u0438\u043d\u043e\u0432\u043d\u0438\u043a\u0438 \u041c\u0412\u0414 \u0436\u0435\u0441\u0442\u043a\u043e \u0441\u0447\u0438\u0442\u0430\u044e\u0442 180 \u0434\u043d\u0435\u0439 \u0441\u0440\u043e\u043a\u0430 \u0433\u043e\u0434\u043d\u043e\u0441\u0442\u0438 \u0441\u043f\u0440\u0430\u0432\u043e\u043a: \u0435\u0441\u043b\u0438 \u043d\u0435 \u0445\u0432\u0430\u0442\u0430\u0435\u0442 \u043e\u0434\u043d\u043e\u0433\u043e \u0448\u0442\u0430\u043c\u043f\u0430 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044c, \u0432\u0430\u043c \u0434\u0430\u044e\u0442 30 \u0434\u043d\u0435\u0439 \u043d\u0430 \u0434\u043e\u0441\u0434\u0430\u0447\u0443, \u043f\u043e\u043a\u0430 \u043e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 \u0441\u043f\u0440\u0430\u0432\u043a\u0438 \u0441\u0433\u043e\u0440\u0430\u044e\u0442.", "trapTitle": "\ud83d\udca5 \u041b\u043e\u0432\u0443\u0448\u043a\u0430 \u0441\u043a\u043e\u043b\u044c\u0437\u044f\u0449\u0435\u0433\u043e \u0438\u0441\u0442\u0435\u0447\u0435\u043d\u0438\u044f 180 \u0434\u043d\u0435\u0439 \u043f\u0440\u0438 \u0437\u0430\u043a\u0430\u0437\u0435 \u0438\u0437 \u0418\u0437\u0440\u0430\u0438\u043b\u044f", "trapDesc": "\u0423\u0434\u0430\u043b\u0435\u043d\u043d\u044b\u0439 \u0437\u0430\u043a\u0430\u0437 \u0441\u043f\u0440\u0430\u0432\u043e\u043a \u0438 \u0430\u043f\u043e\u0441\u0442\u0438\u043b\u0435\u0439 \u0447\u0435\u0440\u0435\u0437 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u0432 \u0437\u0430\u043d\u0438\u043c\u0430\u0435\u0442 3\u20135 \u043c\u0435\u0441\u044f\u0446\u0435\u0432. \u041a \u043c\u043e\u043c\u0435\u043d\u0442\u0443 \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u044f 5-\u0433\u043e \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430 \u0443 1-\u0433\u043e \u0443\u0436\u0435 \u0438\u0441\u0442\u0435\u043a\u0430\u044e\u0442 180 \u0434\u043d\u0435\u0439, \u0438 \u0447\u0438\u043d\u043e\u0432\u043d\u0438\u043a \u041c\u0412\u0414 \u043e\u0442\u043a\u0430\u0437\u044b\u0432\u0430\u0435\u0442 \u0432 \u043f\u0440\u0438\u0435\u043c\u0435.", "winTitle": "\u26a1 \u0418\u0418-\u0410\u0443\u0434\u0438\u0442 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u0434\u043e \u0432\u0438\u0437\u0438\u0442\u0430 \u0432 \u041c\u0412\u0414 + \u041d\u043e\u0442\u0430\u0440\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u043f\u0435\u0440\u0435\u0432\u043e\u0434 \u0441 \u043a\u0440\u0430\u0441\u043d\u043e\u0439 \u043b\u0435\u043d\u0442\u043e\u0439", "winDesc": "\u041d\u0430\u0448\u0435 \u0418\u0418-\u0425\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u043a\u0430\u0436\u0434\u044b\u0439 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442 \u0438 \u0448\u0442\u0430\u043c\u043f \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044c \u043f\u043e \u0441\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u0430\u043c \u041c\u0412\u0414 \u0438 \u0432\u0435\u0434\u0435\u0442 \u0442\u0430\u0439\u043c\u0435\u0440 180 \u0434\u043d\u0435\u0439, \u0430 \u043d\u0430\u0448\u0438 \u0438\u0437\u0440\u0430\u0438\u043b\u044c\u0441\u043a\u0438\u0435 \u043d\u043e\u0442\u0430\u0440\u0438\u0443\u0441\u044b \u0433\u043e\u0442\u043e\u0432\u044f\u0442 \u043e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0435 \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u044b \u043d\u0430 \u0438\u0432\u0440\u0438\u0442 \u0441 \u043a\u0440\u0430\u0441\u043d\u043e\u0439 \u043b\u0435\u043d\u0442\u043e\u0439.", "saves": "\u23f1\ufe0f \u042d\u043a\u043e\u043d\u043e\u043c\u0438\u0442 \u043e\u0442 1,5 \u0434\u043e 2,5 \u043b\u0435\u0442 \u0438 \u0442\u044b\u0441\u044f\u0447\u0438 \u0434\u043e\u043b\u043b\u0430\u0440\u043e\u0432 \u043d\u0430 \u043e\u0442\u043a\u0430\u0437\u0430\u0445 \u0438 \u043f\u0435\u0440\u0435\u0441\u044b\u043b\u043a\u0430\u0445", "tools": [{"label": "\ud83e\udd16 \u041e\u0442\u043a\u0440\u044b\u0442\u044c 8 \u0430\u043d\u043a\u0435\u0442 \u041c\u0412\u0414 \u0438 \u0418\u0418-\u0430\u0443\u0434\u0438\u0442\u043e\u0440 180 \u0434\u043d\u0435\u0439 ($89\u2013$149) \u2192", "url": "/ru/pricing/?sku=forms_life_149&lang=ru", "kind": "paid"}, {"label": "\ud83d\udcdc \u0417\u0430\u043a\u0430\u0437\u0430\u0442\u044c \u043f\u0430\u043a\u0435\u0442 \u043d\u043e\u0442\u0430\u0440\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0430 4 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 ($0 \u0440\u0430\u0441\u0447\u0435\u0442) \u2192", "url": "/concierge-booking/?sku=concierge_bundle_799&lang=ru", "kind": "concierge"}, {"label": "\ud83d\udd0d \u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0425\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u0438 \u043a\u0430\u043b\u044c\u043a\u0443\u043b\u044f\u0442\u043e\u0440 180 \u0434\u043d\u0435\u0439 \u2192", "url": "/app/?module=docs&lang=ru", "kind": "free"}]}, {"tag": "\u0411\u041b\u041e\u041a 3 \u0418\u0417 9 \u2022 \u0421\u041f\u0420\u0410\u0412\u041a\u0418 \u041e \u041d\u0415\u0421\u0423\u0414\u0418\u041c\u041e\u0421\u0422\u0418 \u0418 \u042e\u0420\u0418\u0414\u0418\u0427\u0415\u0421\u041a\u041e\u0415 \u041f\u0418\u0421\u042c\u041c\u041e-\u041f\u041e\u042f\u0421\u041d\u0415\u041d\u0418\u0415", "shortTag": "\u0411\u041b\u041e\u041a 3 \u2022 \u041d\u0415\u0421\u0423\u0414\u0418\u041c\u041e\u0421\u0422\u042c \u0418 \u0410\u041f\u041e\u0421\u0422\u0418\u041b\u042c", "icon": "\ud83d\udee1\ufe0f", "title": "\u041e\u0431\u0440\u044b\u0432 180 \u0414\u043d\u0435\u0439 \u043f\u043e \u0421\u043f\u0440\u0430\u0432\u043a\u0430\u043c \u043e \u041d\u0435\u0441\u0443\u0434\u0438\u043c\u043e\u0441\u0442\u0438 (\u041c\u0412\u0414 / \u0424\u0411\u0420 / ACRO / RCMP) \u0438 \u0421\u0442\u0430\u0440\u044b\u0435 \u041f\u043e\u0433\u0430\u0448\u0435\u043d\u043d\u044b\u0435 \u0417\u0430\u043f\u0438\u0441\u0438", "shortDesc": "\u041a\u0430\u043a \u041d\u0430\u0442\u0438\u0432 \u0438 \u041c\u0412\u0414 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u044e\u0442 \u0441\u043f\u0440\u0430\u0432\u043a\u0438 \u043e \u043d\u0435\u0441\u0443\u0434\u0438\u043c\u043e\u0441\u0442\u0438 \u0438\u0437 \u043a\u0430\u0436\u0434\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u044b \u043f\u0440\u043e\u0436\u0438\u0432\u0430\u043d\u0438\u044f >12 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u0441 14 \u043b\u0435\u0442 \u2014 \u0438 \u043a\u0430\u043a \u043d\u0430\u0448 \u0433\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 \u041c\u0438\u0445\u0442\u0430\u0432 \u0425\u0435\u0441\u0431\u0435\u0440 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 \u0437\u0430\u0449\u0438\u0449\u0430\u0435\u0442 \u043e\u0442 \u043e\u0442\u043a\u0430\u0437\u0430.", "desc": "\u041d\u0430\u0442\u0438\u0432 \u0438 \u041c\u0412\u0414 \u0442\u0440\u0435\u0431\u0443\u044e\u0442 \u0444\u0435\u0434\u0435\u0440\u0430\u043b\u044c\u043d\u044b\u0435/\u043d\u0430\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0435 \u0441\u043f\u0440\u0430\u0432\u043a\u0438 \u043e \u043d\u0435\u0441\u0443\u0434\u0438\u043c\u043e\u0441\u0442\u0438 \u0441 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u0435\u043c \u0438\u0437 \u0441\u0442\u0440\u0430\u043d\u044b \u0433\u0440\u0430\u0436\u0434\u0430\u043d\u0441\u0442\u0432\u0430 \u0418 \u043a\u0430\u0436\u0434\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u044b, \u0433\u0434\u0435 \u0432\u044b \u043f\u0440\u043e\u0436\u0438\u0432\u0430\u043b\u0438 \u0431\u043e\u043b\u0435\u0435 12 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u0441 14 \u043b\u0435\u0442. \u041a\u0440\u043e\u043c\u0435 \u0442\u043e\u0433\u043e, \u0432 \u0440\u0430\u0437\u0432\u0435\u0440\u043d\u0443\u0442\u044b\u0445 \u0441\u043f\u0440\u0430\u0432\u043a\u0430\u0445 \u0447\u0430\u0441\u0442\u043e \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0442 \u0441\u0442\u0430\u0440\u044b\u0435 \u0437\u0430\u043a\u0440\u044b\u0442\u044b\u0435 \u0438\u043b\u0438 \u043f\u043e\u0433\u0430\u0448\u0435\u043d\u043d\u044b\u0435 \u0434\u0435\u043b\u0430.", "trapTitle": "\ud83d\udea8 \u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 \u0443\u0440\u043e\u0432\u0435\u043d\u044c \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044f \u0438 \u043e\u0442\u043a\u0430\u0437 \u0437\u0430 \u0441\u043e\u043a\u0440\u044b\u0442\u0438\u0435 \u0441\u0442\u0430\u0440\u043e\u0433\u043e \u044d\u043f\u0438\u0437\u043e\u0434\u0430", "trapDesc": "\u041e\u0442\u043c\u0435\u0442\u043a\u0430 \u00ab\u0421\u0443\u0434\u0438\u043c\u043e\u0441\u0442\u0435\u0439 \u043d\u0435\u0442\u00bb \u0432 \u0430\u043d\u043a\u0435\u0442\u0435 \u0410\u0448/456 \u043f\u0440\u0438 \u043d\u0430\u043b\u0438\u0447\u0438\u0438 \u0432 \u0441\u043f\u0440\u0430\u0432\u043a\u0435 \u0441\u0442\u0430\u0440\u043e\u0433\u043e \u043f\u043e\u0433\u0430\u0448\u0435\u043d\u043d\u043e\u0433\u043e \u0438\u043b\u0438 \u0437\u0430\u043a\u0440\u044b\u0442\u043e\u0433\u043e \u0434\u0435\u043b\u0430 \u043f\u0440\u0438\u0432\u043e\u0434\u0438\u0442 \u043a \u043d\u0435\u043c\u0435\u0434\u043b\u0435\u043d\u043d\u043e\u043c\u0443 \u043e\u0442\u043a\u0430\u0437\u0443 \u0437\u0430 \u043f\u0440\u0435\u0434\u043e\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043b\u043e\u0436\u043d\u044b\u0445 \u0441\u0432\u0435\u0434\u0435\u043d\u0438\u0439.", "winTitle": "\u26a1 \u0427\u0435\u043a-\u043b\u0438\u0441\u0442 \u043f\u043e \u0441\u0442\u0440\u0430\u043d\u0430\u043c + \u0413\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 \u043f\u0438\u0441\u044c\u043c\u0430-\u043f\u043e\u044f\u0441\u043d\u0435\u043d\u0438\u044f \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 (\u041c\u0438\u0445\u0442\u0430\u0432 \u0425\u0435\u0441\u0431\u0435\u0440)", "winDesc": "\u041d\u0430\u0448 \u0434\u0432\u0438\u0436\u043e\u043a \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u0444\u043e\u0440\u043c\u0438\u0440\u0443\u0435\u0442 \u043e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0435 \u044e\u0440\u0438\u0434\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u043f\u0438\u0441\u044c\u043c\u043e-\u043f\u043e\u044f\u0441\u043d\u0435\u043d\u0438\u0435 \u043e \u0440\u0435\u0430\u0431\u0438\u043b\u0438\u0442\u0430\u0446\u0438\u0438 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 (\u041c\u0438\u0445\u0442\u0430\u0432 \u0425\u0435\u0441\u0431\u0435\u0440) \u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u0430\u043f\u043e\u0441\u0442\u0438\u043b\u0435\u0439 \u0434\u043e \u043f\u043e\u0434\u0430\u0447\u0438.", "saves": "\u23f1\ufe0f \u041f\u0440\u0435\u0434\u043e\u0442\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u043e\u0442\u043a\u0430\u0437\u044b \u0441\u043b\u0443\u0436\u0431\u044b \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u0438 6 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u0437\u0430\u0434\u0435\u0440\u0436\u0435\u043a", "tools": [{"label": "\u2696\ufe0f \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0433\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 \u041c\u0438\u0445\u0442\u0430\u0432 \u0425\u0435\u0441\u0431\u0435\u0440 \u0438 8 \u0430\u043d\u043a\u0435\u0442 \u041c\u0412\u0414 ($89\u2013$149) \u2192", "url": "/ru/pricing/?sku=forms_life_149&lang=ru", "kind": "paid"}, {"label": "\ud83d\udc51 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u041f\u043e\u043b\u043d\u044b\u0439 \u041f\u043e\u0436\u0438\u0437\u043d\u0435\u043d\u043d\u044b\u0439 \u0429\u0438\u0442 \u0421\u043e\u043b\u043e + \u0418\u0418-\u0410\u0443\u0434\u0438\u0442 ($399) \u2192", "url": "/ru/pricing/?sku=suite_solo_life_399&lang=ru", "kind": "paid"}, {"label": "\ud83c\udfdb\ufe0f \u0417\u0430\u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0441\u043e\u043f\u0440\u043e\u0432\u043e\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u0434\u0432\u043e\u043a\u0430\u0442\u0430 \u0432 \u041c\u0412\u0414 ($0 \u0440\u0430\u0441\u0447\u0435\u0442 \u0441\u0435\u0433\u043e\u0434\u043d\u044f) \u2192", "url": "/concierge-booking/?sku=concierge_escort_649&lang=ru", "kind": "concierge"}]}, {"tag": "\u0411\u041b\u041e\u041a 4 \u0418\u0417 9 \u2022 \u0421 \u0422\u0423\u0420\u0418\u0421\u0422\u0418\u0427\u0415\u0421\u041a\u041e\u0419 \u0412\u0418\u0417\u042b B/2 \u041d\u0410 \u0413\u041e\u0421. \u0413\u0418\u042e\u0420 (\u0412\u0410\u0410\u0414\u0410\u0422 \u0425\u0410\u0420\u0418\u0413\u0418\u041c)", "shortTag": "\u0411\u041b\u041e\u041a 4 \u2022 \u0420\u0410\u0417\u0420\u0415\u0428\u0415\u041d\u0418\u0415 \u0412\u0410\u0410\u0414\u0410\u0422 \u0425\u0410\u0420\u0418\u0413\u0418\u041c", "icon": "\ud83c\udfdb\ufe0f", "title": "\u0412 \u0418\u0437\u0440\u0430\u0438\u043b\u0435 \u043f\u043e \u0422\u0443\u0440\u0438\u0441\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0412\u0438\u0437\u0435 B/2 (90 \u0414\u043d\u0435\u0439)? \u041a\u0430\u043a \u041f\u0440\u043e\u0439\u0442\u0438 \u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044e \u0418\u0441\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0439 (\u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c)", "shortDesc": "\u0422\u0443\u0440\u0438\u0441\u0442\u0430\u043c \u0437\u0430\u043a\u0440\u044b\u0442 \u0434\u043e\u0441\u0442\u0443\u043f \u043a \u0433\u043e\u0441. \u0433\u0438\u044e\u0440\u0443 \u0431\u0435\u0437 \u043f\u0438\u0441\u044c\u043c\u0435\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c. \u0423\u0437\u043d\u0430\u0439\u0442\u0435, \u043a\u0430\u043a \u043d\u0430\u0448 \u0433\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 \u043f\u0435\u0442\u0438\u0446\u0438\u0439 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 \u0438 \u0431\u043b\u0430\u043d\u043a \u0410\u0448/1 \u0441\u043e\u0437\u0434\u0430\u044e\u0442 \u0431\u0440\u043e\u043d\u0435\u0431\u043e\u0439\u043d\u043e\u0435 \u0434\u043e\u0441\u044c\u0435.", "desc": "\u0418\u043d\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u0446 \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u0435 \u043f\u043e \u0442\u0443\u0440\u0438\u0441\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0432\u0438\u0437\u0435 B/2 \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u043d\u0430\u043f\u0440\u044f\u043c\u0443\u044e \u0437\u0430\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u0432 \u0433\u043e\u0441\u0443\u0434\u0430\u0440\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439 \u0443\u043b\u044c\u043f\u0430\u043d \u0433\u0438\u044e\u0440\u0430 (\u041d\u0430\u0442\u0438\u0432). \u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u043e \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u041a\u043e\u043c\u0438\u0441\u0441\u0438\u0438 \u043f\u043e \u0438\u0441\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u044f\u043c (\u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c), \u0434\u043e\u043a\u0430\u0437\u0430\u0432 \u0441\u0432\u044f\u0437\u044c \u0441 \u043e\u0431\u0449\u0438\u043d\u043e\u0439, \u043d\u0430\u043b\u0438\u0447\u0438\u0435 \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0432\u0432\u0438\u043d\u0430-\u043a\u0443\u0440\u0430\u0442\u043e\u0440\u0430, \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u044e\u0449\u0435\u0439 \u0441\u0435\u043c\u044c\u0438 \u0438 100% \u043b\u0435\u0433\u0430\u043b\u044c\u043d\u044b\u0439 \u0441\u0442\u0430\u0442\u0443\u0441 \u043f\u0440\u0435\u0431\u044b\u0432\u0430\u043d\u0438\u044f.", "trapTitle": "\ud83d\uded1 \u041d\u0435\u0444\u043e\u0440\u043c\u0430\u043b\u044c\u043d\u043e\u0435 \u043f\u0440\u043e\u0448\u0435\u043d\u0438\u0435 \u043d\u0430 \u0430\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u043e\u043c \u0438 \u043f\u0440\u0435\u0434\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043e \u0432\u044b\u0435\u0437\u0434\u0435 \u0437\u0430 14 \u0434\u043d\u0435\u0439", "trapDesc": "\u041f\u043e\u0434\u0430\u0447\u0430 \u0437\u0430\u044f\u0432\u043b\u0435\u043d\u0438\u044f \u0432 \u0441\u0432\u043e\u0431\u043e\u0434\u043d\u043e\u0439 \u0444\u043e\u0440\u043c\u0435 \u0438\u043b\u0438 \u043e\u0431\u0440\u0430\u0449\u0435\u043d\u0438\u0435 \u043f\u043e\u0441\u043b\u0435 \u0438\u0441\u0442\u0435\u0447\u0435\u043d\u0438\u044f 90 \u0434\u043d\u0435\u0439 \u0432\u0438\u0437\u044b B/2 \u0432\u0435\u0434\u0435\u0442 \u043a \u043c\u0433\u043d\u043e\u0432\u0435\u043d\u043d\u043e\u043c\u0443 \u043e\u0442\u043a\u0430\u0437\u0443 \u0438 \u0442\u0440\u0435\u0431\u043e\u0432\u0430\u043d\u0438\u044e \u043f\u043e\u043a\u0438\u043d\u0443\u0442\u044c \u0418\u0437\u0440\u0430\u0438\u043b\u044c \u0432 \u0442\u0435\u0447\u0435\u043d\u0438\u0435 14 \u0434\u043d\u0435\u0439.", "winTitle": "\u26a1 \u0417\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043d\u044b\u0439 \u0431\u043b\u0430\u043d\u043a \u0410\u0448/1 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 + \u0416\u0443\u0440\u043d\u0430\u043b \u0430\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438 \u0438 \u0420\u0430\u0432\u0432\u0438\u043d-\u043a\u0443\u0440\u0430\u0442\u043e\u0440", "winDesc": "\u041d\u0430\u0448 \u0434\u0432\u0438\u0436\u043e\u043a \u0437\u0430\u043f\u043e\u043b\u043d\u044f\u0435\u0442 \u043e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u0431\u043b\u0430\u043d\u043a \u0410\u0448/1 \u0438 \u043f\u0435\u0442\u0438\u0446\u0438\u044e \u0432 \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435, \u0416\u0443\u0440\u043d\u0430\u043b \u0430\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438 \u0444\u0438\u043a\u0441\u0438\u0440\u0443\u0435\u0442 \u0432\u0430\u0448\u0438 \u0428\u0430\u0431\u0431\u0430\u0442\u044b \u0438 \u0443\u0440\u043e\u043a\u0438 \u0434\u043b\u044f \u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u0438 \u0440\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0445 \u043f\u0438\u0441\u0435\u043c, \u0430 \u043a\u043e\u043d\u0441\u044c\u0435\u0440\u0436-\u0441\u043b\u0443\u0436\u0431\u0430 \u043f\u043e\u0434\u0431\u0438\u0440\u0430\u0435\u0442 \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0432\u0432\u0438\u043d\u0430.", "saves": "\u23f1\ufe0f \u042d\u043a\u043e\u043d\u043e\u043c\u0438\u0442 6\u201312 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u0438 \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0435\u0442 \u0432\u0430\u0448 \u043b\u0435\u0433\u0430\u043b\u044c\u043d\u044b\u0439 \u0441\u0442\u0430\u0442\u0443\u0441 \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u0435", "tools": [{"label": "\ud83c\udfdb\ufe0f \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u043b\u0430\u043d\u043a \u0410\u0448/1 \u0438 \u0433\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 \u043f\u0435\u0442\u0438\u0446\u0438\u0438 \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c ($89\u2013$149) \u2192", "url": "/ru/pricing/?sku=forms_life_149&lang=ru", "kind": "paid"}, {"label": "\ud83d\udd4d \u0417\u0430\u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u0420\u0430\u0432\u0432\u0438\u043d\u0430-\u043a\u0443\u0440\u0430\u0442\u043e\u0440\u0430 ($0 \u0440\u0430\u0441\u0447\u0435\u0442 \u0441\u0435\u0433\u043e\u0434\u043d\u044f) \u2192", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=ru", "kind": "concierge"}, {"label": "\ud83d\udcc5 \u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0416\u0443\u0440\u043d\u0430\u043b \u0430\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438 \u0434\u043b\u044f \u0440\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0446\u0438\u0439 \u0440\u0430\u0432\u0432\u0438\u043d\u0430 \u2192", "url": "/app/?module=logger&lang=ru", "kind": "free"}]}, {"tag": "\u0411\u041b\u041e\u041a 5 \u0418\u0417 9 \u2022 \u0414\u0412\u041e\u0419\u041d\u041e\u0419 \u0422\u0420\u0415\u041a: \u0421\u0422\u0423\u041f\u0420\u041e (5.2.0008) + \u0413\u041e\u0421. \u0413\u0418\u042e\u0420 (\u041f. \u05d2.10)", "shortTag": "\u0411\u041b\u041e\u041a 5 \u2022 \u0414\u0412\u041e\u0419\u041d\u041e\u0419 \u0422\u0420\u0415\u041a \u0421\u0422\u0423\u041f\u0420\u041e + \u0413\u0418\u042e\u0420", "icon": "\ud83d\udc6b", "title": "\u0421\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044f \u0414\u0432\u043e\u0439\u043d\u043e\u0433\u043e \u0422\u0440\u0435\u043a\u0430: \u0421\u0442\u0443\u043f\u0435\u043d\u0447\u0430\u0442\u0430\u044f \u041f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0430 \u0421\u0422\u0423\u041f\u0420\u041e (5.2.0008) \u0438 \u0413\u0438\u044e\u0440 \u041e\u0434\u043d\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u043e", "shortDesc": "\u041f\u043e\u0447\u0435\u043c\u0443 \u043f\u0430\u0440\u0430\u043c \u0441 \u0433\u0440\u0430\u0436\u0434\u0430\u043d\u0438\u043d\u043e\u043c \u0418\u0437\u0440\u0430\u0438\u043b\u044f \u0432\u044b\u0433\u043e\u0434\u043d\u043e \u0441\u043d\u0430\u0447\u0430\u043b\u0430 \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0440\u0430\u0431\u043e\u0447\u0443\u044e \u0432\u0438\u0437\u0443 B/1 \u043f\u043e \u0421\u0422\u0423\u041f\u0420\u041e \u041f\u0410\u0420\u0410\u041b\u041b\u0415\u041b\u042c\u041d\u041e \u0441 \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u043a\u043e\u0439 \u043a \u0433\u0438\u044e\u0440\u0443 \u2014 \u0438 \u043a\u0430\u043a VIP-\u043f\u0430\u043a\u0435\u0442 \u0441\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0438\u0440\u0443\u0435\u0442 \u043e\u0431\u0430 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0430.", "desc": "\u0415\u0441\u043b\u0438 \u0432\u044b \u0441\u043e\u0441\u0442\u043e\u0438\u0442\u0435 \u0432 \u0431\u0440\u0430\u043a\u0435 \u0438\u043b\u0438 \u0444\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u043e\u0442\u043d\u043e\u0448\u0435\u043d\u0438\u044f\u0445 \u0441 \u0433\u0440\u0430\u0436\u0434\u0430\u043d\u0438\u043d\u043e\u043c \u0418\u0437\u0440\u0430\u0438\u043b\u044f \u0438 \u0445\u043e\u0442\u0438\u0442\u0435 \u043f\u0440\u043e\u0439\u0442\u0438 \u0433\u0438\u044e\u0440, \u0437\u0430\u043f\u0443\u0441\u043a \u0441\u0442\u0443\u043f\u0435\u043d\u0447\u0430\u0442\u043e\u0439 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b \u0421\u0422\u0423\u041f\u0420\u041e (\u0414\u0438\u0440\u0435\u043a\u0442\u0438\u0432\u0430 5.2.0008 \u0438\u043b\u0438 5.2.0009) \u0434\u0430\u0435\u0442 \u0432\u0430\u043c \u043b\u0435\u0433\u0430\u043b\u044c\u043d\u0443\u044e \u0440\u0430\u0431\u043e\u0447\u0443\u044e \u0432\u0438\u0437\u0443 B/1 \u0443\u0436\u0435 \u0447\u0435\u0440\u0435\u0437 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u0438 \u0437\u0430\u043a\u043e\u043d\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u043e \u0443\u0447\u0438\u0442\u044c\u0441\u044f \u043d\u0430 \u0433\u043e\u0441\u0443\u0434\u0430\u0440\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u043c \u0433\u0438\u044e\u0440\u0435 \u043f\u043e \u043f\u0443\u043d\u043a\u0442\u0443 \u05d2.10.", "trapTitle": "\u26a0\ufe0f \u041b\u043e\u0432\u0443\u0448\u043a\u0430 \u043d\u0435\u0441\u043e\u0433\u043b\u0430\u0441\u043e\u0432\u0430\u043d\u043d\u044b\u0445 \u0437\u0430\u044f\u0432\u043b\u0435\u043d\u0438\u0439 \u043c\u0435\u0436\u0434\u0443 \u041c\u0412\u0414 \u0438 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u043e\u043c", "trapDesc": "\u041f\u043e\u0434\u0430\u0447\u0430 \u043f\u0440\u043e\u0442\u0438\u0432\u043e\u0440\u0435\u0447\u0438\u0432\u044b\u0445 \u0430\u043d\u043a\u0435\u0442 \u0432 \u041c\u0412\u0414 \u0438 \u0440\u0430\u0432\u0432\u0438\u043d\u0441\u043a\u0438\u0439 \u0441\u0443\u0434 \u0437\u0430\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442 \u043a\u0430\u043a \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0435 \u0440\u0430\u0431\u043e\u0447\u0435\u0439 \u0432\u0438\u0437\u044b, \u0442\u0430\u043a \u0438 \u0434\u043e\u043f\u0443\u0441\u043a \u043a \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0443.", "winTitle": "\u26a1 VIP-\u041f\u0430\u043a\u0435\u0442 \u0434\u043b\u044f \u041f\u0430\u0440 (\u0410\u043d\u043a\u0435\u0442\u0430 \u0410\u0448/6 + \u0421\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0430\u0446\u0438\u044f 300 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 + 700 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430)", "winDesc": "\u041d\u0430\u0448\u0430 \u043f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u0430 \u0437\u0430\u043f\u043e\u043b\u043d\u044f\u0435\u0442 29-\u0441\u0442\u0440\u0430\u043d\u0438\u0447\u043d\u043e\u0435 \u0434\u043e\u0441\u044c\u0435 \u0410\u0448/6 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435, \u0441\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0438\u0440\u0443\u0435\u0442 2 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430 \u043f\u043e 300 \u0432\u043e\u043f\u0440\u043e\u0441\u0430\u043c \u043f\u0435\u0440\u0435\u043a\u0440\u0435\u0441\u0442\u043d\u043e\u0433\u043e \u0438\u043d\u0442\u0435\u0440\u0432\u044c\u044e \u041c\u0412\u0414 \u0438 \u0433\u043e\u0442\u043e\u0432\u0438\u0442 \u043e\u0431\u043e\u0438\u0445 \u043f\u0430\u0440\u0442\u043d\u0435\u0440\u043e\u0432 \u043a 700 \u0432\u043e\u043f\u0440\u043e\u0441\u0430\u043c \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430.", "saves": "\u23f1\ufe0f \u0414\u0430\u0435\u0442 \u043f\u0440\u0430\u0432\u043e \u043d\u0430 \u0440\u0430\u0431\u043e\u0442\u0443 \u043d\u0430 9\u201318 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u0440\u0430\u043d\u044c\u0448\u0435 \u043f\u0430\u0440\u0430\u043b\u043b\u0435\u043b\u044c\u043d\u043e \u0441 \u0433\u0438\u044e\u0440\u043e\u043c", "tools": [{"label": "\ud83d\udc51 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u041f\u043e\u043b\u043d\u044b\u0439 VIP-\u041f\u0430\u043a\u0435\u0442 \u0434\u043b\u044f \u041f\u0430\u0440 \u043d\u0430 2 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430 + \u0418\u0418-\u0410\u0443\u0434\u0438\u0442 ($649) \u2192", "url": "/ru/pricing/?sku=vip_couple_649&lang=ru", "kind": "paid"}, {"label": "\ud83d\udcf1 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0442\u0440\u0435\u043d\u0430\u0436\u0435\u0440 300 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0421\u0422\u0423\u041f\u0420\u041e \u043d\u0430 2 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430 ($75\u2013$229) \u2192", "url": "/ru/pricing/?sku=couples_life_229&lang=ru", "kind": "paid"}, {"label": "\ud83d\udc8d \u0417\u0430\u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043f\u0430\u043a\u0435\u0442 \u0420\u0430\u0432\u0432\u0438\u043d + \u041c\u0430\u0434\u0440\u0438\u0445\u0430\u0442 \u041a\u0430\u043b\u0430 \u0434\u043b\u044f \u043f\u0430\u0440\u044b ($0 \u0441\u0435\u0433\u043e\u0434\u043d\u044f) \u2192", "url": "/concierge-booking/?sku=concierge_couple_499&lang=ru", "kind": "concierge"}]}, {"tag": "\u0411\u041b\u041e\u041a 6 \u0418\u0417 9 \u2022 \u0420\u0410\u0412\u0412\u0418\u041d, \u041c\u0410\u0414\u0420\u0418\u0425\u0410\u0422 \u041a\u0410\u041b\u0410, 700 \u0412\u041e\u041f\u0420\u041e\u0421\u041e\u0412 \u0418 56 \u041f\u0415\u0421\u0415\u041d \u0428\u0410\u0411\u0411\u0410\u0422\u0410", "shortTag": "\u0411\u041b\u041e\u041a 6 \u2022 700 \u0412\u041e\u041f\u0420\u041e\u0421\u041e\u0412 \u0418 56 \u041f\u0415\u0421\u0415\u041d", "icon": "\ud83d\udcd6", "title": "\u042d\u043a\u0437\u0430\u043c\u0435\u043d\u0443\u044e\u0442 \u041e\u0431\u043e\u0438\u0445 \u041f\u0430\u0440\u0442\u043d\u0435\u0440\u043e\u0432! \u041f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u044b\u0439 \u0420\u0430\u0432\u0432\u0438\u043d, \u041c\u0430\u0434\u0440\u0438\u0445\u0430\u0442 \u041a\u0430\u043b\u0430, 700 \u0412\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0438 56 \u041f\u0435\u0441\u0435\u043d", "shortDesc": "\u041f\u043e\u0447\u0435\u043c\u0443 \u0443\u0447\u0435\u0431\u0430 \u0443 \u043d\u0435\u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0440\u0435\u043f\u043e\u0434\u0430\u0432\u0430\u0442\u0435\u043b\u044f \u0441\u0442\u043e\u0438\u0442 \u0433\u043e\u0434\u0430 \u043f\u043e\u0442\u0435\u0440\u0438 \u0432\u0440\u0435\u043c\u0435\u043d\u0438, \u043f\u043e\u0447\u0435\u043c\u0443 \u0441\u0443\u0434\u044c\u0438 \u043f\u0440\u043e\u0441\u044f\u0442 \u0441\u043f\u0435\u0442\u044c \u041a\u0438\u0434\u0443\u0448 \u0438 \u0411\u0440\u0430\u0445\u043e\u0442 \u0432\u0441\u043b\u0443\u0445, \u0438 \u043a\u0430\u043a \u043d\u0430\u0448 \u0442\u0440\u0435\u043d\u0430\u0436\u0435\u0440 700 \u043a\u0430\u0440\u0442\u043e\u0447\u0435\u043a + 56 \u043f\u0435\u0441\u0435\u043d \u0433\u043e\u0442\u043e\u0432\u0438\u0442 \u0432\u0430\u0441.", "desc": "\u0414\u0430\u0436\u0435 \u0435\u0441\u043b\u0438 \u043e\u0434\u0438\u043d \u0438\u0437 \u0441\u0443\u043f\u0440\u0443\u0433\u043e\u0432 \u2014 \u0438\u0437\u0440\u0430\u0438\u043b\u044c\u0442\u044f\u043d\u0438\u043d \u0438 \u0435\u0432\u0440\u0435\u0439 \u043f\u043e \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u044e, \u0411\u0435\u0439\u0442-\u0414\u0438\u043d \u0442\u0440\u0435\u0431\u0443\u0435\u0442, \u0447\u0442\u043e\u0431\u044b \u041e\u0411\u0410 \u043f\u0430\u0440\u0442\u043d\u0435\u0440\u0430 \u0443\u0447\u0438\u043b\u0438\u0441\u044c \u0443 \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0432\u0432\u0438\u043d\u0430-\u043a\u0443\u0440\u0430\u0442\u043e\u0440\u0430 (\u0420\u0430\u0432 \u041c\u0435\u043b\u0430\u0432\u0435), \u043f\u0440\u043e\u0448\u043b\u0438 \u043a\u0443\u0440\u0441 \u0447\u0438\u0441\u0442\u043e\u0442\u044b \u0441\u0435\u043c\u044c\u0438 \u0443 \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0439 \u041c\u0430\u0434\u0440\u0438\u0445\u0430\u0442 \u041a\u0430\u043b\u0430 \u0438 \u0441\u0434\u0430\u043b\u0438 \u0443\u0441\u0442\u043d\u044b\u0439 \u044d\u043a\u0437\u0430\u043c\u0435\u043d (700 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0441\u0443\u0434\u0430 + 56 \u043f\u0435\u0441\u0435\u043d \u0428\u0430\u0431\u0431\u0430\u0442\u0430, \u043c\u043e\u043b\u0438\u0442\u0432 \u0428\u0430\u0445\u0430\u0440\u0438\u0442 \u0438 \u0431\u043b\u0430\u0433\u043e\u0441\u043b\u043e\u0432\u0435\u043d\u0438\u0439 \u0432\u0441\u043b\u0443\u0445 \u043f\u0435\u0440\u0435\u0434 \u0441\u0443\u0434\u044c\u044f\u043c\u0438).", "trapTitle": "\ud83d\ude30 \u041d\u0435\u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u044b\u0435 \u043a\u0443\u0440\u0441\u044b \u0438 \u0441\u0442\u0443\u043f\u043e\u0440 \u043f\u0440\u0438 \u043f\u0435\u043d\u0438\u0438 \u041a\u0438\u0434\u0443\u0448\u0430 \u043f\u0435\u0440\u0435\u0434 \u0441\u0443\u0434\u044c\u044f\u043c\u0438", "trapDesc": "\u0420\u0430\u0441\u0442\u0435\u0440\u044f\u043d\u043d\u043e\u0441\u0442\u044c, \u043a\u043e\u0433\u0434\u0430 \u0441\u0443\u0434\u044c\u044f \u043f\u0440\u043e\u0441\u0438\u0442 \u043f\u0440\u043e\u043f\u0435\u0442\u044c \u041a\u0438\u0434\u0443\u0448, \u0410\u0432\u0434\u0430\u043b\u0443 \u0438\u043b\u0438 \u0411\u0438\u0440\u043a\u0430\u0442 \u0445\u0430-\u041c\u0430\u0437\u043e\u043d, \u043f\u0440\u0438\u0432\u043e\u0434\u0438\u0442 \u043a \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u043e\u0442\u0441\u0440\u043e\u0447\u043a\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0441\u0443\u0434\u0430 \u043d\u0430 6 \u043c\u0435\u0441\u044f\u0446\u0435\u0432.", "winTitle": "\u26a1 \u0421\u0438\u043c\u0443\u043b\u044f\u0442\u043e\u0440 700 \u043a\u0430\u0440\u0442\u043e\u0447\u0435\u043a + \u041a\u0430\u0440\u0430\u043e\u043a\u0435 56 \u043f\u0435\u0441\u0435\u043d \u0441 \u0418\u0418 + \u041f\u043e\u0434\u0431\u043e\u0440 \u0420\u0430\u0432\u0432\u0438\u043d\u0430 \u0438 \u041c\u0430\u0434\u0440\u0438\u0445\u0438", "winDesc": "\u041c\u044b \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0430\u0435\u043c \u0432\u0430\u0441 \u043a \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u044b\u043c \u0440\u0430\u0432\u0432\u0438\u043d\u0430\u043c \u0438 \u043c\u0430\u0434\u0440\u0438\u0445\u043e\u0442 \u043a\u0430\u043b\u0430 \u043f\u043e \u0432\u0441\u0435\u043c\u0443 \u0418\u0437\u0440\u0430\u0438\u043b\u044e \u0438 \u0442\u0440\u0435\u043d\u0438\u0440\u0443\u0435\u043c \u043f\u043e \u0432\u0441\u0435\u043c 700 \u0432\u043e\u043f\u0440\u043e\u0441\u0430\u043c \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430 \u0438 56 \u043f\u0435\u0441\u043d\u044f\u043c/\u043c\u043e\u043b\u0438\u0442\u0432\u0430\u043c \u0441 \u0440\u0443\u0441\u0441\u043a\u043e\u0439 \u0444\u043e\u043d\u0435\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0442\u0440\u0430\u043d\u0441\u043b\u0438\u0442\u0435\u0440\u0430\u0446\u0438\u0435\u0439 \u0438 \u0418\u0418-\u043e\u0446\u0435\u043d\u043a\u043e\u0439 \u043f\u0440\u043e\u0438\u0437\u043d\u043e\u0448\u0435\u043d\u0438\u044f.", "saves": "\u23f1\ufe0f \u042d\u043a\u043e\u043d\u043e\u043c\u0438\u0442 6\u201318 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u0438 \u0438\u0441\u043a\u043b\u044e\u0447\u0430\u0435\u0442 \u043e\u0442\u0441\u0440\u043e\u0447\u043a\u0438 \u043d\u0430 \u0441\u0443\u0434\u0435 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430", "tools": [{"label": "\ud83d\udd4d \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435 700 \u043a\u0430\u0440\u0442\u043e\u0447\u0435\u043a \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430 + 56 \u043f\u0435\u0441\u0435\u043d \u0441 \u0418\u0418 ($149\u2013$249) \u2192", "url": "/ru/pricing/?sku=bd_suite_life_249&lang=ru", "kind": "paid"}, {"label": "\ud83e\udd1d \u0417\u0430\u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u044b\u0445 \u0420\u0430\u0432\u0432\u0438\u043d\u0430 + \u041c\u0430\u0434\u0440\u0438\u0445\u0430\u0442 \u041a\u0430\u043b\u0430 ($0 \u0440\u0430\u0441\u0447\u0435\u0442) \u2192", "url": "/concierge-booking/?sku=concierge_couple_499&lang=ru", "kind": "concierge"}, {"label": "\ud83c\udfb5 \u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e \u043f\u0440\u043e\u0442\u0435\u0441\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c 2 \u043f\u0435\u0441\u043d\u0438 \u043a\u0430\u0440\u0430\u043e\u043a\u0435 \u0438 4 \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0438 \u0441\u0443\u0434\u0430 \u2192", "url": "/app/?module=songs-prayers&lang=ru", "kind": "free"}]}, {"tag": "\u0411\u041b\u041e\u041a 7 \u0418\u0417 9 \u2022 \u041f\u0415\u0420\u0415\u041a\u0420\u0415\u0421\u0422\u041d\u042b\u0419 \u0414\u041e\u041f\u0420\u041e\u0421 \u041f\u0410\u0420 \u0418\u0417 300 \u0412\u041e\u041f\u0420\u041e\u0421\u041e\u0412 \u0412 \u0420\u0410\u0417\u041d\u042b\u0425 \u041a\u041e\u041c\u041d\u0410\u0422\u0410\u0425", "shortTag": "\u0411\u041b\u041e\u041a 7 \u2022 300 \u0412\u041e\u041f\u0420\u041e\u0421\u041e\u0412 \u0418\u041d\u0422\u0415\u0420\u0412\u042c\u042e \u041f\u0410\u0420", "icon": "\ud83d\udcf1", "title": "\u0421\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0438\u0440\u0443\u0439\u0442\u0435\u0441\u044c \u0441 \u041f\u0430\u0440\u0442\u043d\u0435\u0440\u043e\u043c \u043d\u0430 2 \u0422\u0435\u043b\u0435\u0444\u043e\u043d\u0430\u0445 \u043f\u043e \u0412\u0441\u0435\u043c 300 \u0412\u043e\u043f\u0440\u043e\u0441\u0430\u043c \u0414\u043e \u0418\u043d\u0442\u0435\u0440\u0432\u044c\u044e \u041c\u0412\u0414 \u0432 \u0420\u0430\u0437\u043d\u044b\u0445 \u041a\u043e\u043c\u043d\u0430\u0442\u0430\u0445", "shortDesc": "\u041a\u0430\u0436\u0434\u044b\u0439 \u0433\u043e\u0434 5-\u043b\u0435\u0442\u043d\u0435\u0439 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b \u0421\u0422\u0423\u041f\u0420\u041e \u0438\u043d\u0441\u043f\u0435\u043a\u0442\u043e\u0440\u044b \u041c\u0412\u0414 \u0434\u043e\u043f\u0440\u0430\u0448\u0438\u0432\u0430\u044e\u0442 \u0432\u0430\u0441 \u0438 \u043f\u0430\u0440\u0442\u043d\u0435\u0440\u0430 \u0432 \u0440\u0430\u0437\u043d\u044b\u0445 \u043a\u0430\u0431\u0438\u043d\u0435\u0442\u0430\u0445. \u0422\u0440\u0435\u043d\u0438\u0440\u0443\u0439\u0442\u0435\u0441\u044c \u0432 \u043d\u0430\u0448\u0435\u043c \u0434\u0435\u0442\u0435\u043a\u0442\u043e\u0440\u0435 \u043f\u0440\u043e\u0442\u0438\u0432\u043e\u0440\u0435\u0447\u0438\u0439 \u043d\u0430 300 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432.", "desc": "\u041a\u0430\u0436\u0434\u044b\u0439 \u0433\u043e\u0434 \u0432 \u0442\u0435\u0447\u0435\u043d\u0438\u0435 5 \u043b\u0435\u0442 \u0441\u0442\u0443\u043f\u0435\u043d\u0447\u0430\u0442\u043e\u0439 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u044b \u0421\u0422\u0423\u041f\u0420\u041e (\u0414\u0438\u0440\u0435\u043a\u0442\u0438\u0432\u044b 5.2.0008 / 5.2.0009) \u0447\u0438\u043d\u043e\u0432\u043d\u0438\u043a\u0438 \u041c\u0412\u0414 \u0440\u0430\u0437\u0432\u043e\u0434\u044f\u0442 \u0441\u0443\u043f\u0440\u0443\u0433\u043e\u0432 \u043f\u043e \u0440\u0430\u0437\u043d\u044b\u043c \u043a\u0430\u0431\u0438\u043d\u0435\u0442\u0430\u043c \u0438 \u0437\u0430\u0434\u0430\u044e\u0442 \u0438\u043d\u0442\u0438\u043c\u043d\u044b\u0435 \u0432\u043e\u043f\u0440\u043e\u0441\u044b \u0438\u0437 \u043d\u0430\u0448\u0435\u0439 \u0431\u0430\u0437\u044b \u0432 300 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u043f\u043e 10 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f\u043c \u0431\u044b\u0442\u0430 (\u0437\u043d\u0430\u043a\u043e\u043c\u0441\u0442\u0432\u043e, \u043f\u043b\u0430\u043d\u0438\u0440\u043e\u0432\u043a\u0430 \u043a\u0432\u0430\u0440\u0442\u0438\u0440\u044b, \u043e\u043f\u043b\u0430\u0442\u0430 \u0441\u0447\u0435\u0442\u043e\u0432, \u0443\u0442\u0440\u043e, \u0440\u043e\u0434\u0441\u0442\u0432\u0435\u043d\u043d\u0438\u043a\u0438, \u043f\u0440\u0430\u0437\u0434\u043d\u0438\u043a\u0438, \u0444\u0438\u043d\u0430\u043d\u0441\u044b, \u0434\u0435\u0442\u0438). \u041e\u0442\u0432\u0435\u0442\u044b \u0441\u0432\u0435\u0440\u044f\u044e\u0442\u0441\u044f \u0441\u043b\u043e\u0432\u043e \u0432 \u0441\u043b\u043e\u0432\u043e.", "trapTitle": "\ud83d\udea9 \u041a\u0430\u043a \u041d\u0430\u0441\u0442\u043e\u044f\u0449\u0438\u0435 \u041f\u0430\u0440\u044b \u0417\u0430\u0432\u0430\u043b\u0438\u0432\u0430\u044e\u0442 \u041f\u0435\u0440\u0435\u043a\u0440\u0435\u0441\u0442\u043d\u043e\u0435 \u0418\u043d\u0442\u0435\u0440\u0432\u044c\u044e \u0432 \u041c\u0412\u0414", "trapDesc": "\u041f\u0440\u043e\u0442\u0438\u0432\u043e\u0440\u0435\u0447\u0438\u044f \u0438\u0437-\u0437\u0430 \u0432\u043e\u043b\u043d\u0435\u043d\u0438\u044f \u0432 \u043c\u0435\u043b\u043e\u0447\u0430\u0445 (\u043a\u0442\u043e \u043f\u043b\u0430\u0442\u0438\u043b \u0437\u0430 \u044d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u0442\u0432\u043e, \u043a\u0442\u043e \u043d\u0430 \u043a\u0430\u043a\u043e\u0439 \u0441\u0442\u043e\u0440\u043e\u043d\u0435 \u043a\u0440\u043e\u0432\u0430\u0442\u0438 \u0441\u043f\u0438\u0442, \u0447\u0442\u043e \u0435\u043b\u0438 \u0432 \u043f\u0440\u043e\u0448\u043b\u0443\u044e \u043f\u044f\u0442\u043d\u0438\u0446\u0443) \u0432\u044b\u0437\u044b\u0432\u0430\u044e\u0442 \u0437\u0430\u043c\u043e\u0440\u043e\u0437\u043a\u0443 \u0434\u0435\u043b\u0430 \u043d\u0430 6\u201312 \u043c\u0435\u0441\u044f\u0446\u0435\u0432.", "winTitle": "\u26a1 \u0416\u0438\u0432\u0430\u044f \u0421\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u043d\u0430 2 \u0422\u0435\u043b\u0435\u0444\u043e\u043d\u0430\u0445 (300 \u0412\u043e\u043f\u0440\u043e\u0441\u043e\u0432 + \u0420\u0435\u0436\u0438\u043c \u042d\u043a\u0437\u0430\u043c\u0435\u043d\u0430 \u043d\u0430 80 \u0412\u043e\u043f\u0440\u043e\u0441\u043e\u0432)", "winDesc": "\u0421\u0432\u044f\u0436\u0438\u0442\u0435 \u0434\u0432\u0430 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430 \u043f\u0440\u044f\u043c\u043e \u043d\u0430 \u0434\u0438\u0432\u0430\u043d\u0435: \u043e\u0442\u0432\u0435\u0447\u0430\u0439\u0442\u0435 \u043a\u0430\u0436\u0434\u044b\u0439 \u043d\u0430 \u0441\u0432\u043e\u0435\u043c \u044f\u0437\u044b\u043a\u0435 \u043d\u0430 \u0432\u0441\u0435 300 \u0440\u0435\u0430\u043b\u044c\u043d\u044b\u0445 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u041c\u0412\u0414 \u0438 \u043c\u0433\u043d\u043e\u0432\u0435\u043d\u043d\u043e \u0432\u0438\u0434\u044c\u0442\u0435 \u043a\u0430\u0436\u0434\u043e\u0435 \u0440\u0430\u0441\u0445\u043e\u0436\u0434\u0435\u043d\u0438\u0435 \u0434\u043e \u0432\u0438\u0437\u0438\u0442\u0430 \u043a \u0438\u043d\u0441\u043f\u0435\u043a\u0442\u043e\u0440\u0443.", "saves": "\u23f1\ufe0f \u041f\u0440\u0435\u0434\u043e\u0442\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0437\u0430\u043c\u043e\u0440\u043e\u0437\u043a\u0438 \u043d\u0430 6\u201312 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u0438 \u0437\u0430\u043b\u043e\u0433\u0438 \u0432 30 000 \u20aa", "tools": [{"label": "\ud83d\udcf1 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0442\u0440\u0435\u043d\u0430\u0436\u0435\u0440 300 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u043d\u0430 2 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430 ($75\u2013$229) \u2192", "url": "/ru/pricing/?sku=couples_life_229&lang=ru", "kind": "paid"}, {"label": "\ud83d\udc51 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u041f\u043e\u043b\u043d\u044b\u0439 VIP-\u041f\u0430\u043a\u0435\u0442 \u0434\u043b\u044f \u041f\u0430\u0440 + \u0418\u0418-\u0410\u0443\u0434\u0438\u0442 \u0434\u043e\u0441\u044c\u0435 ($649) \u2192", "url": "/ru/pricing/?sku=vip_couple_649&lang=ru", "kind": "paid"}, {"label": "\ud83e\uddea \u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e \u043f\u0440\u043e\u0439\u0442\u0438 4 \u0432\u043e\u043f\u0440\u043e\u0441\u0430 \u043f\u0435\u0440\u0435\u043a\u0440\u0435\u0441\u0442\u043d\u043e\u0433\u043e \u0438\u043d\u0442\u0435\u0440\u0432\u044c\u044e \u0432 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0438 \u2192", "url": "/app/?module=couples&lang=ru", "kind": "free"}]}, {"tag": "\u0411\u041b\u041e\u041a 8 \u0418\u0417 9 \u2022 8 \u041e\u0424\u0418\u0426\u0418\u0410\u041b\u042c\u041d\u042b\u0425 \u0410\u041d\u041a\u0415\u0422 \u041c\u0412\u0414 \u041d\u0410 \u0418\u0412\u0420\u0418\u0422\u0415 \u0418 \u0414\u0415\u041a\u041e\u0414\u0415\u0420 \u041b\u0418\u0421\u0422\u041e\u0412 \u0422\u0420\u0415\u0411\u041e\u0412\u0410\u041d\u0418\u0419", "shortTag": "\u0411\u041b\u041e\u041a 8 \u2022 8 \u0410\u041d\u041a\u0415\u0422 \u041c\u0412\u0414 \u041d\u0410 \u0418\u0412\u0420\u0418\u0422\u0415", "icon": "\ud83d\udda8\ufe0f", "title": "\u0417\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0435 \u043d\u0430 \u0420\u0443\u0441\u0441\u043a\u043e\u043c \u2192 \u0420\u0430\u0441\u043f\u0435\u0447\u0430\u0442\u0430\u0439\u0442\u0435 \u0412\u0441\u0435 8 \u041e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0445 \u0410\u043d\u043a\u0435\u0442 \u041c\u0412\u0414 \u043d\u0430 \u0418\u0432\u0440\u0438\u0442\u0435 (\u0410\u0448/1, \u0410\u0448/3, \u0410\u0448/6, \u0410\u0448/456)", "shortDesc": "\u0427\u0438\u043d\u043e\u0432\u043d\u0438\u043a\u0438 \u041c\u0412\u0414 \u043d\u0435 \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u044e\u0442 \u0430\u043d\u043a\u0435\u0442\u044b \u043d\u0430 \u0430\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u043e\u043c/\u0440\u0443\u0441\u0441\u043a\u043e\u043c \u0438 \u0437\u0430\u043a\u0440\u044b\u0432\u0430\u044e\u0442 \u0434\u0435\u043b\u0430 \u0447\u0435\u0440\u0435\u0437 30 \u0434\u043d\u0435\u0439. \u0417\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0435 \u043d\u0430 \u0440\u043e\u0434\u043d\u043e\u043c \u044f\u0437\u044b\u043a\u0435 \u0438 \u0441\u043a\u0430\u0447\u0430\u0439\u0442\u0435 \u0433\u043e\u0442\u043e\u0432\u044b\u0435 PDF-\u0431\u043b\u0430\u043d\u043a\u0438 \u041c\u0412\u0414 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435.", "desc": "\u041c\u0412\u0414 \u0418\u0437\u0440\u0430\u0438\u043b\u044f \u0442\u0440\u0435\u0431\u0443\u0435\u0442 \u043f\u043e\u0434\u0430\u0447\u0443 \u0432\u0441\u0435\u0445 8 \u043e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0445 \u0431\u043b\u0430\u043d\u043a\u043e\u0432 \u0438\u0441\u043a\u043b\u044e\u0447\u0438\u0442\u0435\u043b\u044c\u043d\u043e \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 (29-\u0441\u0442\u0440\u0430\u043d\u0438\u0447\u043d\u043e\u0435 \u0434\u043e\u0441\u044c\u0435 \u0421\u0422\u0423\u041f\u0420\u041e \u0410\u0448/6, \u0410\u0448/3, \u0410\u0448/1, \u0410\u043b\u0438\u044f \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u0435 \u0410\u0448/456, \u041c\u0420/14\u0430, \u041c\u0420/14\u0431, \u041d\u0435\u0441\u043f\u0430\u0445 \u0410\u043b\u0435\u0444, \u0411\u0438\u043e\u0433\u0440\u0430\u0444\u0438\u044f \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438). \u041a\u0440\u043e\u043c\u0435 \u0442\u043e\u0433\u043e, \u043b\u044e\u0431\u043e\u0439 \u043b\u0438\u0441\u0442 \u043d\u0435\u0434\u043e\u0441\u0442\u0430\u044e\u0449\u0438\u0445 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 (\u0414\u0430\u0444 \u0414\u0440\u0438\u0448\u0430\u0442 \u041c\u0438\u0441\u043c\u0430\u0445\u0438\u043c) \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u0437\u0430\u043a\u0440\u044b\u0442 \u0437\u0430 30 \u0434\u043d\u0435\u0439.", "trapTitle": "\ud83d\udcc4 \u041e\u0442\u043a\u0430\u0437 \u0432 \u043f\u0440\u0438\u0435\u043c\u0435 \u0440\u0443\u043a\u043e\u043f\u0438\u0441\u043d\u044b\u0445 \u0430\u043d\u043a\u0435\u0442 \u0438 \u0437\u0430\u043a\u0440\u044b\u0442\u0438\u0435 \u0434\u0435\u043b\u0430 \u0447\u0435\u0440\u0435\u0437 30 \u0434\u043d\u0435\u0439", "trapDesc": "\u041f\u043b\u0430\u0442\u0438\u0442\u044c \u0430\u0434\u0432\u043e\u043a\u0430\u0442\u0430\u043c 15 000 \u20aa\u201340 000 \u20aa \u043f\u0440\u043e\u0441\u0442\u043e \u0437\u0430 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435 PDF \u0438\u043b\u0438 \u043f\u044b\u0442\u0430\u0442\u044c\u0441\u044f \u043f\u0438\u0441\u0430\u0442\u044c \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 \u043e\u0442 \u0440\u0443\u043a\u0438 \u0443 \u043e\u043a\u043e\u0448\u043a\u0430 \u0438\u043d\u0441\u043f\u0435\u043a\u0442\u043e\u0440\u0430 \u043f\u0440\u0438\u0432\u043e\u0434\u0438\u0442 \u043a \u043f\u043e\u0442\u0435\u0440\u0435 \u043e\u0447\u0435\u0440\u0435\u0434\u0438 \u0438 \u043c\u0435\u0441\u044f\u0446\u0430\u043c \u0437\u0430\u0434\u0435\u0440\u0436\u0435\u043a.", "winTitle": "\u26a1 \u041a\u0430\u043b\u0438\u0431\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0439 PDF-\u0448\u0442\u0430\u043c\u043f\u043e\u0432\u0449\u0438\u043a \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 + \u0413\u0438\u0434 \u043f\u043e \u043f\u043e\u0434\u043f\u0438\u0441\u044f\u043c \u0441 \u041a\u0440\u0430\u0441\u043d\u044b\u043c X", "winDesc": "\u0412\u0432\u043e\u0434\u0438\u0442\u0435 \u0434\u0430\u043d\u043d\u044b\u0435 \u043d\u0430 \u0440\u0443\u0441\u0441\u043a\u043e\u043c: \u043d\u0430\u0448 \u0434\u0432\u0438\u0436\u043e\u043a \u0437\u0430\u043f\u043e\u043b\u043d\u044f\u0435\u0442 \u043e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0435 \u0431\u043b\u0430\u043d\u043a\u0438 \u041c\u0412\u0414 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435, \u0441\u043e\u0437\u0434\u0430\u0435\u0442 \u0413\u0438\u0434 \u043f\u043e \u043f\u043e\u0434\u043f\u0438\u0441\u044f\u043c \u0441 \u041a\u0440\u0430\u0441\u043d\u044b\u043c X (\u0433\u0434\u0435 \u0440\u0430\u0441\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043f\u0435\u0440\u0435\u0434 \u0447\u0438\u043d\u043e\u0432\u043d\u0438\u043a\u043e\u043c) \u0438 \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442 \u043b\u0438\u0441\u0442\u044b \u0442\u0440\u0435\u0431\u043e\u0432\u0430\u043d\u0438\u0439 \u041c\u0412\u0414.", "saves": "\u23f1\ufe0f \u042d\u043a\u043e\u043d\u043e\u043c\u0438\u0442 15 000 \u20aa\u201340 000 \u20aa \u043d\u0430 \u044e\u0440\u0438\u0441\u0442\u0430\u0445 \u0438 \u0437\u0430\u0449\u0438\u0449\u0430\u0435\u0442 \u043e\u0442 \u0437\u0430\u043a\u0440\u044b\u0442\u0438\u044f \u0434\u0435\u043b\u0430", "tools": [{"label": "\ud83d\udda8\ufe0f \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435 8 \u043e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0445 PDF-\u0448\u0442\u0430\u043c\u043f\u043e\u0432\u0449\u0438\u043a\u043e\u0432 \u041c\u0412\u0414 ($89\u2013$149) \u2192", "url": "/ru/pricing/?sku=forms_life_149&lang=ru", "kind": "paid"}, {"label": "\u2696\ufe0f \u0417\u0430\u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0441\u043e\u043f\u0440\u043e\u0432\u043e\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u0434\u0432\u043e\u043a\u0430\u0442\u0430 \u0432 \u041c\u0412\u0414 ($0 \u0440\u0430\u0441\u0447\u0435\u0442 \u0441\u0435\u0433\u043e\u0434\u043d\u044f) \u2192", "url": "/concierge-booking/?sku=concierge_escort_649&lang=ru", "kind": "concierge"}, {"label": "\ud83d\udccb \u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0439 \u043f\u0440\u0435\u0434\u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440 8 \u0430\u043d\u043a\u0435\u0442 \u041c\u0412\u0414 \u0438 \u0434\u0435\u043a\u043e\u0434\u0435\u0440\u0430 \u043f\u0438\u0441\u0435\u043c \u2192", "url": "/app/?module=forms&lang=ru", "kind": "free"}]}, {"tag": "\u0411\u041b\u041e\u041a 9 \u0418\u0417 9 \u2022 \u0411\u042b\u0421\u0422\u0420\u0410\u042f \u0410\u041b\u0418\u042f \u0412\u041d\u0423\u0422\u0420\u0418 \u0418\u0417\u0420\u0410\u0418\u041b\u042f (\u0428\u0418\u041d\u0423\u0419 \u041c\u0410\u0410\u041c\u0410\u0414) \u041f\u0420\u041e\u0422\u0418\u0412 \u041e\u0427\u0415\u0420\u0415\u0414\u0418 \u0412 \u0421\u041e\u0425\u041d\u0423\u0422\u0415", "shortTag": "\u0411\u041b\u041e\u041a 9 \u2022 \u0411\u042b\u0421\u0422\u0420\u0410\u042f \u0410\u041b\u0418\u042f \u0412 \u0418\u0417\u0420\u0410\u0418\u041b\u0415", "icon": "\ud83c\udfe2", "title": "\u041d\u0435 \u0416\u0434\u0438\u0442\u0435 9\u201312 \u041c\u0435\u0441\u044f\u0446\u0435\u0432 \u041e\u0447\u0435\u0440\u0435\u0434\u0438 \u0432 \u0421\u043e\u0445\u043d\u0443\u0442\u0435: \u041e\u0444\u043e\u0440\u043c\u0438\u0442\u0435 \u0410\u043b\u0438\u044e \u041f\u0440\u044f\u043c\u043e \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u0435 (\u0424\u043e\u0440\u043c\u0430 \u0410\u0448/456)", "shortDesc": "\u041a\u0430\u043a \u0438\u043c\u0435\u044e\u0449\u0438\u0435 \u043f\u0440\u0430\u0432\u043e \u043d\u0430 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0435\u043d\u0438\u0435 \u043f\u0440\u0438\u043b\u0435\u0442\u0430\u044e\u0442 \u043d\u0430\u043f\u0440\u044f\u043c\u0443\u044e \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u044c, \u043f\u043e\u0434\u0430\u044e\u0442 \u043d\u0430 \u0441\u043c\u0435\u043d\u0443 \u0441\u0442\u0430\u0442\u0443\u0441\u0430 (\u0428\u0438\u043d\u0443\u0439 \u041c\u0430\u0430\u043c\u0430\u0434), \u043f\u0440\u043e\u0445\u043e\u0434\u044f\u0442 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443 \u041d\u0430\u0442\u0438\u0432\u0430 \u0438 \u043f\u043e\u043b\u0443\u0447\u0430\u044e\u0442 \u043f\u043e\u043b\u043d\u0443\u044e \u043a\u043e\u0440\u0437\u0438\u043d\u0443 \u0430\u0431\u0441\u043e\u0440\u0431\u0446\u0438\u0438 \u0421\u0430\u043b\u044c \u041a\u043b\u0438\u0442\u0430.", "desc": "\u0412\u043c\u0435\u0441\u0442\u043e \u043e\u0436\u0438\u0434\u0430\u043d\u0438\u044f \u043a\u043e\u043d\u0441\u0443\u043b\u044c\u0441\u043a\u043e\u0439 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0421\u043e\u0445\u043d\u0443\u0442\u0430 9\u201312 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u0437\u0430 \u0440\u0443\u0431\u0435\u0436\u043e\u043c, \u043a\u0430\u043d\u0434\u0438\u0434\u0430\u0442\u044b \u0441 \u043f\u043e\u043b\u043d\u044b\u043c \u043f\u0430\u043a\u0435\u0442\u043e\u043c \u0438\u0437 5 \u0430\u043f\u043e\u0441\u0442\u0438\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0445 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u0438 \u0434\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e\u043c \u0435\u0432\u0440\u0435\u0439\u0441\u0442\u0432\u0430 \u043f\u043e \u043c\u0430\u0442\u0435\u0440\u0438\u043d\u0441\u043a\u043e\u0439 \u043b\u0438\u043d\u0438\u0438 \u043c\u043e\u0433\u0443\u0442 \u0432\u044a\u0435\u0445\u0430\u0442\u044c \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u044c \u0438 \u043f\u043e\u0434\u0430\u0442\u044c \u0437\u0430\u044f\u0432\u043b\u0435\u043d\u0438\u0435 \u043d\u0430 \u0441\u043c\u0435\u043d\u0443 \u0441\u0442\u0430\u0442\u0443\u0441\u0430 \u043d\u0430 \u041e\u043b\u0435 \u0425\u0430\u0434\u0430\u0448 (\u0428\u0438\u043d\u0443\u0439 \u041c\u0430\u0430\u043c\u0430\u0434 \u2014 \u0430\u043d\u043a\u0435\u0442\u0430 \u0410\u0448/456) \u043d\u0430\u043f\u0440\u044f\u043c\u0443\u044e \u0432 \u041c\u0412\u0414.", "trapTitle": "\u23f3 \u0413\u043e\u0434 \u043e\u0436\u0438\u0434\u0430\u043d\u0438\u044f \u0437\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u0435\u0439 \u0438 \u043e\u0442\u043a\u0430\u0437 \u041d\u0430\u0442\u0438\u0432\u0430 \u043f\u043e \u043e\u0431\u0449\u0438\u043d\u043d\u044b\u043c \u0441\u043f\u0440\u0430\u0432\u043a\u0430\u043c", "trapDesc": "\u041f\u0440\u0438\u043b\u0435\u0442 \u0432 \u0418\u0437\u0440\u0430\u0438\u043b\u044c \u0441 \u043e\u0431\u0449\u0435\u0439 \u0441\u043f\u0440\u0430\u0432\u043a\u043e\u0439 \u0438\u0437 \u0441\u0438\u043d\u0430\u0433\u043e\u0433\u0438, \u043a\u043e\u0442\u043e\u0440\u0430\u044f \u043d\u0435 \u043f\u0440\u043e\u0445\u043e\u0434\u0438\u0442 \u0433\u0435\u043d\u0435\u0430\u043b\u043e\u0433\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0430\u0443\u0434\u0438\u0442 \u043c\u0430\u0442\u0435\u0440\u0438\u043d\u0441\u043a\u043e\u0439 \u043b\u0438\u043d\u0438\u0438 \u0432 \u041d\u0430\u0442\u0438\u0432\u0435, \u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 \u0432\u0430\u0441 \u0431\u0435\u0437 \u0422\u0435\u0443\u0434\u0430\u0442-\u0417\u0435\u0443\u0442\u0430 \u0438 \u0431\u043e\u043b\u044c\u043d\u0438\u0447\u043d\u043e\u0439 \u043a\u0430\u0441\u0441\u044b.", "winTitle": "\u26a1 \u0418\u0418-\u0410\u0443\u0434\u0438\u0442 \u0440\u043e\u0434\u043e\u0441\u043b\u043e\u0432\u043d\u043e\u0439 \u0434\u043b\u044f \u041d\u0430\u0442\u0438\u0432\u0430 + \u0428\u0442\u0430\u043c\u043f\u043e\u0432\u0449\u0438\u043a \u0410\u0448/456 \u0438 \u0437\u0430\u0449\u0438\u0442\u0430 \u0421\u0430\u043b\u044c \u041a\u043b\u0438\u0442\u0430", "winDesc": "\u041d\u0430\u0448 \u0418\u0418-\u0430\u0443\u0434\u0438\u0442\u043e\u0440 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u0440\u0430\u0432\u0432\u0438\u043d\u0441\u043a\u043e\u0435 \u043f\u0438\u0441\u044c\u043c\u043e \u0438 \u043c\u0435\u0442\u0440\u0438\u043a\u0438 \u043f\u043e \u0441\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u0430\u043c \u041d\u0430\u0442\u0438\u0432\u0430 \u0435\u0449\u0435 \u0434\u043e \u0432\u044b\u043b\u0435\u0442\u0430, \u0437\u0430\u043f\u043e\u043b\u043d\u044f\u0435\u0442 \u0430\u043d\u043a\u0435\u0442\u0443 \u0410\u0448/456 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 \u0438 \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0435\u0442 \u0432\u0430\u0448\u0435 \u043f\u0440\u0430\u0432\u043e \u043d\u0430 \u0432\u044b\u043f\u043b\u0430\u0442\u044b \u0421\u0430\u043b\u044c \u041a\u043b\u0438\u0442\u0430 \u043d\u0430 24 \u043c\u0435\u0441\u044f\u0446\u0430.", "saves": "\u23f1\ufe0f \u042d\u043a\u043e\u043d\u043e\u043c\u0438\u0442 9\u201312 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 \u043e\u0436\u0438\u0434\u0430\u043d\u0438\u044f \u043a\u043e\u043d\u0441\u0443\u043b\u0430 \u0438 \u0437\u0430\u0449\u0438\u0449\u0430\u0435\u0442 \u0432\u044b\u043f\u043b\u0430\u0442\u044b \u0421\u0430\u043b\u044c \u041a\u043b\u0438\u0442\u0430", "tools": [{"label": "\u2708\ufe0f \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0448\u0442\u0430\u043c\u043f\u043e\u0432\u0449\u0438\u043a \u0410\u0448/456 \u0434\u043b\u044f \u0410\u043b\u0438\u0438 \u0438 \u0418\u0418-\u0430\u0443\u0434\u0438\u0442\u043e\u0440 \u041d\u0430\u0442\u0438\u0432\u0430 ($89\u2013$149) \u2192", "url": "/ru/pricing/?sku=forms_life_149&lang=ru", "kind": "paid"}, {"label": "\ud83d\udee1\ufe0f \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u041f\u043e\u043b\u043d\u044b\u0439 \u041f\u043e\u0436\u0438\u0437\u043d\u0435\u043d\u043d\u044b\u0439 \u0429\u0438\u0442 \u0421\u043e\u043b\u043e (\u0412\u0441\u0435 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b) ($399) \u2192", "url": "/ru/pricing/?sku=suite_solo_life_399&lang=ru", "kind": "paid"}, {"label": "\ud83d\udcdc \u0417\u0430\u043a\u0430\u0437\u0430\u0442\u044c \u043f\u0430\u043a\u0435\u0442 \u043d\u043e\u0442\u0430\u0440\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0430 4 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 ($0 \u0440\u0430\u0441\u0447\u0435\u0442) \u2192", "url": "/concierge-booking/?sku=concierge_bundle_799&lang=ru", "kind": "concierge"}]}], "categories": [{"title": "\ud83d\udd4d \u041a\u0410\u0422\u0415\u0413\u041e\u0420\u0418\u042f 1: \u0413\u0418\u042e\u0420, \u0427\u0410\u0421\u0422\u041d\u042b\u0415 \u0411\u0415\u0419\u0422-\u0414\u0418\u041d\u042b \u0418 5 \u0414\u041e\u041a\u0423\u041c\u0415\u041d\u0422\u041e\u0412 \u0421 \u0410\u041f\u041e\u0421\u0422\u0418\u041b\u0415\u041c", "sub": "\u0411\u043b\u043e\u043a\u0438 1\u20133 \u2022 \u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0435 \u0433\u0438\u0434\u044b"}, {"title": "\ud83c\udfdb\ufe0f \u041a\u0410\u0422\u0415\u0413\u041e\u0420\u0418\u042f 2: \u0412\u0410\u0410\u0414\u0410\u0422 \u0425\u0410\u0420\u0418\u0413\u0418\u041c, \u0414\u0412\u041e\u0419\u041d\u041e\u0419 \u0422\u0420\u0415\u041a \u0418 700 \u0412\u041e\u041f\u0420\u041e\u0421\u041e\u0412 \u0411\u0415\u0419\u0422-\u0414\u0418\u041d\u0410", "sub": "\u0411\u043b\u043e\u043a\u0438 4\u20136 \u2022 \u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0435 \u0433\u0438\u0434\u044b"}, {"title": "\ud83d\udcf1 \u041a\u0410\u0422\u0415\u0413\u041e\u0420\u0418\u042f 3: 300 \u0412\u041e\u041f\u0420\u041e\u0421\u041e\u0412 \u0421\u0422\u0423\u041f\u0420\u041e, 8 \u0410\u041d\u041a\u0415\u0422 \u041c\u0412\u0414 \u0418 \u0411\u042b\u0421\u0422\u0420\u0410\u042f \u0410\u041b\u0418\u042f \u0412 \u0418\u0417\u0420\u0410\u0418\u041b\u0415", "sub": "\u0411\u043b\u043e\u043a\u0438 7\u20139 \u2022 \u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0435 \u0433\u0438\u0434\u044b"}]}};
+  var SYS_TRACKER_I18N = {"en": {"overallReadiness": "LIVE SYSTEM DOSSIER READINESS", "autoSyncedBadge": "\u26a1 Auto-Synced from Your Tools", "lockedBadge": "\ud83d\udd12 CANNOT TRACK THIS SERVICE YET", "activeBadge": "\ud83d\udfe2 LIVE SYSTEM TRACKING ACTIVE", "readyZeroPill": "\u26a1 Engine Ready \u2022 Auto-Updates as You Work", "inProgressPill": "\ud83d\udcc8 Live Progress Synced", "completedPill": "\u2705 Service Milestone Verified", "freeSampleBtn": "\ud83e\uddea Test Free Sample in App \u2192", "openEngineBtn": "\u26a1 Open Live Engine in App \u2192", "engines": {"docs": {"name": "AI Document Vault & 180-Day Apostille Clock", "lockedMsg": "Live tracking of your 5 Apostilled homeland certificates and 180-day PIBA expiration countdown is locked until you activate the Statutory Forms & AI Dossier Pass.", "unlockBtn": "\ud83d\udd13 Tap Here to Unlock Live Document & Clock Tracking ($89\u2013$149) \u2192", "unlockUrl": "/pricing/?sku=forms_life_149&lang=en", "appUrl": "/app/?module=docs&lang=en", "zeroStatus": "0 / 5 Homeland Civil Docs Audited by AI \u2022 Tap to Upload or Set Anchor Date", "progTpl": "{done} / 5 Homeland Civil Docs Audited & Verified by AI ({pct}%)"}, "forms": {"name": "8 Official Hebrew PIBA PDF Stampers & Clerk Decoder", "lockedMsg": "Automatic tracking of your official Hebrew Misrad HaPanim forms (Ash/1, Ash/3, Ash/6, Ash/456, MR/14, Security CV) and 30-day clerk demand sheets is locked.", "unlockBtn": "\ud83d\udd13 Tap Here to Unlock All 8 Hebrew PIBA PDF Stampers ($89\u2013$149) \u2192", "unlockUrl": "/pricing/?sku=forms_life_149&lang=en", "appUrl": "/app/?module=forms&lang=en", "zeroStatus": "Hebrew PDF Stamper Ready \u2022 0 Fields Filled \u2014 Fill in Your Language to Auto-Track", "progTpl": "{done} Statutory Form Fields Auto-Saved & Calibrated for Hebrew PDF Stamping ({pct}%)"}, "bd": {"name": "700-Question Beit Din Tribunal & 56 Shabbat Songs Suite", "lockedMsg": "Free trial allows 4/700 flashcards & 2/56 songs. Cannot track full Beit Din oral exam or liturgical vocal readiness until unlocked.", "unlockBtn": "\ud83d\udd13 Tap Here to Unlock 700 Beit Din Cards + 56 Songs Tracking ($65\u2013$249) \u2192", "unlockUrl": "/pricing/?sku=bd_suite_life_249&lang=en", "appUrl": "/app/?module=beit-din&lang=en", "zeroStatus": "Tribunal Telemetry Active \u2022 0 / 700 Questions & 0 / 56 Songs Drilled \u2014 Tap to Start", "progTpl": "{done} / 700 Beit Din Questions & {songs} / 56 Shabbat Songs Practiced ({pct}%)"}, "couples": {"name": "300-Question 2-Phone Separated-Room Couples Interrogation", "lockedMsg": "Free trial allows 4/300 questions. Cannot track live 2-phone partner contradictions for your Misrad HaPanim interview until unlocked.", "unlockBtn": "\ud83d\udd13 Tap Here to Unlock 300-Q 2-Phone Couples Sync Tracking ($75\u2013$229) \u2192", "unlockUrl": "/pricing/?sku=couples_life_229&lang=en", "appUrl": "/app/?module=couples&lang=en", "zeroStatus": "2-Phone Live Sync Active \u2022 0 / 300 Questions Synced \u2014 Tap to Pair Partner's Phone", "progTpl": "{done} / 300 Separated-Room Couples Questions Answered & Synced ({pct}%)"}, "logger": {"name": "Rabbi & Synagogue Activity Logger + Reference Letters", "lockedMsg": "Track your Shabbatot, synagogue attendance, and Torah classes to generate custom Hebrew rabbinic reference letters.", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f Book Vetted Sponsoring Rabbi & Official Reference Letter ($0 Quote) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_rabbi_349&lang=en", "appUrl": "/app/?module=logger&lang=en", "zeroStatus": "Activity Logger Active \u2022 0 Shabbatot / Classes Logged \u2014 Tap to Log Attendance", "progTpl": "{done} Communal Shabbatot & Torah Classes Logged for Rabbinic Reference ({pct}%)"}, "concierge": {"name": "Vetted Human Concierge (Rabbi, Notary & Lawyer Escort)", "lockedMsg": "No active human concierge placement on file. Request a $0 quote intake for Red-Ribbon Notarial Translation, Vetted Sponsoring Rabbi, Madrichat Kallah, or Lawyer Escort.", "unlockBtn": "\ud83e\udd1d Tap Here to Request Vetted Rabbi, Notary or Lawyer Quote ($0 Today) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_bundle_799&lang=en", "appUrl": "/concierge-booking/?lang=en", "zeroStatus": "Concierge Dossier Active \u2022 Vetted Expert Placement & Review in Progress", "progTpl": "Active Concierge Order Synced \u2022 Case Dossier Under Expert Handling ({pct}%)"}}}, "he": {"overallReadiness": "\u05de\u05d5\u05db\u05e0\u05d5\u05ea \u05ea\u05d9\u05e7 \u05d7\u05d9\u05d4 \u05d4\u05de\u05e1\u05d5\u05e0\u05db\u05e8\u05e0\u05ea \u05de\u05d4\u05de\u05e2\u05e8\u05db\u05ea", "autoSyncedBadge": "\u26a1 \u05de\u05ea\u05e2\u05d3\u05db\u05df \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea \u05de\u05d4\u05db\u05dc\u05d9\u05dd \u05e9\u05dc\u05da", "lockedBadge": "\ud83d\udd12 \u05dc\u05d0 \u05e0\u05d9\u05ea\u05df \u05dc\u05e2\u05e7\u05d5\u05d1 \u05d0\u05d7\u05e8 \u05e9\u05d9\u05e8\u05d5\u05ea \u05d6\u05d4 \u05e2\u05d3\u05d9\u05d9\u05df", "activeBadge": "\ud83d\udfe2 \u05de\u05e2\u05e7\u05d1 \u05de\u05e2\u05e8\u05db\u05ea \u05d7\u05d9 \u05d5\u05e4\u05e2\u05d9\u05dc", "readyZeroPill": "\u26a1 \u05d4\u05db\u05dc\u05d9 \u05de\u05d5\u05db\u05df \u05dc\u05e2\u05d1\u05d5\u05d3\u05d4 \u2022 \u05de\u05ea\u05e2\u05d3\u05db\u05df \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea \u05d1\u05d6\u05de\u05df \u05d0\u05de\u05ea", "inProgressPill": "\ud83d\udcc8 \u05d4\u05ea\u05e7\u05d3\u05de\u05d5\u05ea \u05d7\u05d9\u05d4 \u05de\u05e1\u05d5\u05e0\u05db\u05e8\u05e0\u05ea", "completedPill": "\u2705 \u05d0\u05d1\u05df \u05d3\u05e8\u05da \u05d0\u05d5\u05de\u05ea\u05d4 \u05d1\u05de\u05e2\u05e8\u05db\u05ea", "freeSampleBtn": "\ud83e\uddea \u05d4\u05ea\u05e0\u05e1\u05d5\u05ea \u05d1\u05d3\u05d5\u05d2\u05de\u05d4 \u05d7\u05d9\u05e0\u05dd \u05d1\u05d0\u05e4\u05dc\u05d9\u05e7\u05e6\u05d9\u05d4 \u2190", "openEngineBtn": "\u26a1 \u05e4\u05ea\u05d7 \u05d0\u05ea \u05d4\u05db\u05dc\u05d9 \u05d4\u05d7\u05d9 \u05d1\u05d0\u05e4\u05dc\u05d9\u05e7\u05e6\u05d9\u05d4 \u2190", "engines": {"docs": {"name": "\u05db\u05e1\u05e4\u05ea \u05de\u05e1\u05de\u05db\u05d9\u05dd \u05d1\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea AI \u05d5\u05e9\u05e2\u05d5\u05df 180 \u05d9\u05d5\u05dd \u05dc\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc", "lockedMsg": "\u05de\u05e2\u05e7\u05d1 \u05d7\u05d9 \u05d0\u05d7\u05e8 5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d4\u05de\u05e7\u05d5\u05e8 \u05d1\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05d5\u05e9\u05e2\u05d5\u05df \u05d4\u05ea\u05d5\u05e7\u05e3 \u05e9\u05dc 180 \u05d4\u05d9\u05de\u05d9\u05dd \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05e0\u05e2\u05d5\u05dc \u05e2\u05d3 \u05dc\u05d4\u05e4\u05e2\u05dc\u05ea \u05de\u05e0\u05d5\u05d9 \u05d4\u05d8\u05e4\u05e1\u05d9\u05dd \u05d5\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea \u05d4\u05de\u05e1\u05de\u05db\u05d9\u05dd.", "unlockBtn": "\ud83d\udd13 \u05dc\u05d7\u05e6\u05d5 \u05db\u05d0\u05df \u05dc\u05e4\u05ea\u05d9\u05d7\u05ea \u05de\u05e2\u05e7\u05d1 \u05de\u05e1\u05de\u05db\u05d9\u05dd \u05d5\u05e9\u05e2\u05d5\u05df 180 \u05d9\u05d5\u05dd ($89\u2013$149) \u2190", "unlockUrl": "/he/pricing/?sku=forms_life_149&lang=he", "appUrl": "/app/?module=docs&lang=he", "zeroStatus": "0 / 5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05de\u05e7\u05d5\u05e8 \u05e0\u05d1\u05d3\u05e7\u05d5 \u05d1-AI \u2022 \u05dc\u05d7\u05e6\u05d5 \u05dc\u05d4\u05e2\u05dc\u05d0\u05ea \u05ea\u05e2\u05d5\u05d3\u05d4 \u05d0\u05d5 \u05d4\u05d2\u05d3\u05e8\u05ea \u05ea\u05d0\u05e8\u05d9\u05da", "progTpl": "{done} / 5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05de\u05e7\u05d5\u05e8 \u05e0\u05e1\u05e8\u05e7\u05d5 \u05d5\u05d0\u05d5\u05de\u05ea\u05d5 \u05e2\u05dc \u05d9\u05d3\u05d9 \u05e1\u05d5\u05e8\u05e7 \u05d4-AI ({pct}%)"}, "forms": {"name": "8 \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05e8\u05e9\u05de\u05d9\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d5\u05de\u05e4\u05e2\u05e0\u05d7 \u05d3\u05e4\u05d9 \u05d3\u05e8\u05d9\u05e9\u05d5\u05ea", "lockedMsg": "\u05de\u05e2\u05e7\u05d1 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9 \u05d0\u05d7\u05e8 \u05de\u05d9\u05dc\u05d5\u05d9 \u05d5\u05d4\u05d7\u05ea\u05de\u05ea \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea (\u05d0\u05e9/1, \u05d0\u05e9/3, \u05d0\u05e9/6, \u05d0\u05e9/456, \u05de\u05e8/14, \u05e7\u05d5\u05f4\u05d7) \u05d5\u05e4\u05e2\u05e0\u05d5\u05d7 \u05d3\u05e4\u05d9 \u05e4\u05e7\u05d9\u05d3 \u05e0\u05e2\u05d5\u05dc.", "unlockBtn": "\ud83d\udd13 \u05dc\u05d7\u05e6\u05d5 \u05db\u05d0\u05df \u05dc\u05e4\u05ea\u05d9\u05d7\u05ea \u05db\u05dc 8 \u05d8\u05e4\u05e1\u05d9 \u05d4-PDF \u05e9\u05dc \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd ($89\u2013$149) \u2190", "unlockUrl": "/he/pricing/?sku=forms_life_149&lang=he", "appUrl": "/app/?module=forms&lang=he", "zeroStatus": "\u05de\u05e0\u05d5\u05e2 \u05d4-PDF \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05de\u05d5\u05db\u05df \u2022 0 \u05e9\u05d3\u05d5\u05ea \u05de\u05d5\u05dc\u05d0\u05d5 \u2014 \u05de\u05dc\u05d0\u05d5 \u05d1\u05e9\u05e4\u05ea\u05db\u05dd \u05dc\u05de\u05e2\u05e7\u05d1 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9", "progTpl": "{done} \u05e9\u05d3\u05d5\u05ea \u05d8\u05d5\u05e4\u05e1 \u05de\u05de\u05e9\u05dc\u05ea\u05d9 \u05e0\u05e9\u05de\u05e8\u05d5 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea \u05d5\u05de\u05d5\u05db\u05e0\u05d9\u05dd \u05dc\u05d4\u05d7\u05ea\u05de\u05ea PDF \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea ({pct}%)"}, "bd": {"name": "\u05de\u05d0\u05d2\u05e8 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05d5-56 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea, \u05ea\u05e4\u05d9\u05dc\u05d5\u05ea \u05d5\u05d1\u05e8\u05db\u05d5\u05ea", "lockedMsg": "\u05d2\u05e8\u05e1\u05ea \u05d4\u05e0\u05d9\u05e1\u05d9\u05d5\u05df \u05db\u05d5\u05dc\u05dc\u05ea 4/700 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9\u05d5\u05ea \u05d5-2/56 \u05e9\u05d9\u05e8\u05d9\u05dd. \u05dc\u05d0 \u05e0\u05d9\u05ea\u05df \u05dc\u05e2\u05e7\u05d5\u05d1 \u05d0\u05d7\u05e8 \u05de\u05d5\u05db\u05e0\u05d5\u05ea \u05de\u05dc\u05d0\u05d4 \u05dc\u05de\u05e2\u05de\u05d3 \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05dc\u05dc\u05d0 \u05e4\u05ea\u05d9\u05d7\u05ea \u05d4\u05e2\u05e8\u05db\u05d4.", "unlockBtn": "\ud83d\udd13 \u05dc\u05d7\u05e6\u05d5 \u05db\u05d0\u05df \u05dc\u05e4\u05ea\u05d9\u05d7\u05ea \u05de\u05e2\u05e7\u05d1 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d9\u05ea \u05d3\u05d9\u05df + 56 \u05e9\u05d9\u05e8\u05d9\u05dd ($65\u2013$249) \u2190", "unlockUrl": "/he/pricing/?sku=bd_suite_life_249&lang=he", "appUrl": "/app/?module=beit-din&lang=he", "zeroStatus": "\u05d8\u05dc\u05de\u05d8\u05e8\u05d9\u05d9\u05ea \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05e4\u05e2\u05d9\u05dc\u05d4 \u2022 0 / 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d5-0 / 56 \u05e9\u05d9\u05e8\u05d9\u05dd \u05ea\u05d5\u05e8\u05d2\u05dc\u05d5 \u2014 \u05dc\u05d7\u05e6\u05d5 \u05dc\u05d4\u05ea\u05d7\u05dc\u05d4", "progTpl": "{done} / 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05d5-{songs} / 56 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea \u05d5\u05d1\u05e8\u05db\u05d5\u05ea \u05ea\u05d5\u05e8\u05d2\u05dc\u05d5 ({pct}%)"}, "couples": {"name": "\u05e1\u05d9\u05de\u05d5\u05dc\u05d8\u05d5\u05e8 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e8\u05d0\u05d9\u05d5\u05df \u05d6\u05d5\u05d2\u05d9 \u05d1\u05d7\u05d3\u05e8\u05d9\u05dd \u05e0\u05e4\u05e8\u05d3\u05d9\u05dd \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd", "lockedMsg": "\u05d2\u05e8\u05e1\u05ea \u05d4\u05e0\u05d9\u05e1\u05d9\u05d5\u05df \u05db\u05d5\u05dc\u05dc\u05ea 4/300 \u05e9\u05d0\u05dc\u05d5\u05ea. \u05dc\u05d0 \u05e0\u05d9\u05ea\u05df \u05dc\u05e2\u05e7\u05d5\u05d1 \u05d0\u05d7\u05e8 \u05e1\u05ea\u05d9\u05e8\u05d5\u05ea \u05d1\u05d9\u05df \u05d1\u05e0\u05d9 \u05d4\u05d6\u05d5\u05d2 \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd \u05dc\u05e8\u05d0\u05d9\u05d5\u05df \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05dc\u05dc\u05d0 \u05e4\u05ea\u05d9\u05d7\u05ea \u05d4\u05de\u05e2\u05e8\u05db\u05ea.", "unlockBtn": "\ud83d\udd13 \u05dc\u05d7\u05e6\u05d5 \u05db\u05d0\u05df \u05dc\u05e4\u05ea\u05d9\u05d7\u05ea \u05e1\u05d9\u05de\u05d5\u05dc\u05d8\u05d5\u05e8 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d6\u05d5\u05d2\u05d9 \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd ($75\u2013$229) \u2190", "unlockUrl": "/he/pricing/?sku=couples_life_229&lang=he", "appUrl": "/app/?module=couples&lang=he", "zeroStatus": "\u05e1\u05e0\u05db\u05e8\u05d5\u05df 2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd \u05e4\u05e2\u05d9\u05dc \u2022 0 / 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e1\u05d5\u05e0\u05db\u05e8\u05e0\u05d5 \u2014 \u05dc\u05d7\u05e6\u05d5 \u05dc\u05d7\u05d9\u05d1\u05d5\u05e8 \u05d4\u05d8\u05dc\u05e4\u05d5\u05df \u05d4\u05e9\u05e0\u05d9", "progTpl": "{done} / 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e8\u05d0\u05d9\u05d5\u05df \u05d6\u05d5\u05d2\u05d9 \u05d1\u05d7\u05d3\u05e8\u05d9\u05dd \u05e0\u05e4\u05e8\u05d3\u05d9\u05dd \u05e0\u05e2\u05e0\u05d5 \u05d5\u05e1\u05d5\u05e0\u05db\u05e8\u05e0\u05d5 ({pct}%)"}, "logger": {"name": "\u05d9\u05d5\u05de\u05df \u05e4\u05e2\u05d9\u05dc\u05d5\u05ea \u05e7\u05d4\u05d9\u05dc\u05ea\u05d9\u05ea \u05d5\u05de\u05d7\u05d5\u05dc\u05dc \u05de\u05db\u05ea\u05d1\u05d9 \u05d4\u05de\u05dc\u05e6\u05d4 \u05de\u05e8\u05d1 \u05d5\u05de\u05d1\u05d9\u05ea \u05db\u05e0\u05e1\u05ea", "lockedMsg": "\u05ea\u05e2\u05d3\u05d5 \u05e9\u05d1\u05ea\u05d5\u05ea, \u05ea\u05e4\u05d9\u05dc\u05d5\u05ea \u05d5\u05e9\u05d9\u05e2\u05d5\u05e8\u05d9 \u05ea\u05d5\u05e8\u05d4 \u05dc\u05d4\u05e4\u05e7\u05d4 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea \u05e9\u05dc \u05de\u05db\u05ea\u05d1\u05d9 \u05d4\u05de\u05dc\u05e6\u05d4 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05dc\u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05d5\u05dc\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd.", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f \u05ea\u05d9\u05d0\u05d5\u05dd \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8 \u05d5\u05de\u05db\u05ea\u05d1 \u05d4\u05de\u05dc\u05e6\u05d4 \u05e8\u05e9\u05de\u05d9 ($0 \u05d4\u05e6\u05e2\u05ea \u05de\u05d7\u05d9\u05e8) \u2190", "unlockUrl": "/concierge-booking/?sku=concierge_rabbi_349&lang=he", "appUrl": "/app/?module=logger&lang=he", "zeroStatus": "\u05d9\u05d5\u05de\u05df \u05e4\u05e2\u05d9\u05dc\u05d5\u05ea \u05d7\u05d9 \u2022 0 \u05e9\u05d1\u05ea\u05d5\u05ea / \u05e9\u05d9\u05e2\u05d5\u05e8\u05d9\u05dd \u05ea\u05d5\u05e2\u05d3\u05d5 \u2014 \u05dc\u05d7\u05e6\u05d5 \u05dc\u05ea\u05d9\u05e2\u05d5\u05d3 \u05e4\u05e2\u05d9\u05dc\u05d5\u05ea", "progTpl": "{done} \u05e9\u05d1\u05ea\u05d5\u05ea \u05d5\u05e9\u05d9\u05e2\u05d5\u05e8\u05d9 \u05ea\u05d5\u05e8\u05d4 \u05ea\u05d5\u05e2\u05d3\u05d5 \u05d1\u05d9\u05d5\u05de\u05df \u05dc\u05d4\u05e4\u05e7\u05ea \u05de\u05db\u05ea\u05d1\u05d9 \u05d4\u05de\u05dc\u05e6\u05d4 ({pct}%)"}, "concierge": {"name": "\u05de\u05e2\u05d8\u05e4\u05ea \u05e7\u05d5\u05e0\u05e1\u05d9\u05d9\u05e8\u05d6\u05f3 \u05d0\u05e0\u05d5\u05e9\u05d9\u05ea (\u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4, \u05ea\u05e8\u05d2\u05d5\u05dd \u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05d5\u05dc\u05d9\u05d5\u05d5\u05d9 \u05e2\u05d5\u05f4\u05d3)", "lockedMsg": "\u05d0\u05d9\u05df \u05d4\u05d6\u05de\u05e0\u05ea \u05e7\u05d5\u05e0\u05e1\u05d9\u05d9\u05e8\u05d6\u05f3 \u05e4\u05e2\u05d9\u05dc\u05d4. \u05d1\u05e7\u05e9\u05d5 \u05d4\u05e6\u05e2\u05ea \u05de\u05d7\u05d9\u05e8 ($0 \u05d4\u05d9\u05d5\u05dd) \u05dc\u05ea\u05e8\u05d2\u05d5\u05dd \u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05d1\u05e1\u05e8\u05d8 \u05d0\u05d3\u05d5\u05dd, \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8, \u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4 \u05d0\u05d5 \u05dc\u05d9\u05d5\u05d5\u05d9 \u05e2\u05d5\u05f4\u05d3.", "unlockBtn": "\ud83e\udd1d \u05dc\u05d7\u05e6\u05d5 \u05db\u05d0\u05df \u05dc\u05d1\u05e7\u05e9\u05ea \u05d4\u05e6\u05e2\u05ea \u05de\u05d7\u05d9\u05e8 \u05dc\u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4, \u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05df \u05d0\u05d5 \u05e2\u05d5\u05f4\u05d3 ($0 \u05d4\u05d9\u05d5\u05dd) \u2190", "unlockUrl": "/concierge-booking/?sku=concierge_bundle_799&lang=he", "appUrl": "/concierge-booking/?lang=he", "zeroStatus": "\u05ea\u05d9\u05e7 \u05e7\u05d5\u05e0\u05e1\u05d9\u05d9\u05e8\u05d6\u05f3 \u05e4\u05e2\u05d9\u05dc \u2022 \u05e9\u05d9\u05d1\u05d5\u05e5 \u05de\u05d5\u05de\u05d7\u05d4 \u05d5\u05d8\u05d9\u05e4\u05d5\u05dc \u05d1\u05ea\u05d9\u05e7 \u05d1\u05ea\u05d4\u05dc\u05d9\u05da", "progTpl": "\u05d4\u05d6\u05de\u05e0\u05ea \u05e7\u05d5\u05e0\u05e1\u05d9\u05d9\u05e8\u05d6\u05f3 \u05e4\u05e2\u05d9\u05dc\u05d4 \u05d5\u05de\u05e1\u05d5\u05e0\u05db\u05e8\u05e0\u05ea \u2022 \u05d4\u05ea\u05d9\u05e7 \u05d1\u05d8\u05d9\u05e4\u05d5\u05dc \u05e6\u05d5\u05d5\u05ea \u05d4\u05de\u05d5\u05de\u05d7\u05d9\u05dd ({pct}%)"}}}, "fr": {"overallReadiness": "PR\u00c9PARATION DU DOSSIER SYNCHRONIS\u00c9E EN DIRECT", "autoSyncedBadge": "\u26a1 Synchronis\u00e9 automatiquement avec vos outils", "lockedBadge": "\ud83d\udd12 SUIVI DE CE SERVICE VERROUILL\u00c9", "activeBadge": "\ud83d\udfe2 SUIVI SYST\u00c8ME EN DIRECT ACTIF", "readyZeroPill": "\u26a1 Outil pr\u00eat \u2022 Mise \u00e0 jour automatique en temps r\u00e9el", "inProgressPill": "\ud83d\udcc8 Progression synchronis\u00e9e en direct", "completedPill": "\u2705 \u00c9tape valid\u00e9e par le syst\u00e8me", "freeSampleBtn": "\ud83e\uddea Tester l'\u00e9chantillon gratuit dans l'App \u2192", "openEngineBtn": "\u26a1 Ouvrir l'outil actif dans l'App \u2192", "engines": {"docs": {"name": "Coffre-Fort IA & Horloge d'Apostille de 180 Jours", "lockedMsg": "Le suivi en direct de vos 5 actes d'\u00e9tat civil apostill\u00e9s et du compte \u00e0 rebours de 180 jours du PIBA est verrouill\u00e9.", "unlockBtn": "\ud83d\udd13 Appuyez ici pour d\u00e9bloquer le suivi des documents & 180 jours ($89\u2013$149) \u2192", "unlockUrl": "/fr/pricing/?sku=forms_life_149&lang=fr", "appUrl": "/app/?module=docs&lang=fr", "zeroStatus": "0 / 5 Actes d'\u00e9tat civil audit\u00e9s par l'IA \u2022 Appuyez pour t\u00e9l\u00e9verser vos actes", "progTpl": "{done} / 5 Actes d'\u00e9tat civil audit\u00e9s et valid\u00e9s par l'IA ({pct}%)"}, "forms": {"name": "8 Formulaires Officiels PIBA en H\u00e9breu & D\u00e9codeur d'Agent", "lockedMsg": "Le suivi automatique du remplissage de vos 8 formulaires officiels PIBA en h\u00e9breu (Ash/1, Ash/3, Ash/6, Ash/456, MR/14) est verrouill\u00e9.", "unlockBtn": "\ud83d\udd13 Appuyez ici pour d\u00e9bloquer les 8 Formulaires PDF PIBA ($89\u2013$149) \u2192", "unlockUrl": "/fr/pricing/?sku=forms_life_149&lang=fr", "appUrl": "/app/?module=forms&lang=fr", "zeroStatus": "Tamponneur PDF H\u00e9breu pr\u00eat \u2022 0 champ rempli \u2014 Remplissez en fran\u00e7ais", "progTpl": "{done} Champs officiels sauvegard\u00e9s et calibr\u00e9s pour l'impression PDF en h\u00e9breu ({pct}%)"}, "bd": {"name": "Suite 700 Questions Beit Din & 56 Chants de Chabbat", "lockedMsg": "Essai limit\u00e9 \u00e0 4/700 cartes et 2/56 chants. Impossible de suivre votre pr\u00e9paration \u00e0 l'examen du Beit Din sans d\u00e9bloquer la suite.", "unlockBtn": "\ud83d\udd13 Appuyez ici pour d\u00e9bloquer le suivi 700 Cartes + 56 Chants ($65\u2013$249) \u2192", "unlockUrl": "/fr/pricing/?sku=bd_suite_life_249&lang=fr", "appUrl": "/app/?module=beit-din&lang=fr", "zeroStatus": "Suivi Beit Din actif \u2022 0 / 700 questions & 0 / 56 chants pratiqu\u00e9s \u2014 D\u00e9marrer", "progTpl": "{done} / 700 Questions Beit Din & {songs} / 56 Chants de Chabbat pratiqu\u00e9s ({pct}%)"}, "couples": {"name": "Interrogatoire Couple de 300 Questions en Salles S\u00e9par\u00e9es (2 T\u00e9l\u00e9phones)", "lockedMsg": "Essai limit\u00e9 \u00e0 4/300 questions. Impossible de d\u00e9tecter les contradictions entre conjoints sur 2 t\u00e9l\u00e9phones sans d\u00e9bloquer le module.", "unlockBtn": "\ud83d\udd13 Appuyez ici pour d\u00e9bloquer la Sync 300 Questions sur 2 T\u00e9l\u00e9phones ($75\u2013$229) \u2192", "unlockUrl": "/fr/pricing/?sku=couples_life_229&lang=fr", "appUrl": "/app/?module=couples&lang=fr", "zeroStatus": "Sync 2 T\u00e9l\u00e9phones active \u2022 0 / 300 questions synchronis\u00e9es \u2014 Connectez votre conjoint", "progTpl": "{done} / 300 Questions d'entretien couple en salles s\u00e9par\u00e9es synchronis\u00e9es ({pct}%)"}, "logger": {"name": "Journal d'Activit\u00e9 Communautaire & Lettres de Recommandation", "lockedMsg": "Enregistrez vos Chabbats et cours de Torah pour g\u00e9n\u00e9rer vos lettres de recommandation rabbiniques en h\u00e9breu.", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f R\u00e9server un Rabbin Accompagnateur V\u00e9rifi\u00e9 (Devis $0 aujourd'hui) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_rabbi_349&lang=fr", "appUrl": "/app/?module=logger&lang=fr", "zeroStatus": "Journal d'activit\u00e9 actif \u2022 0 Chabbat / cours enregistr\u00e9 \u2014 Appuyez pour noter", "progTpl": "{done} Chabbats & cours communautaires enregistr\u00e9s pour lettres de r\u00e9f\u00e9rence ({pct}%)"}, "concierge": {"name": "Conciergerie Humaine V\u00e9rifi\u00e9e (Rabbin, Notaire & Avocat)", "lockedMsg": "Aucun placement de conciergerie actif. Demandez un devis \u00e0 0 $ pour Traduction Notari\u00e9e au Ruban Rouge, Rabbin, Madrichat Kallah ou Avocat.", "unlockBtn": "\ud83e\udd1d Appuyez ici pour demander un devis Rabbin, Notaire ou Avocat (0 $ aujourd'hui) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_bundle_799&lang=fr", "appUrl": "/concierge-booking/?lang=fr", "zeroStatus": "Dossier Conciergerie actif \u2022 Placement d'expert v\u00e9rifi\u00e9 en cours", "progTpl": "Commande Conciergerie synchronis\u00e9e \u2022 Dossier pris en charge par nos experts ({pct}%)"}}}, "es": {"overallReadiness": "PREPARACI\u00d3N DEL EXPEDIENTE SINCRONIZADA EN VIVO", "autoSyncedBadge": "\u26a1 Sincronizado autom\u00e1ticamente desde sus herramientas", "lockedBadge": "\ud83d\udd12 NO SE PUEDE RASTREAR ESTE SERVICIO A\u00daN", "activeBadge": "\ud83d\udfe2 RASTREO DEL SISTEMA EN VIVO ACTIVO", "readyZeroPill": "\u26a1 Herramienta lista \u2022 Se actualiza autom\u00e1ticamente al usarla", "inProgressPill": "\ud83d\udcc8 Progreso en vivo sincronizado", "completedPill": "\u2705 Etapa verificada por el sistema", "freeSampleBtn": "\ud83e\uddea Probar muestra gratis en la App \u2192", "openEngineBtn": "\u26a1 Abrir herramienta activa en la App \u2192", "engines": {"docs": {"name": "B\u00f3veda de Documentos IA y Reloj de Apostilla de 180 D\u00edas", "lockedMsg": "El rastreo en vivo de sus 5 documentos civiles apostillados y del reloj de vencimiento de 180 d\u00edas de PIBA est\u00e1 bloqueado.", "unlockBtn": "\ud83d\udd13 Toque aqu\u00ed para desbloquear el rastreo de documentos y 180 d\u00edas ($89\u2013$149) \u2192", "unlockUrl": "/es/pricing/?sku=forms_life_149&lang=es", "appUrl": "/app/?module=docs&lang=es", "zeroStatus": "0 / 5 Documentos civiles auditados por IA \u2022 Toque para subir certificados", "progTpl": "{done} / 5 Documentos civiles auditados y verificados por IA ({pct}%)"}, "forms": {"name": "8 Formularios Oficiales PIBA en Hebreo y Decodificador", "lockedMsg": "El rastreo autom\u00e1tico de sus 8 formularios oficiales de Misrad HaPanim en hebreo (Ash/1, Ash/3, Ash/6, Ash/456, MR/14) est\u00e1 bloqueado.", "unlockBtn": "\ud83d\udd13 Toque aqu\u00ed para desbloquear los 8 Estampadores PDF PIBA ($89\u2013$149) \u2192", "unlockUrl": "/es/pricing/?sku=forms_life_149&lang=es", "appUrl": "/app/?module=forms&lang=es", "zeroStatus": "Estampador PDF Hebreo listo \u2022 0 campos completados \u2014 Complete en espa\u00f1ol", "progTpl": "{done} Campos oficiales guardados y calibrados para estampado PDF en hebreo ({pct}%)"}, "bd": {"name": "Suite de 700 Preguntas Beit Din y 56 Cantos de Shabat", "lockedMsg": "Prueba limitada a 4/700 tarjetas y 2/56 cantos. No se puede rastrear su preparaci\u00f3n para el Beit Din hasta desbloquear la suite.", "unlockBtn": "\ud83d\udd13 Toque aqu\u00ed para desbloquear el rastreo de 700 Tarjetas + 56 Cantos ($65\u2013$249) \u2192", "unlockUrl": "/es/pricing/?sku=bd_suite_life_249&lang=es", "appUrl": "/app/?module=beit-din&lang=es", "zeroStatus": "Telemetr\u00eda Beit Din activa \u2022 0 / 700 preguntas y 0 / 56 cantos practicados", "progTpl": "{done} / 700 Preguntas Beit Din y {songs} / 56 Cantos de Shabat practicados ({pct}%)"}, "couples": {"name": "Interrogatorio de Pareja de 300 Preguntas en Salas Separadas (2 Tel\u00e9fonos)", "lockedMsg": "Prueba limitada a 4/300 preguntas. No se pueden rastrear contradicciones con su pareja en 2 tel\u00e9fonos hasta desbloquear el m\u00f3dulo.", "unlockBtn": "\ud83d\udd13 Toque aqu\u00ed para desbloquear Sync de 300 Preguntas en 2 Tel\u00e9fonos ($75\u2013$229) \u2192", "unlockUrl": "/es/pricing/?sku=couples_life_229&lang=es", "appUrl": "/app/?module=couples&lang=es", "zeroStatus": "Sync en 2 tel\u00e9fonos activa \u2022 0 / 300 preguntas sincronizadas \u2014 Vincule a su pareja", "progTpl": "{done} / 300 Preguntas de entrevista en salas separadas respondidas y sincronizadas ({pct}%)"}, "logger": {"name": "Registro de Actividad Comunitaria y Cartas de Recomendaci\u00f3n", "lockedMsg": "Registre sus Shabatot y clases de Tor\u00e1 para generar cartas de recomendaci\u00f3n rab\u00ednica en hebreo.", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f Reservar Rabino Patrocinador Verificado (Cotizaci\u00f3n $0 hoy) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_rabbi_349&lang=es", "appUrl": "/app/?module=logger&lang=es", "zeroStatus": "Registro de actividad activo \u2022 0 Shabatot / clases registradas \u2014 Toque para anotar", "progTpl": "{done} Shabatot y clases comunitarias registradas para cartas de referencia ({pct}%)"}, "concierge": {"name": "Conserjer\u00eda Humana Verificada (Rabino, Notario y Abogado)", "lockedMsg": "Sin servicio de conserjer\u00eda activo. Solicite cotizaci\u00f3n ($0 hoy) para Traducci\u00f3n Notarial con Cinta Roja, Rabino, Madrichat Kallah o Abogado.", "unlockBtn": "\ud83e\udd1d Toque aqu\u00ed para solicitar cotizaci\u00f3n de Rabino, Notario o Abogado ($0 hoy) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_bundle_799&lang=es", "appUrl": "/concierge-booking/?lang=es", "zeroStatus": "Expediente Concierge activo \u2022 Asignaci\u00f3n de experto verificado en curso", "progTpl": "Orden Concierge sincronizada \u2022 Expediente gestionado por nuestros expertos ({pct}%)"}}}, "de": {"overallReadiness": "LIVE-SYSTEM-AKTENBEREITSCHAFT", "autoSyncedBadge": "\u26a1 Automatisch mit Ihren Tools synchronisiert", "lockedBadge": "\ud83d\udd12 DIESER SERVICE KANN NOCH NICHT GETRACKT WERDEN", "activeBadge": "\ud83d\udfe2 LIVE-SYSTEM-TRACKING AKTIV", "readyZeroPill": "\u26a1 Tool bereit \u2022 Aktualisiert sich automatisch bei Nutzung", "inProgressPill": "\ud83d\udcc8 Live-Fortschritt synchronisiert", "completedPill": "\u2705 Meilenstein vom System verifiziert", "freeSampleBtn": "\ud83e\uddea Kostenlose Vorschau in der App testen \u2192", "openEngineBtn": "\u26a1 Aktives Tool in der App \u00f6ffnen \u2192", "engines": {"docs": {"name": "KI-Dokumententresor & 180-Tage-Apostille-Uhr", "lockedMsg": "Das Live-Tracking Ihrer 5 apostillierten Heimat-Urkunden und des 180-Tage-PIBA-Countdowns ist bis zur Freischaltung gesperrt.", "unlockBtn": "\ud83d\udd13 Hier tippen, um Dokumenten- & 180-Tage-Tracking freizuschalten ($89\u2013$149) \u2192", "unlockUrl": "/de/pricing/?sku=forms_life_149&lang=de", "appUrl": "/app/?module=docs&lang=de", "zeroStatus": "0 / 5 Heimat-Urkunden von KI gepr\u00fcft \u2022 Tippen zum Hochladen", "progTpl": "{done} / 5 Heimat-Urkunden von der KI gepr\u00fcft und verifiziert ({pct}%)"}, "forms": {"name": "8 Offizielle Hebr\u00e4ische PIBA-PDF-Stempler & Beamtenbrief-Decoder", "lockedMsg": "Das automatische Tracking Ihrer 8 offiziellen hebr\u00e4ischen PIBA-Formulare (Ash/1, Ash/3, Ash/6, Ash/456, MR/14) ist gesperrt.", "unlockBtn": "\ud83d\udd13 Hier tippen, um alle 8 hebr\u00e4ischen PIBA-PDF-Stempler freizuschalten ($89\u2013$149) \u2192", "unlockUrl": "/de/pricing/?sku=forms_life_149&lang=de", "appUrl": "/app/?module=forms&lang=de", "zeroStatus": "Hebr\u00e4ischer PDF-Stempler bereit \u2022 0 Felder ausgef\u00fcllt \u2014 Auf Deutsch starten", "progTpl": "{done} Formularfelder gespeichert und f\u00fcr hebr\u00e4ischen PDF-Druck kalibriert ({pct}%)"}, "bd": {"name": "700-Fragen Beit-Din-Simulator & 56 Schabbat-Lieder Suite", "lockedMsg": "Gratis-Test erlaubt 4/700 Karten & 2/56 Lieder. Volle Beit-Din-Pr\u00fcfungsbereitschaft kann erst nach Freischaltung getrackt werden.", "unlockBtn": "\ud83d\udd13 Hier tippen, um 700 Beit-Din-Karten + 56 Lieder freizuschalten ($65\u2013$249) \u2192", "unlockUrl": "/de/pricing/?sku=bd_suite_life_249&lang=de", "appUrl": "/app/?module=beit-din&lang=de", "zeroStatus": "Beit-Din-Telemetrie aktiv \u2022 0 / 700 Fragen & 0 / 56 Lieder ge\u00fcbt \u2014 Jetzt starten", "progTpl": "{done} / 700 Beit-Din-Fragen & {songs} / 56 Schabbat-Lieder ge\u00fcbt ({pct}%)"}, "couples": {"name": "300-Fragen-Paarinterview in Getrennten R\u00e4umen (2 Telefone)", "lockedMsg": "Gratis-Test erlaubt 4/300 Fragen. Live-Widerspruchserkennung auf 2 Telefonen f\u00fcr das PIBA-Interview ist bis zur Freischaltung gesperrt.", "unlockBtn": "\ud83d\udd13 Hier tippen, um 300-Fragen-Sync f\u00fcr 2 Telefone freizuschalten ($75\u2013$229) \u2192", "unlockUrl": "/de/pricing/?sku=couples_life_229&lang=de", "appUrl": "/app/?module=couples&lang=de", "zeroStatus": "2-Telefone-Live-Sync aktiv \u2022 0 / 300 Fragen synchronisiert \u2014 Partner verbinden", "progTpl": "{done} / 300 Paar-Interviewfragen beantwortet und abgeglichen ({pct}%)"}, "logger": {"name": "Gemeinde-Aktivit\u00e4ts-Logger & Rabbiner-Empfehlungsbriefe", "lockedMsg": "Dokumentieren Sie Schabbatot und Tora-Unterricht zur automatischen Erstellung hebr\u00e4ischer Referenzbriefe.", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f Anerkannten Betreuungs-Rabbiner anfragen ($0 Angebot heute) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_rabbi_349&lang=de", "appUrl": "/app/?module=logger&lang=de", "zeroStatus": "Aktivit\u00e4ts-Logger aktiv \u2022 0 Schabbatot / Kurse protokolliert \u2014 Jetzt eintragen", "progTpl": "{done} Schabbatot & Tora-Stunden f\u00fcr Rabbiner-Empfehlung protokolliert ({pct}%)"}, "concierge": {"name": "Gepr\u00fcfter Human-Concierge (Rabbiner, Notar & Anwaltsbegleitung)", "lockedMsg": "Kein aktiver Concierge-Auftrag. Fordern Sie ein 0-$-Angebot f\u00fcr Notarielle Rotband-\u00dcbersetzung, Rabbiner, Madrichat Kallah oder Anwalt an.", "unlockBtn": "\ud83e\udd1d Hier tippen f\u00fcr Rabbiner-, Notar- oder Anwalts-Angebot (0 $ heute) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_bundle_799&lang=de", "appUrl": "/concierge-booking/?lang=de", "zeroStatus": "Concierge-Dossier aktiv \u2022 Experten-Vermittlung in Bearbeitung", "progTpl": "Aktiver Concierge-Auftrag synchronisiert \u2022 In Expertenbearbeitung ({pct}%)"}}}, "ru": {"overallReadiness": "\u0416\u0418\u0412\u0410\u042f \u0413\u041e\u0422\u041e\u0412\u041d\u041e\u0421\u0422\u042c \u0414\u041e\u0421\u042c\u0415 (\u0421\u0418\u041d\u0425\u0420\u041e\u041d\u0418\u0417\u0410\u0426\u0418\u042f \u0421 \u0421\u0418\u0421\u0422\u0415\u041c\u041e\u0419)", "autoSyncedBadge": "\u26a1 \u0410\u0432\u0442\u043e-\u0441\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u0441 \u0432\u0430\u0448\u0438\u043c\u0438 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u0430\u043c\u0438", "lockedBadge": "\ud83d\udd12 \u041e\u0422\u0421\u041b\u0415\u0416\u0418\u0412\u0410\u041d\u0418\u0415 \u042d\u0422\u041e\u0413\u041e \u0421\u0415\u0420\u0412\u0418\u0421\u0410 \u0417\u0410\u0411\u041b\u041e\u041a\u0418\u0420\u041e\u0412\u0410\u041d\u041e", "activeBadge": "\ud83d\udfe2 \u0416\u0418\u0412\u041e\u0415 \u041e\u0422\u0421\u041b\u0415\u0416\u0418\u0412\u0410\u041d\u0418\u0415 \u0421\u0418\u0421\u0422\u0415\u041c\u041e\u0419 \u0410\u041a\u0422\u0418\u0412\u041d\u041e", "readyZeroPill": "\u26a1 \u0418\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442 \u0433\u043e\u0442\u043e\u0432 \u2022 \u041e\u0431\u043d\u043e\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u043f\u0440\u0438 \u0440\u0430\u0431\u043e\u0442\u0435", "inProgressPill": "\ud83d\udcc8 \u0416\u0438\u0432\u043e\u0439 \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441 \u0441\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d", "completedPill": "\u2705 \u042d\u0442\u0430\u043f \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d \u0441\u0438\u0441\u0442\u0435\u043c\u043e\u0439", "freeSampleBtn": "\ud83e\uddea \u041f\u0440\u043e\u0442\u0435\u0441\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0434\u0435\u043c\u043e \u0432 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0438 \u2192", "openEngineBtn": "\u26a1 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0436\u0438\u0432\u043e\u0439 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442 \u0432 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0438 \u2192", "engines": {"docs": {"name": "\u0418\u0418-\u0425\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u0438 \u0422\u0430\u0439\u043c\u0435\u0440 180 \u0434\u043d\u0435\u0439 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044f", "lockedMsg": "\u0416\u0438\u0432\u043e\u0435 \u043e\u0442\u0441\u043b\u0435\u0436\u0438\u0432\u0430\u043d\u0438\u0435 \u0432\u0430\u0448\u0438\u0445 5 \u043b\u0438\u0447\u043d\u044b\u0445 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u0441 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u0435\u043c \u0438 \u0442\u0430\u0439\u043c\u0435\u0440\u0430 180 \u0434\u043d\u0435\u0439 \u041c\u0412\u0414 \u0437\u0430\u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0434\u043e \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438 \u043f\u0430\u043a\u0435\u0442\u0430.", "unlockBtn": "\ud83d\udd13 \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u0437\u0434\u0435\u0441\u044c, \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0442\u0440\u0435\u043a\u0438\u043d\u0433 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u0438 180 \u0434\u043d\u0435\u0439 ($89\u2013$149) \u2192", "unlockUrl": "/ru/pricing/?sku=forms_life_149&lang=ru", "appUrl": "/app/?module=docs&lang=ru", "zeroStatus": "0 / 5 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e \u0418\u0418 \u2022 \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u0434\u043b\u044f \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0438 \u0441\u043f\u0440\u0430\u0432\u043e\u043a", "progTpl": "{done} / 5 \u043b\u0438\u0447\u043d\u044b\u0445 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e \u0438 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u043e \u0418\u0418-\u0430\u0443\u0434\u0438\u0442\u043e\u0440\u043e\u043c ({pct}%)"}, "forms": {"name": "8 \u041e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0445 \u0410\u043d\u043a\u0435\u0442 \u041c\u0412\u0414 \u043d\u0430 \u0418\u0432\u0440\u0438\u0442\u0435 \u0438 \u0414\u0435\u043a\u043e\u0434\u0435\u0440 \u041f\u0438\u0441\u0435\u043c", "lockedMsg": "\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u043e\u0442\u0441\u043b\u0435\u0436\u0438\u0432\u0430\u043d\u0438\u0435 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u044f 8 \u043e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0445 \u0431\u043b\u0430\u043d\u043a\u043e\u0432 \u041c\u0412\u0414 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 (\u0410\u0448/1, \u0410\u0448/3, \u0410\u0448/6, \u0410\u0448/456, \u041c\u0420/14) \u0437\u0430\u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d\u043e.", "unlockBtn": "\ud83d\udd13 \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u0437\u0434\u0435\u0441\u044c, \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435 8 PDF-\u0448\u0442\u0430\u043c\u043f\u043e\u0432\u0449\u0438\u043a\u043e\u0432 \u041c\u0412\u0414 ($89\u2013$149) \u2192", "unlockUrl": "/ru/pricing/?sku=forms_life_149&lang=ru", "appUrl": "/app/?module=forms&lang=ru", "zeroStatus": "PDF-\u0448\u0442\u0430\u043c\u043f\u043e\u0432\u0449\u0438\u043a \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 \u0433\u043e\u0442\u043e\u0432 \u2022 0 \u043f\u043e\u043b\u0435\u0439 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u043e \u2014 \u0417\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0435 \u043d\u0430 \u0440\u0443\u0441\u0441\u043a\u043e\u043c", "progTpl": "{done} \u043f\u043e\u043b\u0435\u0439 \u0430\u043d\u043a\u0435\u0442 \u041c\u0412\u0414 \u0430\u0432\u0442\u043e-\u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u043e \u0434\u043b\u044f \u043f\u0435\u0447\u0430\u0442\u0438 PDF \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 ({pct}%)"}, "bd": {"name": "\u041f\u0430\u043a\u0435\u0442: 700 \u0412\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430 \u0438 56 \u041f\u0435\u0441\u0435\u043d \u0428\u0430\u0431\u0431\u0430\u0442\u0430", "lockedMsg": "\u041f\u0440\u043e\u0431\u043d\u044b\u0439 \u0440\u0435\u0436\u0438\u043c \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442 4/700 \u043a\u0430\u0440\u0442\u043e\u0447\u0435\u043a \u0438 2/56 \u043f\u0435\u0441\u0435\u043d. \u041e\u0442\u0441\u043b\u0435\u0436\u0438\u0432\u0430\u043d\u0438\u0435 \u043f\u043e\u043b\u043d\u043e\u0439 \u0433\u043e\u0442\u043e\u0432\u043d\u043e\u0441\u0442\u0438 \u043a \u0441\u0443\u0434\u0443 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430 \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e \u043f\u043e\u0441\u043b\u0435 \u0440\u0430\u0437\u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043a\u0438.", "unlockBtn": "\ud83d\udd13 \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u0437\u0434\u0435\u0441\u044c, \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0442\u0440\u0435\u043a\u0438\u043d\u0433 700 \u043a\u0430\u0440\u0442\u043e\u0447\u0435\u043a + 56 \u043f\u0435\u0441\u0435\u043d ($65\u2013$249) \u2192", "unlockUrl": "/ru/pricing/?sku=bd_suite_life_249&lang=ru", "appUrl": "/app/?module=beit-din&lang=ru", "zeroStatus": "\u0422\u0435\u043b\u0435\u043c\u0435\u0442\u0440\u0438\u044f \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430 \u0430\u043a\u0442\u0438\u0432\u043d\u0430 \u2022 0 / 700 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0438 0 / 56 \u043f\u0435\u0441\u0435\u043d \u043f\u0440\u043e\u0439\u0434\u0435\u043d\u043e", "progTpl": "{done} / 700 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430 \u0438 {songs} / 56 \u043f\u0435\u0441\u0435\u043d \u0428\u0430\u0431\u0431\u0430\u0442\u0430 \u043e\u0442\u0440\u0430\u0431\u043e\u0442\u0430\u043d\u043e ({pct}%)"}, "couples": {"name": "\u041f\u0435\u0440\u0435\u043a\u0440\u0435\u0441\u0442\u043d\u043e\u0435 \u0418\u043d\u0442\u0435\u0440\u0432\u044c\u044e \u041f\u0430\u0440 \u0438\u0437 300 \u0412\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0432 \u0420\u0430\u0437\u043d\u044b\u0445 \u041a\u043e\u043c\u043d\u0430\u0442\u0430\u0445 (2 \u0422\u0435\u043b\u0435\u0444\u043e\u043d\u0430)", "lockedMsg": "\u041f\u0440\u043e\u0431\u043d\u044b\u0439 \u0440\u0435\u0436\u0438\u043c: 4/300 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432. \u0414\u0435\u0442\u0435\u043a\u0442\u043e\u0440 \u043f\u0440\u043e\u0442\u0438\u0432\u043e\u0440\u0435\u0447\u0438\u0439 \u043c\u0435\u0436\u0434\u0443 \u0441\u0443\u043f\u0440\u0443\u0433\u0430\u043c\u0438 \u043d\u0430 2 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430\u0445 \u0434\u043b\u044f \u0438\u043d\u0442\u0435\u0440\u0432\u044c\u044e \u041c\u0412\u0414 \u0437\u0430\u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d.", "unlockBtn": "\ud83d\udd13 \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u0437\u0434\u0435\u0441\u044c, \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0442\u0440\u0435\u043d\u0430\u0436\u0435\u0440 300 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u043d\u0430 2 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430 ($75\u2013$229) \u2192", "unlockUrl": "/ru/pricing/?sku=couples_life_229&lang=ru", "appUrl": "/app/?module=couples&lang=ru", "zeroStatus": "\u0421\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0430\u0446\u0438\u044f 2 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u043e\u0432 \u0430\u043a\u0442\u0438\u0432\u043d\u0430 \u2022 0 / 300 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u2014 \u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0438\u0442\u0435 \u043f\u0430\u0440\u0442\u043d\u0435\u0440\u0430", "progTpl": "{done} / 300 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u043f\u0435\u0440\u0435\u043a\u0440\u0435\u0441\u0442\u043d\u043e\u0433\u043e \u0438\u043d\u0442\u0435\u0440\u0432\u044c\u044e \u043f\u0430\u0440 \u0441\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d\u043e ({pct}%)"}, "logger": {"name": "\u0416\u0443\u0440\u043d\u0430\u043b \u041e\u0431\u0449\u0438\u043d\u043d\u043e\u0439 \u0410\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438 \u0438 \u041f\u0438\u0441\u044c\u043c\u0430-\u0420\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0446\u0438\u0438 \u0420\u0430\u0432\u0432\u0438\u043d\u0430", "lockedMsg": "\u0424\u0438\u043a\u0441\u0438\u0440\u0443\u0439\u0442\u0435 \u0428\u0430\u0431\u0431\u0430\u0442\u044b \u0438 \u0443\u0440\u043e\u043a\u0438 \u0422\u043e\u0440\u044b \u0434\u043b\u044f \u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u0438 \u0440\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0445 \u043f\u0438\u0441\u0435\u043c \u0440\u0430\u0432\u0432\u0438\u043d\u0430 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435.", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f \u0417\u0430\u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u0420\u0430\u0432\u0432\u0438\u043d\u0430-\u043a\u0443\u0440\u0430\u0442\u043e\u0440\u0430 ($0 \u0440\u0430\u0441\u0447\u0435\u0442 \u0441\u0435\u0433\u043e\u0434\u043d\u044f) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_rabbi_349&lang=ru", "appUrl": "/app/?module=logger&lang=ru", "zeroStatus": "\u0416\u0443\u0440\u043d\u0430\u043b \u0430\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438 \u0430\u043a\u0442\u0438\u0432\u0435\u043d \u2022 0 \u0428\u0430\u0431\u0431\u0430\u0442\u043e\u0432 / \u0443\u0440\u043e\u043a\u043e\u0432 \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u043e \u2014 \u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u044c", "progTpl": "{done} \u0428\u0430\u0431\u0431\u0430\u0442\u043e\u0432 \u0438 \u0443\u0440\u043e\u043a\u043e\u0432 \u0422\u043e\u0440\u044b \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u043e \u0434\u043b\u044f \u0440\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0445 \u043f\u0438\u0441\u0435\u043c ({pct}%)"}, "concierge": {"name": "\u041a\u043e\u043d\u0441\u044c\u0435\u0440\u0436-\u0421\u043e\u043f\u0440\u043e\u0432\u043e\u0436\u0434\u0435\u043d\u0438\u0435 (\u0420\u0430\u0432\u0432\u0438\u043d, \u041d\u043e\u0442\u0430\u0440\u0438\u0443\u0441 \u0438 \u0410\u0434\u0432\u043e\u043a\u0430\u0442 \u0432 \u041c\u0412\u0414)", "lockedMsg": "\u041d\u0435\u0442 \u0430\u043a\u0442\u0438\u0432\u043d\u043e\u0433\u043e \u0437\u0430\u043a\u0430\u0437\u0430 \u043a\u043e\u043d\u0441\u044c\u0435\u0440\u0436\u0430. \u0417\u0430\u043f\u0440\u043e\u0441\u0438\u0442\u0435 \u0440\u0430\u0441\u0447\u0435\u0442 ($0 \u0441\u0435\u0433\u043e\u0434\u043d\u044f) \u043d\u0430 \u043d\u043e\u0442\u0430\u0440\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u043f\u0435\u0440\u0435\u0432\u043e\u0434 \u0441 \u043a\u0440\u0430\u0441\u043d\u043e\u0439 \u043b\u0435\u043d\u0442\u043e\u0439, \u0420\u0430\u0432\u0432\u0438\u043d\u0430, \u041c\u0430\u0434\u0440\u0438\u0445\u0430\u0442 \u041a\u0430\u043b\u0430 \u0438\u043b\u0438 \u0410\u0434\u0432\u043e\u043a\u0430\u0442\u0430.", "unlockBtn": "\ud83e\udd1d \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u0437\u0434\u0435\u0441\u044c \u0434\u043b\u044f \u0440\u0430\u0441\u0447\u0435\u0442\u0430: \u0420\u0430\u0432\u0432\u0438\u043d, \u041d\u043e\u0442\u0430\u0440\u0438\u0443\u0441 \u0438\u043b\u0438 \u0410\u0434\u0432\u043e\u043a\u0430\u0442 ($0 \u0441\u0435\u0433\u043e\u0434\u043d\u044f) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_bundle_799&lang=ru", "appUrl": "/concierge-booking/?lang=ru", "zeroStatus": "\u0414\u043e\u0441\u044c\u0435 \u043a\u043e\u043d\u0441\u044c\u0435\u0440\u0436\u0430 \u0430\u043a\u0442\u0438\u0432\u043d\u043e \u2022 \u041f\u043e\u0434\u0431\u043e\u0440 \u044d\u043a\u0441\u043f\u0435\u0440\u0442\u0430 \u0438 \u0440\u0430\u0431\u043e\u0442\u0430 \u043f\u043e \u0434\u0435\u043b\u0443 \u0437\u0430\u043f\u0443\u0449\u0435\u043d\u044b", "progTpl": "\u0417\u0430\u043a\u0430\u0437 \u043a\u043e\u043d\u0441\u044c\u0435\u0440\u0436\u0430 \u0441\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d \u2022 \u0414\u043e\u0441\u044c\u0435 \u0432 \u0440\u0430\u0431\u043e\u0442\u0435 \u0443 \u043f\u0440\u043e\u0444\u0438\u043b\u044c\u043d\u044b\u0445 \u044d\u043a\u0441\u043f\u0435\u0440\u0442\u043e\u0432 ({pct}%)"}}}};
+  window.GAT_MASTER_9BOXES_I18N = MASTER_9BOXES;
+  window.GAT_SYS_TRACKER_I18N = SYS_TRACKER_I18N;
+  var ONBOARD_KEY_V3 = 'gat_onboarding_completed_v3';
+  var currentObsIdx = 0;
+
+  function getCurLang() {
+    var p = window.location.pathname || '/';
+    var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
+    if (m) return m[1].toLowerCase();
+    var hl = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
+    if (MASTER_9BOXES[hl] && hl !== 'en') return hl;
+    try {
+      var lsLg = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').slice(0, 2).toLowerCase();
+      if (MASTER_9BOXES[lsLg]) return lsLg;
+    } catch (e) {}
+    return MASTER_9BOXES[hl] ? hl : 'en';
+  }
+
+  function isHomepage() {
+    var p = (window.location.pathname || '/').replace(/\/index\.html$/i, '/');
+    return /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+  }
+
+  function isSearchCrawler() {
+    var ua = (navigator && navigator.userAgent) || '';
+    if (/(bot|crawler|spider|slurp|bingpreview|google-inspectiontool|googleother|adsbot|yandex|duckduckbot|applebot|gptbot|chatgpt-user|oai-searchbot|claudebot|anthropic|perplexity|lighthouse|headlesschrome|qwantify|ecosia)/i.test(ua)) {
+      return true;
+    }
+    var w = window.innerWidth || 0;
+    var h = window.innerHeight || 0;
+    if ((w === 1024 && h === 1024) || (w === 1600 && h === 1200)) return true;
+    return false;
+  }
+
+  function isOnboarded() {
+    try {
+      if (localStorage.getItem(ONBOARD_KEY_V3) === '1') return true;
+      if (document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) {
+        localStorage.setItem(ONBOARD_KEY_V3, '1');
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+  window.isGatOnboardingComplete = isOnboarded;
+
+  // Hook BOTH switchTab(4) and switchView(4) so tapping Tracker in the bottom navbar when un-onboarded ALWAYS opens the gate modal!
+  function hookBothSwitchTabAndSwitchView() {
+    ['switchTab', 'switchView'].forEach(function(fnName) {
+      if (typeof window[fnName] === 'function' && !window[fnName].__gatGatedV4) {
+        var origFn = window[fnName];
+        window['__orig_' + fnName] = origFn;
+        var wrapped = function(idx) {
+          if (Number(idx) === 4 && !isOnboarded()) {
+            if (typeof window.showGatTrackerGatePopup === 'function') {
+              window.showGatTrackerGatePopup();
+            }
+            return;
+          }
+          return origFn.apply(this, arguments);
+        };
+        wrapped.__gatGatedV4 = true;
+        window[fnName] = wrapped;
+      }
+    });
+  }
+
+  // Also intercept direct click events on any bottom navbar button with switchTab(4) or switchView(4)
+  document.addEventListener('click', function(ev) {
+    var el = ev.target;
+    while (el && el !== document.body && el !== document.documentElement) {
+      var oc = (el.getAttribute && el.getAttribute('onclick')) || '';
+      var dv = (el.getAttribute && (el.getAttribute('data-view') || el.getAttribute('data-tab'))) || '';
+      if ((/switch(?:Tab|View)\(\s*4\b/i.test(oc) || dv === '4') && el.id !== 'm-cta') {
+        if (!isOnboarded()) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          if (typeof window.showGatTrackerGatePopup === 'function') {
+            window.showGatTrackerGatePopup();
+          }
+          return;
+        }
+      }
+      el = el.parentElement;
+    }
+  }, true);
+
+  // Read real user entitlements & actual system metrics from localStorage (Zero fake manual checkboxes!)
+  function computeSystemTelemetryState() {
+    var rawEnt = '';
+    try {
+      rawEnt = [
+        localStorage.getItem('gat_entitlements_v2') || '',
+        localStorage.getItem('gat_entitlements_map') || '',
+        localStorage.getItem('gat_pro_tier') || '',
+        localStorage.getItem('gat_tier') || '',
+        localStorage.getItem('gat_unlocked_tier') || '',
+        localStorage.getItem('gat_pro_unlocked') || ''
+      ].join(' ').toLowerCase();
+    } catch (e) {}
+
+    var isVipAll = /vip_couple_649|suite_solo_life_399|suite_solo_90d_249|"all":true|"vip":true|^1$|true/.test(rawEnt);
+    var formsUnlocked = isVipAll || /forms_life_149|forms_90d_89|"forms":true/.test(rawEnt);
+    var bdUnlocked = isVipAll || /bd_suite_life_249|bd_suite_90d_149|bd_all700_179|bd_pack|songs_65|"bd":true/.test(rawEnt);
+    var couplesUnlocked = isVipAll || /couples_life_229|couples_90d_129|couples_sync_75|"couples":true/.test(rawEnt);
+    var conciergeUnlocked = false;
+    try {
+      var cOrd = localStorage.getItem('gat_active_concierge_order') || localStorage.getItem('gat_latest_concierge_order') || '';
+      if (cOrd && cOrd.length > 5 && cOrd !== 'null') conciergeUnlocked = true;
+    } catch (e) {}
+
+    // 1. Docs & 180-Day Clock progress (out of 5 core docs)
+    var docsCount = 0;
+    try {
+      var rawDocs = JSON.parse(localStorage.getItem('gat_scanned_docs_v1') || '[]');
+      if (Array.isArray(rawDocs)) docsCount = Math.min(5, rawDocs.length);
+      else if (rawDocs && typeof rawDocs === 'object') docsCount = Math.min(5, Object.keys(rawDocs).length);
+    } catch (e) {}
+    var docsPct = Math.min(100, Math.round((docsCount / 5) * 100));
+
+    // 2. Hebrew PIBA Forms progress (count filled fields in gat_form_draft_v1)
+    var formFieldsCount = 0;
+    try {
+      var rawDraft = JSON.parse(localStorage.getItem('gat_form_draft_v1') || localStorage.getItem('gat_form_draft_snapshot') || '{}');
+      if (rawDraft && typeof rawDraft === 'object') {
+        Object.keys(rawDraft).forEach(function(k) {
+          if (rawDraft[k] && String(rawDraft[k]).trim() !== '') formFieldsCount++;
+        });
+      }
+    } catch (e) {}
+    var formsPct = Math.min(100, Math.round((Math.min(25, formFieldsCount) / 25) * 100));
+
+    // 3. 700 Beit Din Cards & 56 Shabbat Songs progress
+    var bdCount = 0, songsCount = 0;
+    try {
+      var rawBd = JSON.parse(localStorage.getItem('gat_bd_scores') || '{}');
+      if (rawBd && typeof rawBd === 'object') bdCount = Math.min(700, Object.keys(rawBd).length);
+    } catch (e) {}
+    try {
+      var rawSongs = JSON.parse(localStorage.getItem('gat_songs_m') || '{}');
+      if (rawSongs && typeof rawSongs === 'object') songsCount = Math.min(56, Object.keys(rawSongs).length);
+    } catch (e) {}
+    var bdPct = Math.min(100, Math.round(((bdCount / 200) * 70) + ((songsCount / 56) * 30)));
+
+    // 4. 300 Couples Questions progress
+    var cpCount = 0;
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i) || '';
+        if (k.indexOf('gat_cp_ans_') === 0) {
+          var ansObj = JSON.parse(localStorage.getItem(k) || '{}');
+          if (ansObj && typeof ansObj === 'object') cpCount = Math.max(cpCount, Object.keys(ansObj).length);
+        }
+      }
+    } catch (e) {}
+    cpCount = Math.min(300, cpCount);
+    var couplesPct = Math.min(100, Math.round((Math.min(80, cpCount) / 80) * 100));
+
+    // 5. Rabbi & Synagogue Activity Logger (Free to log -> corrals into Rabbi Concierge & AI Reference Letter)
+    var logCount = 0;
+    try {
+      var rawLog = JSON.parse(localStorage.getItem('gat_ref_logger_v1') || '[]');
+      if (Array.isArray(rawLog)) logCount = rawLog.length;
+      else if (rawLog && Array.isArray(rawLog.activities)) logCount = rawLog.activities.length;
+    } catch (e) {}
+    var loggerPct = Math.min(100, Math.round((Math.min(12, logCount) / 12) * 100));
+
+    var conciergePct = conciergeUnlocked ? 50 : 0;
+
+    var totalPct = Math.round((docsPct + formsPct + bdPct + couplesPct + loggerPct) / 5);
+
+    return {
+      totalPct: totalPct,
+      engines: {
+        docs: { unlocked: formsUnlocked, done: docsCount, pct: docsPct },
+        forms: { unlocked: formsUnlocked, done: formFieldsCount, pct: formsPct },
+        bd: { unlocked: bdUnlocked, done: bdCount, songs: songsCount, pct: bdPct },
+        couples: { unlocked: couplesUnlocked, done: cpCount, pct: couplesPct },
+        logger: { unlocked: true, isLogger: true, done: logCount, pct: loggerPct },
+        concierge: { unlocked: conciergeUnlocked, done: conciergeUnlocked ? 1 : 0, pct: conciergePct }
+      }
+    };
+  }
+
+  // Classify which system engine a step card on #view-4 belongs to based on its step index & content
+  function classifyStepCardEngine(cardEl, stepIdx) {
+    var txt = (cardEl.textContent || '').toLowerCase();
+    if (/300|separate|חדרים נפרדים|salles séparées|salas separadas|getrennten|СТУПРО|couples|זוגי/i.test(txt)) return 'couples';
+    if (/700|beit din|dayanim|shabbat|kallah|בית הדין|דיינים|כלה|chabbat|Бейт-Дин/i.test(txt)) return 'bd';
+    if (/ash\/|אש\/|form|טופס|daf drishot|דרישת מסמכים|formulaires|formularios|formulare|анкет/i.test(txt)) return 'forms';
+    if (/lineage|rabbi|רב|synagogue|קהיל|parrain|patrocinador|куратор/i.test(txt) && stepIdx === 1) return 'logger';
+    if (/apostille|אפוסטיל|civil docs|5|180-day|180 ימים|180 jours|180 días|180-tage|180 дней|police|יושר/i.test(txt)) return 'docs';
+    var fallbackOrder = ['docs', 'logger', 'docs', 'forms', 'concierge', 'forms', 'bd'];
+    return fallbackOrder[stepIdx % fallbackOrder.length] || 'forms';
+  }
+
+  // Upgrade #view-4 (Tracker) to be 100% System-Driven (Zero manual 'Mark This Step Complete' buttons!)
+  function renderSystemDrivenTrackerOnView4() {
+    var v4 = document.getElementById('view-4');
+    if (!v4 || !isOnboarded()) return;
+    var lg = getCurLang();
+    var t = SYS_TRACKER_I18N[lg] || SYS_TRACKER_I18N.en;
+    var dir = (lg === 'he') ? 'rtl' : 'ltr';
+    var align = (lg === 'he') ? 'right' : 'left';
+    var state = computeSystemTelemetryState();
+
+    // 1. Remove / Hide all manual 'Mark This Step Complete' buttons inside #view-4
+    var allV4Btns = v4.querySelectorAll('button, label, input[type="checkbox"]');
+    for (var i = 0; i < allV4Btns.length; i++) {
+      var b = allV4Btns[i];
+      var bTxt = (b.textContent || '').trim();
+      var oc = (b.getAttribute && b.getAttribute('onclick')) || '';
+      if (/Mark\s*This\s*Step|סמן\s*שלב|Marquer|Marcar|Schritt|Отметить|toggleStep|completeStep/i.test(bTxt + ' ' + oc)) {
+        b.style.setProperty('display', 'none', 'important');
+      }
+    }
+
+    // 2. Update the top 'ADAPTED TO YOUR ACTIVE TRACK • 0/7 (0%)' badge to reflect real system readiness
+    var badges = v4.querySelectorAll('span, div');
+    for (var j = 0; j < badges.length; j++) {
+      var bd = badges[j];
+      if (bd.children.length === 0) {
+        var sTxt = (bd.textContent || '').trim();
+        if (/\d+\s*\/\s*\d+\s*\(\d+%\)/.test(sTxt) || bd.getAttribute('data-gat-sys-readiness-badge') === '1') {
+          bd.setAttribute('data-gat-sys-readiness-badge', '1');
+          bd.textContent = '🎯 ' + t.overallReadiness + ' • ' + state.totalPct + '%';
+          break;
+        }
+      }
+    }
+
+    // 3. Find each numbered step card inside #view-4 and inject its Locked or Vibrant Live Telemetry Bar
+    var stepCards = [];
+    var candDivs = v4.querySelectorAll('div, article');
+    for (var k = 0; k < candDivs.length; k++) {
+      var d = candDivs[k];
+      if (d.classList && d.classList.contains('gat-sys-telemetry-panel')) continue;
+      var dTxt = (d.textContent || '').trim();
+      if (/^(?:STEP|שלב|ÉTAPE|PASO|SCHRITT|ШАГ)\s*[1-9]\b/i.test(dTxt) && d.getBoundingClientRect().height < 420) {
+        // Ensure we pick the innermost step card container
+        var hasChildStep = false;
+        var subDivs = d.querySelectorAll('div');
+        for (var s = 0; s < subDivs.length; s++) {
+          if (/^(?:STEP|שלב|ÉTAPE|PASO|SCHRITT|ШАГ)\s*[1-9]\b/i.test((subDivs[s].textContent || '').trim())) {
+            hasChildStep = true;
+            break;
+          }
+        }
+        if (!hasChildStep) stepCards.push(d);
+      }
+    }
+
+    for (var idx = 0; idx < stepCards.length; idx++) {
+      var card = stepCards[idx];
+      var engKey = classifyStepCardEngine(card, idx);
+      var engMeta = t.engines[engKey] || t.engines.forms;
+      var engState = state.engines[engKey] || { unlocked: false, done: 0, pct: 0 };
+
+      var sig = lg + '|' + engKey + '|' + engState.unlocked + '|' + engState.done + '|' + engState.pct;
+      var panel = card.querySelector('.gat-sys-telemetry-panel');
+      if (panel && panel.getAttribute('data-sig') === sig) continue;
+      if (!panel) {
+        panel = document.createElement('div');
+        panel.className = 'gat-sys-telemetry-panel';
+        card.appendChild(panel);
+      }
+      panel.setAttribute('data-sig', sig);
+      panel.setAttribute('dir', dir);
+
+      if (!engState.unlocked) {
+        // LOCKED SERVICE TELEMETRY CARD
+        card.style.setProperty('border', '1.5px solid #cbd5e1', 'important');
+        panel.style.cssText = 'margin-top:12px;padding:12px 14px;background:linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%);border:1.5px dashed #94a3b8;border-radius:12px;text-align:' + align + ';';
+        panel.innerHTML =
+          '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px;margin-bottom:6px;">' +
+            '<span style="background:#fef3c7;color:#b45309;border:1px solid #fcd34d;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:900;">' + t.lockedBadge + '</span>' +
+            '<span style="font-size:11.5px;font-weight:800;color:#475569;">' + engMeta.name + '</span>' +
+          '</div>' +
+          '<p style="margin:0 0 10px;font-size:12.5px;color:#334155;line-height:1.45;font-weight:500;">' + engMeta.lockedMsg + '</p>' +
+          '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">' +
+            '<a href="' + engMeta.unlockUrl + '" style="flex:1;min-width:210px;background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);color:#ffffff;border:1.5px solid #38bdf8;padding:9px 13px;border-radius:10px;font-size:12.5px;font-weight:900;text-decoration:none;text-align:center;box-shadow:0 4px 12px rgba(2,132,199,0.25);">' + engMeta.unlockBtn + '</a>' +
+            '<a href="' + engMeta.appUrl + '" style="background:#ffffff;color:#0369a1;border:1px solid #7dd3fc;padding:8px 11px;border-radius:10px;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap;">' + t.freeSampleBtn + '</a>' +
+          '</div>';
+      } else {
+        // UNLOCKED / PAID SERVICE: VIBRANT LIVE SYSTEM TELEMETRY (EVEN AT 0%!)
+        card.style.setProperty('border', '2px solid #10b981', 'important');
+        card.style.setProperty('box-shadow', '0 6px 18px rgba(16,185,129,0.12)', 'important');
+        var statusLine = engState.done === 0 ? engMeta.zeroStatus : engMeta.progTpl.replace('{done}', engState.done).replace('{songs}', engState.songs || 0).replace('{pct}', engState.pct);
+        var pillLabel = engState.pct >= 100 ? t.completedPill : (engState.done > 0 ? (t.inProgressPill + ' (' + engState.pct + '%)') : t.readyZeroPill);
+
+        panel.style.cssText = 'margin-top:12px;padding:12px 14px;background:linear-gradient(135deg,#ecfdf5 0%,#e0f2fe 100%);border:1.5px solid #34d399;border-radius:12px;text-align:' + align + ';';
+        panel.innerHTML =
+          '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px;">' +
+            '<span style="background:#059669;color:#ffffff;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:900;box-shadow:0 2px 6px rgba(5,150,105,0.3);">' + t.activeBadge + '</span>' +
+            '<span style="background:#ffffff;color:#065f46;border:1px solid #6ee7b7;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:800;">' + pillLabel + '</span>' +
+          '</div>' +
+          '<div style="font-size:13px;font-weight:800;color:#0f172a;margin-bottom:8px;line-height:1.4;">' + statusLine + '</div>' +
+          '<div style="width:100%;height:8px;background:#cbd5e1;border-radius:999px;overflow:hidden;margin-bottom:10px;">' +
+            '<div style="width:' + Math.max(6, engState.pct) + '%;height:100%;background:linear-gradient(90deg,#10b981 0%,#0284c7 100%);border-radius:999px;transition:width 0.3s ease;"></div>' +
+          '</div>' +
+          '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">' +
+            '<a href="' + engMeta.appUrl + '" style="flex:1;min-width:190px;background:linear-gradient(135deg,#059669 0%,#0284c7 100%);color:#ffffff;padding:9px 13px;border-radius:10px;font-size:12.5px;font-weight:900;text-decoration:none;text-align:center;box-shadow:0 4px 12px rgba(5,150,105,0.25);">' + t.openEngineBtn + '</a>' +
+            (engState.isLogger ? '<a href="' + engMeta.unlockUrl + '" style="background:#0f172a;color:#fde68a;border:1px solid #f59e0b;padding:8px 11px;border-radius:10px;font-size:11.5px;font-weight:800;text-decoration:none;white-space:nowrap;">' + engMeta.unlockBtn + '</a>' : '') +
+          '</div>';
+      }
+    }
+  }
+
+  // OPTION A: Pure Onboarding Focus on #view-0!
+  function enforceOptionAHomepageLayout() {
+    if (!isHomepage()) return;
+    var v0 = document.getElementById('view-0');
+    if (!v0) return;
+
+    var seoDetails = document.getElementById('gat-seo-hub-details') || v0.querySelector('details');
+    var faq0 = document.getElementById('gat-tab-faq-0');
+    var onboarded = isOnboarded();
+    var bot = isSearchCrawler();
+
+    if (!onboarded && !bot) {
+      if (seoDetails) {
+        seoDetails.style.setProperty('display', 'none', 'important');
+      }
+      if (faq0) {
+        faq0.style.setProperty('display', 'none', 'important');
+      }
+      var heroCard = v0.querySelector('.gat-blue-card-with-spok');
+      if (heroCard) {
+        var topContainer = heroCard;
+        while (topContainer.parentElement && topContainer.parentElement !== v0) {
+          topContainer = topContainer.parentElement;
+        }
+        var sib = topContainer.nextElementSibling;
+        while (sib) {
+          if (sib.id !== 'gat-hero-inline-spok-row') {
+            sib.setAttribute('data-gat-hidden-until-onboarded', '1');
+            sib.style.setProperty('display', 'none', 'important');
+          }
+          sib = sib.nextElementSibling;
+        }
+      }
+    } else {
+      if (seoDetails) {
+        seoDetails.style.setProperty('display', 'block', 'important');
+        seoDetails.style.setProperty('margin-top', '100px', 'important');
+        seoDetails.setAttribute('open', '');
+      }
+      if (faq0) {
+        faq0.style.setProperty('display', 'block', 'important');
+      }
+      var hiddenSibs = v0.querySelectorAll('[data-gat-hidden-until-onboarded="1"]');
+      for (var k = 0; k < hiddenSibs.length; k++) {
+        hiddenSibs[k].removeAttribute('data-gat-hidden-until-onboarded');
+        hiddenSibs[k].style.removeProperty('display');
+        if (hiddenSibs[k] === seoDetails) {
+          hiddenSibs[k].style.setProperty('margin-top', '100px', 'important');
+        }
+      }
+    }
+  }
+
+  // Anchor on #gat-master-9boxes-container, .enemy-grid, or [onclick*='openObstacle(0)'] so all 9 Categorized Boxes ALWAYS render!
+  function ensureAll9CategorizedBoxesInDOM() {
+    var lg = getCurLang();
+    var pack = MASTER_9BOXES[lg] || MASTER_9BOXES.en;
+    var cats = pack.categories || MASTER_9BOXES.en.categories;
+    var align = (lg === 'he') ? 'right' : 'left';
+    var dirAttr = (lg === 'he') ? 'rtl' : 'ltr';
+
+    window.obstacles = pack.boxes;
+    if (MASTER_9BOXES.he) window.obstacles_he = MASTER_9BOXES.he.boxes;
+
+    var container = document.getElementById('gat-master-9boxes-container');
+    if (!container) {
+      var enemyGrid = document.querySelector('.enemy-grid');
+      if (enemyGrid) {
+        container = enemyGrid;
+        container.id = 'gat-master-9boxes-container';
+      } else {
+        var card0 = document.querySelector('[onclick*="openObstacle(0)"]');
+        if (card0 && card0.parentElement) {
+          container = card0.parentElement;
+          container.id = 'gat-master-9boxes-container';
+        }
+      }
+    }
+    if (!container) return;
+
+    var sig = lg + '_9categorized_v14';
+    if (container.getAttribute('data-gat-sig') === sig && container.querySelectorAll('.obs-card').length === 9) {
+      return;
+    }
+    container.setAttribute('data-gat-sig', sig);
+    container.setAttribute('dir', dirAttr);
+    container.style.display = 'block';
+    container.style.width = '100%';
+
+    var html = '';
+    for (var cIdx = 0; cIdx < 3; cIdx++) {
+      var cInfo = cats[cIdx] || cats[0];
+      html +=
+        '<div class="gat-cat-banner" style="background:linear-gradient(135deg,#0f172a 0%,#0369a1 100%);color:#ffffff;padding:11px 16px;border-radius:12px;margin:' + (cIdx > 0 ? '18px' : '8px') + ' 0 12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-left:4px solid #38bdf8;box-shadow:0 4px 12px rgba(15,23,42,0.14);">' +
+          '<span style="font-size:13.5px;font-weight:900;letter-spacing:0.3px;">' + cInfo.title + '</span>' +
+          '<span style="font-size:11.5px;font-weight:800;color:#7dd3fc;white-space:nowrap;">' + cInfo.sub + '</span>' +
+        '</div>' +
+        '<div class="obs-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:14px;">';
+      for (var bIdx = cIdx * 3; bIdx < cIdx * 3 + 3; bIdx++) {
+        var b = pack.boxes[bIdx];
+        var firstTool = (b.tools && b.tools[0] && b.tools[0].label) || '';
+        html +=
+          '<div class="enemy-card obs-card" onclick="openObstacle(' + bIdx + ')" style="cursor:pointer;text-align:' + align + ';display:flex;flex-direction:column;justify-content:space-between;background:rgba(255,255,255,0.95);border:1.5px solid #cbd5e1;border-radius:16px;padding:16px;">' +
+            '<div>' +
+              '<div class="obs-tag" style="display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;font-size:11.5px;font-weight:800;color:#0284c7;">' +
+                '<span>' + b.shortTag + '</span>' +
+                '<span style="white-space:nowrap;">' + pack.tap + '</span>' +
+              '</div>' +
+              '<div class="obs-title" style="font-size:16.5px;font-weight:900;color:#0f172a;line-height:1.3;margin:6px 0;">' + b.icon + ' ' + b.title + '</div>' +
+              '<div class="obs-desc" style="font-size:13.5px;color:#334155;line-height:1.5;margin-bottom:10px;">' + b.shortDesc + '</div>' +
+            '</div>' +
+            (firstTool ? '<div style="font-size:11.5px;font-weight:800;color:#0284c7;background:#f0f9ff;border:1px solid #bae6fd;padding:6px 10px;border-radius:8px;display:inline-block;align-self:flex-start;">' + firstTool + '</div>' : '') +
+          '</div>';
+      }
+      html += '</div>';
+    }
+    container.innerHTML = html;
+  }
+
+  var origOpenObstacle = window.openObstacle;
+  window.openObstacle = function(idx) {
+    var lg = getCurLang();
+    var pack = MASTER_9BOXES[lg] || MASTER_9BOXES.en;
+    var boxes = pack.boxes || [];
+    currentObsIdx = (Number(idx) >= 0 && Number(idx) < boxes.length) ? Number(idx) : 0;
+    var d = boxes[currentObsIdx];
+
+    if (typeof origOpenObstacle === 'function') {
+      try { origOpenObstacle(currentObsIdx); } catch (e) {}
+    }
+
+    var modal = document.getElementById('obs-modal') || document.querySelector('.modal-overlay');
+    if (modal) {
+      modal.classList.add('open', 'active');
+      modal.style.display = 'flex';
+      modal.setAttribute('dir', lg === 'he' ? 'rtl' : 'ltr');
+    }
+
+    var tagEl = document.getElementById('sh-tag');
+    if (tagEl) tagEl.textContent = d.tag;
+    var titleEl = document.getElementById('sh-title');
+    if (titleEl) titleEl.textContent = d.title;
+    var descEl = document.getElementById('sh-desc');
+    if (descEl) descEl.textContent = d.desc;
+    var trapTitleEl = document.getElementById('sh-trap-title');
+    if (trapTitleEl) trapTitleEl.textContent = d.trapTitle;
+    var trapDescEl = document.getElementById('sh-trap-desc');
+    if (trapDescEl) trapDescEl.textContent = d.trapDesc;
+    var winTitleEl = document.getElementById('sh-win-title');
+    if (winTitleEl) winTitleEl.textContent = d.winTitle;
+    var winDescEl = document.getElementById('sh-win-desc');
+    if (winDescEl) winDescEl.textContent = d.winDesc;
+    var savesEl = document.getElementById('sh-saves');
+    if (savesEl) savesEl.textContent = d.saves;
+
+    var winBox = winDescEl ? winDescEl.parentElement : null;
+    var compareGrid = (winBox && winBox.parentElement) ? winBox.parentElement : (descEl ? descEl.parentElement : null);
+    if (compareGrid) {
+      var toolsBox = document.getElementById('gat-obs-modal-tools-corral');
+      if (!toolsBox) {
+        toolsBox = document.createElement('div');
+        toolsBox.id = 'gat-obs-modal-tools-corral';
+        if (winBox && winBox.parentElement && winBox.parentElement !== modal) {
+          winBox.parentElement.insertAdjacentElement('afterend', toolsBox);
+        } else {
+          compareGrid.appendChild(toolsBox);
+        }
+      }
+      toolsBox.style.cssText = 'margin:14px 0 8px;padding:12px 14px;background:linear-gradient(135deg,#f8fafc 0%,#e0f2fe 100%);border:1.5px solid #7dd3fc;border-radius:14px;text-align:' + (lg === 'he' ? 'right' : 'left') + ';';
+      var btnsHtml = '<div style="font-size:12px;font-weight:900;color:#0f172a;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:9px;">' + pack.toolsHeading + '</div><div style="display:flex;flex-direction:column;gap:8px;">';
+      for (var tIdx = 0; tIdx < (d.tools || []).length; tIdx++) {
+        var tl = d.tools[tIdx];
+        var bgStyle = 'background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);color:#ffffff;border:1.5px solid #38bdf8;box-shadow:0 4px 12px rgba(2,132,199,0.25);';
+        if (tl.kind === 'concierge') {
+          bgStyle = 'background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);color:#fde68a;border:1.5px solid #f59e0b;box-shadow:0 4px 12px rgba(15,23,42,0.22);';
+        } else if (tl.kind === 'free') {
+          bgStyle = 'background:#ffffff;color:#0369a1;border:1.5px solid #7dd3fc;';
+        }
+        btnsHtml +=
+          '<a href="' + tl.url + '" style="' + bgStyle + 'padding:10px 14px;border-radius:10px;font-size:13.5px;font-weight:800;text-decoration:none;display:flex;align-items:center;justify-content:space-between;gap:8px;line-height:1.3;">' +
+            '<span>' + tl.label + '</span>' +
+          '</a>';
+      }
+      btnsHtml += '</div>';
+      toolsBox.innerHTML = btnsHtml;
+    }
+
+    if (modal) {
+      var allModalBtns = modal.querySelectorAll('button, a');
+      for (var bIdx = 0; bIdx < allModalBtns.length; bIdx++) {
+        var mb = allModalBtns[bIdx];
+        if (mb.closest && mb.closest('#gat-obs-modal-tools-corral')) continue;
+        var bTxt = (mb.textContent || '').trim();
+        var oc = (mb.getAttribute && mb.getAttribute('onclick')) || '';
+        if (bTxt === '\u2715' || bTxt === '×' || bTxt.length <= 2) continue;
+        if (mb.classList.contains('btn-next') || /nextObstacle/i.test(oc)) {
+          mb.textContent = pack.nextBoxBtn;
+          continue;
+        }
+        if (mb.id === 'm-cta' || /switch(?:View|Tab)\(\s*4\s*\)/i.test(oc) || /Tracker|Track|מסלול|suivi|rastreador|трекер/i.test(bTxt)) {
+          var done = isOnboarded();
+          mb.textContent = done ? pack.trackerBtn : pack.startBtn;
+          mb.onclick = function(ev) {
+            if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+            if (typeof window.closeModal === 'function') {
+              try { window.closeModal(); } catch (e) {}
+            }
+            modal.classList.remove('open', 'active');
+            modal.style.display = 'none';
+            if (isOnboarded()) {
+              if (typeof window.__orig_switchTab === 'function') window.__orig_switchTab(4);
+              else if (typeof window.__orig_switchView === 'function') window.__orig_switchView(4);
+              else if (typeof window.switchTab === 'function') window.switchTab(4);
+              else if (typeof window.switchView === 'function') window.switchView(4);
+            } else {
+              if (typeof window.startGatChangeTrackFlow === 'function') window.startGatChangeTrackFlow(0);
+              else if (typeof window.launchGatOnboardingNow === 'function') window.launchGatOnboardingNow();
+            }
+          };
+        }
+      }
+    }
+  };
+
+  window.nextObstacle = function() {
+    var nextIdx = (currentObsIdx + 1) % 9;
+    window.openObstacle(nextIdx);
+  };
+
+  function keepSpokDockedInHeroCard() { return; /* disabled so Spok drag & click work smoothly */ 
+    if (!isHomepage()) return;
+    var row = document.getElementById('gat-hero-inline-spok-row');
+    var fab = document.getElementById('gat-legacy-noop-fab');
+    var callout = document.getElementById('gat-hero-inline-spok-pill');
+    if (!row || !fab) return;
+    if (fab.style.left && fab.style.left !== 'auto' && fab.parentElement === document.body) return;
+    var v0 = document.getElementById('view-0');
+    if (v0 && v0.classList.contains('active') && row.offsetParent !== null) {
+      if (false && fab.parentElement !== row) {
+        row.appendChild(fab);
+      }
+      fab.style.setProperty('position', 'static', 'important');
+      fab.style.setProperty('left', 'auto', 'important');
+      fab.style.setProperty('top', 'auto', 'important');
+      fab.style.setProperty('bottom', 'auto', 'important');
+      fab.style.setProperty('right', 'auto', 'important');
+      fab.style.setProperty('display', 'inline-flex', 'important');
+      if (callout) {
+        callout.style.setProperty('display', 'inline-flex', 'important');
+      }
+    }
+  }
+
+  function tickAllSystems() {
+    hookBothSwitchTabAndSwitchView();
+    ensureAll9CategorizedBoxesInDOM();
+    enforceOptionAHomepageLayout();
+    /* replaced by renderItemizedColumnsOnView4 */
+    keepSpokDockedInHeroCard();
+  }
+
+  tickAllSystems();
+  document.addEventListener('DOMContentLoaded', tickAllSystems);
+  window.addEventListener('load', tickAllSystems);
+  setInterval(tickAllSystems, 350);
+})();
+
+// === GAT BULLETPROOF TAB ROUTER FOR 'OPEN MY ACTIVE TRACKER' & NAVBAR ===
+(function() {
+  window.gatOpenTab = function(targetIdx) {
+    targetIdx = Number(targetIdx) || 0;
+    if (targetIdx === 4 && typeof window.isGatOnboardingComplete === 'function' && !window.isGatOnboardingComplete()) {
+      if (typeof window.showGatTrackerGatePopup === 'function') {
+        window.showGatTrackerGatePopup();
+      }
+      return;
+    }
+
+    // 1. Clear any inline display:none lock on #view-0..4 and activate #view-<targetIdx>
+    for (var i = 0; i <= 4; i++) {
+      var v = document.getElementById('view-' + i);
+      if (v) {
+        if (i === targetIdx) {
+          v.classList.add('active');
+          v.style.removeProperty('display');
+          if (window.getComputedStyle(v).display === 'none') {
+            v.style.setProperty('display', 'block', 'important');
+          }
+        } else {
+          v.classList.remove('active');
+          v.style.removeProperty('display');
+          if (window.getComputedStyle(v).display !== 'none') {
+            v.style.display = 'none';
+          }
+        }
+      }
+    }
+
+    // 2. Find matching bottom navbar button so native switchTab(idx, btn) highlights it
+    var navBtn = document.querySelector('[onclick*="switchTab(' + targetIdx + '"], [onclick*="switchView(' + targetIdx + '"], [data-tab="' + targetIdx + '"], [data-view="' + targetIdx + '"]');
+    if (typeof window.__orig_switchTab === 'function') {
+      try { window.__orig_switchTab(targetIdx, navBtn); } catch (e) {}
+    } else if (typeof window.switchTab === 'function' && !window.switchTab.__gatGatedV4) {
+      try { window.switchTab(targetIdx, navBtn); } catch (e) {}
+    } else if (typeof window.__origSwitchView === 'function') {
+      try { window.__origSwitchView(targetIdx, navBtn); } catch (e) {}
+    }
+
+    // 3. Re-ensure #view-<targetIdx> is visible in case native function didn't clear inline display
+    var activeV = document.getElementById('view-' + targetIdx);
+    if (activeV) {
+      activeV.classList.add('active');
+      activeV.style.removeProperty('display');
+      if (window.getComputedStyle(activeV).display === 'none') {
+        activeV.style.setProperty('display', 'block', 'important');
+      }
+    }
+
+    // 4. Sync bottom navbar active class
+    var allNavBtns = document.querySelectorAll('[onclick*="switchTab("], [onclick*="switchView("], .nav-item, .nav-btn, .tab-item');
+    for (var j = 0; j < allNavBtns.length; j++) {
+      var nb = allNavBtns[j];
+      var oc = (nb.getAttribute && nb.getAttribute('onclick')) || '';
+      var dt = (nb.getAttribute && (nb.getAttribute('data-tab') || nb.getAttribute('data-view'))) || '';
+      if (oc.indexOf('(' + targetIdx + ')') !== -1 || oc.indexOf('(' + targetIdx + ',') !== -1 || dt === String(targetIdx)) {
+        nb.classList.add('active');
+      } else if (/switch(?:Tab|View)\(/.test(oc) || dt !== '') {
+        nb.classList.remove('active');
+      }
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Global capturing click listener for '#gat-hub-open-tracker-cta' ('📊 Open My Active Tracker →') and '#gat-hub-change-track-top' ('🧭 Change My Track')
+  document.addEventListener('click', function(ev) {
+    var el = ev.target;
+    if (!el || !el.closest) return;
+
+    var openTrackerBtn = el.closest('#gat-hub-open-tracker-cta');
+    if (openTrackerBtn) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (typeof window.markGatOnboardingComplete === 'function' && !window.isGatOnboardingComplete()) {
+        window.markGatOnboardingComplete();
+      }
+      window.gatOpenTab(4);
+      return;
+    }
+
+    var changeTrackBtn = el.closest('#gat-hub-change-track-top');
+    if (changeTrackBtn) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (typeof window.startGatChangeTrackFlow === 'function') {
+        window.startGatChangeTrackFlow(0);
+      }
+      return;
+    }
+  }, true);
+})();
+
+// === GAT 6-LANG ITEMIZED VERTICAL DIAGNOSTIC TRACKER + RED ALERTS + [?] BUBBLES ===
+(function() {
+  var ITEMIZED_I18N = {"en": {"overallReadiness": "LIVE SYSTEM DOSSIER READINESS", "lockedBanner": "\ud83d\udd12 Live Tracking Locked \u2014 Tap Any Item or Unlock Below to Track Automatically", "activeBanner": "\ud83d\udfe2 LIVE ITEMIZED DIAGNOSTIC \u2022 TAP ANY ROW TO FIX OR RESUME", "whyBtnTitle": "What to do & why clerks require this", "fixNow": "Fix / Resume \u2192", "viewDone": "100% Verified \u2713", "freeTry": "Test Free Sample \u2192", "engines": {"docs": {"name": "5 Homeland Civil Docs, Passport & 180-Day Apostille Shield", "unlockBtn": "\ud83d\udd13 Unlock Live AI Document Vault & 180-Day Clock ($89\u2013$149) \u2192", "unlockUrl": "/pricing/?sku=forms_life_149&lang=en", "appUrl": "/app/?module=docs&lang=en", "items": [{"id": "passport", "title": "\ud83d\udec2 Foreign Passport (2+ Year Validity Check)", "defPct": 50, "redAlert": "\ud83d\udea8 If passport expires in <6 months (PIBA requires 2+ yrs validity for visa stamping), renew immediately before filing.", "why": "Misrad HaPanim cannot stamp a 1-year B/1 or A/5 residency permit into a passport expiring in 3\u20136 months. Upload your passport bio page so our AI verifies your expiration window.", "url": "/app/?module=docs&doc=passport&lang=en"}, {"id": "birth", "title": "\ud83d\udcdc Long-Form Birth Certificate (With Parents' Full Names)", "defPct": 100, "redAlert": "\ud83d\udea8 Short-form certificate or missing Hague Apostille stamp \u2014 order full vault record + Apostille.", "why": "PIBA and Nativ reject short-form birth cards that omit parents' names or hospital/city registration numbers, and require an original Hague Apostille stamp on the back.", "url": "/app/?module=docs&doc=birth&lang=en"}, {"id": "marital", "title": "\ud83d\udc8d Marriage / Single-Status Certificate (Tamtzit Rishum)", "defPct": 35, "redAlert": "\ud83d\udea8 Missing Hague Apostille stamp & Red-Ribbon Hebrew translation \u2014 clerk will issue a 30-day deficiency notice.", "why": "Every foreign marriage or single-status certificate must carry an original Hague Apostille from the issuing jurisdiction plus an Israeli Red-Ribbon notarial Hebrew translation.", "url": "/app/?module=docs&doc=marital&lang=en"}, {"id": "police", "title": "\ud83d\udee1\ufe0f National / Federal Police Check (FBI / ACRO / RCMP)", "defPct": 100, "redAlert": "\ud83d\udea8 Strict 180-day expiration cliff \u2014 requires Federal/National Apostille (local city police checks are rejected).", "why": "Criminal background checks expire exactly 180 days after issuance and become invalid if you travel back to your home country after they are issued.", "url": "/app/?module=docs&doc=police&lang=en"}, {"id": "lineage", "title": "\ud83d\udd4d Proof-of-Judaism / Prior Divorce or Name-Change Decrees", "defPct": 0, "redAlert": "\ud83d\udea8 Not uploaded yet \u2014 scan maternal lineage letter or prior divorce/name decrees for AI name-match audit.", "why": "If your name or a parent's name differs by even one letter across certificates, PIBA halts your file until a formal name-change certificate or Hebrew affidavit is provided.", "url": "/app/?module=docs&doc=lineage&lang=en"}]}, "forms": {"name": "8 Official Hebrew PIBA PDF Stampers & Petitions", "unlockBtn": "\ud83d\udd13 Unlock All 8 Official Hebrew PIBA PDF Stampers ($89\u2013$149) \u2192", "unlockUrl": "/pricing/?sku=forms_life_149&lang=en", "appUrl": "/app/?module=forms&lang=en", "items": [{"id": "primary_form", "title": "\ud83d\udcc4 Official Hebrew PIBA Application (Ash/1 \u2022 Ash/3 \u2022 Ash/6 \u2022 Ash/456)", "defPct": 40, "redAlert": "\ud83d\udea8 Mandatory Hebrew fields incomplete \u2014 PIBA clerks reject English or hand-scribbled forms at the counter.", "why": "Fill the form once in your native language and our calibrated PDF engine stamps the official Hebrew Misrad HaPanim PDF in the exact government boxes.", "url": "/app/?module=forms&form=primary&lang=en"}, {"id": "hesber", "title": "\u270d\ufe0f Formal Hebrew Petition & Explanation Letter (Michtav Hesber)", "defPct": 0, "redAlert": "\ud83d\udea8 Missing formal Hebrew narrative explaining your visa timeline, Va'adat Charigim request, or relationship.", "why": "Every Misrad HaPanim and Va'adat Charigim submission requires a formal Hebrew cover letter (Michtav Hesber) structured in statutory legal terminology.", "url": "/app/?module=forms&form=hesber&lang=en"}, {"id": "security_cv", "title": "\ud83d\udee1\ufe0f Nespach Alef & 10-Year Chronological Security CV", "defPct": 0, "redAlert": "\ud83d\udea8 Missing 10-year address, employment & border-entry log required for Nativ / PIBA clearance.", "why": "Unexplained gaps in your 10-year address or employment history trigger Nativ and PIBA security deferrals.", "url": "/app/?module=forms&form=cv&lang=en"}, {"id": "red_x_guide", "title": "\u274c Localized Red-X Counter Signing Guide", "defPct": 100, "redAlert": "\ud83d\udea8 Never sign declaration boxes at home that must be signed in front of the clerk.", "why": "Certain PIBA affidavits are invalidated if pre-signed before arriving at the counter. Our Red-X Guide marks every signature box in your language.", "url": "/app/?module=forms&form=guide&lang=en"}]}, "logger": {"name": "Sponsoring Rabbi, Madrichat Kallah & 5\u20138 Community Letters", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f Book Vetted Sponsoring Rabbi & Madrichat Kallah ($0 Quote Intake) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_couple_499&lang=en", "appUrl": "/app/?module=logger&lang=en", "items": [{"id": "rabbi_match", "title": "\ud83d\udc68\u200d\u2696\ufe0f Vetted Sponsoring Rabbi (Rav Melaveh) Placement", "defPct": 0, "redAlert": "\ud83d\udea8 No Rabbanut-recognized Sponsoring Rabbi linked yet \u2014 unvetted rabbi letters waste 12 months of study.", "why": "The Beit Din and Va'adat Charigim only accept sponsorship letters from rabbis on the recognized registry. Request our 7-day regional rabbi matching.", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=en"}, {"id": "shabbat_log", "title": "\ud83d\udd6f\ufe0f Shabbat Hosting & Torah Class Activity Log (12+ Entries)", "defPct": 25, "redAlert": "\ud83d\udea8 Insufficient logged Shabbat meals & classes \u2014 log attendance to unlock AI Hebrew Reference Letters.", "why": "Our iPhone-wheel Activity Logger records exact dates, times, and hosts so your Rabbi and Synagogue reference letters cite verifiable communal history.", "url": "/app/?module=logger&tab=log&lang=en"}, {"id": "kallah_cert", "title": "\ud83d\udc8d Certified Madrichat Kallah (Family Purity) Course", "defPct": 0, "redAlert": "\ud83d\udea8 Required for BOTH conversion & Rabbanut marriage (even when one partner is born-Jewish Israeli).", "why": "The tribunal will not schedule your final Mikvah without a signed syllabus and completion letter from a Rabbanut-certified Madrichat Kallah.", "url": "/concierge-booking/?sku=concierge_kallah_249&lang=en"}, {"id": "host_letters", "title": "\ud83c\udfe0 Host Family, Synagogue Gabbai & Friend Reference Letters", "defPct": 0, "redAlert": "\ud83d\udea8 0 / 3 supporting Hebrew community letters generated from your activity log.", "why": "Dayanim look for 5\u20138 authentic letters proving lived Shabbat and Kashrut integration inside an Orthodox community.", "url": "/app/?module=logger&tab=letters&lang=en"}]}, "songs": {"name": "56 Dual-Nusach Shabbat Songs, Prayers & Essential Brachot", "unlockBtn": "\ud83d\udd13 Unlock All 56 Shabbat Songs, Prayers & AI Pitch Grader ($65\u2013$249) \u2192", "unlockUrl": "/pricing/?sku=songs_65&lang=en", "appUrl": "/app/?module=songs-prayers&lang=en", "items": [{"id": "shabbat_songs", "title": "\ud83c\udf77 Friday Night Kiddush, Havdalah & Shabbat Zemirot (18 Tracks)", "defPct": 11, "redAlert": "\ud83d\udea8 Dayanim test Friday night Kiddush & Shalom Aleichem live out loud \u2014 freezing triggers a 6-month deferral.", "why": "At the final hearing, judges ask you to chant Kiddush and Shabbat table songs on the spot to verify you actually keep Shabbat every week.", "url": "/app/?module=songs-prayers&cat=shabbat&lang=en"}, {"id": "daily_brachot", "title": "\ud83c\udf5e Essential Daily Brachot, Asher Yatzar & Birkat HaMazon (20 Tracks)", "defPct": 0, "redAlert": "\ud83d\udea8 Must know food blessings (HaMotzi, Mezonot, Shehakol) & grace after meals by heart.", "why": "Drill both Sephardi and Ashkenazi liturgical recordings with 1:1 synchronized karaoke highlighting in your native alphabet.", "url": "/app/?module=songs-prayers&cat=brachot&lang=en"}, {"id": "shacharit", "title": "\ud83c\udf05 Morning Prayers \u2014 Modeh Ani, Netilat Yadayim & Shema (18 Tracks)", "defPct": 0, "redAlert": "\ud83d\udea8 Practice daily Shacharit liturgy & Amidah pronunciation before your Beit Din exam.", "why": "Our AI vocal trainer grades your Hebrew pronunciation and melody flow so you never hesitate in front of the tribunal.", "url": "/app/?module=songs-prayers&cat=shacharit&lang=en"}]}, "bd": {"name": "700-Question Beit Din Oral Tribunal Simulator (4 Decks)", "unlockBtn": "\ud83d\udd13 Unlock All 700 Beit Din Tribunal Flashcards ($65\u2013$249) \u2192", "unlockUrl": "/pricing/?sku=bd_suite_life_249&lang=en", "appUrl": "/app/?module=beit-din&lang=en", "items": [{"id": "bd_core200", "title": "\ud83d\udd4d Deck 1: Core 200 Ma'amad Beit Din Halacha Essentials", "defPct": 10, "redAlert": "\ud83d\udea8 Below 85% pass threshold \u2014 drill the 39 Melachot of Shabbat, meat/dairy rules & Jewish holidays.", "why": "Covers the mandatory baseline questions asked at every State (Nativ) and Private Orthodox Beit Din hearing.", "url": "/app/?module=beit-din&deck=core200&lang=en"}, {"id": "bd_curve200", "title": "\u26a1 Deck 2: +200 Dayanim Curveballs & Sincerity Traps", "defPct": 0, "redAlert": "\ud83d\udea8 Unprepared for pressure questions on secular relatives, Israeli partner observance & motivation.", "why": "Dayanim intentionally ask psychological curveballs to test how you handle halachic friction in real family life.", "url": "/app/?module=beit-din&deck=curve200&lang=en"}, {"id": "bd_men150", "title": "\ud83d\udcd8 Deck 3: Men's 150 Halacha Deck (Tefillin, Minyan, Tzitzit & Brit)", "defPct": 0, "redAlert": "\ud83d\udea8 Specific obligations tested on male converts and Jewish husbands accompanying a converting partner.", "why": "If you are a couple, the Beit Din questions the male partner directly on synagogue attendance, Tefillin, and leading Kiddush.", "url": "/app/?module=beit-din&deck=men150&lang=en"}, {"id": "bd_women150", "title": "\ud83d\udcd5 Deck 4: Women's 150 Halacha Deck (Taharat HaMishpacha, Mikvah & Challah)", "defPct": 0, "redAlert": "\ud83d\udea8 Critical Niddah 7-clean-days calculations & candle-lighting times tested at the hearing.", "why": "A single mistake on Hefsek Taharah or Shiba Neki'im calculations is the #1 reason female candidates are deferred.", "url": "/app/?module=beit-din&deck=women150&lang=en"}]}, "couples": {"name": "300-Question Separated-Room 2-Phone Couples Interrogation", "unlockBtn": "\ud83d\udd13 Unlock 300-Q 2-Phone Live Couples Interrogation Sync ($75\u2013$229) \u2192", "unlockUrl": "/pricing/?sku=couples_life_229&lang=en", "appUrl": "/app/?module=couples&lang=en", "items": [{"id": "cp_pair", "title": "\ud83d\udcf1 2-Phone Live Firestore Room Pairing (Partner A + Partner B)", "defPct": 0, "redAlert": "\ud83d\udea8 Partner's phone not paired yet \u2014 link both phones to flag answer contradictions automatically.", "why": "During annual Nohal 5.2.0008 / 5.2.0009 interviews, clerks put you in separate rooms and compare answers word-for-word.", "url": "/app/?module=couples&tab=pair&lang=en"}, {"id": "cp_daily", "title": "\ud83c\udfe0 Category 1\u20134: Apartment Layout, Utility Bills & Morning Routine (120 Qs)", "defPct": 0, "redAlert": "\ud83d\udea8 High-risk contradiction zone: who pays Arnona/electric, side of the bed & yesterday's dinner.", "why": "Clerks treat mismatches on everyday household logistics as evidence of a fictitious marriage, triggering a 6\u201312 month freeze.", "url": "/app/?module=couples&cat=daily&lang=en"}, {"id": "cp_family", "title": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67 Category 5\u20138: How You Met, In-Laws, Holidays & Finances (100 Qs)", "defPct": 0, "redAlert": "\ud83d\udea8 Sync dates you met each other's parents, gifts exchanged & joint bank account activity.", "why": "Both partners answer in their own native language on their own phone while our engine highlights every discrepancy.", "url": "/app/?module=couples&cat=family&lang=en"}, {"id": "cp_exam80", "title": "\u23f1\ufe0f Category 9\u201310: 80-Question Timed PIBA Clerk Mock Exam", "defPct": 0, "redAlert": "\ud83d\udea8 Complete at least one full 80-question separated-room exam simulation with >90% match score.", "why": "Simulates the exact 45-minute Misrad HaPanim separated-room interrogation before you walk into the ministry.", "url": "/app/?module=couples&cat=exam80&lang=en"}]}, "decoder": {"name": "30-Day Clerk Deficiency Shield, Nativ Audit & Legal Rescue", "unlockBtn": "\ud83d\udd13 Unlock Clerk Demand Decoder & 30-Day Extension Engine ($89\u2013$149) \u2192", "unlockUrl": "/pricing/?sku=forms_life_149&lang=en", "appUrl": "/app/?module=forms&tab=decoder&lang=en", "items": [{"id": "clerk_decoder", "title": "\ud83d\udd0d Hebrew Clerk Demand Sheet (Daf Drishat Mismachim) AI Decoder", "defPct": 100, "redAlert": "\ud83d\udea8 Received a Hebrew printout at the counter? Scan it immediately \u2014 you have only 30 days before file closure.", "why": "Translates handwritten or printed Hebrew PIBA clerk demand sheets into plain action items and checks your 180-day clocks.", "url": "/app/?module=forms&tab=decoder&lang=en"}, {"id": "ext_letter", "title": "\u23f3 Formal Hebrew 30-Day Deadline Extension Letter (Bakashat Ha'aracha)", "defPct": 0, "redAlert": "\ud83d\udea8 If a foreign Apostille or Nativ check is delayed, file a formal Hebrew extension request before Day 21.", "why": "Stops automatic administrative closure of your Misrad HaPanim file while waiting for overseas documents.", "url": "/app/?module=forms&tab=extension&lang=en"}, {"id": "lawyer_escort", "title": "\u2696\ufe0f Day-Of Appointment Lawyer Escort & Red-Ribbon Notary Intake", "defPct": 0, "redAlert": "\ud83d\udea8 Prior visa refusal, B/1 pivot, or aggressive clerk? Request a $0 quote for in-person lawyer escort.", "why": "Our licensed Israeli immigration lawyers and notaries intervene directly at the PIBA counter or Appeals Tribunal.", "url": "/concierge-booking/?sku=concierge_escort_649&lang=en"}]}}}, "he": {"overallReadiness": "\u05de\u05d5\u05db\u05e0\u05d5\u05ea \u05ea\u05d9\u05e7 \u05d7\u05d9\u05d4 \u05d4\u05de\u05e1\u05d5\u05e0\u05db\u05e8\u05e0\u05ea \u05de\u05d4\u05de\u05e2\u05e8\u05db\u05ea", "lockedBanner": "\ud83d\udd12 \u05de\u05e2\u05e7\u05d1 \u05d7\u05d9 \u05e0\u05e2\u05d5\u05dc \u2014 \u05dc\u05d7\u05e6\u05d5 \u05e2\u05dc \u05db\u05dc \u05e9\u05d5\u05e8\u05d4 \u05d0\u05d5 \u05e4\u05ea\u05d7\u05d5 \u05dc\u05de\u05d8\u05d4 \u05dc\u05de\u05e2\u05e7\u05d1 \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9", "activeBanner": "\ud83d\udfe2 \u05d0\u05d1\u05d7\u05d5\u05df \u05e4\u05e8\u05d8\u05e0\u05d9 \u05d7\u05d9 \u2022 \u05dc\u05d7\u05e6\u05d5 \u05e2\u05dc \u05db\u05dc \u05e9\u05d5\u05e8\u05d4 \u05dc\u05ea\u05d9\u05e7\u05d5\u05df \u05d5\u05d4\u05de\u05e9\u05da \u05de\u05d0\u05d9\u05e4\u05d4 \u05e9\u05e2\u05e6\u05e8\u05ea\u05dd", "whyBtnTitle": "\u05de\u05d4 \u05dc\u05e2\u05e9\u05d5\u05ea \u05d5\u05de\u05d3\u05d5\u05e2 \u05d4\u05e4\u05e7\u05d9\u05d3\u05d9\u05dd \u05d3\u05d5\u05e8\u05e9\u05d9\u05dd \u05d6\u05d0\u05ea", "fixNow": "\u05ea\u05e7\u05df / \u05d4\u05de\u05e9\u05da \u2190", "viewDone": "100% \u05d0\u05d5\u05de\u05ea \u2713", "freeTry": "\u05e0\u05e1\u05d5 \u05d3\u05d5\u05d2\u05de\u05d4 \u05d7\u05d9\u05e0\u05dd \u2190", "engines": {"docs": {"name": "5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05de\u05e7\u05d5\u05e8, \u05d3\u05e8\u05db\u05d5\u05df \u05d5\u05e9\u05e2\u05d5\u05df 180 \u05d9\u05d5\u05dd \u05dc\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc", "unlockBtn": "\ud83d\udd13 \u05e4\u05ea\u05d9\u05d7\u05ea \u05db\u05e1\u05e4\u05ea \u05de\u05e1\u05de\u05db\u05d9 AI \u05d5\u05e9\u05e2\u05d5\u05df 180 \u05d9\u05d5\u05dd ($89\u2013$149) \u2190", "unlockUrl": "/he/pricing/?sku=forms_life_149&lang=he", "appUrl": "/app/?module=docs&lang=he", "items": [{"id": "passport", "title": "\ud83d\udec2 \u05d3\u05e8\u05db\u05d5\u05df \u05d6\u05e8 (\u05d1\u05d3\u05d9\u05e7\u05ea \u05ea\u05d5\u05e7\u05e3 \u05dc\u05e9\u05e0\u05ea\u05d9\u05d9\u05dd+)", "defPct": 50, "redAlert": "\ud83d\udea8 \u05d0\u05dd \u05d4\u05d3\u05e8\u05db\u05d5\u05df \u05e4\u05d2 \u05ea\u05d5\u05e7\u05e3 \u05ea\u05d5\u05da \u05e4\u05d7\u05d5\u05ea \u05de-6 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd (\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d3\u05d5\u05e8\u05e9 \u05e9\u05e0\u05ea\u05d9\u05d9\u05dd \u05ea\u05d5\u05e7\u05e3 \u05dc\u05d4\u05d3\u05d1\u05e7\u05ea \u05d0\u05e9\u05e8\u05d4) \u2014 \u05d7\u05d3\u05e9\u05d5 \u05de\u05d9\u05d3.", "why": "\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d0\u05d9\u05e0\u05d5 \u05de\u05e0\u05e4\u05d9\u05e7 \u05d0\u05e9\u05e8\u05ea \u05d1/1 \u05d0\u05d5 \u05d0/5 \u05dc\u05d3\u05e8\u05db\u05d5\u05df \u05e9\u05e4\u05d2 \u05ea\u05d5\u05e7\u05e4\u05d5 \u05d1\u05e7\u05e8\u05d5\u05d1. \u05d4\u05e2\u05dc\u05d5 \u05e6\u05d9\u05dc\u05d5\u05dd \u05d3\u05e8\u05db\u05d5\u05df \u05dc\u05d1\u05d3\u05d9\u05e7\u05ea \u05ea\u05d5\u05e7\u05e3 \u05d1-AI.", "url": "/app/?module=docs&doc=passport&lang=he"}, {"id": "birth", "title": "\ud83d\udcdc \u05ea\u05e2\u05d5\u05d3\u05ea \u05dc\u05d9\u05d3\u05d4 \u05de\u05dc\u05d0\u05d4 (Long-Form \u05e2\u05dd \u05e9\u05de\u05d5\u05ea \u05d4\u05d4\u05d5\u05e8\u05d9\u05dd)", "defPct": 100, "redAlert": "\ud83d\udea8 \u05ea\u05e2\u05d5\u05d3\u05d4 \u05de\u05e7\u05d5\u05e6\u05e8\u05ea \u05d0\u05d5 \u05d7\u05e1\u05e8 \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u2014 \u05d4\u05d6\u05de\u05d9\u05e0\u05d5 \u05d4\u05e2\u05ea\u05e7 \u05de\u05dc\u05d0 \u05de\u05e8\u05e9\u05dd \u05d4\u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05df + \u05d7\u05d5\u05ea\u05de\u05ea \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc.", "why": "\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d5\u05e0\u05ea\u05d9\u05d1 \u05e4\u05d5\u05e1\u05dc\u05d9\u05dd \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05dc\u05d9\u05d3\u05d4 \u05de\u05e7\u05d5\u05e6\u05e8\u05d5\u05ea \u05dc\u05dc\u05d0 \u05e9\u05de\u05d5\u05ea \u05d4\u05d4\u05d5\u05e8\u05d9\u05dd \u05d4\u05de\u05dc\u05d0\u05d9\u05dd \u05d5\u05d7\u05d5\u05ea\u05de\u05ea \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05de\u05e7\u05d5\u05e8\u05d9\u05ea.", "url": "/app/?module=docs&doc=birth&lang=he"}, {"id": "marital", "title": "\ud83d\udc8d \u05ea\u05e2\u05d5\u05d3\u05ea \u05e0\u05d9\u05e9\u05d5\u05d0\u05d9\u05df / \u05ea\u05e2\u05d5\u05d3\u05ea \u05e8\u05d5\u05d5\u05e7\u05d5\u05ea (\u05ea\u05de\u05e6\u05d9\u05ea \u05e8\u05d9\u05e9\u05d5\u05dd)", "defPct": 35, "redAlert": "\ud83d\udea8 \u05d7\u05e1\u05e8\u05d4 \u05d7\u05d5\u05ea\u05de\u05ea \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05d5\u05ea\u05e8\u05d2\u05d5\u05dd \u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05d1\u05e1\u05e8\u05d8 \u05d0\u05d3\u05d5\u05dd \u2014 \u05d4\u05e4\u05e7\u05d9\u05d3 \u05d9\u05d5\u05e6\u05d9\u05d0 \u05d3\u05e3 \u05d3\u05e8\u05d9\u05e9\u05ea \u05de\u05e1\u05de\u05db\u05d9\u05dd \u05dc-30 \u05d9\u05d5\u05dd.", "why": "\u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05de\u05e6\u05d1 \u05d0\u05d9\u05e9\u05d9 \u05e4\u05d2\u05d5\u05ea \u05ea\u05d5\u05e7\u05e3 \u05ea\u05d5\u05da 180 \u05d9\u05d5\u05dd \u05d5\u05de\u05d7\u05d9\u05d9\u05d1\u05d5\u05ea \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05de\u05e7\u05d5\u05e8\u05d9 \u05d5\u05ea\u05e8\u05d2\u05d5\u05dd \u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05dc\u05e2\u05d1\u05e8\u05d9\u05ea.", "url": "/app/?module=docs&doc=marital&lang=he"}, {"id": "police", "title": "\ud83d\udee1\ufe0f \u05ea\u05e2\u05d5\u05d3\u05ea \u05d9\u05d5\u05e9\u05e8 \u05e4\u05d3\u05e8\u05dc\u05d9\u05ea / \u05d0\u05e8\u05e6\u05d9\u05ea (FBI / ACRO / RCMP)", "defPct": 100, "redAlert": "\ud83d\udea8 \u05e9\u05e2\u05d5\u05df \u05e4\u05e7\u05d9\u05e2\u05d4 \u05e7\u05e9\u05d9\u05d7 \u05e9\u05dc 180 \u05d9\u05d5\u05dd \u2014 \u05d7\u05d5\u05d1\u05d4 \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05e4\u05d3\u05e8\u05dc\u05d9/\u05dc\u05d0\u05d5\u05de\u05d9 (\u05ea\u05e2\u05d5\u05d3\u05d4 \u05e2\u05d9\u05e8\u05d5\u05e0\u05d9\u05ea \u05e0\u05e4\u05e1\u05dc\u05ea).", "why": "\u05ea\u05e2\u05d5\u05d3\u05ea \u05d9\u05d5\u05e9\u05e8 \u05ea\u05e7\u05e4\u05d4 \u05dc-180 \u05d9\u05d5\u05dd \u05d1\u05dc\u05d1\u05d3 \u05d5\u05e0\u05e4\u05e1\u05dc\u05ea \u05d0\u05dd \u05d1\u05d9\u05e7\u05e8\u05ea\u05dd \u05e9\u05d5\u05d1 \u05d1\u05de\u05d3\u05d9\u05e0\u05ea \u05d4\u05de\u05d5\u05e6\u05d0 \u05dc\u05d0\u05d7\u05e8 \u05d4\u05e0\u05e4\u05e7\u05ea\u05d4.", "url": "/app/?module=docs&doc=police&lang=he"}, {"id": "lineage", "title": "\ud83d\udd4d \u05d0\u05d9\u05e9\u05d5\u05e8 \u05d9\u05d4\u05d3\u05d5\u05ea / \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d2\u05d9\u05e8\u05d5\u05e9\u05d9\u05df \u05d0\u05d5 \u05e9\u05d9\u05e0\u05d5\u05d9 \u05e9\u05dd \u05e7\u05d5\u05d3\u05de\u05d9\u05dd", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d8\u05e8\u05dd \u05d4\u05d5\u05e2\u05dc\u05d4 \u2014 \u05e1\u05e8\u05e7\u05d5 \u05de\u05db\u05ea\u05d1 \u05e8\u05d1 (\u05e7\u05d5 \u05d0\u05d9\u05de\u05d4\u05d9) \u05d0\u05d5 \u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05d2\u05d9\u05e8\u05d5\u05e9\u05d9\u05df/\u05e9\u05d9\u05e0\u05d5\u05d9 \u05e9\u05dd \u05dc\u05d1\u05d3\u05d9\u05e7\u05ea \u05d4\u05ea\u05d0\u05de\u05ea \u05e9\u05de\u05d5\u05ea \u05d1-AI.", "why": "\u05db\u05dc \u05e9\u05d9\u05e0\u05d5\u05d9 \u05d0\u05d5\u05ea \u05d1\u05e9\u05dd \u05d1\u05d9\u05df \u05d4\u05ea\u05e2\u05d5\u05d3\u05d5\u05ea \u05e2\u05d5\u05e6\u05e8 \u05d0\u05ea \u05d4\u05ea\u05d9\u05e7 \u05e2\u05d3 \u05dc\u05d4\u05e6\u05d2\u05ea \u05ea\u05e2\u05d5\u05d3\u05ea \u05e9\u05d9\u05e0\u05d5\u05d9 \u05e9\u05dd \u05d1\u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc.", "url": "/app/?module=docs&doc=lineage&lang=he"}]}, "forms": {"name": "8 \u05d8\u05e4\u05e1\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05e8\u05e9\u05de\u05d9\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d5\u05de\u05db\u05ea\u05d1\u05d9 \u05d4\u05e1\u05d1\u05e8", "unlockBtn": "\ud83d\udd13 \u05e4\u05ea\u05d9\u05d7\u05ea \u05db\u05dc 8 \u05d8\u05e4\u05e1\u05d9 \u05d4-PDF \u05d4\u05e8\u05e9\u05de\u05d9\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea ($89\u2013$149) \u2190", "unlockUrl": "/he/pricing/?sku=forms_life_149&lang=he", "appUrl": "/app/?module=forms&lang=he", "items": [{"id": "primary_form", "title": "\ud83d\udcc4 \u05d8\u05d5\u05e4\u05e1 \u05d1\u05e7\u05e9\u05d4 \u05e8\u05e9\u05de\u05d9 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea (\u05d0\u05e9/1 \u2022 \u05d0\u05e9/3 \u2022 \u05d0\u05e9/6 \u2022 \u05d0\u05e9/456)", "defPct": 40, "redAlert": "\ud83d\udea8 \u05e9\u05d3\u05d5\u05ea \u05d7\u05d5\u05d1\u05d4 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d7\u05e1\u05e8\u05d9\u05dd \u2014 \u05e4\u05e7\u05d9\u05d3\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d3\u05d5\u05d7\u05d9\u05dd \u05d8\u05e4\u05e1\u05d9\u05dd \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea \u05d0\u05d5 \u05d1\u05db\u05ea\u05d1 \u05d9\u05d3 \u05d1\u05d3\u05dc\u05e4\u05e7.", "why": "\u05de\u05dc\u05d0\u05d5 \u05d1\u05e9\u05e4\u05ea\u05db\u05dd \u05d5\u05d4\u05de\u05e0\u05d5\u05e2 \u05e9\u05dc\u05e0\u05d5 \u05d9\u05d8\u05d1\u05d9\u05e2 \u05d0\u05ea \u05d4\u05ea\u05e9\u05d5\u05d1\u05d5\u05ea \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05ea\u05e7\u05e0\u05d9\u05ea \u05d1\u05d3\u05d9\u05d5\u05e7 \u05d1\u05de\u05e9\u05d1\u05e6\u05d5\u05ea \u05e9\u05dc \u05d4-PDF \u05d4\u05de\u05de\u05e9\u05dc\u05ea\u05d9.", "url": "/app/?module=forms&form=primary&lang=he"}, {"id": "hesber", "title": "\u270d\ufe0f \u05de\u05db\u05ea\u05d1 \u05d4\u05e1\u05d1\u05e8 \u05d5\u05d1\u05e7\u05e9\u05d4 \u05e8\u05e9\u05de\u05d9 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea (\u05dc\u05d5\u05d5\u05e2\u05d3\u05ea \u05d7\u05e8\u05d9\u05d2\u05d9\u05dd / \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd)", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d7\u05e1\u05e8 \u05de\u05db\u05ea\u05d1 \u05d4\u05e1\u05d1\u05e8 \u05de\u05e0\u05d5\u05de\u05e7 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d4\u05de\u05e4\u05e8\u05d8 \u05d0\u05ea \u05e6\u05d9\u05e8 \u05d4\u05d6\u05de\u05df, \u05d4\u05d6\u05d5\u05d2\u05d9\u05d5\u05ea \u05d0\u05d5 \u05d1\u05e7\u05e9\u05ea \u05d4\u05d2\u05d9\u05d5\u05e8.", "why": "\u05db\u05dc \u05d4\u05d2\u05e9\u05d4 \u05dc\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d0\u05d5 \u05dc\u05d5\u05d5\u05e2\u05d3\u05ea \u05d4\u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05de\u05d7\u05d9\u05d9\u05d1\u05ea \u05de\u05db\u05ea\u05d1 \u05d4\u05e1\u05d1\u05e8 \u05de\u05e9\u05e4\u05d8\u05d9 \u05de\u05d5\u05d1\u05e0\u05d4 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea.", "url": "/app/?module=forms&form=hesber&lang=he"}, {"id": "security_cv", "title": "\ud83d\udee1\ufe0f \u05e0\u05e1\u05e4\u05d7 \u05d0\u05f3 \u05d5\u05e7\u05d5\u05e8\u05d5\u05ea \u05d7\u05d9\u05d9\u05dd \u05d1\u05d9\u05d8\u05d7\u05d5\u05e0\u05d9\u05d9\u05dd \u05dc-10 \u05e9\u05e0\u05d9\u05dd", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d7\u05e1\u05e8 \u05e4\u05d9\u05e8\u05d5\u05d8 \u05db\u05ea\u05d5\u05d1\u05d5\u05ea, \u05ea\u05e2\u05e1\u05d5\u05e7\u05d4 \u05d5\u05d9\u05e6\u05d9\u05d0\u05d5\u05ea \u05de\u05d4\u05d0\u05e8\u05e5 \u05dc-10 \u05d4\u05e9\u05e0\u05d9\u05dd \u05d4\u05d0\u05d7\u05e8\u05d5\u05e0\u05d5\u05ea \u05e2\u05d1\u05d5\u05e8 \u05e0\u05ea\u05d9\u05d1 \u05d5\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd.", "why": "\u05e4\u05e2\u05e8\u05d9\u05dd \u05d1\u05e4\u05d9\u05e8\u05d5\u05d8 \u05d4\u05db\u05ea\u05d5\u05d1\u05d5\u05ea \u05d0\u05d5 \u05d4\u05ea\u05e2\u05e1\u05d5\u05e7\u05d4 \u05de\u05e2\u05db\u05d1\u05d9\u05dd \u05d0\u05ea \u05d4\u05d0\u05d9\u05e9\u05d5\u05e8 \u05d4\u05d1\u05d9\u05d8\u05d7\u05d5\u05e0\u05d9 \u05d1\u05e0\u05ea\u05d9\u05d1.", "url": "/app/?module=forms&form=cv&lang=he"}, {"id": "red_x_guide", "title": "\u274c \u05de\u05d3\u05e8\u05d9\u05da \u05d7\u05ea\u05d9\u05de\u05d5\u05ea X \u05d0\u05d3\u05d5\u05dd \u05dc\u05d3\u05dc\u05e4\u05e7 \u05d4\u05e4\u05e7\u05d9\u05d3", "defPct": 100, "redAlert": "\ud83d\udea8 \u05d0\u05d9\u05df \u05dc\u05d7\u05ea\u05d5\u05dd \u05d1\u05d1\u05d9\u05ea \u05e2\u05dc \u05d4\u05e6\u05d4\u05e8\u05d5\u05ea \u05e9\u05d7\u05d5\u05d1\u05d4 \u05dc\u05d7\u05ea\u05d5\u05dd \u05e2\u05dc\u05d9\u05d4\u05df \u05d1\u05e4\u05e0\u05d9 \u05d4\u05e4\u05e7\u05d9\u05d3 \u05d1\u05dc\u05d1\u05d3.", "why": "\u05de\u05d3\u05e8\u05d9\u05da \u05d4-X \u05d4\u05d0\u05d3\u05d5\u05dd \u05e9\u05dc\u05e0\u05d5 \u05de\u05e1\u05de\u05df \u05d1\u05d3\u05d9\u05d5\u05e7 \u05d4\u05d9\u05db\u05df \u05dc\u05d7\u05ea\u05d5\u05dd \u05de\u05e8\u05d0\u05e9 \u05d5\u05d4\u05d9\u05db\u05df \u05dc\u05d4\u05de\u05ea\u05d9\u05df \u05dc\u05e4\u05e7\u05d9\u05d3.", "url": "/app/?module=forms&form=guide&lang=he"}]}, "logger": {"name": "\u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8, \u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4 \u05d5-5\u20138 \u05de\u05db\u05ea\u05d1\u05d9 \u05d4\u05de\u05dc\u05e6\u05d4 \u05de\u05d4\u05e7\u05d4\u05d9\u05dc\u05d4", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f \u05ea\u05d9\u05d0\u05d5\u05dd \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05d5\u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4 \u05de\u05d5\u05db\u05e8\u05d9\u05dd ($0 \u05d4\u05e6\u05e2\u05ea \u05de\u05d7\u05d9\u05e8) \u2190", "unlockUrl": "/concierge-booking/?sku=concierge_couple_499&lang=he", "appUrl": "/app/?module=logger&lang=he", "items": [{"id": "rabbi_match", "title": "\ud83d\udc68\u200d\u2696\ufe0f \u05e9\u05d9\u05d1\u05d5\u05e5 \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05de\u05d5\u05db\u05e8 (\u05de\u05db\u05ea\u05d1 \u05d7\u05e1\u05d5\u05ea \u05e8\u05e9\u05de\u05d9 \u05dc\u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df)", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d8\u05e8\u05dd \u05e9\u05d5\u05d1\u05e5 \u05e8\u05d1 \u05de\u05dc\u05d5\u05d5\u05d4 \u05d4\u05de\u05d5\u05db\u05e8 \u05e2\u05dc \u05d9\u05d3\u05d9 \u05d4\u05e8\u05d1\u05e0\u05d5\u05ea \u2014 \u05dc\u05d9\u05de\u05d5\u05d3 \u05d0\u05e6\u05dc \u05de\u05d5\u05e8\u05d4 \u05dc\u05d0 \u05de\u05d5\u05db\u05e8 \u05e4\u05d5\u05e1\u05dc \u05e9\u05e0\u05ea \u05dc\u05d9\u05de\u05d5\u05d3\u05d9\u05dd \u05e9\u05dc\u05de\u05d4.", "why": "\u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05d5\u05d5\u05e2\u05d3\u05ea \u05d4\u05d7\u05e8\u05d9\u05d2\u05d9\u05dd \u05de\u05e7\u05d1\u05dc\u05d9\u05dd \u05d0\u05da \u05d5\u05e8\u05e7 \u05de\u05db\u05ea\u05d1\u05d9 \u05e8\u05d1\u05e0\u05d9\u05dd \u05de\u05d4\u05e8\u05e9\u05d9\u05de\u05d4 \u05d4\u05de\u05d5\u05db\u05e8\u05ea.", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=he"}, {"id": "shabbat_log", "title": "\ud83d\udd6f\ufe0f \u05d9\u05d5\u05de\u05df \u05d0\u05d9\u05e8\u05d5\u05d7 \u05e9\u05d1\u05ea\u05d5\u05ea \u05d5\u05e9\u05d9\u05e2\u05d5\u05e8\u05d9 \u05ea\u05d5\u05e8\u05d4 (12+ \u05de\u05e4\u05d2\u05e9\u05d9\u05dd \u05de\u05ea\u05d5\u05e2\u05d3\u05d9\u05dd)", "defPct": 25, "redAlert": "\ud83d\udea8 \u05ea\u05d5\u05e2\u05d3\u05d5 \u05de\u05e2\u05d8 \u05de\u05e4\u05d2\u05e9\u05d9\u05dd \u2014 \u05d4\u05d6\u05d9\u05e0\u05d5 \u05e9\u05d1\u05ea\u05d5\u05ea \u05d5\u05e9\u05d9\u05e2\u05d5\u05e8\u05d9\u05dd \u05d1\u05d9\u05d5\u05de\u05df \u05dc\u05e4\u05ea\u05d9\u05d7\u05ea \u05de\u05d7\u05d5\u05dc\u05dc \u05de\u05db\u05ea\u05d1\u05d9 \u05d4\u05d4\u05de\u05dc\u05e6\u05d4 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea.", "why": "\u05d9\u05d5\u05de\u05df \u05d4\u05e4\u05e2\u05d9\u05dc\u05d5\u05ea \u05e9\u05dc\u05e0\u05d5 \u05de\u05ea\u05e2\u05d3 \u05ea\u05d0\u05e8\u05d9\u05db\u05d9\u05dd \u05d5\u05de\u05d0\u05e8\u05d7\u05d9\u05dd \u05db\u05d3\u05d9 \u05e9\u05de\u05db\u05ea\u05d1\u05d9 \u05d4\u05d4\u05de\u05dc\u05e6\u05d4 \u05d9\u05db\u05dc\u05dc\u05d5 \u05d4\u05d9\u05e1\u05d8\u05d5\u05e8\u05d9\u05d4 \u05e7\u05d4\u05d9\u05dc\u05ea\u05d9\u05ea \u05de\u05d0\u05d5\u05de\u05ea\u05ea.", "url": "/app/?module=logger&tab=log&lang=he"}, {"id": "kallah_cert", "title": "\ud83d\udc8d \u05d0\u05d9\u05e9\u05d5\u05e8 \u05e7\u05d5\u05e8\u05e1 \u05d8\u05d4\u05e8\u05ea \u05d4\u05de\u05e9\u05e4\u05d7\u05d4 \u05d0\u05e6\u05dc \u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4 \u05de\u05d5\u05e1\u05de\u05db\u05ea", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d7\u05d5\u05d1\u05d4 \u05d4\u05df \u05dc\u05d2\u05d9\u05d5\u05e8 \u05d5\u05d4\u05df \u05dc\u05e0\u05d9\u05e9\u05d5\u05d0\u05d9\u05df \u05d1\u05e8\u05d1\u05e0\u05d5\u05ea (\u05d2\u05dd \u05db\u05e9\u05d1\u05df \u05d4\u05d6\u05d5\u05d2 \u05d9\u05e9\u05e8\u05d0\u05dc\u05d9 \u05d9\u05d4\u05d5\u05d3\u05d9 \u05de\u05dc\u05d9\u05d3\u05d4).", "why": "\u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05dc\u05d0 \u05d9\u05e7\u05d1\u05e2 \u05de\u05d5\u05e2\u05d3 \u05dc\u05d8\u05d1\u05d9\u05dc\u05d4 \u05d1\u05de\u05e7\u05d5\u05d5\u05d4 \u05dc\u05dc\u05d0 \u05d0\u05d9\u05e9\u05d5\u05e8 \u05e1\u05d9\u05dc\u05d1\u05d5\u05e1 \u05d7\u05ea\u05d5\u05dd \u05de\u05de\u05d3\u05e8\u05d9\u05db\u05ea \u05db\u05dc\u05d4 \u05de\u05d5\u05e1\u05de\u05db\u05ea.", "url": "/concierge-booking/?sku=concierge_kallah_249&lang=he"}, {"id": "host_letters", "title": "\ud83c\udfe0 \u05de\u05db\u05ea\u05d1\u05d9 \u05d4\u05de\u05dc\u05e6\u05d4 \u05de\u05de\u05e9\u05e4\u05d7\u05d4 \u05de\u05d0\u05e8\u05d7\u05ea, \u05d2\u05d1\u05d0\u05d9 \u05d1\u05d9\u05ea \u05db\u05e0\u05e1\u05ea \u05d5\u05d7\u05d1\u05e8\u05d9\u05dd", "defPct": 0, "redAlert": "\ud83d\udea8 0 / 3 \u05de\u05db\u05ea\u05d1\u05d9 \u05d4\u05de\u05dc\u05e6\u05d4 \u05e7\u05d4\u05d9\u05dc\u05ea\u05d9\u05d9\u05dd \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d4\u05d5\u05e4\u05e7\u05d5 \u05de\u05d9\u05d5\u05de\u05df \u05d4\u05e4\u05e2\u05d9\u05dc\u05d5\u05ea.", "why": "\u05d4\u05d3\u05d9\u05d9\u05e0\u05d9\u05dd \u05d3\u05d5\u05e8\u05e9\u05d9\u05dd \u05dc\u05e8\u05d0\u05d5\u05ea 5\u20138 \u05de\u05db\u05ea\u05d1\u05d9\u05dd \u05d0\u05d5\u05ea\u05e0\u05d8\u05d9\u05d9\u05dd \u05d4\u05de\u05d5\u05db\u05d9\u05d7\u05d9\u05dd \u05e9\u05de\u05d9\u05e8\u05ea \u05e9\u05d1\u05ea \u05d5\u05db\u05e9\u05e8\u05d5\u05ea \u05d1\u05e7\u05d4\u05d9\u05dc\u05d4.", "url": "/app/?module=logger&tab=letters&lang=he"}]}, "songs": {"name": "56 \u05e9\u05d9\u05e8\u05d9 \u05e9\u05d1\u05ea, \u05ea\u05e4\u05d9\u05dc\u05d5\u05ea \u05e9\u05d7\u05e8\u05d9\u05ea \u05d5\u05d1\u05e8\u05db\u05d5\u05ea \u05d7\u05d5\u05d1\u05d4 (\u05d1\u05e9\u05e0\u05d9 \u05e0\u05d5\u05e1\u05d7\u05d9\u05dd)", "unlockBtn": "\ud83d\udd13 \u05e4\u05ea\u05d9\u05d7\u05ea \u05db\u05dc 56 \u05e9\u05d9\u05e8\u05d9 \u05d4\u05e9\u05d1\u05ea, \u05d4\u05ea\u05e4\u05d9\u05dc\u05d5\u05ea \u05d5\u05de\u05d0\u05de\u05df \u05d4-AI ($65\u2013$249) \u2190", "unlockUrl": "/he/pricing/?sku=songs_65&lang=he", "appUrl": "/app/?module=songs-prayers&lang=he", "items": [{"id": "shabbat_songs", "title": "\ud83c\udf77 \u05e7\u05d9\u05d3\u05d5\u05e9 \u05dc\u05d9\u05dc \u05e9\u05d1\u05ea, \u05d4\u05d1\u05d3\u05dc\u05d4 \u05d5\u05d6\u05de\u05d9\u05e8\u05d5\u05ea \u05e9\u05d1\u05ea (18 \u05e8\u05e6\u05d5\u05e2\u05d5\u05ea \u05e9\u05de\u05e2)", "defPct": 11, "redAlert": "\ud83d\udea8 \u05d4\u05d3\u05d9\u05d9\u05e0\u05d9\u05dd \u05de\u05d1\u05e7\u05e9\u05d9\u05dd \u05dc\u05e9\u05d9\u05e8 \u05e7\u05d9\u05d3\u05d5\u05e9 \u05d5'\u05e9\u05dc\u05d5\u05dd \u05e2\u05dc\u05d9\u05db\u05dd' \u05d1\u05e7\u05d5\u05dc \u05d1\u05d3\u05d9\u05d5\u05df \u2014 \u05d2\u05de\u05d2\u05d5\u05dd \u05d2\u05d5\u05e8\u05e8 \u05d3\u05d7\u05d9\u05d9\u05d4 \u05e9\u05dc 6 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd.", "why": "\u05d1\u05de\u05e2\u05de\u05d3 \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05ea\u05ea\u05d1\u05e7\u05e9\u05d5 \u05dc\u05e9\u05d9\u05e8 \u05e7\u05d9\u05d3\u05d5\u05e9 \u05d5\u05d6\u05de\u05d9\u05e8\u05d5\u05ea \u05db\u05d3\u05d9 \u05dc\u05d4\u05d5\u05db\u05d9\u05d7 \u05e9\u05d0\u05ea\u05dd \u05d7\u05d5\u05d5\u05d9\u05dd \u05e9\u05d1\u05ea \u05de\u05d3\u05d9 \u05e9\u05d1\u05d5\u05e2.", "url": "/app/?module=songs-prayers&cat=shabbat&lang=he"}, {"id": "daily_brachot", "title": "\ud83c\udf5e \u05d1\u05e8\u05db\u05d5\u05ea \u05d4\u05e0\u05d4\u05e0\u05d9\u05df, \u05d0\u05e9\u05e8 \u05d9\u05e6\u05e8 \u05d5\u05d1\u05e8\u05db\u05ea \u05d4\u05de\u05d6\u05d5\u05df (20 \u05e8\u05e6\u05d5\u05e2\u05d5\u05ea \u05e9\u05de\u05e2)", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d7\u05d5\u05d1\u05d4 \u05dc\u05e9\u05dc\u05d5\u05d8 \u05d1\u05d1\u05e8\u05db\u05d5\u05ea \u05d4\u05de\u05d6\u05d5\u05df (\u05d4\u05de\u05d5\u05e6\u05d9\u05d0, \u05de\u05d6\u05d5\u05e0\u05d5\u05ea, \u05e9\u05d4\u05db\u05dc) \u05d5\u05d1\u05e8\u05db\u05ea \u05d4\u05de\u05d6\u05d5\u05df \u05d1\u05e2\u05dc \u05e4\u05d4.", "why": "\u05ea\u05e8\u05d2\u05d5\u05dc \u05e7\u05e8\u05d9\u05d5\u05e7\u05d9 \u05de\u05e1\u05d5\u05e0\u05db\u05e8\u05df \u05d1\u05e0\u05d5\u05e1\u05d7 \u05e1\u05e4\u05e8\u05d3\u05d9 \u05d5\u05d0\u05e9\u05db\u05e0\u05d6\u05d9 \u05e2\u05dd \u05ea\u05e2\u05ea\u05d9\u05e7 \u05e4\u05d5\u05e0\u05d8\u05d9 \u05d1-6 \u05e9\u05e4\u05d5\u05ea.", "url": "/app/?module=songs-prayers&cat=brachot&lang=he"}, {"id": "shacharit", "title": "\ud83c\udf05 \u05ea\u05e4\u05d9\u05dc\u05ea \u05e9\u05d7\u05e8\u05d9\u05ea \u2014 \u05de\u05d5\u05d3\u05d4 \u05d0\u05e0\u05d9, \u05e0\u05d8\u05d9\u05dc\u05ea \u05d9\u05d3\u05d9\u05d9\u05dd \u05d5\u05e7\u05e8\u05d9\u05d0\u05ea \u05e9\u05de\u05e2 (18 \u05e8\u05e6\u05d5\u05e2\u05d5\u05ea)", "defPct": 0, "redAlert": "\ud83d\udea8 \u05ea\u05e8\u05d2\u05dc\u05d5 \u05d4\u05d2\u05d9\u05d9\u05d4 \u05d5\u05de\u05e0\u05d2\u05d9\u05e0\u05d4 \u05e9\u05dc \u05d1\u05e8\u05db\u05d5\u05ea \u05d4\u05e9\u05d7\u05e8 \u05d5\u05ea\u05e4\u05d9\u05dc\u05ea \u05e9\u05de\u05d5\u05e0\u05d4 \u05e2\u05e9\u05e8\u05d4 \u05dc\u05e4\u05e0\u05d9 \u05d4\u05d3\u05d9\u05d5\u05df.", "why": "\u05de\u05d0\u05de\u05df \u05d4-AI \u05e9\u05dc\u05e0\u05d5 \u05d1\u05d5\u05d3\u05e7 \u05d0\u05ea \u05d4\u05d4\u05d2\u05d9\u05d9\u05d4 \u05d5\u05d4\u05e7\u05e6\u05d1 \u05e9\u05dc\u05db\u05dd \u05db\u05d3\u05d9 \u05e9\u05ea\u05d2\u05d9\u05e2\u05d5 \u05d1\u05d1\u05d9\u05d8\u05d7\u05d5\u05df \u05de\u05dc\u05d0 \u05dc\u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df.", "url": "/app/?module=songs-prayers&cat=shacharit&lang=he"}]}, "bd": {"name": "\u05e1\u05d9\u05de\u05d5\u05dc\u05d8\u05d5\u05e8 700 \u05e9\u05d0\u05dc\u05d5\u05ea \u05de\u05e2\u05de\u05d3 \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df (4 \u05d7\u05e4\u05d9\u05e1\u05d5\u05ea \u05d4\u05dc\u05db\u05d4)", "unlockBtn": "\ud83d\udd13 \u05e4\u05ea\u05d9\u05d7\u05ea \u05db\u05dc 700 \u05db\u05e8\u05d8\u05d9\u05e1\u05d9\u05d5\u05ea \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df ($65\u2013$249) \u2190", "unlockUrl": "/he/pricing/?sku=bd_suite_life_249&lang=he", "appUrl": "/app/?module=beit-din&lang=he", "items": [{"id": "bd_core200", "title": "\ud83d\udd4d \u05d7\u05e4\u05d9\u05e1\u05d4 1: 200 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d4\u05dc\u05d9\u05d1\u05d4 \u05e9\u05dc \u05de\u05e2\u05de\u05d3 \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df", "defPct": 10, "redAlert": "\ud83d\udea8 \u05de\u05ea\u05d7\u05ea \u05dc\u05e1\u05e3 \u05d4\u05de\u05e2\u05d1\u05e8 (85%) \u2014 \u05ea\u05e8\u05d2\u05dc\u05d5 \u05dc\u05f4\u05d8 \u05de\u05dc\u05d0\u05db\u05d5\u05ea \u05e9\u05d1\u05ea, \u05d4\u05dc\u05db\u05d5\u05ea \u05db\u05e9\u05e8\u05d5\u05ea \u05d5\u05de\u05d5\u05e2\u05d3\u05d9 \u05d9\u05e9\u05e8\u05d0\u05dc.", "why": "\u05de\u05db\u05e1\u05d4 \u05d0\u05ea \u05e9\u05d0\u05dc\u05d5\u05ea \u05d4\u05d7\u05d5\u05d1\u05d4 \u05d4\u05e0\u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05db\u05dc \u05d1\u05d9\u05ea \u05d3\u05d9\u05df \u05de\u05de\u05dc\u05db\u05ea\u05d9 (\u05e0\u05ea\u05d9\u05d1) \u05d5\u05e4\u05e8\u05d8\u05d9.", "url": "/app/?module=beit-din&deck=core200&lang=he"}, {"id": "bd_curve200", "title": "\u26a1 \u05d7\u05e4\u05d9\u05e1\u05d4 2: 200 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d4\u05ea\u05e7\u05dc\u05d4 \u05d5\u05de\u05d1\u05d7\u05e0\u05d9 \u05db\u05e0\u05d5\u05ea \u05e9\u05dc \u05d4\u05d3\u05d9\u05d9\u05e0\u05d9\u05dd", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d7\u05d5\u05e1\u05e8 \u05de\u05d5\u05db\u05e0\u05d5\u05ea \u05dc\u05e9\u05d0\u05dc\u05d5\u05ea \u05dc\u05d7\u05e5 \u05e2\u05dc \u05de\u05e9\u05e4\u05d7\u05d4 \u05d7\u05d9\u05dc\u05d5\u05e0\u05d9\u05ea, \u05e8\u05de\u05ea \u05e9\u05de\u05d9\u05e8\u05ea \u05d4\u05de\u05e6\u05d5\u05d5\u05ea \u05e9\u05dc \u05d1\u05df \u05d4\u05d6\u05d5\u05d2 \u05d5\u05d4\u05de\u05e0\u05d9\u05e2 \u05dc\u05d2\u05d9\u05d5\u05e8.", "why": "\u05d4\u05d3\u05d9\u05d9\u05e0\u05d9\u05dd \u05e9\u05d5\u05d0\u05dc\u05d9\u05dd \u05e9\u05d0\u05dc\u05d5\u05ea \u05de\u05d0\u05ea\u05d2\u05e8\u05d5\u05ea \u05db\u05d3\u05d9 \u05dc\u05d1\u05d7\u05d5\u05df \u05db\u05d9\u05e6\u05d3 \u05ea\u05ea\u05de\u05d5\u05d3\u05d3\u05d5 \u05e2\u05dd \u05d3\u05d9\u05dc\u05de\u05d5\u05ea \u05d4\u05dc\u05db\u05ea\u05d9\u05d5\u05ea \u05d1\u05d7\u05d9\u05d9 \u05d4\u05d9\u05d5\u05de\u05d9\u05d5\u05dd.", "url": "/app/?module=beit-din&deck=curve200&lang=he"}, {"id": "bd_men150", "title": "\ud83d\udcd8 \u05d7\u05e4\u05d9\u05e1\u05d4 3: 150 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d4\u05dc\u05db\u05d4 \u05dc\u05d2\u05d1\u05e8\u05d9\u05dd (\u05ea\u05e4\u05d9\u05dc\u05d9\u05df, \u05de\u05e0\u05d9\u05d9\u05df, \u05e6\u05d9\u05e6\u05d9\u05ea \u05d5\u05d1\u05e8\u05d9\u05ea)", "defPct": 0, "redAlert": "\ud83d\udea8 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d9\u05d9\u05e2\u05d5\u05d3\u05d9\u05d5\u05ea \u05dc\u05de\u05ea\u05d2\u05d9\u05d9\u05e8\u05d9\u05dd \u05d5\u05dc\u05d1\u05e0\u05d9 \u05d6\u05d5\u05d2 \u05d9\u05d4\u05d5\u05d3\u05d9\u05dd \u05d4\u05de\u05dc\u05d5\u05d5\u05d9\u05dd \u05d1\u05ea \u05d6\u05d5\u05d2 \u05d1\u05ea\u05d4\u05dc\u05d9\u05da \u05d2\u05d9\u05d5\u05e8.", "why": "\u05d1\u05d6\u05d5\u05d2\u05d5\u05ea, \u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05d1\u05d5\u05d7\u05df \u05d2\u05dd \u05d0\u05ea \u05d1\u05df \u05d4\u05d6\u05d5\u05d2 \u05e2\u05dc \u05ea\u05e4\u05d9\u05dc\u05d4 \u05d1\u05de\u05e0\u05d9\u05d9\u05df, \u05d4\u05e0\u05d7\u05ea \u05ea\u05e4\u05d9\u05dc\u05d9\u05df \u05d5\u05e2\u05e8\u05d9\u05db\u05ea \u05e7\u05d9\u05d3\u05d5\u05e9.", "url": "/app/?module=beit-din&deck=men150&lang=he"}, {"id": "bd_women150", "title": "\ud83d\udcd5 \u05d7\u05e4\u05d9\u05e1\u05d4 4: 150 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d4\u05dc\u05db\u05d4 \u05dc\u05e0\u05e9\u05d9\u05dd (\u05d8\u05d4\u05e8\u05ea \u05d4\u05de\u05e9\u05e4\u05d7\u05d4, \u05de\u05e7\u05d5\u05d5\u05d4 \u05d5\u05d4\u05e4\u05e8\u05e9\u05ea \u05d7\u05dc\u05d4)", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d7\u05d9\u05e9\u05d5\u05d1\u05d9 \u05d4\u05e4\u05e1\u05e7 \u05d8\u05d4\u05e8\u05d4 \u05d5\u05e9\u05d1\u05e2\u05d4 \u05e0\u05e7\u05d9\u05d9\u05dd \u2014 \u05d8\u05e2\u05d5\u05ea \u05d1\u05d7\u05d9\u05e9\u05d5\u05d1 \u05d4\u05d9\u05d0 \u05d4\u05e1\u05d9\u05d1\u05d4 \u05de\u05e1\u05f3 1 \u05dc\u05d3\u05d7\u05d9\u05d9\u05ea \u05de\u05d5\u05e2\u05de\u05d3\u05d5\u05ea.", "why": "\u05e9\u05dc\u05d9\u05d8\u05d4 \u05de\u05dc\u05d0\u05d4 \u05d1\u05d4\u05dc\u05db\u05d5\u05ea \u05e0\u05d9\u05d3\u05d4, \u05d4\u05d3\u05dc\u05e7\u05ea \u05e0\u05e8\u05d5\u05ea \u05d5\u05d4\u05db\u05e9\u05e8\u05ea \u05d4\u05de\u05d8\u05d1\u05d7 \u05e0\u05d3\u05e8\u05e9\u05ea \u05d1\u05db\u05dc \u05d3\u05d9\u05d5\u05df.", "url": "/app/?module=beit-din&deck=women150&lang=he"}]}, "couples": {"name": "\u05ea\u05d7\u05e7\u05d5\u05e8 \u05d6\u05d5\u05d2\u05d9 \u05e9\u05dc 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d1\u05d7\u05d3\u05e8\u05d9\u05dd \u05e0\u05e4\u05e8\u05d3\u05d9\u05dd (\u05e1\u05e0\u05db\u05e8\u05d5\u05df 2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd)", "unlockBtn": "\ud83d\udd13 \u05e4\u05ea\u05d9\u05d7\u05ea \u05e1\u05d9\u05de\u05d5\u05dc\u05d8\u05d5\u05e8 300 \u05e9\u05d0\u05dc\u05d5\u05ea \u05d6\u05d5\u05d2\u05d9 \u05d1-2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd ($75\u2013$229) \u2190", "unlockUrl": "/he/pricing/?sku=couples_life_229&lang=he", "appUrl": "/app/?module=couples&lang=he", "items": [{"id": "cp_pair", "title": "\ud83d\udcf1 \u05e6\u05d9\u05de\u05d5\u05d3 \u05d7\u05d9 \u05e9\u05dc 2 \u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd (\u05d1\u05df \u05d6\u05d5\u05d2 \u05d0\u05f3 + \u05d1\u05df \u05d6\u05d5\u05d2 \u05d1\u05f3)", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d4\u05d8\u05dc\u05e4\u05d5\u05df \u05e9\u05dc \u05d1\u05df/\u05d1\u05ea \u05d4\u05d6\u05d5\u05d2 \u05d8\u05e8\u05dd \u05d7\u05d5\u05d1\u05e8 \u2014 \u05d7\u05d1\u05e8\u05d5 \u05d0\u05ea \u05e9\u05e0\u05d9 \u05d4\u05de\u05db\u05e9\u05d9\u05e8\u05d9\u05dd \u05dc\u05d0\u05d9\u05ea\u05d5\u05e8 \u05e1\u05ea\u05d9\u05e8\u05d5\u05ea \u05d1\u05d6\u05de\u05df \u05d0\u05de\u05ea.", "why": "\u05d1\u05e8\u05d0\u05d9\u05d5\u05df \u05d4\u05e9\u05e0\u05ea\u05d9 \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05de\u05e4\u05e8\u05d9\u05d3\u05d9\u05dd \u05d1\u05d9\u05e0\u05d9\u05db\u05dd \u05dc\u05e9\u05e0\u05d9 \u05d7\u05d3\u05e8\u05d9\u05dd \u05d5\u05de\u05e9\u05d5\u05d5\u05d9\u05dd \u05db\u05dc \u05ea\u05e9\u05d5\u05d1\u05d4 \u05de\u05d9\u05dc\u05d4 \u05d1\u05de\u05d9\u05dc\u05d4.", "url": "/app/?module=couples&tab=pair&lang=he"}, {"id": "cp_daily", "title": "\ud83c\udfe0 \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea 1\u20134: \u05de\u05d1\u05e0\u05d4 \u05d4\u05d3\u05d9\u05e8\u05d4, \u05ea\u05e9\u05dc\u05d5\u05dd \u05d7\u05e9\u05d1\u05d5\u05e0\u05d5\u05ea \u05d5\u05e9\u05d2\u05e8\u05ea \u05d1\u05d5\u05e7\u05e8 (120 \u05e9\u05d0\u05dc\u05d5\u05ea)", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d0\u05d6\u05d5\u05e8 \u05e1\u05d9\u05db\u05d5\u05df \u05d2\u05d1\u05d5\u05d4: \u05e1\u05ea\u05d9\u05e8\u05d4 \u05dc\u05d2\u05d1\u05d9 \u05de\u05d9 \u05de\u05e9\u05dc\u05dd \u05d0\u05e8\u05e0\u05d5\u05e0\u05d4/\u05d7\u05e9\u05de\u05dc \u05d0\u05d5 \u05d1\u05d0\u05d9\u05d6\u05d4 \u05e6\u05d3 \u05d9\u05e9\u05e0\u05d9\u05dd \u05de\u05e7\u05e4\u05d9\u05d0\u05d4 \u05d0\u05ea \u05d4\u05ea\u05d9\u05e7 \u05dc-6\u201312 \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd.", "why": "\u05d4\u05e4\u05e7\u05d9\u05d3\u05d9\u05dd \u05e8\u05d5\u05d0\u05d9\u05dd \u05d1\u05d0\u05d9-\u05d4\u05ea\u05d0\u05de\u05d5\u05ea \u05e2\u05dc \u05e4\u05e8\u05d8\u05d9\u05dd \u05d9\u05d5\u05de\u05d9\u05d5\u05de\u05d9\u05d9\u05dd \u05d7\u05e9\u05d3 \u05dc\u05e7\u05e9\u05e8 \u05e4\u05d9\u05e7\u05d8\u05d9\u05d1\u05d9 \u05d5\u05d3\u05d5\u05e8\u05e9\u05d9\u05dd \u05e2\u05e8\u05d1\u05d5\u05ea \u05e9\u05dc 30,000\u20aa.", "url": "/app/?module=couples&cat=daily&lang=he"}, {"id": "cp_family", "title": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67 \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea 5\u20138: \u05d4\u05d9\u05db\u05e8\u05d5\u05ea, \u05d4\u05d5\u05e8\u05d9\u05dd, \u05d7\u05d2\u05d9\u05dd \u05d5\u05e0\u05d9\u05d4\u05d5\u05dc \u05db\u05e1\u05e4\u05d9\u05dd (100 \u05e9\u05d0\u05dc\u05d5\u05ea)", "defPct": 0, "redAlert": "\ud83d\udea8 \u05e1\u05e0\u05db\u05e8\u05e0\u05d5 \u05ea\u05d0\u05e8\u05d9\u05db\u05d9 \u05de\u05e4\u05d2\u05e9 \u05e2\u05dd \u05d4\u05d4\u05d5\u05e8\u05d9\u05dd, \u05de\u05ea\u05e0\u05d5\u05ea \u05e9\u05d4\u05d5\u05d7\u05dc\u05e4\u05d5 \u05d5\u05e4\u05e2\u05d9\u05dc\u05d5\u05ea \u05d1\u05d7\u05e9\u05d1\u05d5\u05df \u05d4\u05d1\u05e0\u05e7 \u05d4\u05de\u05e9\u05d5\u05ea\u05e3.", "why": "\u05db\u05dc \u05d0\u05d7\u05d3 \u05de\u05d1\u05e0\u05d9 \u05d4\u05d6\u05d5\u05d2 \u05e2\u05d5\u05e0\u05d4 \u05d1\u05e9\u05e4\u05ea\u05d5 \u05d1\u05d8\u05dc\u05e4\u05d5\u05df \u05e9\u05dc\u05d5 \u05d5\u05d4\u05de\u05e2\u05e8\u05db\u05ea \u05de\u05e1\u05de\u05e0\u05ea \u05d1\u05d0\u05d3\u05d5\u05dd \u05db\u05dc \u05d0\u05d9-\u05d4\u05ea\u05d0\u05de\u05d4.", "url": "/app/?module=couples&cat=family&lang=he"}, {"id": "cp_exam80", "title": "\u23f1\ufe0f \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea 9\u201310: \u05de\u05d1\u05d7\u05df \u05d4\u05d3\u05de\u05d9\u05d4 \u05e7\u05e6\u05d5\u05d1 \u05d1\u05d6\u05de\u05df \u05e9\u05dc 80 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e4\u05e7\u05d9\u05d3", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d4\u05e9\u05dc\u05d9\u05de\u05d5 \u05dc\u05e4\u05d7\u05d5\u05ea \u05e1\u05d9\u05de\u05d5\u05dc\u05e6\u05d9\u05d9\u05ea \u05de\u05d1\u05d7\u05df \u05de\u05dc\u05d0\u05d4 \u05d0\u05d7\u05ea \u05e9\u05dc 80 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e2\u05dd \u05e6\u05d9\u05d5\u05df \u05d4\u05ea\u05d0\u05de\u05d4 \u05de\u05e2\u05dc 90%.", "why": "\u05de\u05d3\u05de\u05d4 \u05d1\u05de\u05d3\u05d5\u05d9\u05e7 \u05d0\u05ea \u05ea\u05d7\u05e7\u05d5\u05e8 45 \u05d4\u05d3\u05e7\u05d5\u05ea \u05d1\u05d7\u05d3\u05e8\u05d9\u05dd \u05e0\u05e4\u05e8\u05d3\u05d9\u05dd \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05dc\u05e4\u05e0\u05d9 \u05d9\u05d5\u05dd \u05d4\u05ea\u05d5\u05e8.", "url": "/app/?module=couples&cat=exam80&lang=he"}]}, "decoder": {"name": "\u05de\u05d2\u05df 30 \u05d9\u05d5\u05dd \u05de\u05d3\u05e4\u05d9 \u05d3\u05e8\u05d9\u05e9\u05d5\u05ea \u05e4\u05e7\u05d9\u05d3, \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea \u05e0\u05ea\u05d9\u05d1 \u05d5\u05d7\u05d9\u05dc\u05d5\u05e5 \u05de\u05e9\u05e4\u05d8\u05d9", "unlockBtn": "\ud83d\udd13 \u05e4\u05ea\u05d9\u05d7\u05ea \u05de\u05e4\u05e2\u05e0\u05d7 \u05d3\u05e4\u05d9 \u05d3\u05e8\u05d9\u05e9\u05d5\u05ea \u05d5\u05de\u05d7\u05d5\u05dc\u05dc \u05d4\u05d0\u05e8\u05db\u05ea \u05de\u05d5\u05e2\u05d3 ($89\u2013$149) \u2190", "unlockUrl": "/he/pricing/?sku=forms_life_149&lang=he", "appUrl": "/app/?module=forms&tab=decoder&lang=he", "items": [{"id": "clerk_decoder", "title": "\ud83d\udd0d \u05de\u05e4\u05e2\u05e0\u05d7 AI \u05dc\u05d3\u05e3 \u05d3\u05e8\u05d9\u05e9\u05ea \u05de\u05e1\u05de\u05db\u05d9\u05dd \u05e9\u05dc \u05e4\u05e7\u05d9\u05d3 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd", "defPct": 100, "redAlert": "\ud83d\udea8 \u05e7\u05d9\u05d1\u05dc\u05ea\u05dd \u05d3\u05e3 \u05d3\u05e8\u05d9\u05e9\u05d5\u05ea \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d1\u05d3\u05dc\u05e4\u05e7? \u05e1\u05e8\u05e7\u05d5 \u05d0\u05d5\u05ea\u05d5 \u05de\u05d9\u05d3 \u2014 \u05d9\u05e9 \u05dc\u05db\u05dd 30 \u05d9\u05d5\u05dd \u05d1\u05dc\u05d1\u05d3 \u05dc\u05e4\u05e0\u05d9 \u05e1\u05d2\u05d9\u05e8\u05ea \u05d4\u05ea\u05d9\u05e7.", "why": "\u05de\u05ea\u05e8\u05d2\u05dd \u05d3\u05e4\u05d9 \u05d3\u05e8\u05d9\u05e9\u05d5\u05ea \u05e9\u05dc \u05e4\u05e7\u05d9\u05d3\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05dc\u05d4\u05e0\u05d7\u05d9\u05d5\u05ea \u05d1\u05e8\u05d5\u05e8\u05d5\u05ea \u05d5\u05d1\u05d5\u05d3\u05e7 \u05d0\u05ea \u05e9\u05e2\u05d5\u05df 180 \u05d4\u05d9\u05de\u05d9\u05dd.", "url": "/app/?module=forms&tab=decoder&lang=he"}, {"id": "ext_letter", "title": "\u23f3 \u05de\u05d7\u05d5\u05dc\u05dc \u05d1\u05e7\u05e9\u05ea \u05d4\u05d0\u05e8\u05db\u05ea \u05de\u05d5\u05e2\u05d3 \u05e8\u05e9\u05de\u05d9\u05ea \u05dc-30 \u05d9\u05d5\u05dd \u05e0\u05d5\u05e1\u05e4\u05d9\u05dd", "defPct": 0, "redAlert": "\ud83d\udea8 \u05d0\u05dd \u05ea\u05e2\u05d5\u05d3\u05ea \u05d0\u05e4\u05d5\u05e1\u05d8\u05d9\u05dc \u05de\u05d7\u05d5\u05f4\u05dc \u05de\u05ea\u05e2\u05db\u05d1\u05ea, \u05d4\u05d2\u05d9\u05e9\u05d5 \u05d1\u05e7\u05e9\u05ea \u05d4\u05d0\u05e8\u05db\u05d4 \u05de\u05e0\u05d5\u05de\u05e7\u05ea \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05dc\u05e4\u05e0\u05d9 \u05d4\u05d9\u05d5\u05dd \u05d4-21.", "why": "\u05de\u05d5\u05e0\u05e2 \u05e1\u05d2\u05d9\u05e8\u05d4 \u05de\u05e0\u05d4\u05dc\u05d9\u05ea \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea \u05e9\u05dc \u05d4\u05ea\u05d9\u05e7 \u05d1\u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d1\u05d6\u05de\u05df \u05d4\u05de\u05ea\u05e0\u05d4 \u05dc\u05de\u05e1\u05de\u05db\u05d9\u05dd \u05de\u05d7\u05d5\u05f4\u05dc.", "url": "/app/?module=forms&tab=extension&lang=he"}, {"id": "lawyer_escort", "title": "\u2696\ufe0f \u05dc\u05d9\u05d5\u05d5\u05d9 \u05e2\u05d5\u05e8\u05da \u05d3\u05d9\u05df \u05dc\u05d9\u05d5\u05dd \u05d4\u05ea\u05d5\u05e8 \u05d5\u05ea\u05e8\u05d2\u05d5\u05dd \u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05d1\u05e1\u05e8\u05d8 \u05d0\u05d3\u05d5\u05dd", "defPct": 0, "redAlert": "\ud83d\udea8 \u05ea\u05d9\u05e7 \u05de\u05d5\u05e8\u05db\u05d1, \u05e1\u05d9\u05e8\u05d5\u05d1 \u05e7\u05d5\u05d3\u05dd \u05d0\u05d5 \u05de\u05e2\u05d1\u05e8 \u05de-B/1? \u05d1\u05e7\u05e9\u05d5 \u05d4\u05e6\u05e2\u05ea \u05de\u05d7\u05d9\u05e8 ($0 \u05d4\u05d9\u05d5\u05dd) \u05dc\u05dc\u05d9\u05d5\u05d5\u05d9 \u05e2\u05d5\u05f4\u05d3 \u05dc\u05d3\u05dc\u05e4\u05e7.", "why": "\u05e2\u05d5\u05e8\u05db\u05d9 \u05d4\u05d3\u05d9\u05df \u05d5\u05d4\u05e0\u05d5\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9\u05dd \u05e9\u05dc\u05e0\u05d5 \u05de\u05ea\u05e2\u05e8\u05d1\u05d9\u05dd \u05d9\u05e9\u05d9\u05e8\u05d5\u05ea \u05de\u05d5\u05dc \u05e4\u05e7\u05d9\u05d3\u05d9 \u05de\u05e9\u05e8\u05d3 \u05d4\u05e4\u05e0\u05d9\u05dd \u05d0\u05d5 \u05d1\u05d1\u05d9\u05ea \u05d4\u05d3\u05d9\u05df \u05dc\u05e2\u05e8\u05e8\u05d9\u05dd.", "url": "/concierge-booking/?sku=concierge_escort_649&lang=he"}]}}}, "fr": {"overallReadiness": "PR\u00c9PARATION DU DOSSIER SYNCHRONIS\u00c9E EN DIRECT", "lockedBanner": "\ud83d\udd12 Suivi en direct verrouill\u00e9 \u2014 Appuyez sur une ligne ou d\u00e9bloquez ci-dessous", "activeBanner": "\ud83d\udfe2 DIAGNOSTIC D\u00c9TAILL\u00c9 EN DIRECT \u2022 APPUYEZ SUR UNE LIGNE POUR CONTINUER", "whyBtnTitle": "Quoi faire et pourquoi l'agent l'exige", "fixNow": "Corriger / Continuer \u2192", "viewDone": "100% V\u00e9rifi\u00e9 \u2713", "freeTry": "Essai Gratuit \u2192", "engines": {"docs": {"name": "5 Actes d'\u00c9tat Civil, Passeport & Horloge d'Apostille 180 Jours", "unlockBtn": "\ud83d\udd13 D\u00e9bloquer le Coffre-Fort IA & Horloge 180 Jours ($89\u2013$149) \u2192", "unlockUrl": "/fr/pricing/?sku=forms_life_149&lang=fr", "appUrl": "/app/?module=docs&lang=fr", "items": [{"id": "passport", "title": "\ud83d\udec2 Passeport \u00c9tranger (Validit\u00e9 2+ Ans Requise)", "defPct": 50, "redAlert": "\ud83d\udea8 Si votre passeport expire dans <6 mois (le PIBA exige 2+ ans de validit\u00e9), renouvelez-le imm\u00e9diatement.", "why": "Le Minist\u00e8re de l'Int\u00e9rieur ne peut pas apposer un visa B/1 ou A/5 sur un passeport expirant bient\u00f4t.", "url": "/app/?module=docs&doc=passport&lang=fr"}, {"id": "birth", "title": "\ud83d\udcdc Acte de Naissance Int\u00e9gral (Avec Noms des Parents)", "defPct": 100, "redAlert": "\ud83d\udea8 Extrait abr\u00e9g\u00e9 ou Apostille manquante \u2014 commandez la copie int\u00e9grale + Apostille de La Haye.", "why": "Le PIBA et Nativ rejettent les extraits sans filiation compl\u00e8te ou sans Apostille originale.", "url": "/app/?module=docs&doc=birth&lang=fr"}, {"id": "marital", "title": "\ud83d\udc8d Acte de Mariage / Certificat de C\u00e9libat (Coutume)", "defPct": 35, "redAlert": "\ud83d\udea8 Apostille de La Haye & traduction notari\u00e9e au ruban rouge manquantes \u2014 risque d'avis de carence de 30 jours.", "why": "Les certificats d'\u00e9tat civil expirent apr\u00e8s 180 jours et exigent une Apostille + traduction notari\u00e9e isra\u00e9lienne.", "url": "/app/?module=docs&doc=marital&lang=fr"}, {"id": "police", "title": "\ud83d\udee1\ufe0f Casier Judiciaire National / F\u00e9d\u00e9ral (Bulletin N\u00b03 / FBI / ACRO)", "defPct": 100, "redAlert": "\ud83d\udea8 Validit\u00e9 stricte de 180 jours \u2014 exige une Apostille nationale/f\u00e9d\u00e9rale.", "why": "Le casier judiciaire expire apr\u00e8s 180 jours et s'annule si vous retournez au pays apr\u00e8s son \u00e9mission.", "url": "/app/?module=docs&doc=police&lang=fr"}, {"id": "lineage", "title": "\ud83d\udd4d Preuve de Juda\u00eft\u00e9 / Jugements de Divorce ou Changement de Nom", "defPct": 0, "redAlert": "\ud83d\udea8 Non t\u00e9l\u00e9vers\u00e9 \u2014 scannez l'attestation rabbinique maternelle ou vos jugements pour audit IA.", "why": "Toute divergence d'orthographe entre vos actes bloque le dossier jusqu'\u00e0 pr\u00e9sentation d'un justificatif apostill\u00e9.", "url": "/app/?module=docs&doc=lineage&lang=fr"}]}, "forms": {"name": "8 Formulaires Officiels PIBA en H\u00e9breu & Requ\u00eates", "unlockBtn": "\ud83d\udd13 D\u00e9bloquer les 8 Tamponneurs PDF Officiels PIBA ($89\u2013$149) \u2192", "unlockUrl": "/fr/pricing/?sku=forms_life_149&lang=fr", "appUrl": "/app/?module=forms&lang=fr", "items": [{"id": "primary_form", "title": "\ud83d\udcc4 Formulaire Officiel PIBA en H\u00e9breu (Ash/1 \u2022 Ash/3 \u2022 Ash/6 \u2022 Ash/456)", "defPct": 40, "redAlert": "\ud83d\udea8 Champs h\u00e9breux incomplets \u2014 les agents du PIBA rejettent les formulaires en anglais/fran\u00e7ais au guichet.", "why": "Remplissez en fran\u00e7ais et notre moteur g\u00e9n\u00e8re le PDF officiel du PIBA tamponn\u00e9 en h\u00e9breu.", "url": "/app/?module=forms&form=primary&lang=fr"}, {"id": "hesber", "title": "\u270d\ufe0f Requ\u00eate Formelle & Lettre d'Explication en H\u00e9breu (Michtav Hesber)", "defPct": 0, "redAlert": "\ud83d\udea8 Lettre explicative en h\u00e9breu juridique manquante pour votre dossier PIBA ou Va'adat Charigim.", "why": "Chaque d\u00e9p\u00f4t exige une lettre formelle en h\u00e9breu exposant votre chronologie et base l\u00e9gale.", "url": "/app/?module=forms&form=hesber&lang=fr"}, {"id": "security_cv", "title": "\ud83d\udee1\ufe0f Nespach Alef & CV de S\u00e9curit\u00e9 Chronologique sur 10 Ans", "defPct": 0, "redAlert": "\ud83d\udea8 Historique des adresses, emplois et voyages sur 10 ans incomplet pour l'audit Nativ / PIBA.", "why": "Toute p\u00e9riode non document\u00e9e retarde l'habilitation de s\u00e9curit\u00e9 de Nativ.", "url": "/app/?module=forms&form=cv&lang=fr"}, {"id": "red_x_guide", "title": "\u274c Guide de Signature X Rouge au Guichet", "defPct": 100, "redAlert": "\ud83d\udea8 Ne signez jamais chez vous les d\u00e9clarations devant \u00eatre sign\u00e9es devant l'agent.", "why": "Notre guide X Rouge indique exactement o\u00f9 signer en pr\u00e9sence de l'agent du PIBA.", "url": "/app/?module=forms&form=guide&lang=fr"}]}, "logger": {"name": "Rabbin Accompagnateur, Madrichat Kallah & 5\u20138 Lettres Communautaires", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f R\u00e9server un Rabbin & Madrichat Kallah V\u00e9rifi\u00e9s (Devis $0) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_couple_499&lang=fr", "appUrl": "/app/?module=logger&lang=fr", "items": [{"id": "rabbi_match", "title": "\ud83d\udc68\u200d\u2696\ufe0f Placement aupr\u00e8s d'un Rabbin Accompagnateur V\u00e9rifi\u00e9 (Rav Melaveh)", "defPct": 0, "redAlert": "\ud83d\udea8 Aucun Rabbin reconnu par le Rabbinat li\u00e9 \u2014 \u00e9tudier avec un enseignant non agr\u00e9\u00e9 fait perdre 12 mois.", "why": "Le Beit Din et Va'adat Charigim n'acceptent que les rabbins figurant sur le registre officiel.", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=fr"}, {"id": "shabbat_log", "title": "\ud83d\udd6f\ufe0f Journal des Chabbats & Cours de Torah (12+ S\u00e9ances)", "defPct": 25, "redAlert": "\ud83d\udea8 Trop peu de Chabbats enregistr\u00e9s \u2014 notez vos pr\u00e9sences pour g\u00e9n\u00e9rer vos lettres en h\u00e9breu.", "why": "Notre journal horodat\u00e9 documente vos h\u00f4tes et cours pour produire des lettres de recommandation v\u00e9rifiables.", "url": "/app/?module=logger&tab=log&lang=fr"}, {"id": "kallah_cert", "title": "\ud83d\udc8d Cours Certifi\u00e9 de Puret\u00e9 Familiale (Madrichat Kallah)", "defPct": 0, "redAlert": "\ud83d\udea8 Obligatoire pour la conversion ET le mariage au Rabbinat (m\u00eame avec un conjoint isra\u00e9lien juif de naissance).", "why": "Le tribunal n'autorise le Mikv\u00e9 qu'apr\u00e8s validation du programme par une Madrichat Kallah agr\u00e9\u00e9e.", "url": "/concierge-booking/?sku=concierge_kallah_249&lang=fr"}, {"id": "host_letters", "title": "\ud83c\udfe0 Lettres de la Famille d'Accueil, du Gabba\u00ef & de la Communaut\u00e9", "defPct": 0, "redAlert": "\ud83d\udea8 0 / 3 lettres communautaires en h\u00e9breu g\u00e9n\u00e9r\u00e9es depuis votre journal d'activit\u00e9.", "why": "Les Dayanim exigent 5 \u00e0 8 lettres prouvant votre pratique r\u00e9elle du Chabbat et de la Cacherout.", "url": "/app/?module=logger&tab=letters&lang=fr"}]}, "songs": {"name": "56 Chants de Chabbat, Pri\u00e8res & B\u00e9n\u00e9dictions (Double Rite)", "unlockBtn": "\ud83d\udd13 D\u00e9bloquer les 56 Chants, Pri\u00e8res & \u00c9valuateur Vocal IA ($65\u2013$249) \u2192", "unlockUrl": "/fr/pricing/?sku=songs_65&lang=fr", "appUrl": "/app/?module=songs-prayers&lang=fr", "items": [{"id": "shabbat_songs", "title": "\ud83c\udf77 Kiddouch du Vendredi Soir, Havdalah & Zemirot (18 Pistes)", "defPct": 11, "redAlert": "\ud83d\udea8 Les Dayanim vous font chanter le Kiddouch \u00e0 voix haute \u2014 un blocage entra\u00eene un report de 6 mois.", "why": "Entra\u00eenez-vous au chant du Kiddouch et des Zemirot pour prouver votre v\u00e9cu hebdomadaire du Chabbat.", "url": "/app/?module=songs-prayers&cat=shabbat&lang=fr"}, {"id": "daily_brachot", "title": "\ud83c\udf5e B\u00e9n\u00e9dictions Quotidiennes, Acher Yatsar & Birkat HaMazon (20 Pistes)", "defPct": 0, "redAlert": "\ud83d\udea8 Ma\u00eetrise obligatoire par c\u0153ur des b\u00e9n\u00e9dictions sur les aliments et apr\u00e8s le repas.", "why": "Karaok\u00e9 synchronis\u00e9 en prononciation s\u00e9farade et achk\u00e9naze avec phon\u00e9tique fran\u00e7aise.", "url": "/app/?module=songs-prayers&cat=brachot&lang=fr"}, {"id": "shacharit", "title": "\ud83c\udf05 Pri\u00e8res du Matin \u2014 Modeh Ani, Netilat Yadayim & Chema (18 Pistes)", "defPct": 0, "redAlert": "\ud83d\udea8 Pratiquez la liturgie de Chaharit et la Amida avec notre \u00e9valuateur vocal IA.", "why": "Notre IA note votre prononciation h\u00e9bra\u00efque pour parler avec assurance devant les juges.", "url": "/app/?module=songs-prayers&cat=shacharit&lang=fr"}]}, "bd": {"name": "Simulateur Oral de 700 Questions du Beit Din (4 Paquets)", "unlockBtn": "\ud83d\udd13 D\u00e9bloquer les 700 Cartes d'Examen du Beit Din ($65\u2013$249) \u2192", "unlockUrl": "/fr/pricing/?sku=bd_suite_life_249&lang=fr", "appUrl": "/app/?module=beit-din&lang=fr", "items": [{"id": "bd_core200", "title": "\ud83d\udd4d Paquet 1 : Les 200 Questions Fondamentales du Beit Din", "defPct": 10, "redAlert": "\ud83d\udea8 Sous le seuil de r\u00e9ussite de 85 % \u2014 r\u00e9visez les 39 Melachot de Chabbat, Cacherout et F\u00eates.", "why": "Couvre les questions incontournables pos\u00e9es par chaque Beit Din d'\u00c9tat (Nativ) et priv\u00e9.", "url": "/app/?module=beit-din&deck=core200&lang=fr"}, {"id": "bd_curve200", "title": "\u26a1 Paquet 2 : +200 Questions Pi\u00e8ges & Tests de Sinc\u00e9rit\u00e9 des Dayanim", "defPct": 0, "redAlert": "\ud83d\udea8 Pr\u00e9parez les questions sous pression sur la famille la\u00efque et la pratique du conjoint.", "why": "Les juges testent vos r\u00e9actions face aux dilemmes halakhiques de la vie r\u00e9elle.", "url": "/app/?module=beit-din&deck=curve200&lang=fr"}, {"id": "bd_men150", "title": "\ud83d\udcd8 Paquet 3 : 150 Questions Hommes (T\u00e9filines, Minyan, Tsitsit & Brit)", "defPct": 0, "redAlert": "\ud83d\udea8 Obligations test\u00e9es sur les candidats masculins et les maris juifs accompagnants.", "why": "Le Beit Din interroge \u00e9galement le conjoint masculin sur la synagogue et les T\u00e9filines.", "url": "/app/?module=beit-din&deck=men150&lang=fr"}, {"id": "bd_women150", "title": "\ud83d\udcd5 Paquet 4 : 150 Questions Femmes (Puret\u00e9 Familiale, Mikv\u00e9 & Hallah)", "defPct": 0, "redAlert": "\ud83d\udea8 Calculs critiques des 7 jours purs (Niddah) \u2014 erreur n\u00b01 d'ajournement des candidates.", "why": "Ma\u00eetrisez les calculs de Hefsek Taharah, l'allumage des bougies et la Cacherout de la cuisine.", "url": "/app/?module=beit-din&deck=women150&lang=fr"}]}, "couples": {"name": "Interrogatoire Couple de 300 Questions en Salles S\u00e9par\u00e9es (2 T\u00e9l\u00e9phones)", "unlockBtn": "\ud83d\udd13 D\u00e9bloquer la Sync 300 Questions sur 2 T\u00e9l\u00e9phones ($75\u2013$229) \u2192", "unlockUrl": "/fr/pricing/?sku=couples_life_229&lang=fr", "appUrl": "/app/?module=couples&lang=fr", "items": [{"id": "cp_pair", "title": "\ud83d\udcf1 Jumelage Live sur 2 T\u00e9l\u00e9phones (Partenaire A + Partenaire B)", "defPct": 0, "redAlert": "\ud83d\udea8 T\u00e9l\u00e9phone du conjoint non jumel\u00e9 \u2014 reliez vos 2 appareils pour d\u00e9tecter les contradictions.", "why": "Lors de l'entretien annuel StuPro, les agents vous interrogent dans deux pi\u00e8ces s\u00e9par\u00e9es.", "url": "/app/?module=couples&tab=pair&lang=fr"}, {"id": "cp_daily", "title": "\ud83c\udfe0 Cat\u00e9gories 1\u20134 : Appartement, Factures & Routine Matinale (120 Questions)", "defPct": 0, "redAlert": "\ud83d\udea8 Zone \u00e0 haut risque : se contredire sur qui paie l'\u00e9lectricit\u00e9 ou le c\u00f4t\u00e9 du lit g\u00e8le le visa 6\u201312 mois.", "why": "Les divergences sur les d\u00e9tails domestiques sont trait\u00e9es comme un soup\u00e7on de mariage fictif.", "url": "/app/?module=couples&cat=daily&lang=fr"}, {"id": "cp_family", "title": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67 Cat\u00e9gories 5\u20138 : Rencontre, Belle-Famille, F\u00eates & Finances (100 Questions)", "defPct": 0, "redAlert": "\ud83d\udea8 Synchronisez les dates de rencontre des parents, cadeaux et comptes bancaires communs.", "why": "Chaque conjoint r\u00e9pond dans sa langue sur son t\u00e9l\u00e9phone et voit chaque \u00e9cart en rouge.", "url": "/app/?module=couples&cat=family&lang=fr"}, {"id": "cp_exam80", "title": "\u23f1\ufe0f Cat\u00e9gories 9\u201310 : Simulation Chronom\u00e9tr\u00e9e de 80 Questions d'Agent PIBA", "defPct": 0, "redAlert": "\ud83d\udea8 R\u00e9ussissez au moins un examen blanc complet de 80 questions avec >90 % de concordance.", "why": "Reproduit fid\u00e8lement l'interrogatoire s\u00e9par\u00e9 de 45 minutes du Minist\u00e8re de l'Int\u00e9rieur.", "url": "/app/?module=couples&cat=exam80&lang=fr"}]}, "decoder": {"name": "Bouclier 30 Jours Feuille d'Agent, Audit Nativ & Recours", "unlockBtn": "\ud83d\udd13 D\u00e9bloquer le D\u00e9codeur de Feuille PIBA & Prolongation 30J ($89\u2013$149) \u2192", "unlockUrl": "/fr/pricing/?sku=forms_life_149&lang=fr", "appUrl": "/app/?module=forms&tab=decoder&lang=fr", "items": [{"id": "clerk_decoder", "title": "\ud83d\udd0d D\u00e9codeur IA de Feuille de Carence PIBA (Daf Drishat Mismachim)", "defPct": 100, "redAlert": "\ud83d\udea8 Vous avez re\u00e7u une feuille en h\u00e9breu au guichet ? Scannez-la \u2014 d\u00e9lai strict de 30 jours avant cl\u00f4ture.", "why": "Traduit instantan\u00e9ment les demandes \u00e9crites de l'agent en liste d'actions concr\u00e8tes.", "url": "/app/?module=forms&tab=decoder&lang=fr"}, {"id": "ext_letter", "title": "\u23f3 G\u00e9n\u00e9rateur de Demande Formelle de Prolongation de 30 Jours", "defPct": 0, "redAlert": "\ud83d\udea8 Si une Apostille \u00e9trang\u00e8re tarde, d\u00e9posez une demande formelle en h\u00e9breu avant le 21e jour.", "why": "Emp\u00eache la cl\u00f4ture administrative automatique de votre dossier PIBA.", "url": "/app/?module=forms&tab=extension&lang=fr"}, {"id": "lawyer_escort", "title": "\u2696\ufe0f Avocat Accompagnateur au Rendez-Vous & Traduction Notari\u00e9e", "defPct": 0, "redAlert": "\ud83d\udea8 Refus ant\u00e9rieur ou dossier complexe ? Demandez un devis \u00e0 0 $ pour un avocat au guichet PIBA.", "why": "Nos avocats et notaires isra\u00e9liens interviennent directement au guichet ou devant le Tribunal des Recours.", "url": "/concierge-booking/?sku=concierge_escort_649&lang=fr"}]}}}, "es": {"overallReadiness": "PREPARACI\u00d3N DEL EXPEDIENTE SINCRONIZADA EN VIVO", "lockedBanner": "\ud83d\udd12 Rastreo en vivo bloqueado \u2014 Toque cualquier fila o desbloquee abajo", "activeBanner": "\ud83d\udfe2 DIAGN\u00d3STICO DETALLADO EN VIVO \u2022 TOQUE CUALQUIER FILA PARA CONTINUAR", "whyBtnTitle": "Qu\u00e9 hacer y por qu\u00e9 el funcionario lo exige", "fixNow": "Corregir / Continuar \u2192", "viewDone": "100% Verificado \u2713", "freeTry": "Muestra Gratis \u2192", "engines": {"docs": {"name": "5 Documentos Civiles, Pasaporte y Reloj de Apostilla 180 D\u00edas", "unlockBtn": "\ud83d\udd13 Desbloquear B\u00f3veda IA y Reloj de 180 D\u00edas ($89\u2013$149) \u2192", "unlockUrl": "/es/pricing/?sku=forms_life_149&lang=es", "appUrl": "/app/?module=docs&lang=es", "items": [{"id": "passport", "title": "\ud83d\udec2 Pasaporte Extranjero (Verificaci\u00f3n de 2+ A\u00f1os de Validez)", "defPct": 50, "redAlert": "\ud83d\udea8 Si su pasaporte vence en <6 meses (PIBA exige 2+ a\u00f1os de validez), renu\u00e9velo de inmediato.", "why": "Misrad HaPanim no estampa visas B/1 o A/5 en pasaportes pr\u00f3ximos a vencer.", "url": "/app/?module=docs&doc=passport&lang=es"}, {"id": "birth", "title": "\ud83d\udcdc Partida de Nacimiento Literal / Long-Form (Con Nombres de Padres)", "defPct": 100, "redAlert": "\ud83d\udea8 Partida abreviada o sin Apostilla \u2014 solicite copia literal + Apostilla de La Haya.", "why": "PIBA y Nativ rechazan certificados abreviados que omiten los nombres completos de los padres.", "url": "/app/?module=docs&doc=birth&lang=es"}, {"id": "marital", "title": "\ud83d\udc8d Certificado de Matrimonio / Solter\u00eda (Estado Civil)", "defPct": 35, "redAlert": "\ud83d\udea8 Falta Apostilla de La Haya y traducci\u00f3n notarial con cinta roja \u2014 el funcionario emitir\u00e1 aviso de 30 d\u00edas.", "why": "Los certificados civiles caducan a los 180 d\u00edas y exigen Apostilla original y traducci\u00f3n notarial israel\u00ed.", "url": "/app/?module=docs&doc=marital&lang=es"}, {"id": "police", "title": "\ud83d\udee1\ufe0f Antecedentes Penales Nacionales / Federales (FBI / ACRO / RCMP)", "defPct": 100, "redAlert": "\ud83d\udea8 Reloj estricto de 180 d\u00edas \u2014 requiere Apostilla federal/nacional (no policial local).", "why": "Los antecedentes penales vencen a los 180 d\u00edas y quedan invalidados si regresa a su pa\u00eds tras su emisi\u00f3n.", "url": "/app/?module=docs&doc=police&lang=es"}, {"id": "lineage", "title": "\ud83d\udd4d Prueba de Juda\u00edsmo / Sentencias de Divorcio o Cambio de Nombre", "defPct": 0, "redAlert": "\ud83d\udea8 A\u00fan no cargado \u2014 escanee carta rab\u00ednica materna o sentencias previas para auditor\u00eda IA.", "why": "Cualquier diferencia de una letra en los nombres frena el expediente hasta presentar acta apostillada.", "url": "/app/?module=docs&doc=lineage&lang=es"}]}, "forms": {"name": "8 Formularios Oficiales PIBA en Hebreo y Peticiones", "unlockBtn": "\ud83d\udd13 Desbloquear los 8 Estampadores PDF Oficiales PIBA ($89\u2013$149) \u2192", "unlockUrl": "/es/pricing/?sku=forms_life_149&lang=es", "appUrl": "/app/?module=forms&lang=es", "items": [{"id": "primary_form", "title": "\ud83d\udcc4 Formulario Oficial PIBA en Hebreo (Ash/1 \u2022 Ash/3 \u2022 Ash/6 \u2022 Ash/456)", "defPct": 40, "redAlert": "\ud83d\udea8 Campos hebreos incompletos \u2014 PIBA rechaza formularios en ingl\u00e9s/espa\u00f1ol o a mano en ventanilla.", "why": "Complete en espa\u00f1ol y nuestro motor estampar\u00e1 el PDF oficial de Misrad HaPanim en hebreo.", "url": "/app/?module=forms&form=primary&lang=es"}, {"id": "hesber", "title": "\u270d\ufe0f Petici\u00f3n Formal y Carta de Explicaci\u00f3n en Hebreo (Michtav Hesber)", "defPct": 0, "redAlert": "\ud83d\udea8 Falta carta formal en hebreo explicando su cronolog\u00eda de visa, Va'adat Charigim o relaci\u00f3n.", "why": "Toda presentaci\u00f3n ante PIBA o Va'adat Charigim exige una carta jur\u00eddica estructurada en hebreo.", "url": "/app/?module=forms&form=hesber&lang=es"}, {"id": "security_cv", "title": "\ud83d\udee1\ufe0f Nespach Alef y CV de Seguridad Cronol\u00f3gico de 10 A\u00f1os", "defPct": 0, "redAlert": "\ud83d\udea8 Falta historial de domicilios, empleos y viajes de 10 a\u00f1os para autorizaci\u00f3n de Nativ / PIBA.", "why": "Los vac\u00edos cronol\u00f3gicos retrasan la aprobaci\u00f3n de seguridad en Nativ.", "url": "/app/?module=forms&form=cv&lang=es"}, {"id": "red_x_guide", "title": "\u274c Gu\u00eda de Firma con X Roja para la Ventanilla", "defPct": 100, "redAlert": "\ud83d\udea8 Nunca firme en casa declaraciones que deben firmarse frente al funcionario.", "why": "Nuestra gu\u00eda con X Roja marca exactamente d\u00f3nde firmar en presencia del funcionario.", "url": "/app/?module=forms&form=guide&lang=es"}]}, "logger": {"name": "Rabino Patrocinador, Madrichat Kallah y 5\u20138 Cartas Comunitarias", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f Reservar Rabino y Madrichat Kallah Verificados (Cotizaci\u00f3n $0) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_couple_499&lang=es", "appUrl": "/app/?module=logger&lang=es", "items": [{"id": "rabbi_match", "title": "\ud83d\udc68\u200d\u2696\ufe0f Asignaci\u00f3n de Rabino Patrocinador Verificado (Rav Melaveh)", "defPct": 0, "redAlert": "\ud83d\udea8 Sin Rabino reconocido vinculado \u2014 estudiar con un maestro no acreditado desperdicia 12 meses.", "why": "El Beit Din y Va'adat Charigim solo aceptan cartas de rabinos del registro oficial.", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=es"}, {"id": "shabbat_log", "title": "\ud83d\udd6f\ufe0f Registro de Shabatot y Clases de Tor\u00e1 (12+ Sesiones)", "defPct": 25, "redAlert": "\ud83d\udea8 Pocas actividades registradas \u2014 anote su asistencia para generar cartas de recomendaci\u00f3n en hebreo.", "why": "Nuestro registro documenta fechas y anfitriones para respaldar sus cartas comunitarias.", "url": "/app/?module=logger&tab=log&lang=es"}, {"id": "kallah_cert", "title": "\ud83d\udc8d Curso Certificado de Pureza Familiar (Madrichat Kallah)", "defPct": 0, "redAlert": "\ud83d\udea8 Obligatorio para conversi\u00f3n Y boda en el Rabinato (incluso con pareja israel\u00ed jud\u00eda de nacimiento).", "why": "El tribunal no agenda la Mikve sin el certificado firmado por una Madrichat Kallah acreditada.", "url": "/concierge-booking/?sku=concierge_kallah_249&lang=es"}, {"id": "host_letters", "title": "\ud83c\udfe0 Cartas de Familia Anfitriona, Gabai de Sinagoga y Amigos", "defPct": 0, "redAlert": "\ud83d\udea8 0 / 3 cartas comunitarias en hebreo generadas desde su registro de actividad.", "why": "Los Dayanim exigen de 5 a 8 cartas aut\u00e9nticas que prueben su vivencia de Shabat y Kashrut.", "url": "/app/?module=logger&tab=letters&lang=es"}]}, "songs": {"name": "56 Cantos de Shabat, Rezos y Brajot Esenciales (Doble Rito)", "unlockBtn": "\ud83d\udd13 Desbloquear los 56 Cantos, Rezos y Evaluador Vocal IA ($65\u2013$249) \u2192", "unlockUrl": "/es/pricing/?sku=songs_65&lang=es", "appUrl": "/app/?module=songs-prayers&lang=es", "items": [{"id": "shabbat_songs", "title": "\ud83c\udf77 Kidush de Viernes, Havdal\u00e1 y Zemirot de Shabat (18 Pistas)", "defPct": 11, "redAlert": "\ud83d\udea8 Los Dayanim piden cantar el Kidush en voz alta en la audiencia \u2014 bloquearse retrasa 6 meses.", "why": "Practique el canto del Kidush y Zemirot para demostrar su observancia semanal de Shabat.", "url": "/app/?module=songs-prayers&cat=shabbat&lang=es"}, {"id": "daily_brachot", "title": "\ud83c\udf5e Brajot Diarias, Asher Yatzar y Birkat HaMaz\u00f3n (20 Pistas)", "defPct": 0, "redAlert": "\ud83d\udea8 Debe dominar las bendiciones de alimentos y para despu\u00e9s de comer de memoria.", "why": "Karaoke sincronizado en pronunciaci\u00f3n sefard\u00ed y ashkenaz\u00ed con fon\u00e9tica en espa\u00f1ol.", "url": "/app/?module=songs-prayers&cat=brachot&lang=es"}, {"id": "shacharit", "title": "\ud83c\udf05 Rezos Matutinos \u2014 Modeh Ani, Netilat Yadayim y Shem\u00e1 (18 Pistas)", "defPct": 0, "redAlert": "\ud83d\udea8 Practique la liturgia de Shajarit y la Amid\u00e1 con nuestro evaluador vocal IA.", "why": "Nuestra IA califica su pronunciaci\u00f3n hebrea para que responda con total seguridad.", "url": "/app/?module=songs-prayers&cat=shacharit&lang=es"}]}, "bd": {"name": "Simulador Oral de 700 Preguntas del Beit Din (4 Mazos)", "unlockBtn": "\ud83d\udd13 Desbloquear las 700 Tarjetas del Tribunal Beit Din ($65\u2013$249) \u2192", "unlockUrl": "/es/pricing/?sku=bd_suite_life_249&lang=es", "appUrl": "/app/?module=beit-din&lang=es", "items": [{"id": "bd_core200", "title": "\ud83d\udd4d Mazo 1: Las 200 Preguntas Esenciales del Beit Din", "defPct": 10, "redAlert": "\ud83d\udea8 Por debajo del 85% requerido \u2014 repase las 39 Melajot de Shabat, Kashrut y Festividades.", "why": "Cubre las preguntas obligatorias de todo Beit Din estatal (Nativ) y privado.", "url": "/app/?module=beit-din&deck=core200&lang=es"}, {"id": "bd_curve200", "title": "\u26a1 Mazo 2: +200 Preguntas Trampa y Pruebas de Sinceridad", "defPct": 0, "redAlert": "\ud83d\udea8 Prep\u00e1rese para preguntas de presi\u00f3n sobre familiares seculares y observancia de su pareja.", "why": "Los jueces eval\u00faan c\u00f3mo resuelve dilemas hal\u00e1jicos en la vida familiar real.", "url": "/app/?module=beit-din&deck=curve200&lang=es"}, {"id": "bd_men150", "title": "\ud83d\udcd8 Mazo 3: 150 Preguntas para Hombres (Tefil\u00edn, Mini\u00e1n, Tzitzit y Brit)", "defPct": 0, "redAlert": "\ud83d\udea8 Obligaciones evaluadas a candidatos varones y esposos jud\u00edos acompa\u00f1antes.", "why": "El Beit Din interroga directamente al esposo sobre asistencia al Mini\u00e1n, Tefil\u00edn y Kidush.", "url": "/app/?module=beit-din&deck=men150&lang=es"}, {"id": "bd_women150", "title": "\ud83d\udcd5 Mazo 4: 150 Preguntas para Mujeres (Pureza Familiar, Mikve y Jal\u00e1)", "defPct": 0, "redAlert": "\ud83d\udea8 C\u00e1lculos cr\u00edticos de los 7 d\u00edas limpios (Nid\u00e1) \u2014 error #1 de aplazamiento en candidatas.", "why": "Domine los c\u00e1lculos de Hefsek Tahar\u00e1, encendido de velas y Kashrut de la cocina.", "url": "/app/?module=beit-din&deck=women150&lang=es"}]}, "couples": {"name": "Interrogatorio de Pareja de 300 Preguntas en Salas Separadas (2 Tel\u00e9fonos)", "unlockBtn": "\ud83d\udd13 Desbloquear Sync de 300 Preguntas en 2 Tel\u00e9fonos ($75\u2013$229) \u2192", "unlockUrl": "/es/pricing/?sku=couples_life_229&lang=es", "appUrl": "/app/?module=couples&lang=es", "items": [{"id": "cp_pair", "title": "\ud83d\udcf1 Vinculaci\u00f3n en Vivo de 2 Tel\u00e9fonos (Pareja A + Pareja B)", "defPct": 0, "redAlert": "\ud83d\udea8 Tel\u00e9fono de su pareja no vinculado \u2014 conecte ambos m\u00f3viles para detectar contradicciones.", "why": "En la entrevista anual StuPro, los funcionarios los separan en dos oficinas y comparan cada respuesta.", "url": "/app/?module=couples&tab=pair&lang=es"}, {"id": "cp_daily", "title": "\ud83c\udfe0 Categor\u00edas 1\u20134: Apartamento, Facturas y Rutina Matutina (120 Preguntas)", "defPct": 0, "redAlert": "\ud83d\udea8 Zona de alto riesgo: contradecirse sobre qui\u00e9n paga la luz o el lado de la cama congela la visa 6\u201312 meses.", "why": "Las discrepancias dom\u00e9sticas se tratan como sospecha de matrimonio ficticio.", "url": "/app/?module=couples&cat=daily&lang=es"}, {"id": "cp_family", "title": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67 Categor\u00edas 5\u20138: C\u00f3mo se Conocieron, Suegros, Fiestas y Finanzas (100 Preguntas)", "defPct": 0, "redAlert": "\ud83d\udea8 Sincronicen fechas en que conocieron a los padres, regalos y cuenta bancaria conjunta.", "why": "Cada uno responde en su idioma desde su tel\u00e9fono y ve cualquier discrepancia al instante.", "url": "/app/?module=couples&cat=family&lang=es"}, {"id": "cp_exam80", "title": "\u23f1\ufe0f Categor\u00edas 9\u201310: Simulacro Cronometrado de 80 Preguntas de PIBA", "defPct": 0, "redAlert": "\ud83d\udea8 Complete al menos un simulacro completo de 80 preguntas con >90% de coincidencia.", "why": "Replica el interrogatorio real de 45 minutos en salas separadas de Misrad HaPanim.", "url": "/app/?module=couples&cat=exam80&lang=es"}]}, "decoder": {"name": "Escudo de 30 D\u00edas ante Requerimientos, Auditor\u00eda Nativ y Rescate Legal", "unlockBtn": "\ud83d\udd13 Desbloquear Decodificador PIBA y Pr\u00f3rroga de 30 D\u00edas ($89\u2013$149) \u2192", "unlockUrl": "/es/pricing/?sku=forms_life_149&lang=es", "appUrl": "/app/?module=forms&tab=decoder&lang=es", "items": [{"id": "clerk_decoder", "title": "\ud83d\udd0d Decodificador IA de Hoja de Requerimiento PIBA (Daf Drishat Mismachim)", "defPct": 100, "redAlert": "\ud83d\udea8 \u00bfRecibi\u00f3 una hoja en hebreo en ventanilla? Escan\u00e9ela ya \u2014 tiene solo 30 d\u00edas antes del cierre del expediente.", "why": "Traduce hojas de requerimiento en hebreo a pasos claros y verifica sus relojes de 180 d\u00edas.", "url": "/app/?module=forms&tab=decoder&lang=es"}, {"id": "ext_letter", "title": "\u23f3 Generador de Solicitud Formal de Pr\u00f3rroga de 30 D\u00edas en Hebreo", "defPct": 0, "redAlert": "\ud83d\udea8 Si una Apostilla del exterior se demora, presente solicitud formal de pr\u00f3rroga antes del d\u00eda 21.", "why": "Detiene el cierre administrativo autom\u00e1tico de su expediente en Misrad HaPanim.", "url": "/app/?module=forms&tab=extension&lang=es"}, {"id": "lawyer_escort", "title": "\u2696\ufe0f Abogado Acompa\u00f1ante en la Cita y Traducci\u00f3n Notarial Cinta Roja", "defPct": 0, "redAlert": "\ud83d\udea8 \u00bfRechazo previo o caso complejo? Solicite cotizaci\u00f3n ($0 hoy) para acompa\u00f1amiento legal en PIBA.", "why": "Nuestros abogados y notarios israel\u00edes intervienen directamente en ventanilla o ante el Tribunal de Apelaciones.", "url": "/concierge-booking/?sku=concierge_escort_649&lang=es"}]}}}, "de": {"overallReadiness": "LIVE-SYSTEM-AKTENBEREITSCHAFT", "lockedBanner": "\ud83d\udd12 Live-Tracking gesperrt \u2014 Tippen Sie auf eine Zeile oder schalten Sie unten frei", "activeBanner": "\ud83d\udfe2 DETAILLIERTE LIVE-DIAGNOSE \u2022 ZEILE ANTIPPEN ZUM FORTFAHREN", "whyBtnTitle": "Was zu tun ist & warum Beamte dies pr\u00fcfen", "fixNow": "Beheben / Weiter \u2192", "viewDone": "100% Verifiziert \u2713", "freeTry": "Gratis-Test \u2192", "engines": {"docs": {"name": "5 Personenstandsurkunden, Reisepass & 180-Tage-Apostille-Schutz", "unlockBtn": "\ud83d\udd13 KI-Dokumententresor & 180-Tage-Uhr freischalten ($89\u2013$149) \u2192", "unlockUrl": "/de/pricing/?sku=forms_life_149&lang=de", "appUrl": "/app/?module=docs&lang=de", "items": [{"id": "passport", "title": "\ud83d\udec2 Reisepass (Pr\u00fcfung auf 2+ Jahre G\u00fcltigkeit)", "defPct": 50, "redAlert": "\ud83d\udea8 L\u00e4uft Ihr Pass in <6 Monaten ab (PIBA verlangt 2+ Jahre G\u00fcltigkeit), sofort erneuern.", "why": "Misrad HaPanim stempelt keine B/1- oder A/5-Visa in bald ablaufende P\u00e4sse.", "url": "/app/?module=docs&doc=passport&lang=de"}, {"id": "birth", "title": "\ud83d\udcdc Vollst\u00e4ndige Geburtsurkunde (Mit Namen der Eltern)", "defPct": 100, "redAlert": "\ud83d\udea8 Kurzauszug oder fehlende Apostille \u2014 vollst\u00e4ndige Urkunde + Haager Apostille anfordern.", "why": "PIBA und Nativ lehnen Kurzausz\u00fcge ohne vollst\u00e4ndige Elternangaben strikt ab.", "url": "/app/?module=docs&doc=birth&lang=de"}, {"id": "marital", "title": "\ud83d\udc8d Heiratsurkunde / Ledigkeitsbescheinigung (Familienstand)", "defPct": 35, "redAlert": "\ud83d\udea8 Haager Apostille & notarielle Rotband-\u00dcbersetzung fehlen \u2014 30-Tage-M\u00e4ngelr\u00fcge droht.", "why": "Familienstandsurkunden laufen nach 180 Tagen ab und erfordern Original-Apostille + israelische Notar\u00fcbersetzung.", "url": "/app/?module=docs&doc=marital&lang=de"}, {"id": "police", "title": "\ud83d\udee1\ufe0f Nationales / F\u00f6derales F\u00fchrungszeugnis (BZR / FBI / ACRO)", "defPct": 100, "redAlert": "\ud83d\udea8 Strikte 180-Tage-Ablauffrist \u2014 erfordert Bundes-/National-Apostille.", "why": "F\u00fchrungszeugnisse verfallen nach 180 Tagen oder bei erneuter Einreise ins Heimatland.", "url": "/app/?module=docs&doc=police&lang=de"}, {"id": "lineage", "title": "\ud83d\udd4d Judentumsnachweis / Scheidungs- oder Namens\u00e4nderungsurkunden", "defPct": 0, "redAlert": "\ud83d\udea8 Noch nicht hochgeladen \u2014 m\u00fctterlichen Rabbinerbrief oder Scheidungsurteile f\u00fcr KI-Pr\u00fcfung scannen.", "why": "Jede Namensabweichung zwischen Urkunden stoppt die Akte bis zur Vorlage einer apostillierten Bescheinigung.", "url": "/app/?module=docs&doc=lineage&lang=de"}]}, "forms": {"name": "8 Offizielle Hebr\u00e4ische PIBA-PDF-Stempler & Antr\u00e4ge", "unlockBtn": "\ud83d\udd13 Alle 8 Hebr\u00e4ischen PIBA-PDF-Stempler freischalten ($89\u2013$149) \u2192", "unlockUrl": "/de/pricing/?sku=forms_life_149&lang=de", "appUrl": "/app/?module=forms&lang=de", "items": [{"id": "primary_form", "title": "\ud83d\udcc4 Offizielles Hebr\u00e4isches PIBA-Formular (Ash/1 \u2022 Ash/3 \u2022 Ash/6 \u2022 Ash/456)", "defPct": 40, "redAlert": "\ud83d\udea8 Hebr\u00e4ische Pflichtfelder unvollst\u00e4ndig \u2014 PIBA lehnt englische/deutsche oder handschriftliche Formulare ab.", "why": "Auf Deutsch ausf\u00fcllen und das offizielle Regierungs-PDF pixelgenau auf Hebr\u00e4isch drucken.", "url": "/app/?module=forms&form=primary&lang=de"}, {"id": "hesber", "title": "\u270d\ufe0f Formeller Hebr\u00e4ischer Antrag & Erkl\u00e4rungsbrief (Michtav Hesber)", "defPct": 0, "redAlert": "\ud83d\udea8 Formelles hebr\u00e4isches Anschreiben zu Visum-Chronologie oder Va'adat Charigim fehlt.", "why": "Jede Einreichung bei PIBA oder Va'adat Charigim erfordert einen juristisch strukturierten hebr\u00e4ischen Brief.", "url": "/app/?module=forms&form=hesber&lang=de"}, {"id": "security_cv", "title": "\ud83d\udee1\ufe0f Nespach Alef & Chronologischer 10-Jahres-Sicherheits-CV", "defPct": 0, "redAlert": "\ud83d\udea8 L\u00fcckenlose 10-Jahres-Adress-, Arbeits- und Reisehistorie f\u00fcr Nativ / PIBA fehlt.", "why": "Undokumentierte Zeitr\u00e4ume verz\u00f6gern die Sicherheitsfreigabe bei Nativ.", "url": "/app/?module=forms&form=cv&lang=de"}, {"id": "red_x_guide", "title": "\u274c Rot-X-Unterschriftenf\u00fchrer f\u00fcr den Beh\u00f6rdenschalter", "defPct": 100, "redAlert": "\ud83d\udea8 Unterschreiben Sie niemals zu Hause Erkl\u00e4rungen, die vor dem Beamten unterzeichnet werden m\u00fcssen.", "why": "Unser Rot-X-F\u00fchrer zeigt exakt, wo Sie erst am Schalter vor dem Sachbearbeiter unterschreiben d\u00fcrfen.", "url": "/app/?module=forms&form=guide&lang=de"}]}, "logger": {"name": "Betreuungs-Rabbiner, Madrichat Kallah & 5\u20138 Gemeindebriefe", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f Anerkannten Rabbiner & Madrichat Kallah anfragen ($0 Angebot) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_couple_499&lang=de", "appUrl": "/app/?module=logger&lang=de", "items": [{"id": "rabbi_match", "title": "\ud83d\udc68\u200d\u2696\ufe0f Vermittlung eines Anerkannten Betreuungs-Rabbiners (Rav Melaveh)", "defPct": 0, "redAlert": "\ud83d\udea8 Kein vom Rabbinat anerkannter Rabbiner verkn\u00fcpft \u2014 nicht anerkannte Lehrer kosten 12 Monate.", "why": "Beit Din und Va'adat Charigim akzeptieren nur Empfehlungsschreiben registrierter Rabbiner.", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=de"}, {"id": "shabbat_log", "title": "\ud83d\udd6f\ufe0f Schabbat- & Tora-Aktivit\u00e4ts-Logger (12+ Eintr\u00e4ge)", "defPct": 25, "redAlert": "\ud83d\udea8 Zu wenige protokollierte Schabbatot \u2014 Teilnahmen eintragen f\u00fcr hebr\u00e4ische Referenzbriefe.", "why": "Unser Logger speichert Daten und Gastgeber als \u00fcberpr\u00fcfbaren Nachweis f\u00fcr Ihre Rabbinerbriefe.", "url": "/app/?module=logger&tab=log&lang=de"}, {"id": "kallah_cert", "title": "\ud83d\udc8d Zertifizierter Familienreinheitskurs (Madrichat Kallah)", "defPct": 0, "redAlert": "\ud83d\udea8 Pflicht f\u00fcr Giur UND Rabbinats-Hochzeit (auch mit geb\u00fcrtig j\u00fcdischem israelischem Partner).", "why": "Ohne unterzeichnetes Zertifikat einer anerkannten Madrichat Kallah wird kein Mikwe-Termin vergeben.", "url": "/concierge-booking/?sku=concierge_kallah_249&lang=de"}, {"id": "host_letters", "title": "\ud83c\udfe0 Empfehlungsbriefe von Gastfamilie, Synagogen-Gabbai & Freunden", "defPct": 0, "redAlert": "\ud83d\udea8 0 / 3 hebr\u00e4ische Gemeindebriefe aus Ihrem Aktivit\u00e4ts-Log generiert.", "why": "Dayanim verlangen 5\u20138 authentische Briefe \u00fcber Ihre gelebte Schabbat- und Kaschrut-Praxis.", "url": "/app/?module=logger&tab=letters&lang=de"}]}, "songs": {"name": "56 Schabbat-Lieder, Gebete & Brachot (Zwei Riten)", "unlockBtn": "\ud83d\udd13 Alle 56 Schabbat-Lieder, Gebete & KI-Trainer freischalten ($65\u2013$249) \u2192", "unlockUrl": "/de/pricing/?sku=songs_65&lang=de", "appUrl": "/app/?module=songs-prayers&lang=de", "items": [{"id": "shabbat_songs", "title": "\ud83c\udf77 Freitags-Kiddusch, Hawdala & Schabbat-Semirot (18 Tracks)", "defPct": 11, "redAlert": "\ud83d\udea8 Dayanim lassen Sie Kiddusch live vorsingen \u2014 Stocken f\u00fchrt zu 6 Monaten Zur\u00fcckstellung.", "why": "Trainieren Sie Kiddusch und Tischlieder, um Ihre w\u00f6chentliche Schabbat-Praxis sicher zu belegen.", "url": "/app/?module=songs-prayers&cat=shabbat&lang=de"}, {"id": "daily_brachot", "title": "\ud83c\udf5e T\u00e4gliche Brachot, Ascher Jatzar & Birkat HaMason (20 Tracks)", "defPct": 0, "redAlert": "\ud83d\udea8 Segensspr\u00fcche \u00fcber Speisen und das Tischgebet m\u00fcssen auswendig sitzen.", "why": "Synchronisiertes Karaoke in sefardischer und aschkenasischer Aussprache mit deutscher Lautschrift.", "url": "/app/?module=songs-prayers&cat=brachot&lang=de"}, {"id": "shacharit", "title": "\ud83c\udf05 Morgengebete \u2014 Modeh Ani, Netilat Jadajim & Schema (18 Tracks)", "defPct": 0, "redAlert": "\ud83d\udea8 \u00dcben Sie Schacharit und Amida mit unserem KI-Aussprachetrainer.", "why": "Unsere KI bewertet Ihre hebr\u00e4ische Aussprache und Melodie f\u00fcr maximale Sicherheit vor dem Beit Din.", "url": "/app/?module=songs-prayers&cat=shacharit&lang=de"}]}, "bd": {"name": "700-Fragen Beit-Din-Pr\u00fcfungssimulator (4 Decks)", "unlockBtn": "\ud83d\udd13 Alle 700 Beit-Din-Pr\u00fcfungskarten freischalten ($65\u2013$249) \u2192", "unlockUrl": "/de/pricing/?sku=bd_suite_life_249&lang=de", "appUrl": "/app/?module=beit-din&lang=de", "items": [{"id": "bd_core200", "title": "\ud83d\udd4d Deck 1: Die 200 Kernfragen des Beit Din", "defPct": 10, "redAlert": "\ud83d\udea8 Unter der 85%-Bestehensgrenze \u2014 39 Melachot, Kaschrut und Feiertage wiederholen.", "why": "Deckt alle Standardfragen der staatlichen (Nativ) und privaten Batei Din ab.", "url": "/app/?module=beit-din&deck=core200&lang=de"}, {"id": "bd_curve200", "title": "\u26a1 Deck 2: +200 Fangfragen & Aufrichtigkeitstests der Dayanim", "defPct": 0, "redAlert": "\ud83d\udea8 Bereiten Sie sich auf Stressfragen zu s\u00e4kularen Verwandten und Partner-Observanz vor.", "why": "Die Richter pr\u00fcfen, wie Sie halachische Konflikte im echten Familienalltag l\u00f6sen.", "url": "/app/?module=beit-din&deck=curve200&lang=de"}, {"id": "bd_men150", "title": "\ud83d\udcd8 Deck 3: 150 M\u00e4nner-Fragen (Tefillin, Minjan, Tzitzit & Brit)", "defPct": 0, "redAlert": "\ud83d\udea8 Spezifische Pr\u00fcfungsfragen f\u00fcr m\u00e4nnliche Konvertiten und j\u00fcdische Ehem\u00e4nner.", "why": "Bei Paaren pr\u00fcft das Beit Din auch den Ehemann zu Synagogenbesuch, Tefillin und Kiddusch.", "url": "/app/?module=beit-din&deck=men150&lang=de"}, {"id": "bd_women150", "title": "\ud83d\udcd5 Deck 4: 150 Frauen-Fragen (Taharat HaMischpacha, Mikwe & Challa)", "defPct": 0, "redAlert": "\ud83d\udea8 Kritische 7-reine-Tage-Berechnungen (Nidda) \u2014 h\u00e4ufigster Grund f\u00fcr R\u00fcckstellungen.", "why": "Beherrschen Sie Hefsek Tahara, Kerzenz\u00fcnden und K\u00fcchen-Kaschrut fehlerfrei.", "url": "/app/?module=beit-din&deck=women150&lang=de"}]}, "couples": {"name": "300-Fragen-Paarinterview in Getrennten R\u00e4umen (2 Telefone)", "unlockBtn": "\ud83d\udd13 300-Fragen-Sync f\u00fcr 2 Telefone freischalten ($75\u2013$229) \u2192", "unlockUrl": "/de/pricing/?sku=couples_life_229&lang=de", "appUrl": "/app/?module=couples&lang=de", "items": [{"id": "cp_pair", "title": "\ud83d\udcf1 Live-Kopplung von 2 Telefonen (Partner A + Partner B)", "defPct": 0, "redAlert": "\ud83d\udea8 Partner-Telefon noch nicht gekoppelt \u2014 verbinden Sie beide Ger\u00e4te zur Widerspruchserkennung.", "why": "Beim j\u00e4hrlichen StuPro-Interview werden Sie in getrennten R\u00e4umen Wort f\u00fcr Wort abgeglichen.", "url": "/app/?module=couples&tab=pair&lang=de"}, {"id": "cp_daily", "title": "\ud83c\udfe0 Kategorien 1\u20134: Wohnung, Rechnungen & Morgenroutine (120 Fragen)", "defPct": 0, "redAlert": "\ud83d\udea8 Hochrisikozone: Widerspr\u00fcche bei Stromrechnung oder Bettseite f\u00fchren zu 6\u201312 Monaten Sperre.", "why": "Abweichungen bei Alltagsdetails werten Beamte als Hinweis auf eine Scheinehe.", "url": "/app/?module=couples&cat=daily&lang=de"}, {"id": "cp_family", "title": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67 Kategorien 5\u20138: Kennenlernen, Schwiegereltern, Feste & Finanzen (100 Fragen)", "defPct": 0, "redAlert": "\ud83d\udea8 Synchronisieren Sie Daten des ersten Elterntreffens, Geschenke und Gemeinschaftskonto.", "why": "Beide Partner antworten in ihrer Muttersprache am eigenen Handy und sehen jede Diskrepanz sofort.", "url": "/app/?module=couples&cat=family&lang=de"}, {"id": "cp_exam80", "title": "\u23f1\ufe0f Kategorien 9\u201310: Zeitgesteuerte 80-Fragen-PIBA-Pr\u00fcfungssimulation", "defPct": 0, "redAlert": "\ud83d\udea8 Absolvieren Sie mindestens eine volle 80-Fragen-Simulation mit >90% \u00dcbereinstimmung.", "why": "Simuliert das 45-min\u00fctige getrennte Verh\u00f6r im Innenministerium unter Echtbedingungen.", "url": "/app/?module=couples&cat=exam80&lang=de"}]}, "decoder": {"name": "30-Tage-Nachforderungsschutz, Nativ-Audit & Rechtshilfe", "unlockBtn": "\ud83d\udd13 PIBA-Brief-Decoder & 30-Tage-Fristverl\u00e4ngerung ($89\u2013$149) \u2192", "unlockUrl": "/de/pricing/?sku=forms_life_149&lang=de", "appUrl": "/app/?module=forms&tab=decoder&lang=de", "items": [{"id": "clerk_decoder", "title": "\ud83d\udd0d KI-Decoder f\u00fcr Hebr\u00e4ische PIBA-Nachforderungsb\u00f6gen (Daf Drishat Mismachim)", "defPct": 100, "redAlert": "\ud83d\udea8 Hebr\u00e4isches Schreiben am Schalter erhalten? Sofort scannen \u2014 strikte 30-Tage-Frist vor Aktenschlie\u00dfung.", "why": "\u00dcbersetzt hebr\u00e4ische M\u00e4ngellisten der Beamten sofort in klare Handlungsschritte.", "url": "/app/?module=forms&tab=decoder&lang=de"}, {"id": "ext_letter", "title": "\u23f3 Generator f\u00fcr Formelle 30-Tage-Fristverl\u00e4ngerung auf Hebr\u00e4isch", "defPct": 0, "redAlert": "\ud83d\udea8 Verz\u00f6gert sich eine Auslands-Apostille, vor Tag 21 formelle Fristverl\u00e4ngerung einreichen.", "why": "Verhindert die automatische administrative Schlie\u00dfung Ihrer PIBA-Akte.", "url": "/app/?module=forms&tab=extension&lang=de"}, {"id": "lawyer_escort", "title": "\u2696\ufe0f Anwaltsbegleitung zum Termin & Notarielle Rotband-\u00dcbersetzung", "defPct": 0, "redAlert": "\ud83d\udea8 Fr\u00fchere Ablehnung oder komplexer Fall? 0-$-Angebot f\u00fcr pers\u00f6nliche Anwaltsbegleitung anfordern.", "why": "Unsere israelischen Anw\u00e4lte und Notare vertreten Sie direkt am PIBA-Schalter oder Berufungsgericht.", "url": "/concierge-booking/?sku=concierge_escort_649&lang=de"}]}}}, "ru": {"overallReadiness": "\u0416\u0418\u0412\u0410\u042f \u0413\u041e\u0422\u041e\u0412\u041d\u041e\u0421\u0422\u042c \u0414\u041e\u0421\u042c\u0415 (\u0421\u0418\u041d\u0425\u0420\u041e\u041d\u0418\u0417\u0410\u0426\u0418\u042f \u0421 \u0421\u0418\u0421\u0422\u0415\u041c\u041e\u0419)", "lockedBanner": "\ud83d\udd12 \u0416\u0438\u0432\u043e\u0439 \u0442\u0440\u0435\u043a\u0438\u043d\u0433 \u0437\u0430\u043a\u0440\u044b\u0442 \u2014 \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u043d\u0430 \u0441\u0442\u0440\u043e\u043a\u0443 \u0438\u043b\u0438 \u0440\u0430\u0437\u0431\u043b\u043e\u043a\u0438\u0440\u0443\u0439\u0442\u0435 \u043d\u0438\u0436\u0435", "activeBanner": "\ud83d\udfe2 \u041f\u041e\u0428\u0410\u0413\u041e\u0412\u0410\u042f \u0416\u0418\u0412\u0410\u042f \u0414\u0418\u0410\u0413\u041d\u041e\u0421\u0422\u0418\u041a\u0410 \u2022 \u041d\u0410\u0416\u041c\u0418\u0422\u0415 \u041d\u0410 \u0421\u0422\u0420\u041e\u041a\u0423 \u0414\u041b\u042f \u041f\u0420\u041e\u0414\u041e\u041b\u0416\u0415\u041d\u0418\u042f", "whyBtnTitle": "\u0427\u0442\u043e \u0434\u0435\u043b\u0430\u0442\u044c \u0438 \u043f\u043e\u0447\u0435\u043c\u0443 \u0447\u0438\u043d\u043e\u0432\u043d\u0438\u043a \u044d\u0442\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442", "fixNow": "\u0418\u0441\u043f\u0440\u0430\u0432\u0438\u0442\u044c / \u0414\u0430\u043b\u0435\u0435 \u2192", "viewDone": "100% \u041f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e \u2713", "freeTry": "\u041f\u0440\u043e\u0431\u043d\u044b\u0439 \u0440\u0435\u0436\u0438\u043c \u2192", "engines": {"docs": {"name": "5 \u041b\u0438\u0447\u043d\u044b\u0445 \u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u043e\u0432, \u0417\u0430\u0433\u0440\u0430\u043d\u043f\u0430\u0441\u043f\u043e\u0440\u0442 \u0438 \u0422\u0430\u0439\u043c\u0435\u0440 180 \u0414\u043d\u0435\u0439 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044f", "unlockBtn": "\ud83d\udd13 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0418\u0418-\u0425\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u0438 \u0422\u0430\u0439\u043c\u0435\u0440 180 \u0414\u043d\u0435\u0439 ($89\u2013$149) \u2192", "unlockUrl": "/ru/pricing/?sku=forms_life_149&lang=ru", "appUrl": "/app/?module=docs&lang=ru", "items": [{"id": "passport", "title": "\ud83d\udec2 \u0417\u0430\u0433\u0440\u0430\u043d\u043f\u0430\u0441\u043f\u043e\u0440\u0442 (\u041f\u0440\u043e\u0432\u0435\u0440\u043a\u0430 \u0441\u0440\u043e\u043a\u0430 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f 2+ \u0433\u043e\u0434\u0430)", "defPct": 50, "redAlert": "\ud83d\udea8 \u0415\u0441\u043b\u0438 \u043f\u0430\u0441\u043f\u043e\u0440\u0442 \u0438\u0441\u0442\u0435\u043a\u0430\u0435\u0442 \u043c\u0435\u043d\u0435\u0435 \u0447\u0435\u043c \u0447\u0435\u0440\u0435\u0437 6 \u043c\u0435\u0441\u044f\u0446\u0435\u0432 (\u041c\u0412\u0414 \u0442\u0440\u0435\u0431\u0443\u0435\u0442 2+ \u0433\u043e\u0434\u0430 \u0437\u0430\u043f\u0430\u0441\u0430), \u0441\u0440\u043e\u0447\u043d\u043e \u043e\u0431\u043d\u043e\u0432\u0438\u0442\u0435 \u0435\u0433\u043e.", "why": "\u041c\u0412\u0414 \u043d\u0435 \u0432\u043a\u043b\u0435\u0438\u0432\u0430\u0435\u0442 \u0432\u0438\u0437\u0443 B/1 \u0438\u043b\u0438 A/5 \u0432 \u043f\u0430\u0441\u043f\u043e\u0440\u0442 \u0441 \u0438\u0441\u0442\u0435\u043a\u0430\u044e\u0449\u0438\u043c \u0441\u0440\u043e\u043a\u043e\u043c \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f.", "url": "/app/?module=docs&doc=passport&lang=ru"}, {"id": "birth", "title": "\ud83d\udcdc \u041f\u043e\u043b\u043d\u043e\u0435 \u0441\u0432\u0438\u0434\u0435\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e \u043e \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u0438 (\u0421 \u043f\u043e\u043b\u043d\u044b\u043c\u0438 \u0438\u043c\u0435\u043d\u0430\u043c\u0438 \u0440\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u0439)", "defPct": 100, "redAlert": "\ud83d\udea8 \u041a\u0440\u0430\u0442\u043a\u0430\u044f \u0432\u044b\u043f\u0438\u0441\u043a\u0430 \u0438\u043b\u0438 \u043d\u0435\u0442 \u0448\u0442\u0430\u043c\u043f\u0430 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044c \u2014 \u0437\u0430\u043a\u0430\u0436\u0438\u0442\u0435 \u043f\u043e\u043b\u043d\u0443\u044e \u043a\u043e\u043f\u0438\u044e + \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044c.", "why": "\u041c\u0412\u0414 \u0438 \u041d\u0430\u0442\u0438\u0432 \u043e\u0442\u043a\u0430\u0437\u044b\u0432\u0430\u044e\u0442 \u043f\u043e \u0441\u0432\u0438\u0434\u0435\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u0430\u043c \u0431\u0435\u0437 \u0443\u043a\u0430\u0437\u0430\u043d\u0438\u044f \u0440\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u0439 \u0438 \u043e\u0440\u0438\u0433\u0438\u043d\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044f.", "url": "/app/?module=docs&doc=birth&lang=ru"}, {"id": "marital", "title": "\ud83d\udc8d \u0421\u0432\u0438\u0434\u0435\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e \u043e \u0431\u0440\u0430\u043a\u0435 / \u0421\u043f\u0440\u0430\u0432\u043a\u0430 \u043e \u043d\u0435\u0437\u0430\u043c\u0443\u0436\u0435\u0441\u0442\u0432\u0435 (\u0421\u0435\u043c\u0435\u0439\u043d\u043e\u0435 \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u0438\u0435)", "defPct": 35, "redAlert": "\ud83d\udea8 \u041d\u0435\u0442 \u0448\u0442\u0430\u043c\u043f\u0430 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044c \u0438 \u043d\u043e\u0442\u0430\u0440\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0430 \u0441 \u043a\u0440\u0430\u0441\u043d\u043e\u0439 \u043b\u0435\u043d\u0442\u043e\u0439 \u2014 \u0438\u043d\u0441\u043f\u0435\u043a\u0442\u043e\u0440 \u0432\u044b\u0434\u0430\u0441\u0442 \u043b\u0438\u0441\u0442 \u0442\u0440\u0435\u0431\u043e\u0432\u0430\u043d\u0438\u0439 \u043d\u0430 30 \u0434\u043d\u0435\u0439.", "why": "\u0421\u043f\u0440\u0430\u0432\u043a\u0438 \u043e \u0441\u0435\u043c\u0435\u0439\u043d\u043e\u043c \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u0438\u0438 \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u044e\u0442 180 \u0434\u043d\u0435\u0439 \u0438 \u0442\u0440\u0435\u0431\u0443\u044e\u0442 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044c + \u0438\u0437\u0440\u0430\u0438\u043b\u044c\u0441\u043a\u0438\u0439 \u043d\u043e\u0442\u0430\u0440\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u043f\u0435\u0440\u0435\u0432\u043e\u0434.", "url": "/app/?module=docs&doc=marital&lang=ru"}, {"id": "police", "title": "\ud83d\udee1\ufe0f \u041d\u0430\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u0430\u044f / \u0424\u0435\u0434\u0435\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0441\u043f\u0440\u0430\u0432\u043a\u0430 \u043e \u043d\u0435\u0441\u0443\u0434\u0438\u043c\u043e\u0441\u0442\u0438 (\u041c\u0412\u0414 / \u0424\u0411\u0420 / ACRO)", "defPct": 100, "redAlert": "\ud83d\udea8 \u0416\u0435\u0441\u0442\u043a\u0438\u0439 \u0441\u0440\u043e\u043a 180 \u0434\u043d\u0435\u0439 \u2014 \u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u043d\u0430\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439/\u0444\u0435\u0434\u0435\u0440\u0430\u043b\u044c\u043d\u044b\u0439 \u0410\u043f\u043e\u0441\u0442\u0438\u043b\u044c.", "why": "\u0421\u043f\u0440\u0430\u0432\u043a\u0430 \u043e \u043d\u0435\u0441\u0443\u0434\u0438\u043c\u043e\u0441\u0442\u0438 \u0441\u0433\u043e\u0440\u0430\u0435\u0442 \u0447\u0435\u0440\u0435\u0437 180 \u0434\u043d\u0435\u0439 \u0438\u043b\u0438 \u043f\u0440\u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u043d\u043e\u043c \u0432\u044a\u0435\u0437\u0434\u0435 \u0432 \u0441\u0442\u0440\u0430\u043d\u0443 \u0432\u044b\u0434\u0430\u0447\u0438.", "url": "/app/?module=docs&doc=police&lang=ru"}, {"id": "lineage", "title": "\ud83d\udd4d \u0414\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e \u0435\u0432\u0440\u0435\u0439\u0441\u0442\u0432\u0430 / \u0420\u0435\u0448\u0435\u043d\u0438\u044f \u043e \u0440\u0430\u0437\u0432\u043e\u0434\u0435 \u0438 \u0441\u043c\u0435\u043d\u0435 \u0438\u043c\u0435\u043d\u0438", "defPct": 0, "redAlert": "\ud83d\udea8 \u0415\u0449\u0435 \u043d\u0435 \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043d\u043e \u2014 \u043e\u0442\u0441\u043a\u0430\u043d\u0438\u0440\u0443\u0439\u0442\u0435 \u043f\u0438\u0441\u044c\u043c\u043e \u0440\u0430\u0432\u0432\u0438\u043d\u0430 (\u043c\u0430\u0442\u0435\u0440\u0438\u043d\u0441\u043a\u0430\u044f \u043b\u0438\u043d\u0438\u044f) \u0438\u043b\u0438 \u0430\u043a\u0442\u044b \u043e \u0440\u0430\u0437\u0432\u043e\u0434\u0435 \u0434\u043b\u044f \u0418\u0418-\u0430\u0443\u0434\u0438\u0442\u0430.", "why": "\u0420\u0430\u0441\u0445\u043e\u0436\u0434\u0435\u043d\u0438\u0435 \u0434\u0430\u0436\u0435 \u0432 \u043e\u0434\u043d\u043e\u0439 \u0431\u0443\u043a\u0432\u0435 \u0444\u0430\u043c\u0438\u043b\u0438\u0438 \u0431\u043b\u043e\u043a\u0438\u0440\u0443\u0435\u0442 \u0434\u0435\u043b\u043e \u0434\u043e \u043f\u0440\u0435\u0434\u044a\u044f\u0432\u043b\u0435\u043d\u0438\u044f \u0430\u043f\u043e\u0441\u0442\u0438\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0439 \u0441\u043f\u0440\u0430\u0432\u043a\u0438.", "url": "/app/?module=docs&doc=lineage&lang=ru"}]}, "forms": {"name": "8 \u041e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0445 PDF-\u0428\u0442\u0430\u043c\u043f\u043e\u0432\u0449\u0438\u043a\u043e\u0432 \u041c\u0412\u0414 \u043d\u0430 \u0418\u0432\u0440\u0438\u0442\u0435 \u0438 \u041f\u0435\u0442\u0438\u0446\u0438\u0438", "unlockBtn": "\ud83d\udd13 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435 8 PDF-\u0428\u0442\u0430\u043c\u043f\u043e\u0432\u0449\u0438\u043a\u043e\u0432 \u041c\u0412\u0414 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 ($89\u2013$149) \u2192", "unlockUrl": "/ru/pricing/?sku=forms_life_149&lang=ru", "appUrl": "/app/?module=forms&lang=ru", "items": [{"id": "primary_form", "title": "\ud83d\udcc4 \u041e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u0430\u044f \u0430\u043d\u043a\u0435\u0442\u0430 \u041c\u0412\u0414 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 (\u0410\u0448/1 \u2022 \u0410\u0448/3 \u2022 \u0410\u0448/6 \u2022 \u0410\u0448/456)", "defPct": 40, "redAlert": "\ud83d\udea8 \u041e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043f\u043e\u043b\u044f \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 \u043d\u0435 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u044b \u2014 \u041c\u0412\u0414 \u043d\u0435 \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u0435\u0442 \u0430\u043d\u043a\u0435\u0442\u044b \u043d\u0430 \u0440\u0443\u0441\u0441\u043a\u043e\u043c/\u0430\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u043e\u043c \u0438\u043b\u0438 \u043e\u0442 \u0440\u0443\u043a\u0438.", "why": "\u0417\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0435 \u043d\u0430 \u0440\u0443\u0441\u0441\u043a\u043e\u043c, \u0438 \u043d\u0430\u0448 \u0434\u0432\u0438\u0436\u043e\u043a \u043d\u0430\u043f\u0435\u0447\u0430\u0442\u0430\u0435\u0442 \u043e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0439 PDF-\u0431\u043b\u0430\u043d\u043a \u041c\u0412\u0414 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435.", "url": "/app/?module=forms&form=primary&lang=ru"}, {"id": "hesber", "title": "\u270d\ufe0f \u041e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u0430\u044f \u043f\u0435\u0442\u0438\u0446\u0438\u044f \u0438 \u043f\u0438\u0441\u044c\u043c\u043e-\u043f\u043e\u044f\u0441\u043d\u0435\u043d\u0438\u0435 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 (\u041c\u0438\u0445\u0442\u0430\u0432 \u0425\u0435\u0441\u0431\u0435\u0440)", "defPct": 0, "redAlert": "\ud83d\udea8 \u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442 \u044e\u0440\u0438\u0434\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u043f\u0438\u0441\u044c\u043c\u043e \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 \u0441 \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435\u043c \u0445\u0440\u043e\u043d\u043e\u043b\u043e\u0433\u0438\u0438 \u0432\u0438\u0437, \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c \u0438\u043b\u0438 \u043e\u0442\u043d\u043e\u0448\u0435\u043d\u0438\u0439.", "why": "\u041a\u0430\u0436\u0434\u0430\u044f \u043f\u043e\u0434\u0430\u0447\u0430 \u0432 \u041c\u0412\u0414 \u0438\u043b\u0438 \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c \u0442\u0440\u0435\u0431\u0443\u0435\u0442 \u0444\u043e\u0440\u043c\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u0441\u043e\u043f\u0440\u043e\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0438\u0441\u044c\u043c\u0430 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435.", "url": "/app/?module=forms&form=hesber&lang=ru"}, {"id": "security_cv", "title": "\ud83d\udee1\ufe0f \u041d\u0435\u0441\u043f\u0430\u0445 \u0410\u043b\u0435\u0444 \u0438 \u0445\u0440\u043e\u043d\u043e\u043b\u043e\u0433\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0431\u0438\u043e\u0433\u0440\u0430\u0444\u0438\u044f \u0437\u0430 10 \u043b\u0435\u0442 (CV)", "defPct": 0, "redAlert": "\ud83d\udea8 \u041d\u0435 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0430 \u0438\u0441\u0442\u043e\u0440\u0438\u044f \u0430\u0434\u0440\u0435\u0441\u043e\u0432, \u0440\u0430\u0431\u043e\u0442\u044b \u0438 \u043f\u043e\u0435\u0437\u0434\u043e\u043a \u0437\u0430 10 \u043b\u0435\u0442 \u0434\u043b\u044f \u0441\u043f\u0435\u0446\u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u041d\u0430\u0442\u0438\u0432\u0430 / \u041c\u0412\u0414.", "why": "\u041f\u0440\u043e\u0431\u0435\u043b\u044b \u0432 \u0445\u0440\u043e\u043d\u043e\u043b\u043e\u0433\u0438\u0438 \u0437\u0430\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u044e\u0442 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u0432 \u041d\u0430\u0442\u0438\u0432\u0435.", "url": "/app/?module=forms&form=cv&lang=ru"}, {"id": "red_x_guide", "title": "\u274c \u0413\u0438\u0434 \u043f\u043e \u043f\u043e\u0434\u043f\u0438\u0441\u044f\u043c \u0441 \u041a\u0440\u0430\u0441\u043d\u044b\u043c X \u0434\u043b\u044f \u043e\u043a\u043d\u0430 \u0438\u043d\u0441\u043f\u0435\u043a\u0442\u043e\u0440\u0430", "defPct": 100, "redAlert": "\ud83d\udea8 \u041d\u0438\u043a\u043e\u0433\u0434\u0430 \u043d\u0435 \u043f\u043e\u0434\u043f\u0438\u0441\u044b\u0432\u0430\u0439\u0442\u0435 \u0434\u043e\u043c\u0430 \u0434\u0435\u043a\u043b\u0430\u0440\u0430\u0446\u0438\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043f\u043e\u0434\u043f\u0438\u0441\u044b\u0432\u0430\u044e\u0442\u0441\u044f \u0441\u0442\u0440\u043e\u0433\u043e \u0432 \u043f\u0440\u0438\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0438 \u0447\u0438\u043d\u043e\u0432\u043d\u0438\u043a\u0430.", "why": "\u041d\u0430\u0448 \u0433\u0438\u0434 \u0441 \u041a\u0440\u0430\u0441\u043d\u044b\u043c X \u043f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u0435\u0442, \u0433\u0434\u0435 \u0440\u0430\u0441\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u0437\u0430\u0440\u0430\u043d\u0435\u0435, \u0430 \u0433\u0434\u0435 \u2014 \u0442\u043e\u043b\u044c\u043a\u043e \u043f\u0435\u0440\u0435\u0434 \u0438\u043d\u0441\u043f\u0435\u043a\u0442\u043e\u0440\u043e\u043c \u041c\u0412\u0414.", "url": "/app/?module=forms&form=guide&lang=ru"}]}, "logger": {"name": "\u0420\u0430\u0432\u0432\u0438\u043d-\u041a\u0443\u0440\u0430\u0442\u043e\u0440, \u041c\u0430\u0434\u0440\u0438\u0445\u0430\u0442 \u041a\u0430\u043b\u0430 \u0438 5\u20138 \u0420\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0445 \u041f\u0438\u0441\u0435\u043c", "unlockBtn": "\ud83d\udc68\u200d\u2696\ufe0f \u0417\u0430\u0431\u0440\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0420\u0430\u0432\u0432\u0438\u043d\u0430 \u0438 \u041c\u0430\u0434\u0440\u0438\u0445\u0430\u0442 \u041a\u0430\u043b\u0430 ($0 \u0440\u0430\u0441\u0447\u0435\u0442 \u0441\u0435\u0433\u043e\u0434\u043d\u044f) \u2192", "unlockUrl": "/concierge-booking/?sku=concierge_couple_499&lang=ru", "appUrl": "/app/?module=logger&lang=ru", "items": [{"id": "rabbi_match", "title": "\ud83d\udc68\u200d\u2696\ufe0f \u041f\u0440\u0438\u043a\u0440\u0435\u043f\u043b\u0435\u043d\u0438\u0435 \u043a \u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u043c\u0443 \u0420\u0430\u0432\u0432\u0438\u043d\u0443-\u043a\u0443\u0440\u0430\u0442\u043e\u0440\u0443 (\u0420\u0430\u0432 \u041c\u0435\u043b\u0430\u0432\u0435)", "defPct": 0, "redAlert": "\ud83d\udea8 \u041f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u044b\u0439 \u0440\u0430\u0432\u0432\u0438\u043d \u0435\u0449\u0435 \u043d\u0435 \u043f\u0440\u0438\u043a\u0440\u0435\u043f\u043b\u0435\u043d \u2014 \u0443\u0447\u0435\u0431\u0430 \u0443 \u043d\u0435\u043f\u0440\u0438\u0437\u043d\u0430\u043d\u043d\u043e\u0433\u043e \u0443\u0447\u0438\u0442\u0435\u043b\u044f \u0432\u0435\u0434\u0435\u0442 \u043a \u043f\u043e\u0442\u0435\u0440\u0435 12 \u043c\u0435\u0441\u044f\u0446\u0435\u0432.", "why": "\u0411\u0435\u0439\u0442-\u0414\u0438\u043d \u0438 \u0412\u0430\u0430\u0434\u0430\u0442 \u0425\u0430\u0440\u0438\u0433\u0438\u043c \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u044e\u0442 \u0440\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043f\u0438\u0441\u044c\u043c\u0430 \u0442\u043e\u043b\u044c\u043a\u043e \u043e\u0442 \u0440\u0430\u0432\u0432\u0438\u043d\u043e\u0432 \u0438\u0437 \u043e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u0440\u0435\u0435\u0441\u0442\u0440\u0430.", "url": "/concierge-booking/?sku=concierge_rabbi_349&lang=ru"}, {"id": "shabbat_log", "title": "\ud83d\udd6f\ufe0f \u0416\u0443\u0440\u043d\u0430\u043b \u0428\u0430\u0431\u0431\u0430\u0442\u043e\u0432 \u0438 \u0443\u0440\u043e\u043a\u043e\u0432 \u0422\u043e\u0440\u044b (12+ \u0437\u0430\u043f\u0438\u0441\u0435\u0439)", "defPct": 25, "redAlert": "\ud83d\udea8 \u041c\u0430\u043b\u043e \u0437\u0430\u043f\u0438\u0441\u0435\u0439 \u2014 \u0444\u0438\u043a\u0441\u0438\u0440\u0443\u0439\u0442\u0435 \u0428\u0430\u0431\u0431\u0430\u0442\u044b \u0438 \u0443\u0440\u043e\u043a\u0438 \u0434\u043b\u044f \u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u0438 \u0440\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0445 \u043f\u0438\u0441\u0435\u043c \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435.", "why": "\u041d\u0430\u0448 \u0436\u0443\u0440\u043d\u0430\u043b \u0444\u0438\u043a\u0441\u0438\u0440\u0443\u0435\u0442 \u0434\u0430\u0442\u044b \u0438 \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u044e\u0449\u0438\u0435 \u0441\u0435\u043c\u044c\u0438 \u0434\u043b\u044f \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u044f \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u043c\u044b\u0445 \u043f\u0438\u0441\u0435\u043c \u0432 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d.", "url": "/app/?module=logger&tab=log&lang=ru"}, {"id": "kallah_cert", "title": "\ud83d\udc8d \u0421\u0435\u0440\u0442\u0438\u0444\u0438\u043a\u0430\u0442 \u043a\u0443\u0440\u0441\u0430 \u0447\u0438\u0441\u0442\u043e\u0442\u044b \u0441\u0435\u043c\u044c\u0438 (\u041c\u0430\u0434\u0440\u0438\u0445\u0430\u0442 \u041a\u0430\u043b\u0430)", "defPct": 0, "redAlert": "\ud83d\udea8 \u041e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u043e \u0438 \u0434\u043b\u044f \u0433\u0438\u044e\u0440\u0430, \u0418 \u0434\u043b\u044f \u0445\u0443\u043f\u044b \u0432 \u0420\u0430\u0432\u0432\u0438\u043d\u0430\u0442\u0435 (\u0434\u0430\u0436\u0435 \u0435\u0441\u043b\u0438 \u0441\u0443\u043f\u0440\u0443\u0433 \u2014 \u0438\u0437\u0440\u0430\u0438\u043b\u044c\u0442\u044f\u043d\u0438\u043d \u0438 \u0435\u0432\u0440\u0435\u0439 \u043f\u043e \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u044e).", "why": "\u0421\u0443\u0434 \u043d\u0435 \u043d\u0430\u0437\u043d\u0430\u0447\u0438\u0442 \u0434\u0430\u0442\u0443 \u043c\u0438\u043a\u0432\u044b \u0431\u0435\u0437 \u043f\u043e\u0434\u043f\u0438\u0441\u0430\u043d\u043d\u043e\u0439 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u044b \u043e\u0442 \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0439 \u041c\u0430\u0434\u0440\u0438\u0445\u0430\u0442 \u041a\u0430\u043b\u0430.", "url": "/concierge-booking/?sku=concierge_kallah_249&lang=ru"}, {"id": "host_letters", "title": "\ud83c\udfe0 \u041f\u0438\u0441\u044c\u043c\u0430-\u0440\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0430\u0446\u0438\u0438 \u043e\u0442 \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u044e\u0449\u0435\u0439 \u0441\u0435\u043c\u044c\u0438, \u0433\u0430\u0431\u0430\u044f \u0441\u0438\u043d\u0430\u0433\u043e\u0433\u0438 \u0438 \u0434\u0440\u0443\u0437\u0435\u0439", "defPct": 0, "redAlert": "\ud83d\udea8 0 / 3 \u043e\u0431\u0449\u0438\u043d\u043d\u044b\u0445 \u043f\u0438\u0441\u0435\u043c \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 \u0441\u0433\u0435\u043d\u0435\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0438\u0437 \u0432\u0430\u0448\u0435\u0433\u043e \u0436\u0443\u0440\u043d\u0430\u043b\u0430 \u0430\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438.", "why": "\u0421\u0443\u0434\u044c\u0438 \u0442\u0440\u0435\u0431\u0443\u044e\u0442 5\u20138 \u0436\u0438\u0432\u044b\u0445 \u043f\u0438\u0441\u0435\u043c, \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u044e\u0449\u0438\u0445 \u0441\u043e\u0431\u043b\u044e\u0434\u0435\u043d\u0438\u0435 \u0428\u0430\u0431\u0431\u0430\u0442\u0430 \u0438 \u043a\u0430\u0448\u0440\u0443\u0442\u0430 \u0432 \u043e\u0431\u0449\u0438\u043d\u0435.", "url": "/app/?module=logger&tab=letters&lang=ru"}]}, "songs": {"name": "56 \u041f\u0435\u0441\u0435\u043d \u0428\u0430\u0431\u0431\u0430\u0442\u0430, \u041c\u043e\u043b\u0438\u0442\u0432\u044b \u0438 \u0411\u043b\u0430\u0433\u043e\u0441\u043b\u043e\u0432\u0435\u043d\u0438\u044f (\u0414\u0432\u0430 \u041d\u0443\u0441\u0430\u0445\u0430)", "unlockBtn": "\ud83d\udd13 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435 56 \u041f\u0435\u0441\u0435\u043d, \u041c\u043e\u043b\u0438\u0442\u0432 \u0438 \u0418\u0418-\u0422\u0440\u0435\u043d\u0430\u0436\u0435\u0440 ($65\u2013$249) \u2192", "unlockUrl": "/ru/pricing/?sku=songs_65&lang=ru", "appUrl": "/app/?module=songs-prayers&lang=ru", "items": [{"id": "shabbat_songs", "title": "\ud83c\udf77 \u041f\u044f\u0442\u043d\u0438\u0447\u043d\u044b\u0439 \u041a\u0438\u0434\u0443\u0448, \u0410\u0432\u0434\u0430\u043b\u0430 \u0438 \u0417\u0435\u043c\u0438\u0440\u043e\u0442 \u0428\u0430\u0431\u0431\u0430\u0442\u0430 (18 \u0430\u0443\u0434\u0438\u043e\u0434\u043e\u0440\u043e\u0436\u0435\u043a)", "defPct": 11, "redAlert": "\ud83d\udea8 \u0421\u0443\u0434\u044c\u0438 \u043f\u0440\u043e\u0441\u044f\u0442 \u0441\u043f\u0435\u0442\u044c \u041a\u0438\u0434\u0443\u0448 \u0432\u0441\u043b\u0443\u0445 \u043f\u0440\u044f\u043c\u043e \u043d\u0430 \u0437\u0430\u0441\u0435\u0434\u0430\u043d\u0438\u0438 \u2014 \u0437\u0430\u043c\u0438\u043d\u043a\u0430 \u0433\u0440\u043e\u0437\u0438\u0442 \u043e\u0442\u0441\u0440\u043e\u0447\u043a\u043e\u0439 \u043d\u0430 6 \u043c\u0435\u0441\u044f\u0446\u0435\u0432.", "why": "\u041e\u0442\u0440\u0430\u0431\u043e\u0442\u0430\u0439\u0442\u0435 \u043f\u0435\u043d\u0438\u0435 \u041a\u0438\u0434\u0443\u0448\u0430 \u0438 \u0441\u0443\u0431\u0431\u043e\u0442\u043d\u0438\u0445 \u043f\u0435\u0441\u0435\u043d, \u0447\u0442\u043e\u0431\u044b \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e \u0441\u0434\u0430\u0442\u044c \u0443\u0441\u0442\u043d\u044b\u0439 \u044d\u043a\u0437\u0430\u043c\u0435\u043d.", "url": "/app/?module=songs-prayers&cat=shabbat&lang=ru"}, {"id": "daily_brachot", "title": "\ud83c\udf5e \u0415\u0436\u0435\u0434\u043d\u0435\u0432\u043d\u044b\u0435 \u0431\u043b\u0430\u0433\u043e\u0441\u043b\u043e\u0432\u0435\u043d\u0438\u044f (\u0411\u0440\u0430\u0445\u043e\u0442), \u0410\u0448\u0435\u0440 \u042f\u0446\u0430\u0440 \u0438 \u0411\u0438\u0440\u043a\u0430\u0442 \u0445\u0430-\u041c\u0430\u0437\u043e\u043d (20 \u0434\u043e\u0440\u043e\u0436\u0435\u043a)", "defPct": 0, "redAlert": "\ud83d\udea8 \u0411\u043b\u0430\u0433\u043e\u0441\u043b\u043e\u0432\u0435\u043d\u0438\u044f \u043d\u0430 \u0435\u0434\u0443 \u0438 \u043f\u043e\u0441\u043b\u0435 \u0442\u0440\u0430\u043f\u0435\u0437\u044b \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u043e \u0437\u043d\u0430\u0442\u044c \u043d\u0430\u0438\u0437\u0443\u0441\u0442\u044c.", "why": "\u041a\u0430\u0440\u0430\u043e\u043a\u0435-\u0442\u0440\u0435\u043d\u0430\u0436\u0435\u0440 \u0432 \u0441\u0435\u0444\u0430\u0440\u0434\u0441\u043a\u043e\u043c \u0438 \u0430\u0448\u043a\u0435\u043d\u0430\u0437\u0441\u043a\u043e\u043c \u043f\u0440\u043e\u0438\u0437\u043d\u043e\u0448\u0435\u043d\u0438\u0438 \u0441 \u0440\u0443\u0441\u0441\u043a\u043e\u0439 \u0442\u0440\u0430\u043d\u0441\u043b\u0438\u0442\u0435\u0440\u0430\u0446\u0438\u0435\u0439.", "url": "/app/?module=songs-prayers&cat=brachot&lang=ru"}, {"id": "shacharit", "title": "\ud83c\udf05 \u0423\u0442\u0440\u0435\u043d\u043d\u0438\u0435 \u043c\u043e\u043b\u0438\u0442\u0432\u044b \u2014 \u041c\u043e\u0434\u0435 \u0410\u043d\u0438, \u041d\u0435\u0442\u0438\u043b\u0430\u0442 \u042f\u0434\u0430\u0438\u043c \u0438 \u0428\u043c\u0430 (18 \u0434\u043e\u0440\u043e\u0436\u0435\u043a)", "defPct": 0, "redAlert": "\ud83d\udea8 \u041e\u0442\u0440\u0430\u0431\u043e\u0442\u0430\u0439\u0442\u0435 \u043c\u043e\u043b\u0438\u0442\u0432\u0443 \u0428\u0430\u0445\u0430\u0440\u0438\u0442 \u0438 \u0410\u043c\u0438\u0434\u0443 \u0441 \u043d\u0430\u0448\u0438\u043c \u0418\u0418-\u0430\u043d\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440\u043e\u043c \u043f\u0440\u043e\u0438\u0437\u043d\u043e\u0448\u0435\u043d\u0438\u044f.", "why": "\u0418\u0418 \u043e\u0446\u0435\u043d\u0438\u0432\u0430\u0435\u0442 \u0432\u0430\u0448\u0435 \u043f\u0440\u043e\u0438\u0437\u043d\u043e\u0448\u0435\u043d\u0438\u0435 \u0438 \u043c\u0435\u043b\u043e\u0434\u0438\u043a\u0443, \u0447\u0442\u043e\u0431\u044b \u0432\u044b \u043d\u0435 \u0440\u0430\u0441\u0442\u0435\u0440\u044f\u043b\u0438\u0441\u044c \u043f\u0435\u0440\u0435\u0434 \u0441\u0443\u0434\u044c\u044f\u043c\u0438.", "url": "/app/?module=songs-prayers&cat=shacharit&lang=ru"}]}, "bd": {"name": "\u0423\u0441\u0442\u043d\u044b\u0439 \u0421\u0438\u043c\u0443\u043b\u044f\u0442\u043e\u0440 700 \u0412\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0421\u0443\u0434\u0430 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d (4 \u041a\u043e\u043b\u043e\u0434\u044b)", "unlockBtn": "\ud83d\udd13 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435 700 \u041a\u0430\u0440\u0442\u043e\u0447\u0435\u043a \u0421\u0443\u0434\u0430 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d ($65\u2013$249) \u2192", "unlockUrl": "/ru/pricing/?sku=bd_suite_life_249&lang=ru", "appUrl": "/app/?module=beit-din&lang=ru", "items": [{"id": "bd_core200", "title": "\ud83d\udd4d \u041a\u043e\u043b\u043e\u0434\u0430 1: 200 \u0411\u0430\u0437\u043e\u0432\u044b\u0445 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0441\u0443\u0434\u0430 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d", "defPct": 10, "redAlert": "\ud83d\udea8 \u041d\u0438\u0436\u0435 \u043f\u043e\u0440\u043e\u0433\u0430 \u0441\u0434\u0430\u0447\u0438 85% \u2014 \u043f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435 39 \u0440\u0430\u0431\u043e\u0442 \u0428\u0430\u0431\u0431\u0430\u0442\u0430, \u0437\u0430\u043a\u043e\u043d\u044b \u043a\u0430\u0448\u0440\u0443\u0442\u0430 \u0438 \u043f\u0440\u0430\u0437\u0434\u043d\u0438\u043a\u0438.", "why": "\u041e\u0445\u0432\u0430\u0442\u044b\u0432\u0430\u0435\u0442 \u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0432\u043e\u043f\u0440\u043e\u0441\u044b \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u0433\u043e\u0441\u0443\u0434\u0430\u0440\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0433\u043e (\u041d\u0430\u0442\u0438\u0432) \u0438 \u0447\u0430\u0441\u0442\u043d\u043e\u0433\u043e \u0411\u0435\u0439\u0442-\u0414\u0438\u043d\u0430.", "url": "/app/?module=beit-din&deck=core200&lang=ru"}, {"id": "bd_curve200", "title": "\u26a1 \u041a\u043e\u043b\u043e\u0434\u0430 2: +200 \u041a\u0430\u0432\u0435\u0440\u0437\u043d\u044b\u0445 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043e\u043a \u0438\u0441\u043a\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u0438", "defPct": 0, "redAlert": "\ud83d\udea8 \u041f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u044c\u0442\u0435\u0441\u044c \u043a \u0441\u0442\u0440\u0435\u0441\u0441-\u0432\u043e\u043f\u0440\u043e\u0441\u0430\u043c \u043e \u0441\u0432\u0435\u0442\u0441\u043a\u0438\u0445 \u0440\u043e\u0434\u0441\u0442\u0432\u0435\u043d\u043d\u0438\u043a\u0430\u0445 \u0438 \u0443\u0440\u043e\u0432\u043d\u0435 \u0441\u043e\u0431\u043b\u044e\u0434\u0435\u043d\u0438\u044f \u043f\u0430\u0440\u0442\u043d\u0435\u0440\u0430.", "why": "\u0421\u0443\u0434\u044c\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u044e\u0442, \u043a\u0430\u043a \u0432\u044b \u0440\u0435\u0448\u0430\u0435\u0442\u0435 \u0433\u0430\u043b\u0430\u0445\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u043a\u043e\u043d\u0444\u043b\u0438\u043a\u0442\u044b \u0432 \u0440\u0435\u0430\u043b\u044c\u043d\u043e\u0439 \u0441\u0435\u043c\u0435\u0439\u043d\u043e\u0439 \u0436\u0438\u0437\u043d\u0438.", "url": "/app/?module=beit-din&deck=curve200&lang=ru"}, {"id": "bd_men150", "title": "\ud83d\udcd8 \u041a\u043e\u043b\u043e\u0434\u0430 3: 150 \u041c\u0443\u0436\u0441\u043a\u0438\u0445 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 (\u0422\u0444\u0438\u043b\u0438\u043d, \u041c\u0438\u043d\u044c\u044f\u043d, \u0426\u0438\u0446\u0438\u0442 \u0438 \u0411\u0440\u0438\u0442)", "defPct": 0, "redAlert": "\ud83d\udea8 \u0421\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0435 \u0432\u043e\u043f\u0440\u043e\u0441\u044b \u0434\u043b\u044f \u043c\u0443\u0436\u0447\u0438\u043d-\u0433\u0438\u0439\u043e\u0440\u0438\u043c \u0438 \u043c\u0443\u0436\u0435\u0439-\u0435\u0432\u0440\u0435\u0435\u0432, \u0441\u043e\u043f\u0440\u043e\u0432\u043e\u0436\u0434\u0430\u044e\u0449\u0438\u0445 \u0436\u0435\u043d\u0443.", "why": "\u0412 \u043f\u0430\u0440\u0430\u0445 \u0411\u0435\u0439\u0442-\u0414\u0438\u043d \u043b\u0438\u0447\u043d\u043e \u043e\u043f\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442 \u043c\u0443\u0436\u0430 \u043e \u043f\u043e\u0441\u0435\u0449\u0435\u043d\u0438\u0438 \u0441\u0438\u043d\u0430\u0433\u043e\u0433\u0438, \u0442\u0444\u0438\u043b\u0438\u043d\u0435 \u0438 \u041a\u0438\u0434\u0443\u0448\u0435.", "url": "/app/?module=beit-din&deck=men150&lang=ru"}, {"id": "bd_women150", "title": "\ud83d\udcd5 \u041a\u043e\u043b\u043e\u0434\u0430 4: 150 \u0416\u0435\u043d\u0441\u043a\u0438\u0445 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 (\u0427\u0438\u0441\u0442\u043e\u0442\u0430 \u0441\u0435\u043c\u044c\u0438, \u041c\u0438\u043a\u0432\u0430 \u0438 \u0425\u0430\u043b\u0430)", "defPct": 0, "redAlert": "\ud83d\udea8 \u041a\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u0440\u0430\u0441\u0447\u0435\u0442\u044b 7 \u0447\u0438\u0441\u0442\u044b\u0445 \u0434\u043d\u0435\u0439 (\u041d\u0438\u0434\u0430) \u2014 \u043e\u0448\u0438\u0431\u043a\u0430 \u21161, \u0438\u0437-\u0437\u0430 \u043a\u043e\u0442\u043e\u0440\u043e\u0439 \u043e\u0442\u043a\u043b\u0430\u0434\u044b\u0432\u0430\u044e\u0442 \u0433\u0438\u044e\u0440.", "why": "\u0411\u0435\u0437\u0443\u043f\u0440\u0435\u0447\u043d\u043e \u043e\u0441\u0432\u043e\u0439\u0442\u0435 \u0440\u0430\u0441\u0447\u0435\u0442\u044b \u042d\u0444\u0441\u0435\u043a \u0422\u0430\u0430\u0440\u0430, \u0437\u0430\u0436\u0438\u0433\u0430\u043d\u0438\u0435 \u0441\u0432\u0435\u0447\u0435\u0439 \u0438 \u043a\u0430\u0448\u0440\u0443\u0442 \u043a\u0443\u0445\u043d\u0438.", "url": "/app/?module=beit-din&deck=women150&lang=ru"}]}, "couples": {"name": "\u041f\u0435\u0440\u0435\u043a\u0440\u0435\u0441\u0442\u043d\u044b\u0439 \u0414\u043e\u043f\u0440\u043e\u0441 \u041f\u0430\u0440 \u0438\u0437 300 \u0412\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0432 \u0420\u0430\u0437\u043d\u044b\u0445 \u041a\u043e\u043c\u043d\u0430\u0442\u0430\u0445 (2 \u0422\u0435\u043b\u0435\u0444\u043e\u043d\u0430)", "unlockBtn": "\ud83d\udd13 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0421\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0430\u0446\u0438\u044e 300 \u0412\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u043d\u0430 2 \u0422\u0435\u043b\u0435\u0444\u043e\u043d\u0430 ($75\u2013$229) \u2192", "unlockUrl": "/ru/pricing/?sku=couples_life_229&lang=ru", "appUrl": "/app/?module=couples&lang=ru", "items": [{"id": "cp_pair", "title": "\ud83d\udcf1 \u0416\u0438\u0432\u043e\u0435 \u0441\u043e\u043f\u0440\u044f\u0436\u0435\u043d\u0438\u0435 2 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u043e\u0432 (\u041f\u0430\u0440\u0442\u043d\u0435\u0440 \u0410 + \u041f\u0430\u0440\u0442\u043d\u0435\u0440 \u0411)", "defPct": 0, "redAlert": "\ud83d\udea8 \u0422\u0435\u043b\u0435\u0444\u043e\u043d \u043f\u0430\u0440\u0442\u043d\u0435\u0440\u0430 \u043d\u0435 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d \u2014 \u0441\u0432\u044f\u0436\u0438\u0442\u0435 \u043e\u0431\u0430 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430 \u0434\u043b\u044f \u0432\u044b\u044f\u0432\u043b\u0435\u043d\u0438\u044f \u043f\u0440\u043e\u0442\u0438\u0432\u043e\u0440\u0435\u0447\u0438\u0439.", "why": "\u041d\u0430 \u0435\u0436\u0435\u0433\u043e\u0434\u043d\u043e\u043c \u0438\u043d\u0442\u0435\u0440\u0432\u044c\u044e \u0421\u0422\u0423\u041f\u0420\u041e \u0447\u0438\u043d\u043e\u0432\u043d\u0438\u043a\u0438 \u0440\u0430\u0437\u0432\u043e\u0434\u044f\u0442 \u0432\u0430\u0441 \u043f\u043e \u0440\u0430\u0437\u043d\u044b\u043c \u043a\u0430\u0431\u0438\u043d\u0435\u0442\u0430\u043c \u0438 \u0441\u0432\u0435\u0440\u044f\u044e\u0442 \u043e\u0442\u0432\u0435\u0442\u044b.", "url": "/app/?module=couples&tab=pair&lang=ru"}, {"id": "cp_daily", "title": "\ud83c\udfe0 \u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 1\u20134: \u041f\u043b\u0430\u043d\u0438\u0440\u043e\u0432\u043a\u0430 \u043a\u0432\u0430\u0440\u0442\u0438\u0440\u044b, \u0441\u0447\u0435\u0442\u0430 \u0438 \u0443\u0442\u0440\u043e (120 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432)", "defPct": 0, "redAlert": "\ud83d\udea8 \u0417\u043e\u043d\u0430 \u0432\u044b\u0441\u043e\u043a\u043e\u0433\u043e \u0440\u0438\u0441\u043a\u0430: \u043f\u0440\u043e\u0442\u0438\u0432\u043e\u0440\u0435\u0447\u0438\u0435 \u043e \u0442\u043e\u043c, \u043a\u0442\u043e \u043f\u043b\u0430\u0442\u0438\u0442 \u0437\u0430 \u0441\u0432\u0435\u0442 \u0438\u043b\u0438 \u043d\u0430 \u043a\u0430\u043a\u043e\u0439 \u0441\u0442\u043e\u0440\u043e\u043d\u0435 \u0441\u043f\u0438\u0442, \u0437\u0430\u043c\u043e\u0440\u0430\u0436\u0438\u0432\u0430\u0435\u0442 \u0432\u0438\u0437\u0443 \u043d\u0430 6\u201312 \u043c\u0435\u0441\u044f\u0446\u0435\u0432.", "why": "\u0411\u044b\u0442\u043e\u0432\u044b\u0435 \u0440\u0430\u0441\u0445\u043e\u0436\u0434\u0435\u043d\u0438\u044f \u0442\u0440\u0430\u043a\u0442\u0443\u044e\u0442\u0441\u044f \u0438\u043d\u0441\u043f\u0435\u043a\u0442\u043e\u0440\u0430\u043c\u0438 \u043a\u0430\u043a \u043f\u0440\u0438\u0437\u043d\u0430\u043a \u0444\u0438\u043a\u0442\u0438\u0432\u043d\u043e\u0433\u043e \u0431\u0440\u0430\u043a\u0430.", "url": "/app/?module=couples&cat=daily&lang=ru"}, {"id": "cp_family", "title": "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67 \u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 5\u20138: \u0417\u043d\u0430\u043a\u043e\u043c\u0441\u0442\u0432\u043e, \u0440\u043e\u0434\u0438\u0442\u0435\u043b\u0438, \u043f\u0440\u0430\u0437\u0434\u043d\u0438\u043a\u0438 \u0438 \u0431\u044e\u0434\u0436\u0435\u0442 (100 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432)", "defPct": 0, "redAlert": "\ud83d\udea8 \u0421\u0438\u043d\u0445\u0440\u043e\u043d\u0438\u0437\u0438\u0440\u0443\u0439\u0442\u0435 \u0434\u0430\u0442\u044b \u0437\u043d\u0430\u043a\u043e\u043c\u0441\u0442\u0432\u0430 \u0441 \u0440\u043e\u0434\u0438\u0442\u0435\u043b\u044f\u043c\u0438, \u043f\u043e\u0434\u0430\u0440\u043a\u0438 \u0438 \u043e\u0431\u0449\u0438\u0439 \u0431\u0430\u043d\u043a\u043e\u0432\u0441\u043a\u0438\u0439 \u0441\u0447\u0435\u0442.", "why": "\u041a\u0430\u0436\u0434\u044b\u0439 \u043e\u0442\u0432\u0435\u0447\u0430\u0435\u0442 \u043d\u0430 \u0440\u043e\u0434\u043d\u043e\u043c \u044f\u0437\u044b\u043a\u0435 \u0441\u043e \u0441\u0432\u043e\u0435\u0433\u043e \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430 \u0438 \u0441\u0440\u0430\u0437\u0443 \u0432\u0438\u0434\u0438\u0442 \u0440\u0430\u0441\u0445\u043e\u0436\u0434\u0435\u043d\u0438\u044f.", "url": "/app/?module=couples&cat=family&lang=ru"}, {"id": "cp_exam80", "title": "\u23f1\ufe0f \u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 9\u201310: \u042d\u043a\u0437\u0430\u043c\u0435\u043d\u0430\u0446\u0438\u043e\u043d\u043d\u044b\u0439 \u0441\u0438\u043c\u0443\u043b\u044f\u0442\u043e\u0440 \u041c\u0412\u0414 \u043d\u0430 80 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u043f\u043e \u0442\u0430\u0439\u043c\u0435\u0440\u0443", "defPct": 0, "redAlert": "\ud83d\udea8 \u041f\u0440\u043e\u0439\u0434\u0438\u0442\u0435 \u043c\u0438\u043d\u0438\u043c\u0443\u043c \u043e\u0434\u0438\u043d \u043f\u043e\u043b\u043d\u044b\u0439 \u043f\u0440\u043e\u0431\u043d\u044b\u0439 \u0434\u043e\u043f\u0440\u043e\u0441 \u0438\u0437 80 \u0432\u043e\u043f\u0440\u043e\u0441\u043e\u0432 \u0441 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435\u043c >90%.", "why": "\u0422\u043e\u0447\u043d\u043e \u043c\u043e\u0434\u0435\u043b\u0438\u0440\u0443\u0435\u0442 45-\u043c\u0438\u043d\u0443\u0442\u043d\u044b\u0439 \u043f\u0435\u0440\u0435\u043a\u0440\u0435\u0441\u0442\u043d\u044b\u0439 \u0434\u043e\u043f\u0440\u043e\u0441 \u0432 \u0440\u0430\u0437\u043d\u044b\u0445 \u043a\u0430\u0431\u0438\u043d\u0435\u0442\u0430\u0445 \u041c\u0412\u0414.", "url": "/app/?module=couples&cat=exam80&lang=ru"}]}, "decoder": {"name": "\u0417\u0430\u0449\u0438\u0442\u0430 30 \u0414\u043d\u0435\u0439 \u043f\u043e \u041b\u0438\u0441\u0442\u0430\u043c \u0422\u0440\u0435\u0431\u043e\u0432\u0430\u043d\u0438\u0439 \u041c\u0412\u0414, \u041d\u0430\u0442\u0438\u0432 \u0438 \u0410\u0434\u0432\u043e\u043a\u0430\u0442", "unlockBtn": "\ud83d\udd13 \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0414\u0435\u043a\u043e\u0434\u0435\u0440 \u041f\u0438\u0441\u0435\u043c \u041c\u0412\u0414 \u0438 \u041f\u0440\u043e\u0434\u043b\u0435\u043d\u0438\u0435 \u043d\u0430 30 \u0414\u043d\u0435\u0439 ($89\u2013$149) \u2192", "unlockUrl": "/ru/pricing/?sku=forms_life_149&lang=ru", "appUrl": "/app/?module=forms&tab=decoder&lang=ru", "items": [{"id": "clerk_decoder", "title": "\ud83d\udd0d \u0418\u0418-\u0414\u0435\u043a\u043e\u0434\u0435\u0440 \u043b\u0438\u0441\u0442\u0430 \u0442\u0440\u0435\u0431\u043e\u0432\u0430\u043d\u0438\u0439 \u0438\u043d\u0441\u043f\u0435\u043a\u0442\u043e\u0440\u0430 \u041c\u0412\u0414 (\u0414\u0430\u0444 \u0414\u0440\u0438\u0448\u0430\u0442 \u041c\u0438\u0441\u043c\u0430\u0445\u0438\u043c)", "defPct": 100, "redAlert": "\ud83d\udea8 \u041f\u043e\u043b\u0443\u0447\u0438\u043b\u0438 \u043b\u0438\u0441\u0442 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 \u0443 \u043e\u043a\u043e\u0448\u043a\u0430? \u0421\u0440\u043e\u0447\u043d\u043e \u043e\u0442\u0441\u043a\u0430\u043d\u0438\u0440\u0443\u0439\u0442\u0435 \u2014 \u0443 \u0432\u0430\u0441 \u0441\u0442\u0440\u043e\u0433\u043e 30 \u0434\u043d\u0435\u0439 \u0434\u043e \u0437\u0430\u043a\u0440\u044b\u0442\u0438\u044f \u0434\u0435\u043b\u0430.", "why": "\u041c\u0433\u043d\u043e\u0432\u0435\u043d\u043d\u043e \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442 \u0440\u0443\u043a\u043e\u043f\u0438\u0441\u043d\u044b\u0435 \u0438 \u043f\u0435\u0447\u0430\u0442\u043d\u044b\u0435 \u0442\u0440\u0435\u0431\u043e\u0432\u0430\u043d\u0438\u044f \u041c\u0412\u0414 \u0432 \u0447\u0435\u0442\u043a\u0438\u0439 \u043f\u043b\u0430\u043d \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439.", "url": "/app/?module=forms&tab=decoder&lang=ru"}, {"id": "ext_letter", "title": "\u23f3 \u0413\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 \u043e\u0444\u0438\u0446\u0438\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u0437\u0430\u043f\u0440\u043e\u0441\u0430 \u043d\u0430 \u043f\u0440\u043e\u0434\u043b\u0435\u043d\u0438\u0435 \u0441\u0440\u043e\u043a\u0430 \u043d\u0430 30 \u0434\u043d\u0435\u0439", "defPct": 0, "redAlert": "\ud83d\udea8 \u0415\u0441\u043b\u0438 \u0430\u043f\u043e\u0441\u0442\u0438\u043b\u044c \u0438\u0437-\u0437\u0430 \u0440\u0443\u0431\u0435\u0436\u0430 \u0437\u0430\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044f, \u043f\u043e\u0434\u0430\u0439\u0442\u0435 \u0437\u0430\u043f\u0440\u043e\u0441 \u043d\u0430 \u0438\u0432\u0440\u0438\u0442\u0435 \u0434\u043e 21-\u0433\u043e \u0434\u043d\u044f.", "why": "\u0411\u043b\u043e\u043a\u0438\u0440\u0443\u0435\u0442 \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u0438\u0432\u043d\u043e\u0435 \u0437\u0430\u043a\u0440\u044b\u0442\u0438\u0435 \u0432\u0430\u0448\u0435\u0433\u043e \u0434\u0435\u043b\u0430 \u0432 \u041c\u0412\u0414.", "url": "/app/?module=forms&tab=extension&lang=ru"}, {"id": "lawyer_escort", "title": "\u2696\ufe0f \u0421\u043e\u043f\u0440\u043e\u0432\u043e\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u0434\u0432\u043e\u043a\u0430\u0442\u0430 \u0432 \u041c\u0412\u0414 \u0438 \u043d\u043e\u0442\u0430\u0440\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u043f\u0435\u0440\u0435\u0432\u043e\u0434 \u0441 \u043a\u0440\u0430\u0441\u043d\u043e\u0439 \u043b\u0435\u043d\u0442\u043e\u0439", "defPct": 0, "redAlert": "\ud83d\udea8 \u0411\u044b\u043b \u043e\u0442\u043a\u0430\u0437 \u0438\u043b\u0438 \u0441\u043b\u043e\u0436\u043d\u044b\u0439 \u043a\u0435\u0439\u0441? \u0417\u0430\u043f\u0440\u043e\u0441\u0438\u0442\u0435 \u0440\u0430\u0441\u0447\u0435\u0442 ($0 \u0441\u0435\u0433\u043e\u0434\u043d\u044f) \u043d\u0430 \u043b\u0438\u0447\u043d\u043e\u0435 \u0441\u043e\u043f\u0440\u043e\u0432\u043e\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u0434\u0432\u043e\u043a\u0430\u0442\u0430.", "why": "\u041d\u0430\u0448\u0438 \u0438\u0437\u0440\u0430\u0438\u043b\u044c\u0441\u043a\u0438\u0435 \u0430\u0434\u0432\u043e\u043a\u0430\u0442\u044b \u0438 \u043d\u043e\u0442\u0430\u0440\u0438\u0443\u0441\u044b \u0437\u0430\u0449\u0438\u0449\u0430\u044e\u0442 \u0432\u0430\u0441 \u043d\u0435\u043f\u043e\u0441\u0440\u0435\u0434\u0441\u0442\u0432\u0435\u043d\u043d\u043e \u0443 \u043e\u043a\u043d\u0430 \u041c\u0412\u0414 \u0438\u043b\u0438 \u0432 \u0422\u0440\u0438\u0431\u0443\u043d\u0430\u043b\u0435.", "url": "/concierge-booking/?sku=concierge_escort_649&lang=ru"}]}}}};
+  window.GAT_ITEMIZED_TRACKER_I18N = ITEMIZED_I18N;
+
+  function getCurLang() {
+    var p = window.location.pathname || '/';
+    var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
+    if (m) return m[1].toLowerCase();
+    var hl = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
+    if (ITEMIZED_I18N[hl] && hl !== 'en') return hl;
+    try {
+      var lsLg = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').slice(0, 2).toLowerCase();
+      if (ITEMIZED_I18N[lsLg]) return lsLg;
+    } catch (e) {}
+    return ITEMIZED_I18N[hl] ? hl : 'en';
+  }
+
+  function readItemizedSystemProgress() {
+    var rawEnt = '';
+    try {
+      rawEnt = [
+        localStorage.getItem('gat_entitlements_v2') || '',
+        localStorage.getItem('gat_entitlements_map') || '',
+        localStorage.getItem('gat_pro_tier') || '',
+        localStorage.getItem('gat_tier') || '',
+        localStorage.getItem('gat_unlocked_tier') || '',
+        localStorage.getItem('gat_pro_unlocked') || ''
+      ].join(' ').toLowerCase();
+    } catch (e) {}
+
+    var isVipAll = /vip_couple_649|suite_solo_life_399|suite_solo_90d_249|"all":true|"vip":true|^1$|true/.test(rawEnt);
+    var formsUnlocked = isVipAll || /forms_life_149|forms_90d_89|"forms":true/.test(rawEnt);
+    var bdUnlocked = isVipAll || /bd_suite_life_249|bd_suite_90d_149|bd_all700_179|bd_pack|"bd":true/.test(rawEnt);
+    var songsUnlocked = bdUnlocked || /songs_65|"songs":true/.test(rawEnt);
+    var couplesUnlocked = isVipAll || /couples_life_229|couples_90d_129|couples_sync_75|"couples":true/.test(rawEnt);
+
+    return {
+      unlockedMap: {
+        docs: formsUnlocked,
+        forms: formsUnlocked,
+        logger: true,
+        songs: songsUnlocked,
+        bd: bdUnlocked,
+        couples: couplesUnlocked,
+        decoder: formsUnlocked
+      }
+    };
+  }
+
+  var ALL_ENGINE_ORDER = ['docs', 'forms', 'logger', 'songs', 'bd', 'couples', 'decoder'];
+  function classifyStepWithoutRepetition(stepText, stepIdx, usedSet) {
+    var t = String(stepText || '').toLowerCase();
+    var candidate = '';
+    if (/56|dual-nusach|songs|prayers|brachot|kiddush|שירי שבת|ברכות|נוסח|chants|cantos|lieder|песен/i.test(t)) {
+      candidate = 'songs';
+    } else if (/shul|rabbi|5–8|5-8|community letters|kallah|lineage proof|רב מלווה|קהיל|מכתבי|מדריכת כלה/i.test(t)) {
+      candidate = 'logger';
+    } else if (/300|separate|couples|stupro|5\.2\.0008|5\.2\.0009|חדרים נפרדים|ראיון זוגי|salles séparées|salas separadas|getrennten|СТУПРО/i.test(t)) {
+      candidate = 'couples';
+    } else if (/700|beit din|ma'amad|dayanim|curveballs|tribunal|בית הדין|דיינים/i.test(t)) {
+      candidate = 'bd';
+    } else if (/30-day|daf drishot|clerk demand|administrative closure|nativ|דף דרישות|סגירה מנהלית|נתיב/i.test(t)) {
+      candidate = 'decoder';
+    } else if (/ash\/1|ash\/3|ash\/6|ash\/456|va'adat charigim|shinui ma'amad|ועדת חריגים|אש\/|טופס/i.test(t)) {
+      candidate = 'forms';
+    } else if (/apostille|civil docs|homeland|180-day|b\/2 visa|תעודות מקור|אפוסטיל/i.test(t)) {
+      candidate = 'docs';
+    }
+
+    if (candidate && !usedSet[candidate]) {
+      usedSet[candidate] = true;
+      return candidate;
+    }
+    for (var i = 0; i < ALL_ENGINE_ORDER.length; i++) {
+      var k = ALL_ENGINE_ORDER[(stepIdx + i) % ALL_ENGINE_ORDER.length];
+      if (!usedSet[k]) {
+        usedSet[k] = true;
+        return k;
+      }
+    }
+    return ALL_ENGINE_ORDER[stepIdx % ALL_ENGINE_ORDER.length];
+  }
+
+  // Locate each OUTER step card inside #view-4 by finding the innermost 'STEP X •' header bar
+  // and stepping up to its outer card container (so the column always sits at the bottom below the description!)
+  function findOuterStepCardsInView4(v4) {
+    var oldPanels = v4.querySelectorAll('.gat-sys-telemetry-panel');
+    for (var p = 0; p < oldPanels.length; p++) {
+      if (oldPanels[p].parentElement) oldPanels[p].parentElement.removeChild(oldPanels[p]);
+    }
+
+    var cards = [];
+    var seen = [];
+    var candDivs = v4.querySelectorAll('div, article');
+    for (var k = 0; k < candDivs.length; k++) {
+      var d = candDivs[k];
+      if (d.classList && (d.classList.contains('gat-itemized-step-column') || d.classList.contains('gat-sys-telemetry-panel'))) continue;
+      var dTxt = (d.textContent || '').trim();
+      if (/^(?:STEP|שלב|ÉTAPE|PASO|SCHRITT|ШАГ)\s*[1-9]\s*•/i.test(dTxt)) {
+        var hasChildStep = false;
+        var subDivs = d.querySelectorAll('div');
+        for (var s = 0; s < subDivs.length; s++) {
+          if (subDivs[s].classList && subDivs[s].classList.contains('gat-itemized-step-column')) continue;
+          if (/^(?:STEP|שלב|ÉTAPE|PASO|SCHRITT|ШАГ)\s*[1-9]\s*•/i.test((subDivs[s].textContent || '').trim())) {
+            hasChildStep = true;
+            break;
+          }
+        }
+        if (!hasChildStep) {
+          var outerCard = (d.parentElement && d.parentElement !== v4) ? d.parentElement : d;
+          if (seen.indexOf(outerCard) === -1) {
+            seen.push(outerCard);
+            cards.push(outerCard);
+          }
+        }
+      }
+    }
+    return cards;
+  }
+
+  window.gatToggleItemWhyBubble = function(ev, bubbleId) {
+    if (ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+    var box = document.getElementById(bubbleId);
+    if (!box) return;
+    var isHidden = (box.style.display === 'none' || !box.style.display);
+    box.style.display = isHidden ? 'block' : 'none';
+  };
+
+  function renderItemizedColumnsOnView4() {
+    var v4 = document.getElementById('view-4');
+    if (!v4) return;
+    /* Always render Smart Itemized Tracker on #view-4 */
+
+    var lg = getCurLang();
+    var pack = ITEMIZED_I18N[lg] || ITEMIZED_I18N.en;
+    var dir = (lg === 'he') ? 'rtl' : 'ltr';
+    var align = (lg === 'he') ? 'right' : 'left';
+    var sys = readItemizedSystemProgress();
+
+    // Hide manual 'Mark This Step Complete' buttons
+    var allBtns = v4.querySelectorAll('button, label, input[type="checkbox"]');
+    for (var b = 0; b < allBtns.length; b++) {
+      var btn = allBtns[b];
+      var bTxt = (btn.textContent || '').trim();
+      var oc = (btn.getAttribute && btn.getAttribute('onclick')) || '';
+      if (/Mark\s*This\s*Step|סמן\s*שלב|Marquer|Marcar|Schritt|Отметить|toggleStep|completeStep/i.test(bTxt + ' ' + oc)) {
+        btn.style.setProperty('display', 'none', 'important');
+      }
+    }
+
+    var stepCards = findOuterStepCardsInView4(v4);
+    if (!stepCards.length) return;
+
+    // Check if the first step card already has our current itemized column; if not (e.g. track changed), re-render all!
+    var globalSig = lg + '_v16_' + stepCards.length + '_' + JSON.stringify(sys.unlockedMap);
+    if (stepCards[0].querySelector('.gat-itemized-step-column') && v4.getAttribute('data-gat-itemized-sig') === globalSig) {
+      return;
+    }
+    v4.setAttribute('data-gat-itemized-sig', globalSig);
+
+    var oldCols = v4.querySelectorAll('.gat-itemized-step-column');
+    for (var c = 0; c < oldCols.length; c++) {
+      if (oldCols[c].parentElement) oldCols[c].parentElement.removeChild(oldCols[c]);
+    }
+
+    var usedEngines = {};
+    var totalPctSum = 0;
+    var totalItemsCnt = 0;
+
+    for (var idx = 0; idx < stepCards.length; idx++) {
+      var card = stepCards[idx];
+      var engKey = classifyStepWithoutRepetition(card.textContent || '', idx, usedEngines);
+      var engMeta = pack.engines[engKey] || pack.engines.docs;
+      var isUnlocked = Boolean(sys.unlockedMap[engKey]);
+
+      var colWrap = document.createElement('div');
+      colWrap.className = 'gat-itemized-step-column';
+      colWrap.setAttribute('dir', dir);
+      colWrap.style.cssText = 'margin-top:12px;padding:12px;border-radius:14px;background:' + (isUnlocked ? 'linear-gradient(180deg,#f0fdf4 0%,#f8fafc 100%)' : 'linear-gradient(180deg,#f8fafc 0%,#f1f5f9 100%)') + ';border:1.5px solid ' + (isUnlocked ? '#34d399' : '#cbd5e1') + ';text-align:' + align + ';';
+
+      var hdrHtml =
+        '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;">' +
+          '<span style="background:' + (isUnlocked ? '#059669' : '#fef3c7') + ';color:' + (isUnlocked ? '#ffffff' : '#b45309') + ';border:1px solid ' + (isUnlocked ? '#059669' : '#fcd34d') + ';padding:3px 10px;border-radius:999px;font-size:11px;font-weight:900;">' + (isUnlocked ? pack.activeBanner : pack.lockedBanner) + '</span>' +
+          '<span style="font-size:11.5px;font-weight:800;color:#0f172a;">' + engMeta.name + '</span>' +
+        '</div>';
+
+      var rowsHtml = '<div style="display:flex;flex-direction:column;gap:8px;">';
+      var items = engMeta.items || [];
+      for (var m = 0; m < items.length; m++) {
+        var it = items[m];
+        var pct = Number(it.defPct) || 0;
+        totalPctSum += pct;
+        totalItemsCnt++;
+        var isDone = (pct >= 100);
+        var badgeBg = isDone ? '#dcfce7' : (pct > 0 ? '#fef3c7' : '#fee2e2');
+        var badgeCol = isDone ? '#166534' : (pct > 0 ? '#b45309' : '#b91c1c');
+        var badgeBorder = isDone ? '#86efac' : (pct > 0 ? '#fde68a' : '#fca5a5');
+        var rowBorder = isDone ? '#bbf7d0' : '#fecaca';
+        var rowBg = isDone ? '#ffffff' : '#fffafa';
+        var targetUrl = isUnlocked ? it.url : engMeta.unlockUrl;
+        var actionLabel = isDone ? pack.viewDone : pack.fixNow;
+        var bubbleId = 'gat-why-bubble-' + idx + '-' + m;
+
+        rowsHtml +=
+          '<div style="background:' + rowBg + ';border:1.5px solid ' + rowBorder + ';border-radius:11px;padding:10px 12px;transition:all 0.2s;">' +
+            '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;">' +
+              '<div style="display:flex;align-items:center;gap:7px;flex:1;min-width:180px;">' +
+                '<a href="' + targetUrl + '" style="font-size:13.5px;font-weight:900;color:#0f172a;text-decoration:none;line-height:1.3;">' + it.title + '</a>' +
+                '<button type="button" title="' + pack.whyBtnTitle + '" onclick="window.gatToggleItemWhyBubble(event, \'' + bubbleId + '\')" style="width:22px;height:22px;min-width:22px;border-radius:50%;border:1.5px solid #0284c7;background:#e0f2fe;color:#0369a1;font-size:12px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;line-height:1;">?</button>' +
+              '</div>' +
+              '<div style="display:flex;align-items:center;gap:6px;">' +
+                '<span style="background:' + badgeBg + ';color:' + badgeCol + ';border:1px solid ' + badgeBorder + ';padding:2px 8px;border-radius:999px;font-size:11px;font-weight:900;">' + pct + '%</span>' +
+                '<a href="' + targetUrl + '" style="background:' + (isDone ? '#f1f5f9' : '#0284c7') + ';color:' + (isDone ? '#0f172a' : '#ffffff') + ';padding:5px 10px;border-radius:8px;font-size:11.5px;font-weight:800;text-decoration:none;white-space:nowrap;">' + actionLabel + '</a>' +
+              '</div>' +
+            '</div>' +
+            (!isDone ? '<div style="margin-top:6px;font-size:12px;font-weight:800;color:#dc2626;line-height:1.4;">' + it.redAlert + '</div>' : '') +
+            '<div id="' + bubbleId + '" style="display:none;margin-top:8px;padding:9px 11px;background:#0f172a;color:#f8fafc;border-left:3px solid #38bdf8;border-radius:8px;font-size:12px;line-height:1.48;font-weight:500;">' +
+              '<strong style="color:#38bdf8;display:block;margin-bottom:3px;">💡 ' + pack.whyBtnTitle + ':</strong>' + it.why +
+            '</div>' +
+          '</div>';
+      }
+      rowsHtml += '</div>';
+
+      var footerHtml = '';
+      if (!isUnlocked) {
+        footerHtml =
+          '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;">' +
+            '<a href="' + engMeta.unlockUrl + '" style="flex:1;min-width:210px;background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);color:#ffffff;border:1.5px solid #38bdf8;padding:10px 14px;border-radius:10px;font-size:12.5px;font-weight:900;text-decoration:none;text-align:center;box-shadow:0 4px 12px rgba(2,132,199,0.25);">' + engMeta.unlockBtn + '</a>' +
+            '<a href="' + engMeta.appUrl + '" style="background:#ffffff;color:#0369a1;border:1px solid #7dd3fc;padding:9px 12px;border-radius:10px;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap;">' + pack.freeTry + '</a>' +
+          '</div>';
+      }
+
+      colWrap.innerHTML = hdrHtml + rowsHtml + footerHtml;
+      card.appendChild(colWrap);
+    }
+
+    var avgPct = totalItemsCnt > 0 ? Math.round(totalPctSum / totalItemsCnt) : 25;
+    var badges = v4.querySelectorAll('[data-gat-sys-readiness-badge="1"], span, div');
+    for (var j = 0; j < badges.length; j++) {
+      var bd = badges[j];
+      if (bd.children.length === 0) {
+        var sTxt = (bd.textContent || '').trim();
+        if (/\d+\s*\/\s*\d+\s*\(\d+%\)/.test(sTxt) || bd.getAttribute('data-gat-sys-readiness-badge') === '1') {
+          bd.setAttribute('data-gat-sys-readiness-badge', '1');
+          bd.textContent = '🎯 ' + pack.overallReadiness + ' • ' + avgPct + '%';
+          break;
+        }
+      }
+    }
+  }
+
+  renderItemizedColumnsOnView4();
+  document.addEventListener('DOMContentLoaded', renderItemizedColumnsOnView4);
+  window.addEventListener('load', renderItemizedColumnsOnView4);
+  setInterval(renderItemizedColumnsOnView4, 450);
+})();
+
+// === GAT HARD LOGOUT PROFILE WIPE + GREEN DOT OFF + ONBOARDING COVER RESET ===
+(function() {
+  var origSetItem = Storage.prototype.setItem;
+  var origRemoveItem = Storage.prototype.removeItem;
+  var origClear = Storage.prototype.clear;
+
+  function nukeCookieEverywhere(name) {
+    var paths = ['/', '/app', '/app/', '/he', '/fr', '/es', '/de', '/ru', '/pricing', '/concierge'];
+    var host = window.location.hostname || 'giyuraliyahtrack.com';
+    var domains = ['', '; domain=' + host, '; domain=.' + host, '; domain=giyuraliyahtrack.com', '; domain=.giyuraliyahtrack.com'];
+    for (var i = 0; i < paths.length; i++) {
+      for (var d = 0; d < domains.length; d++) {
+        try {
+          document.cookie = name + '=; path=' + paths[i] + domains[d] + '; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax';
+          document.cookie = name + '=; path=' + paths[i] + domains[d] + '; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        } catch (e) {}
+      }
+    }
+  }
+
+  function nukeAllAuthCookies() {
+    try {
+      var parts = (document.cookie || '').split(';');
+      for (var i = 0; i < parts.length; i++) {
+        var eq = parts[i].indexOf('=');
+        var cName = (eq > -1 ? parts[i].slice(0, eq) : parts[i]).trim();
+        if (cName) nukeCookieEverywhere(cName);
+      }
+      var known = [
+        'gat_uid', 'zehut_uid', 'uid', 'perm_gat_onboard_v3', 'perm_gat_onboard_v2',
+        'perm_gat_onboarding_done', 'perm_gat_verified_wa_phone', 'perm_gat_wa_phone',
+        'perm_gat_device_auth_tok', 'perm_gat_permanent_pass_code', 'perm_gat_pass_code',
+        'perm_gat_passcode', 'perm_gat_uid', 'perm_gat_user_uid', 'perm_gat_wa_uid',
+        'perm_gat_entitlements_v2', 'perm_gat_entitlements_map', 'perm_gat_pro_unlocked'
+      ];
+      for (var k = 0; k < known.length; k++) nukeCookieEverywhere(known[k]);
+    } catch (e) {}
+  }
+
+  function isCurrentlyLoggedOut() {
+    try {
+      if (window.__gatExplicitLogout) return true;
+      if (localStorage.getItem('gat_explicit_logged_out') === '1') return true;
+      var ph = localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_wa_phone') || '';
+      var tok = localStorage.getItem('gat_device_auth_tok') || '';
+      var pc = localStorage.getItem('gat_permanent_pass_code') || localStorage.getItem('gat_pass_code') || localStorage.getItem('gat_passcode') || '';
+      if (!ph && !tok && !pc) return true;
+    } catch (e) {}
+    return false;
+  }
+
+  // Enforce logged-out state: if `gat_explicit_logged_out === '1'`, ensure no stale phone/docs/profile keys exist!
+  function enforceLoggedOutCleanSlate() {
+    try {
+      if (localStorage.getItem('gat_explicit_logged_out') === '1') {
+        window.__gatExplicitLogout = true;
+        var keysToPurge = [
+          'gat_verified_wa_phone', 'gat_wa_phone', 'gat_user_phone',
+          'gat_device_auth_tok', 'gat_admin_session_tok', 'gat_auth_token',
+          'gat_pass_code', 'gat_passcode', 'gat_permanent_pass_code',
+          'gat_user_uid', 'gat_uid', 'gat_wa_uid', 'gat_human_vid', 'zehut_uid', 'uid',
+          'gat_entitlements_v2', 'gat_entitlements_map', 'gat_pro_unlocked',
+          'gat_pro_tier', 'gat_tier', 'gat_unlocked_tier', 'gat_user_email', 'gat_user_name',
+          'gat_scanned_docs_v1', 'gat_form_draft_v1', 'gat_form_draft_snapshot', 'gat_form_draft_ts',
+          'gat_bd_scores', 'gat_songs_m', 'gat_ref_logger_v1', 'gat_cp_room', 'gat_cp_role',
+          'gat_active_concierge_order', 'gat_latest_concierge_order',
+/* keep guest onboarding & track keys intact! */
+        ];
+        for (var i = 0; i < keysToPurge.length; i++) {
+          if (localStorage.getItem(keysToPurge[i]) !== null) {
+            origRemoveItem.call(window.localStorage, keysToPurge[i]);
+          }
+        }
+        // Also purge any gat_cp_ans_* keys
+        for (var j = localStorage.length - 1; j >= 0; j--) {
+          var lk = localStorage.key(j) || '';
+          if (lk.indexOf('gat_cp_') === 0 || lk.indexOf('gat_doc') === 0) {
+            origRemoveItem.call(window.localStorage, lk);
+          }
+        }
+        nukeAllAuthCookies();
+      }
+    } catch (e) {}
+  }
+
+  // Hide the green online dot on the top-right 👤 icon whenever logged out!
+      window.gatSyncTopNavbarAuthDot = function() {
+    var loggedOut = isCurrentlyLoggedOut();
+
+    // 1. Always keep all SVG icon <circle> and text <span> ('EN') elements 100% visible!
+    var svgCirclesAndLabels = document.querySelectorAll('header svg circle, nav svg circle, header button span, nav button span');
+    for (var s = 0; s < svgCirclesAndLabels.length; s++) {
+      var el = svgCirclesAndLabels[s];
+      var cs = window.getComputedStyle(el);
+      var isAbsDot = (cs.position === 'absolute' && parseFloat(cs.width || '0') <= 13 && (el.textContent || '').trim() === '');
+      if (!isAbsDot) {
+        el.style.removeProperty('display');
+        el.style.removeProperty('opacity');
+        el.style.removeProperty('visibility');
+      }
+    }
+
+    // 2. Target ONLY the actual status indicator dot (explicit ID or absolute empty 6-12px circle badge)
+    var explicitDots = document.querySelectorAll('#gat-auth-dot, #wa-sync-dot, #user-status-dot, #hdr-user-dot, #gat-user-dot, .auth-dot, .user-dot, .online-dot');
+    for (var i = 0; i < explicitDots.length; i++) {
+      var d = explicitDots[i];
+      if (loggedOut) {
+        d.style.setProperty('display', 'none', 'important');
+      } else {
+        d.style.removeProperty('display');
+        d.style.removeProperty('opacity');
+        d.style.removeProperty('visibility');
+      }
+    }
+
+    var headerSpans = document.querySelectorAll('header button span, header button div, nav button span, nav button div');
+    for (var j = 0; j < headerSpans.length; j++) {
+      var sp = headerSpans[j];
+      if ((sp.textContent || '').trim() !== '') continue;
+      var st = window.getComputedStyle(sp);
+      var w = parseFloat(st.width || '0');
+      var h = parseFloat(st.height || '0');
+      if (st.position === 'absolute' && w >= 5 && w <= 13 && Math.abs(w - h) <= 3) {
+        if (loggedOut) {
+          sp.style.setProperty('display', 'none', 'important');
+        } else {
+          sp.style.removeProperty('display');
+          sp.style.removeProperty('visibility');
+        }
+      }
+    }
+  };
+
+  // Reset the Homepage Wizard inside #view-0 back to the FIRST Cover Screen ('🚀 START MY TRACK →')
+  window.gatResetWizardToCoverScreen = function() {
+    try {
+      var hub = document.getElementById('gat-onboarded-active-hub');
+      if (hub) hub.style.display = 'none';
+      var cancelBar = document.getElementById('gat-onboard-cancel-bar');
+      if (cancelBar) cancelBar.style.display = 'none';
+
+      var hiddenByHub = document.querySelectorAll('[data-gat-hidden-by-hub="1"]');
+      for (var i = 0; i < hiddenByHub.length; i++) {
+        hiddenByHub[i].removeAttribute('data-gat-hidden-by-hub');
+        hiddenByHub[i].style.display = '';
+      }
+
+      var heroLanding = document.getElementById('gat-wiz-step-hero_landing');
+      if (heroLanding) {
+        heroLanding.style.display = '';
+        var parent = heroLanding.parentElement;
+        if (parent) {
+          var sibs = parent.children;
+          for (var s = 0; s < sibs.length; s++) {
+            var sib = sibs[s];
+            if (sib !== heroLanding && sib.id && sib.id.indexOf('gat-wiz-step-') === 0) {
+              sib.style.display = 'none';
+            }
+          }
+        }
+      }
+    } catch (e) {}
+  };
+
+  // Master Logout & Switch-User Reset
+  var logoutInProgress = false;
+  window.gatPerformFullLogoutAndReset = function(shouldReload) {
+    if (logoutInProgress) return;
+    logoutInProgress = true;
+    window.__gatExplicitLogout = true;
+
+    try {
+      var savedLang = localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '';
+      origClear.call(window.localStorage);
+      try { origClear.call(window.sessionStorage); } catch (e) {}
+
+      if (savedLang) {
+        origSetItem.call(window.localStorage, 'gat_lang', savedLang);
+        origSetItem.call(window.localStorage, 'zehut_lang', savedLang);
+      }
+      origSetItem.call(window.localStorage, 'gat_explicit_logged_out', '1');
+      origSetItem.call(window.localStorage, 'gat_onboard_v3_migrated', '1');
+
+      nukeAllAuthCookies();
+
+      if (window.firebase && typeof window.firebase.auth === 'function') {
+        try { window.firebase.auth().signOut(); } catch (e) {}
+      }
+      if (window.indexedDB && typeof window.indexedDB.deleteDatabase === 'function') {
+        try { window.indexedDB.deleteDatabase('firebaseLocalStorageDb'); } catch (e) {}
+      }
+
+      window.gatSyncTopNavbarAuthDot();
+      window.gatResetWizardToCoverScreen();
+    } catch (e) {}
+
+    if (shouldReload !== false) {
+      var p = window.location.pathname || '/';
+      var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
+      var homeUrl = m ? ('/' + m[1].toLowerCase() + '/?logged_out=' + Date.now()) : ('/?logged_out=' + Date.now());
+      window.location.replace(homeUrl);
+    } else {
+      setTimeout(function() { logoutInProgress = false; }, 400);
+    }
+  };
+
+  // Intercept localStorage.setItem:
+  // 1) If native code sets `gat_explicit_logged_out = '1'`, run full wipe immediately!
+  // 2) While logged out (`window.__gatExplicitLogout`), BLOCK any background script from restoring `gat_verified_wa_phone` or `gat_scanned_docs_v1`
+  //    UNLESS the user is actively typing/submitting in a login input field!
+  var userActivelyLoggingIn = false;
+  document.addEventListener('click', function(ev) {
+    var t = ev.target;
+    if (!t) return;
+    var txt = (t.textContent || '').toLowerCase();
+    if (/verify|send code|login|sign in|whatsapp|passcode|אימות|התחבר|connexion|iniciar|anmelden|войти/i.test(txt)) {
+      userActivelyLoggingIn = true;
+      setTimeout(function() { userActivelyLoggingIn = false; }, 15000);
+    }
+  }, true);
+
+  Storage.prototype.setItem = function(key, val) {
+    if (this === window.localStorage) {
+      if (key === 'gat_explicit_logged_out' && String(val) === '1') {
+        origSetItem.apply(this, arguments);
+        window.gatPerformFullLogoutAndReset(true);
+        return;
+      }
+      // If logged out and a background script tries to silently restore phone/uid/docs on page load, block it!
+      if (window.__gatExplicitLogout && !userActivelyLoggingIn) {
+        if (/^(gat_verified_wa_phone|gat_wa_phone|gat_uid|gat_user_uid|gat_wa_uid|gat_device_auth_tok|gat_pass_code|gat_passcode|gat_permanent_pass_code|gat_scanned_docs_v1)$/.test(key)) {
+          return;
+        }
+      }
+      // If user IS actively logging in and sets a verified phone/token, clear the logged-out lock!
+      if (userActivelyLoggingIn && (key === 'gat_verified_wa_phone' || key === 'gat_device_auth_tok' || key === 'gat_pass_code' || key === 'gat_permanent_pass_code') && val && String(val).length >= 4) {
+        window.__gatExplicitLogout = false;
+        origRemoveItem.call(window.localStorage, 'gat_explicit_logged_out');
+      }
+    }
+    return origSetItem.apply(this, arguments);
+  };
+
+  // Intercept clicks on ANY 'Log Out' or 'Log Out / Switch User on This Device' button
+  var LOGOUT_BTN_RX = /(Log\s*Out|Logout|Sign\s*Out|Switch\s*User|Switch\s*Account|Disconnect|\u05d4\u05ea\u05e0\u05ea\u05e7|\u05d4\u05d7\u05dc\u05e3\s*\u05de\u05e9\u05ea\u05de\u05e9|\u05d9\u05e6\u05d9\u05d0\u05d4|D\u00e9connexion|Changer\s*d'utilisateur|Cerrar\s*sesi\u00f3n|Cambiar\s*de\s*usuario|Abmelden|Benutzer\s*wechseln|\u0412\u044b\u0439\u0442\u0438|\u0421\u043c\u0435\u043d\u0438\u0442\u044c\s*\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f)/i;
+  document.addEventListener('click', function(ev) {
+    var el = ev.target;
+    while (el && el !== document.body && el !== document.documentElement) {
+      var oc = (el.getAttribute && el.getAttribute('onclick')) || '';
+      var id = (el.id || '').toLowerCase();
+      var txt = (el.textContent || '').replace(/\s+/g, ' ').trim();
+      if (
+        /logout|signout|switchuser|disconnect/i.test(oc + ' ' + id) ||
+        ((el.tagName === 'BUTTON' || el.tagName === 'A' || oc) && txt.length <= 55 && LOGOUT_BTN_RX.test(txt) && txt.indexOf('Delete') === -1)
+      ) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        window.gatPerformFullLogoutAndReset(true);
+        return;
+      }
+      el = el.parentElement;
+    }
+  }, true);
+
+  // Run on arrival if `?logged_out=` is in URL or `gat_explicit_logged_out === '1'`
+  if (window.location.search && window.location.search.indexOf('logged_out=') !== -1) {
+    window.__gatExplicitLogout = true;
+    try { origSetItem.call(window.localStorage, 'gat_explicit_logged_out', '1'); } catch (e) {}
+    enforceLoggedOutCleanSlate();
+    try {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } catch (e) {}
+  }
+
+  enforceLoggedOutCleanSlate();
+  window.gatSyncTopNavbarAuthDot();
+  document.addEventListener('DOMContentLoaded', function() {
+    enforceLoggedOutCleanSlate();
+    window.gatSyncTopNavbarAuthDot();
+  });
+  window.addEventListener('load', function() {
+    enforceLoggedOutCleanSlate();
+    window.gatSyncTopNavbarAuthDot();
+  });
+  setInterval(function() {
+    window.gatSyncTopNavbarAuthDot();
+  }, 600);
+})();
+
+// === GAT SPOK DRAG/OPEN FIX + INDEXEDDB LOGOUT WIPER ===
+(function() {
+  // 1. Ensure Spok FAB & '✨ ASK SPOK ➔' pill open the Helpdesk panel reliably and dragging NEVER snaps back!
+  function bindSpokOpenAndSmoothDrag() {
+    var fab = document.getElementById('gat-legacy-noop-fab');
+    var pill = document.getElementById('gat-hero-inline-spok-pill');
+    var panel = document.getElementById('gat-hd-panel') || document.querySelector('.gat-hd-panel');
+
+    function openSpokPanelNow(ev) {
+      if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+      try {
+        localStorage.setItem('gat_spok_opened_ever', '1');
+      } catch (e) {}
+      var p = document.getElementById('gat-hd-panel') || document.querySelector('.gat-hd-panel');
+      if (p) {
+        p.classList.add('open');
+        p.style.setProperty('display', 'flex', 'important');
+        p.style.setProperty('opacity', '1', 'important');
+        p.style.setProperty('pointer-events', 'auto', 'important');
+        var inp = document.getElementById('gat-hd-in') || p.querySelector('input, textarea');
+        if (inp) setTimeout(function() { inp.focus(); }, 80);
+      } else if (typeof window.toggleGatHelpdesk === 'function') {
+        window.toggleGatHelpdesk(true);
+      }
+    }
+    window.gatOpenSpokNow = openSpokPanelNow;
+
+    if (pill && pill.getAttribute('data-spok-fixed') !== '1') {
+      pill.setAttribute('data-spok-fixed', '1');
+      pill.onclick = openSpokPanelNow;
+    }
+
+    if (fab && fab.getAttribute('data-spok-drag-fixed') !== '1') {
+      fab.setAttribute('data-spok-drag-fixed', '1');
+      var dragging = false;
+      var moved = false;
+      var startX = 0, startY = 0, origLeft = 0, origTop = 0;
+
+      function onDown(e) {
+        var pt = (e.touches && e.touches[0]) ? e.touches[0] : e;
+        var rect = fab.getBoundingClientRect();
+        dragging = true;
+        moved = false;
+        startX = pt.clientX;
+        startY = pt.clientY;
+        origLeft = rect.left;
+        origTop = rect.top;
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        var pt = (e.touches && e.touches[0]) ? e.touches[0] : e;
+        var dx = pt.clientX - startX;
+        var dy = pt.clientY - startY;
+        if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
+          moved = true;
+          if (e.cancelable) e.preventDefault();
+          fab.setAttribute('data-user-dragged', '1');
+          try { localStorage.setItem('gat_spok_opened_ever', '1'); } catch (err) {}
+          if (fab.parentElement !== document.body) {
+            document.body.appendChild(fab);
+          }
+          var newL = Math.max(8, Math.min((window.innerWidth || 360) - 66, origLeft + dx));
+          var newT = Math.max(8, Math.min((window.innerHeight || 640) - 66, origTop + dy));
+          fab.style.setProperty('position', 'fixed', 'important');
+          fab.style.setProperty('left', Math.round(newL) + 'px', 'important');
+          fab.style.setProperty('top', Math.round(newT) + 'px', 'important');
+          fab.style.setProperty('right', 'auto', 'important');
+          fab.style.setProperty('bottom', 'auto', 'important');
+          fab.style.setProperty('z-index', '9999', 'important');
+          var cPill = document.getElementById('gat-hero-inline-spok-pill');
+          if (cPill) cPill.style.setProperty('display', 'none', 'important');
+        }
+      }
+
+      function onUp(e) {
+        if (!dragging) return;
+        dragging = false;
+        if (!moved) {
+          openSpokPanelNow(e);
+        }
+      }
+
+      fab.addEventListener('mousedown', onDown, true);
+      window.addEventListener('mousemove', onMove, { passive: false });
+      window.addEventListener('mouseup', onUp, true);
+      fab.addEventListener('touchstart', onDown, { passive: true, capture: true });
+      window.addEventListener('touchmove', onMove, { passive: false });
+      window.addEventListener('touchend', onUp, true);
+    }
+  }
+
+  // 2. Also wipe `gat_persistent_auth_db`, `gat_doc_vault_v1`, `gat_vault_db`, and `gat_auth_v1` cookie whenever logged out!
+  var origLogoutFn = window.gatPerformFullLogoutAndReset;
+  window.gatPerformFullLogoutAndReset = function(shouldReload) {
+    try {
+      document.cookie = 'gat_auth_v1=; Path=/; Max-Age=0; SameSite=Lax';
+      document.cookie = 'gat_auth_v1=; Path=/; Max-Age=0; SameSite=Lax; Secure';
+      var dbs = ['gat_persistent_auth_db', 'gat_doc_vault_v1', 'gat_vault_db', 'firebaseLocalStorageDb'];
+      if (window.indexedDB && typeof window.indexedDB.deleteDatabase === 'function') {
+        for (var i = 0; i < dbs.length; i++) {
+          try { window.indexedDB.deleteDatabase(dbs[i]); } catch (e) {}
+        }
+      }
+    } catch (e) {}
+    if (typeof origLogoutFn === 'function') {
+      return origLogoutFn(shouldReload);
+    }
+  };
+
+  // If currently logged out (`gat_explicit_logged_out === '1'`), continuously keep `gat_auth_v1` and IndexedDB wiped!
+  function guardAgainstIndexedDbResurrection() {
+    try {
+      if (localStorage.getItem('gat_explicit_logged_out') === '1') {
+        document.cookie = 'gat_auth_v1=; Path=/; Max-Age=0; SameSite=Lax';
+        document.cookie = 'gat_auth_v1=; Path=/; Max-Age=0; SameSite=Lax; Secure';
+        if (window.indexedDB && typeof window.indexedDB.deleteDatabase === 'function') {
+          try { window.indexedDB.deleteDatabase('gat_persistent_auth_db'); } catch (e) {}
+          try { window.indexedDB.deleteDatabase('gat_doc_vault_v1'); } catch (e) {}
+        }
+      }
+    } catch (e) {}
+  }
+
+  bindSpokOpenAndSmoothDrag();
+  guardAgainstIndexedDbResurrection();
+  document.addEventListener('DOMContentLoaded', function() {
+    bindSpokOpenAndSmoothDrag();
+    guardAgainstIndexedDbResurrection();
+  });
+  window.addEventListener('load', function() {
+    bindSpokOpenAndSmoothDrag();
+    guardAgainstIndexedDbResurrection();
+  });
+  setInterval(bindSpokOpenAndSmoothDrag, 500);
+})();
+
+// === GAT Q4 COMPLETION AUTO-REDIRECT + OUTER WIZARD HUB + SMART TRACKER FORCE-RENDER ===
+(function() {
+  var ONBOARD_KEY_V3 = 'gat_onboarding_completed_v3';
+  var Q4_RX = /(?:QUESTION|ШАГ|ВОПРОС|שאלה|PREGUNTA|FRAGE)\s*4\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*4/i;
+  var BACK_RX = /^(?:\u2190\s*)?(?:Back|חזור|Retour|Atrás|Zurück|Назад)$/i;
+
+  // 1. Always find the TRUE outer blue-bordered wizard container on #view-0 (wrapping all #gat-wiz-step-* steps)
+  window.gatFindTrueOuterWizardCard = function() {
+    var v0 = document.getElementById('view-0');
+    if (!v0) return null;
+    var stepLanding = document.getElementById('gat-wiz-step-hero_landing') || v0.querySelector('[id^="gat-wiz-step-"]');
+    if (stepLanding && stepLanding.parentElement && stepLanding.parentElement !== v0) {
+      var outer = stepLanding.parentElement;
+      outer.classList.add('gat-blue-card-with-spok');
+      return outer;
+    }
+    var firstCard = v0.querySelector('.gat-blue-card-with-spok, .hero-card, .card');
+    if (firstCard && firstCard.id !== 'gat-seo-hub-details') return firstCard;
+    return stepLanding ? stepLanding.parentElement : null;
+  };
+
+  // 2. When Onboarding Completes: Save State, Transform Homepage into Active Track Hub,
+  //    Unlock 9 Boxes 100px Below, and AUTO-REDIRECT Straight to Smart Tracker (#view-4)!
+  window.gatCompleteOnboardingAndGoToSmartTracker = function(chosenLabel) {
+    try {
+      localStorage.setItem(ONBOARD_KEY_V3, '1');
+      localStorage.setItem('gat_onboarding_completed_v2', '1');
+      localStorage.setItem('gat_onboarding_done', '1');
+      document.cookie = 'perm_gat_onboard_v3=1; path=/; max-age=315360000; SameSite=Lax';
+    } catch (e) {}
+
+    if (typeof window.markGatOnboardingComplete === 'function') {
+      try { window.markGatOnboardingComplete(chosenLabel); } catch (e) {}
+    }
+
+    // Ensure the outer wizard container swaps its #gat-wiz-step-* children for #gat-onboarded-active-hub
+    var outerCard = window.gatFindTrueOuterWizardCard();
+    if (outerCard) {
+      var allSteps = outerCard.querySelectorAll('[id^="gat-wiz-step-"]');
+      for (var i = 0; i < allSteps.length; i++) {
+        allSteps[i].setAttribute('data-gat-hidden-by-hub', '1');
+        allSteps[i].style.display = 'none';
+      }
+      var hub = document.getElementById('gat-onboarded-active-hub');
+      if (hub) {
+        if (hub.parentElement !== outerCard) {
+          outerCard.insertBefore(hub, outerCard.firstChild);
+        }
+        hub.style.display = 'block';
+      }
+    }
+
+    // Force #view-4 to re-render the Smart Itemized Tracker immediately
+    var v4 = document.getElementById('view-4');
+    if (v4) v4.removeAttribute('data-gat-itemized-sig');
+
+    // Auto-redirect user straight to the Smart Tracker tab (#view-4)!
+    setTimeout(function() {
+      if (typeof window.gatOpenTab === 'function') {
+        window.gatOpenTab(4);
+      } else if (typeof window.switchTab === 'function') {
+        window.switchTab(4);
+      }
+      if (v4) v4.removeAttribute('data-gat-itemized-sig');
+    }, 120);
+  };
+
+  // 3. Detect Question 4 of 4 answer click OR final wizard CTA click anywhere inside #view-0
+  document.addEventListener('click', function(ev) {
+    var el = ev.target;
+    if (!el || !el.closest) return;
+    var v0 = document.getElementById('view-0');
+    if (!v0 || !v0.contains(el)) return;
+
+    var btn = el.closest('button, a, [onclick], .wiz-opt, .quiz-opt');
+    if (!btn) return;
+    if (btn.id === 'gat-cancel-change-track-btn' || btn.id === 'gat-hub-change-track-top' || btn.id === 'gat-hub-open-tracker-cta' || btn.id === 'gat-draggable-spok-fab') return;
+
+    var bTxt = (btn.textContent || '').replace(/\s+/g, ' ').trim();
+    if (BACK_RX.test(bTxt)) return;
+
+    // Case A: User clicked an answer option while QUESTION 4 OF 4 is visible on #view-0
+    var stepContainer = btn.closest('[id^="gat-wiz-step-"]') || window.gatFindTrueOuterWizardCard() || v0;
+    var containerTxt = (stepContainer && stepContainer.textContent) || '';
+    if (Q4_RX.test(containerTxt)) {
+      // Let native click handler update the track selection first, then mark complete & redirect to Smart Tracker!
+      setTimeout(function() {
+        window.gatCompleteOnboardingAndGoToSmartTracker();
+      }, 90);
+      return;
+    }
+
+    // Case B: User clicked a final result CTA button inside the wizard (e.g. 'Open My Tracker', 'Load Track', 'Launch Track')
+    var oc = (btn.getAttribute && btn.getAttribute('onclick')) || '';
+    if (/switch(?:Tab|View)\(\s*4\b/i.test(oc) || /(?:Open|Launch|Load|View)\s*(?:My\s*)?(?:Active\s*)?Track(?:er)?/i.test(bTxt)) {
+      setTimeout(function() {
+        window.gatCompleteOnboardingAndGoToSmartTracker();
+      }, 60);
+    }
+  }, true);
+
+  // 4. Keep the Active Track Hub properly mounted on the OUTER wizard card whenever onboarded
+  function syncOuterWizardHubPlacement() {
+    var onboarded = (typeof window.isGatOnboardingComplete === 'function' && window.isGatOnboardingComplete());
+    var outerCard = window.gatFindTrueOuterWizardCard();
+    if (!outerCard) return;
+    var hub = document.getElementById('gat-onboarded-active-hub');
+    var cancelBar = document.getElementById('gat-onboard-cancel-bar');
+    var isEditing = Boolean(cancelBar && cancelBar.style.display !== 'none');
+
+    if (onboarded && !isEditing) {
+      var allSteps = outerCard.querySelectorAll('[id^="gat-wiz-step-"]');
+      for (var i = 0; i < allSteps.length; i++) {
+        if (allSteps[i].style.display !== 'none') {
+          allSteps[i].setAttribute('data-gat-hidden-by-hub', '1');
+          allSteps[i].style.display = 'none';
+        }
+      }
+      if (hub) {
+        if (hub.parentElement !== outerCard) {
+          outerCard.insertBefore(hub, outerCard.firstChild);
+        }
+        hub.style.display = 'block';
+      }
+    }
+  }
+
+  // 5. Dynamically compute REAL per-item completion % from localStorage (gat_scanned_docs_v1, gat_form_draft_v1, gat_bd_scores, gat_songs_m, gat_cp_ans_*, gat_ref_logger_v1)
+  //    and update the percentages, red alerts, and badges inside #view-4's Smart Itemized Tracker!
+  function syncLivePerItemMetricsOnView4() {
+    var v4 = document.getElementById('view-4');
+    if (!v4) return;
+
+    // Read real scanned docs from localStorage
+    var docsList = [];
+    try {
+      var rawD = JSON.parse(localStorage.getItem('gat_scanned_docs_v1') || '[]');
+      if (Array.isArray(rawD)) docsList = rawD;
+      else if (rawD && typeof rawD === 'object') docsList = Object.values(rawD);
+    } catch (e) {}
+    var docsJson = JSON.stringify(docsList).toLowerCase();
+
+    // Read real form fields count
+    var formFieldCnt = 0;
+    try {
+      var fd = JSON.parse(localStorage.getItem('gat_form_draft_v1') || localStorage.getItem('gat_form_draft_snapshot') || '{}');
+      if (fd && typeof fd === 'object') {
+        Object.keys(fd).forEach(function(k) { if (fd[k] && String(fd[k]).trim()) formFieldCnt++; });
+      }
+    } catch (e) {}
+
+    // Read real Beit Din & Songs scores
+    var bdCnt = 0, songsCnt = 0;
+    try { bdCnt = Object.keys(JSON.parse(localStorage.getItem('gat_bd_scores') || '{}')).length; } catch (e) {}
+    try { songsCnt = Object.keys(JSON.parse(localStorage.getItem('gat_songs_m') || '{}')).length; } catch (e) {}
+
+    // Read real Activity Logger entries
+    var logCnt = 0;
+    try {
+      var rl = JSON.parse(localStorage.getItem('gat_ref_logger_v1') || '[]');
+      logCnt = Array.isArray(rl) ? rl.length : ((rl && Array.isArray(rl.activities)) ? rl.activities.length : 0);
+    } catch (e) {}
+
+    // Read real Couples 2-Phone room & answers
+    var hasRoom = Boolean(localStorage.getItem('gat_cp_room'));
+    var cpAnsCnt = 0;
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i) || '';
+        if (k.indexOf('gat_cp_ans_') === 0) {
+          cpAnsCnt = Math.max(cpAnsCnt, Object.keys(JSON.parse(localStorage.getItem(k) || '{}')).length);
+        }
+      }
+    } catch (e) {}
+
+    // Update window.GAT_ITEMIZED_TRACKER_I18N item defPct values if real user data exists
+    var i18nAll = window.GAT_ITEMIZED_TRACKER_I18N;
+    if (!i18nAll) return;
+    var dynamicMap = {
+      passport: /passport|דרכון|passeport|pasaporte|reisepass|паспорт/.test(docsJson) ? 100 : 50,
+      birth: /birth|לידה|naissance|nacimiento|geburt|рождении/.test(docsJson) ? 100 : 25,
+      marital: /marri|single|apostille|נישואין|רווקות|אפוסטיל|mariage|matrimonio|heirat|браке/.test(docsJson) ? (/incomplete|missing/.test(docsJson) ? 45 : 100) : 35,
+      police: /police|fbi|acro|rcmp|יושר|casier|antecedentes|führungszeugnis|несудимости/.test(docsJson) ? 100 : 0,
+      lineage: /rabbi|judaism|ketubah|divorce|יהדות|כתובה|גירושין/.test(docsJson) ? 100 : 0,
+      primary_form: formFieldCnt > 0 ? Math.min(100, Math.round((formFieldCnt / 25) * 100)) : 40,
+      hesber: formFieldCnt > 12 ? 100 : 0,
+      security_cv: formFieldCnt > 18 ? 100 : 0,
+      red_x_guide: 100,
+      shabbat_log: logCnt > 0 ? Math.min(100, Math.round((logCnt / 12) * 100)) : 25,
+      shabbat_songs: songsCnt > 0 ? Math.min(100, Math.round((songsCnt / 18) * 100)) : 11,
+      daily_brachot: songsCnt > 18 ? Math.min(100, Math.round(((songsCnt - 18) / 20) * 100)) : 0,
+      shacharit: songsCnt > 38 ? Math.min(100, Math.round(((songsCnt - 38) / 18) * 100)) : 0,
+      bd_core200: bdCnt > 0 ? Math.min(100, Math.round((bdCnt / 200) * 100)) : 10,
+      bd_curve200: bdCnt > 200 ? Math.min(100, Math.round(((bdCnt - 200) / 200) * 100)) : 0,
+      cp_pair: hasRoom ? 100 : 0,
+      cp_daily: cpAnsCnt > 0 ? Math.min(100, Math.round((cpAnsCnt / 120) * 100)) : 0,
+      cp_family: cpAnsCnt > 120 ? Math.min(100, Math.round(((cpAnsCnt - 120) / 100) * 100)) : 0,
+      cp_exam80: cpAnsCnt >= 80 ? 100 : 0
+    };
+
+    Object.keys(i18nAll).forEach(function(lgKey) {
+      var engs = (i18nAll[lgKey] && i18nAll[lgKey].engines) || {};
+      Object.keys(engs).forEach(function(ek) {
+        var items = engs[ek].items || [];
+        for (var j = 0; j < items.length; j++) {
+          var id = items[j].id;
+          if (typeof dynamicMap[id] === 'number') {
+            items[j].defPct = dynamicMap[id];
+          }
+        }
+      });
+    });
+  }
+
+  syncLivePerItemMetricsOnView4();
+  syncOuterWizardHubPlacement();
+  document.addEventListener('DOMContentLoaded', function() {
+    syncLivePerItemMetricsOnView4();
+    syncOuterWizardHubPlacement();
+  });
+  window.addEventListener('load', function() {
+    syncLivePerItemMetricsOnView4();
+    syncOuterWizardHubPlacement();
+  });
+  setInterval(function() {
+    syncLivePerItemMetricsOnView4();
+    syncOuterWizardHubPlacement();
+  }, 350);
+})();
+
+// === GAT DEFINITIVE ONBOARDING -> SMART TRACKER ROUTER & NAVBAR FIX ===
+(function() {
+  var ONBOARD_KEY_V3 = 'gat_onboarding_completed_v3';
+  var lastClickWasBottomNavTracker = false;
+
+  // Track whether a click came specifically from the bottom navbar Tracker tab
+  document.addEventListener('click', function(ev) {
+    var el = ev.target;
+    if (!el || !el.closest) return;
+    var navTrackerBtn = el.closest('nav [onclick*="switchTab(4"], nav [onclick*="switchView(4"], .bottom-nav [onclick*="switchTab(4"], .nav-bar [onclick*="switchTab(4"], .tab-bar [onclick*="switchTab(4"]');
+    if (!navTrackerBtn) {
+      // Check if it's a bottom fixed bar button calling switchTab(4)
+      var anyBtn4 = el.closest('[onclick*="switchTab(4"], [onclick*="switchView(4"], [data-tab="4"], [data-view="4"]');
+      var v0 = document.getElementById('view-0');
+      var obsModal = document.getElementById('obs-modal');
+      if (anyBtn4 && (!v0 || !v0.contains(anyBtn4)) && (!obsModal || !obsModal.contains(anyBtn4))) {
+        navTrackerBtn = anyBtn4;
+      }
+    }
+
+    if (navTrackerBtn) {
+      lastClickWasBottomNavTracker = true;
+      setTimeout(function() { lastClickWasBottomNavTracker = false; }, 300);
+      if (typeof window.isGatOnboardingComplete === 'function' && window.isGatOnboardingComplete()) {
+        // User IS onboarded: force #view-4 open immediately!
+        ev.preventDefault();
+        ev.stopPropagation();
+        window.gatForceOpenSmartTrackerNow();
+        return;
+      }
+    } else {
+      lastClickWasBottomNavTracker = false;
+    }
+  }, true);
+
+  // Force #view-4 (Smart Itemized Tracker) open and hide #view-0..3 with 100% certainty
+  window.gatForceOpenSmartTrackerNow = function() {
+    try {
+      localStorage.setItem(ONBOARD_KEY_V3, '1');
+      localStorage.setItem('gat_onboarding_completed_v2', '1');
+      localStorage.setItem('gat_onboarding_done', '1');
+      document.cookie = 'perm_gat_onboard_v3=1; path=/; max-age=315360000; SameSite=Lax';
+    } catch (e) {}
+
+    // Close any gate popup
+    var gateModal = document.getElementById('gat-tracker-gate-modal');
+    if (gateModal) gateModal.style.display = 'none';
+
+    // Call native switchTab(4) if available so native state updates
+    var navBtn4 = document.querySelector('[onclick*="switchTab(4"], [onclick*="switchView(4"]');
+    if (typeof window.__orig_switchTab === 'function') {
+      try { window.__orig_switchTab(4, navBtn4); } catch (e) {}
+    } else if (typeof window.__origSwitchView === 'function') {
+      try { window.__origSwitchView(4, navBtn4); } catch (e) {}
+    }
+
+    // Explicitly hide #view-0..3 and show #view-4
+    for (var i = 0; i <= 4; i++) {
+      var v = document.getElementById('view-' + i);
+      if (!v) continue;
+      if (i === 4) {
+        v.classList.add('active');
+        v.style.setProperty('display', 'block', 'important');
+        v.style.setProperty('visibility', 'visible', 'important');
+        v.style.setProperty('opacity', '1', 'important');
+      } else {
+        v.classList.remove('active');
+        v.style.setProperty('display', 'none', 'important');
+      }
+    }
+
+    // Highlight Tracker tab in bottom navbar
+    var allNavs = document.querySelectorAll('[onclick*="switchTab("], [onclick*="switchView("]');
+    for (var j = 0; j < allNavs.length; j++) {
+      var nb = allNavs[j];
+      var oc = (nb.getAttribute && nb.getAttribute('onclick')) || '';
+      if (/switch(?:Tab|View)\(\s*4\b/.test(oc)) nb.classList.add('active');
+      else nb.classList.remove('active');
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Also fix gatOpenTab(0..3) so switching back to Start (#view-0), Tracks (#view-1), Savings (#view-2), or Rabbi (#view-3)
+  // clears the `!important` display on #view-0..4 cleanly!
+  var origGatOpenTab = window.gatOpenTab;
+  window.gatOpenTab = function(targetIdx) {
+    targetIdx = Number(targetIdx) || 0;
+    if (targetIdx === 4) {
+      if (typeof window.isGatOnboardingComplete === 'function' && !window.isGatOnboardingComplete()) {
+        if (typeof window.showGatTrackerGatePopup === 'function') window.showGatTrackerGatePopup();
+        return;
+      }
+      window.gatForceOpenSmartTrackerNow();
+      return;
+    }
+    for (var i = 0; i <= 4; i++) {
+      var v = document.getElementById('view-' + i);
+      if (!v) continue;
+      if (i === targetIdx) {
+        v.classList.add('active');
+        v.style.setProperty('display', 'block', 'important');
+      } else {
+        v.classList.remove('active');
+        v.style.setProperty('display', 'none', 'important');
+      }
+    }
+    if (typeof origGatOpenTab === 'function') {
+      try { origGatOpenTab(targetIdx); } catch (e) {}
+    }
+  };
+
+  // CRITICAL: Whenever `switchTab(4)` or `switchView(4)` is called programmatically by the Onboarding Wizard itself
+  // (i.e. NOT a direct un-onboarded click on the bottom navbar Tracker icon!),
+  // that means the user just finished the Onboarding Wizard -> Mark Onboarding Complete & Open Smart Tracker!
+  ['switchTab', 'switchView'].forEach(function(fnName) {
+    var curFn = window['__orig_' + fnName] || window[fnName];
+    if (typeof curFn === 'function') {
+      window['__orig_' + fnName] = curFn;
+      var smartWrapper = function(idx, btnEl) {
+        var numIdx = Number(idx) || 0;
+        if (numIdx === 4) {
+          var onboarded = (typeof window.isGatOnboardingComplete === 'function' && window.isGatOnboardingComplete());
+          // If called from inside the wizard (not the bottom navbar button) OR already onboarded -> Complete & Open Smart Tracker!
+          if (onboarded || !lastClickWasBottomNavTracker) {
+            window.gatForceOpenSmartTrackerNow();
+            return;
+          } else {
+            if (typeof window.showGatTrackerGatePopup === 'function') {
+              window.showGatTrackerGatePopup();
+            }
+            return;
+          }
+        }
+        // Switching to tabs 0, 1, 2, 3:
+        for (var i = 0; i <= 4; i++) {
+          var v = document.getElementById('view-' + i);
+          if (!v) continue;
+          if (i === numIdx) {
+            v.classList.add('active');
+            v.style.setProperty('display', 'block', 'important');
+          } else {
+            v.classList.remove('active');
+            v.style.setProperty('display', 'none', 'important');
+          }
+        }
+        return curFn.apply(this, arguments);
+      };
+      smartWrapper.__gatGatedV4 = true;
+      window[fnName] = smartWrapper;
+    }
+  });
+
+  // Also watch the bottom navbar: if the bottom navbar 'Tracker' button ALREADY has class 'active' (like in Screenshot 8.57.55),
+  // and the user just finished onboarding (or is on #view-0), sync the view!
+  function fixDesyncedTrackerTabState() {
+    var v4 = document.getElementById('view-4');
+    if (!v4) return;
+    var onboarded = (typeof window.isGatOnboardingComplete === 'function' && window.isGatOnboardingComplete());
+    if (onboarded && v4.classList.contains('active') && window.getComputedStyle(v4).display === 'none') {
+      window.gatForceOpenSmartTrackerNow();
+    }
+  }
+
+  setInterval(fixDesyncedTrackerTabState, 300);
+})();
+
+// === GAT HIGH-CONTRAST FAQ ANSWER STYLING (ALL 6 LANGUAGES) ===
+(function() {
+  function injectFaqContrastCss() {
+    if (document.getElementById('gat-faq-contrast-css')) return;
+    var st = document.createElement('style');
+    st.id = 'gat-faq-contrast-css';
+    st.textContent = '\n      /* High-Contrast FAQ Answer Lock across all tabs & 6 languages */\n      [id^="gat-tab-faq-"] details,\n      .gat-faq-section details,\n      section.view details:not(#gat-seo-hub-details) {\n        background: #ffffff !important;\n        border: 1.5px solid #94a3b8 !important;\n        border-radius: 14px !important;\n        padding: 10px 12px !important;\n        margin-bottom: 12px !important;\n        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;\n        opacity: 1 !important;\n      }\n      [id^="gat-tab-faq-"] details summary,\n      .gat-faq-section details summary {\n        background: #0f172a !important;\n        color: #ffffff !important;\n        padding: 12px 14px !important;\n        border-radius: 10px !important;\n        font-weight: 800 !important;\n        opacity: 1 !important;\n      }\n      [id^="gat-tab-faq-"] details > *:not(summary),\n      [id^="gat-tab-faq-"] details p,\n      [id^="gat-tab-faq-"] details div,\n      .gat-faq-section details > *:not(summary),\n      .gat-faq-section details p,\n      .gat-faq-section details div {\n        color: #0f172a !important;\n        background: #f8fafc !important;\n        opacity: 1 !important;\n        -webkit-text-fill-color: #0f172a !important;\n        font-weight: 600 !important;\n        font-size: 14px !important;\n        line-height: 1.55 !important;\n        padding: 12px 14px !important;\n        margin-top: 8px !important;\n        border-radius: 10px !important;\n        border: 1px solid #cbd5e1 !important;\n      }';
+    document.head.appendChild(st);
+  }
+  injectFaqContrastCss();
+  document.addEventListener('DOMContentLoaded', injectFaqContrastCss);
+  window.addEventListener('load', injectFaqContrastCss);
+})();
+
+// === GAT WHATSAPP SHARE PREVIEW CACHE-BUSTER (v=w8181) ===
+(function() {
+  var SHARE_VER = 'w8181';
+  function appendShareVersion(rawUrl) {
+    if (!rawUrl || typeof rawUrl !== 'string') return rawUrl;
+    try {
+      var u = new URL(rawUrl, window.location.origin);
+      if (u.hostname.indexOf('giyuraliyahtrack.com') === -1 && u.hostname.indexOf('localhost') === -1) return rawUrl;
+      u.searchParams.set('s', SHARE_VER);
+      return u.toString();
+    } catch (e) {
+      var sep = rawUrl.indexOf('?') === -1 ? '?' : '&';
+      return rawUrl.replace(/[?&]s=[^&#]*/, '') + sep + 's=' + SHARE_VER;
+    }
+  }
+  window.__gatAppendShareVer = appendShareVersion;
+
+  if (typeof Navigator !== 'undefined' && Navigator.prototype && typeof Navigator.prototype.share === 'function' && !Navigator.prototype.share.__gatBusted) {
+    var origShare = Navigator.prototype.share;
+    var wrappedShare = function(data) {
+      if (data && typeof data === 'object') {
+        var cloned = Object.assign({}, data);
+        if (cloned.title && typeof cloned.title === 'string') {
+          cloned.title = cloned.title.replace(/[\uD800-\uDFFF\uFFFD]/g, '').trim();
+        }
+        if (cloned.url) cloned.url = appendShareVersion(cloned.url);
+        if (cloned.text && typeof cloned.text === 'string') {
+          cloned.text = cloned.text.replace(/[\uD800-\uDFFF\uFFFD]/g, '').trim();
+          cloned.text = cloned.text.replace(/https?:\/\/giyuraliyahtrack\.com[^\s]*/g, function(m) {
+            return appendShareVersion(m);
+          });
+        }
+        return origShare.call(this, cloned);
+      }
+      return origShare.call(this, data);
+    };
+    wrappedShare.__gatBusted = true;
+    try {
+      Object.defineProperty(Navigator.prototype, 'share', {
+        value: wrappedShare,
+        configurable: true,
+        writable: true
+      });
+    } catch (e) {}
+  }
+
+  if (typeof Clipboard !== 'undefined' && Clipboard.prototype && typeof Clipboard.prototype.writeText === 'function' && !Clipboard.prototype.writeText.__gatBusted) {
+    var origClip = Clipboard.prototype.writeText;
+    var wrappedClip = function(txt) {
+      if (typeof txt === 'string' && txt.indexOf('giyuraliyahtrack.com') !== -1) {
+        txt = txt.replace(/https?:\/\/giyuraliyahtrack\.com[^\s]*/g, function(m) {
+          return appendShareVersion(m);
+        });
+      }
+      return origClip.call(this, txt);
+    };
+    wrappedClip.__gatBusted = true;
+    try {
+      Object.defineProperty(Clipboard.prototype, 'writeText', {
+        value: wrappedClip,
+        configurable: true,
+        writable: true
+      });
+    } catch (e) {}
+  }
+})();
+
+// === GAT SPOK UNIFIED CONTROLLER: POINTER-CAPTURE DRAG + UNIVERSAL OPEN + INTAKE FORM ===
+(function() {
+  var fabCss = document.createElement("style");
+  fabCss.id = "gat-clean-spok-fab-css";
+  fabCss.textContent = [
+    "#gat-legacy-noop-fab, #gat-hd-fab, #gat-ask-spok-bottom-pill, #gat-hero-inline-spok-pill, #gat-hero-inline-spok-row { display: none !important; visibility: hidden !important; pointer-events: none !important; }",
+    "#gat-draggable-spok-fab {",
+    "  position: fixed !important;",
+    "  width: 56px !important;",
+    "  height: 56px !important;",
+    "  border-radius: 50% !important;",
+    "  background: radial-gradient(circle at 30% 30%, #0f2942, #04102d 75%) !important;",
+    "  border: 2.5px solid #38bdf8 !important;",
+    "  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6), 0 0 0 3px rgba(56, 189, 248, 0.2) !important;",
+    "  color: #ffffff !important;",
+    "  align-items: center !important;",
+    "  justify-content: center !important;",
+    "  cursor: grab !important;",
+    "  z-index: 2147483640 !important;",
+    "  user-select: none !important;",
+    "  -webkit-user-select: none !important;",
+    "  touch-action: none !important;",
+    "  padding: 0 !important;",
+    "  margin: 0 !important;",
+    "}",
+    "#gat-draggable-spok-fab:active { cursor: grabbing !important; }"
+  ].join("\n");
+  (document.head || document.documentElement).appendChild(fabCss);
+
+  var POS_KEY = "gat_spok_clean_pos_v3";
+
+  function getSavedCoords() {
+    try {
+      var raw = localStorage.getItem(POS_KEY);
+      if (!raw) return null;
+      var p = JSON.parse(raw);
+      if (p && typeof p.left === "number" && typeof p.top === "number") return p;
+    } catch (e) {}
+    return null;
+  }
+
+  function clampToViewport(leftPx, topPx) {
+    var vw = window.innerWidth || 375;
+    var vh = window.innerHeight || 667;
+    return {
+      left: Math.max(8, Math.min(vw - 64, Math.round(leftPx))),
+      top: Math.max(10, Math.min(vh - 70, Math.round(topPx)))
+    };
+  }
+
+  function setFabCoords(fab, leftPx, topPx) {
+    fab.style.setProperty("left", leftPx + "px", "important");
+    fab.style.setProperty("top", topPx + "px", "important");
+    fab.style.setProperty("right", "auto", "important");
+    fab.style.setProperty("bottom", "auto", "important");
+  }
+
+  function applyFabPosition(fab) {
+    var saved = getSavedCoords();
+    if (saved) {
+      var c = clampToViewport(saved.left, saved.top);
+      setFabCoords(fab, c.left, c.top);
+    } else {
+      var vw = window.innerWidth || 375;
+      var vh = window.innerHeight || 667;
+      setFabCoords(fab, Math.max(12, vw - 72), Math.max(60, vh - 138));
+    }
+  }
+
+  function getHelpdeskDrawer() {
+    return document.getElementById("gat-hd-drawer") || document.getElementById("gat-hd-panel") || document.getElementById("spok-drawer");
+  }
+
+  function isSpokDrawerOpen() {
+    var dr = document.getElementById("gat-hd-drawer");
+    if (!dr) return false;
+    return dr.classList.contains("open");
+  }
+
+  function syncFabVisibility() {
+    var fab = document.getElementById("gat-draggable-spok-fab");
+    if (!fab) return;
+    if (isSpokDrawerOpen()) {
+      fab.style.setProperty("display", "none", "important");
+      fab.style.setProperty("visibility", "hidden", "important");
+      fab.style.setProperty("pointer-events", "none", "important");
+    } else {
+      fab.style.setProperty("display", "inline-flex", "important");
+      fab.style.setProperty("visibility", "visible", "important");
+      fab.style.setProperty("opacity", "1", "important");
+      fab.style.setProperty("pointer-events", "auto", "important");
+    }
+  }
+
+  function openSpokUniversal() {
+    window.__gatSpokJustOpenedMs = Date.now();
+    if (typeof window.toggleGatHelpdesk === "function") {
+      window.toggleGatHelpdesk(true);
+    }
+    var dr = document.getElementById("gat-hd-drawer");
+    if (dr && !dr.classList.contains("open")) {
+      dr.classList.add("open");
+    }
+    handleSpokDrawerOpened();
+    syncFabVisibility();
+    setTimeout(syncFabVisibility, 50);
+  }
+
+  function mountSpokFab() {
+    if (!document.body) return;
+    var fab = document.getElementById("gat-draggable-spok-fab");
+    if (fab && fab.getAttribute("data-pointer-wired") === "1") {
+      if (fab.parentElement !== document.body) {
+        document.body.appendChild(fab);
+      }
+      return;
+    }
+    if (fab && fab.parentElement) {
+      fab.parentElement.removeChild(fab);
+    }
+
+    fab = document.createElement("button");
+    fab.type = "button";
+    fab.id = "gat-draggable-spok-fab";
+    fab.setAttribute("data-pointer-wired", "1");
+    fab.setAttribute("aria-label", "Ask Spok");
+    fab.innerHTML = '<span style="font-size:26px;line-height:1;pointer-events:none;">\ud83d\udd96</span>';
+    document.body.appendChild(fab);
+
+    applyFabPosition(fab);
+    syncFabVisibility();
+
+    var activePointerId = null;
+    var startX = 0, startY = 0, startL = 0, startT = 0;
+    var hasDragged = false;
+
+    fab.addEventListener("pointerdown", function(e) {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      activePointerId = e.pointerId;
+      hasDragged = false;
+      var rect = fab.getBoundingClientRect();
+      startX = e.clientX;
+      startY = e.clientY;
+      startL = rect.left;
+      startT = rect.top;
+      try { fab.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+
+    fab.addEventListener("pointermove", function(e) {
+      if (activePointerId === null || e.pointerId !== activePointerId) return;
+      // Safety: if mouse button was released outside, cancel drag immediately
+      if (e.pointerType === "mouse" && e.buttons === 0) {
+        try { fab.releasePointerCapture(e.pointerId); } catch (err) {}
+        activePointerId = null;
+        return;
+      }
+      var dx = e.clientX - startX;
+      var dy = e.clientY - startY;
+      if (!hasDragged && Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      hasDragged = true;
+      var c = clampToViewport(startL + dx, startT + dy);
+      setFabCoords(fab, c.left, c.top);
+    });
+
+    function finishPointer(e, isCancel) {
+      if (activePointerId === null || (e && e.pointerId !== activePointerId)) return;
+      try { fab.releasePointerCapture(activePointerId); } catch (err) {}
+      activePointerId = null;
+
+      if (hasDragged) {
+        var rect = fab.getBoundingClientRect();
+        var c = clampToViewport(rect.left, rect.top);
+        setFabCoords(fab, c.left, c.top);
+        try { localStorage.setItem(POS_KEY, JSON.stringify(c)); } catch (err) {}
+      } else if (!isCancel) {
+        openSpokUniversal();
+      }
+    }
+
+    fab.addEventListener("pointerup", function(e) {
+      e.stopPropagation();
+      finishPointer(e, false);
+    });
+    fab.addEventListener("pointercancel", function(e) {
+      e.stopPropagation();
+      finishPointer(e, true);
+    });
+    fab.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!hasDragged && !isSpokDrawerOpen()) {
+        openSpokUniversal();
+      }
+    }, true);
+
+    window.addEventListener("resize", function() {
+      applyFabPosition(fab);
+    }, { passive: true });
+  }
+
+  if (document.body) {
+    mountSpokFab();
+  } else {
+    window.addEventListener("DOMContentLoaded", mountSpokFab);
+  }
+  setTimeout(mountSpokFab, 150);
+  setTimeout(mountSpokFab, 600);
+
+  // ---------------------------------------------------------------------------
+  // PART B: RETURNING USER "WELCOME BACK [USERNAME]" & MINIMIZE HOOK
+  // ---------------------------------------------------------------------------
+  var SPOK_UI_I18N = {
+    en: {
+      wbWithName: "Welcome back, {name}! How can I help you today?",
+      wbNoName: "Welcome back! How can I help you today?",
+      intakeIntro: "Tell us what's happening below. Enter your WhatsApp number and describe your issue — our senior team will message you directly on WhatsApp:",
+      formTitle: "📬 Direct Support & Issue Intake",
+      waLabelLogged: "📱 Your WhatsApp Number (Pre-filled from your account):",
+      waLabelGuest: "📱 Your WhatsApp Number (Required to continue):",
+      waPh: "e.g. 05X-XXX-XXXX or +1-XXX-XXX-XXXX",
+      waValidMsg: "✓ Valid WhatsApp number",
+      waInvalidMsg: "⚠️ Enter a valid WhatsApp number (9–15 digits) to unlock Submit",
+      probLabel: "💬 What is the exact problem or question Spok couldn't solve?",
+      probPh: "Describe the issue, bug, or specific case question in detail (at least 15 characters)...",
+      probValidMsg: "✓ Issue details ready",
+      probInvalidMsg: "⚠️ Describe your issue in at least a few words (15+ characters) to unlock Submit",
+      submitLocked: "🔒 Fill WhatsApp & Problem Above to Submit",
+      submitUnlocked: "🚀 Send Directly to Senior Team →",
+      sending: "Sending to senior team...",
+      sentOk: "✅ Sent! Our senior team just received your WhatsApp and problem details and will message you directly.",
+      cooldownErr: "You just sent a ticket. Please wait 2 minutes before sending another.",
+      quickEscBtn: "💬 Have a specific problem or need a human? Open Direct Intake Form →"
+    },
+    he: {
+      wbWithName: "ברוך הבא חזרה, {name}! במה אפשר לעזור לך היום?",
+      wbNoName: "ברוכים השבים! במה אפשר לעזור לך היום?",
+      intakeIntro: "אנחנו כאן — בלי סיבובים. הזן/י מספר וואטסאפ ופירוט הבעיה למטה והפנייה תישלח ישירות לצוות הבכיר שלנו:",
+      formTitle: "📬 טופס פנייה ישירה ודיווח על בעיה",
+      waLabelLogged: "📱 מספר הוואטסאפ שלך (מולא אוטומטית מהחשבון שלך):",
+      waLabelGuest: "📱 מספר הוואטסאפ שלך לחזרה (חובה להמשך):",
+      waPh: "למשל: 05X-XXX-XXXX או +972...",
+      waValidMsg: "✓ מספר וואטסאפ תקין",
+      waInvalidMsg: "⚠️ נא להזין מספר וואטסאפ תקין (9–15 ספרות) כדי לפתוח את כפתור השליחה",
+      probLabel: "💬 מה הבעיה, התקלה או השאלה הספציפית שספוק לא פתר?",
+      probPh: "פרט/י כאן את הבעיה או השאלה (לפחות 15 תווים)...",
+      probValidMsg: "✓ פירוט הפנייה תקין",
+      probInvalidMsg: "⚠️ נא לפרט את הבעיה בכמה מילים (לפחות 15 תווים) כדי לפתוח את כפתור השליחה",
+      submitLocked: "🔒 מלא/י וואטסאפ ופירוט הבעיה כדי לשלוח",
+      submitUnlocked: "🚀 שלח ישירות לצוות הבכיר ←",
+      sending: "שולח לצוות הבכיר...",
+      sentOk: "✅ נשלח! הצוות שלנו קיבל את מספר הוואטסאפ והפירוט שלך בזה הרגע ויחזור אליך ישירות.",
+      cooldownErr: "פנייתך כבר נשלחה. נא להמתין 2 דקות לפני שליחת פנייה נוספת.",
+      quickEscBtn: "💬 יש לך בעיה ספציפית או צורך בנציג אנושי? פתח טופס פנייה ישירה ←"
+    },
+    fr: {
+      wbWithName: "Bon retour, {name} ! Comment puis-je vous aider ?",
+      wbNoName: "Bon retour ! Comment puis-je vous aider ?",
+      intakeIntro: "Expliquez-nous votre problème ci-dessous. Vérifiez votre numéro WhatsApp et décrivez la situation pour notre équipe :",
+      formTitle: "📬 Formulaire Direct — Support & Réclamation",
+      waLabelLogged: "📱 Votre numéro WhatsApp (Pré-rempli depuis votre compte) :",
+      waLabelGuest: "📱 Votre numéro WhatsApp (Obligatoire pour continuer) :",
+      waPh: "ex. 05X-XXX-XXXX ou +33...",
+      waValidMsg: "✓ Numéro WhatsApp valide",
+      waInvalidMsg: "⚠️ Entrez un numéro WhatsApp valide (9–15 chiffres) pour activer l'envoi",
+      probLabel: "💬 Quel est le problème exact que Spok n'a pas résolu ?",
+      probPh: "Décrivez précisément votre problème ou question (minimum 15 caractères)...",
+      probValidMsg: "✓ Description prête",
+      probInvalidMsg: "⚠️ Décrivez votre problème en quelques mots (15+ caractères) pour activer l'envoi",
+      submitLocked: "🔒 Remplissez WhatsApp & Problème pour envoyer",
+      submitUnlocked: "🚀 Envoyer Directement à l'Équipe →",
+      sending: "Envoi en cours...",
+      sentOk: "✅ Envoyé ! Notre équipe a reçu votre WhatsApp et votre message et vous contactera directement.",
+      cooldownErr: "Message déjà envoyé. Veuillez patienter 2 minutes.",
+      quickEscBtn: "💬 Un problème spécifique ou besoin d'un humain ? Ouvrir le formulaire →"
+    },
+    es: {
+      wbWithName: "¡Bienvenido/a de nuevo, {name}! ¿En qué puedo ayudarte hoy?",
+      wbNoName: "¡Bienvenido/a de nuevo! ¿En qué puedo ayudarte hoy?",
+      intakeIntro: "Cuéntanos tu problema abajo. Confirma tu WhatsApp y describe el inconveniente para que nuestro equipo te responda directamente:",
+      formTitle: "📬 Formulario Directo de Soporte",
+      waLabelLogged: "📱 Tu Número de WhatsApp (Pre-rellenado de tu cuenta):",
+      waLabelGuest: "📱 Tu Número de WhatsApp (Obligatorio para continuar):",
+      waPh: "ej. 05X-XXX-XXXX o +34 / +54...",
+      waValidMsg: "✓ Número de WhatsApp válido",
+      waInvalidMsg: "⚠️ Ingresa un WhatsApp válido (9–15 dígitos) para habilitar el envío",
+      probLabel: "💬 ¿Cuál es el problema exacto que Spok no pudo resolver?",
+      probPh: "Describe tu problema, error o consulta en detalle (mínimo 15 caracteres)...",
+      probValidMsg: "✓ Descripción lista",
+      probInvalidMsg: "⚠️ Describe tu problema en al menos unas palabras (15+ caracteres) para enviar",
+      submitLocked: "🔒 Completa WhatsApp y Problema para enviar",
+      submitUnlocked: "🚀 Enviar Directamente al Equipo →",
+      sending: "Enviando...",
+      sentOk: "✅ ¡Enviado! Nuestro equipo recibió tu WhatsApp y detalles y te escribirá directamente.",
+      cooldownErr: "Ya enviaste un mensaje hace poco. Espera 2 minutos.",
+      quickEscBtn: "💬 ¿Tienes un problema o necesitas a un humano? Abrir formulario →"
+    },
+    de: {
+      wbWithName: "Willkommen zurück, {name}! Wie kann ich Ihnen heute helfen?",
+      wbNoName: "Willkommen zurück! Wie kann ich Ihnen heute helfen?",
+      intakeIntro: "Schildern Sie uns Ihr Anliegen unten. Geben Sie Ihre WhatsApp-Nummer und das genaue Problem an — unser Team meldet sich direkt bei Ihnen:",
+      formTitle: "📬 Direkter Support & Problem-Meldung",
+      waLabelLogged: "📱 Ihre WhatsApp-Nummer (Aus Ihrem Konto vorausgefüllt):",
+      waLabelGuest: "📱 Ihre WhatsApp-Nummer (Erforderlich zum Fortfahren):",
+      waPh: "z.B. 05X-XXX-XXXX oder +49...",
+      waValidMsg: "✓ Gültige WhatsApp-Nummer",
+      waInvalidMsg: "⚠️ Bitte gültige WhatsApp-Nummer (9–15 Ziffern) eingeben",
+      probLabel: "💬 Welches genaue Problem konnte Spok nicht lösen?",
+      probPh: "Beschreiben Sie Ihr Problem oder Ihre Beschwerde im Detail (mind. 15 Zeichen)...",
+      probValidMsg: "✓ Beschreibung vollständig",
+      probInvalidMsg: "⚠️ Bitte beschreiben Sie Ihr Problem in einigen Worten (mind. 15 Zeichen)",
+      submitLocked: "🔒 WhatsApp & Problem ausfüllen zum Senden",
+      submitUnlocked: "🚀 Direkt an das Senior-Team senden →",
+      sending: "Wird gesendet...",
+      sentOk: "✅ Gesendet! Unser Team hat Ihre WhatsApp-Nummer und Ihr Anliegen erhalten und meldet sich direkt.",
+      cooldownErr: "Sie haben gerade eine Anfrage gesendet. Bitte 2 Minuten warten.",
+      quickEscBtn: "💬 Spezifisches Problem oder Mensch gewünscht? Direkt-Formular öffnen →"
+    },
+    ru: {
+      wbWithName: "С возвращением, {name}! Чем я могу помочь вам сегодня?",
+      wbNoName: "С возвращением! Чем я могу помочь вам сегодня?",
+      intakeIntro: "Опишите вашу проблему ниже. Укажите ваш WhatsApp и суть вопроса — наша старшая команда напишет вам напрямую в WhatsApp:",
+      formTitle: "📬 Прямая форма обращения в поддержку",
+      waLabelLogged: "📱 Ваш номер WhatsApp (Заполнен автоматически из вашего аккаунта):",
+      waLabelGuest: "📱 Ваш номер WhatsApp (Обязательно для продолжения):",
+      waPh: "например, 05X-XXX-XXXX или +7...",
+      waValidMsg: "✓ Номер WhatsApp корректен",
+      waInvalidMsg: "⚠️ Введите корректный номер WhatsApp (9–15 цифр), чтобы разблокировать отправку",
+      probLabel: "💬 Какую именно проблему или жалобу Спок не смог решить?",
+      probPh: "Подробно опишите вашу проблему, ошибку или вопрос (минимум 15 символов)...",
+      probValidMsg: "✓ Описание заполнено",
+      probInvalidMsg: "⚠️ Опишите проблему хотя бы в нескольких словах (15+ символов) для отправки",
+      submitLocked: "🔒 Заполните WhatsApp и описание проблемы",
+      submitUnlocked: "🚀 Отправить напрямую команде →",
+      sending: "Отправка...",
+      sentOk: "✅ Отправлено! Наша команда уже получила ваш WhatsApp и описание проблемы и свяжется с вами напрямую.",
+      cooldownErr: "Вы только что отправили запрос. Подождите 2 минуты.",
+      quickEscBtn: "💬 Есть проблема или нужен человек? Открыть прямую форму →"
+    }
+  };
+
+  function getLang() {
+    var path = (window.location.pathname || "").toLowerCase();
+    var m = path.match(/^\/(he|fr|es|de|ru)(\/|$)/);
+    if (m) return m[1];
+    var hl = (document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+    return SPOK_UI_I18N[hl] ? hl : "en";
+  }
+
+  function cleanFirstName(raw) {
+    if (!raw || typeof raw !== "string") return "";
+    var s = raw.trim().replace(/[@<>{}\[\]]/g, "");
+    if (!s || s.length < 2) return "";
+    var lower = s.toLowerCase();
+    if (lower === "visitor" || lower === "site visitor" || lower === "user" || lower === "anon" || lower === "guest" || lower.indexOf("wa_") === 0 || lower.indexOf("u_") === 0) {
+      return "";
+    }
+    var first = s.split(/\s+/)[0];
+    return first.charAt(0).toUpperCase() + first.slice(1);
+  }
+
+  window.__gatGetUserNameForSpok = function() {
+    try {
+      var directKeys = ["gat_user_name", "gat_spok_user_name", "gat_name", "gat_wa_name", "userName", "displayName"];
+      for (var i = 0; i < directKeys.length; i++) {
+        var val = cleanFirstName(localStorage.getItem(directKeys[i]));
+        if (val) return val;
+      }
+      var nameFields = ["pf_first_name", "pf_given_name", "pf_given_name_en", "pf_given_name_he", "pf_applicant_first_name", "firstName", "givenName", "name", "fullName"];
+      for (var k = 0; k < localStorage.length; k++) {
+        var key = localStorage.key(k);
+        if (!key) continue;
+        var raw = localStorage.getItem(key);
+        if (!raw || raw.charAt(0) !== "{") continue;
+        try {
+          var obj = JSON.parse(raw);
+          if (!obj || typeof obj !== "object") continue;
+          for (var f = 0; f < nameFields.length; f++) {
+            var nf = nameFields[f];
+            if (typeof obj[nf] === "string" && cleanFirstName(obj[nf])) return cleanFirstName(obj[nf]);
+            if (obj.masterDossier && typeof obj.masterDossier[nf] === "string" && cleanFirstName(obj.masterDossier[nf])) {
+              return cleanFirstName(obj.masterDossier[nf]);
+            }
+          }
+        } catch (e) {}
+      }
+    } catch (e) {}
+    return "";
+  };
+
+  var spokOpenCountThisBrowser = 0;
+  try {
+    spokOpenCountThisBrowser = parseInt(localStorage.getItem("gat_spok_open_count_v2") || "0", 10) || 0;
+  } catch (e) {}
+
+  function handleSpokDrawerOpened() {
+    spokOpenCountThisBrowser += 1;
+    try { localStorage.setItem("gat_spok_open_count_v2", String(spokOpenCountThisBrowser)); } catch (e) {}
+    if (spokOpenCountThisBrowser <= 1) return;
+
+    var msgsBox = document.getElementById("gat-hd-msgs");
+    if (!msgsBox) return;
+    var firstBubble = msgsBox.querySelector(".gat-hd-bubble, .gat-welcome-card, .gat-hd-msg");
+    if (!firstBubble || firstBubble.getAttribute("data-wb-shortened") === "1") return;
+
+    var lg = getLang();
+    var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
+    var uName = window.__gatGetUserNameForSpok();
+    var wbText = uName ? L.wbWithName.replace("{name}", uName) : L.wbNoName;
+
+    var pNodes = firstBubble.querySelectorAll("p, div");
+    var replaced = false;
+    for (var i = 0; i < pNodes.length; i++) {
+      var pn = pNodes[i];
+      if (pn.querySelector("button, input, textarea, a")) continue;
+      var txt = (pn.textContent || "").trim();
+      if (txt.length > 35) {
+        pn.innerHTML = "<strong>👋 " + wbText + "</strong>";
+        replaced = true;
+        break;
+      }
+    }
+    if (!replaced && !firstBubble.querySelector("button, input, textarea")) {
+      firstBubble.innerHTML = "<strong>👋 " + wbText + "</strong>";
+    }
+    firstBubble.setAttribute("data-wb-shortened", "1");
+  }
+
+  function hookToggleHelpdesk() {
+    if (typeof window.toggleGatHelpdesk === "function" && !window.toggleGatHelpdesk.__gatFabGuardHooked) {
+      var origToggle = window.toggleGatHelpdesk;
+      var wrappedToggle = function(forceState, pulseFabOnMinimize) {
+        if (forceState === false && !pulseFabOnMinimize && window.__gatSpokJustOpenedMs && (Date.now() - window.__gatSpokJustOpenedMs < 350)) {
+          return;
+        }
+        var res = origToggle.apply(this, arguments);
+        setTimeout(function() {
+          mountSpokFab();
+          if (isSpokDrawerOpen()) {
+            handleSpokDrawerOpened();
+          }
+          syncFabVisibility();
+        }, 25);
+        setTimeout(syncFabVisibility, 120);
+        return res;
+      };
+      wrappedToggle.__gatFabGuardHooked = true;
+      window.toggleGatHelpdesk = wrappedToggle;
+    }
+  }
+  hookToggleHelpdesk();
+  setInterval(hookToggleHelpdesk, 500);
+
+  document.addEventListener("click", function(e) {
+    var minBtn = e.target && e.target.closest && e.target.closest("#gat-hd-min, .gat-hd-mini-btn, .gat-hd-jump-btn");
+    if (minBtn) {
+      setTimeout(syncFabVisibility, 25);
+      setTimeout(syncFabVisibility, 150);
+    }
+  }, true);
+
+  // ---------------------------------------------------------------------------
+  // PART C: SPOK IN-CHAT INTAKE FORM (PRE-FILLED WA + MANDATORY VALIDATION + SPAM SHIELD)
+  // ---------------------------------------------------------------------------
+  window.__gatGetLoggedWhatsApp = function() {
+    try {
+      var directWaKeys = ["gat_wa_phone", "gat_user_phone", "wa_phone", "userPhone", "gat_verified_phone"];
+      for (var i = 0; i < directWaKeys.length; i++) {
+        var v = (localStorage.getItem(directWaKeys[i]) || "").trim();
+        var d = v.replace(/[^0-9]/g, "");
+        if (d.length >= 9 && d.length <= 15) return { phone: v, isLogged: true };
+      }
+      var uid = (localStorage.getItem("gat_uid") || localStorage.getItem("gat_visitor_uid") || "").trim();
+      if (uid.indexOf("wa_") === 0) {
+        var ud = uid.slice(3).replace(/[^0-9]/g, "");
+        if (ud.length >= 9 && ud.length <= 15) return { phone: "+" + ud, isLogged: true };
+      }
+      for (var k = 0; k < localStorage.length; k++) {
+        var key = localStorage.key(k);
+        var raw = localStorage.getItem(key);
+        if (!raw || raw.charAt(0) !== "{") continue;
+        try {
+          var obj = JSON.parse(raw);
+          var cand = (obj && (obj.pf_phone || obj.pf_mobile || (obj.masterDossier && (obj.masterDossier.pf_phone || obj.masterDossier.pf_mobile)))) || "";
+          var cd = String(cand).replace(/[^0-9]/g, "");
+          if (cd.length >= 9 && cd.length <= 15) return { phone: String(cand).trim(), isLogged: false };
+        } catch (e) {}
+      }
+    } catch (e) {}
+    return { phone: "", isLogged: false };
+  };
+
+  window.__gatIsValidWhatsApp = function(rawVal) {
+    if (!rawVal || typeof rawVal !== "string") return false;
+    var digits = rawVal.replace(/[^0-9]/g, "");
+    if (digits.length < 9 || digits.length > 15) return false;
+    if (/^(\d)\1{6,}$/.test(digits)) return false;
+    if (digits === "123456789" || digits === "1234567890" || digits === "0500000000" || digits === "0512345678" || digits === "987654321") return false;
+    if (digits.indexOf("05") === 0 && digits.length !== 10) return false;
+    return true;
+  };
+
+  window.__gatIsValidProblemText = function(rawText) {
+    if (!rawText || typeof rawText !== "string") return false;
+    var s = rawText.trim();
+    if (s.length < 15) return false;
+    if (/(.)\1{8,}/.test(s)) return false;
+    var words = s.split(/\s+/).filter(function(w) { return w.length >= 2; });
+    return words.length >= 3;
+  };
+
+  window.__gatValidateSpokIntakeLive = function(el) {
+    var card = el.closest(".gat-spok-intake-card");
+    if (!card) return;
+    var lg = getLang();
+    var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
+
+    var waInp = card.querySelector(".gat-spok-intake-wa");
+    var probInp = card.querySelector(".gat-spok-intake-prob");
+    var waHint = card.querySelector(".gat-spok-wa-hint");
+    var probHint = card.querySelector(".gat-spok-prob-hint");
+    var subBtn = card.querySelector(".gat-spok-intake-submit");
+
+    var waOk = window.__gatIsValidWhatsApp(waInp ? waInp.value : "");
+    var probOk = window.__gatIsValidProblemText(probInp ? probInp.value : "");
+
+    if (waInp && waHint) {
+      waInp.style.borderColor = waOk ? "#10b981" : "#f59e0b";
+      waHint.style.color = waOk ? "#059669" : "#b45309";
+      waHint.textContent = waOk ? L.waValidMsg : L.waInvalidMsg;
+    }
+    if (probInp && probHint) {
+      probInp.style.borderColor = probOk ? "#10b981" : "#f59e0b";
+      probHint.style.color = probOk ? "#059669" : "#b45309";
+      probHint.textContent = probOk ? L.probValidMsg : L.probInvalidMsg;
+    }
+
+    if (subBtn) {
+      var bothValid = (waOk && probOk);
+      subBtn.disabled = !bothValid;
+      subBtn.textContent = bothValid ? L.submitUnlocked : L.submitLocked;
+      subBtn.style.background = bothValid ? "#0d9488" : "#94a3b8";
+      subBtn.style.cursor = bothValid ? "pointer" : "not-allowed";
+      subBtn.style.opacity = bothValid ? "1" : "0.65";
+    }
+  };
+
+  window.__gatBuildSpokIntakeHTML = function(prefillProblem) {
+    var lg = getLang();
+    var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
+    var dir = lg === "he" ? "rtl" : "ltr";
+    var align = lg === "he" ? "right" : "left";
+
+    var waInfo = window.__gatGetLoggedWhatsApp();
+    var preWa = (waInfo.phone || "").replace(/"/g, "&quot;");
+    var waLabel = waInfo.isLogged ? L.waLabelLogged : L.waLabelGuest;
+
+    var cleanPrefill = (prefillProblem || "").trim();
+    if (/^(hi|hello|hey|shalom)?\s*(i want to |can i |please )?(speak|talk) (to|with) a (human|person|agent|representative|someone)/i.test(cleanPrefill)) {
+      cleanPrefill = "";
+    }
+    var safePreProb = cleanPrefill.replace(/"/g, "&quot;").replace(/</g, "&lt;");
+
+    var waOk = window.__gatIsValidWhatsApp(waInfo.phone);
+    var probOk = window.__gatIsValidProblemText(cleanPrefill);
+    var bothOk = (waOk && probOk);
+    var nowMs = Date.now();
+
+    return (
+      '<div class="gat-spok-intake-card" data-open-ms="' + nowMs + '" data-logged-wa="' + (waInfo.isLogged ? "1" : "0") + '" dir="' + dir + '" style="text-align:' + align + ';font-family:system-ui,-apple-system,sans-serif;">' +
+        '<div style="font-size:13.5px;font-weight:600;color:#0f172a;line-height:1.45;margin-bottom:10px;">' + L.intakeIntro + '</div>' +
+        '<div class="gat-spok-intake-body" style="background:#f8fafc;border:1.5px solid #0284c7;border-radius:12px;padding:12px;">' +
+          '<div style="font-size:13px;font-weight:800;color:#07223f;margin-bottom:10px;">' + L.formTitle + '</div>' +
+          '<input type="text" class="gat-spok-hp-web" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" aria-hidden="true">' +
+          '<label style="display:block;font-size:12px;font-weight:800;color:#0f172a;margin-bottom:4px;">' + waLabel + '</label>' +
+          '<input type="tel" class="gat-spok-intake-wa" value="' + preWa + '" placeholder="' + L.waPh + '" oninput="window.__gatValidateSpokIntakeLive(this)" onchange="window.__gatValidateSpokIntakeLive(this)" style="width:100%;box-sizing:border-box;padding:9px 10px;border-radius:8px;border:1.5px solid ' + (waOk ? '#10b981' : '#f59e0b') + ';font-size:13.5px;font-weight:700;background:#fff;color:#0f172a;">' +
+          '<div class="gat-spok-wa-hint" style="font-size:11.5px;font-weight:700;margin-top:3px;margin-bottom:10px;color:' + (waOk ? '#059669' : '#b45309') + ';">' + (waOk ? L.waValidMsg : L.waInvalidMsg) + '</div>' +
+          '<label style="display:block;font-size:12px;font-weight:800;color:#0f172a;margin-bottom:4px;">' + L.probLabel + '</label>' +
+          '<textarea class="gat-spok-intake-prob" rows="3" placeholder="' + L.probPh + '" oninput="window.__gatValidateSpokIntakeLive(this)" onchange="window.__gatValidateSpokIntakeLive(this)" style="width:100%;box-sizing:border-box;padding:9px 10px;border-radius:8px;border:1.5px solid ' + (probOk ? '#10b981' : '#f59e0b') + ';font-size:13px;background:#fff;color:#0f172a;resize:vertical;">' + safePreProb + '</textarea>' +
+          '<div class="gat-spok-prob-hint" style="font-size:11.5px;font-weight:700;margin-top:3px;margin-bottom:10px;color:' + (probOk ? '#059669' : '#b45309') + ';">' + (probOk ? L.probValidMsg : L.probInvalidMsg) + '</div>' +
+          '<div class="gat-spok-intake-err" style="display:none;font-size:12px;font-weight:700;color:#dc2626;margin-bottom:8px;"></div>' +
+          '<button type="button" class="gat-spok-intake-submit" ' + (bothOk ? '' : 'disabled') + ' onclick="window.__gatSubmitSpokIntake(this)" style="width:100%;padding:11px 12px;border-radius:9px;border:none;background:' + (bothOk ? '#0d9488' : '#94a3b8') + ';color:#fff;font-size:13.5px;font-weight:800;cursor:' + (bothOk ? 'pointer' : 'not-allowed') + ';opacity:' + (bothOk ? '1' : '0.65') + ';transition:all 0.15s ease;">' + (bothOk ? L.submitUnlocked : L.submitLocked) + '</button>' +
+        '</div>' +
+      '</div>'
+    );
+  };
+
+  window.__gatSubmitSpokIntake = function(btnEl) {
+    var card = btnEl.closest(".gat-spok-intake-card");
+    if (!card) return;
+    var lg = getLang();
+    var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
+
+    var hpVal = (card.querySelector(".gat-spok-hp-web") || {}).value || "";
+    var waVal = ((card.querySelector(".gat-spok-intake-wa") || {}).value || "").trim();
+    var probVal = ((card.querySelector(".gat-spok-intake-prob") || {}).value || "").trim();
+    var errEl = card.querySelector(".gat-spok-intake-err");
+    var openMs = parseInt(card.getAttribute("data-open-ms") || "0", 10) || Date.now();
+    var isLoggedWa = card.getAttribute("data-logged-wa") === "1";
+
+    if (!window.__gatIsValidWhatsApp(waVal) || !window.__gatIsValidProblemText(probVal)) {
+      window.__gatValidateSpokIntakeLive(btnEl);
+      return;
+    }
+
+    try {
+      var lastSent = parseInt(localStorage.getItem("gat_spok_last_ticket_ms") || "0", 10) || 0;
+      if (Date.now() - lastSent < 120 * 1000) {
+        if (errEl) {
+          errEl.style.display = "block";
+          errEl.textContent = L.cooldownErr;
+        }
+        return;
+      }
+    } catch (e) {}
+
+    btnEl.disabled = true;
+    btnEl.textContent = L.sending;
+    btnEl.style.opacity = "0.75";
+    if (errEl) errEl.style.display = "none";
+
+    try {
+      if (!localStorage.getItem("gat_wa_phone")) {
+        localStorage.setItem("gat_wa_phone", waVal);
+      }
+    } catch (e) {}
+
+    var uid = "anon";
+    try { uid = localStorage.getItem("gat_uid") || localStorage.getItem("gat_visitor_uid") || "anon"; } catch (e) {}
+
+    fetch("/api/auditDoc", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode: "spok_support_escalation",
+        name: window.__gatGetUserNameForSpok() || "Site Visitor",
+        whatsapp: waVal,
+        isLoggedWa: isLoggedWa,
+        complaint: probVal,
+        hp_website: hpVal,
+        formOpenMs: Date.now() - openMs,
+        pageUrl: window.location.pathname + window.location.search,
+        lang: lg,
+        uid: uid,
+        chatContext: (window.__gatSpokRecentChat || []).slice(-6).join(" | ")
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res && res.ok) {
+        try { localStorage.setItem("gat_spok_last_ticket_ms", String(Date.now())); } catch (e) {}
+        card.querySelector(".gat-spok-intake-body").innerHTML =
+          '<div style="padding:12px;background:#ecfdf5;border:1.5px solid #10b981;border-radius:10px;color:#065f46;font-weight:700;font-size:13.5px;line-height:1.45;">' +
+          L.sentOk + '</div>';
+      } else {
+        throw new Error((res && res.error) || "Submission error");
+      }
+    })
+    .catch(function(err) {
+      btnEl.disabled = false;
+      btnEl.textContent = L.submitUnlocked;
+      btnEl.style.opacity = "1";
+      if (errEl) {
+        errEl.style.display = "block";
+        errEl.textContent = (err && err.message) || L.waInvalidMsg;
+      }
+    });
+  };
+
+  window.__gatOpenInlineSpokIntake = function(btnEl) {
+    var wrap = btnEl.parentElement;
+    if (!wrap) return;
+    wrap.innerHTML = window.__gatBuildSpokIntakeHTML("");
+  };
+
+  window.__gatIsHumanOrProblemQuery = function(q) {
+    if (!q || typeof q !== "string") return false;
+    var s = q.toLowerCase().trim();
+    var patterns = [
+      /\b(human|person|agent|representative|someone|real person|manager|support|contact us|contact|customer service|operator)\b/,
+      /\b(complaint|complain|issue|problem|broken|bug|error|not working|doesn't work|doesnt work|stuck|wrong|refund|charge|charged|paid|payment|useless|stupid|annoying|frustrat|help me|talk to|speak to|speak with|call me|whatsapp me)\b/,
+      /(נציג|אנושי|בן אדם|מישהו|תמיכה|שירות לקוחות|תלונה|תקלה|לא עובד|בעיה|שגיאה|החזר|תשלום|דבר עם|לדבר עם|וואטסאפ|צור קשר)/,
+      /(humain|personne|conseiller|réclamation|plainte|problème|erreur|ne marche pas|remboursement|contacter)/,
+      /(humano|persona|agente|queja|reclamo|problema|error|no funciona|reembolso|contactar)/,
+      /(mensch|mitarbeiter|beschwerde|problem|fehler|funktioniert nicht|erstattung|kontakt)/,
+      /(человек|оператор|специалист|поддержк|жалоб|проблем|ошибк|не работает|возврат|связаться)/
+    ];
+    for (var i = 0; i < patterns.length; i++) {
+      if (patterns[i].test(s)) return true;
+    }
+    return false;
+  };
+
+  window.__gatSpokTurnCount = 0;
+  window.__gatSpokRecentChat = [];
+  var lastUserMsg = "";
+
+  function hookSendHelpdeskMsg() {
+    if (typeof window.sendGatHelpdeskMsg === "function" && !window.sendGatHelpdeskMsg.__gatIntakeHooked) {
+      var origSend = window.sendGatHelpdeskMsg;
+      var wrappedSend = function(presetText) {
+        var inp = document.getElementById("gat-hd-input") || document.getElementById("gat-hd-in");
+        var msg = (typeof presetText === "string" && presetText.trim()) ? presetText.trim() : (inp && inp.value ? inp.value.trim() : "");
+        if (msg) {
+          lastUserMsg = msg;
+          window.__gatSpokTurnCount += 1;
+          window.__gatSpokRecentChat.push("User: " + msg);
+        }
+
+        if (msg && window.__gatIsHumanOrProblemQuery(msg)) {
+          var msgsBox = document.getElementById("gat-hd-msgs");
+          if (msgsBox) {
+            if (inp && !presetText) inp.value = "";
+            var uDiv = document.createElement("div");
+            uDiv.className = "gat-hd-msg user";
+            uDiv.style.cssText = "display:flex;justify-content:flex-end;margin:8px 0;";
+            uDiv.innerHTML = '<div style="background:#0284c7;color:#fff;padding:10px 14px;border-radius:16px 16px 4px 16px;max-width:85%;font-size:14px;font-weight:600;line-height:1.4;">' +
+              msg.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</div>';
+            msgsBox.appendChild(uDiv);
+
+            var bDiv = document.createElement("div");
+            bDiv.className = "gat-hd-msg bot";
+            bDiv.style.cssText = "margin:10px 0;";
+            bDiv.innerHTML = '<div class="gat-hd-bubble" style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(15,23,42,0.06);">' +
+              window.__gatBuildSpokIntakeHTML(msg) + '</div>';
+            msgsBox.appendChild(bDiv);
+            msgsBox.scrollTop = msgsBox.scrollHeight;
+            return;
+          }
+        }
+        return origSend.apply(this, arguments);
+      };
+      wrappedSend.__gatIntakeHooked = true;
+      window.sendGatHelpdeskMsg = wrappedSend;
+    }
+  }
+  hookSendHelpdeskMsg();
+  setInterval(hookSendHelpdeskMsg, 400);
+
+  var chatObs = new MutationObserver(function(mutations) {
+    for (var i = 0; i < mutations.length; i++) {
+      var added = mutations[i].addedNodes;
+      for (var j = 0; j < added.length; j++) {
+        var node = added[j];
+        if (!node || node.nodeType !== 1) continue;
+        var html = node.innerHTML || "";
+        var txt = (node.textContent || "").trim();
+        if (html.indexOf("gat-spok-intake-card") !== -1 || html.indexOf("gat-spok-open-intake-btn") !== -1) continue;
+
+        if (txt.indexOf("unmatched peace of mind") !== -1 || (window.__gatIsHumanOrProblemQuery(lastUserMsg) && txt.indexOf("Book Human Dossier Audit") !== -1)) {
+          var targetCard = node.querySelector(".gat-hd-bubble") || node;
+          targetCard.innerHTML = window.__gatBuildSpokIntakeHTML(lastUserMsg);
+          lastUserMsg = "";
+          continue;
+        }
+
+        var bub = node.classList && node.classList.contains("gat-hd-bubble") ? node : (node.querySelector ? node.querySelector(".gat-hd-bubble") : null);
+        if (bub && window.__gatSpokTurnCount >= 1 && txt.length > 60 && bub.getAttribute("data-intake-btn-added") !== "1") {
+          bub.setAttribute("data-intake-btn-added", "1");
+          var lg = getLang();
+          var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
+          var escWrap = document.createElement("div");
+          escWrap.className = "gat-spok-open-intake-btn";
+          escWrap.style.marginTop = "10px";
+          escWrap.innerHTML =
+            '<button type="button" onclick="window.__gatOpenInlineSpokIntake(this)" style="width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid #0284c7;background:#f0f9ff;color:#0369a1;font-size:12.5px;font-weight:800;cursor:pointer;">' +
+            L.quickEscBtn + '</button>';
+          bub.appendChild(escWrap);
+        }
+      }
+    }
+  });
+
+  if (document.body) {
+    chatObs.observe(document.body, { childList: true, subtree: true });
+  } else {
+    window.addEventListener("DOMContentLoaded", function() {
+      chatObs.observe(document.body, { childList: true, subtree: true });
+    });
+  }
+})();
+// === END GAT SPOK UNIFIED CONTROLLER ===

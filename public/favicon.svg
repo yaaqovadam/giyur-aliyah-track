@@ -1,13 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <defs>
-    <linearGradient id="gatBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0A96FA"/>
-      <stop offset="100%" stop-color="#0277D0"/>
-    </linearGradient>
-  </defs>
-  <rect x="16" y="16" width="480" height="480" rx="116" ry="116" fill="url(#gatBlue)"/>
-  <!-- Upward Triangle of Magen David -->
-  <polygon points="256,96 394,336 118,336" fill="none" stroke="#FFFFFF" stroke-width="34" stroke-linejoin="round" stroke-linecap="round"/>
-  <!-- Downward Triangle of Magen David -->
-  <polygon points="256,416 394,176 118,176" fill="none" stroke="#FFFFFF" stroke-width="34" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect width="512" height="512" rx="112" fill="#04102D"/>
+  <rect x="18" y="18" width="476" height="476" rx="97" fill="none" stroke="#00A2FF" stroke-width="25" stroke-opacity="0.95"/>
+  <polygon points="256,82 407,343 105,343" fill="none" stroke="#FFFFFF" stroke-width="38" stroke-linejoin="round"/>
+  <polygon points="256,430 407,169 105,169" fill="none" stroke="#FFFFFF" stroke-width="38" stroke-linejoin="round"/>
 </svg>

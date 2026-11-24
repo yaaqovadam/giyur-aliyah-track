@@ -1,1143 +1,1398 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
+<!-- GAT-ANALYTICS-SMART-FILTER-START -->
+<script>
+(function() {
+  try { localStorage.setItem("gat_is_admin_device", "1"); } catch (e) {}
+
+  var ADMIN_VIDS = { "u_mwu2hbfa_4ij28z": 1, "gat_admin_uid_ref": 1, "gat_admin_uid_ref": 1 };
+  var OWNER_MAC_HEIGHTS = { "1263": 1, "1024": 1, "853": 1, "986": 1 };
+  var HEADLESS_VPS = ["412x732", "1024x1024", "800x600", "1600x1200", "1280x1280"];
+  window.__gatShowRawDevTraffic = false;
+
+  function getDwellSec(v) {
+    return Number(v.dwellSeconds || v.totalSeconds || v.seconds || v.dwell || v.duration || 0);
+  }
+
+  function classifyVisitor(v) {
+    var vid = String(v.vid || v.uid || v.id || "");
+    var tz = String(v.tz || v.timezone || "Unknown");
+    var vp = String(v.screen || v.viewport || "");
+    var ua = String(v.ua || v.userAgent || "").toLowerCase();
+    var path = String(v.currentPath || v.lastPath || v.path || "/");
+    var dwell = getDwellSec(v);
+    var pulses = Number(v.pulses || v.hits || 1);
+    var vpParts = vp.split("x");
+    var vpW = vpParts[0] || "";
+    var vpH = vpParts[1] || "";
+
+    // 1. Check if Headless Search/Social Bot JS Renderer first
+    var isHeadlessVp = false;
+    for (var i = 0; i < HEADLESS_VPS.length; i++) {
+      if (vp.indexOf(HEADLESS_VPS[i]) !== -1) { isHeadlessVp = true; break; }
+    }
+    var isBotUa = /(bot|crawl|spider|headless|facebookexternalhit|whatsapp|inspectiontool|yandex|ahrefs|bingpreview|google-read-aloud)/i.test(ua);
+    var isMoscowYandexRender = (tz === "Europe/Moscow" && dwell <= 3 && pulses <= 1 && path.indexOf("/ru") === 0);
+    var isUsHeadlessRender = (dwell <= 5 && pulses <= 1 && (tz === "America/Los_Angeles" || tz === "UTC" || tz === "Etc/UTC"));
+
+    if (isHeadlessVp || isBotUa || isMoscowYandexRender || isUsHeadlessRender) {
+      var botLabel = "Headless Search/AI Renderer";
+      if (isMoscowYandexRender || ua.indexOf("yandex") !== -1) botLabel = "Yandex JS Renderer (RU Spokes)";
+      else if (tz === "America/Los_Angeles" || isHeadlessVp) botLabel = "Google WRS / AI Overview Renderer";
+      return { type: "bot", botName: botLabel };
+    }
+
+    // 2. Check if Owner Mac or iPhone 12 mini Dev/Test Session
+    var isOwnerMac = (tz === "Asia/Jerusalem" && (OWNER_MAC_HEIGHTS[vpH] || dwell > 3600));
+    var isOwnerIphoneQuickTest = (tz === "Asia/Jerusalem" && vpW === "375" && dwell <= 20);
+    if (ADMIN_VIDS[vid] || v.isAdmin || isOwnerMac || isOwnerIphoneQuickTest) {
+      return { type: "owner" };
+    }
+
+    return { type: "human" };
+  }
+
+  function transformAnalyticsPayload(rawPayload) {
+    if (!rawPayload || !Array.isArray(rawPayload.visitors)) return rawPayload;
+    if (window.__gatShowRawDevTraffic) return rawPayload;
+
+    var payload = JSON.parse(JSON.stringify(rawPayload));
+    var cleanHumans = [];
+    var synthBots = {};
+    var ownerRemoved = 0;
+    var botRendersMoved = 0;
+
+    for (var i = 0; i < payload.visitors.length; i++) {
+      var v = payload.visitors[i];
+      var cls = classifyVisitor(v);
+      if (cls.type === "owner") {
+        ownerRemoved++;
+        continue;
+      }
+      if (cls.type === "bot") {
+        botRendersMoved++;
+        var bName = cls.botName;
+        var vPath = String(v.currentPath || v.lastPath || v.path || "/");
+        if (!synthBots[bName]) {
+          synthBots[bName] = {
+            botId: "headless_" + bName.toLowerCase().replace(/[^a-z0-9]+/g, "_"),
+            botName: bName,
+            ua: v.ua || "Headless Chromium Renderer",
+            lastSeen: v.lastSeen || v.updatedAt || Date.now(),
+            day: v.day || (payload.today && payload.today.date) || "",
+            lastPath: vPath,
+            ref: v.ref || "",
+            hits: 0
+          };
+        }
+        synthBots[bName].hits += Number(v.pulses || v.hits || 1);
+        synthBots[bName].lastPath = vPath;
+        continue;
+      }
+
+      // Cap idle background tabs (e.g. 0x0 viewport or >25m single-pulse tab) at 15m (900s) so 1 idle tab doesn't skew Avg Dwell
+      var dSec = getDwellSec(v);
+      if ((v.screen === "0x0" && dSec > 600) || dSec > 1800) {
+        dSec = 900;
+        if (v.dwellSeconds !== undefined) v.dwellSeconds = dSec;
+        if (v.totalSeconds !== undefined) v.totalSeconds = dSec;
+        if (v.seconds !== undefined) v.seconds = dSec;
+        if (v.dwell !== undefined) v.dwell = dSec;
+      }
+      cleanHumans.push(v);
+    }
+
+    payload.visitors = cleanHumans;
+    if (!Array.isArray(payload.crawlers)) payload.crawlers = [];
+    for (var bk in synthBots) {
+      payload.crawlers.push(synthBots[bk]);
+    }
+
+    window.__gatFilterStats = {
+      externalHumans: cleanHumans.length,
+      ownerRemoved: ownerRemoved,
+      botRendersMoved: botRendersMoved
+    };
+    setTimeout(renderFilterBanner, 80);
+    return payload;
+  }
+
+  function renderFilterBanner() {
+    var st = window.__gatFilterStats;
+    if (!st && !window.__gatShowRawDevTraffic) return;
+    var bar = document.getElementById("gat-clean-traffic-bar");
+    if (!bar) {
+      bar = document.createElement("div");
+      bar.id = "gat-clean-traffic-bar";
+      bar.style.cssText = "max-width:1280px;margin:10px auto 6px;padding:10px 16px;border-radius:12px;background:#0f172a;color:#f8fafc;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;font-family:system-ui,-apple-system,sans-serif;font-size:13px;box-shadow:0 4px 12px rgba(2,6,23,0.18);";
+      var target = document.querySelector("main") || document.body;
+      target.insertBefore(bar, target.firstChild);
+    }
+    if (window.__gatShowRawDevTraffic) {
+      bar.innerHTML =
+        '<div>⚠️ <strong>Showing Raw Unfiltered Traffic</strong> (Includes your own Mac/iPhone dev tabs & headless 1s renders)</div>' +
+        '<button type="button" onclick="window.__gatToggleCleanTraffic()" style="padding:6px 12px;border-radius:8px;border:1px solid #38bdf8;background:#0284c7;color:#fff;font-weight:700;cursor:pointer;font-size:12.5px;">🛡️ Switch to Clean External Traffic</button>';
+    } else {
+      bar.innerHTML =
+        '<div>🛡️ <strong>Clean External Traffic Mode Active:</strong> Filtered out <strong>' + (st ? st.ownerRemoved : 0) + '</strong> owner Mac/iPhone dev sessions & moved <strong>' + (st ? st.botRendersMoved : 0) + '</strong> headless JS renders to Crawler & Bot Engines.</div>' +
+        '<button type="button" onclick="window.__gatToggleCleanTraffic()" style="padding:6px 12px;border-radius:8px;border:1px solid #64748b;background:#1e293b;color:#e2e8f0;font-weight:700;cursor:pointer;font-size:12.5px;">👁️ Show Raw (+My Dev Tabs)</button>';
+    }
+  }
+
+  window.__gatToggleCleanTraffic = function() {
+    window.__gatShowRawDevTraffic = !window.__gatShowRawDevTraffic;
+    if (typeof window.loadAnalytics === "function") window.loadAnalytics();
+    else if (typeof window.loadQueue === "function") window.loadQueue();
+    else window.location.reload();
+  };
+
+  var origFetch = window.fetch;
+  if (typeof origFetch === "function" && !origFetch.__gatAnalyticsWrapped) {
+    var wrappedFetch = function(url, opts) {
+      var isAnalyticsCall = false;
+      try {
+        if (typeof url === "string" && url.indexOf("auditDoc") !== -1) {
+          if (url.indexOf("get_analytics") !== -1 || (opts && typeof opts.body === "string" && opts.body.indexOf("get_analytics") !== -1)) {
+            isAnalyticsCall = true;
+          }
+        }
+      } catch (e) {}
+
+      if (!isAnalyticsCall) return origFetch.apply(this, arguments);
+
+      return origFetch.apply(this, arguments).then(function(resp) {
+        return resp.clone().json().then(function(data) {
+          var cleaned = transformAnalyticsPayload(data);
+          return new Response(JSON.stringify(cleaned), {
+            status: resp.status,
+            statusText: resp.statusText,
+            headers: { "Content-Type": "application/json" }
+          });
+        }).catch(function() {
+          return resp;
+        });
+      });
+    };
+    wrappedFetch.__gatAnalyticsWrapped = true;
+    window.fetch = wrappedFetch;
+  }
+})();
+</script>
+<!-- GAT-ANALYTICS-SMART-FILTER-END -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Live Traffic & Crawler Command Center | Giyur Aliyah Track</title>
-  <link rel="canonical" href="https://giyuraliyahtrack.com/analytics/">
-  <meta name="description" content="Giyur Aliyah Track — Live Human Visitor & Statutory Engagement Telemetry Dashboard.">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>GAT Live Analytics — Top 10, Today's Visitors &amp; Crawler Telemetry</title>
+  <meta property="og:title" content="GiyurAliyahTrack — Israel Conversion (Giyur), Aliyah & Spousal Visas">
+  <meta property="og:description" content="• PIBA Hebrew Form Auto-Filler, Translator & Stamper • AI Document & Apostille Auditor + Clerk Decoder • Beit Din, 2-Phone Couples & Shabbat Simulators • Save 15,000₪–40,000₪ on Lawyers">
+  <meta property="og:image" content="https://giyuraliyahtrack.com/gat-card-w8181-en.jpg">
+  <meta property="og:image:secure_url" content="https://giyuraliyahtrack.com/gat-card-w8181-en.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1000">
+  <meta property="og:image:height" content="1000">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GiyurAliyahTrack — Israel Conversion (Giyur), Aliyah & Spousal Visas">
+  <meta name="twitter:description" content="• PIBA Hebrew Form Auto-Filler, Translator & Stamper • AI Document & Apostille Auditor + Clerk Decoder • Beit Din, 2-Phone Couples & Shabbat Simulators • Save 15,000₪–40,000₪ on Lawyers">
+  <meta name="twitter:image" content="https://giyuraliyahtrack.com/gat-card-w8181-en.jpg">
+  <link rel="icon" href="/favicon.ico?v=1795487702" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=1795487702">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=1795487702">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=1795487702">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1795487702">
+  <link rel="manifest" href="/site.webmanifest?v=1795487702">
   <style>
     :root {
-      --navy: #082548;
-      --navy-dark: #051830;
-      --sky: #03A9F4;
-      --sky-dark: #0288D1;
-      --emerald: #10b981;
-      --amber: #f59e0b;
-      --rose: #ef4444;
       --bg: #f1f5f9;
       --card: #ffffff;
-      --border: #cbd5e1;
-      --text: #0f172a;
-      --muted: #475569;
+      --navy: #0f172a;
+      --slate: #475569;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --blue: #0284c7;
+      --blue-bg: #e0f2fe;
+      --green: #059669;
+      --green-bg: #d1fae5;
+      --amber: #d97706;
+      --amber-bg: #fef3c7;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      padding: 0;
       background: var(--bg);
-      color: var(--text);
-      line-height: 1.45;
+      color: var(--navy);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
     .topbar {
-      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
-      color: #fff;
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      border-bottom: 3px solid var(--sky);
       position: sticky;
       top: 0;
-      z-index: 50;
-    }
-    .topbar h1 {
-      margin: 0;
-      font-size: 1.2rem;
-      font-weight: 900;
+      z-index: 100;
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 20px;
       display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .topbar-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
       flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.2);
     }
-    .pin-input {
-      background: rgba(255,255,255,0.12);
-      border: 1.5px solid #4FC3F7;
-      color: #fff;
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-size: 0.85rem;
-      font-weight: 800;
-      width: 120px;
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .brand-title { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .uid-pill {
+      background: rgba(56, 189, 248, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #7dd3fc;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 700;
     }
+    .topbar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
     .btn {
-      background: linear-gradient(135deg, var(--sky-dark) 0%, var(--sky) 100%);
-      color: #fff;
-      border: 1.5px solid #81D4FA;
-      border-radius: 10px;
-      padding: 8px 14px;
-      font-size: 0.84rem;
-      font-weight: 900;
-      cursor: pointer;
-      text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      padding: 7px 13px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
     }
-    .btn-secondary {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.3);
+    .btn-primary { background: #0284c7; color: #fff; }
+    .btn-primary:hover { background: #0369a1; }
+    .btn-ghost { background: rgba(255,255,255,0.1); color: #f8fafc; border-color: rgba(255,255,255,0.2); }
+    .btn-warn { background: #fffbeb; color: #b45309; border-color: #fde68a; }
+    .btn-danger { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+    .btn-all-visits {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 800;
+      white-space: nowrap;
+      cursor: pointer;
     }
-    .container {
-      max-width: 1380px;
-      margin: 20px auto;
-      padding: 0 16px 60px 16px;
+    .btn-all-visits:hover { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+    .btn-toggle-detail {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
     }
+    .container { max-width: 1320px; margin: 18px auto 48px; padding: 0 16px; }
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-      margin-bottom: 22px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
     }
     .kpi-card {
       background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 4px 14px rgba(8,37,72,0.06);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
     }
-    .kpi-card.highlight {
-      border-color: var(--sky);
-      background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
-    }
-    .kpi-card.bot-card {
-      border-color: var(--amber);
-      background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%);
-    }
-    .kpi-lbl {
-      font-size: 0.74rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    .kpi-val {
-      font-size: 1.75rem;
-      font-weight: 900;
-      color: var(--navy);
-    }
-    .kpi-sub {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-top: 4px;
-      font-weight: 700;
-    }
+    .kpi-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--muted); }
+    .kpi-val { font-size: 26px; font-weight: 900; margin-top: 4px; color: var(--navy); }
+    .kpi-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; font-weight: 600; }
+
     .section-card {
       background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 24px;
-      box-shadow: 0 6px 20px rgba(8,37,72,0.06);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+      overflow: hidden;
     }
-    .section-hdr {
+    .section-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
       display: flex;
-      align-items: center;
-      justify-content: space-between;
       flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
       gap: 12px;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid #e2e8f0;
+      background: #f8fafc;
     }
-    .section-hdr h2 {
-      margin: 0;
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: var(--navy);
+    .section-title { font-size: 16px; font-weight: 800; color: var(--navy); margin: 0; }
+    .section-sub { font-size: 12px; color: var(--muted); margin: 2px 0 0; font-weight: 500; }
+    .controls-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .tab-group { display: inline-flex; background: #e2e8f0; padding: 3px; border-radius: 10px; gap: 3px; }
+    .tab-btn {
+      border: none;
+      background: transparent;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .tab-btn.active { background: #fff; color: #0f172a; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+    .search-input {
+      padding: 7px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font-size: 12.5px;
+      min-width: 220px;
+      outline: none;
+    }
+    .table-wrap { overflow-x: auto; max-height: 540px; overflow-y: auto; }
+    table.compact-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    table.compact-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 9px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tr.compact-row { border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: background 0.12s ease; }
+    tr.compact-row:hover { background: #f8fafc; }
+    tr.compact-row.expanded { background: #f0f9ff; }
+    tr.compact-row td { padding: 9px 12px; vertical-align: middle; white-space: nowrap; }
+    tr.detail-row { display: none; background: #f8fafc; border-bottom: 2px solid #cbd5e1; }
+    tr.detail-row.open { display: table-row; }
+    tr.detail-row td { padding: 14px 18px; }
+    .detail-box { background: #fff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; }
+    .detail-header {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .pages-pill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+    .page-mini-card {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
       gap: 8px;
-    }
-    .filter-input {
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-size: 0.85rem;
-      min-width: 240px;
-      font-weight: 600;
-    }
-    .table-wrap {
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-    }
-    th {
+      padding: 7px 10px;
       background: #f8fafc;
-      color: var(--navy);
-      font-weight: 900;
-      text-align: left;
-      padding: 11px 12px;
-      border-bottom: 2px solid var(--border);
+      border: 1px solid #e2e8f0;
+      border-left: 3px solid #0284c7;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .page-mini-path {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 700;
+      color: #0f172a;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-    td {
-      padding: 12px;
-      border-bottom: 1px solid #e2e8f0;
-      vertical-align: top;
-    }
-    tr:hover td {
-      background: #f8fafc;
     }
     .badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 0.72rem;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-    .badge-sky { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
-    .badge-emerald { background: #d1fae5; color: #047857; border: 1px solid #6ee7b7; }
-    .badge-amber { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
-    .badge-navy { background: var(--navy); color: #fff; }
-    .page-journey {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .page-pill {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      border-left: 4px solid var(--sky);
-      border-radius: 8px;
-      padding: 6px 10px;
-      font-size: 0.8rem;
-    }
-    .page-pill code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-weight: 800;
-      color: var(--navy);
-      word-break: break-all;
-    }
-    .page-pill .dwell {
-      font-weight: 900;
-      color: #047857;
-      background: #d1fae5;
+      gap: 4px;
       padding: 2px 8px;
       border-radius: 999px;
-      font-size: 0.74rem;
-      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
     }
-    .bot-summary-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 10px;
+    .badge-blue { background: var(--blue-bg); color: #0369a1; }
+    .badge-green { background: var(--green-bg); color: #047857; }
+    .badge-amber { background: var(--amber-bg); color: #b45309; }
+    .badge-slate { background: #e2e8f0; color: #334155; }
+    .rank-medal {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 6px;
+      font-weight: 900;
+      font-size: 11.5px;
+    }
+    .rank-1 { background: #fef08a; color: #854d0e; border: 1px solid #facc15; }
+    .rank-2 { background: #e2e8f0; color: #334155; border: 1px solid #cbd5e1; }
+    .rank-3 { background: #fed7aa; color: #9a3412; border: 1px solid #fb923c; }
+    .rank-n { background: #f1f5f9; color: #475569; }
+
+    .bot-chips-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+    }
+    .bot-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      color: #92400e;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .bot-chip:hover { background: #fef3c7; }
+
+    #page-2-history-view { display: none; }
+    .history-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #fff;
+      border-radius: 16px;
+      padding: 20px 22px;
       margin-bottom: 18px;
     }
-    .bot-sum-card {
-      background: #fffbeb;
-      border: 1.5px solid #fcd34d;
-      border-radius: 12px;
-      padding: 11px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
+    .history-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
     }
-    .bot-sum-name { font-weight: 900; color: #78350f; font-size: 0.84rem; }
-    .bot-sum-hits { font-weight: 900; background: #f59e0b; color: #fff; padding: 3px 9px; border-radius: 999px; font-size: 0.78rem; }
-    .status-dot {
-      display: inline-block;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #10b981;
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.25);
-      margin-right: 6px;
+    .history-meta-box {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 10px;
+      padding: 10px 12px;
     }
-  
-  
-  /* === EXACT CONTRAST RULES: LIGHT FAQ CARDS vs. DARK NAVY FOOTER & PLAYBOOKS === */
-  details > summary:not(.gat-dark-summary),
-  details > summary:not(.gat-dark-summary) * {
-    color: #082548 !important;
-    -webkit-text-fill-color: #082548 !important;
-    opacity: 1 !important;
-  }
-  .seo-obstacle-library > details > summary,
-  .seo-obstacle-library > details > summary *,
-  #gat-seo-library > details > summary,
-  #gat-seo-library > details > summary *,
-  .gat-dark-legal-footer details > summary,
-  .gat-dark-legal-footer details > summary *,
-  summary.gat-dark-summary,
-  summary.gat-dark-summary * {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-    opacity: 1 !important;
-  }
-  .gat-dark-legal-footer details p,
-  .gat-dark-legal-footer details p *,
-  p.gat-dark-body,
-  p.gat-dark-body * {
-    color: #e2e8f0 !important;
-    -webkit-text-fill-color: #e2e8f0 !important;
-    opacity: 1 !important;
-  }
-
-  
-  
-  /* === CLEAN iOS FORM INPUT & CONTRAST STABILIZER (ZERO SCROLL YANKING) === */
-  details > summary:not(.gat-dark-summary),
-  details > summary:not(.gat-dark-summary) * {
-    color: #082548 !important;
-    -webkit-text-fill-color: #082548 !important;
-    opacity: 1 !important;
-  }
-  .seo-obstacle-library > details > summary,
-  .seo-obstacle-library > details > summary *,
-  #gat-seo-library > details > summary,
-  #gat-seo-library > details > summary *,
-  .gat-dark-legal-footer details > summary,
-  .gat-dark-legal-footer details > summary *,
-  summary.gat-dark-summary,
-  summary.gat-dark-summary * {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-    opacity: 1 !important;
-  }
-  .gat-dark-legal-footer details p,
-  .gat-dark-legal-footer details p *,
-  p.gat-dark-body,
-  p.gat-dark-body * {
-    color: #e2e8f0 !important;
-    -webkit-text-fill-color: #e2e8f0 !important;
-    opacity: 1 !important;
-  }
-  input, select, textarea {
-    font-size: 16px !important;
-    touch-action: manipulation !important;
-    -webkit-user-select: text !important;
-    user-select: text !important;
-  }
-
-</style>
-<style id="gat-horizontal-tabs-scroll-fix">
-  /* Allow horizontal touch-scrolling on top module/track tab rows while keeping page locked */
-  .mod-tabs, .mod-tabs *,
-  .nav-tabs, .nav-tabs *,
-  .sub-tabs, .sub-tabs *,
-  #mod-tabs, #mod-tabs *,
-  #hebrew-subtabs-bar, #hebrew-subtabs-bar *,
-  [role="tablist"], [role="tablist"] * {
-    touch-action: pan-x pan-y !important;
-  }
-  .mod-tabs,
-  .nav-tabs,
-  .sub-tabs,
-  #mod-tabs,
-  #hebrew-subtabs-bar,
-  [role="tablist"] {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none !important;
-    max-width: 100vw !important;
-  }
-  .mod-tabs::-webkit-scrollbar,
-  .nav-tabs::-webkit-scrollbar,
-  .sub-tabs::-webkit-scrollbar,
-  #mod-tabs::-webkit-scrollbar,
-  #hebrew-subtabs-bar::-webkit-scrollbar,
-  [role="tablist"]::-webkit-scrollbar {
-    display: none !important;
-  }
-  .mod-tabs > *,
-  .nav-tabs > *,
-  .sub-tabs > *,
-  #mod-tabs > *,
-  #hebrew-subtabs-bar > *,
-  [role="tablist"] > * {
-    flex: 0 0 auto !important;
-    white-space: nowrap !important;
-  }
-</style>
+    .history-meta-label { font-size: 10.5px; text-transform: uppercase; color: #94a3b8; font-weight: 700; }
+    .history-meta-val { font-size: 15px; font-weight: 800; color: #fff; margin-top: 3px; word-break: break-all; }
+  </style>
 </head>
 <body>
-<!-- RESTRICTED ACCESS GATE (SHARED ACROSS /analytics AND /concierge, 8-HR AUTO-DELETE) -->
-<style id="gat-hard-auth-style">
-  body > *:not(#gat-hard-auth-overlay) { display: none !important; }
-</style>
-<div id="gat-hard-auth-overlay" style="position:fixed;inset:0;background:#041226;z-index:2147483647;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:20px;">
-  <div style="background:#0b2240;border:1.5px solid #1e293b;border-radius:18px;max-width:380px;width:100%;padding:28px;text-align:center;color:#fff;box-shadow:0 25px 60px rgba(0,0,0,0.65);">
-    <div style="font-size:2rem;margin-bottom:8px;">🔒</div>
-    <div style="font-size:1.1rem;font-weight:900;margin-bottom:6px;" id="gat-gate-title">Verifying Admin Session...</div>
-    <div style="font-size:0.8rem;color:#94a3b8;margin-bottom:16px;" id="gat-gate-sub">Checking your active login session...</div>
-    <div id="gat-gate-step1">
-      <input type="tel" id="gat-gate-wa-phone" placeholder="WhatsApp Number" autocomplete="off" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #334155;background:#041226;color:#fff;font-size:1rem;text-align:center;font-weight:800;margin-bottom:10px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')window.sendAdminWaOtp()" />
-      <button type="button" id="gat-gate-send-btn" onclick="window.sendAdminWaOtp()" style="width:100%;padding:12px;border-radius:10px;border:none;background:#0288d1;color:#fff;font-weight:900;font-size:0.92rem;cursor:pointer;">Send 4-Digit WhatsApp Code</button>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="brand-title">
+        <span>📊 GAT Live Telemetry</span>
+        <span class="uid-pill" id="admin-perm-uid-badge">UID: loading...</span>
+      </div>
     </div>
-    <div id="gat-gate-step2" style="display:none;">
-      <input type="text" id="gat-gate-otp-code" placeholder="4-Digit WhatsApp Code" maxlength="32" autocomplete="one-time-code" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #10b981;background:#041226;color:#fff;font-size:1.2rem;letter-spacing:6px;text-align:center;font-weight:900;margin-bottom:10px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')window.verifyAdminWaOtp()" />
-      <button type="button" id="gat-gate-verify-btn" onclick="window.verifyAdminWaOtp()" style="width:100%;padding:12px;border-radius:10px;border:none;background:#059669;color:#fff;font-weight:900;font-size:0.92rem;cursor:pointer;">Verify &amp; Open</button>
+    <div class="topbar-actions">
+      <span id="last-sync-label" style="font-size:11.5px;color:#94a3b8;margin-right:6px;">Syncing...</span>
+      <button type="button" class="btn btn-primary" onclick="window.fetchAnalyticsData(true)">↻ Refresh Now</button>
+      <button type="button" class="btn btn-warn" onclick="window.clearBotHits()">🤖 Clear Bot Hits</button>
+      <button type="button" class="btn btn-danger" onclick="window.resetAllLogs()">🗑️ Reset All Logs</button>
+      <a href="/" class="btn btn-ghost">🏠 Main Site</a>
     </div>
-    <div id="gat-gate-err" style="color:#f87171;font-size:0.8rem;font-weight:800;margin-top:10px;display:none;"></div>
   </div>
-</div>
-<script>
-(function(){
-  // Auto-delete expired session tokens from localStorage
-  function readGatAuthCookieInline() {
-    try {
-      var m = document.cookie.match(/(?:^|;\s*)gat_auth_v1=([^;]+)/);
-      return m && m[1] ? JSON.parse(decodeURIComponent(m[1])) : null;
-    } catch (e) { return null; }
-  }
-  function saveGatAuthEverywhereInline(data, fallbackPhone) {
-    try {
-      var uObj = (data && (data.userData || data.mergedData)) || {};
-      var ph = String((data && data.whatsappDigits) || uObj.whatsappDigits || fallbackPhone || '').replace(/\D/g, '');
-      var uid = String((data && (data.masterUid || data.uid)) || uObj.uid || (ph ? 'wa_' + ph : '') || '').trim();
-      if (/^(undefined|null|anon|guest)$/i.test(uid)) uid = ph ? ('wa_' + ph) : '';
-      var pass = String((data && (data.permanentPassCode || data.passCode)) || uObj.permanentPassCode || '').trim().toUpperCase();
-      var devTok = String((data && data.deviceAuthToken) || localStorage.getItem('gat_device_auth_tok') || '').trim();
-      var admTok = String((data && data.adminSessionToken) || localStorage.getItem('gat_admin_session_tok') || '').trim();
-      localStorage.removeItem('gat_explicit_logged_out');
-      if (uid) localStorage.setItem('gat_uid', uid);
-      if (ph) { localStorage.setItem('gat_verified_wa_phone', ph); localStorage.setItem('gat_wa_phone', ph); }
-      if (pass) {
-        localStorage.setItem('gat_permanent_pass_code', pass);
-        localStorage.setItem('gat_pass_code', pass);
-        localStorage.setItem('gat_passcode', pass);
-      }
-      if (devTok) localStorage.setItem('gat_device_auth_tok', devTok);
-      if (admTok) {
-        localStorage.setItem('gat_admin_session_tok', admTok);
-        sessionStorage.setItem('gat_admin_session_tok', admTok);
-      }
-      var rec = { uid: uid, waPhone: ph, passCode: pass, deviceAuthToken: devTok, adminSessionToken: admTok, unlocked: true, tier: uObj.tier || 'vip_couple_649', updatedAtMs: Date.now() };
-      var sec = location.protocol === 'https:' ? '; Secure' : '';
-      document.cookie = 'gat_auth_v1=' + encodeURIComponent(JSON.stringify(rec)) + '; Path=/; Max-Age=34560000; SameSite=Lax' + sec;
-      if (window.indexedDB) {
-        var rq = window.indexedDB.open('gat_persistent_auth_db', 1);
-        rq.onupgradeneeded = function(ev) {
-          var db = ev.target.result;
-          if (!db.objectStoreNames.contains('session')) db.createObjectStore('session');
-        };
-        rq.onsuccess = function(ev) {
-          try {
-            var db = ev.target.result;
-            var tx = db.transaction('session', 'readwrite');
-            tx.objectStore('session').put(rec, 'primary');
-            tx.oncomplete = function() { db.close(); };
-          } catch (ex) {}
-        };
-      }
-    } catch (e) {}
-  }
-  (function hydrateInlineGateFromCookie() {
-    try {
-      var curU = localStorage.getItem('gat_uid') || '';
-      if (/^(undefined|null|anon|guest)$/i.test(curU)) localStorage.removeItem('gat_uid');
-      var ck = readGatAuthCookieInline();
-      if (ck && localStorage.getItem('gat_explicit_logged_out') !== '1') {
-        if (ck.uid && !localStorage.getItem('gat_uid')) localStorage.setItem('gat_uid', ck.uid);
-        if (ck.waPhone && !localStorage.getItem('gat_verified_wa_phone')) {
-          localStorage.setItem('gat_verified_wa_phone', ck.waPhone);
-          localStorage.setItem('gat_wa_phone', ck.waPhone);
-        }
-        if (ck.passCode && !localStorage.getItem('gat_permanent_pass_code')) {
-          localStorage.setItem('gat_permanent_pass_code', ck.passCode);
-          localStorage.setItem('gat_pass_code', ck.passCode);
-          localStorage.setItem('gat_passcode', ck.passCode);
-        }
-        if (ck.deviceAuthToken && !localStorage.getItem('gat_device_auth_tok')) localStorage.setItem('gat_device_auth_tok', ck.deviceAuthToken);
-        if (ck.adminSessionToken && !localStorage.getItem('gat_admin_session_tok')) localStorage.setItem('gat_admin_session_tok', ck.adminSessionToken);
-      }
-    } catch (e) {}
-  })();
-  function cleanExpiredTokens() {
-    var tok = localStorage.getItem('gat_admin_session_tok') || '';
-    if (tok) {
-      var parts = tok.split('.');
-      if (parts.length === 3 && Number(parts[1]) < Date.now()) {
-        localStorage.removeItem('gat_admin_session_tok'); localStorage.removeItem('gat_admin_pin');
-        sessionStorage.removeItem('gat_admin_session_tok');
-      }
-    }
-  }
-  cleanExpiredTokens();
 
-    if (window.location.hash && window.location.hash.indexOf('admin_tok=') !== -1) {
-    var hTok = decodeURIComponent(window.location.hash.split('admin_tok=')[1].split('&')[0]);
-    if (hTok) {
-      localStorage.setItem('gat_admin_session_tok', hTok);
-      sessionStorage.setItem('gat_admin_session_tok', hTok);
-      history.replaceState(null, '', window.location.pathname + window.location.search);
-    }
-  }
-  function getStoredAuth() {
-    if (window.__gatGhostAdminTok) { return { adminSessionToken: window.__gatGhostAdminTok, deviceAuthToken: '', adminUid: '', adminPassOrMagic: '', adminPin: '' }; }
-    cleanExpiredTokens();
-    var ck = (typeof readGatAuthCookieInline === 'function' && readGatAuthCookieInline()) || {};
-    var tok = localStorage.getItem('gat_admin_session_tok') || sessionStorage.getItem('gat_admin_session_tok') || ck.adminSessionToken || '';
-    var devTok = localStorage.getItem('gat_device_auth_tok') || ck.deviceAuthToken || '';
-    var rawUid = localStorage.getItem('gat_uid') || sessionStorage.getItem('gat_admin_uid') || ck.uid || '';
-    var uid = /^(undefined|null|anon|guest)$/i.test(String(rawUid || '').trim()) ? '' : String(rawUid || '').trim();
-    if (!uid) {
-      var waPh = String(localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_wa_phone') || ck.waPhone || '').replace(/\D/g, '');
-      if (waPh.length >= 8) uid = 'wa_' + waPh;
-    }
-    var pass = localStorage.getItem('gat_permanent_pass_code') || localStorage.getItem('gat_pass_code') || localStorage.getItem('gat_passcode') || localStorage.getItem('gat_wa_magic') || ck.passCode || '';
-    var pin = localStorage.getItem('gat_admin_pin') || sessionStorage.getItem('gat_admin_pin') || '';
-    if (!uid || !pass) {
-      try {
-        var st = JSON.parse(localStorage.getItem('gat_state_v2') || '{}');
-        if (!uid && st.uid && !/^(undefined|null|anon|guest)$/i.test(st.uid)) uid = st.uid;
-        if (!pass && st.permanentPassCode) pass = st.permanentPassCode;
-      } catch (e) {}
-    }
-    return { adminSessionToken: tok, deviceAuthToken: devTok, adminUid: uid, adminPassOrMagic: pass, adminPin: pin };
-  }
+  <div class="container">
 
-  var origFetch = window.fetch.bind(window);
-  window.fetch = function(url, opts) {
-    if (typeof url === 'string' && (url.indexOf('auditdoc') !== -1 || url.indexOf('auditDoc') !== -1) && opts && opts.body) {
-      try {
-        var b = JSON.parse(opts.body);
-        var a = getStoredAuth();
-        if (a.adminSessionToken) b.adminSessionToken = a.adminSessionToken;
-        if (a.deviceAuthToken && !b.deviceAuthToken) b.deviceAuthToken = a.deviceAuthToken;
-        if (a.adminUid) b.adminUid = a.adminUid;
-        if (a.adminPassOrMagic) b.adminPassOrMagic = a.adminPassOrMagic;
-        if (a.adminPin && !b.adminPin) b.adminPin = a.adminPin;
-        opts.body = JSON.stringify(b);
-      } catch (e) {}
-    }
-    return origFetch(url, opts);
-  };
+    <!-- PAGE 1: MAIN DASHBOARD -->
+    <div id="page-1-dashboard-view">
 
-  function unlockConsoleDOM(tok, isGhost) {
-    if (tok) {
-      if (isGhost || window.__gatGhostAdminTok) {
-        window.__gatGhostAdminTok = tok;
-        var gb = document.createElement('div');
-        gb.style.cssText = 'background:#0f172a;color:#38bdf8;border-bottom:1.5px solid #0284c7;padding:6px 14px;font-size:0.76rem;font-weight:800;text-align:center;';
-        gb.textContent = 'Ghost Admin Active (RAM-Only Session — Zero Disk / Zero Firestore Footprint)';
-        document.body.insertBefore(gb, document.body.firstChild);
-      } else {
-        localStorage.setItem('gat_admin_session_tok', tok);
-        sessionStorage.setItem('gat_admin_session_tok', tok);
-      }
-    }
-    var eb = document.getElementById('error-box');
-    if (eb) { eb.style.display = 'none'; eb.textContent = ''; }
-    var st = document.getElementById('gat-hard-auth-style');
-    if (st) st.remove();
-    var ov = document.getElementById('gat-hard-auth-overlay');
-    if (ov) ov.remove();
-    if (typeof window.loadQueue === 'function') window.loadQueue();
-    if (typeof window.loadAnalytics === 'function') window.loadAnalytics();
-    if (typeof window.loadVisitorPulse === 'function') window.loadVisitorPulse();
-  }
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">📅 Today's Human Visitors</div>
+          <div class="kpi-val" id="kpi-today-humans" style="color:#0284c7;">0</div>
+          <div class="kpi-sub">Active in last 24h</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">👥 All-Time Human Visitors</div>
+          <div class="kpi-val" id="kpi-total-humans">0</div>
+          <div class="kpi-sub">Unique permanent UIDs</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">⏱️ Avg Human Dwell Time</div>
+          <div class="kpi-val" id="kpi-avg-dwell" style="color:#059669;">0s</div>
+          <div class="kpi-sub" id="kpi-total-dwell-sub">Total: 0m</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">🤖 Crawler &amp; Bot Engines</div>
+          <div class="kpi-val" id="kpi-bot-engines" style="color:#d97706;">0</div>
+          <div class="kpi-sub" id="kpi-bot-hits-sub">0 total crawl hits</div>
+        </div>
+      </div>
 
-  window.trySilentAdminAutoOpen = async function() {
-    var a = getStoredAuth();
-    try {
-      var res = await origFetch('https://auditdoc-nbq4mfrrnq-uc.a.run.app', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.assign({ mode: 'admin_list_concierge' }, a))
-      });
-      var data = await res.json();
-      if (res.ok && !data.error) {
-        unlockConsoleDOM(data.adminSessionToken || a.adminSessionToken);
-        return;
-      }
-    } catch (e) {}
-    var tEl = document.getElementById('gat-gate-title');
-    var sEl = document.getElementById('gat-gate-sub');
-    if (tEl) tEl.textContent = 'Restricted Area';
-    if (sEl) sEl.textContent = 'Sign in with WhatsApp 2FA to continue (code auto-deletes in 5m).';
-  };
+      <!-- SECTION A: TOP 10 VISITORS OF ALL TIME -->
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">🏆 Top 10 Visitors of All Time</h2>
+            <p class="section-sub">Ranked by total engagement time. Tap any row to open Page 2 showing all their visits ordered by date.</p>
+          </div>
+          <span class="badge badge-amber">Tap any row → All Visits Page</span>
+        </div>
+        <div class="table-wrap" style="max-height:380px;">
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Visitor UID / Identity</th>
+                <th>Last Active</th>
+                <th>Location / Lang / Device</th>
+                <th>Unique Pages &amp; Visits</th>
+                <th>Total Dwell Time</th>
+                <th style="text-align:right;">History</th>
+              </tr>
+            </thead>
+            <tbody id="top10-tbody">
+              <tr><td colspan="7" style="padding:20px;text-align:center;color:#64748b;">Loading Top 10 visitors...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-  window.sendAdminWaOtp = async function() {
-    var ph = (document.getElementById('gat-gate-wa-phone').value || '').replace(/[^0-9]/g, ''); if (ph.indexOf('05') === 0 && ph.length === 10) ph = '972' + ph.slice(1);
-    var btn = document.getElementById('gat-gate-send-btn');
-    var err = document.getElementById('gat-gate-err');
-    if (!ph) return;
-    btn.disabled = true; btn.textContent = 'Sending WhatsApp Code...';
-    err.style.display = 'none';
-    try {
-      var res = await origFetch('https://auditdoc-nbq4mfrrnq-uc.a.run.app', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode: 'wa_send_login', phone: ph })
-      });
-      var data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error || 'Unable to send code');
-      window._pendingAdminPhone = ph;
-      document.getElementById('gat-gate-step1').style.display = 'none';
-      document.getElementById('gat-gate-step2').style.display = 'block';
-      document.getElementById('gat-gate-sub').textContent = 'Enter the 4-digit code sent to your WhatsApp (expires in 5m).';
-      document.getElementById('gat-gate-otp-code').focus();
-    } catch (e) {
-      err.textContent = '❌ ' + (e.message || 'Access Denied');
-      err.style.display = 'block';
-      btn.disabled = false; btn.textContent = 'Send 4-Digit WhatsApp Code';
-    }
-  };
+      <!-- SECTION B: HUMAN VISITORS (TODAY vs ALL-TIME) -->
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title" id="visitors-section-title">📅 Today's Human Visitors (Last 24h)</h2>
+            <p class="section-sub">Compact 1-line rows. Tap any row to toggle inline details, or tap "All Visits" for chronological history.</p>
+          </div>
+          <div class="controls-row">
+            <div class="tab-group">
+              <button type="button" class="tab-btn active" id="tab-btn-today" onclick="window.setVisitorTab('today')">📅 Today (<span id="tab-cnt-today">0</span>)</button>
+              <button type="button" class="tab-btn" id="tab-btn-all" onclick="window.setVisitorTab('all')">🗂️ All-Time (<span id="tab-cnt-all">0</span>)</button>
+            </div>
+            <input type="text" id="human-search-input" class="search-input" placeholder="🔍 Filter by UID, page, timezone, lang..." oninput="window.renderDashboard()" />
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th># / Time</th>
+                <th>UID / Source</th>
+                <th>Location &amp; Device</th>
+                <th>Lang</th>
+                <th>Pages (Last Viewed)</th>
+                <th>Dwell Time</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="humans-tbody">
+              <tr><td colspan="7" style="padding:24px;text-align:center;color:#64748b;">Loading human visitors...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-  window.verifyAdminWaOtp = async function() {
-    var code = (document.getElementById('gat-gate-otp-code').value || '').trim();
-    var btn = document.getElementById('gat-gate-verify-btn');
-    var err = document.getElementById('gat-gate-err');
-    if (!code) return;
-    btn.disabled = true; btn.textContent = 'Verifying...';
-    err.style.display = 'none';
-    try {
-      var res = await origFetch('https://auditdoc-nbq4mfrrnq-uc.a.run.app', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode: 'wa_verify_login', phone: window._pendingAdminPhone, code: code })
-      });
-      var data = await res.json();
-      if (!res.ok || !data.ok || !data.adminSessionToken) throw new Error('Invalid or expired code');
-      if (data.ghostMode) {
-        unlockConsoleDOM(data.adminSessionToken, true);
-      } else {
-        saveGatAuthEverywhereInline(data, window._pendingAdminPhone);
-        unlockConsoleDOM(data.adminSessionToken, false);
-      }
-      if (typeof loadDossiers === 'function') loadDossiers();
-      if (typeof loadAnalytics === 'function') loadAnalytics();
-    } catch (e) {
-      err.textContent = '❌ ' + (e.message || 'Invalid code');
-      err.style.display = 'block';
-      btn.disabled = false; btn.textContent = 'Verify & Open';
-    }
-  };
+      <!-- SECTION C: LIST 2 WEBCRAWLERS & SEARCH/AI BOTS (TODAY vs ALL-TIME) -->
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title" id="bots-section-title">🤖 List 2: Webcrawlers &amp; Search / AI Bots</h2>
+            <p class="section-sub">🟢 LIVE_SEO is True (robots.txt Allow: / • 192 Canonical URLs Active). Includes migrated Google WRS &amp; Headless crawlers.</p>
+          </div>
+          <div class="controls-row">
+            <div class="tab-group">
+              <button type="button" class="tab-btn active" id="bot-tab-btn-today" onclick="window.setBotTab('today')">📅 Today (<span id="bot-tab-cnt-today">0</span>)</button>
+              <button type="button" class="tab-btn" id="bot-tab-btn-all" onclick="window.setBotTab('all')">🗂️ All-Time (<span id="bot-tab-cnt-all">0</span>)</button>
+            </div>
+            <input type="text" id="bot-search-input" class="search-input" placeholder="🔍 Filter by bot name, page, user-agent..." oninput="window.renderDashboard()" />
+          </div>
+        </div>
+        <div class="bot-chips-bar" id="bot-summary-chips"></div>
+        <div class="table-wrap">
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th># / Last Seen</th>
+                <th>Crawler / Bot Engine</th>
+                <th>Total Crawl Hits</th>
+                <th>Unique Pages Crawled</th>
+                <th>Latest Page Crawled</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="bots-tbody">
+              <tr><td colspan="6" style="padding:24px;text-align:center;color:#64748b;">Loading webcrawler telemetry...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-  window.trySilentAdminAutoOpen();
-})();
-</script>
-
-
-
-
-
-  <header class="topbar">
-    <h1><span class="status-dot"></span> Giyur Aliyah Track — Live Human & Webcrawler Telemetry</h1>
-    <div class="topbar-controls">
-      <input type="password" id="admin-pin" class="pin-input" placeholder="Admin PIN" value="6130" />
-      <button type="button" class="btn" onclick="loadAnalytics()">🔄 Refresh Now</button>
-      <label style="font-size:0.8rem;font-weight:800;display:flex;align-items:center;gap:5px;cursor:pointer;">
-        <input type="checkbox" id="auto-refresh" checked onchange="toggleAutoRefresh()" /> Auto-Refresh (15s)
-      </label>
-      <a href="/concierge/" class="btn" style="background:linear-gradient(135deg,#047857 0%,#10b981 100%);border-color:#6ee7b7;">⚖️ Concierge & Legal Desk →</a>
-      <a href="/" class="btn btn-secondary">← Back to Site</a>
     </div>
-  </header>
 
-  <main class="container">
-    <div id="error-banner" style="display:none;background:#fee2e2;border:2px solid #ef4444;color:#991b1b;padding:12px 16px;border-radius:12px;font-weight:800;margin-bottom:16px;"></div>
+    <!-- PAGE 2: ALL VISITS ORDERED BY DATE -->
+    <div id="page-2-history-view">
+      <div style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <button type="button" class="btn btn-primary" onclick="window.closeAllVisitsPage()" style="font-size:13.5px;padding:9px 16px;">
+          ← Back to Main Analytics Dashboard
+        </button>
+        <button type="button" class="btn btn-warn" id="sort-order-btn" onclick="window.toggleHistorySortOrder()">
+          📅 Sort: Newest First ↓
+        </button>
+      </div>
 
-    <!-- TOP KPI SUMMARY -->
-    <div class="kpi-grid">
-      <div class="kpi-card highlight">
-        <div class="kpi-lbl">🧍 Real Human Visitors</div>
-        <div class="kpi-val" id="kpi-humans">—</div>
-        <div class="kpi-sub" id="kpi-humans-sub">Active & recent unique visitors</div>
+      <div class="history-hero">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+          <div>
+            <div class="badge badge-blue" id="p2-type-badge" style="margin-bottom:8px;">👤 VISITOR HISTORY</div>
+            <h1 id="p2-title" style="margin:0;font-size:22px;font-weight:900;">Visitor Full History</h1>
+            <p id="p2-subtitle" style="margin:4px 0 0;font-size:13px;color:#94a3b8;">All visits ordered chronologically by date.</p>
+          </div>
+          <div id="p2-total-dwell-badge" style="background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.5);color:#6ee7b7;padding:8px 14px;border-radius:12px;font-size:18px;font-weight:900;">
+            ⏱️ 0s
+          </div>
+        </div>
+        <div class="history-meta-grid" id="p2-meta-grid"></div>
       </div>
-      <div class="kpi-card highlight">
-        <div class="kpi-lbl">⏱️ Total Human Time on Site</div>
-        <div class="kpi-val" id="kpi-total-time">—</div>
-        <div class="kpi-sub" id="kpi-avg-time">Avg per visitor: —</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-lbl">📄 Human Page Views (Today)</div>
-        <div class="kpi-val" id="kpi-today-views">—</div>
-        <div class="kpi-sub" id="kpi-today-time">Today's dwell time: —</div>
-      </div>
-      <div class="kpi-card bot-card">
-        <div class="kpi-lbl">🤖 Webcrawler & Bot Visits</div>
-        <div class="kpi-val" id="kpi-bots">—</div>
-        <div class="kpi-sub" id="kpi-bot-engines">Unique crawler engines: —</div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">📅 All Visits Ordered by Date</h2>
+            <p class="section-sub">Complete chronological log of every page visit, timestamp, language, and dwell duration.</p>
+          </div>
+          <span class="badge badge-slate" id="p2-visit-count-badge">0 visits</span>
+        </div>
+        <div class="table-wrap" style="max-height:none;">
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date &amp; Time (Ordered by Date)</th>
+                <th>Relative Time</th>
+                <th>Page Path Visited</th>
+                <th>Lang</th>
+                <th>Session Visits / Hits</th>
+                <th>Time Spent / Dwell</th>
+                <th>Source / Viewport</th>
+              </tr>
+            </thead>
+            <tbody id="p2-visits-tbody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <!-- LIST 1: REAL HUMAN VISITORS -->
-    <section class="section-card">
-      <div class="section-hdr">
-        <h2>🧍 List 1: Real Human Visitors — Arrival Source, Pages Viewed & Exact Time Spent</h2>
-        <input type="text" id="human-filter" class="filter-input" placeholder="🔍 Filter by page, source, timezone, lang..." oninput="renderTables()" />
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th># / Last Active</th>
-              <th>Where They Arrived From (Source / Referrer)</th>
-              <th>Location / Device / Lang</th>
-              <th>Pages Viewed & Exact Time on Each Page</th>
-              <th>Total Time on Site</th>
-            </tr>
-          </thead>
-          <tbody id="humans-tbody">
-            <tr><td colspan="5" style="text-align:center;padding:24px;font-weight:800;color:#64748b;">Loading live visitor telemetry...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- LIST 2: WEBCRAWLERS & BOTS -->
-    <section class="section-card">
-      <div class="section-hdr">
-        <h2>🤖 List 2: Webcrawlers & Search/AI Bots — Which Crawlers & Pages Crawled</h2>
-        <input type="text" id="bot-filter" class="filter-input" placeholder="🔍 Filter by bot name, user-agent, page..." oninput="renderTables()" />
-      </div>
-      <div id="bot-summary-box" class="bot-summary-grid"></div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th># / Last Seen</th>
-              <th>Crawler / Bot Engine</th>
-              <th>Total Hits</th>
-              <th>Pages Crawled (with Hit Counts)</th>
-              <th>Raw User-Agent String</th>
-            </tr>
-          </thead>
-          <tbody id="bots-tbody">
-            <tr><td colspan="5" style="text-align:center;padding:24px;font-weight:800;color:#64748b;">Loading crawler telemetry...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
+  </div>
 
   <script>
-    let LAST_DATA = null;
-    let refreshTimer = null;
+  (function() {
+    function getCookie(name) {
+      var m = document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)"));
+      return m ? decodeURIComponent(m[1]) : "";
+    }
+    function setPermCookie(name, val) {
+      try { document.cookie = name + "=" + encodeURIComponent(val) + "; path=/; max-age=315360000; SameSite=Lax"; } catch (e) {}
+    }
+    var myUid = localStorage.getItem("gat_user_uid") || localStorage.getItem("gat_uid") || getCookie("perm_gat_user_uid") || getCookie("gat_uid") || "";
+    if (!myUid) {
+      myUid = "u_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+    }
+    localStorage.setItem("gat_uid", myUid);
+    setPermCookie("gat_uid", myUid);
+    var uidBadge = document.getElementById("admin-perm-uid-badge");
+    if (uidBadge) uidBadge.textContent = "UID: " + myUid;
+
+    var STATE = {
+      humans: [],
+      bots: [],
+      botGroupsAll: [],
+      botGroupsToday: [],
+      visitorTab: "today",
+      botTab: "today",
+      autoSwitchedTabOnce: false,
+      expandedHumanIds: {},
+      expandedBotNames: {},
+      historySortDesc: true,
+      activeHistoryTarget: null
+    };
+
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
 
     function fmtDuration(sec) {
-      const s = Math.max(0, Math.round(Number(sec) || 0));
-      if (s < 60) return s + "s";
-      const m = Math.floor(s / 60);
-      const rem = s % 60;
-      if (m < 60) return m + "m " + rem + "s";
-      const h = Math.floor(m / 60);
-      return h + "h " + (m % 60) + "m " + rem + "s";
+      sec = Math.max(0, Math.round(Number(sec) || 0));
+      if (sec < 60) return sec + "s";
+      var h = Math.floor(sec / 3600);
+      var m = Math.floor((sec % 3600) / 60);
+      var s = sec % 60;
+      if (h > 0) return h + "h " + m + "m " + s + "s";
+      return m + "m " + s + "s";
     }
 
-    function fmtTimeAgo(ms) {
-      if (!ms) return "Unknown";
-      const diffSec = Math.max(0, Math.round((Date.now() - Number(ms)) / 1000));
-      const d = new Date(Number(ms));
-      const timeStr = d.toLocaleString();
-      if (diffSec < 60) return "🟢 Live now (" + diffSec + "s ago)<br><small style='color:#64748b;'>" + timeStr + "</small>";
-      if (diffSec < 3600) return Math.floor(diffSec / 60) + "m ago<br><small style='color:#64748b;'>" + timeStr + "</small>";
-      if (diffSec < 86400) return Math.floor(diffSec / 3600) + "h ago<br><small style='color:#64748b;'>" + timeStr + "</small>";
-      return Math.floor(diffSec / 86400) + "d ago<br><small style='color:#64748b;'>" + timeStr + "</small>";
-    }
-
-    function decodeSafePath(safeKey) {
-      const s = String(safeKey || "");
-      if (s === "_") return "/";
-      return s.replace(/^_/, "/").replace(/_/g, "/").replace(/\/\/+/g, "/");
-    }
-
-    function fmtReferrer(v) {
-      const ext = String(v.externalRef || "").trim();
-      const raw = String(v.ref || "").trim();
-      const target = ext || raw;
-      if (!target) {
-        return '<span class="badge badge-navy">Direct / Typed URL / Bookmark</span>';
+    function parseTs(raw) {
+      if (!raw) return 0;
+      if (typeof raw === "number") return raw < 1e12 ? raw * 1000 : raw;
+      if (typeof raw === "object") {
+        var s = raw._seconds != null ? raw._seconds : raw.seconds;
+        if (s != null) return Number(s) * 1000;
       }
+      var str = String(raw).trim();
+      if (/^\d+$/.test(str)) {
+        var n = Number(str);
+        return n < 1e12 ? n * 1000 : n;
+      }
+      var t = Date.parse(str);
+      return isNaN(t) ? 0 : t;
+    }
+
+    function fmtRelTime(ms) {
+      if (!ms) return "—";
+      var diff = Math.max(0, Date.now() - ms);
+      var sec = Math.floor(diff / 1000);
+      if (sec < 60) return sec + "s ago";
+      var min = Math.floor(sec / 60);
+      if (min < 60) return min + "m ago";
+      var hr = Math.floor(min / 60);
+      if (hr < 24) return hr + "h ago";
+      var d = Math.floor(hr / 24);
+      return d + "d ago";
+    }
+
+    function fmtDateTime(ms) {
+      if (!ms) return "—";
       try {
-        const u = new URL(target);
-        const host = u.hostname.replace(/^www\./, "");
-        if (/giyuraliyahtrack\.com|giyur-aliyah-track\.web\.app|localhost/i.test(host)) {
-          return '<span class="badge badge-sky">Internal Navigation</span><div style="font-size:0.76rem;color:#475569;margin-top:4px;">From: <code>' + (u.pathname || "/") + '</code></div>';
-        }
-        let icon = "🌐";
-        if (/google\./i.test(host)) icon = "🔍 Google Search";
-        else if (/bing\./i.test(host)) icon = "🔎 Bing Search";
-        else if (/whatsapp|wa\.me/i.test(host)) icon = "📲 WhatsApp";
-        else if (/t\.me|telegram/i.test(host)) icon = "✈️ Telegram";
-        else if (/facebook|fb\.|instagram/i.test(host)) icon = "📘 Meta / Facebook";
-        else if (/reddit/i.test(host)) icon = "👽 Reddit";
-        else if (/chatgpt|openai|perplexity|claude/i.test(host)) icon = "🤖 AI Search Referral";
-        return '<span class="badge badge-emerald">' + icon + ' (' + host + ')</span><div style="font-size:0.74rem;color:#475569;margin-top:4px;word-break:break-all;">' + target + '</div>';
+        return new Date(ms).toLocaleString([], {
+          year: "numeric", month: "2-digit", day: "2-digit",
+          hour: "2-digit", minute: "2-digit", second: "2-digit"
+        });
       } catch (e) {
-        return '<span class="badge badge-sky">' + target + '</span>';
+        return new Date(ms).toISOString();
       }
     }
 
-    function parseDeviceSummary(v) {
-      const ua = String(v.ua || "");
-      const scr = String(v.screen || "");
-      let dev = "💻 Desktop";
-      if (/iPhone|iPad|iPod/i.test(ua)) dev = "📱 iPhone / iOS";
-      else if (/Android/i.test(ua)) dev = "📱 Android";
-      else if (scr && parseInt(scr.split("x")[0], 10) < 768) dev = "📱 Mobile";
-      return dev + (scr ? " (" + scr + ")" : "");
+    function isTodayWindow(ms) {
+      if (!ms) return false;
+      return (Date.now() - ms) <= 24 * 3600 * 1000;
     }
 
-    async function loadAnalytics() {
-      const pinEl = document.getElementById("admin-pin");
-      const pin = (pinEl ? pinEl.value : "6130").trim();
-      localStorage.setItem("gat_admin_pin", pin);
-      const errBanner = document.getElementById("error-banner");
-      if (errBanner) errBanner.style.display = "none";
+    function detectBotEngine(v) {
+      var scr = String(v.screen || "");
+      var tz = String(v.tz || v.timezone || "");
+      var ua = String(v.ua || v.userAgent || "");
+      var name = String(v.crawlerName || v.botEngine || v.engine || "");
+      if (/Google-InspectionTool/i.test(ua)) return "Google Search Console (Live Test)";
+      if (/Googlebot/i.test(ua)) return "Googlebot";
+      if (/bingbot|msnbot|BingPreview/i.test(ua)) return "Bingbot";
+      if (/OAI-SearchBot|ChatGPT-User|GPTBot/i.test(ua)) return "OpenAI / ChatGPT Search";
+      if (/PerplexityBot/i.test(ua)) return "Perplexity AI";
+      if (/ClaudeBot|anthropic-ai/i.test(ua)) return "Claude / Anthropic";
+      if (/YandexBot/i.test(ua)) return "YandexBot";
+      if (/DuckDuckBot/i.test(ua)) return "DuckDuckGo Bot";
+      if (/Applebot/i.test(ua)) return "Applebot";
+      if (/Qwantify|Bleriot/i.test(ua)) return "Qwant Search (France)";
+      if (/Ecosia/i.test(ua)) return "Ecosia Search (Germany)";
+      if (/WhatsApp/i.test(ua)) return "WhatsApp Link Preview";
+      if (/TelegramBot/i.test(ua)) return "Telegram Link Preview";
+      if (/HeadlessChrome|Lighthouse|PageSpeed/i.test(ua)) return "Lighthouse / HeadlessChrome";
+      if (scr === "1024x1024") return "Googlebot Desktop WRS (1024x1024)";
+      if (scr === "412x732" && tz === "America/Los_Angeles") return "Googlebot Smartphone WRS (412x732)";
+      if (scr === "1600x1200") return "Headless Webcrawler (1600x1200)";
+      if (v.isBot || (name && name !== "Human Visitor")) return name || "Web Crawler / Bot";
+      return null;
+    }
 
+    function extractPagesAndVisits(v) {
+      var pagesList = [];
+      var visitEvents = [];
+      var baseTs = parseTs(v.lastSeen || v.lastActive || v.lastPulse || v.updatedAt || v.lastSeenMs || v.ts || v.firstSeen) || Date.now();
+      var rawPages = v.pages || v.pageMap || v.pageDwell || v.pageStats || v.paths || v.visitedPages || {};
+
+      if (Array.isArray(rawPages)) {
+        rawPages.forEach(function(p, idx) {
+          if (typeof p === "string") {
+            pagesList.push({ path: p, sec: 0, count: 1, ts: baseTs - idx * 1000 });
+            visitEvents.push({ ts: baseTs - idx * 1000, path: p, sec: 0, count: 1, lang: v.lang || "en", ref: v.ref || v.referrer || "Direct" });
+            return;
+          }
+          var path = p.path || p.url || p.page || "/";
+          var sec = Number(p.sec || p.seconds || p.totalSeconds || p.dwellSec || p.dwellSeconds || p.dwell || p.duration || 0);
+          var count = Number(p.count || p.hits || p.visits || p.views || 1);
+          var pts = parseTs(p.lastSeen || p.ts || p.updatedAt) || (baseTs - idx * 1000);
+          pagesList.push({ path: path, sec: sec, count: count, ts: pts });
+          visitEvents.push({ ts: pts, path: path, sec: sec, count: count, lang: p.lang || v.lang || "en", ref: v.ref || v.referrer || "Direct" });
+        });
+      } else if (rawPages && typeof rawPages === "object") {
+        var keys = Object.keys(rawPages);
+        keys.forEach(function(k, idx) {
+          var val = rawPages[k];
+          var sec = 0, count = 1, pts = baseTs - (keys.length - 1 - idx) * 1500;
+          if (typeof val === "number") {
+            sec = val;
+          } else if (val && typeof val === "object") {
+            sec = Number(val.sec || val.seconds || val.totalSeconds || val.dwellSec || val.dwellSeconds || val.dwell || val.duration || val.time || 0);
+            count = Number(val.count || val.hits || val.visits || val.views || 1);
+            if (val.lastSeen || val.ts || val.updatedAt) pts = parseTs(val.lastSeen || val.ts || val.updatedAt);
+          }
+          var cleanPath = k.replace(/__SLASH__/g, "/") || "/";
+          pagesList.push({ path: cleanPath, sec: sec, count: count, ts: pts });
+          visitEvents.push({ ts: pts, path: cleanPath, sec: sec, count: count, lang: (val && val.lang) || v.lang || "en", ref: v.ref || v.referrer || "Direct" });
+        });
+      }
+
+      var topSec = Number(
+        v.totalSec || v.totalSeconds || v.dwellSec || v.dwellSeconds || v.totalDwell || v.totalDwellSec || v.dwell || v.seconds ||
+        (v.totalMs ? Math.round(v.totalMs / 1000) : 0) || 0
+      );
+
+      if (pagesList.length === 0) {
+        var fallbackPath = v.lastPath || v.currentPath || v.path || v.page || "/";
+        pagesList.push({ path: fallbackPath, sec: topSec, count: Number(v.hits || v.visits || v.pulseCount || 1), ts: baseTs });
+        visitEvents.push({ ts: baseTs, path: fallbackPath, sec: topSec, count: Number(v.hits || v.visits || v.pulseCount || 1), lang: v.lang || "en", ref: v.ref || v.referrer || "Direct" });
+      }
+
+      pagesList.sort(function(a, b) { return (b.ts || 0) - (a.ts || 0); });
+      var sumPageSec = pagesList.reduce(function(acc, p) { return acc + (p.sec || 0); }, 0);
+      var totalSec = Math.max(topSec, sumPageSec);
+      var totalPageVisits = pagesList.reduce(function(acc, p) { return acc + (p.count || 1); }, 0);
+
+      return {
+        pagesList: pagesList,
+        visitEvents: visitEvents,
+        totalSec: totalSec,
+        totalPageVisits: totalPageVisits
+      };
+    }
+
+    function normalizeRecord(v, idx) {
+      var id = String(v.uid || v.vid || v.visitorId || v.id || v.clientId || ("v_" + idx));
+      var lastTs = parseTs(v.lastSeen || v.lastActive || v.lastPulse || v.updatedAt || v.lastSeenMs || v.ts || v.firstSeen) || Date.now();
+      var firstTs = parseTs(v.firstSeen || v.firstActive || v.firstSeenMs || v.createdAt || lastTs) || lastTs;
+      var botEngine = detectBotEngine(v);
+      var parsed = extractPagesAndVisits(v);
+      var lastPageObj = parsed.pagesList[0] || { path: v.lastPath || v.path || "/" };
+
+      return {
+        id: id,
+        uid: v.uid || v.vid || id,
+        isBot: Boolean(botEngine),
+        botEngine: botEngine || "",
+        lastTs: lastTs,
+        firstTs: firstTs,
+        tz: v.tz || v.timezone || "Unknown",
+        lang: String(v.lang || "en").toUpperCase(),
+        screen: v.screen || "",
+        device: v.device || (/Mobile|Android|iPhone|iPad/i.test(v.ua || "") ? "Mobile" : "Desktop"),
+        ua: v.ua || v.userAgent || "",
+        ref: v.ref || v.referrer || "Direct / Internal",
+        sourceLabel: v.source || (v.ref ? "Internal Navigation" : "Direct"),
+        pagesList: parsed.pagesList,
+        visitEvents: parsed.visitEvents,
+        lastPath: v.lastPath || v.currentPath || lastPageObj.path || "/",
+        totalSec: parsed.totalSec,
+        totalPageVisits: parsed.totalPageVisits
+      };
+    }
+
+    function groupBotsByEngine(botRecords) {
+      var groups = {};
+      botRecords.forEach(function(b) {
+        var eng = b.botEngine || "Web Crawler / Bot";
+        if (!groups[eng]) {
+          groups[eng] = {
+            botEngine: eng,
+            lastTs: b.lastTs,
+            firstTs: b.firstTs,
+            totalHits: 0,
+            ua: b.ua || (b.screen ? ("Headless Viewport " + b.screen + " • " + b.tz) : ""),
+            pagesMap: {},
+            visitEvents: []
+          };
+        }
+        var g = groups[eng];
+        if (b.lastTs > g.lastTs) g.lastTs = b.lastTs;
+        if (b.firstTs < g.firstTs) g.firstTs = b.firstTs;
+        if (!g.ua && b.ua) g.ua = b.ua;
+
+        b.pagesList.forEach(function(p) {
+          var c = Math.max(1, Number(p.count || 1));
+          g.totalHits += c;
+          if (!g.pagesMap[p.path]) {
+            g.pagesMap[p.path] = { path: p.path, count: 0, lastTs: p.ts || b.lastTs };
+          }
+          g.pagesMap[p.path].count += c;
+          if ((p.ts || b.lastTs) > g.pagesMap[p.path].lastTs) {
+            g.pagesMap[p.path].lastTs = p.ts || b.lastTs;
+          }
+        });
+
+        b.visitEvents.forEach(function(ev) {
+          g.visitEvents.push({
+            ts: ev.ts || b.lastTs,
+            path: ev.path || "/",
+            sec: ev.sec || 0,
+            count: ev.count || 1,
+            lang: ev.lang || b.lang || "EN",
+            ref: b.screen ? ("Viewport " + b.screen + " (" + b.tz + ")") : (b.ua ? b.ua.slice(0, 48) : "Crawler")
+          });
+        });
+      });
+
+      return Object.keys(groups).map(function(k) {
+        var g = groups[k];
+        var pagesArr = Object.keys(g.pagesMap).map(function(pk) { return g.pagesMap[pk]; });
+        pagesArr.sort(function(a, b) { return (b.lastTs || 0) - (a.lastTs || 0); });
+        g.pagesList = pagesArr;
+        g.latestPath = (pagesArr[0] && pagesArr[0].path) || "/";
+        return g;
+      }).sort(function(a, b) { return (b.lastTs || 0) - (a.lastTs || 0); });
+    }
+
+    document.addEventListener("click", function(ev) {
+      var btn = ev.target.closest("[data-action]");
+      if (!btn) return;
+      var act = btn.getAttribute("data-action");
+      var targetType = btn.getAttribute("data-type") || "";
+      var targetId = btn.getAttribute("data-id") || "";
+
+      if (act === "open-history") {
+        ev.stopPropagation();
+        window.openAllVisitsPage(targetType, targetId);
+      } else if (act === "toggle-human") {
+        ev.stopPropagation();
+        STATE.expandedHumanIds[targetId] = !STATE.expandedHumanIds[targetId];
+        renderDashboard();
+      } else if (act === "toggle-bot") {
+        ev.stopPropagation();
+        STATE.expandedBotNames[targetId] = !STATE.expandedBotNames[targetId];
+        renderDashboard();
+      }
+    });
+
+    function toArray(maybeArrOrObj) {
+      if (!maybeArrOrObj) return [];
+      if (Array.isArray(maybeArrOrObj)) return maybeArrOrObj;
+      if (typeof maybeArrOrObj === "object") return Object.values(maybeArrOrObj);
+      return [];
+    }
+
+    async function fetchAnalyticsData() {
       try {
-        const res = await fetch("/api/auditDoc", {
+        var adminTok = localStorage.getItem("gat_admin_session_tok") || getCookie("perm_gat_admin_session_tok") || "";
+        var passCode = localStorage.getItem("gat_pass_code") || localStorage.getItem("gat_permanent_pass_code") || getCookie("perm_gat_pass_code") || "";
+        var res = await fetch("/api/auditDoc?mode=admin_get_analytics&_t=" + Date.now(), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ mode: "admin_get_analytics", adminPin: pin })
+          body: JSON.stringify({
+            mode: "admin_get_analytics",
+            uid: myUid,
+            adminUid: myUid,
+            deviceAuthToken: (localStorage.getItem('gat_device_auth_tok') || ''), passCode: (localStorage.getItem('gat_permanent_pass_code') || localStorage.getItem('gat_pass_code') || ''), adminUid: (localStorage.getItem('gat_wa_uid') || localStorage.getItem('gat_verified_wa_phone') || localStorage.getItem('gat_uid') || ''), adminSessionToken: adminTok,
+            passCode: passCode,
+            permanentPassCode: passCode
+          })
         });
-        const data = await res.json();
-        if (!data.ok) {
-          throw new Error(data.error || "Failed to load analytics");
-        }
-        LAST_DATA = data;
-        renderTables();
-      } catch (e) {
-        if (errBanner) {
-          errBanner.textContent = "⚠️ Error loading telemetry: " + e.message;
-          errBanner.style.display = "block";
-        }
-      }
-    }
+        var data = await res.json();
+        var rawVisitors = toArray(data.visitors || data.humans || data.sessions || data.rows);
+        var rawBots = toArray(data.crawlers || data.bots || data.botVisitors || data.crawlerList);
 
-    function renderTables() {
-      if (!LAST_DATA) return;
-      const visitors = LAST_DATA.visitors || [];
-      const crawlers = LAST_DATA.crawlers || [];
-      const today = LAST_DATA.today || {};
+        var allNormalized = [];
+        var seenIds = {};
 
-      // Separate any bot that might have been stored in visitors prior to upgrade
-      const botRx = /(bot|crawler|spider|slurp|bingpreview|facebookexternalhit|whatsapp|telegrambot|twitterbot|linkedinbot|applebot|semrush|ahrefs|gptbot|claudebot|perplexity|headlesschrome|lighthouse|python|curl|wget)/i;
-      const cleanHumans = [];
-      const extraBots = [];
-      visitors.forEach(v => {
-        if (botRx.test(v.ua || "")) {
-          extraBots.push({
-            botName: "Detected Crawler (" + (v.ua || "").slice(0, 35) + ")",
-            ua: v.ua || "",
-            lastSeen: v.lastSeen,
-            hits: v.pageViews || 1,
-            pages: v.pages || { [v.currentPath || "/"]: 1 }
-          });
-        } else {
-          cleanHumans.push(v);
-        }
-      });
-
-      const allCrawlers = crawlers.concat(extraBots);
-
-      // Update KPIs
-      let grandHumanSec = 0;
-      cleanHumans.forEach(v => { grandHumanSec += Number(v.totalSeconds || 0); });
-      const avgSec = cleanHumans.length > 0 ? Math.round(grandHumanSec / cleanHumans.length) : 0;
-
-      document.getElementById("kpi-humans").textContent = cleanHumans.length.toLocaleString();
-      document.getElementById("kpi-total-time").textContent = fmtDuration(grandHumanSec);
-      document.getElementById("kpi-avg-time").textContent = "Avg per visitor: " + fmtDuration(avgSec);
-      document.getElementById("kpi-today-views").textContent = Number(today.totalPageViews || 0).toLocaleString();
-      document.getElementById("kpi-today-time").textContent = "Today's dwell time: " + fmtDuration(today.totalSeconds || 0);
-
-      let totalBotHits = 0;
-      const botGroupMap = {};
-      allCrawlers.forEach(c => {
-        const h = Number(c.hits || 1);
-        totalBotHits += h;
-        const bName = c.botName || "Webcrawler";
-        botGroupMap[bName] = (botGroupMap[bName] || 0) + h;
-      });
-      document.getElementById("kpi-bots").textContent = totalBotHits.toLocaleString();
-      document.getElementById("kpi-bot-engines").textContent = "Unique crawler engines: " + Object.keys(botGroupMap).length;
-
-      // Render Real Humans Table
-      const hFilter = (document.getElementById("human-filter").value || "").toLowerCase().trim();
-      const filteredHumans = cleanHumans.filter(v => {
-        if (!hFilter) return true;
-        const blob = JSON.stringify(v).toLowerCase();
-        return blob.includes(hFilter);
-      });
-
-      const hTbody = document.getElementById("humans-tbody");
-      if (filteredHumans.length === 0) {
-        hTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#64748b;font-weight:800;">No human visitor records match your filter.</td></tr>';
-      } else {
-        hTbody.innerHTML = filteredHumans.map((v, idx) => {
-          const pagesObj = Object.assign({}, v.pages || {});
-          const pageHitsObj = Object.assign({}, v.pageHits || {});
-          const pageLastObj = Object.assign({}, v.pageLastSeen || {});
-          Object.keys(v).forEach(k => {
-            if (k.startsWith("pages.")) pagesObj[k.slice(6)] = (Number(pagesObj[k.slice(6)]) || 0) + Number(v[k] || 0);
-            if (k.startsWith("pageHits.")) pageHitsObj[k.slice(9)] = (Number(pageHitsObj[k.slice(9)]) || 0) + Number(v[k] || 0);
-            if (k.startsWith("pageLastSeen.")) pageLastObj[k.slice(13)] = Math.max(Number(pageLastObj[k.slice(13)]) || 0, Number(v[k] || 0));
-          });
-          const entries = Object.entries(pagesObj).sort((a, b) => Number(b[1]) - Number(a[1]));
-          let journeyHtml = "";
-          if (entries.length > 0) {
-            journeyHtml = '<div class="page-journey">' + entries.map(([k, sec]) => {
-              const cleanP = decodeSafePath(k);
-              const hits = pageHitsObj[k] ? ` (${pageHitsObj[k]}x)` : "";
-              const isCur = cleanP === v.currentPath ? ' <span class="badge badge-sky">Last Viewed</span>' : '';
-              return `<div class="page-pill"><span><code>${cleanP}</code>${hits}${isCur}</span><span class="dwell">⏱️ ${fmtDuration(sec)}</span></div>`;
-            }).join("") + '</div>';
-          } else {
-            journeyHtml = `<div class="page-pill"><code>${v.currentPath || "/"}</code><span class="dwell">⏱️ ${fmtDuration(v.totalSeconds || 0)}</span></div>`;
+        rawVisitors.concat(rawBots).forEach(function(item, i) {
+          if (!item || typeof item !== "object") return;
+          var norm = normalizeRecord(item, i);
+          var key = (norm.isBot ? "bot_" : "hum_") + norm.id + "_" + norm.lastTs;
+          if (!seenIds[key]) {
+            seenIds[key] = true;
+            allNormalized.push(norm);
           }
+        });
 
-          return `<tr>
-            <td><strong>#${idx + 1}</strong><br>${fmtTimeAgo(v.lastSeen)}<br><code style="font-size:0.7rem;color:#94a3b8;">ID: ${(v.vid || "").slice(0, 12)}</code></td>
-            <td>${fmtReferrer(v)}</td>
-            <td>
-              <span class="badge badge-sky">🌍 ${v.tz || "Unknown TZ"}</span>
-              <span class="badge badge-amber">🌐 ${(v.lang || "en").toUpperCase()}</span>
-              <div style="font-size:0.78rem;color:#334155;font-weight:700;margin-top:6px;">${parseDeviceSummary(v)}</div>
-            </td>
-            <td>${journeyHtml}</td>
-            <td><span class="badge badge-emerald" style="font-size:0.9rem;padding:6px 12px;">⏱️ ${fmtDuration(v.totalSeconds || 0)}</span></td>
-          </tr>`;
+        var humanByUid = {};
+        var botRecords = [];
+
+        allNormalized.forEach(function(r) {
+          if (r.isBot) {
+            botRecords.push(r);
+          } else {
+            var u = r.uid || r.id;
+            if (!humanByUid[u]) {
+              humanByUid[u] = r;
+            } else {
+              var ex = humanByUid[u];
+              if (r.lastTs > ex.lastTs) {
+                ex.lastTs = r.lastTs;
+                ex.lastPath = r.lastPath;
+              }
+              if (r.firstTs < ex.firstTs) ex.firstTs = r.firstTs;
+              ex.totalSec += r.totalSec;
+              ex.totalPageVisits += r.totalPageVisits;
+              ex.visitEvents = ex.visitEvents.concat(r.visitEvents);
+              var pMap = {};
+              ex.pagesList.concat(r.pagesList).forEach(function(p) {
+                if (!pMap[p.path]) {
+                  pMap[p.path] = { path: p.path, sec: 0, count: 0, ts: p.ts };
+                }
+                pMap[p.path].sec += p.sec;
+                pMap[p.path].count += p.count;
+                if (p.ts > pMap[p.path].ts) pMap[p.path].ts = p.ts;
+              });
+              ex.pagesList = Object.keys(pMap).map(function(pk) { return pMap[pk]; }).sort(function(a, b) { return b.ts - a.ts; });
+            }
+          }
+        });
+
+        STATE.humans = Object.keys(humanByUid).map(function(u) { return humanByUid[u]; }).sort(function(a, b) {
+          return (b.lastTs || 0) - (a.lastTs || 0);
+        });
+        STATE.bots = botRecords;
+        STATE.botGroupsAll = groupBotsByEngine(botRecords);
+        STATE.botGroupsToday = groupBotsByEngine(botRecords.filter(function(b) { return isTodayWindow(b.lastTs); }));
+
+        // If Today happens to be 0 on initial load while All-Time has records, auto-select All-Time once so data is never hidden
+        if (!STATE.autoSwitchedTabOnce) {
+          STATE.autoSwitchedTabOnce = true;
+          var todayH = STATE.humans.filter(function(h) { return isTodayWindow(h.lastTs); });
+          if (todayH.length === 0 && STATE.humans.length > 0) {
+            STATE.visitorTab = "all";
+            document.getElementById("tab-btn-today").classList.remove("active");
+            document.getElementById("tab-btn-all").classList.add("active");
+          }
+          if (STATE.botGroupsToday.length === 0 && STATE.botGroupsAll.length > 0) {
+            STATE.botTab = "all";
+            document.getElementById("bot-tab-btn-today").classList.remove("active");
+            document.getElementById("bot-tab-btn-all").classList.add("active");
+          }
+        }
+
+        var lbl = document.getElementById("last-sync-label");
+        if (lbl) lbl.textContent = "Updated " + new Date().toLocaleTimeString();
+
+        renderDashboard();
+        if (STATE.activeHistoryTarget) {
+          renderPage2History();
+        }
+      } catch (e) {
+        console.warn("Analytics fetch error:", e);
+      }
+    }
+    window.fetchAnalyticsData = fetchAnalyticsData;
+
+    function renderDashboard() {
+      var humans = STATE.humans;
+      var todayHumans = humans.filter(function(h) { return isTodayWindow(h.lastTs); });
+      var botGroupsAll = STATE.botGroupsAll;
+      var botGroupsToday = STATE.botGroupsToday;
+
+      document.getElementById("kpi-today-humans").textContent = todayHumans.length;
+      document.getElementById("kpi-total-humans").textContent = humans.length;
+      document.getElementById("tab-cnt-today").textContent = todayHumans.length;
+      document.getElementById("tab-cnt-all").textContent = humans.length;
+
+      var totalBotHitsAll = botGroupsAll.reduce(function(acc, g) { return acc + (g.totalHits || 0); }, 0);
+      var totalBotHitsToday = botGroupsToday.reduce(function(acc, g) { return acc + (g.totalHits || 0); }, 0);
+      document.getElementById("bot-tab-cnt-today").textContent = botGroupsToday.length + " engines • " + totalBotHitsToday + " hits";
+      document.getElementById("bot-tab-cnt-all").textContent = botGroupsAll.length + " engines • " + totalBotHitsAll + " hits";
+
+      var totalHumanSec = humans.reduce(function(acc, h) { return acc + (h.totalSec || 0); }, 0);
+      var avgSec = humans.length ? Math.round(totalHumanSec / humans.length) : 0;
+      document.getElementById("kpi-avg-dwell").textContent = fmtDuration(avgSec);
+      document.getElementById("kpi-total-dwell-sub").textContent = "Total: " + fmtDuration(totalHumanSec);
+
+      document.getElementById("kpi-bot-engines").textContent = botGroupsAll.length;
+      document.getElementById("kpi-bot-hits-sub").textContent = totalBotHitsAll + " total crawl hits (" + totalBotHitsToday + " today)";
+
+      // A) Top 10 Visitors of All Time
+      var top10 = humans.slice().sort(function(a, b) {
+        if (b.totalSec !== a.totalSec) return b.totalSec - a.totalSec;
+        return b.totalPageVisits - a.totalPageVisits;
+      }).slice(0, 10);
+
+      var top10Tbody = document.getElementById("top10-tbody");
+      if (top10.length === 0) {
+        top10Tbody.innerHTML = '<tr><td colspan="7" style="padding:18px;text-align:center;color:#64748b;">No human visitors recorded yet.</td></tr>';
+      } else {
+        top10Tbody.innerHTML = top10.map(function(h, i) {
+          var rankNum = i + 1;
+          var medalCls = rankNum === 1 ? "rank-1" : (rankNum === 2 ? "rank-2" : (rankNum === 3 ? "rank-3" : "rank-n"));
+          var medalIcon = rankNum === 1 ? "🥇 #1" : (rankNum === 2 ? "🥈 #2" : (rankNum === 3 ? "🥉 #3" : "#" + rankNum));
+          return '<tr class="compact-row" data-action="open-history" data-type="human" data-id="' + esc(h.id) + '" title="Click to open all visits ordered by date">' +
+            '<td><span class="rank-medal ' + medalCls + '">' + medalIcon + '</span></td>' +
+            '<td><span style="font-family:monospace;font-weight:800;color:#0f172a;">' + esc(h.uid) + '</span></td>' +
+            '<td><strong>' + esc(fmtRelTime(h.lastTs)) + '</strong> <span style="color:#64748b;font-size:11px;">(' + esc(fmtDateTime(h.lastTs)) + ')</span></td>' +
+            '<td><span class="badge badge-blue">🌍 ' + esc(h.tz) + '</span> <span class="badge badge-amber">🌐 ' + esc(h.lang) + '</span> <span style="color:#475569;font-size:11.5px;">' + esc(h.device) + (h.screen ? " (" + esc(h.screen) + ")" : "") + '</span></td>' +
+            '<td><strong>' + h.pagesList.length + ' unique pages</strong> <span style="color:#64748b;">(' + h.totalPageVisits + ' visits)</span></td>' +
+            '<td><span class="badge badge-green" style="font-size:12.5px;padding:4px 10px;">⏱️ ' + esc(fmtDuration(h.totalSec)) + '</span></td>' +
+            '<td style="text-align:right;"><button type="button" class="btn-all-visits" data-action="open-history" data-type="human" data-id="' + esc(h.id) + '">📅 All Visits (' + h.visitEvents.length + ') →</button></td>' +
+          '</tr>';
         }).join("");
       }
 
-      // Render Bot Summary Cards + Bot Table
-      const botSumBox = document.getElementById("bot-summary-box");
-      const sortedBotGroups = Object.entries(botGroupMap).sort((a, b) => b[1] - a[1]);
-      if (sortedBotGroups.length === 0) {
-        botSumBox.innerHTML = '<div style="grid-column:1/-1;background:#fffbeb;border:1.5px solid #fcd34d;border-radius:12px;padding:12px 16px;color:#92400e;font-weight:800;font-size:0.84rem;">🤖 Crawler tracking is active! Note: LIVE_SEO is currently False (robots.txt Disallow: /), so search crawlers that obey robots.txt are paused until you flip LIVE_SEO = True. Any bot/preview crawler that hits the site will appear right here immediately.</div>';
-      } else {
-        botSumBox.innerHTML = sortedBotGroups.map(([bName, cnt]) =>
-          `<div class="bot-sum-card"><span class="bot-sum-name">🤖 ${bName}</span><span class="bot-sum-hits">${cnt} hits</span></div>`
-        ).join("");
+      // B) Human Visitors Table (Today vs All-Time)
+      var activeList = STATE.visitorTab === "today" ? todayHumans : humans;
+      var qHum = (document.getElementById("human-search-input").value || "").trim().toLowerCase();
+      if (qHum) {
+        activeList = activeList.filter(function(h) {
+          var hay = (h.uid + " " + h.tz + " " + h.lang + " " + h.device + " " + h.screen + " " + h.lastPath + " " + h.pagesList.map(function(p){return p.path;}).join(" ")).toLowerCase();
+          return hay.indexOf(qHum) !== -1;
+        });
       }
 
-      const bFilter = (document.getElementById("bot-filter").value || "").toLowerCase().trim();
-      const filteredBots = allCrawlers.filter(c => {
-        if (!bFilter) return true;
-        return JSON.stringify(c).toLowerCase().includes(bFilter);
+      var humTbody = document.getElementById("humans-tbody");
+      if (activeList.length === 0) {
+        humTbody.innerHTML = '<tr><td colspan="7" style="padding:22px;text-align:center;color:#64748b;">No human visitors in this view. Click "🗂️ All-Time (' + humans.length + ')" to see all visitors.</td></tr>';
+      } else {
+        humTbody.innerHTML = activeList.map(function(h, idx) {
+          var isExp = Boolean(STATE.expandedHumanIds[h.id]);
+          var pagesHtml = h.pagesList.map(function(p) {
+            return '<div class="page-mini-card">' +
+              '<span class="page-mini-path" title="' + esc(p.path) + '">' + esc(p.path) + ' <span style="color:#64748b;font-weight:600;">(' + p.count + 'x)</span></span>' +
+              '<span class="badge badge-green">⏱️ ' + esc(fmtDuration(p.sec)) + '</span>' +
+            '</div>';
+          }).join("");
+
+          return '<tr class="compact-row' + (isExp ? " expanded" : "") + '" data-action="toggle-human" data-id="' + esc(h.id) + '">' +
+            '<td><strong>#' + (idx + 1) + '</strong> • <span style="color:#0284c7;font-weight:700;">' + esc(fmtRelTime(h.lastTs)) + '</span></td>' +
+            '<td><span style="font-family:monospace;font-weight:700;color:#0f172a;">' + esc(h.uid) + '</span> <span class="badge badge-slate">' + esc(h.sourceLabel) + '</span></td>' +
+            '<td><span class="badge badge-blue">🌍 ' + esc(h.tz) + '</span> <span style="color:#475569;font-size:11.5px;">💻 ' + esc(h.device) + (h.screen ? " (" + esc(h.screen) + ")" : "") + '</span></td>' +
+            '<td><span class="badge badge-amber">🌐 ' + esc(h.lang) + '</span></td>' +
+            '<td><strong>' + h.pagesList.length + ' pages</strong> <span style="color:#64748b;font-family:monospace;font-size:11.5px;">(' + esc(h.lastPath) + ')</span></td>' +
+            '<td><span class="badge badge-green" style="font-size:12px;">⏱️ ' + esc(fmtDuration(h.totalSec)) + '</span></td>' +
+            '<td style="text-align:right;display:flex;justify-content:flex-end;gap:6px;">' +
+              '<button type="button" class="btn-toggle-detail" data-action="toggle-human" data-id="' + esc(h.id) + '">' + (isExp ? "▲ Hide" : "▼ Details") + '</button>' +
+              '<button type="button" class="btn-all-visits" data-action="open-history" data-type="human" data-id="' + esc(h.id) + '">📅 All Visits →</button>' +
+            '</td>' +
+          '</tr>' +
+          '<tr class="detail-row' + (isExp ? " open" : "") + '">' +
+            '<td colspan="7">' +
+              '<div class="detail-box">' +
+                '<div class="detail-header">' +
+                  '<div><strong>👤 Visitor UID:</strong> <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">' + esc(h.uid) + '</code> • <strong>First Seen:</strong> ' + esc(fmtDateTime(h.firstTs)) + ' • <strong>Last Seen:</strong> ' + esc(fmtDateTime(h.lastTs)) + ' • <strong>From:</strong> ' + esc(h.ref) + '</div>' +
+                  '<button type="button" class="btn-all-visits" data-action="open-history" data-type="human" data-id="' + esc(h.id) + '">📅 Open Full Chronological Visit Log (' + h.visitEvents.length + ' sessions) →</button>' +
+                '</div>' +
+                '<div class="pages-pill-grid">' + pagesHtml + '</div>' +
+              '</div>' +
+            '</td>' +
+          '</tr>';
+        }).join("");
+      }
+
+      // C) Webcrawlers & Search/AI Bots (Today vs All-Time)
+      var activeBotGroups = STATE.botTab === "today" ? botGroupsToday : botGroupsAll;
+      var chipsEl = document.getElementById("bot-summary-chips");
+      if (activeBotGroups.length === 0) {
+        chipsEl.innerHTML = '<span style="font-size:12px;color:#64748b;">No crawler hits in this time filter — click "🗂️ All-Time" to view all ' + botGroupsAll.length + ' crawler engines.</span>';
+      } else {
+        chipsEl.innerHTML = activeBotGroups.map(function(g) {
+          return '<span class="bot-chip" data-action="open-history" data-type="bot" data-id="' + esc(g.botEngine) + '" title="Click to open all crawl visits ordered by date">' +
+            '🤖 ' + esc(g.botEngine) + ' <span style="background:#f59e0b;color:#fff;padding:1px 7px;border-radius:999px;font-size:11px;">' + g.totalHits + ' hits</span>' +
+          '</span>';
+        }).join("");
+      }
+
+      var qBot = (document.getElementById("bot-search-input").value || "").trim().toLowerCase();
+      var filteredBots = activeBotGroups;
+      if (qBot) {
+        filteredBots = activeBotGroups.filter(function(g) {
+          var hay = (g.botEngine + " " + g.ua + " " + g.pagesList.map(function(p){return p.path;}).join(" ")).toLowerCase();
+          return hay.indexOf(qBot) !== -1;
+        });
+      }
+
+      var botsTbody = document.getElementById("bots-tbody");
+      if (filteredBots.length === 0) {
+        botsTbody.innerHTML = '<tr><td colspan="6" style="padding:22px;text-align:center;color:#64748b;">No webcrawler records match this view. Click "🗂️ All-Time" to view all crawls.</td></tr>';
+      } else {
+        botsTbody.innerHTML = filteredBots.map(function(g, idx) {
+          var isExp = Boolean(STATE.expandedBotNames[g.botEngine]);
+          var botPagesHtml = g.pagesList.map(function(p) {
+            return '<div class="page-mini-card" style="border-left-color:#f59e0b;">' +
+              '<span class="page-mini-path">' + esc(p.path) + '</span>' +
+              '<span class="badge badge-amber">' + p.count + ' hits</span>' +
+            '</div>';
+          }).join("");
+
+          return '<tr class="compact-row' + (isExp ? " expanded" : "") + '" data-action="toggle-bot" data-id="' + esc(g.botEngine) + '">' +
+            '<td><strong>#' + (idx + 1) + '</strong> • <span style="color:#d97706;font-weight:700;">' + esc(fmtRelTime(g.lastTs)) + '</span> <span style="color:#64748b;font-size:11px;">(' + esc(fmtDateTime(g.lastTs)) + ')</span></td>' +
+            '<td><span class="badge badge-amber" style="font-size:12px;padding:4px 10px;">🤖 ' + esc(g.botEngine) + '</span></td>' +
+            '<td><strong style="font-size:14px;">' + g.totalHits + '</strong> hits</td>' +
+            '<td><strong>' + g.pagesList.length + '</strong> <span style="color:#64748b;">/ 192 pages</span></td>' +
+            '<td><code style="background:#f1f5f9;padding:2px 7px;border-radius:5px;font-weight:700;">' + esc(g.latestPath) + '</code></td>' +
+            '<td style="text-align:right;display:flex;justify-content:flex-end;gap:6px;">' +
+              '<button type="button" class="btn-toggle-detail" data-action="toggle-bot" data-id="' + esc(g.botEngine) + '">' + (isExp ? "▲ Hide" : "▼ Details") + '</button>' +
+              '<button type="button" class="btn-all-visits" data-action="open-history" data-type="bot" data-id="' + esc(g.botEngine) + '">📅 All Visits (' + g.visitEvents.length + ') →</button>' +
+            '</td>' +
+          '</tr>' +
+          '<tr class="detail-row' + (isExp ? " open" : "") + '">' +
+            '<td colspan="6">' +
+              '<div class="detail-box">' +
+                '<div class="detail-header">' +
+                  '<div style="font-size:12px;color:#334155;"><strong>🤖 Crawler Signature / User-Agent:</strong> <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;word-break:break-all;">' + esc(g.ua || g.botEngine) + '</code></div>' +
+                  '<button type="button" class="btn-all-visits" data-action="open-history" data-type="bot" data-id="' + esc(g.botEngine) + '">📅 Open All Crawl Visits Ordered by Date (' + g.visitEvents.length + ') →</button>' +
+                '</div>' +
+                '<div class="pages-pill-grid">' + botPagesHtml + '</div>' +
+              '</div>' +
+            '</td>' +
+          '</tr>';
+        }).join("");
+      }
+    }
+    window.renderDashboard = renderDashboard;
+
+    window.setVisitorTab = function(tab) {
+      STATE.visitorTab = tab;
+      document.getElementById("tab-btn-today").classList.toggle("active", tab === "today");
+      document.getElementById("tab-btn-all").classList.toggle("active", tab === "all");
+      document.getElementById("visitors-section-title").textContent = tab === "today" ? "📅 Today's Human Visitors (Last 24h)" : "🗂️ All-Time Human Visitors";
+      renderDashboard();
+    };
+
+    window.setBotTab = function(tab) {
+      STATE.botTab = tab;
+      document.getElementById("bot-tab-btn-today").classList.toggle("active", tab === "today");
+      document.getElementById("bot-tab-btn-all").classList.toggle("active", tab === "all");
+      document.getElementById("bots-section-title").textContent = tab === "today" ? "🤖 List 2: Today's Webcrawlers & Search/AI Bots (Last 24h)" : "🤖 List 2: All-Time Webcrawlers & Search/AI Bots";
+      renderDashboard();
+    };
+
+    window.openAllVisitsPage = function(type, id) {
+      STATE.activeHistoryTarget = { type: type, id: id };
+      window.location.hash = "#history/" + encodeURIComponent(type) + "/" + encodeURIComponent(id);
+      document.getElementById("page-1-dashboard-view").style.display = "none";
+      document.getElementById("page-2-history-view").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      renderPage2History();
+    };
+
+    window.closeAllVisitsPage = function() {
+      STATE.activeHistoryTarget = null;
+      if (window.location.hash) {
+        history.pushState("", document.title, window.location.pathname + window.location.search);
+      }
+      document.getElementById("page-2-history-view").style.display = "none";
+      document.getElementById("page-1-dashboard-view").style.display = "block";
+    };
+
+    window.toggleHistorySortOrder = function() {
+      STATE.historySortDesc = !STATE.historySortDesc;
+      var btn = document.getElementById("sort-order-btn");
+      if (btn) btn.textContent = STATE.historySortDesc ? "📅 Sort: Newest First ↓" : "📅 Sort: Oldest First ↑";
+      renderPage2History();
+    };
+
+    function renderPage2History() {
+      var target = STATE.activeHistoryTarget;
+      if (!target) return;
+
+      var isBot = target.type === "bot";
+      var record = null;
+      if (isBot) {
+        record = STATE.botGroupsAll.find(function(g) { return g.botEngine === target.id; });
+      } else {
+        record = STATE.humans.find(function(h) { return h.id === target.id || h.uid === target.id; });
+      }
+      if (!record) return;
+
+      document.getElementById("p2-type-badge").textContent = isBot ? "🤖 WEBCRAWLER / SEARCH BOT" : "👤 HUMAN VISITOR (PERMANENT UID)";
+      document.getElementById("p2-title").textContent = isBot ? record.botEngine : ("Visitor " + record.uid);
+      document.getElementById("p2-subtitle").textContent = isBot
+        ? ("Complete crawl history ordered by date • Signature: " + (record.ua || record.botEngine))
+        : ("All page visits and sessions ordered chronologically by date for UID " + record.uid);
+      document.getElementById("p2-total-dwell-badge").textContent = isBot
+        ? ("🔥 " + record.totalHits + " Total Hits")
+        : ("⏱️ " + fmtDuration(record.totalSec));
+
+      var metaGrid = document.getElementById("p2-meta-grid");
+      if (isBot) {
+        metaGrid.innerHTML =
+          '<div class="history-meta-box"><div class="history-meta-label">Crawler Engine</div><div class="history-meta-val">' + esc(record.botEngine) + '</div></div>' +
+          '<div class="history-meta-box"><div class="history-meta-label">First Crawl Seen</div><div class="history-meta-val">' + esc(fmtDateTime(record.firstTs)) + '</div></div>' +
+          '<div class="history-meta-box"><div class="history-meta-label">Latest Crawl Seen</div><div class="history-meta-val">' + esc(fmtDateTime(record.lastTs)) + '</div></div>' +
+          '<div class="history-meta-box"><div class="history-meta-label">Unique Pages Crawled</div><div class="history-meta-val">' + record.pagesList.length + ' / 192</div></div>';
+      } else {
+        metaGrid.innerHTML =
+          '<div class="history-meta-box"><div class="history-meta-label">Permanent UID</div><div class="history-meta-val">' + esc(record.uid) + '</div></div>' +
+          '<div class="history-meta-box"><div class="history-meta-label">First Visit Date</div><div class="history-meta-val">' + esc(fmtDateTime(record.firstTs)) + '</div></div>' +
+          '<div class="history-meta-box"><div class="history-meta-label">Last Active Date</div><div class="history-meta-val">' + esc(fmtDateTime(record.lastTs)) + '</div></div>' +
+          '<div class="history-meta-box"><div class="history-meta-label">Location &amp; Device</div><div class="history-meta-val">' + esc(record.tz) + " • " + esc(record.device) + '</div></div>' +
+          '<div class="history-meta-box"><div class="history-meta-label">Language</div><div class="history-meta-val">' + esc(record.lang) + '</div></div>' +
+          '<div class="history-meta-box"><div class="history-meta-label">Unique Pages / Visits</div><div class="history-meta-val">' + record.pagesList.length + " pages (" + record.totalPageVisits + 'x)</div></div>';
+      }
+
+      var events = (record.visitEvents || []).slice();
+      events.sort(function(a, b) {
+        return STATE.historySortDesc ? ((b.ts || 0) - (a.ts || 0)) : ((a.ts || 0) - (b.ts || 0));
       });
 
-      const bTbody = document.getElementById("bots-tbody");
-      if (filteredBots.length === 0) {
-        bTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#64748b;font-weight:800;">No webcrawler visits recorded yet.</td></tr>';
+      document.getElementById("p2-visit-count-badge").textContent = events.length + " recorded visits";
+      var tbody = document.getElementById("p2-visits-tbody");
+      if (events.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="padding:20px;text-align:center;color:#64748b;">No individual visit events recorded.</td></tr>';
       } else {
-        bTbody.innerHTML = filteredBots.map((c, idx) => {
-          const pObj = Object.assign({}, c.pages || {});
-          Object.keys(c).forEach(k => {
-            if (k.startsWith("pages.")) pObj[k.slice(6)] = (Number(pObj[k.slice(6)]) || 0) + Number(c[k] || 0);
-          });
-          const pList = Object.entries(pObj).sort((a, b) => Number(b[1]) - Number(a[1])).map(([k, hits]) =>
-            `<div class="page-pill"><code>${decodeSafePath(k)}</code><span class="badge badge-amber">${hits} hits</span></div>`
-          ).join("");
-          return `<tr>
-            <td><strong>#${idx + 1}</strong><br>${fmtTimeAgo(c.lastSeen)}</td>
-            <td><span class="badge badge-amber" style="font-size:0.82rem;">🤖 ${c.botName || "Crawler"}</span></td>
-            <td><strong style="font-size:1.05rem;color:#082548;">${c.hits || 1}</strong></td>
-            <td><div class="page-journey">${pList || `<code>${c.lastPath || "/"}</code>`}</div></td>
-            <td><code style="font-size:0.74rem;color:#475569;word-break:break-all;">${c.ua || "Unknown UA"}</code></td>
-          </tr>`;
+        tbody.innerHTML = events.map(function(ev, i) {
+          var num = STATE.historySortDesc ? (events.length - i) : (i + 1);
+          return '<tr class="compact-row" style="cursor:default;">' +
+            '<td><strong>#' + num + '</strong></td>' +
+            '<td><strong>' + esc(fmtDateTime(ev.ts)) + '</strong></td>' +
+            '<td><span style="color:#0284c7;font-weight:700;">' + esc(fmtRelTime(ev.ts)) + '</span></td>' +
+            '<td><a href="' + esc(ev.path) + '" target="_blank" style="font-family:monospace;font-weight:800;color:#0f172a;text-decoration:underline;">' + esc(ev.path) + '</a></td>' +
+            '<td><span class="badge badge-amber">🌐 ' + esc(String(ev.lang || "EN").toUpperCase()) + '</span></td>' +
+            '<td><strong>' + (ev.count || 1) + 'x</strong></td>' +
+            '<td><span class="badge badge-green">⏱️ ' + esc(fmtDuration(ev.sec || 0)) + '</span></td>' +
+            '<td style="color:#64748b;font-size:11.5px;">' + esc(ev.ref || "Direct") + '</td>' +
+          '</tr>';
         }).join("");
       }
     }
 
-    function toggleAutoRefresh() {
-      if (refreshTimer) clearInterval(refreshTimer);
-      if (document.getElementById("auto-refresh").checked) {
-        refreshTimer = setInterval(loadAnalytics, 15000);
-      }
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const savedPin = localStorage.getItem("gat_admin_pin");
-      if (savedPin && (savedPin === "6130" || savedPin === "6130")) {
-        document.getElementById("admin-pin").value = savedPin;
+    window.addEventListener("hashchange", function() {
+      var h = window.location.hash || "";
+      var m = h.match(/^#history\/(human|bot)\/(.+)$/);
+      if (m) {
+        STATE.activeHistoryTarget = { type: decodeURIComponent(m[1]), id: decodeURIComponent(m[2]) };
+        document.getElementById("page-1-dashboard-view").style.display = "none";
+        document.getElementById("page-2-history-view").style.display = "block";
+        renderPage2History();
       } else {
-        document.getElementById("admin-pin").value = "6130";
-        localStorage.setItem("gat_admin_pin", "6130");
+        STATE.activeHistoryTarget = null;
+        document.getElementById("page-2-history-view").style.display = "none";
+        document.getElementById("page-1-dashboard-view").style.display = "block";
       }
-      loadAnalytics();
-      toggleAutoRefresh();
     });
-  </script>
 
-
-<!-- GAT ANALYTICS UI & CLEAR LOGS ENHANCEMENT START -->
-<style id="gat-analytics-ui-polish">
-  /* 1. Widen filter inputs so placeholders are 100% readable */
-  input[placeholder*="Filter" i],
-  input[placeholder*="Search" i],
-  input[type="search"] {
-    width: 100% !important;
-    max-width: 520px !important;
-    min-width: min(100%, 340px) !important;
-    padding: 10px 14px !important;
-    box-sizing: border-box !important;
-  }
-
-  /* 2. Keep tables inside card bounds & wrap Raw User-Agent cleanly */
-  table {
-    width: 100% !important;
-    max-width: 100% !important;
-    border-collapse: collapse !important;
-    table-layout: auto !important;
-  }
-  table th, table td {
-    vertical-align: top !important;
-  }
-  table th:last-child,
-  table td:last-child {
-    white-space: normal !important;
-    word-break: break-word !important;
-    overflow-wrap: anywhere !important;
-    min-width: 200px !important;
-    max-width: 340px !important;
-    line-height: 1.42 !important;
-  }
-  #gat-analytics-clear-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    margin: 10px 0 14px 0;
-  }
-  .gat-an-clear-btn {
-    border-radius: 10px;
-    padding: 8px 13px;
-    font-size: 0.8rem;
-    font-weight: 800;
-    cursor: pointer;
-    border: 1.5px solid transparent;
-    transition: opacity 0.15s ease;
-  }
-  .gat-an-clear-btn:hover { opacity: 0.9; }
-</style>
-<script id="gat-analytics-clear-logs-js">
-(function initGatAnalyticsClearToolbar() {
-  var lastAnalyticsReqBody = null;
-  var origFetch = window.fetch;
-
-  if (typeof origFetch === "function" && !origFetch._gatAnSpy) {
-    var wrappedFetch = async function(input, init) {
-      try {
-        if (init && typeof init.body === "string" && init.body.indexOf('"admin_get_analytics"') !== -1) {
-          var parsed = JSON.parse(init.body);
-          delete parsed.clearScope;
-          lastAnalyticsReqBody = parsed;
-          setTimeout(mountClearButtonsIfReady, 180);
-        }
-      } catch (e) {}
-      return origFetch.apply(this, arguments);
-    };
-    wrappedFetch._gatAnSpy = true;
-    window.fetch = wrappedFetch;
-  }
-
-  function buildAuthPayload(scope) {
-    var base = Object.assign({ mode: "admin_get_analytics" }, lastAnalyticsReqBody || {});
-    if (!base.adminSessionToken) {
-      base.adminSessionToken = window.__gatGhostAdminTok || sessionStorage.getItem("gat_admin_session_tok") || localStorage.getItem("gat_admin_session_tok") || "";
-    }
-    if (!base.deviceAuthToken) base.deviceAuthToken = localStorage.getItem("gat_device_auth_tok") || "";
-    if (!base.uid) base.uid = localStorage.getItem("gat_uid") || "";
-    if (!base.waPhone) base.waPhone = localStorage.getItem("gat_verified_wa_phone") || "";
-    base.clearScope = scope;
-    return base;
-  }
-
-  window.gatClearAnalyticsScope = async function(scope) {
-    var msg = scope === "all"
-      ? "Reset ALL test visitor, daily, and bot logs to zero? (Use right before launch or clean testing.)"
-      : "Clear all Webcrawler / HeadlessChrome test hits?";
-    if (!window.confirm(msg)) return;
-
-    var btnId = scope === "all" ? "gat-btn-clear-all" : "gat-btn-clear-bots";
-    var btn = document.getElementById(btnId);
-    var origTxt = btn ? btn.textContent : "";
-    if (btn) { btn.disabled = true; btn.textContent = "⏳ Clearing..."; }
-
-    try {
-      var res = await fetch("/api/auditDoc", {
+    window.clearBotHits = async function() {
+      if (!confirm("Clear all webcrawler/bot hits?")) return;
+      await fetch("/api/auditDoc?mode=admin_clear_bots", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buildAuthPayload(scope))
+        body: JSON.stringify({ mode: "admin_clear_bots", confirmWipe: "YES_WIPE_NOW", adminSessionToken: (localStorage.getItem("gat_admin_session_tok") || ""), deviceAuthToken: (localStorage.getItem("gat_device_auth_tok") || ""), passCode: (localStorage.getItem("gat_permanent_pass_code") || ""), adminUid: (localStorage.getItem("gat_wa_uid") || localStorage.getItem("gat_verified_wa_phone") || "") })
       });
-      var data = await res.json();
-      if (!res.ok || !data || !data.ok) {
-        throw new Error((data && data.error) || "Failed to clear logs");
-      }
-      // Trigger native dashboard refresh function if exposed, otherwise click Refresh button
-      if (typeof window.loadAnalytics === "function") await window.loadAnalytics();
-      else if (typeof window.fetchAnalytics === "function") await window.fetchAnalytics();
-      else if (typeof window.refreshAnalytics === "function") await window.refreshAnalytics();
-      else {
-        var refBtn = Array.from(document.querySelectorAll("button")).find(function(b) {
-          return /refresh|reload/i.test(b.textContent || "");
-        });
-        if (refBtn) refBtn.click();
-        else window.location.reload();
-      }
-    } catch (err) {
-      alert("⚠️ " + (err.message || err));
-    } finally {
-      if (btn) { btn.disabled = false; btn.textContent = origTxt; }
-    }
-  };
+      await fetchAnalyticsData();
+    };
+    window.resetAllLogs = async function() {
+      if (!confirm("Reset ALL analytics test logs?")) return;
+      await fetch("/api/auditDoc?mode=admin_reset_analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: "admin_reset_analytics", confirmWipe: "YES_WIPE_NOW", adminSessionToken: (localStorage.getItem("gat_admin_session_tok") || ""), deviceAuthToken: (localStorage.getItem("gat_device_auth_tok") || ""), passCode: (localStorage.getItem("gat_permanent_pass_code") || ""), adminUid: (localStorage.getItem("gat_wa_uid") || localStorage.getItem("gat_verified_wa_phone") || "") })
+      });
+      await fetchAnalyticsData();
+    };
 
-  function mountClearButtonsIfReady() {
-    if (document.getElementById("gat-analytics-clear-bar")) return;
-    // Anchor right above List 2 or the first analytics table once dashboard is unlocked
-    var tables = document.querySelectorAll("table");
-    if (!tables.length) return;
-    tables.forEach(function(tb) {
-      if (tb.parentElement) {
-        tb.parentElement.style.overflowX = "auto";
-        tb.parentElement.style.maxWidth = "100%";
+    fetchAnalyticsData().then(function() {
+      if (window.location.hash && window.location.hash.indexOf("#history/") === 0) {
+        window.dispatchEvent(new Event("hashchange"));
       }
     });
-    var anchorHeading = Array.from(document.querySelectorAll("h1, h2, h3, div")).find(function(el) {
-      return el.children.length === 0 && /List 2:\s*Webcrawlers/i.test(el.textContent || "");
-    });
-    var bar = document.createElement("div");
-    bar.id = "gat-analytics-clear-bar";
-    bar.innerHTML =
-      '<button type="button" id="gat-btn-clear-bots" class="gat-an-clear-btn" onclick="window.gatClearAnalyticsScope(\'bots\')" style="background:#fffbeb;color:#b45309;border-color:#f59e0b;">🤖 Clear Bot / Crawler Hits</button>' +
-      '<button type="button" id="gat-btn-clear-all" class="gat-an-clear-btn" onclick="window.gatClearAnalyticsScope(\'all\')" style="background:#fef2f2;color:#b91c1c;border-color:#fca5a5;">🗑️ Reset All Test Logs</button>';
-
-    if (anchorHeading && anchorHeading.parentElement) {
-      anchorHeading.parentElement.insertBefore(bar, anchorHeading.nextSibling);
-    } else if (tables[0] && tables[0].parentElement) {
-      tables[0].parentElement.insertBefore(bar, tables[0]);
-    }
-  }
-
-  var mo = new MutationObserver(function() { mountClearButtonsIfReady(); });
-  if (document.body) mo.observe(document.body, { childList: true, subtree: true });
-  document.addEventListener("DOMContentLoaded", mountClearButtonsIfReady);
-  setTimeout(mountClearButtonsIfReady, 400);
-})();
-</script>
-<!-- GAT ANALYTICS UI & CLEAR LOGS ENHANCEMENT END -->
-
+    setInterval(fetchAnalyticsData, 15000);
+  })();
+  </script>
 </body>
 </html>

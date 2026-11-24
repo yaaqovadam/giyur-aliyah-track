@@ -4350,3 +4350,237 @@
   }
 })();
 // === GAT MEET SPOK EARLY ONBOARDING HOOK V1 END ===
+
+/* === GAT_SPOK_BOTTOM_PILL_NEXT_TO_FAB_V1 === */
+(function initGatSpokBottomPillV2() {
+  const ASK_SPOK_6L = {
+    en: "✨ Ask Spok →",
+    he: "✨ שאלו את ספוק ←",
+    fr: "✨ Demander à Spok →",
+    es: "✨ Preguntar a Spok →",
+    de: "✨ Spok fragen →",
+    ru: "✨ Спросить Спока →"
+  };
+
+  const SPOK_INTRO_MARKERS = [
+    "Hi, I'm Spok",
+    "Hi, I’m Spok",
+    "24/7 Aliyah, Conversion",
+    "נעים מאוד, אני ספוק",
+    "מדריך העלייה, הגיור ומשרד הפנים",
+    "Salut, je suis Spok",
+    "Bonjour, je suis Spok",
+    "Hola, soy Spok",
+    "Hallo, ich bin Spok",
+    "Привет, я Спок",
+    "Здравствуйте, я Спок"
+  ];
+
+  function getActiveLang() {
+    const pathSeg = (window.location.pathname.split("/")[1] || "").toLowerCase();
+    if (["he", "fr", "es", "de", "ru"].includes(pathSeg)) return pathSeg;
+    const urlLang = new URLSearchParams(window.location.search).get("lang");
+    if (urlLang && ASK_SPOK_6L[urlLang.toLowerCase()]) return urlLang.toLowerCase();
+    const gLang = String(window.gatLang || window.appLang || localStorage.getItem("gat_lang") || document.documentElement.lang || "en").toLowerCase().slice(0, 2);
+    return ASK_SPOK_6L[gLang] ? gLang : "en";
+  }
+
+  function injectSpokLayoutCss() {
+    let st = document.getElementById("gat-spok-bottom-pill-css");
+    if (!st) {
+      st = document.createElement("style");
+      st.id = "gat-spok-bottom-pill-css";
+      document.head.appendChild(st);
+    }
+    st.textContent = `
+      .exodus-alert,
+      #exodus-alert,
+      #gat-spok-top-banner,
+      .gat-spok-top-banner,
+      #spok-intro-card,
+      .spok-intro-card,
+      #gat-spok-intro-box,
+      .gat-spok-intro-box,
+      [data-spok-intro-hidden="1"] {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border: none !important;
+      }
+      #gat-ask-spok-bottom-pill {
+        position: fixed;
+        z-index: 9998;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        color: #ffffff !important;
+        font-family: inherit;
+        font-size: 0.92rem;
+        font-weight: 850;
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1.5px solid rgba(255, 255, 255, 0.35);
+        box-shadow: 0 6px 18px rgba(2, 132, 199, 0.38), 0 2px 6px rgba(15, 23, 42, 0.18);
+        cursor: pointer;
+        white-space: nowrap;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+      }
+      #gat-ask-spok-bottom-pill:active {
+        transform: scale(0.96);
+      }
+    `;
+  }
+
+  function removeTopSpokIntroBox() {
+    // 1. Always hide .exodus-alert and known spok intro IDs
+    document.querySelectorAll(".exodus-alert, #exodus-alert, #gat-spok-top-banner, .gat-spok-top-banner, #spok-intro-card, .spok-intro-card, #gat-spok-intro-box, .gat-spok-intro-box").forEach(el => {
+      el.setAttribute("data-spok-intro-hidden", "1");
+    });
+
+    // 2. Find any element containing the Spok greeting or top "Ask Spok" button
+    const allEls = document.querySelectorAll("div, section, article, aside, header");
+    for (let i = 0; i < allEls.length; i++) {
+      const el = allEls[i];
+      if (el.id === "gat-ask-spok-bottom-pill" || el.getAttribute("data-spok-intro-hidden") === "1") continue;
+      // Never hide a parent that also holds the main funnel content ("Answer 4 quick questions" / "Skip Jewish Agency" / "15,000")
+      const txt = (el.textContent || "").trim();
+      if (!txt || txt.length > 260) continue;
+      if (txt.includes("15,000") || txt.includes("40,000") || txt.includes("Teudat Zehut") || txt.includes("NBN")) continue;
+
+      const hasMarker = SPOK_INTRO_MARKERS.some(m => txt.includes(m)) ||
+        (txt.includes("Spok") && txt.includes("24/7")) ||
+        (txt.includes("ספוק") && txt.includes("24/7"));
+
+      if (hasMarker) {
+        // Walk up to the outermost card wrapper that still only contains this Spok intro (< 260 chars)
+        let target = el;
+        while (
+          target.parentElement &&
+          target.parentElement.tagName !== "BODY" &&
+          target.parentElement.tagName !== "MAIN" &&
+          target.parentElement.id !== "view-0" &&
+          target.parentElement.id !== "gat-3track-funnel-card" &&
+          ((target.parentElement.textContent || "").trim().length < 260)
+        ) {
+          target = target.parentElement;
+        }
+        target.setAttribute("data-spok-intro-hidden", "1");
+      }
+    }
+  }
+
+  function findCircleFab() {
+    return (
+      document.getElementById("gat-hd-fab") ||
+      document.querySelector(".gat-hd-fab") ||
+      document.getElementById("hd-fab") ||
+      document.querySelector("[onclick*='openHdDrawer'], [onclick*='toggleHdDrawer']")
+    );
+  }
+
+  function syncBottomPillPositionAndText() {
+    injectSpokLayoutCss();
+    removeTopSpokIntroBox();
+
+    const fab = findCircleFab();
+    let pill = document.getElementById("gat-ask-spok-bottom-pill");
+    if (!pill) {
+      pill = document.createElement("button");
+      pill.id = "gat-ask-spok-bottom-pill";
+      pill.type = "button";
+      pill.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const f = findCircleFab();
+        if (f) {
+          f.click();
+        } else if (typeof window.openHdDrawer === "function") {
+          window.openHdDrawer();
+        } else if (typeof window.toggleHdDrawer === "function") {
+          window.toggleHdDrawer(true);
+        }
+      });
+      document.body.appendChild(pill);
+    }
+
+    const lang = getActiveLang();
+    const lbl = ASK_SPOK_6L[lang] || ASK_SPOK_6L.en;
+    if (pill.textContent !== lbl) {
+      pill.textContent = lbl;
+    }
+    pill.dir = (lang === "he") ? "rtl" : "ltr";
+
+    if (fab) {
+      const rect = fab.getBoundingClientRect();
+      const fabStyle = window.getComputedStyle(fab);
+      const isHidden = fabStyle.display === "none" || fabStyle.visibility === "hidden" || rect.width === 0;
+      if (isHidden) {
+        pill.style.display = "none";
+        return;
+      }
+      pill.style.display = "inline-flex";
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const vw = window.innerWidth || document.documentElement.clientWidth;
+
+      const pillHeight = pill.offsetHeight || 40;
+      const centerY = rect.top + rect.height / 2;
+      const bottomPx = Math.max(12, Math.round(vh - centerY - pillHeight / 2));
+      pill.style.bottom = bottomPx + "px";
+      pill.style.top = "auto";
+
+      if (rect.left > vw / 2) {
+        const rightPx = Math.round(vw - rect.left + 10);
+        pill.style.right = rightPx + "px";
+        pill.style.left = "auto";
+      } else {
+        const leftPx = Math.round(rect.right + 10);
+        pill.style.left = leftPx + "px";
+        pill.style.right = "auto";
+      }
+    } else {
+      pill.style.bottom = "90px";
+      pill.style.right = "84px";
+      pill.style.left = "auto";
+    }
+  }
+
+  window.syncGatSpokBottomPill = syncBottomPillPositionAndText;
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncBottomPillPositionAndText);
+  } else {
+    syncBottomPillPositionAndText();
+  }
+  window.addEventListener("resize", syncBottomPillPositionAndText, { passive: true });
+  window.addEventListener("scroll", syncBottomPillPositionAndText, { passive: true });
+  [50, 150, 350, 700, 1200].forEach(ms => setTimeout(syncBottomPillPositionAndText, ms));
+
+  ["setLang", "switchLang", "applyLang"].forEach(fnName => {
+    const orig = window[fnName];
+    if (typeof orig === "function" && !orig._spokPillWrapped) {
+      const wrapped = function() {
+        const r = orig.apply(this, arguments);
+        setTimeout(syncBottomPillPositionAndText, 30);
+        return r;
+      };
+      wrapped._spokPillWrapped = true;
+      window[fnName] = wrapped;
+    }
+  });
+
+  const obs = new MutationObserver(() => {
+    removeTopSpokIntroBox();
+  });
+  if (document.body) {
+    obs.observe(document.body, { childList: true, subtree: true });
+  } else {
+    document.addEventListener("DOMContentLoaded", () => {
+      obs.observe(document.body, { childList: true, subtree: true });
+    });
+  }
+})();

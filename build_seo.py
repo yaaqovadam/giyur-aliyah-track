@@ -1,7 +1,7 @@
 import html, json, os, re
 
-LIVE_SEO = False
-ROBOTS_META = "index, follow" if LIVE_SEO else "noindex, nofollow"
+LIVE_SEO = True
+ROBOTS_META = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" if LIVE_SEO else "noindex, nofollow"
 DOMAIN_SHIELD = "<script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\\.0\\.0\\.1|giyuraliyahtrack\\.com|www\\.giyuraliyahtrack\\.com|giyur-aliyah-track\\.(web\\.app|firebaseapp\\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname+location.search+location.hash);}})();</script>"
 
 SPOKES = [
@@ -19,7 +19,7 @@ SPOKES = [
         "seo_titles": {
             "en": "Emergency Aliyah Go-Bag & In-Israel Shinui Ma'amad (2026)",
             "he": "תיק חירום לעלייה ושינוי מעמד מתוך ישראל (אפוסטיל 2026)",
-            "fr": "Aliyah d'Urgence : Dossier Apostille & Shinui Ma'amad Israël",
+            "fr": "Aliyah Urgence : Apostille & Shinui Ma’amad en Israël",
             "es": "Aliyá de Emergencia: Carpeta Apostilla y Shinui Ma'amad",
             "de": "Notfall-Alija: Apostille-Dokumente & Inlands-Shinui Ma'amad",
             "ru": "Экстренная репатриация и Шинуй Маамад внутри Израиля (2026)"
@@ -344,6 +344,66 @@ SPOKES = [
             "de": "Konversion zum Judentum in Israel (Giur) — Vollständiger Guide",
             "ru": "Как пройти Гиюр в Израиле (государственный и частный) — Гид"
         }
+    }    ,
+    {
+        "slug": "israel-unmarried-partner-visa-nohal-5-2-0009",
+        "obs_idx": 6, "term_key": "unmarried_partner_5_2_0009", "lead_from_term": True,
+        "l_slugs": {
+            "en": "israel-unmarried-partner-visa-nohal-5-2-0009",
+            "he": "halich-medurag-yeduim-betzibur-nohal-5-2-0009",
+            "fr": "visa-concubinage-partenaire-non-marie-israel-5-2-0009",
+            "es": "visa-pareja-de-hecho-no-casados-israel-nohal-5-2-0009",
+            "de": "lebenspartner-visum-unverheiratete-paare-israel-5-2-0009",
+            "ru": "stupro-bez-braka-yaduim-be-cibur-izrail-5-2-0009"
+        },
+        "seo_titles": {
+            "en": "Israel Unmarried Partner Visa (Nohal 5.2.0009) & B/1 Guide",
+            "he": "הליך מדורג לידועים בציבור (נוהל 5.2.0009) — אשרת B/1 ונספח א׳",
+            "fr": "Visa Concubinage Israël (Nohal 5.2.0009) : B/1 & Nespach Alef",
+            "es": "Visa Pareja de Hecho en Israel (Nohal 5.2.0009) y Permiso B/1",
+            "de": "Lebenspartner-Visum Israel (Nohal 5.2.0009) & B/1-Arbeitsvisum",
+            "ru": "СТУПРО без брака в Израиле (Ноаль 5.2.0009 — Ядуим бе-Цибур)"
+        }
+    },
+    {
+        "slug": "utah-zoom-online-marriage-israel-misrad-hapanim",
+        "obs_idx": 6, "term_key": "utah_zoom_marriage_israel", "lead_from_term": True,
+        "l_slugs": {
+            "en": "utah-zoom-online-marriage-israel-misrad-hapanim",
+            "he": "nisuei-utah-zoom-misrad-hapanim-rishum-halich-medurag",
+            "fr": "mariage-civil-utah-zoom-en-ligne-israel-misrad-hapanim",
+            "es": "matrimonio-civil-utah-zoom-online-israel-misrad-hapanim",
+            "de": "utah-zoom-online-heirat-zivilehe-israel-misrad-hapanim",
+            "ru": "onlajn-brak-yuta-zoom-izrail-registraciya-mvd-stupro"
+        },
+        "seo_titles": {
+            "en": "Utah Zoom Civil Marriage in Israel: Misrad HaPanim & Ash/6",
+            "he": "נישואי יוטה בזום במשרד הפנים (פסק דין בריל) והליך מדורג 2026",
+            "fr": "Mariage Civil Utah par Zoom en Israël : Misrad HaPanim & Ash/6",
+            "es": "Boda Civil Utah por Zoom en Israel: Registro Misrad HaPanim",
+            "de": "Utah-Online-Heirat (Zoom) in Israel: Misrad HaPanim & Ash/6",
+            "ru": "Онлайн-брак в штате Юта (Zoom) для МВД Израиля и СТУПРО 2026"
+        }
+    },
+    {
+        "slug": "proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut",
+        "obs_idx": 1, "term_key": "proof_of_judaism_israel", "lead_from_term": True,
+        "l_slugs": {
+            "en": "proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut",
+            "he": "hochachat-yahadut-aliyah-nativ-birur-yahadut-rabbanut",
+            "fr": "preuve-de-judaisme-aliyah-nativ-consistoire-birur-yahadut",
+            "es": "prueba-de-judaismo-aliya-nativ-rabinato-birur-yahadut",
+            "de": "judentumsnachweis-alija-nativ-rabbinat-birur-jahadut",
+            "ru": "podtverzhdenie-evrejstva-aliya-nativ-ravvinat-birur-yahadut"
+        },
+        "seo_titles": {
+            "en": "Proof of Judaism for Aliyah (Nativ) & Rabbanut Birur Yahadut",
+            "he": "הוכחת יהדות לעלייה (נתיב) מול בירור יהדות ברבנות — מדריך 2026",
+            "fr": "Preuve de Judaïsme Aliyah (Nativ) & Birur Yahadut Rabbinat",
+            "es": "Prueba de Judaísmo para Aliyá (Nativ) y Birur Yahadut Rabanut",
+            "de": "Judentumsnachweis für Alija (Nativ) & Rabbinat Birur Jahadut",
+            "ru": "Подтверждение еврейства: Натив (Алия) и Бирур Яхадут в Раввинате"
+        }
     }
 ]
 
@@ -473,12 +533,15 @@ DIY_VS_LAWYERS_NBN_I18N = {
 
 STATUTORY_AUTHORITY_I18N = {
     "en": ("⚖️ 2026 Official PIBA & Chief Rabbinate Statutory Authority Table", "Procedure Nohal 5.2.0008 (Ed. 16, July 20, 2026 — Married Spouses, 6-Page Form Ash/6 Dossier, Sec. ג.10 Dual-Track Protection & 300-Q Interview) • Nohal 5.2.0009 (Ed. 17, July 16, 2026 — Common-Law Couples, Nespach Alef 13-Clause Affidavit) • Nohal 5.2.0001 (In-Israel Aliyah / Shinui Ma'amad, Form Ash/456 & 24-Month Sal Klita Rule) • Nohal 5.2.0004 (Israeli-Born Child Sefach Registration & 300-Day Pre-Birth Proof) • Hague Apostille & Non-Hague Diplomatic Consular Chain Verification."),
-    "he": ("⚖️ טבלת אסמכתאות חוקיות ונהלי רשות האוכלוסין והרבנות הראשית (מהדורות 2026)", "נוהל 5.2.0008 (מהדורה 16, 20 ביולי 2026 — בני זוג נשואים, אוגדן טופס אש/6 עמ׳ 1–6, הגנת סעיף ג.10 למסלול כפול ושימוע 300 השאלות) • נוהל 5.2.0009 (מהדורה 17, 16 ביולי 2026 — ידועים בציבור, תצהיר נספח א׳ בן 13 סעיפים) • נוהל 5.2.0001 (עלייה מתוך ישראל / שינוי מעמד, טופס אש/456 וכלל 24 החודשים לסל קליטה) • נוהל 5.2.0004 (רישום תינוק שנולד בישראל בספח והוכחת 300 ימים) • אימות אפוסטיל ושרשרת קונסולרית למדינות שאינןחתומות על אמנת האג."),
+    "he": ("⚖️ טבלת אסמכתאות חוקיות ונהלי רשות האוכלוסין והרבנות הראשית (מהדורות 2026)", "נוהל 5.2.0008 (מהדורה 16, 20 ביולי 2026 — בני זוג נשואים, אוגדן טופס אש/6 עמ׳ 1–6, הגנת סעיף ג.10 למסלול כפול ושימוע 300 השאלות) • נוהל 5.2.0009 (מהדורה 17, 16 ביולי 2026 — ידועים בציבור, תצהיר נספח א׳ בן 13 סעיפים) • נוהל 5.2.0001 (עלייה מתוך ישראל / שינוי מעמד, טופס אש/456 וכלל 24 החודשים לסל קליטה) • נוהל 5.2.0004 (רישום תינוק שנולד בישראל בספח והוכחת 300 ימים) • אימות אפוסטיל ושרשרת קונסולרית למדינות שאינן חתומות על אמנת האג."),
     "fr": ("⚖️ Référentiel Statutaire Officiel PIBA / Misrad HaPanim & Grand Rabbinat (Éditions 2026)", "Procédure Nohal 5.2.0008 (Éd. 16, 20 juillet 2026 — Couples Mariés, Dossier Ash/6 p.1–6, Protection Double Parcours art. ג.10 & Entretien 300 Questions) • Nohal 5.2.0009 (Éd. 17, 16 juillet 2026 — Concubinage, Déclaration Nespach Alef 13 clauses) • Nohal 5.2.0001 (Aliyah en Israël / Shinui Ma'amad, Ash/456) • Nohal 5.2.0004 (Inscription Nouveau-Né Sefach & Preuve 300 Jours) • Apostille de La Haye & Légalisation Consulaire."),
     "es": ("⚖️ Tabla de Autoridad Legal Oficial PIBA / Misrad HaPanim y Gran Rabinato (Ediciones 2026)", "Procedimiento Nohal 5.2.0008 (Ed. 16, 20 de julio de 2026 — Cónyuges Casados, Dossier Ash/6 p.1–6, Protección Doble Vía art. ג.10 y Entrevista de 300 Preguntas) • Nohal 5.2.0009 (Ed. 17, 16 de julio de 2026 — Parejas de Hecho, Nespaj Alef 13 cláusulas) • Nohal 5.2.0001 (Aliyá en Israel / Shinui Ma'amad, Ash/456) • Nohal 5.2.0004 (Registro de Recién Nacido en Sefaj y Regla de 300 Días) • Apostilla de La Haya y Cadena Consular."),
     "de": ("⚖️ Offizielle Rechtsgrundlagen PIBA / Misrad HaPanim & Oberrabbinat (Ausgaben 2026)", "Verfahren Nohal 5.2.0008 (Ed. 16, 20. Juli 2026 — Verheiratete Paare, 6-Seiten-Dossier Ash/6, Doppel-Track Abs. ג.10 & 300-Fragen-Interview) • Nohal 5.2.0009 (Ed. 17, 16. Juli 2026 — Lebenspartner, Nespach Alef 13 Klauseln) • Nohal 5.2.0001 (Inlands-Alija / Shinui Ma'amad, Ash/456) • Nohal 5.2.0004 (Neugeborenen-Sefach & 300-Tage-Nachweis) • Haager Apostille & Konsularische Legalisation."),
     "ru": ("⚖️ Официальная правовая база МВД Израиля (PIBA) и Главного раввината (Редакции 2026 г.)", "Инструкция Ноаль 5.2.0008 (Ред. 16 от 20.07.2026 — Зарегистрированные супруги, анкета Аш/6 на 6 стр., двойной трек п. ג.10 и допрос из 300 вопросов) • Ноаль 5.2.0009 (Ред. 17 от 16.07.2026 — Гражданские партнёры, декларация Неспах Алеф из 13 пунктов) • Ноаль 5.2.0001 (Репатриация внутри Израиля / Шинуй Маамад, Аш/456) • Ноаль 5.2.0004 (Регистрация ребёнка в Сефах и правило 300 дней) • Гаагский апостиль и консульская легализация.")
 }
+
+TIP_LABEL_I18N = {"en": "💡 Dayanim Tip:", "he": "💡 טיפ למעמד בית הדין:", "fr": "💡 Conseil Beit Din :", "es": "💡 Consejo Beit Din:", "de": "💡 Beit-Din-Tipp:", "ru": "💡 Совет для Бейт-Дина:"}
+FORMS_BADGE_8_I18N = {"en": "8 PIBA & NATIV FORMS", "he": "8 טפסי משרד הפנים ונתיב", "fr": "8 FORMULAIRES PIBA & NATIV", "es": "8 FORMULARIOS PIBA Y NATIV", "de": "8 PIBA & NATIV FORMULARE", "ru": "8 АНКЕТ МВД (PIBA) И НАТИВ"}
 
 LANGS = ["en", "he", "fr", "es", "de", "ru"]
 dicts = {l: json.load(open(f"public/i18n/{l}.json", encoding="utf-8")) for l in LANGS}
@@ -528,7 +591,8 @@ def make_meta_desc(raw_text, min_len=125, max_len=154):
     return html.escape(txt, quote=True)
 
 def esc_attr(s):
-    return html.escape(re.sub(r"\s+", " ", str(s or "")).strip(), quote=True)
+    clean = re.sub(r"\s+", " ", str(s or "")).strip().replace("'", "’")
+    return html.escape(clean, quote=True)
 
 def build_static_funnel_html(lang, d):
     fp = d.get("_funnel_pre_ai", {})
@@ -654,7 +718,7 @@ def build_hub_library_html(lang, d):
             f'<section class="gat-acc-body"><h2>{ob.get("title","")}</h2><p>{ob.get("body","")}</p><h3>{ob.get("badTitle","")}</h3><p>{clean_no_divs(ob.get("badText",""))}</p><h3>{ob.get("goodTitle","")}</h3><p>{clean_no_divs(ob.get("goodText",""))}</p></section></details></article>'
         )
     for tk, tv in d.get("_terms", {}).items():
-        if tk in ("broad_aliyah_guide", "broad_giyur_guide", "broad_benefits_guide"):
+        if tk in ("broad_aliyah_guide", "broad_giyur_guide", "broad_benefits_guide", "unmarried_partner_5_2_0009", "utah_zoom_marriage_israel", "proof_of_judaism_israel"):
             continue
         parts.append(
             f'<article id="seo-term-{tk}"><details class="gat-seo-card-acc"><summary style=""><span>{tv.get("tag","")} — {tv.get("title","")}</span><span class="gat-acc-plus">＋</span></summary>'
@@ -682,7 +746,17 @@ def apply_common_i18n(out, lang, d):
     for mg_id in ["mg-0", "mg-1", "mg-2", "mg-3"]:
         mg_html = blocks.get(f"#{mg_id}")
         if mg_html and not str(mg_html).startswith("[EN_DOM_DEFAULT"):
-            out = re.sub(rf'(<div class="milestone-group" id="{mg_id}">)[\s\S]*?(</div>\s*(?=<div class="milestone-group"|<a href="/app))', lambda m: m.group(1) + "\n" + mg_html + "\n        " + m.group(2), out, count=1)
+            out = re.sub(rf'(<div class="milestone-group" id="{mg_id}">)[\s\S]*?(</div>\s*(?=(?:<!--[^>]*-->\s*)*<div class="milestone-group"|(?:<!--[^>]*-->\s*)*<a href="/app))', lambda m: m.group(1) + "\n" + mg_html + "\n        " + m.group(2), out, count=1)
+    # Ensure all 4 milestone-group containers keep id="mg-0..3" across all 6 language hubs
+    _mg_idx = [0]
+    def _ensure_mg_ids(m):
+        tag = m.group(0)
+        idx = _mg_idx[0]
+        _mg_idx[0] += 1
+        if 'id="mg-' in tag:
+            return tag
+        return f'<div class="milestone-group" id="mg-{idx}">'
+    out = re.sub(r'<div class="milestone-group"(?:\s+id="mg-\d+")?>', _ensure_mg_ids, out)
     if blocks.get("#left-drawer-panel") and not str(blocks["#left-drawer-panel"]).startswith("[EN_DOM_DEFAULT"):
         out = re.sub(r'(<aside class="drawer-panel" id="left-drawer-panel">)[\s\S]*?(</aside>)', lambda m: m.group(1) + "\n" + blocks["#left-drawer-panel"] + "\n  " + m.group(2), out, count=1)
     if blocks.get("#app-drawer .drawer-panel") and not str(blocks["#app-drawer .drawer-panel"]).startswith("[EN_DOM_DEFAULT"):
@@ -740,7 +814,7 @@ def apply_common_i18n(out, lang, d):
     t0 = tf_d["tabs"]["0"]
     faq_items_html = "".join([
         f'<details style="background:#ffffff;border:1.5px solid #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 3px 10px rgba(8,37,72,0.04);">'
-        f'<summary style="font-weight:900;font-size:0.9rem;color:#082548;cursor:pointer;line-height:1.4;">{html.escape(q)}</summary>'
+        f'<summary style="font-weight:900;font-size:0.9rem;color:#ffffff;cursor:pointer;line-height:1.4;">{html.escape(q)}</summary>'
         f'<p style="margin-top:10px;font-size:0.84rem;color:#334155;line-height:1.58;">{html.escape(a)}</p></details>'
         for q, a in t0["items"]
     ])
@@ -750,9 +824,9 @@ def apply_common_i18n(out, lang, d):
         f'<strong style="color:#082548;font-size:0.81rem;">⚖️ Giyur Aliyah Track • {html.escape(tf_d["legal_title"])}</strong>'
         f'<a href="mailto:concierge@giyuraliyahtrack.com" style="color:#0288D1;font-weight:800;text-decoration:none;">✉️ concierge@giyuraliyahtrack.com</a></div>'
         f'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;">'
-        f'<details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#082548;cursor:pointer;">{html.escape(tf_d["tos_t"])}</summary><p style="margin:6px 0 0 0;">{html.escape(tf_d["tos_b"])}</p></details>'
-        f'<details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#082548;cursor:pointer;">{html.escape(tf_d["ref_t"])}</summary><p style="margin:6px 0 0 0;">{html.escape(tf_d["ref_b"])}</p></details>'
-        f'<details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#082548;cursor:pointer;">{html.escape(tf_d["priv_t"])}</summary><p style="margin:6px 0 0 0;">{html.escape(tf_d["priv_b"])}</p></details>'
+        f'<details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#ffffff;cursor:pointer;">{html.escape(tf_d["tos_t"])}</summary><p style="margin:6px 0 0 0;">{html.escape(tf_d["tos_b"])}</p></details>'
+        f'<details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#ffffff;cursor:pointer;">{html.escape(tf_d["ref_t"])}</summary><p style="margin:6px 0 0 0;">{html.escape(tf_d["ref_b"])}</p></details>'
+        f'<details style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:9px 12px;"><summary style="font-weight:800;color:#ffffff;cursor:pointer;">{html.escape(tf_d["priv_t"])}</summary><p style="margin:6px 0 0 0;">{html.escape(tf_d["priv_b"])}</p></details>'
         f'</div></div>'
     )
     sec_faq_html = (
@@ -923,18 +997,25 @@ def apply_common_i18n(out, lang, d):
 
 def make_og_tags(lang, safe_title, safe_desc, canon_url):
     og_loc = {"en":"en_US","he":"he_IL","fr":"fr_FR","es":"es_ES","de":"de_DE","ru":"ru_RU"}.get(lang, "en_US")
-    return (
-        f'  <meta property="og:type" content="website" />\n'
-        f'  <meta property="og:locale" content="{og_loc}" />\n'
-        f'  <meta property="og:site_name" content="Giyur Aliyah Track" />\n'
-        f'  <meta property="og:title" content="{safe_title}" />\n'
-        f'  <meta property="og:description" content="{safe_desc}" />\n'
-        f'  <meta property="og:url" content="{canon_url}" />\n'
-        f'  <meta property="og:image" content="https://giyuraliyahtrack.com/bg-watercolor.jpg" />\n'
-        f'  <meta name="twitter:card" content="summary_large_image" />\n'
-        f'  <meta name="twitter:title" content="{safe_title}" />\n'
-        f'  <meta name="twitter:description" content="{safe_desc}" />'
-    )
+    og_img = f"https://giyuraliyahtrack.com/og-share-{lang}-1200x630.jpg"
+    return "\n".join([
+        f'  <meta property="og:type" content="website" />',
+        f'  <meta property="og:locale" content="{og_loc}" />',
+        f'  <meta property="og:site_name" content="Giyur Aliyah Track" />',
+        f'  <meta property="og:title" content="{safe_title}" />',
+        f'  <meta property="og:description" content="{safe_desc}" />',
+        f'  <meta property="og:url" content="{canon_url}" />',
+        f'  <meta property="og:image" content="{og_img}" />',
+        f'  <meta property="og:image:secure_url" content="{og_img}" />',
+        f'  <meta property="og:image:type" content="image/jpeg" />',
+        f'  <meta property="og:image:width" content="1000" />',
+        f'  <meta property="og:image:height" content="1000" />',
+        f'  <meta property="og:image:alt" content="{safe_title}" />',
+        f'  <meta name="twitter:card" content="summary_large_image" />',
+        f'  <meta name="twitter:title" content="{safe_title}" />',
+        f'  <meta name="twitter:description" content="{safe_desc}" />',
+        f'  <meta name="twitter:image" content="{og_img}" />'
+    ])
 
 BACK_TO_HUB_I18N = {
     "en": "← Back to Main Diagnostic Hub",
@@ -1119,14 +1200,14 @@ def wrap_root_hub_for_clean_onboarding(html_out, lang):
         inner_clean = re.sub(r'<h1(\b[^>]*)>([\s\S]*?)</h1>', r'<h2\1>\2</h2>', inner, count=1)
         stage_ssr = (
             f'\n        <div id="gat-onboarding-stage">'
-            f'<div id="gat-wiz-step-hero_landing" class="gat-wiz-card" style="max-width:760px;margin:2px auto 58vh auto;text-align:center;padding:13px 13px;background:#ffffff;border:2px solid #03A9F4;border-radius:17px;box-shadow:0 12px 30px rgba(16,56,86,0.10);">'
+            f'<div id="gat-wiz-step-hero_landing" class="gat-wiz-card" style="max-width:760px;margin:2px auto 24px auto;text-align:center;padding:13px 13px;background:#ffffff;border:2px solid #03A9F4;border-radius:17px;box-shadow:0 12px 30px rgba(16,56,86,0.10);">'
             f'<h1 class="gat-ob-h1" style="font-size:clamp(1.14rem,3.8vw,1.48rem);font-weight:900;color:#103856;line-height:1.18;margin:0 0 10px 0;">{html.escape(mh["title"])}</h1>'
             f'<p class="gat-ob-sub" style="font-size:0.79rem;color:#334155;line-height:1.36;max-width:680px;margin:0 auto 19px auto;font-weight:700;">{html.escape(mh["lead"])}</p>'
             f'<ul style="list-style:none;padding:10px 12px;margin:0 auto 11px auto;max-width:720px;background:#f8fafc;border:1.5px solid #bae6fd;border-radius:13px;text-align:start;display:flex;flex-direction:column;gap:8px;">{bullets_li}</ul>'
             f'<button type="button" onclick="window.gatWizStartQuiz()" style="width:100%;background:linear-gradient(135deg,#103856 0%,#03A9F4 100%);color:#ffffff;border:2px solid #38bdf8;border-radius:13px;padding:13px 16px;font-size:1.02rem;font-weight:900;text-transform:uppercase;letter-spacing:0.03em;cursor:pointer;box-shadow:0 7px 18px rgba(3,169,244,0.28);display:flex;align-items:center;justify-content:center;gap:8px;"><strong style="font-weight:900;text-transform:uppercase;letter-spacing:0.03em;">{html.escape(mh["cta"])}</strong></button>'
             f'</div></div>\n'
-            f'        <details id="gat-hub-seo-library-drawer" class="gat-seo-ref-drawer" style="max-width:760px;margin:18px auto 14px auto;background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:16px;padding:12px 15px;">\n'
-            f'          <summary style="font-size:0.85rem;font-weight:900;color:#103856;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;">'
+            f'        <details id="gat-hub-seo-library-drawer" open class="gat-seo-ref-drawer" style="max-width:760px;margin:18px auto 14px auto;background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:16px;padding:12px 15px;">\n'
+            f'          <summary style="font-size:0.85rem;font-weight:900;color:#ffffff;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;">'
             f'<span>{html.escape(drw_lbl)}</span><span style="color:#0284c7;">▼</span></summary>\n'
             f'          <div style="margin-top:14px;padding-top:12px;border-top:1px solid #e2e8f0;">{inner_clean}</div>\n'
             f'        </details>\n      '
@@ -1140,6 +1221,1097 @@ def wrap_root_hub_for_clean_onboarding(html_out, lang):
         count=1
     )
 # === GAT CLEAN HUB ONBOARDING & SEO DRAWER WRAPPER END ===
+
+
+# === GAT PYTHON PRE-BAKED TABLES, UNIQUE FORM GUIDES & 6-LANG JSON-LD ===
+import subprocess as _sp
+
+def _load_forms_vault_guides():
+    fv_txt = open("public/app/forms_vault.js", encoding="utf-8").read()
+    m = re.search(r"\bvar\s+FORM_GUIDE_I18N\s*=\s*\{", fv_txt)
+    if not m:
+        return {"guide": {}}
+    sb = fv_txt.find("{", m.start())
+    depth, in_s, q_ch, esc = 0, False, "", False
+    eb = sb
+    for p in range(sb, len(fv_txt)):
+        ch = fv_txt[p]
+        if in_s:
+            if esc: esc = False
+            elif ch == "\\": esc = True
+            elif ch == q_ch: in_s = False
+        else:
+            if ch in ("'", '"', "`"): in_s, q_ch = True, ch
+            elif ch == "{": depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    eb = p + 1
+                    break
+    js_obj_str = fv_txt[sb:eb]
+    raw = _sp.check_output(["node", "-e", "process.stdout.write(JSON.stringify(" + js_obj_str + "))"], text=True)
+    return {"guide": json.loads(raw)}
+
+_FV_DATA = _load_forms_vault_guides()
+
+SW_APP_DESC_I18N = {
+    "en": "Interactive statutory roadmap, 180-day & 30-day Misrad HaPanim deadline tracker, 8 official Hebrew PIBA & Nativ PDF auto-fillers, 700 Beit Din conversion flashcards, 300 separated-room spousal visa questions, and vetted Israeli lawyer/notary concierge.",
+    "he": "מערכת חכמה למיפוי מסלולי גיור, עלייה והליך מדורג, מעקב מועדי 180 ו-30 יום במשרד הפנים, מילוי אוטומטי בעברית של 8 טפסי רשות האוכלוסין ונתיב, 700 שאלות לבית הדין לגיור, 300 שאלות שימוע זוגי וחיבור לעו״ד ונוטריון.",
+    "fr": "Feuille de route statutaire interactive pour le Giyur, le Visa Conjoint et l'Aliyah en Israël : suivi des délais de 180 et 30 jours, remplissage automatique en hébreu des 8 formulaires PIBA/Nativ, 700 questions Beit Din et 300 questions d'entretien couple.",
+    "es": "Hoja de ruta legal interactiva para Conversión (Guiur), Visa de Pareja y Aliyá en Israel: rastreador de plazos de 180 y 30 días, auto-rellenador en hebreo de los 8 formularios PIBA/Nativ, 700 preguntas del Beit Din y 300 preguntas de pareja.",
+    "de": "Interaktiver Rechtsleitfaden für Giur, Partner-Visum und Alija in Israel: 180- & 30-Tage-Fristen-Tracker, automatisches Ausfüllen aller 8 hebräischen PIBA-/Nativ-Formulare, 700 Beit-Din-Karten und 300 Paar-Interview-Fragen.",
+    "ru": "Интерактивный навигатор по Гиюру, СТУПРО и Алии в Израиле: контроль сроков 180 и 30 дней, автозаполнение на иврите всех 8 анкет МВД (PIBA) и Натив, 700 вопросов Бейт-Дина, 300 вопросов перекрёстного допроса пар и проверенные адвокаты."
+}
+
+ORG_NAME_I18N = {
+    "en": "Giyur Aliyah Track — Israel Aliyah, Spousal Visa & Conversion Statutory Engine",
+    "he": "Giyur Aliyah Track — מערכת טפסים, גיור, הליך מדורג ועלייה לישראל",
+    "fr": "Giyur Aliyah Track — Portail Statutaire Aliyah, Visa Conjoint & Conversion en Israël",
+    "es": "Giyur Aliyah Track — Plataforma Legal de Aliyá, Visa Conyugal y Conversión en Israel",
+    "de": "Giyur Aliyah Track — Plattform für Alija, Partner-Visum & Giur in Israel",
+    "ru": "Giyur Aliyah Track — Платформа подготовки документов для Алии, СТУПРО и Гиюра в Израиле"
+}
+
+def localize_global_jsonld(html_str, lang, canon_url):
+    b_hub = "https://giyuraliyahtrack.com/" if lang == "en" else f"https://giyuraliyahtrack.com/{lang}/"
+    sw_obj = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Giyur Aliyah Track",
+        "url": canon_url,
+        "inLanguage": lang,
+        "applicationCategory": "ReferenceApplication",
+        "operatingSystem": "Web, iOS, Android",
+        "description": SW_APP_DESC_I18N.get(lang, SW_APP_DESC_I18N["en"]),
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    }
+    org_obj = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": ORG_NAME_I18N.get(lang, ORG_NAME_I18N["en"]),
+        "url": b_hub,
+        "logo": "https://giyuraliyahtrack.com/bg-watercolor.jpg",
+        "description": SW_APP_DESC_I18N.get(lang, SW_APP_DESC_I18N["en"]),
+        "availableLanguage": ["en", "he", "fr", "es", "de", "ru"]
+    }
+    sw_tag = '<script type="application/ld+json">\n' + json.dumps(sw_obj, ensure_ascii=False) + '\n</script>'
+    org_tag = '<script type="application/ld+json">\n' + json.dumps(org_obj, ensure_ascii=False) + '\n</script>'
+    html_str = re.sub(
+        r'<script type="application/ld\+json">\s*\{\s*"@context":\s*"https://schema\.org",\s*"@graph":\s*\[\s*\{\s*"@type":\s*"SoftwareApplication"[\s\S]*?</script>',
+        lambda _: sw_tag, html_str, count=1
+    )
+    html_str = re.sub(
+        r'<script type="application/ld\+json">\s*\{\s*"@context":\s*"https://schema\.org",\s*"@type":\s*\[\s*"LegalService"[\s\S]*?</script>',
+        lambda _: org_tag, html_str, count=1
+    )
+    return html_str
+
+FORM_UNIQUE_SPECS_I18N = {
+    "ash1": {
+        "en": ("Form Ash/1 Page-by-Page Breakdown (2 Pages • Entry Visa & Va'adat Charigim)", [
+            ("Page 1 — Applicant & Foreign Passport Block", "Full surname, given names, maiden/prior names (must match Birth Certificate & Police Check), parents' names + mother's maiden name, passport number, issue/expiry dates, and exact purpose of entry or Va'adat Charigim conversion exception."),
+            ("Page 2 — Israeli Inviter / Host Undertaking", "Full name, 9-digit Israeli Teudat Zehut number, address, phone, and relationship of your Israeli Sponsoring Rabbi, Ulpan institution, or Israeli partner."),
+            ("Mandatory Attachments Checklist", "5 Apostilled civil documents (<180 days), Hebrew Michtav Hesber (Explanation Letter), Sponsoring Rabbi + Host Family signed Hebrew letters with ID numbers, and health insurance proof.")
+        ]),
+        "he": ("פירוט מלא של טופס אש/1 עמוד-אחר-עמוד (2 עמודים • אשרת כניסה ווועדת חריגים)", [
+            ("עמוד 1 — פרטי המבקש והדרכון הזר", "שם משפחה, שם פרטי, שמות קודמים/נעורים (חייב לתאום לתעודת הלידה ולתעודת היושר), שמות ההורים ושם נעורי האם, פרטי דרכון ונימוק הבקשה לוועדת חריגים."),
+            ("עמוד 2 — פרטי המזמין / המוסד המארח בישראל", "שם מלא, תעודת זהות בת 9 ספרות, כתובת וטלפון של הרב המלווה, האולפן או בן הזוג הישראלי."),
+            ("רשימת צרופות חובה לתיק", "5 תעודות מקור מאומתות באפוסטיל (פחות מ-180 יום), מכתב הסבר מנומק בעברית, מכתבי המלצה מרב מלווה ומשפחה מארחת עם ת״ז וביטוח רפואי.")
+        ]),
+        "fr": ("Structure Détaillée du Formulaire Ash/1 (2 Pages • Visa d'Entrée & Va'adat Charigim)", [
+            ("Page 1 — Identité du Demandeur & Passeport", "Nom, prénoms, tous noms antérieurs/jeune fille (identiques à l'acte de naissance et au casier judiciaire), noms des parents + nom de jeune fille de la mère, passeport et motif légal."),
+            ("Page 2 — Engagement de l'Invitant en Israël", "Nom complet, Teudat Zehut à 9 chiffres, adresse et téléphone du rabbin accompagnateur, de l'Oulpan ou du conjoint israélien."),
+            ("Pièces Obligatoires à Joindre", "5 actes apostillés (<180 jours), Michtav Hesber en hébreu, lettres signées du rabbin et de la famille d'accueil avec numéros de TZ et assurance santé.")
+        ]),
+        "es": ("Desglose Página por Página del Formulario Ash/1 (2 Páginas • Visa y Va'adat Jariguim)", [
+            ("Página 1 — Datos del Solicitante y Pasaporte", "Apellidos, nombres, apellidos de soltera/anteriores (idénticos a partida de nacimiento y antecedentes), nombres de padres + apellido materno de soltera, pasaporte y motivo legal."),
+            ("Página 2 — Compromiso del Invitante en Israel", "Nombre completo, Teudat Zehut de 9 dígitos, dirección y teléfono del rabino patrocinador, Ulpán o pareja israelí."),
+            ("Anexos Obligatorios", "5 documentos apostillados (<180 días), Mijtav Hesber en hebreo, cartas firmadas del rabino y familia anfitriona con TZ y seguro médico.")
+        ]),
+        "de": ("Seitenweise Aufschlüsselung Formular Ash/1 (2 Seiten • Einreisevisum & Va'adat Charigim)", [
+            ("Seite 1 — Antragsteller & Reisepassdaten", "Familienname, Vornamen, Geburts-/frühere Namen (exakt wie Geburtsurkunde & Führungszeugnis), Namen der Eltern + Geburtsname der Mutter, Passdaten & Antragsgrund."),
+            ("Seite 2 — Verpflichtung des Einladers in Israel", "Vollständiger Name, 9-stellige Teudat-Zehut-Nr., Adresse und Telefon des begleitenden Rabbiners, Ulpans oder israelischen Partners."),
+            ("Pflichtanlagen zum Antrag", "5 apostillierte Urkunden (<180 Tage), hebräisches Michtav Hesber, unterschriebene Briefe von Rabbiner & Gastfamilie mit TZ-Nummern sowie Krankenversicherung.")
+        ]),
+        "ru": ("Постраничный разбор анкеты Аш/1 (2 страницы • Виза въезда и Ваадат Харигим)", [
+            ("Страница 1 — Данные заявителя и загранпаспорта", "Фамилия, имя, все прежние/девичьи фамилии (строго как в свидетельстве о рождении и справке о несудимости), имена родителей + девичья фамилия матери, паспорт и цель подачи."),
+            ("Страница 2 — Обязательство приглашающей стороны в Израиле", "ФИО на иврите, 9-значный Теудат-Зеут, адрес и телефон сопровождающего раввина, ульпана или израильского партнёра."),
+            ("Обязательный пакет приложений", "5 оригиналов документов с апостилем (<180 дней), письмо-объяснение Михтав Эсбер на иврите, письма раввина и принимающей семьи с номерами ТЗ, медстраховка.")
+        ])
+    },
+    "ash3": {
+        "en": ("Form Ash/3 Page-by-Page Breakdown (2 Pages • B/2 Extension & Change to A/2, B/1, or A/5)", [
+            ("Page 1 — Current Visa, Entry Port & Extension Target", "Exact last border entry date, port of entry, current visa type (B/2 tourist), requested number of months, or target status switch (A/2 Ulpan student, B/1 work permit, A/5 temporary resident)."),
+            ("Page 2 — Parents' Birth Dates, Israeli Address & Statutory Declarations", "Requires both parents' dates of birth, mother's maiden name, active Israeli mobile number & legal notice email, plus clerk-witnessed signature."),
+            ("Zero-Overstay Protection Rule", "File before day 90 of your B/2 entry slip and demand a stamped submission receipt (Ishur Hagasha) to prevent unlawful presence flags.")
+        ]),
+        "he": ("פירוט מלא של טופס אש/3 עמוד-אחר-עמוד (2 עמודים • הארכת B/2 והחלפת אשרה ל-A/2, B/1 או א/5)", [
+            ("עמוד 1 — פרטי כניסה אחרונה, אשרה נוכחית והאשרה המבוקשת", "תאריך כניסה אחרון לישראל, מעבר גבול, סוג אשרה נוכחי (B/2), מספר חודשי ההארכה או המעמד המבוקש (א/2 לימודי גיור, ב/1 או א/5)."),
+            ("עמוד 2 — תאריכי לידת הורים, כתובת בישראל והצהרת המבקש", "חובה למלא תאריכי לידה של שני ההורים, שם נעורי האם, כתובת ומספר נייד בישראל, ודוא״ל להמצאת החלטות רשמיות."),
+            ("הגנה מפני שהיית יתר", "יש להגיש לפני תום 90 הימים של אשרת התייר ולשמור אישור הגשה חתום למניעת סירוב וצו הרחקה.")
+        ]),
+        "fr": ("Structure Détaillée du Formulaire Ash/3 (2 Pages • Prolongation B/2 & Passage A/2, B/1, A/5)", [
+            ("Page 1 — Dernière Entrée, Visa Actuel & Statut Demandé", "Date et point d'entrée en Israël, visa actuel (B/2), durée de prolongation souhaitée ou changement vers A/2 (Oulpan), B/1 ou A/5."),
+            ("Page 2 — Dates de Naissance des Parents & Coordonnées en Israël", "Dates de naissance du père et de la mère, nom de jeune fille de la mère, adresse complète en Israël et email officiel de notification."),
+            ("Règle Anti-Dépassement de Séjour", "Déposez avant l'expiration des 90 jours du visa B/2 et conservez le récépissé tamponné (Ishur Hagasha).")
+        ]),
+        "es": ("Desglose Página por Página del Formulario Ash/3 (2 Páginas • Prórroga B/2 y Cambio a A/2, B/1, A/5)", [
+            ("Página 1 — Última Entrada, Visa Actual y Categoría Solicitada", "Fecha y frontera de última entrada, visa actual (B/2), meses de prórroga o cambio de categoría a A/2 (Ulpán), B/1 o A/5."),
+            ("Página 2 — Fechas de Nacimiento de los Padres y Domicilio en Israel", "Fechas de nacimiento de padre y madre, apellido materno de soltera, dirección en Israel y correo para notificaciones legales."),
+            ("Escudo Contra Estadía Ilegal", "Presente antes del día 90 de su permiso B/2 y exija comprobante sellado de presentación.")
+        ]),
+        "de": ("Seitenweise Aufschlüsselung Formular Ash/3 (2 Seiten • B/2-Verlängerung & Wechsel zu A/2, B/1, A/5)", [
+            ("Seite 1 — Letzte Einreise, Aktuelles Visum & Zielkategorie", "Einreisedatum, Grenzübergang, aktuelles B/2-Visum, gewünschte Verlängerungsmonate oder Wechsel auf A/2, B/1 bzw. A/5."),
+            ("Seite 2 — Geburtsdaten der Eltern & Israelische Zustelladresse", "Geburtsdaten beider Eltern, Geburtsname der Mutter, israelische Adresse, Handynummer und amtliche E-Mail-Adresse."),
+            ("Schutz vor Visum-Überziehung", "Vor Ablauf der 90-Tage-Frist einreichen und gestempelten Einreichungsnachweis sichern.")
+        ]),
+        "ru": ("Постраничный разбор анкеты Аш/3 (2 страницы • Продление B/2 и переход на A/2, B/1, А/5)", [
+            ("Страница 1 — Последний въезд, текущая виза и запрашиваемый статус", "Дата и пункт последнего въезда, текущая турвиза B/2, срок продления в месяцах или смена категории на студенческую A/2, рабочую B/1 или А/5."),
+            ("Страница 2 — Даты рождения родителей и адрес в Израиле", "Обязательны даты рождения отца и матери, девичья фамилия матери, точный адрес в Израиле, телефон и email для юридических уведомлений МВД."),
+            ("Защита от просрочки визы", "Подавайте строго до истечения 90 дней турвизы B/2 с получением штампа о приёме документов.")
+        ])
+    },
+    "ash6": {
+        "en": ("Form Ash/6 Complete 6-Page Dossier Breakdown (Nohal 5.2.0008 Ed. 16 • Married Spouses)", [
+            ("Pages 1–2 — Foreign Spouse & Israeli Citizen Bio + Grandfathers", "Full details of both spouses including paternal grandfathers' names (mandatory!), all countries lived >1 year since age 14, and civil marriage details (including Utah Zoom marriage under AAA 7368/22)."),
+            ("Pages 3–4 — Joint Center-of-Life Declarations & 2 Israeli Witnesses", "Names, 9-digit TZ numbers, addresses, and phone numbers of 2 Israeli acquaintances confirming the sincerity of your marriage, plus dual-track Giyur protection (Sec. ג.10)."),
+            ("Pages 5–6 — Statutory Landlord / Property Lease Affidavit", "Exact apartment size in square meters (מ״ר), floor, number of rooms, landlord's name & 9-digit TZ, and utility bill responsibility (Arnona,iec, water).")
+        ]),
+        "he": ("פירוט אוגדן 6 העמודים של טופס אש/6 (נוהל 5.2.0008 מהדורה 16 • בני זוג נשואים)", [
+            ("עמודים 1–2 — פרטי בן הזוג הזר והאזרח הישראלי + שמות הסבים", "פרטים מלאים כולל שם הסב (אבי האב — שדה חובה!), כל המדינות בהן התגורר המבקש מעל שנה מגיל 14, ופרטי הנישואין האזרחיים (כולל נישואי יוטה לפי עע״מ 7368/22)."),
+            ("עמודים 3–4 — הצהרות מרכז חיים ופרטי 2 ממליצים ישראלים", "שמות מלאים, ת״ז בת 9 ספרות, כתובות וטלפונים של 2 מכרים ישראלים המעידים על כנות הקשר, בתוספת הגנת סעיף ג.10 למסלול גיור במקביל."),
+            ("עמודים 5–6 — תצהיר בעל הדירה / שכר דירה מפורט", "שטח הדירה במ״ר, קומה, מספר חדרים, שם ות״ז של המשכיר וחלוקת תשלומי ארנונה, חשמל ומים.")
+        ]),
+        "fr": ("Détail Complet des 6 Pages du Formulaire Ash/6 (Nohal 5.2.0008 Éd. 16 • Couples Mariés)", [
+            ("Pages 1–2 — Conjoint Étranger, Citoyen Israélien & Grands-Pères", "Identité complète des époux incluant les prénoms des grands-pères paternels (obligatoire !), pays habités >1 an depuis 14 ans et mariage civil (dont Utah Zoom AAA 7368/22)."),
+            ("Pages 3–4 — Centre de Vie Commun & 2 Témoins Israéliens", "Noms, TZ à 9 chiffres, adresses et téléphones de 2 témoins israéliens attestant la vie commune + protection double parcours Giyur (art. ג.10)."),
+            ("Pages 5–6 — Attestation du Propriétaire & Bail d'Habitation", "Surface exacte en m² (מ״ר), étage, nombre de pièces, identité et TZ du bailleur et prise en charge Arnona/eau/électricité.")
+        ]),
+        "es": ("Desglose de las 6 Páginas del Formulario Ash/6 (Nohal 5.2.0008 Ed. 16 • Cónyuges Casados)", [
+            ("Páginas 1–2 — Cónyuge Extranjero, Ciudadano Israelí y Abuelos", "Datos completos incluyendo el nombre del abuelo paterno (¡obligatorio!), países vividos >1 año desde los 14 años y matrimonio civil (incluida boda Zoom de Utah AAA 7368/22)."),
+            ("Páginas 3–4 — Centro de Vida y 2 Testigos Israelíes", "Nombres, TZ de 9 dígitos, direcciones y teléfonos de 2 testigos israelíes que confirmen la relación + protección doble vía Guiur (art. ג.10)."),
+            ("Páginas 5–6 — Declaración del Propietario y Contrato de Alquiler", "Superficie exacta en m², piso, habitaciones, nombre y TZ del propietario y pago de Arnona, luz y agua.")
+        ]),
+        "de": ("Aufschlüsselung aller 6 Seiten von Formular Ash/6 (Nohal 5.2.0008 Ed. 16 • Verheiratete Paare)", [
+            ("Seiten 1–2 — Ausländischer Partner, Israeli & Großväter", "Alle Personendaten inkl. Namen der Großväter väterlicherseits (Pflichtfeld!), Wohnsitzländer >1 Jahr ab 14 J. sowie Zivilehe (inkl. Utah-Zoom-Heirat AAA 7368/22)."),
+            ("Seiten 3–4 — Lebensmittelpunkt & 2 Israelische Zeugen", "Name, 9-stellige TZ, Adresse & Telefon zweier israelischer Referenzpersonen + Doppel-Track-Giur-Schutz (Abs. ג.10)."),
+            ("Seiten 5–6 — Vermieter- & Wohnungs-Affidavit", "Exakte Quadratmeterzahl (מ״ר), Etage, Zimmeranzahl, Name & TZ des Vermieters sowie Nebenkosten-Regelung (Arnona, Strom, Wasser).")
+        ]),
+        "ru": ("Разбор всех 6 страниц анкеты Аш/6 (Ноаль 5.2.0008 Ред. 16 • Зарегистрированные супруги)", [
+            ("Страницы 1–2 — Данные обоих супругов и имена дедушек по отцу", "Полные анкетные данные, включая имя дедушки по отцовской линии (обязательное поле!), все страны проживания >1 года с 14 лет и данные брака (включая онлайн-брак Юта AAA 7368/22)."),
+            ("Страницы 3–4 — Центр жизни и 2 израильских свидетеля", "ФИО, 9-значный ТЗ, адреса и телефоны двух граждан Израиля, подтверждающих подлинность брака + защита параллельного гиюра (п. ג.10)."),
+            ("Страницы 5–6 — Декларация арендодателя и параметров квартиры", "Площадь квартиры в кв. м (מ״ר), этаж, число комнат, ФИО и ТЗ владельца жилья, оплата арноны, воды и электричества.")
+        ])
+    },
+    "ash456": {
+        "en": ("Form Ash/456 Page-by-Page Breakdown (3 Pages • Nohal 5.2.0001 In-Israel Aliyah / Oleh)", [
+            ("Page 1 — Applicant Identity, Accompanying Family & Prior Names", "Hebrew + exact Latin passport names, all maiden/prior names, accompanying spouse/children under 18, and passport validity (>12 months recommended)."),
+            ("Page 2 — Prior Israel Stays, Severing Overseas Ties & Settlement Plan", "Chronological table of past visits to Israel (used to calculate the 24-month Sal Klita rule!), Israeli bank, Kupat Cholim choice, and years of schooling."),
+            ("Page 3 — Law of Return Clause (§1 Jewish by Birth, §4B Conversion, §4A Family) & Fee Exemption", "Selects your exact Law of Return eligibility basis and triggers the Nohal 5.2.0001 Sec. ג.7 955₪ fee exemption.")
+        ]),
+        "he": ("פירוט עמודי טופס אש/456 (3 עמודים • נוהל 5.2.0001 שינוי מעמד לעולה מתוך ישראל)", [
+            ("עמוד 1 — פרטי המבקש, שמות קודמים ובני משפחה נלווים", "שם בעברית ובלועזית בדיוק לפי הדרכון, שמות נעורים/קודמים, פרטי בן זוג וילדים מתחת לגיל 18."),
+            ("עמוד 2 — היסטוריית שהיות בישראל, ניתוק זיקה מחו״ל וקליטה", "טבלת כניסות ויציאות מישראל (קובעת את זכאות סל הקליטה לפי מבחן 24 החודשים!), קופת חולים, בנק ושנות לימוד."),
+            ("עמוד 3 — סעיף הזכאות בחוק השבות ופטור מאגרה (סעיף ג.7)", "בחירת סעיף הזכאות המדויק (סעיף 1, סעיף 4ב מתגיירים או סעיף 4א בני משפחה) ומימוש הפטור מאגרת שינוי מעמד.")
+        ]),
+        "fr": ("Détail des 3 Pages du Formulaire Ash/456 (Nohal 5.2.0001 • Aliyah en Israël / Shinui Ma'amad)", [
+            ("Page 1 — Identité, Noms Antérieurs & Famille Accompagnante", "Noms en hébreu et latin conformes au passeport, noms antérieurs et enfants mineurs accompagnants."),
+            ("Page 2 — Historique des Séjours en Israël & Installation", "Tableau chronologique des séjours passés en Israël (déterminant le plafond de 24 mois du Sal Klita !), Kupat Holim, banque et études."),
+            ("Page 3 — Clause de la Loi du Retour (§1, §4B Conversion, §4A) & Exonération", "Ancrage juridique exact sous la Loi du Retour et exonération des frais de dossier (art. ג.7).")
+        ]),
+        "es": ("Desglose de las 3 Páginas del Formulario Ash/456 (Nohal 5.2.0001 • Aliyá en Israel)", [
+            ("Página 1 — Identidad, Nombres Anteriores y Familiares", "Nombres en hebreo y latín según pasaporte, apellidos anteriores e hijos menores acompañantes."),
+            ("Página 2 — Estadías Previas en Israel y Plan de Absorción", "Tabla de entradas y salidas de Israel (¡clave para la regla de 24 meses de Sal Klita!), Kupat Jolim, banco y años de estudio."),
+            ("Página 3 — Cláusula de la Ley del Retorno (§1, §4B Conversión, §4A) y Exención", "Base legal exacta bajo la Ley del Retorno y exención oficial de tasas (art. ג.7).")
+        ]),
+        "de": ("Aufschlüsselung der 3 Seiten von Formular Ash/456 (Nohal 5.2.0001 • Inlands-Alija / Oleh)", [
+            ("Seite 1 — Personendaten, Frühere Namen & Begleitende Familie", "Hebräische und lateinische Passschreibweise, Geburtsnamen sowie begleitende Ehepartner/Kinder unter 18."),
+            ("Seite 2 — Frühere Israel-Aufenthalte & Integrationsplan", "Chronologische Aufenthaltstabelle (entscheidend für die 24-Monate-Grenze beim Sal Klita!), Krankenkasse, Bank & Ausbildungsjahre."),
+            ("Seite 3 — Anspruchsgrundlage Rückkehrgesetz (§1, §4B Giur, §4A) & Gebührenbefreiung", "Exakte Paragraphen-Zuordnung und Gebührenbefreiung nach Nohal 5.2.0001 Abs. ג.7.")
+        ]),
+        "ru": ("Постраничный разбор анкеты Аш/456 (3 страницы • Ноаль 5.2.0001 Репатриация внутри Израиля)", [
+            ("Страница 1 — Личные данные, прежние фамилии и члены семьи", "Точное написание на иврите и латиницей по загранпаспорту, девичьи фамилии и несовершеннолетние дети."),
+            ("Страница 2 — История пребываний в Израиле и план абсорбции", "Таблица всех въездов в Израиль (по ней считается порог 24 месяцев для корзины Саль Клита!), больничная касса, банк и годы учёбы."),
+            ("Страница 3 — Статья Закона о возвращении (§1, §4Б Гиюр, §4А) и освобождение от пошлины", "Указание точного параграфа ЗОВ и освобождение от госпошлины по п. ג.7 Ноаль 5.2.0001.")
+        ])
+    },
+    "mr14a": {
+        "en": ("Form MR/14a Registry Walkthrough (1 Page • First Biometric Teudat Zehut)", [
+            ("Population Registry Core Fields", "Hebrew + Latin full names, Hebrew calendar date of birth (auto-calculated if needed), father's, mother's, and paternal grandfather's names, marital status, and religion/nationality entry."),
+            ("Clerk-Only Boxes You Must Leave Blank", "Leave the 'Newly Assigned 9-Digit Israeli ID Number' box and the bottom witness signature box blank until seated directly in front of the PIBA registry officer.")
+        ]),
+        "he": ("פירוט טופס מר/14א לרישום במרשם האוכלוסין (עמוד 1 • תעודת זהות ביומטרית ראשונה)", [
+            ("שדות הליבה במרשם האוכלוסין (מערכת אביב)", "שם מלא בעברית ובלועזית, תאריך לידה לועזי ועברי, שם האב, האם והסב מצד האב, מצב אישי וסעיף דת/לאום."),
+            ("משבצות שאסור למלא מראש לפני המעמד מול הפקיד", "השאירו ריקה את משבצת מספר הזהות הישראלי החדש ואת חתימת ההצהרה התחתונה עד למעמד הפקיד בלשכה.")
+        ]),
+        "fr": ("Guide du Formulaire MR/14a (1 Page • Première Teudat Zehut Biométrique)", [
+            ("Champs du Registre de la Population", "Noms en hébreu et latin, date de naissance grégorienne et hébraïque, noms du père, de la mère et du grand-père paternel, état civil."),
+            ("Cases Réservées au Guichetier", "Ne remplissez jamais la case du nouveau numéro d'identité à 9 chiffres et ne signez qu'en présence de l'officier PIBA.")
+        ]),
+        "es": ("Guía del Formulario MR/14a (1 Página • Primera Teudat Zehut Biométrica)", [
+            ("Campos del Registro de Población", "Nombres en hebreo y latín, fecha de nacimiento gregoriana y hebrea, nombres de padre, madre y abuelo paterno, estado civil."),
+            ("Casillas Exclusivas ante el Funcionario", "Deje en blanco el nuevo número de identidad de 9 dígitos y firme únicamente frente al oficial de Misrad HaPanim.")
+        ]),
+        "de": ("Aufschlüsselung Formular MR/14a (1 Seite • Erste Biometrische Teudat Zehut)", [
+            ("Kernfelder des Bevölkerungsregisters", "Hebräische & lateinische Namen, gregorianisches & hebräisches Geburtsdatum, Namen von Vater, Mutter & Großvater väterlicherseits."),
+            ("Freizulassende Schalterfelder", "Neue 9-stellige ID-Nummer niemals vorab eintragen und Unterschrift erst direkt vor dem PIBA-Beamten leisten.")
+        ]),
+        "ru": ("Разбор анкеты МР/14а (1 страница • Первичный реестр и биометрический Теудат-Зеут)", [
+            ("Ключевые графы Реестра населения (система «Авив»)", "Имя на иврите и латиницей, григорианская и еврейская даты рождения, имена отца, матери и дедушки по отцу, семейное положение."),
+            ("Графы, заполняемые только при чиновнике", "Не вписывайте новый 9-значный номер ТЗ заранее и ставьте подпись строго перед инспектором МВД.")
+        ])
+    },
+    "mr14b": {
+        "en": ("Form MR/14b Walkthrough (1 Page • First Israeli Travel Document / Darkon & Dual Nationality)", [
+            ("Character-by-Character Passport Grid", "Stamps exact uppercase Latin letters one character per box matching your foreign passport plus Hebrew transliteration so your Darkon / Teudat Ma'avar never mismatches airline tickets."),
+            ("Foreign Citizenship & Minor Consent Rules", "Declares all foreign citizenships held under Israeli law and includes dual-parent consent signature blocks if registering a child under 18.")
+        ]),
+        "he": ("פירוט טופס מר/14ב (עמוד 1 • הצהרת אזרחות זרה ובקשה לדרכון / תעודת מעבר ראשונה)", [
+            ("משבצות איות לטיני ועברי מדויק לדרכון", "שיבוץ אות-אחר-אות באנגלית גדולה (A–Z) בתאימות מלאה לדרכון הזר ולצד העברית למניעת פערי שמות בכרטיסי טיסה."),
+            ("הצהרת אזרחויות זרות והסכמת הורים לקטינים", "דיווח כחוק על כלל האזרחויות הנוספות ומשבצות חתימת שני ההורים עבור קטינים מתחת לגיל 18.")
+        ]),
+        "fr": ("Guide du Formulaire MR/14b (1 Page • Premier Passeport Israélien Darkon / Teudat Ma'avar)", [
+            ("Grille d'Orthographe Case par Case", "Imprime chaque lettre latine majuscule case par case exactement comme sur votre passeport étranger + hébreu."),
+            ("Double Nationalité & Consentement Parental", "Déclaration des nationalités étrangères et accord des deux parents requis pour tout mineur de moins de 18 ans.")
+        ]),
+        "es": ("Guía del Formulario MR/14b (1 Página • Primer Pasaporte Israelí Darkon / Teudat Ma'avar)", [
+            ("Cuadrícula de Ortografía Casilla por Casilla", "Estampa cada letra latina mayúscula casilla por casilla igual a su pasaporte extranjero junto con el nombre en hebreo."),
+            ("Doble Ciudadanía y Menores de 18 Años", "Declaración de ciudadanías extranjeras y firma obligatoria de ambos padres para menores de edad.")
+        ]),
+        "de": ("Aufschlüsselung Formular MR/14b (1 Seite • Erster Israelischer Pass Darkon / Teudat Ma'avar)", [
+            ("Buchstabengenaue Pass-Rasterfelder", "Trägt jeden lateinischen Großbuchstaben exakt Kästchen für Kästchen gemäß Auslandsreisepass sowie auf Hebräisch ein."),
+            ("Doppelstaatsbürgerschaft & Minderjährige", "Meldung weiterer Staatsangehörigkeiten sowie Zustimmung beider Eltern bei Kindern unter 18 Jahren.")
+        ]),
+        "ru": ("Разбор анкеты МР/14б (1 страница • Первый Даркон / Теудат-Маавар и второе гражданство)", [
+            ("Поклеточное заполнение имени латиницей и на иврите", "Вписывает каждую заглавную латинскую букву строго по клеточкам в соответствии с загранпаспортом во избежание расхождений в авиабилетах."),
+            ("Уведомление об иных гражданствах и согласие родителей", "Фиксация всех иностранных гражданств и блок согласия обоих родителей для детей младше 18 лет.")
+        ])
+    },
+    "nespach_alef": {
+        "en": ("Nespach Alef 13-Clause Affidavit Breakdown (Nohal 5.2.0009 Ed. 17 • Unmarried / Common-Law Couples)", [
+            ("All 13 Statutory Sincerity & Exclusivity Clauses", "Affirms exclusive romantic partnership, continuous shared household management, absence of any simultaneous marriage/partnership with third parties, and full awareness of criminal penalties for false declarations."),
+            ("Mandatory Israeli Lawyer / Court Execution Rule", "Both partners must sign Nespach Alef in person before a licensed Israeli attorney (who verifies foreign passport + Israeli TZ numbers and affixes an official Israeli Bar stamp).")
+        ]),
+        "he": ("פירוט תצהיר 13 הסעיפים — נספח א׳ (נוהל 5.2.0009 מהדורה 17 • בני זוג ידועים בציבור)", [
+            ("13 סעיפי החובה לכנות הקשר וניהול משק בית משותף", "הצהרה הדדית על קשר זוגי בלעדי, מגורים משותפים, היעדר נישואין או זוגיות מקבילה עם אדם אחר והבנת המשמעות הפלילית של תצהיר כוזב."),
+            ("חובת אימות חתימה בפני עורך דין ישראלי", "שני בני הזוג חייבים לחתום על נספח א׳ בפני עורך דין בעל רישיון ישראלי המאמת את הדרכון הזר ותעודת הזהות ומטביע חותמת רשמית.")
+        ]),
+        "fr": ("Détail des 13 Clauses de Nespach Alef (Nohal 5.2.0009 Éd. 17 • Couples Non Mariés / Concubins)", [
+            ("Les 13 Clauses Légales de Vie Commune", "Atteste l'exclusivité du couple, la gestion d'un foyer commun, l'absence de lien matrimonial parallèle et la sincérité du dossier."),
+            ("Signature Obligatoire devant Avocat Israélien", "Les deux partenaires doivent signer Nespach Alef devant un avocat israélien inscrit au Barreau qui appose son sceau officiel.")
+        ]),
+        "es": ("Desglose de las 13 Cláusulas de Nespaj Alef (Nohal 5.2.0009 Ed. 17 • Parejas de Hecho)", [
+            ("Las 13 Cláusulas Legales de Convivencia", "Certifica relación exclusiva, hogar compartido continuo, ausencia de matrimonio paralelo y veracidad bajo juramento."),
+            ("Firma Obligatoria ante Abogado Israelí", "Ambos miembros de la pareja deben firmar Nespaj Alef en presencia de un abogado israelí colegiado con sello oficial.")
+        ]),
+        "de": ("Aufschlüsselung der 13 Klauseln von Nespach Alef (Nohal 5.2.0009 Ed. 17 • Unverheiratete Lebenspartner)", [
+            ("Alle 13 Pflichtklauseln zur Lebensgemeinschaft", "Bestätigt exklusive Partnerschaft, gemeinsamen Haushalt, Ehelosigkeit gegenüber Dritten und strafrechtliche Belehrung."),
+            ("Beglaubigung durch Israelischen Rechtsanwalt", "Beide Partner müssen Nespach Alef persönlich vor einem zugelassenen israelischen Anwalt mit Kammerstempel unterzeichnen.")
+        ]),
+        "ru": ("Разбор всех 13 пунктов декларации Неспах Алеф (Ноаль 5.2.0009 Ред. 17 • Гражданские супруги)", [
+            ("13 обязательных пунктов о совместном быте и искренности союза", "Подтверждает исключительность отношений, ведение общего хозяйства, отсутствие параллельных браков и ответственность за дачу ложных показаний."),
+            ("Обязательное заверение израильским адвокатом", "Оба партнёра подписывают Неспах Алеф лично перед лицензированным адвокатом в Израиле с печатью Коллегии адвокатов.")
+        ])
+    },
+    "sec_cv": {
+        "en": ("Nativ 11-Page Hebrew Questionnaire Breakdown (Security & Family Biography • Aliyah from FSU / Ordered Cases)", [
+            ("Pages 1–5 — Zero-Gap Education, Military & Employment Chronology", "Every university, scholarship, workplace, and residential address since age 18 with zero unexplained chronological gaps."),
+            ("Pages 6–11 — Landscape First-Degree Family & Relatives in Israel Tables", "Full names, birth dates/places, occupations, and addresses of parents, siblings, spouses, children, and relatives already residing in Israel.")
+        ]),
+        "he": ("פירוט שאלון 11 העמודים של נתיב (קורות חיים ופרטי משפחה מורחבים)", [
+            ("עמודים 1–5 — רצף לימודים, שירות ותעסוקה ללא פערי זמנים", "פירוט מלא של מוסדות השכלה גבוהה, מלגות, מקומות עבודה וכתובות מגורים מגיל 18 ללא חודשים חסרים."),
+            ("עמודים 6–11 — טבלאות רוחב של בני משפחה מדרגה ראשונה וקרובים בישראל", "שמות מלאים, תאריכי ומקומות לידה, משלח יד וכתובות של הורים, אחים, בני זוג, ילדים וקרובים החיים בישראל.")
+        ]),
+        "fr": ("Détail du Questionnaire Nativ de 11 Pages (Biographie & Famille • Contrôle Nativ)", [
+            ("Pages 1–5 — Chronologie Sans Interruption (Études & Emplois)", "Universités, bourses, employeurs et adresses depuis l'âge de 18 ans sans aucune période vide."),
+            ("Pages 6–11 — Tableaux Familiaux au 1er Degré & Proches en Israël", "Identité complète, dates/lieux de naissance, professions et adresses des parents, frères/sœurs, conjoints et proches en Israël.")
+        ]),
+        "es": ("Desglose del Cuestionario Nativ de 11 Páginas (Historial Familiar y Laboral)", [
+            ("Páginas 1–5 — Cronología Continua de Estudios y Empleos", "Universidades, becas, trabajos y domicilios desde los 18 años sin vacíos temporales."),
+            ("Páginas 6–11 — Tablas de Familiares de Primer Grado y Parientes en Israel", "Nombres completos, fechas/lugares de nacimiento, ocupaciones y direcciones de padres, hermanos, cónyuges e hijos.")
+        ]),
+        "de": ("Aufschlüsselung des 11-Seitigen Nativ-Fragebogens (Lebenslauf & Familienchronik)", [
+            ("Seiten 1–5 — Lückenlose Ausbildungs- & Berufschronologie", "Alle Hochschulen, Stipendien, Arbeitgeber und Wohnadressen ab dem 18. Lebensjahr ohne Zeitlücken."),
+            ("Seiten 6–11 — Querformat-Tabellen für Familie 1. Grades & Verwandte in Israel", "Namen, Geburtsdaten/-orte, Berufe und Adressen von Eltern, Geschwistern, Partnern, Kindern und Verwandten in Israel.")
+        ]),
+        "ru": ("Постраничный разбор 11-страничной анкеты «Натив» (Биография, карьера и родственники)", [
+            ("Страницы 1–5 — Непрерывная хронология учёбы, службы и работы", "Все вузы, специальности, места работы, должности и адреса проживания с 18 лет без единого временного пробела."),
+            ("Страницы 6–11 — Альбомные таблицы близких родственников и родни в Израиле", "Полные ФИО, даты и места рождения, род занятий и адреса родителей, братьев/сестёр, супругов, детей и родственников в Израиле.")
+        ])
+    }
+}
+
+SAL_KLITA_SNIPPET_TABLE_I18N = {
+    "en": ("📊 2026 Sal Klita, Bituach Leumi & In-Israel Aliyah Statutory Cliff Table", ["Benefit / Rule", "Eligible (<24 Months in Israel)", "Trap / Disqualifier (>24 Months or Tourist)"], [
+        ["Sal Klita Cash Grant (Single / Couple)", "~21,700 ₪ (Single) / ~41,500 ₪ (Couple)", "0 ₪ if >24 cumulative months in Israel in prior 3 years (Nohal 5.2.0001)"],
+        ["Form Ash/456 PIBA Filing Fee", "0 ₪ (Exempt under Nohal 5.2.0001 Sec. ג.7)", "Tourists paying lawyers 15,000–30,000 ₪ unnecessarily"],
+        ["Kupat Cholim Health Insurance", "Immediate Day-1 coverage upon Oleh / A/5 (if qualifying)", "183-day Bituach Leumi waiting period on spousal A/5 transition without bridge"],
+        ["Income Tax Credit Points (Nekudot Zikui)", "4.5-year staggered Israeli tax credits", "Clock starts from Teudat Oleh date — verify residency alignment"]
+    ]),
+    "he": ("📊 טבלת השוואה 2026: סל קליטה, ביטוח לאומי ומלכודת 24 החודשים בעלייה מהארץ", ["הטבה / נוהל רשמי", "זכאות מלאה (פחות מ-24 חודשים בארץ)", "המלכודת / שלילת הזכאות"], [
+        ["מענק סל קליטה (יחיד / זוג)", "כ-21,700 ₪ ליחיד / כ-41,500 ₪ לזוג", "0 ₪ למי ששהה מעל 24 חודשים מצטברים בישראל ב-3 השנים האחרונות"],
+        ["אגרת טופס אש/456 במשרד הפנים", "0 ₪ — פטור מלא לפי נוהל 5.2.0001 סע׳ ג.7", "תשלום מיותר של 15,000–30,000 ₪ למשרדי עו״ד על הגשת אותו טופס"],
+        ["ביטוח בריאות ממלכתי (קופת חולים)", "כיסוי מיידי לעולה חדש עם רישום במרשם", "תקופת המתנה של 183 יום במעבר למעמד א/5 בהליך מדורג ללא ביטוח גישור"],
+        ["נקודות זיכוי במס הכנסה לעולים", "הטבת מס מדורגת למשך 4.5 שנים", "מניין החודשים נספר מיום קבלת מעמד העולה"]
+    ]),
+    "fr": ("📊 Barème Officiel 2026 : Sal Klita, Bituach Leumi & Piège des 24 Mois", ["Droit / Règle PIBA", "Éligible (<24 Mois en Israël)", "Piège / Perte des Droits"], [
+        ["Prime Sal Klita (Seul / Couple)", "~21 700 ₪ (Seul) / ~41 500 ₪ (Couple)", "0 ₪ si >24 mois cumulés en Israël sur les 3 dernières années"],
+        ["Frais de Dossier Formulaire Ash/456", "0 ₪ (Exonéré selon Nohal 5.2.0001 art. ג.7)", "15 000–30 000 ₪ facturés inutilement par les cabinets privés"],
+        ["Assurance Santé (Kupat Holim)", "Couverture immédiate dès le statut Oleh", "Délai de carence de 183 jours en statut A/5 conjoint sans assurance relais"],
+        ["Crédits d'Impôt (Nekudot Zikui)", "Allègement fiscal progressif sur 4,5 ans", "Le compteur démarre à la date d'émission de la Teudat Oleh"]
+    ]),
+    "es": ("📊 Tabla Oficial 2026: Sal Klita, Bituaj Leumí y la Regla de los 24 Meses", ["Beneficio / Regla PIBA", "Elegible (<24 Meses en Israel)", "Trampa / Pérdida del Beneficio"], [
+        ["Beca Sal Klita (Individual / Pareja)", "~21.700 ₪ (Solo) / ~41.500 ₪ (Pareja)", "0 ₪ si superó 24 meses acumulados en Israel en los últimos 3 años"],
+        ["Tasa Oficial Formulario Ash/456", "0 ₪ (Exento bajo Nohal 5.2.0001 art. ג.7)", "15.000–30.000 ₪ cobrados innecesariamente por abogados"],
+        ["Cobertura Médica (Kupat Jolim)", "Activa desde el día 1 como Olé Jadash", "183 días de carencia en Bituaj Leumí al pasar a visa A/5 conyugal"],
+        ["Créditos Fiscales (Nekudot Zikui)", "4,5 años de reducción en impuesto sobre la renta", "El plazo cuenta desde la fecha de emisión de la Teudat Oleh"]
+    ]),
+    "de": ("📊 Offizielle Übersicht 2026: Sal Klita, Bituach Leumi & 24-Monate-Falle", ["Leistung / PIBA-Regel", "Anspruch (<24 Monate in Israel)", "Falle / Anspruchsverlust"], [
+        ["Sal Klita Eingliederungsgeld", "~21.700 ₪ (Einzeln) / ~41.500 ₪ (Paar)", "0 ₪ bei >24 kumulierten Monaten in Israel in den letzten 3 Jahren"],
+        ["Amtsgebühr Formular Ash/456", "0 ₪ (Gebührenfrei nach Nohal 5.2.0001 Abs. ג.7)", "Unnötige 15.000–30.000 ₪ Anwaltsgebühren für denselben Antrag"],
+        ["Gesetzliche Krankenkasse (Kupat Cholim)", "Sofortiger Schutz ab Oleh-Registrierung", "183 Tage Wartezeit beim Wechsel auf A/5-Partnerstatus ohne Überbrückung"],
+        ["Steuerfreibeträge (Nekudot Zikui)", "4,5 Jahre gestaffelte Einkommensteuer-Rabatte", "Fristbeginn ab Ausstellungsdatum der Teudat Oleh"]
+    ]),
+    "ru": ("📊 Официальная таблица 2026: Саль Клита, Битуах Леуми и ловушка 24 месяцев", ["Льгота / Регламент МВД", "Полное право (<24 мес. в Израиле)", "Ловушка / Потеря выплаты"], [
+        ["Корзина абсорбции Саль Клита", "~21 700 ₪ (одиночка) / ~41 500 ₪ (пара)", "0 ₪ при пребывании >24 суммарных месяцев за последние 3 года"],
+        ["Госпошлина за анкету Аш/456 в МВД", "0 ₪ (освобождение по Ноаль 5.2.0001 п. ג.7)", "Переплата 15 000–30 000 ₪ посредникам за бесплатную процедуру"],
+        ["Больничная касса (Купат Холим)", "С 1-го дня при получении статуса Оле", "183 дня ожидания Битуах Леуми при переходе на визу А/5 по СТУПРО"],
+        ["Налоговые льготы (Некудот Зикуй)", "4,5 года льготного подоходного налога", "Отсчёт начинается со дня выдачи удостоверения Теудат-Оле"]
+    ])
+}
+
+APOSTILLE_JURISDICTION_TABLE_I18N = {
+    "en": ("🌍 Country-by-Country Police Check & Hague Apostille Authority Table (180-Day Rule)", ["Jurisdiction", "Mandatory Criminal Check", "Correct Apostille Authority (No Local Notary Traps!)"], [
+        ["🇺🇸 United States", "FBI Identity History Summary (IdHS)", "US Dept. of State (Washington, DC) Federal Apostille — state Secretary of State rejected on FBI PDF!"],
+        ["🇬🇧 United Kingdom", "ACRO Police Certificate", "FCDO Legalisation Office (Milton Keynes) Hague Apostille"],
+        ["🇫🇷 France", "Bulletin n°3 du Casier Judiciaire National (Nantes)", "Cour d'Appel / Notaires de France Electronic Apostille"],
+        ["🇪🇸 Spain / LATAM", "Certificado de Antecedentes Penales (Ministerio de Justicia)", "Ministerio de Justicia / Cancillería Hague Apostille (<180 days)"],
+        ["🇩🇪 Germany / DACH", "Erweitertes / Bundeszentralregister Führungszeugnis (BfJ)", "Bundesamt für Auswärtige Angelegenheiten (BfAA) Federal Apostille"],
+        ["🌍 FSU / Russia / Ukraine", "МВД ГИАЦ / ДІЯ Extract Covering ALL Maiden & Prior Surnames", "Ministry of Internal Affairs / Ministry of Justice Original Stamp Apostille"]
+    ]),
+    "he": ("🌍 טבלת רשויות תעודת יושר ואפוסטיל לפי מדינה (כלל 180 הימים במשרד הפנים)", ["מדינת מקור", "תעודת היושר הנדרשת בלבד", "רשות האפוסטיל המוסמכת (מניעת פסילה בלשכה)"], [
+        ["🇺🇸 ארה״ב (USA)", "תמצית רישום פדרלית מה-FBI (IdHS)", "אפוסטיל פדרלי של מחלקת המדינה בוושינגטון בלבד (אפוסטיל מדינתי נפסל!)"],
+        ["🇬🇧 בריטניה (UK)", "תעודת משטרה ACRO", "משרד החוץ הבריטי (FCDO Legalisation Office)"],
+        ["🇫🇷 צרפת", "גיליון מרשם פלילי Bulletin n°3 (נאנט)", "אפוסטיל רשמי של Cour d'Appel / לשכת הנוטריונים בצרפת"],
+        ["🇪🇸 ספרד ואמריקה הלטינית", "תעודת עבר פלילי ממשרד המשפטים / פדרלית", "אפוסטיל האג של משרד המשפטים / משרד החוץ (בתוקף עד 180 יום)"],
+        ["🇩🇪 גרמניה / אוסטריה / שווייץ", "תעודת יושר פדרלית Führungszeugnis (BfJ)", "אפוסטיל פדרלי מרשות החוץ BfAA"],
+        ["🌍 רוסיה / אוקראינה / חבר העמים", "תעודת יושר הכוללת במפורש את כל שמות הנעורים והשמות הקודמים!", "חותמת אפוסטיל מקורית של משרד הפנים / משרד המשפטים"]
+    ]),
+    "fr": ("🌍 Tableau Officiel par Pays : Casier Judiciaire & Autorité d'Apostille (<180 Jours)", ["Juridiction", "Extrait de Casier Exigé", "Autorité d'Apostille Compétente"], [
+        ["🇫🇷 France", "Bulletin n°3 du Casier Judiciaire National (Nantes)", "Apostille officielle Cour d'Appel / Chambre des Notaires de France"],
+        ["🇺🇸 États-Unis", "FBI Identity History Summary (Fédéral)", "US Department of State (Washington DC) — jamais un État local pour le FBI !"],
+        ["🇬🇧 Royaume-Uni", "ACRO Police Certificate", "FCDO Legalisation Office (Apostille de La Haye)"],
+        ["🇨🇦 Canada", "Vérification GRC / RCMP avec empreintes (Nouvelle Convention La Haye)", "Affaires mondiales Canada / Autorité provinciale compétente"],
+        ["🇧🇪 / 🇨🇭 Belgique & Suisse", "Extrait Modèle 595/596 ou Casier Judiciaire Suisse", "SPF Affaires étrangères (BE) / Chancellerie fédérale (CH)"]
+    ]),
+    "es": ("🌍 Tabla por País: Antecedentes Penales y Autoridad de Apostilla (<180 Días)", ["País / Región", "Certificado Penal Obligatorio", "Autoridad Exacta de Apostilla de La Haya"], [
+        ["🇪🇸 España", "Certificado de Antecedentes Penales (Ministerio de Justicia)", "Apostilla Única del Ministerio de Justicia"],
+        ["🇦🇷 Argentina / 🇲🇽 México / 🇨🇴 Colombia", "Reincidencia Nacional / Constancia Federal / Policía Nacional", "Cancillería / Gobernación Federal con Apostilla de La Haya (<180 días)"],
+        ["🇺🇸 Estados Unidos", "FBI Identity History Summary (Federal)", "US Dept. of State (Washington DC) — ¡nunca apostilla estatal sobre PDF del FBI!"],
+        ["🇧🇷 Brasil / 🇨🇱 Chile", "Certidão Polícia Federal + Estadual / Registro Civil", "Apostilla CNJ Cartório (Brasil) / Ministerio de Relaciones Exteriores (Chile)"]
+    ]),
+    "de": ("🌍 Länder-Tabelle: Führungszeugnis & Zuständige Apostille-Behörde (<180 Tage)", ["Land", "Pflicht-Strafregisterauszug", "Zuständige Haager Apostille-Stelle"], [
+        ["🇩🇪 Deutschland", "Führungszeugnis mit Unterschrift/Überbeglaubigung (BfJ Bonn)", "Bundesamt für Auswärtige Angelegenheiten (BfAA) in Brandenburg"],
+        ["🇦🇹 Österreich", "Strafregisterbescheinigung der Landespolizeidirektion / Bürgermeister", "Außenministerium (BMEIA) bzw. zuständige Landesregierung"],
+        ["🇨🇭 Schweiz", "Privatauszug aus dem Strafregister (VOSTRA Bern)", "Schweizerische Bundeskanzlei in Bern (Beglaubigungsdienst)"],
+        ["🇺🇸 USA / 🇬🇧 UK", "FBI Identity History Summary / ACRO Police Certificate", "US Dept. of State (Washington DC) / UK FCDO Legalisation Office"]
+    ]),
+    "ru": ("🌍 Таблица по странам: Справка о несудимости и орган проставления Апостиля (<180 дней)", ["Страна выдачи", "Требуемая справка о несудимости", "Орган Апостиля (без ошибок нотариальных копий!)"], [
+        ["🇷🇺 Россия", "Справка ГИАЦ МВД РФ (строго со ВСЕМИ девичьими и прежними фамилиями!)", "Оригинальный штамп Апостиль МВД РФ на подлиннике справки"],
+        ["🇺🇦 Украина", "Полный Вытяг МВД Украины (Повний витяг про несудимість)", "Апостиль Министерства иностранных дел / Минюста Украины"],
+        ["🇰🇿 Казахстан / 🇧🇾 Беларусь / 🇲🇩 Молдова", "Справка Генпрокуратуры / МВД со всеми сменами фамилий", "Апостиль уполномоченного министерства на оригинале документа"],
+        ["🇺🇸 США / 🇩🇪 Германия / 🇫🇷 Франция", "FBI IdHS / Führungszeugnis BfJ / Bulletin n°3", "Госдепартамент США (DC) / BfAA Германии / Апелляционный суд Франции"]
+    ])
+}
+
+
+SPOUSAL_520008_VS_520009_TABLE_I18N = {
+    "en": ("⚖️ Nohal 5.2.0008 (Married / Utah Zoom) vs. Nohal 5.2.0009 (Unmarried Partners) Comparison", ["Statutory Milestone", "Married Track (Nohal 5.2.0008)", "Unmarried Track (Nohal 5.2.0009)"], [
+        ["Time on B/1 Work Visa (No Kupat Cholim)", "~6 Months (after initial verification)", "3 Full Years (36 Months)"],
+        ["Time on A/5 Biometric Teudat Zehut", "4 Years (183-day Bituach Leumi wait at start)", "4 Years (starts only in Year 4)"],
+        ["Total Duration to Citizenship / Residency", "~4.5 Years → Full Israeli Citizenship", "~7 Years → Permanent Residency"],
+        ["Mandatory Core Forms", "6-Page Form Ash/6 + Apostilled Marriage Cert (incl. Utah Zoom)", "Form Ash/6 + Lawyer-Witnessed 13-Clause Nespach Alef"]
+    ]),
+    "he": ("⚖️ השוואת מסלולים: נשואים ונישואי יוטה (נוהל 5.2.0008) מול ידועים בציבור (נוהל 5.2.0009)", ["שלב / קריטריון חוקי", "נשואים / יוטה זום (נוהל 5.2.0008)", "ידועים בציבור (נוהל 5.2.0009)"], [
+        ["תקופה באשרת עבודה B/1 (ללא קופת חולים)", "כ-6 חודשים לאחר פתיחת התיק", "3 שנים מלאות (36 חודשים)"],
+        ["תקופה בתעודת זהות כתומה א/5", "4 שנים (המתנת 183 יום לביטוח לאומי)", "4 שנים (מתחיל רק מהשנה ה-4)"],
+        ["משך כולל עד למעמד קבע / אזרחות", "כ-4.5 שנים ← אזרחות ישראלית מלאה", "כ-7 שנים ← תושבות קבע"],
+        ["טפסי חובה בהגשה", "טופס אש/6 (6 עמ׳) + תעודת נישואין עם אפוסטיל", "טופס אש/6 + תצהיר נספח א׳ (13 סעיפים בפני עו״ד)"]
+    ]),
+    "fr": ("⚖️ Comparatif : Couples Mariés / Utah Zoom (Nohal 5.2.0008) vs Concubins (Nohal 5.2.0009)", ["Étape Statutaire", "Mariés / Utah Zoom (Nohal 5.2.0008)", "Concubins Non Mariés (Nohal 5.2.0009)"], [
+        ["Durée sous Visa B/1 (sans Kupat Holim)", "~6 Mois", "3 Ans complets (36 mois)"],
+        ["Durée sous Teudat Zehut A/5", "4 Ans (+ carence Bituach Leumi 183j)", "4 Ans (à partir de la 4e année)"],
+        ["Durée Totale jusqu'au Statut Final", "~4,5 Ans → Citoyenneté Israélienne", "~7 Ans → Résidence Permanente"],
+        ["Formulaires Obligatoires", "Ash/6 (6p) + Acte de Mariage Apostillé", "Ash/6 + Nespach Alef (13 clauses devant avocat)"]
+    ]),
+    "es": ("⚖️ Comparativa: Casados / Boda Utah Zoom (Nohal 5.2.0008) vs. Pareja de Hecho (Nohal 5.2.0009)", ["Etapa Legal", "Casados / Utah Zoom (Nohal 5.2.0008)", "Pareja de Hecho (Nohal 5.2.0009)"], [
+        ["Tiempo con Visa B/1 (sin Kupat Jolim)", "~6 Meses", "3 Años completos (36 meses)"],
+        ["Tiempo con Teudat Zehut A/5", "4 Años (+ 183 días espera Bituaj Leumí)", "4 Años (inicia en el 4.º año)"],
+        ["Tiempo Total hasta Estatus Definitivo", "~4,5 Años → Ciudadanía Israelí", "~7 Años → Residencia Permanente"],
+        ["Formularios Obligatorios", "Ash/6 (6 pág.) + Acta Matrimonio Apostillada", "Ash/6 + Nespaj Alef (13 cláusulas ante abogado)"]
+    ]),
+    "de": ("⚖️ Vergleich: Verheiratete / Utah-Zoom (Nohal 5.2.0008) vs. Lebenspartner (Nohal 5.2.0009)", ["Verfahrensstufe", "Verheiratet / Utah-Zoom (Nohal 5.2.0008)", "Unverheiratet (Nohal 5.2.0009)"], [
+        ["Dauer mit B/1-Arbeitsvisum", "ca. 6 Monate", "3 volle Jahre (36 Monate)"],
+        ["Dauer mit A/5 Teudat Zehut", "4 Jahre (+ 183 Tage Wartezeit Krankenkasse)", "4 Jahre (erst ab dem 4. Jahr)"],
+        ["Gesamtdauer bis Endstatus", "ca. 4,5 Jahre → Staatsbürgerschaft", "ca. 7 Jahre → Daueraufenthalt"],
+        ["Pflichtformulare", "Ash/6 (6S) + Apostillierte Heiratsurkunde", "Ash/6 + Nespach Alef (13 Klauseln vor Anwalt)"]
+    ]),
+    "ru": ("⚖️ Сравнение СТУПРО: Официальный / Юта-брак (5.2.0008) и Гражданский союз (5.2.0009)", ["Этап процедуры", "В браке / Юта Zoom (Ноаль 5.2.0008)", "Без брака / Ядуим бе-Цибур (5.2.0009)"], [
+        ["Срок на рабочей визе B/1 (без Купат Холим)", "~6 месяцев", "3 полных года (36 месяцев)"],
+        ["Срок с временным ТЗ (виза А/5)", "4 года (+ 183 дня ожидания Битуах Леуми)", "4 года (начиная только с 4-го года)"],
+        ["Общий срок до ПМЖ / Гражданства", "~4,5 года → Гражданство Израиля", "~7 лет → Постоянное жительство (ПМЖ)"],
+        ["Обязательные бланки", "Аш/6 (6 стр.) + Св-во о браке с апостилем", "Аш/6 + Неспах Алеф (13 пунктов у адвоката)"]
+    ])
+}
+
+def render_seo_data_table(lang, table_dict):
+    title, headers, rows = table_dict.get(lang, table_dict["en"])
+    th_html = "".join([f'<th style="padding:10px 12px;background:#082548;color:#fff;font-size:0.82rem;text-align:start;border:1px solid #1e3a5f;">{html.escape(h)}</th>' for h in headers])
+    tr_html = ""
+    for r_idx, row in enumerate(rows):
+        bg = "#ffffff" if r_idx % 2 == 0 else "#f8fafc"
+        tds = "".join([f'<td style="padding:9px 12px;border:1px solid #cbd5e1;font-size:0.83rem;color:#1e293b;line-height:1.45;">{html.escape(c)}</td>' for c in row])
+        tr_html += f'<tr style="background:{bg};">{tds}</tr>'
+    return (
+        f'<div style="margin:18px 0;overflow-x:auto;">'
+        f'<h2 style="font-size:1.08rem;color:#082548;margin:0 0 8px 0;">{html.escape(title)}</h2>'
+        f'<table style="width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;"><thead><tr>{th_html}</tr></thead><tbody>{tr_html}</tbody></table>'
+        f'</div>'
+    )
+# === END GAT PYTHON PRE-BAKED HELPERS ===
+
+
+# === GAT_PREBAKED_VAULTS_AND_2026_AUTHORITY_V1 ===
+def _load_songs_vault_for_seo():
+    p = "public/app/songs_vault.js"
+    if not os.path.exists(p):
+        return [], [], []
+    songs = extract_js_window_array(p, "SONGS_VAULT12")
+    morning = extract_js_window_array(p, "MORNING_VAULT7")
+    brachot = extract_js_window_array(p, "BRACHOT_VAULT8")
+    return songs, morning, brachot
+
+_SEO_SONGS, _SEO_MORNING, _SEO_BRACHOT = _load_songs_vault_for_seo()
+
+LITURGY_PREBAKE_I18N = {
+    "en": {
+        "h2": "🎵 Pre-Baked Beit Din Liturgical & Halachic Audio Syllabus (Shabbat Zemirot, Shacharit & Essential Brachot)",
+        "lead": "Rabbinical Court (Beit Din) judges (Dayanim) routinely ask conversion candidates to recite daily Brachot, morning Shacharit prayers, and Friday night / Shabbat table songs from memory to verify authentic lived practice. Below is the complete required liturgical syllabus with Hebrew Nikud, occasion timing, and phonetic transliteration:",
+        "th1": "Liturgical Track (Hebrew & Title)",
+        "th2": "Halachic Timing / Occasion",
+        "th3": "Hebrew Opening & Phonetic Transliteration",
+        "cta": "🎧 Practice All 56 Sephardi & Ashkenazi Audio Tracks in the Interactive Karaoke Trainer →"
+    },
+    "he": {
+        "h2": "🎵 סילבוס שמע הלכתי מלא לבית הדין לגיור (זמירות שבת, תפילות שחרית וברכות חיוניות)",
+        "lead": "דייני בית הדין לגיור בוחנים מועמדים על בקיאות מעשית בברכות השחר, תפילת שחרית, הדלקת נרות, קידוש, ברכת המזון וזמירות שבת כדי לוודא אורח חיים יהודי פעיל. להלן טבלת הסילבוס המלאה עם ניקוד ומועדי אמירה:",
+        "th1": "שם התפילה / הזמירה",
+        "th2": "מועד הלכתי / הקשר",
+        "th3": "פתיח מנוקד ותעתיק פונטי",
+        "cta": "🎧 לתרגול כל 56 רצועות השמע (ספרדי ואשכנזי) במאמן הקריוקי האינטראקטיבי ←"
+    },
+    "fr": {
+        "h2": "🎵 Programme Audio Liturgique & Halakhique Complet du Beit Din (Chants de Chabbat, Chaharit & Brachot)",
+        "lead": "Les juges rabbiniques (Dayanim) du Beit Din demandent systématiquement aux candidats au Giyur de réciter les bénédictions quotidiennes (Brachot), les prières du matin (Chaharit) et les chants de la table de Chabbat pour vérifier une pratique vécue. Voici le programme complet avec hébreu vocalisé (Nikoud) et phonétique :",
+        "th1": "Chant / Prière / Bracha",
+        "th2": "Moment Halakhique",
+        "th3": "Hébreu Vocalisé & Phonétique",
+        "cta": "🎧 S'entraîner sur les 56 pistes audio (Séfarade & Achkénaze) dans le Karaoké Interactif →"
+    },
+    "es": {
+        "h2": "🎵 Programa Litúrgico y Halájico Completo del Beit Din (Canciones de Shabat, Shajarit y Brajot Esenciales)",
+        "lead": "Los jueces rabínicos (Dayanim) del Beit Din evalúan a los candidatos a la conversión pidiéndoles recitar bendiciones diarias (Brajot), rezos matutinos (Shajarit) y zemirot de la mesa de Shabat. A continuación se presenta el programa completo con hebreo vocalizado (Nikud) y fonética:",
+        "th1": "Rezo / Canción / Brajá",
+        "th2": "Momento Halájico",
+        "th3": "Hebreo con Nikud y Transliteración Fonética",
+        "cta": "🎧 Practicar las 56 Pistas de Audio (Sefardí y Ashkenazí) en el Entrenador Karaoke →"
+    },
+    "de": {
+        "h2": "🎵 Vollständiger Liturgischer & Halachischer Beit-Din-Lehrplan (Schabbat-Semirot, Schacharit & Brachot)",
+        "lead": "Die Richter (Dajanim) des Beit Din prüfen Giur-Kandidaten regelmäßig auf das flüssige Rezitieren der täglichen Segenssprüche (Brachot), Morgengebete (Schacharit) und Schabbat-Tischlieder. Hier ist der komplette Pflichtkatalog mit vokalisiertem Hebräisch (Nikud) und Lautschrift:",
+        "th1": "Gebet / Lied / Bracha",
+        "th2": "Halachischer Zeitpunkt",
+        "th3": "Hebräischer Anfang & Phonetische Lautschrift",
+        "cta": "🎧 Alle 56 Audio-Tracks (Sephardisch & Aschkenasisch) im Interaktiven Karaoke-Trainer üben →"
+    },
+    "ru": {
+        "h2": "🎵 Полная Литургическая и Галахическая Программа Бейт-Дина (Песни Шаббата, Шахарит и Основные Брахот)",
+        "lead": "Судьи раввинского суда (даяним) на собеседовании по гиюру регулярно просят кандидатов произнести по памяти утренние благословения (Брахот), молитвы Шахарит и субботние песни (Земирот). Ниже приведен полный обязательный перечень с огласовками (никуд) и транслитерацией:",
+        "th1": "Молитва / Песня / Браха",
+        "th2": "Галахическое Время",
+        "th3": "Текст с Огласовками и Транслитерация",
+        "cta": "🎧 Тренировать все 56 аудиодорожек (сефардский и ашкеназский нусах) в Караоке-Тренажере →"
+    }
+}
+
+REF_LETTERS_PREBAKE_I18N = {
+    "en": {
+        "h2": "✍️ Statutory 8-Role Reference & Witness Letter Blueprint (Beit Din & Misrad HaPanim Nohal 5.2.0008 / 5.2.0009)",
+        "lead": "Both the Rabbinical Court (Beit Din) and the Ministry of Interior (Misrad HaPanim) reject generic one-paragraph character letters. Below are the 8 mandatory recommender & witness classifications, required Israeli ID (Teudat Zehut) identifiers, and chronological activity log rules:",
+        "th1": "Recommender / Witness Role",
+        "th2": "Target Authority & Statutory Rule",
+        "th3": "Mandatory Elements Required by Clerks / Dayanim",
+        "cta": "✍️ Open the 6-Language Reference Letter & Activity Log Studio →",
+        "rows": [
+            ["🕍 Community / Synagogue Rabbi (Rav Melaveh)", "Beit Din Conversion Tribunal", "Official synagogue letterhead, duration of mentorship (min. 9–12 months), Shabbat/Holiday attendance verification, and formal declaration of readiness for the Beit Din."],
+            ["🕯️ Shabbat & Holiday Host Family", "Beit Din Conversion Tribunal", "Specific dates of Friday night & Shabbat day meals hosted, practical kashrut/Shabbat observance witnessed in the home, and host's phone number for tribunal verification."],
+            ["📚 Madrichat Kallah / Halacha & Taharat HaMishpacha Mentor", "Beit Din Conversion Tribunal (Women & Couples)", "Confirmation of completed Taharat HaMishpacha (Mikvah laws) curriculum, halachic readiness, and joint home observance if converting with a partner."],
+            ["🤝 Volunteering / Chesed / Synagogue Gabbai Coordinator", "Beit Din Community Integration Proof", "Chronological log of communal participation, Kiddush/synagogue assistance, or charity shifts demonstrating active integration into an Israeli religious community."],
+            ["👥 Israeli Citizen Friend Witness (#1 & #2)", "Misrad HaPanim Nohal 5.2.0008 / 5.2.0009", "Mandatory 9-digit Israeli Teudat Zehut (TZ) number, mobile phone, explicit description of how and when they met the couple, shared outings/visits, and direct knowledge of joint residence."],
+            ["👨‍👩‍👧 Israeli Family / In-Law Witness", "Misrad HaPanim Nohal 5.2.0008 / 5.2.0009", "9-digit Israeli TZ number, family relationship, dates of family meals/holidays spent together, and signed attestation that the couple's relationship is genuine and uncoerced."],
+            ["💼 Employer / Coworker / Neighbor Witness", "Misrad HaPanim Center-of-Life Proof", "Verification of daily cohabitation at the registered Israeli address or workplace recognition of the partner, including witness TZ number and phone contact."],
+            ["✈️ Overseas Diaspora Rabbi / Community Attestation", "Nativ / Rabbanut Birur Yahadut & Ishur Giyur", "Official diaspora congregation letterhead confirming prior Jewish lineage or recognized overseas Beit Din conversion track before Aliyah."]
+        ]
+    },
+    "he": {
+        "h2": "✍️ טבלת 8 סוגי מכתבי המלצה ועדויות חובה (בית הדין לגיור ומשרד הפנים נוהל 5.2.0008 / 5.2.0009)",
+        "lead": "גם בית הדין לגיור וגם לשכות רשות האוכלוסין (משרד הפנים) פוסלים מכתבי המלצה כלליים וחסרי פרטים. להלן 8 סוגי הממליצים והעדים הרשמיים, דרישות מספר תעודת זהות (9 ספרות) ויומן מפגשים כרונולוגי:",
+        "th1": "תפקיד הממליץ / העד",
+        "th2": "רשות יעד ונוהל רלוונטי",
+        "th3": "פרטי חובה הנדרשים על ידי הדיינים / פקידי משרד הפנים",
+        "cta": "✍️ פתחו את מחולל מכתבי ההמלצה ויומן האירועים ב-6 שפות ←",
+        "rows": [
+            ["🕍 רב קהילה / רב מלווה (Rav Melaveh)", "בית הדין לגיור", "נייר לוגו רשמי של בית הכנסת/הקהילה, תקופת הליווי (מינימום 9–12 חודשים), אישור השתתפות בתפילות שבת וחג והצהרה על מוכנות לדיון בבית הדין."],
+            ["🕯️ משפחה מארחת בשבתות וחגים", "בית הדין לגיור", "פירוט תאריכי סעודות שבת וחג, עדות ישירה על שמירת שבת וכשרות הלכה למעשה בבית המארחים, ומספר טלפון של המשפחה לאימות."],
+            ["📚 מדריכת כלה / מלווה בהלכות טהרת המשפחה", "בית הדין לגיור (נשים וזוגות)", "אישור רשמי על השלמת לימודי הלכות טהרת המשפחה ומקווה, מוכנות הלכתית וניהול בית יהודי כשר."],
+            ["🤝 גבאי בית כנסת / רכז התנדבות וחסד", "בית הדין לגיור (שילוב קהילתי)", "תיעוד כרונולוגי של מעורבות בקהילה, סיוע בקידושים או פעילות חסד המוכיחים השתלבות אמיתית בקהילה בישראל."],
+            ["👥 עד חבר אזרח ישראלי (עדים 1 ו-2)", "משרד הפנים נוהל 5.2.0008 / 5.2.0009", "חובה לציין מספר תעודת זהות ישראלית (9 ספרות) וטלפון נייד, נסיבות ומועד ההיכרות עם בני הזוג, ביקורים משותפים וידיעה אישית על מגורים משותפים."],
+            ["👨‍👩‍👧 עד בן משפחה / קרוב משפחה ישראלי", "משרד הפנים נוהל 5.2.0008 / 5.2.0009", "מספר ת״ז (9 ספרות), קרבה משפחתית, פירוט ארוחות משפחתיות וחגים משותפים, והצהרה חתומה על כנות הקשר הזוגי."],
+            ["💼 עד מעסיק / שכן / עמית לעבודה", "משרד הפנים (הוכחת מרכז חיים)", "אימות מגורים משותפים יומיומיים בכתובת הרשומה או היכרות ממקום העבודה, כולל מספר ת״ז וטלפון ליצירת קשר."],
+            ["✈️ אישור רב קהילה מחו״ל (תפוצות)", "נתיב / בירור יהדות ואישור גיור", "נייר לוגו רשמי של הקהילה בחו״ל המאשר שורשים יהודיים או מסלול גיור מוכר בקהילה לפני העלייה."]
+        ]
+    },
+    "fr": {
+        "h2": "✍️ Modèle Statutaire des 8 Lettres de Recommandation & Témoins (Beit Din & Misrad HaPanim Nohal 5.2.0008 / 5.2.0009)",
+        "lead": "Le Tribunal rabbinique (Beit Din) comme le Ministère de l'Intérieur (Misrad HaPanim) rejettent les lettres génériques d'un paragraphe. Voici les 8 catégories officielles de recommandants et témoins, avec les exigences de numéro de Teoudat Zehout (9 chiffres) et de journal chronologique :",
+        "th1": "Rôle du Recommandant / Témoin",
+        "th2": "Autorité & Procédure",
+        "th3": "Éléments Obligatoires Exigés par les Juges / Agents",
+        "cta": "✍️ Ouvrir le Studio de Lettres de Recommandation & Journal d'Activités en 6 Langues →",
+        "rows": [
+            ["🕍 Rabbin de Communauté / Rabbin Accompagnateur (Rav Melaveh)", "Tribunal de Conversion (Beit Din)", "Papier à en-tête officiel de la synagogue, durée de l'accompagnement (9–12 mois min.), présence aux offices de Chabbat/Fêtes et déclaration d'aptitude au Beit Din."],
+            ["🕯️ Famille d'Accueil de Chabbat & Fêtes", "Tribunal de Conversion (Beit Din)", "Dates précises des repas de Chabbat partagés, témoignage direct sur la pratique du Chabbat et de la Cacherout, et téléphone de la famille."],
+            ["📚 Madrichat Kallah / Mentor Halakha & Taharat HaMichpakha", "Beit Din (Femmes & Couples)", "Attestation de validation complète des lois de pureté familiale (Mikvé) et de gestion d'un foyer juif halakhique."],
+            ["🤝 Gabbaï de Synagogue / Coordinateur de Bénévolat (Hessed)", "Preuve d'Intégration Communautaire Beit Din", "Journal chronologique de participation communautaire, aide au Kiddouch ou actions de Hessed en Israël."],
+            ["👥 Ami Témoin Citoyen Israélien (Témoins n°1 & n°2)", "Misrad HaPanim Nohal 5.2.0008 / 5.2.0009", "Numéro de Teoudat Zehout israélienne à 9 chiffres obligatoire, téléphone portable, historique des visites communes et attestation de vie commune sincère."],
+            ["👨‍👩‍👧 Témoin Famille / Belle-Famille Israélienne", "Misrad HaPanim Nohal 5.2.0008 / 5.2.0009", "Numéro de Teoudat Zehout à 9 chiffres, lien familial, fêtes et repas partagés, et déclaration signée d'authenticité du couple."],
+            ["💼 Témoin Employeur / Voisin / Collègue", "Misrad HaPanim (Preuve de Centre de Vie)", "Confirmation de cohabitation quotidienne à l'adresse déclarée, avec numéro de TZ et téléphone du témoin."],
+            ["✈️ Attestation de Rabbin de Diaspora (Étranger)", "Nativ / Rabbinat Birour Yahadout & Ichour Giyur", "Papier à en-tête officiel de la communauté à l'étranger confirmant l'ascendance juive ou le parcours de conversion reconnu avant l'Aliyah."]
+        ]
+    },
+    "es": {
+        "h2": "✍️ Guía Normativa de las 8 Cartas de Recomendación y Testigos (Beit Din y Misrad HaPanim Nohal 5.2.0008 / 5.2.0009)",
+        "lead": "Tanto el Tribunal Rabínico (Beit Din) como el Ministerio del Interior (Misrad HaPanim) rechazan cartas genéricas sin fechas ni datos verificables. Aquí están los 8 roles oficiales de recomendadores y testigos, con requisito de Teudat Zehut de 9 dígitos y bitácora cronológica:",
+        "th1": "Rol del Recomendador / Testigo",
+        "th2": "Autoridad y Procedimiento",
+        "th3": "Requisitos Obligatorios Exigidos por Dayanim / Funcionarios",
+        "cta": "✍️ Abrir el Estudio de Cartas de Recomendación y Bitácora en 6 Idiomas →",
+        "rows": [
+            ["🕍 Rabino Comunitario / Patrocinador (Rav Melaveh)", "Tribunal de Conversión (Beit Din)", "Membrete oficial de la sinagoga, duración del acompañamiento (mín. 9–12 meses), asistencia a Shabat/Jaguim y declaración formal de preparación."],
+            ["🕯️ Familia Anfitriona de Shabat y Festividades", "Tribunal de Conversión (Beit Din)", "Fechas exactas de cenas y almuerzos de Shabat compartidos, observación práctica de Shabat y Kashrut, y teléfono de contacto."],
+            ["📚 Madrijat Kalá / Mentora de Halajá y Taharat HaMishpajá", "Beit Din (Mujeres y Parejas)", "Confirmación de finalización del programa de leyes de pureza familiar (Mikve) y conducción de un hogar judío observante."],
+            ["🤝 Gabai de Sinagoga / Coordinador de Voluntariado (Jésed)", "Prueba de Integración Comunitaria Beit Din", "Registro cronológico de participación comunitaria, apoyo en Kidush o voluntariado en Israel."],
+            ["👥 Testigo Amigo Ciudadano Israelí (Testigos #1 y #2)", "Misrad HaPanim Nohal 5.2.0008 / 5.2.0009", "Número de Teudat Zehut israelí de 9 dígitos obligatorio, teléfono móvil, cómo y cuándo conoció a la pareja, salidas conjuntas y constancia de convivencia."],
+            ["👨‍👩‍👧 Testigo Familiar / Familia Política Israelí", "Misrad HaPanim Nohal 5.2.0008 / 5.2.0009", "Teudat Zehut de 9 dígitos, parentesco, cenas y festividades compartidas, y declaración firmada de relación genuina."],
+            ["💼 Testigo Empleador / Vecino / Compañero de Trabajo", "Misrad HaPanim (Prueba de Centro de Vida)", "Verificación de convivencia diaria en el domicilio registrado con número de TZ y teléfono del testigo."],
+            ["✈️ Atestación de Rabino de la Diáspora (Extranjero)", "Nativ / Rabinato Birur Yahadut e Ishur Giyur", "Membrete oficial comunitario del exterior confirmando linaje judío o conversión reconocida previa a la Aliyá."]
+        ]
+    },
+    "de": {
+        "h2": "✍️ Behördlicher Leitfaden der 8 Empfehlungs- & Zeugenbriefe (Beit Din & Misrad HaPanim Nohal 5.2.0008 / 5.2.0009)",
+        "lead": "Sowohl das Rabbinatsgericht (Beit Din) als auch das Innenministerium (Misrad HaPanim) lehnen pauschale Kurzbriefe ohne konkrete Daten ab. Hier sind die 8 offiziellen Empfehlungs- und Zeugenkategorien inklusive Pflichtangabe der 9-stelligen Teudat-Zehut-Nummer:",
+        "th1": "Rolle des Empfehlenden / Zeugen",
+        "th2": "Behörde & Verfahren",
+        "th3": "Pflichtangaben für Dajanim / Sachbearbeiter",
+        "cta": "✍️ Das 6-Sprachen-Studio für Empfehlungsbriefe & Ereignisprotokoll öffnen →",
+        "rows": [
+            ["🕍 Gemeinderabbiner / Begleitender Rabbiner (Rav Melaveh)", "Beit-Din-Konversionsgericht", "Offizieller Briefkopf der Synagoge, Dauer der Begleitung (mind. 9–12 Monate), Teilnahme an Schabbat-/Feiertagsgottesdiensten und Reifeerklärung."],
+            ["🕯️ Schabbat- & Feiertags-Gastfamilie", "Beit-Din-Konversionsgericht", "Konkrete Daten gemeinsamer Schabbatmahlzeiten, bezeugte Schabbat- und Kaschrut-Praxis sowie Telefonnummer für Rückfragen."],
+            ["📚 Madrichat Kallah / Mentorin für Halacha & Taharat HaMischpacha", "Beit Din (Frauen & Paare)", "Bestätigung über den vollständigen Abschluss der Familiengesetze (Mikwe) und halachische Haushaltsführung."],
+            ["🤝 Synagogen-Gabbai / Ehrenamts- & Chessed-Koordinator", "Beit-Din-Gemeindeintegration", "Chronologisches Protokoll über Gemeindeengagement, Kiddusch-Hilfe oder wohltätige Einsätze in Israel."],
+            ["👥 Israelischer Freundeszeuge (Zeugen Nr. 1 & Nr. 2)", "Misrad HaPanim Nohal 5.2.0008 / 5.2.0009", "Pflichtangabe der 9-stelligen israelischen Teudat-Zehut-Nummer, Mobiltelefon, Kennenlerngeschichte, gemeinsame Treffen und Bestätigung des gemeinsamen Wohnsitzes."],
+            ["👨‍👩‍👧 Israelischer Familien- / Schwiegerfamilienzeuge", "Misrad HaPanim Nohal 5.2.0008 / 5.2.0009", "9-stellige TZ-Nummer, Verwandtschaftsgrad, gemeinsame Feiertage/Familienessen und unterschriebene Echtheitserklärung der Partnerschaft."],
+            ["💼 Arbeitgeber- / Nachbars- / Kollegenzeuge", "Misrad HaPanim (Lebensmittelpunktnachweis)", "Bestätigung des täglichen Zusammenlebens an der gemeldeten Adresse inklusive TZ-Nummer und Telefon."],
+            ["✈️ Rabbiner-Bestätigung aus der Diaspora (Ausland)", "Nativ / Rabbinat Birur Jahadut & Ischur Giur", "Offizieller Gemeindebriefkopf aus dem Herkunftsland zur Bestätigung jüdischer Abstammung oder eines anerkannten Auslands-Giur."]
+        ]
+    },
+    "ru": {
+        "h2": "✍️ Регламент 8 Видов Рекомендательных и Свидетельских Писем (Бейт-Дин и МВД Израиля Ноаль 5.2.0008 / 5.2.0009)",
+        "lead": "Как раввинский суд (Бейт-Дин), так и МВД Израиля (Мисрад ха-Паним) отклоняют шаблонные письма из одного абзаца без дат. Ниже приведены 8 официальных категорий рекомендателей и свидетелей с обязательным указанием 9-значного Теудат-Зеута и хронологии встреч:",
+        "th1": "Роль Рекомендателя / Свидетеля",
+        "th2": "Инстанция и Процедура",
+        "th3": "Обязательные Реквизиты для Судей (Даяним) / Чиновников МВД",
+        "cta": "✍️ Открыть Студию Рекомендательных Писем и Журнал Событий на 6 Языках →",
+        "rows": [
+            ["🕍 Общинный / Сопровождающий Раввин (Рав Мелаве)", "Раввинский Суд по Гиюру (Бейт-Дин)", "Официальный бланк синагоги, срок сопровождения (от 9–12 месяцев), подтверждение посещения молитв в Шаббат и праздники, рекомендация к суду."],
+            ["🕯️ Принимающая Семья на Шаббат и Праздники", "Раввинский Суд по Гиюру (Бейт-Дин)", "Конкретные даты совместных субботних трапез, подтверждение соблюдения Шаббата и кашрута на практике, телефон семьи."],
+            ["📚 Мадрихат Калла / Наставница по Галахе и Таарат ха-Мишпаха", "Бейт-Дин (Женщины и Пары)", "Официальное подтверждение прохождения курса законов семейной чистоты (миквэ) и ведения кошерного еврейского дома."],
+            ["🤝 Габай Синагоги / Координатор Волонтерства (Хесед)", "Бейт-Дин (Интеграция в Общину)", "Хронологический журнал участия в жизни общины, помощи в организации кидушей или волонтерских смен в Израиле."],
+            ["👥 Свидетель-Друг с Гражданством Израиля (Свидетели №1 и №2)", "МВД Израиля Ноаль 5.2.0008 / 5.2.0009", "Обязательный 9-значный номер израильского Теудат-Зеута (ТЗ), мобильный телефон, история знакомства с парой, совместные встречи и подтверждение совместного проживания."],
+            ["👨‍👩‍👧 Свидетель-Родственник со Стороны Израильского Супруга", "МВД Израиля Ноаль 5.2.0008 / 5.2.0009", "9-значный номер ТЗ, степень родства, совместные семейные ужины и праздники, личная подпись под подтверждением искренности брака/отношений."],
+            ["💼 Свидетель-Работодатель / Сосед / Коллега", "МВД Израиля (Доказательство Центра Жизни)", "Подтверждение ежедневного совместного проживания по зарегистрированному адресу с указанием номера ТЗ и телефона свидетеля."],
+            ["✈️ Справка от Раввина Общины в Диаспоре (За Рубежом)", "Натив / Раввинат Бирур Яхадут и Ишур Гиюр", "Официальный бланк зарубежной общины, подтверждающий еврейские корни или прохождение признанного гиюра до репатриации."]
+        ]
+    }
+}
+
+LAWYER_VS_DIY_2026_TABLE_I18N = {
+    "en": {
+        "h2": "⚖️ Private Law Firms (₪15,000–₪40,000) vs. Nonprofits (NBN / Jewish Agency / ITIM) vs. Direct Statutory Filing (2026 Edition 16)",
+        "lead": "Most applicants overpay ₪15,000 to ₪40,000+ (+ VAT) to immigration lawyers or get stuck between conflicting nonprofit advice because exact Ministry of Interior (PIBA) procedure codes and clerk rejection traps are hidden. Here is how direct statutory filing compares under the July 20, 2026 Nohal 5.2.0008 (Edition 16) rules:",
+        "headers": ["Bureaucratic Bottleneck", "Private Law Firms (₪15,000–₪40,000)", "Agency Portals (NBN / JAFI / ITIM)", "Giyur Aliyah Track (Free Truth + Self-Serve Engines)"],
+        "rows": [
+            ["PIBA Nohal 5.2.0008 (Ed. 16, July 20, 2026) & Nohal 5.2.0009 Dossiers", "Charge ₪20,000–₪40,000 to type your details into standard Hebrew forms Ash/1, Ash/3, Ash/6 & Nespach Alef.", "Do not process non-Jewish spousal residency or unmarried partner (Yeduim BeTzibur) files.", "Auto-stamps all 8 official PIBA Hebrew PDFs (Ash/1, Ash/3, Ash/6, Ash/456, MR/14a, MR/14b, Nespach Alef, Security CV) with a Red-X Signing Guide ($0 free browse / $89–$149 pass)."],
+            ["45-Day Document Deficiency Clock & Nespach Gimel Summary Rejection", "Hold back exact clerk deficiency translations to justify paid retainers when a file is threatened with closure.", "Provide general high-level checklists without 180-day Apostille & 3-Bucket police check validation.", "Free statutory guide exposes the 45-day deficiency deadline, Nespach Gimel summary rejection traps, and the 21-day Internal Appeal (Arar Pnimi under Nohal 1.6.0001) + AI Packet Auditor."],
+            ["Separated-Room Couples Interrogation (Shimua Zugi)", "Give a 15-minute verbal overview before your Misrad HaPanim interview.", "No separated-room interrogation preparation offered.", "300 real clerk questions across 10 categories in 6 languages with a live 2-Phone Encrypted Answer Matcher & Contradiction Detector."],
+            ["Beit Din Conversion Tribunal & Va'adat Charigim (Sec. ג.10 Dual-Track)", "Charge tens of thousands of shekels for Va'adat Charigim exception petitions.", "Warn against private or tourist tracks without giving the exact Dahan Ruling & Rabbanut recognition matrix.", "700 real Dayanim flashcards, 56 Shabbat Songs/Prayers Karaoke Grader, 8-role Reference Letter Studio, and complete Dahan Ruling vs. Rabbanut breakdown for free."]
+        ]
+    },
+    "he": {
+        "h2": "⚖️ משרדי עורכי דין (15,000₪–40,000₪) מול ארגונים (נפש בנפש / הסוכנות / עתים) מול הגשה עצמית מדויקת (נוהל 5.2.0008 מהדורה 16 — יולי 2026)",
+        "lead": "זוגות ועולים משלמים 15,000₪ עד 40,000₪ (+ מע״מ) לעורכי דין או מקבלים תשובות סותרות מארגונים שונים משום שהמלכודות המנהליות של משרד הפנים מוסתרות. כך נראית ההשוואה המדויקת לפי מהדורה 16 החדשה של נוהל 5.2.0008 (20.07.2026):",
+        "headers": ["צוואר בקבוק בירוקרטי", "משרדי עורכי דין (15,000₪–40,000₪)", "ארגונים ומוסדות (נפש בנפש / הסוכנות / עתים)", "מסלול גיור ועלייה (מידע מלא בחינם + מנועי הגשה עצמית)"],
+        "rows": [
+            ["תיקי נוהל 5.2.0008 (מהדורה 16, יולי 2026) ונוהל 5.2.0009", "גובים 20,000₪–40,000₪ עבור הקלדת הפרטים שלכם לטפסי אש/1, אש/3, אש/6 ונספח א׳.", "אינם מטפלים בהליך מדורג לבני זוג זרים או ידועים בציבור מול משרד הפנים.", "מילוי והחתמה אוטומטית בעברית של כל 8 טפסי משרד הפנים הרשמיים + מדריך חתימות ב-6 שפות (עיון חופשי בחינם / 89$–149$ להדפסה ללא הגבלה)."],
+            ["שעון 45 יום להשלמת מסמכים ודחייה על הסף (נספח ג׳)", "שומרים את פירוט דרישות הפקידים לייעוץ בתשלום כאשר התיק בסכנת סגירה.", "מספקים רשימות כלליות ללא בדיקת שעון 180 יום לאפוסטיל וכלל 3 הסלים לתעודת יושר.", "חשיפה מלאה בחינם של מלכודת 45 הימים, דחייה על הסף לפי נספח ג׳, ומועד 21 היום להגשת ערר פנימי (נוהל 1.6.0001) + מבקר מסמכים בבינה מלאכותית."],
+            ["שימוע זוגי בחדרים נפרדים במשרד הפנים", "תדרוך בעל-פה של 15 דקות לפני הראיון בלשכה.", "אין סימולטור או מאגר שאלות לשימוע זוגי.", "מאגר 300 שאלות אמיתיות מ-10 קטגוריות ב-6 שפות + סימולטור סנכרון ל-2 טלפונים המזהה סתירות בזמן אמת."],
+            ["בית הדין לגיור, ועדת חריגים וסעיף ג.10 (מסלול כפול)", "גובים עשרות אלפי שקלים על הגשת בקשות לוועדת חריגים.", "מספקים מידע חלקי בלבד על ההבדל בין פסק דין דהן להכרת הרבנות הראשית.", "700 כרטיסיות שאלות דיינים, מאמן קריוקי ל-56 זמירות ותפילות, מחולל מכתבי המלצה וניתוח מלא של מלכודות הגיור בחינם."]
+        ]
+    },
+    "fr": {
+        "h2": "⚖️ Cabinets d'Avocats (15 000 ₪–40 000 ₪) vs. Institutions (NBN / Agence Juive / ITIM) vs. Dépôt Statutaire Direct (Édition 16 — Juillet 2026)",
+        "lead": "La plupart des candidats paient 15 000 ₪ à 40 000 ₪ (+ TVA) à des avocats ou reçoivent des réponses contradictoires d'organismes parce que les numéros de procédures PIBA et les pièges de rejet au guichet sont cachés. Voici la comparaison exacte selon la procédure Nohal 5.2.0008 (Édition 16 du 20 juillet 2026) :",
+        "headers": ["Blocage Administratif", "Cabinets d'Avocats (15 000 ₪–40 000 ₪)", "Portails Institutionnels (NBN / Agence Juive / ITIM)", "Giyur Aliyah Track (Vérité Gratuite + Outils Self-Serve)"],
+        "rows": [
+            ["Dossiers PIBA Nohal 5.2.0008 (Éd. 16, Juillet 2026) & Nohal 5.2.0009", "Facturent 20 000 ₪–40 000 ₪ pour saisir vos réponses sur les formulaires hébreux Ash/1, Ash/3, Ash/6 et Nespach Alef.", "Ne traitent pas les visas conjoints ou partenaires non mariés (Yedouïm BeTzibour).", "Remplit et tamponne en hébreu les 8 PDF officiels du Misrad HaPanim avec Guide de Signature en français (navigation gratuite / pass 89 $–149 $)."],
+            ["Délai de 45 Jours & Rejet Sommaire Nespach Gimel (נספח ג')", "Retiennent les règles exactes du guichet derrière des consultations payantes.", "Donnent des listes générales sans audit de l'horloge d'Apostille de 180 jours.", "Expose gratuitement le piège des 45 jours, le rejet sommaire Nespach Gimel et le recours interne sous 21 jours (Arar Pnimi — Nohal 1.6.0001) + Auditeur IA."],
+            ["Entretien de Couple en Salles Séparées (Shimoua Zougi)", "Briefing oral rapide de 15 minutes avant le rendez-vous.", "Aucune préparation à l'interrogatoire croisé du Misrad HaPanim.", "300 vraies questions de guichet en 6 langues avec synchronisation sur 2 téléphones et détecteur de contradictions."],
+            ["Tribunal du Beit Din, Va'adat Charigim & Art. ג.10 Double Parcours", "Facturent des milliers de shekels pour une demande Va'adat Charigim.", "Expliquent rarement le piège entre l'arrêt Dahan (Aliyah) et la reconnaissance du Grand Rabbinat (mariage).", "700 cartes de questions des Dayanim, entraîneur karaoké 56 chants/prières, studio de lettres de recommandation et guide complet gratuit."]
+        ]
+    },
+    "es": {
+        "h2": "⚖️ Bufetes de Abogados (15.000 ₪–40.000 ₪) vs. Organizaciones (NBN / Agencia Judía / ITIM) vs. Autogestión Normativa (Edición 16 — Julio 2026)",
+        "lead": "Muchos solicitantes pagan entre 15.000 ₪ y 40.000 ₪ (+ IVA) a abogados o reciben respuestas contradictorias porque los códigos exactos del Ministerio del Interior (PIBA) y las trampas de rechazo se ocultan. Así se compara la presentación directa bajo el Nohal 5.2.0008 (Edición 16 del 20 de julio de 2026):",
+        "headers": ["Cuello de Botella Burocrático", "Bufetes de Abogados (15.000 ₪–40.000 ₪)", "Portales Institucionales (NBN / JAFI / ITIM)", "Giyur Aliyah Track (Información Gratis + Motores Propios)"],
+        "rows": [
+            ["Expedientes PIBA Nohal 5.2.0008 (Ed. 16, Julio 2026) y Nohal 5.2.0009", "Cobran 20.000 ₪–40.000 ₪ por transcribir tus datos en los formularios hebreos Ash/1, Ash/3, Ash/6 y Nespach Alef.", "No tramitan residencia por cónyuge ni pareja de hecho (Yeduim BeTzibur).", "Estampa en hebreo los 8 PDF oficiales del Misrad HaPanim con Guía de Firma en español (exploración gratuita / pase de $89–$149)."],
+            ["Plazo de 45 Días y Rechazo Sumario Nespach Guímel (נספח ג')", "Ocultan las reglas exactas de subsanación detrás de honorarios legales.", "Ofrecen listas genéricas sin validar el reloj de Apostilla de 180 días.", "Explica gratis el plazo de 45 días, el rechazo Nespach Guímel y la Apelación Interna de 21 días (Arar Pnimi — Nohal 1.6.0001) + Auditor IA."],
+            ["Entrevista de Pareja en Salas Separadas (Shimúa Zugui)", "Charla verbal de 15 minutos antes de la cita.", "Sin simulador para el interrogatorio en salas separadas.", "300 preguntas reales en 6 idiomas con sincronización en 2 teléfonos y detector de contradicciones en vivo."],
+            ["Beit Din, Va'adat Jariguim y Cláusula ג.10 Doble Vía", "Cobran decenas de miles de shekels por solicitudes a Va'adat Jariguim.", "No detallan el conflicto entre el Fallo Dahan y el Gran Rabinato.", "700 tarjetas del Beit Din, karaoke de 56 canciones/rezos, estudio de cartas de recomendación y guía completa gratis."]
+        ]
+    },
+    "de": {
+        "h2": "⚖️ Anwaltskanzleien (15.000 ₪–40.000 ₪) vs. Organisationen (NBN / Jewish Agency / ITIM) vs. Direkte Selbstantragstellung (Ausgabe 16 — Juli 2026)",
+        "lead": "Viele Antragsteller zahlen 15.000 ₪ bis 40.000 ₪ (+ MwSt.) an Kanzleien oder erhalten widersprüchliche Auskünfte, weil die genauen PIBA-Verfahrensnummern und Ablehnungsfallen verschwiegen werden. Hier ist der Direktvergleich nach Nohal 5.2.0008 (Ausgabe 16 vom 20. Juli 2026):",
+        "headers": ["Behördlicher Engpass", "Anwaltskanzleien (15.000 ₪–40.000 ₪)", "Institutionen (NBN / Jewish Agency / ITIM)", "Giyur Aliyah Track (Freies Wissen + Self-Serve-Engines)"],
+        "rows": [
+            ["PIBA Nohal 5.2.0008 (Ausg. 16, Juli 2026) & Nohal 5.2.0009", "Berechnen 20.000 ₪–40.000 ₪ für das Ausfüllen der hebräischen Standardformulare Ash/1, Ash/3, Ash/6 & Nespach Alef.", "Bearbeiten keine Ehepartner- oder Lebenspartner-Visa (Jeduim BeTzibur).", "Stempelt alle 8 offiziellen hebräischen PIBA-PDFs inkl. deutscher Unterschriften-Anleitung (kostenlose Vorschau / $89–$149 Pass)."],
+            ["45-Tage-Nachreichfrist & Nespach-Gimel-Sofortablehnung", "Halten konkrete Sachbearbeiter-Regeln hinter bezahlten Mandaten zurück.", "Allgemeine Checklisten ohne Prüfung der 180-Tage-Apostille-Uhr.", "Legt die 45-Tage-Falle, die Nespach-Gimel-Ablehnung und den 21-Tage-Widerspruch (Arar Pnimi nach Nohal 1.6.0001) kostenlos offen + KI-Prüfer."],
+            ["Paar-Interview in getrennten Räumen (Schimua Sugi)", "Kurzes 15-Minuten-Gespräch vor dem Termin.", "Keine Vorbereitung auf das getrennte Paar-Verhör.", "300 echte Fragen in 6 Sprachen mit 2-Handy-Synchronisierung & Widerspruchs-Detektor."],
+            ["Beit-Din-Tribunal, Va'adat Charigim & Abschnitt ג.10 Doppelspur", "Hohe Honorare für Va'adat-Charigim-Anträge.", "Verschweigen oft die Kluft zwischen Dahan-Urteil und Oberrabbinat.", "700 Beit-Din-Lernkarten, 56 Lieder/Gebete-Karaoke, Empfehlungsbrief-Studio und komplette Analyse kostenlos."]
+        ]
+    },
+    "ru": {
+        "h2": "⚖️ Адвокатские Конторы (15 000 ₪–40 000 ₪) против Организаций (NBN / Сохнут / ITIM) и Прямой Подачи по Регламенту (Редакция 16 — Июль 2026)",
+        "lead": "Большинство заявителей переплачивают от 15 000 ₪ до 40 000 ₪ (+ НДС) адвокатам или получают противоречивые ответы от разных организаций, потому что точные номера инструкций МВД (PIBA) и ловушки отказа скрываются. Сравнение с прямой подачей по инструкции Ноаль 5.2.0008 (Редакция 16 от 20.07.2026):",
+        "headers": ["Бюрократический Этап", "Адвокатские Конторы (15 000 ₪–40 000 ₪)", "Организации (NBN / Сохнут / ITIM)", "Giyur Aliyah Track (Бесплатная Правда + Автоматизация)"],
+        "rows": [
+            ["Алия и СТУПРО по Ноаль 5.2.0008 (Ред. 16, июль 2026) и 5.2.0009", "Берут 20 000 ₪–40 000 ₪ за ввод ваших данных в стандартные бланки Ash/1, Ash/3, Ash/6 и Неспах Алеф.", "Не ведут дела СТУПРО для супругов-неевреев и фактических пар (Ядуим бе-Цибур).", "Автоматически заполняет на иврите все 8 официальных PDF-анкет МВД с русской инструкцией по подписи (бесплатный просмотр / доступ $89–$149)."],
+            ["Срок 45 Дней на Донос Документов и Отказ по Неспах Гимель (נספח ג')", "Скрывают точные правила исправления замечаний МВД ради платного сопровождения.", "Дают общие списки без проверки 180-дневного срока апостиля и правила 3 корзин.", "Бесплатно раскрывает ловушку 45 дней, отказ по Неспах Гимель и 21-дневный срок внутренней апелляции (Арар Пними по Ноаль 1.6.0001) + ИИ-Аудитор."],
+            ["Перекрестное Собеседование Пары в Разных Кабинетах (Шимуа Зуги)", "Устный инструктаж на 15 минут перед визитом в МВД.", "Нет тренажера для перекрестного допроса СТУПРО.", "300 реальных вопросов МВД на 6 языках с синхронизацией 2 телефонов и детектором расхождений."],
+            ["Суд Бейт-Дин, Ваадат Харигим и п. ג.10 Двойной Трек", "Берут десятки тысяч шекелей за подачу в Ваадат Харигим.", "Не объясняют разницу между прецедентом Дахана (ЗОВ) и признанием Главного Раввината.", "700 карточек вопросов даяним, караоке-тренажер 56 песен и молитв, генератор писем от раввина и свидетелей + полный разбор бесплатно."]
+        ]
+    }
+}
+
+def _pick_i18n_field(val, lang):
+    if not val:
+        return ""
+    if isinstance(val, str):
+        return val
+    if isinstance(val, dict):
+        return val.get(lang) or val.get("en") or val.get("he") or ""
+    return str(val)
+
+def render_prebaked_liturgy_html(lang):
+    cfg = LITURGY_PREBAKE_I18N.get(lang, LITURGY_PREBAKE_I18N["en"])
+    rows_html = []
+    all_items = (_SEO_SONGS or []) + (_SEO_MORNING or []) + (_SEO_BRACHOT or [])
+    for it in all_items:
+        t_str = _pick_i18n_field(it.get("t_i18n") or it.get("t"), lang)
+        w_str = _pick_i18n_field(it.get("when"), lang)
+        he_s = str(it.get("he_s") or it.get("he") or "")[:115]
+        tr_s = _pick_i18n_field(it.get("tr_i18n") or it.get("tr") or it.get("phonetic"), lang)[:125]
+        rows_html.append(
+            f"<tr>"
+            f"<td style='padding:9px 11px;border-bottom:1px solid #e2e8f0;font-weight:800;color:#0f172a;'>{t_str}</td>"
+            f"<td style='padding:9px 11px;border-bottom:1px solid #e2e8f0;color:#0369a1;font-weight:700;'>{w_str}</td>"
+            f"<td style='padding:9px 11px;border-bottom:1px solid #e2e8f0;font-size:0.82rem;color:#334155;'>"
+            f"<div dir='rtl' style='font-weight:800;color:#0f172a;'>{he_s}</div>"
+            f"<div style='color:#475569;font-style:italic;margin-top:2px;'>{tr_s}</div></td>"
+            f"</tr>"
+        )
+    table_body = "".join(rows_html)
+    return (
+        f"<section class='gat-prebaked-vault-box' style='margin:22px 0;padding:18px;background:#f8fafc;border:2px solid #bae6fd;border-radius:16px;'>"
+        f"<h2 style='color:#0c4a6e;font-size:1.18rem;font-weight:900;margin:0 0 8px;'>{cfg['h2']}</h2>"
+        f"<p style='font-size:0.88rem;color:#334155;line-height:1.6;margin:0 0 14px;'>{cfg['lead']}</p>"
+        f"<div style='overflow-x:auto;'>"
+        f"<table style='width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;font-size:0.84rem;'>"
+        f"<thead><tr style='background:#0284c7;color:#fff;text-align:left;'>"
+        f"<th style='padding:10px 11px;'>{cfg['th1']}</th>"
+        f"<th style='padding:10px 11px;'>{cfg['th2']}</th>"
+        f"<th style='padding:10px 11px;'>{cfg['th3']}</th>"
+        f"</tr></thead><tbody>{table_body}</tbody></table></div>"
+        f"<div style='margin-top:14px;text-align:center;'>"
+        f"<a href='/app/?module=songs-prayers&lang={lang}' style='display:inline-block;background:#0284c7;color:#fff;font-weight:850;padding:11px 18px;border-radius:11px;text-decoration:none;font-size:0.88rem;'>{cfg['cta']}</a>"
+        f"</div></section>"
+    )
+
+def render_prebaked_ref_letters_html(lang):
+    cfg = REF_LETTERS_PREBAKE_I18N.get(lang, REF_LETTERS_PREBAKE_I18N["en"])
+    rows_html = "".join(
+        f"<tr>"
+        f"<td style='padding:9px 11px;border-bottom:1px solid #e2e8f0;font-weight:800;color:#0f172a;'>{r[0]}</td>"
+        f"<td style='padding:9px 11px;border-bottom:1px solid #e2e8f0;color:#0369a1;font-weight:700;'>{r[1]}</td>"
+        f"<td style='padding:9px 11px;border-bottom:1px solid #e2e8f0;color:#334155;'>{r[2]}</td>"
+        f"</tr>"
+        for r in cfg["rows"]
+    )
+    return (
+        f"<section class='gat-prebaked-vault-box' style='margin:22px 0;padding:18px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;'>"
+        f"<h2 style='color:#065f46;font-size:1.18rem;font-weight:900;margin:0 0 8px;'>{cfg['h2']}</h2>"
+        f"<p style='font-size:0.88rem;color:#1e293b;line-height:1.6;margin:0 0 14px;'>{cfg['lead']}</p>"
+        f"<div style='overflow-x:auto;'>"
+        f"<table style='width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;font-size:0.84rem;'>"
+        f"<thead><tr style='background:#059669;color:#fff;text-align:left;'>"
+        f"<th style='padding:10px 11px;'>{cfg['th1']}</th>"
+        f"<th style='padding:10px 11px;'>{cfg['th2']}</th>"
+        f"<th style='padding:10px 11px;'>{cfg['th3']}</th>"
+        f"</tr></thead><tbody>{rows_html}</tbody></table></div>"
+        f"<div style='margin-top:14px;text-align:center;'>"
+        f"<a href='/app/?module=rabbi-letters&lang={lang}' style='display:inline-block;background:#059669;color:#fff;font-weight:850;padding:11px 18px;border-radius:11px;text-decoration:none;font-size:0.88rem;'>{cfg['cta']}</a>"
+        f"</div></section>"
+    )
+
+def render_prebaked_lawyer_vs_diy_html(lang):
+    cfg = LAWYER_VS_DIY_2026_TABLE_I18N.get(lang, LAWYER_VS_DIY_2026_TABLE_I18N["en"])
+    hdrs = "".join(f"<th style='padding:10px 11px;'>{h}</th>" for h in cfg["headers"])
+    rows_html = "".join(
+        f"<tr>"
+        f"<td style='padding:9px 11px;border-bottom:1px solid #e2e8f0;font-weight:800;color:#0f172a;'>{r[0]}</td>"
+        f"<td style='padding:9px 11px;border-bottom:1px solid #e2e8f0;color:#b91c1c;'>{r[1]}</td>"
+        f"<td style='padding:9px 11px;border-bottom:1px solid #e2e8f0;color:#475569;'>{r[2]}</td>"
+        f"<td style='padding:9px 11px;border-bottom:1px solid #e2e8f0;color:#065f46;font-weight:750;background:#f0fdf4;'>{r[3]}</td>"
+        f"</tr>"
+        for r in cfg["rows"]
+    )
+    return (
+        f"<section class='gat-prebaked-lawyer-matrix' style='margin:22px 0;padding:18px;background:#fffbeb;border:2px solid #fcd34d;border-radius:16px;'>"
+        f"<h2 style='color:#78350f;font-size:1.15rem;font-weight:900;margin:0 0 8px;'>{cfg['h2']}</h2>"
+        f"<p style='font-size:0.88rem;color:#334155;line-height:1.6;margin:0 0 14px;'>{cfg['lead']}</p>"
+        f"<div style='overflow-x:auto;'>"
+        f"<table style='width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;font-size:0.83rem;'>"
+        f"<thead><tr style='background:#0f172a;color:#fff;text-align:left;'>{hdrs}</tr></thead>"
+        f"<tbody>{rows_html}</tbody></table></div></section>"
+    )
+
+
+# === GAT PRE-BAKED BEIT DIN (700) & COUPLES (300) QUESTION DIRECTORIES (4 FREE + 116 LOCKED) ===
+def _load_bd_and_cp_vaults_for_seo():
+    import subprocess
+    if hasattr(_load_bd_and_cp_vaults_for_seo, "_cache"):
+        return _load_bd_and_cp_vaults_for_seo._cache
+    node_code = """
+    const fs = require('fs');
+    const vm = require('vm');
+    const sb = { window: {} };
+    sb.window = sb;
+    vm.createContext(sb);
+    vm.runInContext(fs.readFileSync('public/app/bd_vault.js', 'utf8'), sb);
+    vm.runInContext(fs.readFileSync('public/app/cp_vault.js', 'utf8'), sb);
+    process.stdout.write(JSON.stringify({
+      bdCats: sb.window.BD_CATS_I18N || {},
+      bdCards: (sb.window.BD_PACK1 || []).concat(sb.window.BD_PACK2 || [], sb.window.BD_PACK3 || [], sb.window.BD_PACK4 || []),
+      cpCats: sb.window.CP_CATS_I18N || {},
+      cpCards: sb.window.CP_DECK80 || []
+    }));
+    """
+    raw = subprocess.check_output(["node", "-e", node_code], text=True)
+    data = json.loads(raw)
+    _load_bd_and_cp_vaults_for_seo._cache = data
+    return data
+
+BD_SEO_BANK_I18N = {
+    "en": {
+        "sum": "🕍 Official Beit Din Conversion Tribunal Question Directory (120 Sample Questions Across All 10 Halachic Categories — First 4 With Full Answers)",
+        "lead": "Preview 120 real Ma'amad Beit Din oral exam questions across all 10 official rabbinical tribunal categories. Cards #1–#4 include the full Halachic answer and Dayanim trap analysis (free preview); cards #5–#120 display the official tribunal questions with answers unlocked inside the 700-Card Interactive Beit Din Trainer.",
+        "ans_lbl": "✅ Official Halachic Answer:",
+        "tip_lbl": "💡 What the Dayanim Are Testing:",
+        "locked_cta": "🔒 Official Halachic Answer & Dayanim Trap Analysis Locked — Unlock in 700-Card Interactive Trainer →",
+        "free_badge": "FREE PREVIEW (ANSWER UNLOCKED)",
+        "lock_badge": "QUESTION PREVIEW (ANSWER IN APP)"
+    },
+    "he": {
+        "sum": "🕍 מאגר שאלות מעמד בית הדין לגיור (120 שאלות מדגמיות ב-10 קטגוריות הלכתיות — 4 ראשונות עם תשובה מלאה)",
+        "lead": "לפניכם 120 שאלות אמיתיות ממעמד בית הדין לגיור ב-10 קטגוריות הליבה. שאלות 1–4 כוללות תשובה הלכתית מלאה ודגשי דיינים (תצוגה חינמית); שאלות 5–120 מציגות את שאלות הדיינים כאשר התשובות המלאות זמינות בסימולטור 700 הכרטיסיות.",
+        "ans_lbl": "✅ תשובה הלכתית מלאה:",
+        "tip_lbl": "💡 מה הדיינים בודקים בשאלה זו:",
+        "locked_cta": "🔒 התשובה ההלכתית ודגשי הדיינים נעולים — פתחו בסימולטור 700 כרטיסיות בית הדין ←",
+        "free_badge": "דוגמה חינם (תשובה פתוחה)",
+        "lock_badge": "שאלת בית דין (התשובה באפליקציה)"
+    },
+    "fr": {
+        "sum": "🕍 Répertoire des Questions du Tribunal Beit Din (120 Questions sur 10 Catégories Halakhiques — 4 Premières avec Réponses Complètes)",
+        "lead": "Consultez 120 vraies questions de l'examen oral du Ma'amad Beit Din réparties dans les 10 catégories officielles. Les fiches #1 à #4 incluent la réponse halakhique complète et l'analyse des Dayanim ; les questions #5 à #120 affichent l'énoncé officiel avec réponses débloquées dans l'entraîneur interactif de 700 cartes.",
+        "ans_lbl": "✅ Réponse Halakhique Officielle :",
+        "tip_lbl": "💡 Ce que vérifient les Dayanim :",
+        "locked_cta": "🔒 Réponse Halakhique & Piège des Dayanim Verrouillés — Ouvrir l'Entraîneur 700 Cartes →",
+        "free_badge": "APERÇU GRATUIT (RÉPONSE DÉBLOQUÉE)",
+        "lock_badge": "QUESTION OFFICIELLE (RÉPONSE DANS L'APP)"
+    },
+    "es": {
+        "sum": "🕍 Directorio Oficial de Preguntas del Tribunal Beit Din (120 Preguntas en 10 Categorías Halájicas — Primeras 4 con Respuesta Completa)",
+        "lead": "Explore 120 preguntas reales del examen oral del Ma'amad Beit Din en las 10 categorías oficiales. Las tarjetas #1–#4 incluyen la respuesta halájica completa y el análisis de los Dayanim; las preguntas #5–#120 muestran la pregunta oficial con respuestas desbloqueadas en el entrenador interactivo de 700 tarjetas.",
+        "ans_lbl": "✅ Respuesta Halájica Oficial:",
+        "tip_lbl": "💡 Lo que evalúan los Dayanim:",
+        "locked_cta": "🔒 Respuesta Halájica y Análisis de Dayanim Bloqueados — Abrir en el Entrenador de 700 Tarjetas →",
+        "free_badge": "VISTA PREVIA GRATIS (RESPUESTA ABIERTA)",
+        "lock_badge": "PREGUNTA OFICIAL (RESPUESTA EN LA APP)"
+    },
+    "de": {
+        "sum": "🕍 Offizielles Beit-Din-Prüfungsfragen-Verzeichnis (120 Fragen aus allen 10 Halacha-Kategorien — Erste 4 mit vollständiger Antwort)",
+        "lead": "Sehen Sie 120 echte mündliche Prüfungsfragen des Ma'amad Beit Din aus allen 10 offiziellen Kategorien. Karten #1–#4 enthalten die vollständige halachische Antwort und Dajanim-Analyse; Fragen #5–#120 zeigen die Prüfungsfrage (Antworten im interaktiven 700-Karten-Trainer).",
+        "ans_lbl": "✅ Offizielle Halachische Antwort:",
+        "tip_lbl": "💡 Worauf die Dajanim achten:",
+        "locked_cta": "🔒 Halachische Antwort & Dajanim-Falle Gesperrt — Im 700-Karten-Trainer Öffnen →",
+        "free_badge": "GRATIS-VORSCHAU (ANTWORT OFFEN)",
+        "lock_badge": "PRÜFUNGSFRAGE (ANTWORT IN DER APP)"
+    },
+    "ru": {
+        "sum": "🕍 Официальный Каталог Вопросов Раввинского Суда Бейт-Дин (120 Вопросов по 10 Категориям Галахи — Первые 4 с Полными Ответами)",
+        "lead": "Изучите 120 реальных вопросов устного экзамена Маамад Бейт-Дин по всем 10 официальным категориям. Карточки №1–№4 содержат полный галахический ответ и разбор ловушек даянов (бесплатно); карточки №5–№120 показывают официальные вопросы суда (ответы доступны в интерактивном тренажере на 700 карточек).",
+        "ans_lbl": "✅ Официальный Галахический Ответ:",
+        "tip_lbl": "💡 Что именно проверяют Даяны:",
+        "locked_cta": "🔒 Галахический Ответ и Разбор Даянов Закрыты — Открыть в Тренажере на 700 Карточек →",
+        "free_badge": "БЕСПЛАТНЫЙ ДОСТУП (ОТВЕТ ОТКРЫТ)",
+        "lock_badge": "ВОПРОС БЕЙТ-ДИНА (ОТВЕТ В ПРИЛОЖЕНИИ)"
+    }
+}
+
+CP_SEO_BANK_I18N = {
+    "en": {
+        "sum": "📱 Official Misrad HaPanim Separated-Room Couples Interrogation Directory (120 Questions Across All 10 Nohal 5.2.0008 / 5.2.0009 Categories — First 4 With Clerk Red-Flag Rules)",
+        "lead": "Preview 120 real separated-room spousal visa interrogation questions used by Misrad HaPanim (PIBA) clerks under Nohal 5.2.0008 (married), Nohal 5.2.0009 (unmarried/common-law), and Sec. ג.10 (dual-track Giyur). Questions #1–#4 include the full clerk contradiction trap analysis; questions #5–#120 unlock inside the 2-Phone Live Sync Simulator.",
+        "tip_lbl": "🚨 Misrad HaPanim Clerk Contradiction Rule & Anchor Strategy:",
+        "locked_cta": "🔒 Clerk Red-Flag Rule & 2-Phone Contradiction Grader Locked — Open 300-Q Couples Simulator →",
+        "free_badge": "FREE PREVIEW (CLERK TRAP UNLOCKED)",
+        "lock_badge": "INTERROGATION QUESTION (RULE IN APP)"
+    },
+    "he": {
+        "sum": "📱 מאגר שאלות תשאול זוגות בחדרים נפרדים במשרד הפנים (120 שאלות ב-10 קטגוריות נוהל 5.2.0008 / 5.2.0009 — 4 ראשונות עם כללי פקידות)",
+        "lead": "לפניכם 120 שאלות אמיתיות מתשאול זוגות בהליך המדורג במשרד הפנים (נוהל 5.2.0008 לנשואים, נוהל 5.2.0009 לידועים בציבור וסעיף ג.10). שאלות 1–4 כוללות את כלל הבדיקה והמלכודת של הפקידה; שאלות 5–120 זמינות בסימולטור סנכרון 2 הטלפונים (300 שאלות).",
+        "tip_lbl": "🚨 כלל ההצלבה של פקידת משרד הפנים וטיפ לתיאום:",
+        "locked_cta": "🔒 כלל ההצלבה וסימולטור 2 הטלפונים נעולים — פתחו במאגר 300 שאלות הזוגות ←",
+        "free_badge": "דוגמה חינם (כלל ההצלבה פתוח)",
+        "lock_badge": "שאלת תשאול (הפתרון באפליקציה)"
+    },
+    "fr": {
+        "sum": "📱 Répertoire d'Interrogatoire Séparé des Couples au Misrad HaPanim (120 Questions sur 10 Catégories Nohal 5.2.0008 / 5.2.0009 — 4 Premières avec Règles de l'Agent)",
+        "lead": "Découvrez 120 vraies questions d'interrogatoire en salles séparées posées par les agents du Misrad HaPanim (PIBA). Les questions #1 à #4 incluent l'analyse complète des pièges de contradiction ; les questions #5 à #120 se débloquent dans le simulateur de synchronisation sur 2 téléphones.",
+        "tip_lbl": "🚨 Règle de Contradiction de l'Agent du Misrad HaPanim :",
+        "locked_cta": "🔒 Règle de l'Agent & Synchronisation 2 Téléphones Verrouillées — Ouvrir le Simulateur 300 Questions →",
+        "free_badge": "APERÇU GRATUIT (RÈGLE DÉBLOQUÉE)",
+        "lock_badge": "QUESTION D'INTERROGATOIRE (RÈGLE DANS L'APP)"
+    },
+    "es": {
+        "sum": "📱 Directorio de Interrogatorio de Parejas en Salas Separadas de Misrad HaPanim (120 Preguntas en 10 Categorías Nohal 5.2.0008 / 5.2.0009 — Primeras 4 con Reglas del Funcionario)",
+        "lead": "Explore 120 preguntas reales del interrogatorio en salas separadas de Misrad HaPanim (PIBA). Las preguntas #1–#4 incluyen la regla completa de detección de contradicciones; las preguntas #5–#120 se desbloquean en el simulador de sincronización de 2 teléfonos.",
+        "tip_lbl": "🚨 Regla de Contradicción del Funcionario de Misrad HaPanim:",
+        "locked_cta": "🔒 Regla del Funcionario y Sincronización de 2 Teléfonos Bloqueadas — Abrir Simulador de 300 Preguntas →",
+        "free_badge": "VISTA PREVIA GRATIS (REGLA ABIERTA)",
+        "lock_badge": "PREGUNTA OFICIAL (REGLA EN LA APP)"
+    },
+    "de": {
+        "sum": "📱 Misrad HaPanim Fragenkatalog der Getrennten Paar-Befragung (120 Fragen aus 10 Kategorien Nohal 5.2.0008 / 5.2.0009 — Erste 4 mit Prüfer-Regeln)",
+        "lead": "Sehen Sie 120 echte Fragen der getrennten Paar-Befragung im Misrad HaPanim (PIBA). Fragen #1–#4 enthalten die vollständige Widerspruchs-Analyse; Fragen #5–#120 werden im 2-Handy-Synchronisations-Simulator freigeschaltet.",
+        "tip_lbl": "🚨 Widerspruchs-Regel des Misrad-HaPanim-Prüfers:",
+        "locked_cta": "🔒 Prüfer-Regel & 2-Handy-Sync Gesperrt — Im 300-Fragen-Paar-Simulator Öffnen →",
+        "free_badge": "GRATIS-VORSCHAU (PRÜFER-REGEL OFFEN)",
+        "lock_badge": "BEFRAGUNGSFRAGE (REGEL IN DER APP)"
+    },
+    "ru": {
+        "sum": "📱 Официальный Каталог Вопросов Перекрестного Допроса Пар в МВД Израиля — СТУПРО (120 Вопросов по 10 Категориям Директив 5.2.0008 / 5.2.0009 — Первые 4 с Правилами Чиновников)",
+        "lead": "Изучите 120 реальных вопросов перекрестного собеседования пар в разных кабинетах МВД Израиля (СТУПРО). Вопросы №1–№4 содержат полный разбор ловушек на расхождение ответов; вопросы №5–№120 открываются в симуляторе синхронизации 2 телефонов.",
+        "tip_lbl": "🚨 Правило Проверки Расхождений Инспектора МВД:",
+        "locked_cta": "🔒 Правило Инспектора и Синхронизация 2 Телефонов Закрыты — Открыть Симулятор на 300 Вопросов →",
+        "free_badge": "БЕСПЛАТНЫЙ ДОСТУП (РАЗБОР ОТКРЫТ)",
+        "lock_badge": "ВОПРОС ДОПРОСА МВД (РАЗБОР В ПРИЛОЖЕНИИ)"
+    }
+}
+
+def render_prebaked_bd_questions_html(lang):
+    data = _load_bd_and_cp_vaults_for_seo()
+    cats_map = data.get("bdCats", {})
+    cards = data.get("bdCards", [])
+    ui = BD_SEO_BANK_I18N.get(lang, BD_SEO_BANK_I18N["en"])
+    dir_attr = 'rtl' if lang == 'he' else 'ltr'
+
+    by_cat = {}
+    for c in cards:
+        ck = c.get("cat", "other")
+        by_cat.setdefault(ck, []).append(c)
+
+    out = [
+        f'<!-- GAT_SEO_BD_BANK_START -->',
+        f'<section id="gat-seo-bd-question-bank" dir="{dir_attr}" style="margin:22px 0;background:#f8fafc;border:2px solid #0284c7;border-radius:14px;padding:14px 16px;">',
+        f'<details open style="margin:0;">',
+        f'<summary style="font-weight:900;font-size:0.95rem;color:#ffffff;cursor:pointer;line-height:1.4;">{esc_attr(ui["sum"])}</summary>',
+        f'<p style="font-size:0.83rem;color:#334155;line-height:1.55;margin:10px 0 14px;">{esc_attr(ui["lead"])}</p>'
+    ]
+
+    global_idx = 0
+    for ck, clist in by_cat.items():
+        cat_obj = cats_map.get(ck, {})
+        cat_title = cat_obj.get(lang) or cat_obj.get("en") or ck.upper()
+        out.append(f'<h3 style="font-size:0.88rem;font-weight:900;color:#0369a1;margin:14px 0 8px;padding-bottom:4px;border-bottom:1.5px solid #bae6fd;">🕍 {esc_attr(cat_title)}</h3>')
+        out.append('<div style="display:grid;gap:7px;">')
+        for item in clist[:24]:
+            global_idx += 1
+            q_str = (item.get("q") or {}).get(lang) or (item.get("q") or {}).get("en") or ""
+            he_str = item.get("he") or ""
+            is_free = (global_idx <= 4)
+            badge_txt = ui["free_badge"] if is_free else ui["lock_badge"]
+            badge_bg = "#dcfce7" if is_free else "#fef3c7"
+            badge_col = "#065f46" if is_free else "#92400e"
+            out.append(
+                f'<details style="background:#ffffff;border:1px solid #e2e8f0;border-radius:9px;padding:8px 12px;"{" open" if is_free else ""}>'
+                f'<summary style="font-weight:800;font-size:0.83rem;color:#ffffff;cursor:pointer;line-height:1.42;">'
+                f'<span style="color:#0284c7;font-weight:900;">#{global_idx}</span> {esc_attr(q_str)} '
+                f'<span style="font-size:0.72rem;color:#64748b;font-weight:700;" dir="rtl">({esc_attr(he_str)})</span> '
+                f'<span style="display:inline-block;font-size:0.65rem;font-weight:900;background:{badge_bg};color:{badge_col};padding:2px 6px;border-radius:5px;margin-inline-start:6px;">{esc_attr(badge_txt)}</span>'
+                f'</summary>'
+            )
+            if is_free:
+                a_str = (item.get("a") or {}).get(lang) or (item.get("a") or {}).get("en") or ""
+                tip_str = (item.get("tip") or {}).get(lang) or (item.get("tip") or {}).get("en") or ""
+                out.append(
+                    f'<div style="margin-top:8px;padding-top:8px;border-top:1px dashed #cbd5e1;font-size:0.8rem;color:#1e293b;line-height:1.55;">'
+                    f'<p style="margin:0 0 6px;"><strong>{esc_attr(ui["ans_lbl"])}</strong> {esc_attr(a_str)}</p>'
+                    f'<p style="margin:0;color:#0369a1;background:#f0f9ff;padding:6px 9px;border-radius:7px;"><strong>{esc_attr(ui["tip_lbl"])}</strong> {esc_attr(tip_str)}</p>'
+                    f'</div>'
+                )
+            else:
+                out.append(
+                    f'<div style="margin-top:8px;padding-top:7px;border-top:1px dashed #e2e8f0;">'
+                    f'<a href="/app/?module=beit-din-150&amp;lang={lang}" style="display:inline-block;font-size:0.78rem;font-weight:800;color:#0284c7;text-decoration:none;">{esc_attr(ui["locked_cta"])}</a>'
+                    f'</div>'
+                )
+            out.append('</details>')
+        out.append('</div>')
+
+    out.append('</details></section><!-- GAT_SEO_BD_BANK_END -->')
+    return "\n".join(out)
+
+def render_prebaked_cp_questions_html(lang):
+    data = _load_bd_and_cp_vaults_for_seo()
+    cats_map = data.get("cpCats", {})
+    cards = data.get("cpCards", [])
+    ui = CP_SEO_BANK_I18N.get(lang, CP_SEO_BANK_I18N["en"])
+    dir_attr = 'rtl' if lang == 'he' else 'ltr'
+
+    by_cat = {}
+    for c in cards:
+        ck = c.get("cat", "other")
+        by_cat.setdefault(ck, []).append(c)
+
+    out = [
+        f'<!-- GAT_SEO_CP_BANK_START -->',
+        f'<section id="gat-seo-cp-question-bank" dir="{dir_attr}" style="margin:22px 0;background:#f8fafc;border:2px solid #0d9488;border-radius:14px;padding:14px 16px;">',
+        f'<details open style="margin:0;">',
+        f'<summary style="font-weight:900;font-size:0.95rem;color:#ffffff;cursor:pointer;line-height:1.4;">{esc_attr(ui["sum"])}</summary>',
+        f'<p style="font-size:0.83rem;color:#334155;line-height:1.55;margin:10px 0 14px;">{esc_attr(ui["lead"])}</p>'
+    ]
+
+    global_idx = 0
+    for ck, clist in by_cat.items():
+        cat_obj = cats_map.get(ck, {})
+        cat_title = cat_obj.get(lang) or cat_obj.get("en") or ck.upper()
+        out.append(f'<h3 style="font-size:0.88rem;font-weight:900;color:#0f766e;margin:14px 0 8px;padding-bottom:4px;border-bottom:1.5px solid #99f6e4;">📱 {esc_attr(cat_title)}</h3>')
+        out.append('<div style="display:grid;gap:7px;">')
+        for item in clist[:12]:
+            global_idx += 1
+            q_str = (item.get("q") or {}).get(lang) or (item.get("q") or {}).get("en") or ""
+            he_str = item.get("he") or ""
+            is_free = (global_idx <= 4)
+            badge_txt = ui["free_badge"] if is_free else ui["lock_badge"]
+            badge_bg = "#dcfce7" if is_free else "#fef3c7"
+            badge_col = "#065f46" if is_free else "#92400e"
+            out.append(
+                f'<details style="background:#ffffff;border:1px solid #e2e8f0;border-radius:9px;padding:8px 12px;"{" open" if is_free else ""}>'
+                f'<summary style="font-weight:800;font-size:0.83rem;color:#ffffff;cursor:pointer;line-height:1.42;">'
+                f'<span style="color:#0d9488;font-weight:900;">#{global_idx}</span> {esc_attr(q_str)} '
+                f'<span style="font-size:0.72rem;color:#64748b;font-weight:700;" dir="rtl">({esc_attr(he_str)})</span> '
+                f'<span style="display:inline-block;font-size:0.65rem;font-weight:900;background:{badge_bg};color:{badge_col};padding:2px 6px;border-radius:5px;margin-inline-start:6px;">{esc_attr(badge_txt)}</span>'
+                f'</summary>'
+            )
+            if is_free:
+                tip_str = (item.get("tip") or {}).get(lang) or (item.get("tip") or {}).get("en") or ""
+                out.append(
+                    f'<div style="margin-top:8px;padding-top:8px;border-top:1px dashed #cbd5e1;font-size:0.8rem;color:#1e293b;line-height:1.55;">'
+                    f'<p style="margin:0;color:#0f766e;background:#f0fdfa;padding:6px 9px;border-radius:7px;"><strong>{esc_attr(ui["tip_lbl"])}</strong> {esc_attr(tip_str)}</p>'
+                    f'</div>'
+                )
+            else:
+                out.append(
+                    f'<div style="margin-top:8px;padding-top:7px;border-top:1px dashed #e2e8f0;">'
+                    f'<a href="/app/?module=couples-sync&amp;lang={lang}" style="display:inline-block;font-size:0.78rem;font-weight:800;color:#0d9488;text-decoration:none;">{esc_attr(ui["locked_cta"])}</a>'
+                    f'</div>'
+                )
+            out.append('</details>')
+        out.append('</div>')
+
+    out.append('</details></section><!-- GAT_SEO_CP_BANK_END -->')
+    return "\n".join(out)
+
+def build_extra_prebaked_spoke_blocks(lang, spoke_slug):
+    chunks = []
+    if spoke_slug in (
+        "beit-din-conversion-questions-israel",
+        "how-to-convert-to-judaism-in-israel-giyur-guide",
+        "vaadat-charigim-tourist-conversion-israel",
+        "gush-etzion-private-conversion-aliyah",
+        "overseas-conversion-aliyah-ishur-giyur"
+    ):
+        chunks.append(render_prebaked_bd_questions_html(lang))
+        chunks.append(render_prebaked_liturgy_html(lang))
+    if spoke_slug in (
+        "misrad-hapanim-couples-interview-questions",
+        "misrad-hapanim-spousal-visa-nohal-5-2-0008",
+        "israel-unmarried-partner-visa-nohal-5-2-0009",
+        "utah-zoom-online-marriage-israel-misrad-hapanim"
+    ):
+        chunks.append(render_prebaked_cp_questions_html(lang))
+    if spoke_slug in (
+        "israeli-rabbi-community-letters-beit-din",
+        "misrad-hapanim-spousal-visa-nohal-5-2-0008",
+        "israel-unmarried-partner-visa-nohal-5-2-0009",
+        "how-to-convert-to-judaism-in-israel-giyur-guide",
+        "how-to-make-aliyah-and-giyur-israel-without-lawyers"
+    ):
+        chunks.append(render_prebaked_ref_letters_html(lang))
+    chunks.append(render_prebaked_lawyer_vs_diy_html(lang))
+    return "".join(chunks)
+
+
+CLEAN_HUB_META_DESC_6L = {
+    "en": "Free 6-language Israel Giyur (Conversion), Aliyah & Misrad HaPanim Spousal Visa command center: 8 Hebrew PIBA forms stamper, 700 Beit Din & 300 Couples Q&As.",
+    "he": "מרכז שליטה חינמי ב-6 שפות לגיור, עלייה והליך מדורג במשרד הפנים (נוהל 5.2.0008): מנוע החתמת 8 טפסי PIBA בעברית, 700 שאלות בית דין ו-300 שאלות שימוע זוגי.",
+    "fr": "Centre gratuit en 6 langues pour Giyur (Conversion), Aliyah et Visa Conjoint Misrad HaPanim : tamponneur des 8 formulaires PIBA, 700 cartes Beit Din & 300 Qs.",
+    "es": "Centro gratuito en 6 idiomas para Guiur (Conversión), Aliyá y Visa de Pareja Misrad HaPanim: estampador de 8 formularios PIBA, 700 tarjetas Beit Din y 300 Qs.",
+    "de": "Kostenloses 6-Sprachen-Zentrum für Giur (Konversion), Alija & Misrad HaPanim Ehepartner-Visum: 8 hebräische PIBA-Formulare, 700 Beit-Din- & 300 Paar-Fragen.",
+    "ru": "Бесплатный центр на 6 языках по Гиюру, Репатриации и СТУПРО в МВД Израиля: автозаполнение 8 анкет PIBA на иврите, 700 карточек Бейт-Дина и 300 вопросов пар."
+}
 
 def render_page(lang, canon_url, spoke_cfg=None):
     d = dicts[lang]
@@ -1171,7 +2343,7 @@ def render_page(lang, canon_url, spoke_cfg=None):
             for item in sample_list:
                 q_str = html.escape(item["q"].get(lang, item["q"]["en"]))
                 body_str = html.escape(item["a"].get(lang, item["a"]["en"])) if "a" in item else html.escape(item["tip"].get(lang, item["tip"]["en"]))
-                tip_extra = f'<p style="margin:6px 0 0 0;font-size:0.86rem;color:#0369a1;"><strong>💡 Tip:</strong> {html.escape(item["tip"].get(lang, item["tip"]["en"]))}</p>' if "a" in item else ""
+                tip_extra = f'<p style="margin:6px 0 0 0;font-size:0.86rem;color:#0369a1;"><strong>{TIP_LABEL_I18N.get(lang, "💡 Tip:")}</strong> {html.escape(item["tip"].get(lang, item["tip"]["en"]))}</p>' if "a" in item else ""
                 qa_blocks.append(
                     f'<div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:12px;padding:12px 14px;margin-bottom:10px;">'
                     f'<h2 style="font-size:0.98rem;color:#082548;margin:0 0 6px 0;">#{item["id"]} • {html.escape(item.get("he",""))} — {q_str}</h2>'
@@ -1187,6 +2359,8 @@ def render_page(lang, canon_url, spoke_cfg=None):
                 f'{"".join(qa_blocks)}'
                 f'<h2>{st_t}</h2><p>{st_p}</p><h3>{diy_t}</h3><p>{diy_p}</p>{j_line}</article>'
             )
+            if spoke_cfg and "gat-prebaked-lawyer-matrix" not in art:
+                art = art.replace("</article>", build_extra_prebaked_spoke_blocks(lang, spoke_cfg["slug"]) + "</article>", 1)
             out = _inject_article_at_very_top(out, art)
             out = re.sub(r'<!-- SEO_LIB_START -->[\s\S]*?<!-- SEO_LIB_END -->', '', out, count=1)
             out = re.sub(r'<div class="seo-obstacle-library">[\s\S]*?</div>', '', out, count=1)
@@ -1226,6 +2400,17 @@ def render_page(lang, canon_url, spoke_cfg=None):
                     f'<hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/>'
                     f'<h2>{st_t}</h2><p>{st_p}</p><h3>{diy_t}</h3><p>{diy_p}</p>{j_line}</article>'
                 )
+                extra_tbl = ""
+                if spoke_cfg["slug"] == "aliyah-benefits-sal-klita-24-month-rule-cost-calculator":
+                    extra_tbl = render_seo_data_table(lang, SAL_KLITA_SNIPPET_TABLE_I18N)
+                elif spoke_cfg["slug"] == "apostille-180-day-clock-fbi-police-check-israel":
+                    extra_tbl = render_seo_data_table(lang, APOSTILLE_JURISDICTION_TABLE_I18N)
+                elif spoke_cfg["slug"] in ("israel-unmarried-partner-visa-nohal-5-2-0009", "utah-zoom-online-marriage-israel-misrad-hapanim", "misrad-hapanim-spousal-visa-nohal-5-2-0008"):
+                    extra_tbl = render_seo_data_table(lang, SPOUSAL_520008_VS_520009_TABLE_I18N)
+                if extra_tbl:
+                    art = art.replace("</article>", extra_tbl + "</article>", 1)
+                if spoke_cfg and "gat-prebaked-lawyer-matrix" not in art:
+                    art = art.replace("</article>", build_extra_prebaked_spoke_blocks(lang, spoke_cfg["slug"]) + "</article>", 1)
                 out = _inject_article_at_very_top(out, art)
                 out = re.sub(r'<!-- SEO_LIB_START -->[\s\S]*?<!-- SEO_LIB_END -->', '', out, count=1)
                 out = re.sub(r'<div class="seo-obstacle-library">[\s\S]*?</div>', '', out, count=1)
@@ -1252,7 +2437,7 @@ def render_page(lang, canon_url, spoke_cfg=None):
                 safe_desc = make_meta_desc(st_p)
     else:
         safe_title = esc_attr(HUB_SEO_TITLES[lang])
-        safe_desc = make_meta_desc(f"{d.get('hero_p','')} {st_p}")
+        safe_desc = esc_attr(CLEAN_HUB_META_DESC_6L.get(lang, CLEAN_HUB_META_DESC_6L["en"]))
         out = re.sub(r'<!-- SEO_LIB_START -->[\s\S]*?<!-- SEO_LIB_END -->', '<!-- SEO_LIB_START --><!-- SEO_LIB_END -->', out, count=1)
         if 'id="gat-hub-seo-library-drawer"' not in out:
             out = wrap_root_hub_for_clean_onboarding(out, lang)
@@ -1269,7 +2454,14 @@ def render_page(lang, canon_url, spoke_cfg=None):
         hub_faq_tag = '<script type="application/ld+json">\n' + json.dumps(hub_faq_obj, ensure_ascii=False) + '\n</script>'
         out = re.sub(r'<script type="application/ld\+json">\s*\{"@context":\s*"https://schema\.org",\s*(?:"@type":\s*"FAQPage"|"@graph":)[\s\S]*?</script>', lambda _: hub_faq_tag, out, count=1)
 
-    out = re.sub(r"<title>.*?</title>", lambda _: f"<title>{safe_title}</title>", out, count=1)
+    out = localize_global_jsonld(out, lang, canon_url)
+    out = re.sub(r"<title>.*?</title>
+  <link rel="icon" href="/favicon.ico?v=1795487702" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=1795487702">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=1795487702">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=1795487702">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1795487702">
+  <link rel="manifest" href="/site.webmanifest?v=1795487702">", lambda _: f"<title>{safe_title}</title>", out, count=1)
     out = re.sub(r'<meta name="description" content="[^"]*" />', lambda _: f'<meta name="description" content="{safe_desc}" />', out, count=1)
     og_tags = make_og_tags(lang, safe_title, safe_desc, canon_url)
     out = out.replace("</head>", f"{og_tags}\n  {make_hreflang(spoke_cfg)}\n  {DOMAIN_SHIELD}\n</head>", 1)
@@ -1284,6 +2476,22 @@ def render_page(lang, canon_url, spoke_cfg=None):
             out = out.replace(f'href="/{en_s}/"', f'href="/{lang}/{loc_s}/"')
             out = out.replace(f'href="/{lang}/{en_s}/"', f'href="/{lang}/{loc_s}/"')
     return out
+
+
+def normalize_form_links_in_html(html_str, lang):
+    if "FORM_CATALOG" not in globals():
+        return html_str
+    for f_cfg in FORM_CATALOG:
+        loc_slug = f_cfg["l_slugs"].get(lang, f_cfg["l_slugs"]["en"])
+        canon_form_path = f"/forms/{loc_slug}/" if lang == "en" else f"/{lang}/forms/{loc_slug}/"
+        short_s = f_cfg.get("short_slug", "")
+        en_s = f_cfg["l_slugs"]["en"]
+        for cand in filter(None, [short_s, en_s]):
+            html_str = html_str.replace(f'href="/forms/{cand}/"', f'href="{canon_form_path}"')
+            html_str = html_str.replace(f'href="/{lang}/forms/{cand}/"', f'href="{canon_form_path}"')
+            html_str = html_str.replace(f"href='/forms/{cand}/'", f"href='{canon_form_path}'")
+            html_str = html_str.replace(f"href='/{lang}/forms/{cand}/'", f"href='{canon_form_path}'")
+    return html_str
 
 for l in LANGS:
     hub_dir = "public" if l == "en" else f"public/{l}"
@@ -1639,6 +2847,29 @@ def get_form_url(lang, f_cfg):
 def get_forms_hub_url(lang):
     return "https://giyuraliyahtrack.com/forms/" if lang == "en" else f"https://giyuraliyahtrack.com/{lang}/forms/"
 
+
+def _build_unique_form_walkthrough_html(lang, f_key, is_hub):
+    if is_hub:
+        cards = []
+        for k in ["ash1", "ash3", "ash6", "ash456", "mr14a", "mr14b", "nespach_alef", "sec_cv"]:
+            sp_h, sp_rows = FORM_UNIQUE_SPECS_I18N[k].get(lang, FORM_UNIQUE_SPECS_I18N[k]["en"])
+            cards.append(f'<div class="gat-step-item-card" style="margin-bottom:10px;"><strong>{html.escape(sp_h)}</strong><p style="margin:4px 0 0 0;font-size:0.86rem;">{html.escape(sp_rows[0][1])}</p></div>')
+        return "".join(cards)
+    sp_h, sp_rows = FORM_UNIQUE_SPECS_I18N.get(f_key, FORM_UNIQUE_SPECS_I18N["ash6"]).get(lang, FORM_UNIQUE_SPECS_I18N["ash6"]["en"])
+    fg = _FV_DATA.get("guide", {}).get(lang, {}).get(f_key, {})
+    fg_extra = ""
+    if isinstance(fg, dict) and fg:
+        fg_vals = [f"<li style='margin-bottom:6px;'>{html.escape(str(v))}</li>" for v in fg.values() if isinstance(v, str) and len(v) > 15]
+        if fg_vals:
+            fg_extra = "<ul style='margin:10px 0;padding-inline-start:20px;'>" + "".join(fg_vals[:6]) + "</ul>"
+    rows_html = "".join([
+        f'<div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:12px;padding:12px 14px;margin-bottom:10px;">'
+        f'<h3 style="font-size:0.95rem;color:#082548;margin:0 0 5px 0;">{html.escape(rt)}</h3>'
+        f'<p style="margin:0;font-size:0.88rem;color:#334155;line-height:1.55;">{html.escape(rb)}</p></div>'
+        for rt, rb in sp_rows
+    ])
+    return f'<h2>{html.escape(sp_h)}</h2>{rows_html}{fg_extra}'
+
 def render_form_landing_page(lang, f_cfg, is_hub=False):
     d = dicts[lang]
     f_key = f_cfg["key"]
@@ -1666,7 +2897,7 @@ def render_form_landing_page(lang, f_cfg, is_hub=False):
         for fc in FORM_CATALOG
     ])
 
-    badge_code = "8 PIBA & NATIV FORMS" if is_hub else f_cfg["code"]
+    badge_code = FORMS_BADGE_8_I18N.get(lang, "8 PIBA & NATIV FORMS") if is_hub else f_cfg["code"]
     cta_target = f"/app/?mod=hebrew-engine&lang={lang}" if is_hub else f"/app/?mod=hebrew-engine&form={f_key}&lang={lang}"
     raw_btn_html = "" if is_hub else f'<a class="btn-outline-card" style="padding:12px 16px;font-size:0.88rem;font-weight:800;margin-top:0;" href="{f_cfg["raw_pdf"]}" target="_blank" rel="noopener">{dl_lbl}</a>'
 
@@ -1681,9 +2912,7 @@ def render_form_landing_page(lang, f_cfg, is_hub=False):
         f'{raw_btn_html}</div>'
         f'<h2>{deep_hdr}</h2><div>{deep_body}</div>'
         f'<hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/>'
-        f'<h2>{sp_deep.get("title","")}</h2><p>{sp_deep.get("body","")}</p>'
-        f'<h3>{sp_deep.get("badTitle","")}</h3><div>{clean_no_divs(sp_deep.get("badText",""))}</div>'
-        f'<h3>{sp_deep.get("goodTitle","")}</h3><div>{clean_no_divs(sp_deep.get("goodText",""))}</div>'
+        f'{_build_unique_form_walkthrough_html(lang, f_key, is_hub)}'
         f'<hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;"/>'
         f'<h3>{st_t}</h3><p>{st_p}</p>'
         f'<h3>{DIY_VS_LAWYERS_NBN_I18N[lang][0]}</h3><p>{DIY_VS_LAWYERS_NBN_I18N[lang][1]}</p>{j_line}</article>'
@@ -1696,13 +2925,14 @@ def render_form_landing_page(lang, f_cfg, is_hub=False):
 
     safe_title = esc_attr(seo_title_str)
     safe_desc = make_meta_desc(f"{h1_str}. {trap_str}")
+    out = localize_global_jsonld(out, lang, canon_url)
     out = re.sub(r"<title>.*?</title>", lambda _: f"<title>{safe_title}</title>", out, count=1)
     out = re.sub(r'<meta name="description" content="[^"]*" />', lambda _: f'<meta name="description" content="{safe_desc}" />', out, count=1)
 
     faq_entities = [
         {"@type": "Question", "name": h1_str, "acceptedAnswer": {"@type": "Answer", "text": trap_str}},
         {"@type": "Question", "name": deep_hdr, "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", " ", deep_body).strip()[:700]}},
-        {"@type": "Question", "name": sp_deep.get("title", st_t), "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", " ", sp_deep.get("badText", "") + " " + sp_deep.get("goodText", "")).strip()[:700]}},
+        {"@type": "Question", "name": FORM_UNIQUE_SPECS_I18N.get(f_key, FORM_UNIQUE_SPECS_I18N["ash6"]).get(lang, FORM_UNIQUE_SPECS_I18N["ash6"]["en"])[0], "acceptedAnswer": {"@type": "Answer", "text": " • ".join([r[0] + ": " + r[1] for r in FORM_UNIQUE_SPECS_I18N.get(f_key, FORM_UNIQUE_SPECS_I18N["ash6"]).get(lang, FORM_UNIQUE_SPECS_I18N["ash6"]["en"])[1]])[:700]}},
         {"@type": "Question", "name": st_t, "acceptedAnswer": {"@type": "Answer", "text": st_p}}
     ]
     bc_items = [{"@type": "ListItem", "position": 1, "name": "Giyur Aliyah Track", "item": b_hub}]
@@ -1748,7 +2978,7 @@ for l in LANGS:
 PRICING_TITLES = {
     "en": "Pricing & 23 Modular Passes — Giyur, Spousal Visa & Aliyah",
     "he": "מחירון ו-23 חבילות מודולריות — גיור, הליך מדורג ועלייה",
-    "fr": "Tarifs & 23 Pass Modulaires — Conversion, Visa Conjoint & Aliyah",
+    "fr": "Tarifs & 23 Pass — Conversion, Visa Conjoint & Aliyah",
     "es": "Precios y 23 Pases Modulares — Conversión, Visa Pareja y Aliyá",
     "de": "Preise & 23 Modulare Pässe — Giur, Partner-Visum & Alija",
     "ru": "Тарифы и 23 модульных пакета — Гиюр, СТУПРО и Репатриация"
@@ -1801,4 +3031,89 @@ add_sitemap_cluster(sm, lambda lc: "https://giyuraliyahtrack.com/pricing/" if lc
 add_sitemap_cluster(sm, lambda lc: "https://giyuraliyahtrack.com/concierge-booking/" if lc == "en" else f"https://giyuraliyahtrack.com/{lc}/concierge-booking/")
 sm.append("</urlset>\n")
 open("public/sitemap.xml", "w", encoding="utf-8").write("\n".join(sm))
-print(f"✅ Rebuilt all 6-Language Hubs, {len(SPOKES)*6} Spoke Pages (incl. 3 Broad-Intent Pillars + 700 BD & 300 CP Vault Pillars), 54 Form Pages & 174 Sitemap URLs (LIVE_SEO = {LIVE_SEO})!")
+print(f"✅ Rebuilt all 6-Language Hubs, {len(SPOKES)*6} Spoke Pages (incl. 3 Broad-Intent Pillars + 700 BD & 300 CP Vault Pillars), 54 Form Pages & {len([u for u in sm if '<loc>' in u])} Sitemap URLs (LIVE_SEO = {LIVE_SEO})!")
+
+import glob
+for _lg in LANGS:
+    _pattern = os.path.join("public", _lg, "**", "*.html") if _lg != "en" else os.path.join("public", "**", "*.html")
+    for _hf in glob.glob(_pattern, recursive=True):
+        _rel = os.path.relpath(_hf, "public")
+        _first = _rel.split(os.sep)[0]
+        if _lg == "en" and _first in ("he", "fr", "es", "de", "ru"):
+            continue
+        _raw = open(_hf, encoding="utf-8").read()
+        _fixed = normalize_form_links_in_html(_raw, _lg)
+        if _fixed != _raw:
+            open(_hf, "w", encoding="utf-8").write(_fixed)
+
+
+
+# === GAT LOCALIZED PRICING & CONCIERGE OG IMAGE SYNC ===
+for _lg in ["he", "fr", "es", "de", "ru"]:
+    for _sub in ["pricing/index.html", "concierge-booking/index.html"]:
+        _p = f"public/{_lg}/{_sub}"
+        if os.path.exists(_p):
+            _h = open(_p, "r", encoding="utf-8").read()
+            _h = _h.replace("og-share-en-1200x630.jpg", f"og-share-{_lg}-1200x630.jpg")
+            open(_p, "w", encoding="utf-8").write(_h)
+
+
+# === GAT JSON-LD RICH RESULTS ENRICHER (IMAGE + SHIPPING + RETURN POLICY) ===
+def _gat_enrich_all_html_jsonld():
+    from pathlib import Path as _Path
+    _pub = _Path("public")
+    def _enrich(node, lg):
+        if isinstance(node, list):
+            for x in node: _enrich(x, lg)
+            return
+        if not isinstance(node, dict): return
+        t = node.get("@type")
+        img = f"https://giyuraliyahtrack.com/og-share-{lg}-1200x630.jpg"
+        if t in ("Product", "SoftwareApplication", "WebApplication", "Service"):
+            node["image"] = [img]
+        if t == "Offer":
+            av = node.get("availability", "")
+            if av.startswith("http://"): node["availability"] = av.replace("http://", "https://", 1)
+            node.setdefault("shippingDetails", {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {"@type": "MonetaryAmount", "value": 0, "currency": node.get("priceCurrency", "USD")},
+                "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IL"},
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {"@type": "QuantitativeValue", "minValue": 0, "maxValue": 0, "unitCode": "DAY"},
+                    "transitTime": {"@type": "QuantitativeValue", "minValue": 0, "maxValue": 0, "unitCode": "DAY"}
+                }
+            })
+            node.setdefault("hasMerchantReturnPolicy", {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IL",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+            })
+        for v in node.values():
+            if isinstance(v, (dict, list)): _enrich(v, lg)
+
+    for _hf in sorted(_pub.rglob("*.html")):
+        _rel = _hf.relative_to(_pub).as_posix()
+        _first = _rel.split("/")[0]
+        _lg = _first if _first in ("he", "fr", "es", "de", "ru") else "en"
+        _txt = _hf.read_text(encoding="utf-8", errors="ignore")
+        if "application/ld+json" not in _txt: continue
+        def _sub_fn(m):
+            try:
+                d = json.loads(m.group(2))
+                _enrich(d, _lg)
+                return m.group(1) + "\n" + json.dumps(d, ensure_ascii=False, indent=2) + "\n" + m.group(3)
+            except Exception:
+                return m.group(0)
+        _new = re.sub(r'(<script\s+type=["\']application/ld\+json["\'][^>]*>)(.*?)(</script>)', _sub_fn, _txt, flags=re.S | re.I)
+        if _new != _txt:
+            _hf.write_text(_new, encoding="utf-8")
+
+_gat_enrich_all_html_jsonld()
+
+# === GAT MULTI-CRAWLER ROBOTS.TXT SYNC ===
+if LIVE_SEO:
+    open('public/robots.txt', 'w', encoding='utf-8').write('# Giyur Aliyah Track — Official 6-Language Search, AI & Social Crawler Policy\nUser-agent: Googlebot\nAllow: /\n\nUser-agent: Google-InspectionTool\nAllow: /\n\nUser-agent: Google-Extended\nAllow: /\n\nUser-agent: bingbot\nAllow: /\n\nUser-agent: OAI-SearchBot\nAllow: /\n\nUser-agent: ChatGPT-User\nAllow: /\n\nUser-agent: GPTBot\nAllow: /\n\nUser-agent: PerplexityBot\nAllow: /\n\nUser-agent: ClaudeBot\nAllow: /\n\nUser-agent: Applebot\nAllow: /\n\nUser-agent: DuckDuckBot\nAllow: /\n\nUser-agent: YandexBot\nAllow: /\n\nUser-agent: WhatsApp\nAllow: /\n\nUser-agent: TelegramBot\nAllow: /\n\nUser-agent: facebookexternalhit\nAllow: /\n\nUser-agent: Facebot\nAllow: /\n\nUser-agent: Twitterbot\nAllow: /\n\nUser-agent: LinkedInBot\nAllow: /\n\nUser-agent: *\nAllow: /\nDisallow: /analytics/\nDisallow: /concierge/\n\nSitemap: https://giyuraliyahtrack.com/sitemap.xml\n')
+
+# === GAT YANDEX WEBMASTER VERIFICATION HOOK ===
+open("public/yandex_80b2cde709a35b2f.html", "w", encoding="utf-8").write('<html>\n    <head>\n        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n    </head>\n    <body>Verification: 80b2cde709a35b2f</body>\n</html>')
