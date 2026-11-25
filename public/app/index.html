@@ -100,7 +100,7 @@
     .card h2 { font-size:1.22rem; color:var(--teal-dark); margin-bottom:6px; font-weight:900; line-height:1.28; }
     .card p { font-size:0.9rem; color:#475569; line-height:1.5; margin-bottom:12px; }
     label { display:block; font-size:0.83rem; font-weight:800; color:#1e293b; margin:12px 0 5px; }
-    input, select, textarea { width:100%; padding:12px 13px; border:1.5px solid #cbd5e1; border-radius:11px; font-size:0.93rem; background:#f8fafc; color:#ffffff; font-weight:600; }
+    input, select, textarea { width:100%; padding:12px 13px; border:1.5px solid #cbd5e1; border-radius:11px; font-size:0.93rem; background:#f8fafc; color:#0f172a; font-weight:600; }
     input:focus, select:focus, textarea:focus { outline:none; border-color:var(--sky); background:#fff; }
     .btn { width:100%; padding:15px 18px; border:none; border-radius:13px; background:var(--sky); color:#fff; font-weight:900; font-size:0.98rem; cursor:pointer; margin-top:14px; box-shadow:0 6px 16px rgba(2,136,232,0.24); transition:0.15s; }
     .btn:hover { transform:translateY(-1px); }
@@ -148,9 +148,11 @@
     .tier-btn { width:100%; padding:10px; border:none; border-radius:10px; background:#0b3b59; color:#fff; font-weight:800; font-size:0.84rem; cursor:pointer; text-decoration:none; text-align:center; display:block; }
     .tier-box.featured .tier-btn { background:#0288E8; }
   
-    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea, select {
       background: #ffffff !important;
-      color: #ffffff !important;
+      color: #0f172a !important;
+      -webkit-text-fill-color: #0f172a !important;
+      caret-color: #0284c7 !important;
       font-weight: 700 !important;
       border: 1.5px solid #cbd5e1 !important;
       box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04) !important;
@@ -664,6 +666,31 @@ span[data-ponr="1"] {
   }
 </style>
 <style id="gat-kill-old-spok-pill-css">#gat-ask-spok-bottom-pill,#spok-fab-pill,#left-edge-handle,.left-edge-handle{display:none!important;visibility:hidden!important;pointer-events:none!important;}</style>
+
+  <style id="gat-input-legibility-lock">
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    textarea,
+    select,
+    select option,
+    .pf-bound-input,
+    #device-sync-modal input,
+    #pro-paywall-modal input,
+    #gat-profile-modal input,
+    #gat-hd-input {
+      color: #0f172a !important;
+      -webkit-text-fill-color: #0f172a !important;
+      background-color: #ffffff !important;
+      caret-color: #0284c7 !important;
+      opacity: 1 !important;
+    }
+    input::placeholder,
+    textarea::placeholder {
+      color: #64748b !important;
+      -webkit-text-fill-color: #64748b !important;
+      opacity: 0.75 !important;
+    }
+  </style>
+
 </head>
 <body>
   <header class="topbar">
@@ -742,7 +769,7 @@ span[data-ponr="1"] {
         <div id="wa-qr-shortcut-box" style="display:none;background:#f8fafc;border:2px dashed #0284c7;border-radius:14px;padding:14px;text-align:center;">
           <div style="font-size:0.82rem;font-weight:900;color:#0c4a6e;margin-bottom:6px;">📷 Instant Camera Shortcut (Scan to Open on Your Phone/Computer)</div>
           <img id="sync-qr-img" alt="Scan QR Code" style="width:165px;height:165px;border-radius:12px;border:1.5px solid #cbd5e1;margin:0 auto;display:block;" />
-          <div id="sync-generated-code" style="font-size:1.25rem;font-weight:900;color:#ffffff;letter-spacing:3px;margin-top:6px;"></div>
+          <div id="sync-generated-code" style="font-size:1.25rem;font-weight:900;color:#0f172a;letter-spacing:3px;margin-top:6px;"></div>
         </div>
 
         <div id="sync-status-msg" style="display:none;margin-top:12px;padding:11px 13px;border-radius:11px;font-size:0.85rem;font-weight:800;text-align:center;"></div>
@@ -767,7 +794,7 @@ span[data-ponr="1"] {
 
         <div style="display:flex;gap:6px;margin-bottom:12px;">
           <button type="button" id="pw-tab-btn-suites" onclick="switchPaywallTab('suites')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #0288E8;background:#0288E8;color:#fff;font-weight:900;font-size:0.8rem;cursor:pointer;">🛡️ Complete Suites & Bundles</button>
-          <button type="button" id="pw-tab-btn-modular" onclick="switchPaywallTab('modular')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #cbd5e1;background:#f8fafc;color:#ffffff;font-weight:900;font-size:0.8rem;cursor:pointer;">🎯 Individual Engines & Decks</button>
+          <button type="button" id="pw-tab-btn-modular" onclick="switchPaywallTab('modular')" style="flex:1;padding:9px;border-radius:10px;border:2px solid #cbd5e1;background:#f8fafc;color:#0f172a;font-weight:900;font-size:0.8rem;cursor:pointer;">🎯 Individual Engines & Decks</button>
         </div>
 
         <!-- TAB 1: FULL SUITES & CORE ENGINE PASSES -->
@@ -892,11 +919,11 @@ span[data-ponr="1"] {
   <script src="/app/bd_vault.js?v=1795349235"></script>
   <script src="/app/cp_vault.js?v=1795349235"></script>
   <script src="/app/songs_vault.js?v=1795349235"></script>
-  <script src="/app/app.js?v=1795488181"></script>
+  <script src="/app/app.js?v=1795580904"></script>
   <script src="/app/vendor/pdf-lib.min.js?v=1795349235"></script>
   <script src="/app/vendor/fontkit.umd.min.js?v=1795349235"></script>
   <script src="/app/stampers/gat_modular_stampers_bundle.js?v=1795349235"></script>
-  <script src="/app/forms_vault.js?v=1795352370"></script>
+  <script src="/app/forms_vault.js?v=1795581550"></script>
   <script src="/app/ref_letters_vault.js?v=1795349235"></script>
 
 
@@ -975,8 +1002,8 @@ span[data-ponr="1"] {
     <a href="/pricing/" class="gat-ld-item" style="color:#0288D1;">🔓 View Passes &amp; Pricing</a>
   </nav>
 </div>
-  <script src="/i18n/onboarding_trajectory.js?v=1795352370"></script>
-  <script src="/i18n/tracking_partner.js?v=spok_v9_1795514839"></script>
+  <script src="/i18n/onboarding_trajectory.js?v=v24_1795588619"></script>
+  <script src="/i18n/tracking_partner.js?v=v24_1795588619"></script>
   <img src="/api/auditDoc?mode=pixel&amp;lang=en&amp;path=/app/" alt="" width="1" height="1" loading="eager" decoding="async" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;" />
 <!-- === GAT 6-LANG APPBAR ROUTER & WHITE FAQ CONTROLLER === -->
 <script id="gat-spok-and-lang-controller">

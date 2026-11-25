@@ -1165,7 +1165,7 @@ window.REVOLUT_CHECKOUT_URLS = {
 window.LEMON_CHECKOUT_URLS = window.REVOLUT_CHECKOUT_URLS;
 
 window.CONCIERGE_WHATSAPP = "972559664357";
-window.CONCIERGE_EMAIL = "concierge@giyuraliyahtrack.com";
+window.CONCIERGE_EMAIL = "";
 
 const GAT_CODE_TIER_MAP = {};
 
@@ -3241,7 +3241,7 @@ window.loadAdminVisitorAnalytics = async function() {
     if (!d.ok) return;
     const now = Date.now();
     const vis = d.visitors || [];
-    const liveNow = vis.filter(v => (now - (v.lastSeen || 0)) < 5 * 60 * 1000).length;
+    const liveNow = vis.filter(v => (now - (v.lastSeen || 0)) < 15000).length;
     const todayVis = vis.filter(v => v.day === (d.today && d.today.date)).length;
     const totalSec = (d.today && d.today.totalSeconds) || 0;
     const avgMin = todayVis > 0 ? ((totalSec / todayVis) / 60).toFixed(1) : '0.0';
@@ -5613,7 +5613,7 @@ if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length) {
       setInterval(function() {
         var u = firebase.auth().currentUser;
         if (u) u.getIdToken(true).then(function(t) { window.__gatIdToken = t || ""; }).catch(function() {});
-      }, 45 * 60 * 1000);
+      }, 415000);
     } catch (e) {}
   }
   attachAudioTokenSync();
@@ -7385,7 +7385,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
         <div class="gat-hd-head-title" id="gat-hd-title"></div>
         <div class="gat-hd-top-btns">
           <button type="button" class="gat-hd-clear-btn" id="gat-hd-clear" title="Reset" onclick="window.clearGatHelpdeskChat()"></button>
-          <a class="gat-hd-wa-link" id="gat-hd-wa" title="WhatsApp" href="https://wa.me/972525822005?text=Shalom%20GiyurAliyahTrack!" target="_blank" rel="noopener"></a>
+          
           <button type="button" class="gat-hd-mini-btn" id="gat-hd-min" onclick="window.toggleGatHelpdesk(false, true)"></button>
         </div>
       </div>
@@ -7657,7 +7657,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
         })
       });
       const data = await res.json();
-      const rawReply = (data && data.reply) ? data.reply : "📲 +972-52-582-2005";
+      const rawReply = (data && data.reply) ? data.reply : "Please try again.";
       const parsed = parseReplyAndBuildHtml(rawReply, t);
       loadingBub.innerHTML = parsed.html;
 
@@ -7672,7 +7672,7 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
       saveRollingHistory(nextHist);
       window.refreshGatHelpdeskI18n(false);
     } catch (e) {
-      loadingBub.innerHTML = "⚠️ 📲 WhatsApp: +972-52-582-2005";
+      loadingBub.innerHTML = "⚠️ Please try again.";
     }
     setTimeout(function() { msgs.scrollTop = Math.max(0, loadingBub.offsetTop - 8); }, 20);
   };
@@ -8990,7 +8990,6 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
       '<div style="background:#082548;color:#e2e8f0;border-radius:16px;padding:18px 18px;font-size:0.78rem;line-height:1.55;margin-top:18px;box-shadow:0 8px 24px rgba(8,37,72,0.18);">' +
         '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.15);">' +
           '<div><strong style="color:#ffffff;font-size:0.9rem;">GiyurAliyahTrack.com</strong> • ' + d.legal_title + '</div>' +
-          '<div>📩 <a href="mailto:concierge@giyuraliyahtrack.com" style="color:#38bdf8;text-decoration:none;font-weight:800;">concierge@giyuraliyahtrack.com</a> • 📲 WhatsApp: <a href="https://wa.me/972525822005" style="color:#4ade80;text-decoration:none;font-weight:800;">+972-52-582-2005</a></div>' +
         '</div>' +
         '<div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;">' +
           '<details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">' + d.tos_t + '</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">' + d.tos_b + '</p></details>' +
@@ -9001,8 +9000,8 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
     ) : '';
 
     return '<div class="section-kicker" style="margin-bottom:12px;">' +
-        '<h2>' + tf.h2 + '</h2>' +
-        '<span>' + d.kicker_sub + '</span>' +
+        '<h2 style="color:#0b2545 !important;text-shadow:none !important;">' + tf.h2 + '</h2>' +
+        '<span style="color:#334155 !important;font-weight:700 !important;opacity:1 !important;text-shadow:none !important;">' + d.kicker_sub + '</span>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;gap:10px;">' + detailsHtml + '</div>' +
       legalFooterHtml;

@@ -85,7 +85,7 @@
     en: {
       spinDefault: "🔍 Scanning document, auto-filling fields & verifying PIBA rules...",
       spinCountdown: "⏱️ Processing ({s}s remaining)...",
-      spinTimeout: "⏱️ Document scan timed out after 90 s — please try a clearer photo or stable connection.",
+      spinTimeout: "⏱️ Document scan timed out after 120 s (2 minutes) — please try a clearer photo or stable connection.",
       pagesSuffix: " ({n} pages)",
       sefachTitle: "⚠️ Front TZ Card Scanned — Unfolded Paper Sefach (ספח) Missing!",
       sefachBody: "Misrad HaPanim strictly requires the unfolded paper Sefach (ספח) showing your registered Israeli address, marital status, parents, and children. Tap below to upload the unfolded Sefach page so we auto-fill all remaining fields across all 8 forms:",
@@ -100,7 +100,7 @@
     he: {
       spinDefault: "🔍 סורק את המסמך, ממלא שדות אוטומטית ובודק תקינות מול נהלי משרד הפנים...",
       spinCountdown: "⏱️ מעבד נתונים (נותרו עד {s} שניות)...",
-      spinTimeout: "⏱️ סריקת המסמך ארכה מעל 90 שניות — אנא נסו תמונה ברורה יותר או בדקו את החיבור.",
+      spinTimeout: "⏱️ סריקת המסמך ארכה מעל 120 שניות — אנא נסו תמונה ברורה יותר או בדקו את החיבור.",
       pagesSuffix: " ({n} עמודים)",
       sefachTitle: "⚠️ נסרק כרטיס ת״ז בלבד — חסר ספח תעודת זהות פתוח ומלא!",
       sefachBody: "משרד הפנים מחייב צילום של ספח תעודת הזהות פתוח במלואו (הכולל כתובת מעודכנת, מצב אישי, שמות הורים/בן זוג וילדים). לחצו למטה להעלאת צילום הספח כדי שנשלים אוטומטית את כל השדות בכל 8 הטפסים:",
@@ -115,7 +115,7 @@
     fr: {
       spinDefault: "🔍 Analyse du document, pré-remplissage et vérification PIBA en cours...",
       spinCountdown: "⏱️ Traitement en cours ({s}s restantes)...",
-      spinTimeout: "⏱️ Délai d'analyse dépassé (90 s) — veuillez réessayer avec une photo plus nette.",
+      spinTimeout: "⏱️ Délai d'analyse dépassé (120 s) — veuillez réessayer avec une photo plus nette.",
       pagesSuffix: " ({n} pages)",
       sefachTitle: "⚠️ Carte TZ scannée seule — Il manque le Sefach papier déplié (ספח) !",
       sefachBody: "Le Misrad HaPanim exige le Sefach papier entièrement déplié (adresse en Israël, état civil, parents et enfants). Appuyez ci-dessous pour importer le Sefach déplié et pré-remplir les 8 formulaires :",
@@ -130,7 +130,7 @@
     es: {
       spinDefault: "🔍 Escaneando documento, autocompletando campos y verificando reglas de PIBA...",
       spinCountdown: "⏱️ Procesando ({s}s restantes)...",
-      spinTimeout: "⏱️ El escaneo tardó más de 90 s — intente con una foto más clara o mejor conexión.",
+      spinTimeout: "⏱️ El escaneo tardó más de 120 s — intente con una foto más clara o mejor conexión.",
       pagesSuffix: " ({n} páginas)",
       sefachTitle: "⚠️ Solo se escaneó la tarjeta TZ — ¡Falta el Sefach de papel desplegado (ספח)!",
       sefachBody: "Misrad HaPanim exige el Sefach de papel desplegado (dirección en Israel, estado civil, padres e hijos). Toque abajo para subir el Sefach desplegado y autocompletar los 8 formularios:",
@@ -145,7 +145,7 @@
     de: {
       spinDefault: "🔍 Dokument wird gescannt, Felder ausgefüllt & PIBA-Regeln geprüft...",
       spinCountdown: "⏱️ Verarbeitung läuft (noch max. {s}s)...",
-      spinTimeout: "⏱️ Zeitüberschreitung nach 90 s — bitte versuchen Sie es mit einem schärferen Foto erneut.",
+      spinTimeout: "⏱️ Zeitüberschreitung nach 120 s — bitte versuchen Sie es mit einem schärferen Foto erneut.",
       pagesSuffix: " ({n} Seiten)",
       sefachTitle: "⚠️ Nur TZ-Karte gescannt — Aufgeklappter Papier-Sefach (ספח) fehlt!",
       sefachBody: "Misrad HaPanim verlangt zwingend den aufgeklappten Papier-Sefach (Adresse in Israel, Familienstand, Eltern & Kinder). Tippen Sie unten, um den Sefach hochzuladen:",
@@ -2179,9 +2179,9 @@
         '</div>';
       }
       window._gatUploadInProgress = true;
-      window.showGatUploadSpinner(dTxt.scanning + (fileArr.length > 1 ? ' (' + fileArr.length + ' pages)' : ''), 90);
+      window.showGatUploadSpinner(dTxt.scanning + (fileArr.length > 1 ? ' (' + fileArr.length + ' pages)' : ''), 120);
       var abortCtrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-      var abortTimer = setTimeout(function() { if (abortCtrl) abortCtrl.abort(); }, 90000);
+      var abortTimer = setTimeout(function() { if (abortCtrl) abortCtrl.abort(); }, 120000);
       try {
         var encodedFiles = [];
         if (typeof window.getExistingVaultPagesForSlot === 'function') {

@@ -1,3 +1,4 @@
+window.__gatIsHumanOrProblemQuery = window.__gatIsHumanOrProblemQuery || function(){ return false; };
 
   // === GAT UNIVERSAL PRICING LADDER & FULL-PACKAGE BREAKDOWN ENFORCER ===
   const GAT_LADDER_I18N_6L = {
@@ -1046,7 +1047,7 @@
         <div class="gat-hd-head-title" id="gat-hd-title"></div>
         <div class="gat-hd-top-btns">
           <button type="button" class="gat-hd-clear-btn" id="gat-hd-clear" title="Reset" onclick="window.clearGatHelpdeskChat()"></button>
-          <a class="gat-hd-wa-link" id="gat-hd-wa" title="WhatsApp" href="https://wa.me/972525822005?text=Shalom%20GiyurAliyahTrack!" target="_blank" rel="noopener"></a>
+          
           <button type="button" class="gat-hd-mini-btn" id="gat-hd-min" onclick="window.toggleGatHelpdesk(false, true)"></button>
         </div>
       </div>
@@ -1281,7 +1282,7 @@
       if (stEl) {
         stEl.style.display = "block";
         stEl.style.color = "#b91c1c";
-        stEl.textContent = "⚠️ " + (e.message || "Error — WhatsApp +972-52-582-2005");
+        stEl.textContent = "⚠️ " + (e.message || "Please try again.");
       }
     }
   };
@@ -1392,6 +1393,8 @@
     if (next) {
       window.refreshGatHelpdeskI18n(false);
       d.classList.add("open");
+      d.style.setProperty("display", "flex", "important");
+      d.style.setProperty("z-index", "2147483645", "important");
       document.body.classList.add("gat-hd-lock-scroll");
       if (fab) {
         fab.classList.add("gat-hd-hidden");
@@ -1405,6 +1408,7 @@
       }
     } else {
       d.classList.remove("open");
+      d.style.setProperty("display", "none", "important");
       document.body.classList.remove("gat-hd-lock-scroll");
       window.refreshGatHelpdeskI18n(false);
       if (fab) {
@@ -1543,7 +1547,7 @@
         })
       });
       const data = await res.json();
-      const rawReply = (data && data.reply) ? data.reply : "📲 +972-52-582-2005";
+      const rawReply = (data && data.reply) ? data.reply : "Please try again.";
       const parsed = parseReplyAndBuildHtml(rawReply, t);
       loadingBub.innerHTML = parsed.html;
 
@@ -1558,7 +1562,7 @@
       saveRollingHistory(nextHist);
       window.refreshGatHelpdeskI18n(false);
     } catch (e) {
-      loadingBub.innerHTML = "⚠️ 📲 WhatsApp: +972-52-582-2005";
+      loadingBub.innerHTML = "⚠️ Please try again.";
     }
     setTimeout(function() { msgs.scrollTop = Math.max(0, loadingBub.offsetTop - 8); }, 20);
   };
@@ -2978,7 +2982,6 @@
       '<div style="background:#082548;color:#e2e8f0;border-radius:16px;padding:18px 18px;font-size:0.78rem;line-height:1.55;margin-top:18px;box-shadow:0 8px 24px rgba(8,37,72,0.18);">' +
         '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.15);">' +
           '<div><strong style="color:#ffffff;font-size:0.9rem;">GiyurAliyahTrack.com</strong> • ' + d.legal_title + '</div>' +
-          '<div>📩 <a href="mailto:concierge@giyuraliyahtrack.com" style="color:#38bdf8;text-decoration:none;font-weight:800;">concierge@giyuraliyahtrack.com</a> • 📲 WhatsApp: <a href="https://wa.me/972525822005" style="color:#4ade80;text-decoration:none;font-weight:800;">+972-52-582-2005</a></div>' +
         '</div>' +
         '<div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;">' +
           '<details><summary style="color:#38bdf8;font-weight:800;cursor:pointer;">' + d.tos_t + '</summary><p style="margin-top:6px;color:#cbd5e1;font-size:0.74rem;">' + d.tos_b + '</p></details>' +
@@ -2989,8 +2992,8 @@
     ) : '';
 
     return '<div class="section-kicker" style="margin-bottom:12px;">' +
-        '<h2>' + tf.h2 + '</h2>' +
-        '<span>' + d.kicker_sub + '</span>' +
+        '<h2 style="color:#0b2545 !important;text-shadow:none !important;">' + tf.h2 + '</h2>' +
+        '<span style="color:#334155 !important;font-weight:700 !important;opacity:1 !important;text-shadow:none !important;">' + d.kicker_sub + '</span>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;gap:10px;">' + detailsHtml + '</div>' +
       legalFooterHtml;
@@ -3344,7 +3347,7 @@ if (typeof document !== 'undefined') {
       secSettings: "⚙️ 4. Settings, Language & Support",
       langLbl: "Interface & Form Explanation Language:",
       reportBtn: "🛠️ Report a Problem / Bug",
-      waSupportBtn: "💬 Direct WhatsApp Support (+972-52-582-2005)",
+      waSupportBtn: "💬 Direct WhatsApp Support",
       resetDraftsBtn: "🧹 Reset Local Form Inputs",
       resetConfirm: "Reset local form inputs on this device?",
       nav0: "Start", nav1: "Tracks", nav2: "Savings", nav3: "Rabbi", nav4: "Tracker",
@@ -3398,7 +3401,7 @@ if (typeof document !== 'undefined') {
       secSettings: "⚙️ 4. הגדרות, שפה ותמיכה",
       langLbl: "שפת ממשק והסברים:",
       reportBtn: "🛠️ דיווח על תקלה טכנית",
-      waSupportBtn: "💬 תמיכה ישירה בוואטסאפ (052-582-2005)",
+      waSupportBtn: "💬 תמיכה ישירה בוואטסאפ ",
       resetDraftsBtn: "🧹 איפוס נתוני טפסים במכשיר זה",
       resetConfirm: "האם לאפס את נתוני הטפסים השמורים במכשיר זה?",
       nav0: "התחלה", nav1: "מסלולים", nav2: "חיסכון", nav3: "רבנים", nav4: "מעקב",
@@ -3452,7 +3455,7 @@ if (typeof document !== 'undefined') {
       secSettings: "⚙️ 4. Paramètres, Langue & Support",
       langLbl: "Langue de l'interface :",
       reportBtn: "🛠️ Signaler un problème technique",
-      waSupportBtn: "💬 Support WhatsApp Direct (+972-52-582-2005)",
+      waSupportBtn: "💬 Support WhatsApp Direct",
       resetDraftsBtn: "🧹 Réinitialiser le brouillon local",
       resetConfirm: "Réinitialiser les champs de formulaire sur cet appareil ?",
       nav0: "Début", nav1: "Parcours", nav2: "Économies", nav3: "Rabbin", nav4: "Suivi",
@@ -3506,7 +3509,7 @@ if (typeof document !== 'undefined') {
       secSettings: "⚙️ 4. Ajustes, Idioma y Soporte",
       langLbl: "Idioma de la interfaz:",
       reportBtn: "🛠️ Reportar un problema técnico",
-      waSupportBtn: "💬 Soporte WhatsApp Directo (+972-52-582-2005)",
+      waSupportBtn: "💬 Soporte WhatsApp Directo",
       resetDraftsBtn: "🧹 Borrar borrador local",
       resetConfirm: "¿Borrar los datos del formulario en este dispositivo?",
       nav0: "Inicio", nav1: "Vías", nav2: "Ahorro", nav3: "Rabino", nav4: "Plazos",
@@ -3560,7 +3563,7 @@ if (typeof document !== 'undefined') {
       secSettings: "⚙️ 4. Einstellungen, Sprache & Support",
       langLbl: "Sprache der Oberfläche:",
       reportBtn: "🛠️ Technisches Problem melden",
-      waSupportBtn: "💬 Direkter WhatsApp-Support (+972-52-582-2005)",
+      waSupportBtn: "💬 Direkter WhatsApp-Support",
       resetDraftsBtn: "🧹 Lokale Formulardaten zurücksetzen",
       resetConfirm: "Lokale Formulardaten auf diesem Gerät zurücksetzen?",
       nav0: "Start", nav1: "Wege", nav2: "Sparen", nav3: "Rabbiner", nav4: "Fristen",
@@ -3614,7 +3617,7 @@ if (typeof document !== 'undefined') {
       secSettings: "⚙️ 4. Настройки, язык и поддержка",
       langLbl: "Язык интерфейса и подсказок:",
       reportBtn: "🛠️ Сообщить о технической проблеме",
-      waSupportBtn: "💬 Прямая поддержка в WhatsApp (+972-52-582-2005)",
+      waSupportBtn: "💬 Прямая поддержка в WhatsApp",
       resetDraftsBtn: "🧹 Сбросить черновик анкет на устройстве",
       resetConfirm: "Сбросить введённые данные анкет на этом устройстве?",
       nav0: "Старт", nav1: "Пути", nav2: "Экономия", nav3: "Раввин", nav4: "Сроки",
@@ -4276,6 +4279,12 @@ if (typeof document !== 'undefined') {
 
     if (type === "tab") {
       const tabIdx = Number(val) || 0;
+      if (tabIdx === 4 && typeof window.isGatOnboardingComplete === "function" && !window.isGatOnboardingComplete()) {
+        if (typeof window.showGatTrackerGatePopup === "function") {
+          window.showGatTrackerGatePopup();
+          return;
+        }
+      }
       if (typeof window.switchTab === "function" && document.getElementById("view-" + tabIdx)) {
         window.switchTab(tabIdx);
       } else {
@@ -4550,8 +4559,27 @@ if (typeof document !== 'undefined') {
       const tabP = params.get("tab");
       const termP = params.get("term");
       const obsP = params.get("obs");
-      if (tabP !== null && typeof window.switchTab === "function") {
-        setTimeout(function() { window.switchTab(Number(tabP) || 0); }, 120);
+      if (tabP !== null) {
+        var tNum = Number(tabP) || 0;
+        // Strip ?tab= from URL immediately so repeat bootUnifiedShell timers (350ms/1200ms) don't re-trigger
+        try {
+          params.delete("tab");
+          var cleanQs = params.toString();
+          window.history.replaceState({}, document.title, window.location.pathname + (cleanQs ? "?" + cleanQs : "") + (window.location.hash || ""));
+        } catch (e) {}
+        setTimeout(function() {
+          if (tNum === 4) {
+            if (typeof window.isGatOnboardingComplete === "function" && !window.isGatOnboardingComplete()) {
+              if (typeof window.showGatTrackerGatePopup === "function") window.showGatTrackerGatePopup();
+            } else if (typeof window.gatForceOpenSmartTrackerNow === "function") {
+              window.gatForceOpenSmartTrackerNow();
+            }
+          } else if (typeof window.gatOpenTab === "function") {
+            window.gatOpenTab(tNum);
+          } else if (typeof window.switchTab === "function") {
+            window.switchTab(tNum);
+          }
+        }, 120);
       }
       if (termP && typeof window.openTerm === "function") {
         setTimeout(function() { window.openTerm(termP); }, 180);
@@ -7632,7 +7660,7 @@ if (typeof document !== 'undefined') {
     const l = getCurLang();
     const lt = LOCK_I18N[l] || LOCK_I18N.en;
     const stages = PROG_STAGE_I18N[l] || PROG_STAGE_I18N.en;
-    const hardTimeoutMs = (Number(maxSeconds) || 90) * 1000;
+    const hardTimeoutMs = (Number(maxSeconds) || 120) * 1000;
     // Calibrate visual curve to real ~24s Gemini 3.8 Flash completion (never counts down seconds!)
     const expectedAiMs = 24000;
     const startedMs = Date.now();
@@ -8502,7 +8530,7 @@ if (typeof document !== 'undefined') {
       const itemTs = Number(item.updatedAt || (item.ts ? new Date(item.ts).getTime() : 0) || 0);
 
       const delTs = Math.max(Number(tombstones[cid] || 0), Number(tombstones[item.docId] || 0), allDeletedAt);
-      if (delTs && (!itemTs || itemTs <= delTs)) return;
+      if (delTs && itemTs > 0 && itemTs <= delTs) return;
 
       const incState = computeDocumentIncompleteState(Object.assign({}, item, { slotKey: slot }));
       const normalized = Object.assign({}, item, {
@@ -8753,7 +8781,7 @@ if (typeof document !== 'undefined') {
       const l = getCurLang();
       const lt = LOCK_I18N[l] || LOCK_I18N.en;
       window._gatUploadInProgress = true;
-      window.showGatUploadSpinner(lt.spinTitle, 90);
+      window.showGatUploadSpinner(lt.spinTitle, 120);
 
       try {
         const newFilesArr = [];
@@ -8788,7 +8816,7 @@ if (typeof document !== 'undefined') {
         const devTok = localStorage.getItem("gat_device_auth_tok") || "";
 
         const abortCtrl = typeof AbortController !== "undefined" ? new AbortController() : null;
-        const abortTmr = setTimeout(function() { if (abortCtrl) abortCtrl.abort(); }, 90000);
+        const abortTmr = setTimeout(function() { if (abortCtrl) abortCtrl.abort(); }, 120000);
 
         let res;
         try {
@@ -8863,7 +8891,7 @@ if (typeof document !== 'undefined') {
         window._gatUploadInProgress = false;
         window.hideGatUploadSpinner(true);
         const errTxt = (e && e.name === "AbortError")
-          ? "Upload timed out after 90s on mobile network. Please try a clearer photo or Wi-Fi."
+          ? "Upload timed out after 120s (2 minutes) on mobile network. Please try a clearer photo or Wi-Fi."
           : String((e && e.message) || e || "Upload error");
         console.error("Mobile Vault upload error:", e);
         const listBox = document.getElementById("gat-prof-docs-list");
@@ -10199,7 +10227,7 @@ if (typeof document !== 'undefined') {
         })
       });
       const data = await res.json();
-      const rawReply = (data && (data.reply || data.answer)) || "📲 WhatsApp: +972-52-582-2005";
+      const rawReply = (data && (data.reply || data.answer)) || "Please try again.";
       if (data && data.dossier) {
         saveCachedDossier(data.dossier, data.vaultSummary);
       }
@@ -10210,7 +10238,7 @@ if (typeof document !== 'undefined') {
         { role: "model", text: rawReply }
       ]));
     } catch (err) {
-      loadingBub.innerHTML = "⚠️ 📲 WhatsApp: <strong>+972-52-582-2005</strong>";
+      loadingBub.innerHTML = "⚠️ 📲 Please try again.";
     }
     setTimeout(function() { msgs.scrollTop = Math.max(0, loadingBub.offsetTop - 10); }, 25);
   };
@@ -11031,7 +11059,7 @@ if (typeof document !== 'undefined') {
     return new Promise(function(resolve) {
       if (!window.indexedDB) return resolve(null);
       try {
-        const req = window.indexedDB.open("gat_doc_vault_v1", 1);
+        const req = window.indexedDB.open("gat_doc_vault_idb_v1", 1);
         req.onupgradeneeded = function(e) {
           const db = e.target.result;
           if (!db.objectStoreNames.contains("docs")) db.createObjectStore("docs", { keyPath: "docId" });
@@ -11402,7 +11430,14 @@ if (typeof document !== 'undefined') {
           fatherName: r.father_full_name || "",
           motherName: r.mother_full_name || "",
           birthCountry: r.birth_country_city_he || r.country_or_city_of_birth || "",
-          citizenship: nSlot === "passport" ? (r.citizenship_he || r.citizenship || "") : (nSlot === "tz" ? "ישראלית" : "")
+          citizenship: nSlot === "passport" ? (r.citizenship_he || r.citizenship || "") : (nSlot === "tz" ? "ישראלית" : ""),
+          hasApostille: Boolean(d.hasApostille || r.has_apostille_visible === true),
+          hasSefach: Boolean(d.hasSefach || r.has_full_sefach_visible === true || r.israeli_address_he),
+          isLongFormBothParents: d.isLongForm !== false && r.is_long_form_both_parents !== false,
+          isComplete: d.isComplete !== false && r.is_complete !== false,
+          incompleteReasons: d.incompleteReasons || r.incomplete_reasons || [],
+          updatedAt: Number(d.updatedAt || Date.now()),
+          ts: new Date(Number(d.updatedAt || Date.now())).toISOString()
         };
       });
 
@@ -11638,8 +11673,8 @@ if (typeof document !== 'undefined') {
         t.deleteBtn +
       '</button>';
 
-    const innerCard = modal.querySelector("div > div") || modal;
-    innerCard.appendChild(box);
+    const scrollBody = modal.querySelector("div > div:nth-child(2)") || modal.querySelector("div > div") || modal;
+    scrollBody.appendChild(box);
   }
 
   const obs = new MutationObserver(function() { injectProfileAccountButtons(); });
@@ -12288,10 +12323,14 @@ if (typeof document !== 'undefined') {
         touch-action: manipulation !important;
         pointer-events: auto !important;
       }
-      #device-sync-modal input, #gat-profile-modal input, #pro-paywall-modal input {
+      #device-sync-modal input, #gat-profile-modal input, #pro-paywall-modal input, #gat-hd-input, #gat-cry-wa-inp, #gat-cry-extra-inp {
         -webkit-user-select: text !important;
         user-select: text !important;
         cursor: text !important;
+        color: #0f172a !important;
+        -webkit-text-fill-color: #0f172a !important;
+        background-color: #ffffff !important;
+        caret-color: #0284c7 !important;
       }
       body.gat-modal-scroll-locked {
         overflow: hidden !important;
@@ -12529,6 +12568,14 @@ if (typeof document !== 'undefined') {
     if (!modalRoot.contains(e.target)) {
       if (e.cancelable) e.preventDefault();
       return;
+    }
+
+    // Never interfere with native iOS momentum scrolling inside #gat-profile-modal's scroll container
+    if (modalRoot.id === "gat-profile-modal") {
+      const profScrollBody = modalRoot.querySelector("div > div:nth-child(2)");
+      if (profScrollBody && profScrollBody.contains(e.target)) {
+        return;
+      }
     }
 
     const dx = e.touches[0].clientX - _touchStartX;
@@ -13873,7 +13920,7 @@ if (typeof document !== 'undefined') {
     const baseList = (typeof origFetchMerged === "function") ? (await origFetchMerged()) : [];
     const byId = {};
     (baseList || []).forEach(function(item) {
-      if (item && item.docId && !item.metadataOnly) byId[item.docId] = item;
+      if (item && item.docId) byId[item.docId] = item;
     });
 
     const auth = getBestAuthObj();
@@ -14281,7 +14328,7 @@ if (typeof document !== 'undefined') {
 
   function isHomepageRoute() {
     var p = (window.location.pathname || "/").replace(/\/index\.html$/i, "/");
-    return /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+    return /^\/(?:(he|fr|es|de|ru)\/?)?$/i.test(p);
   }
 
   function getTargetUrlForLang(targetLang) {
@@ -14347,7 +14394,7 @@ if (typeof document !== 'undefined') {
     return false;
   }
 
-  function hideAllAskSpokPills() {
+  function hideAllAskSpokPills() { return;
     var known = document.querySelectorAll("#spok-fab-pill, #spok-pill, #ask-spok-pill, #gat-spok-pill, .spok-fab-pill, .spok-pill, .spok-callout, .spok-teaser, [data-spok-pill]");
     for (var i = 0; i < known.length; i++) {
       known[i].style.setProperty("display", "none", "important");
@@ -14385,7 +14432,7 @@ if (typeof document !== 'undefined') {
       var txt = (t.textContent || "").trim();
       if (idCls.indexOf("spok") !== -1 || /(Ask\s*Spok|Preguntar\s*a\s*Spok|Demander\s*à\s*Spok|שאל\s*את\s*ספוק|Spok\s*fragen|Спросить\s*Спок|Spok\s*[➔→])/i.test(t)) {
         try {
-          SPOK_KEYS.forEach(function(k) { localStorage.setItem(k, "1"); });
+          /* keep inline Ask Spok until onboarded */
         } catch (e) {}
         hideAllAskSpokPills();
         break;
@@ -14505,565 +14552,11 @@ if (typeof document !== 'undefined') {
 
   function isHomepage() {
     var p = (window.location.pathname || '/').replace(/\/index\.html$/i, '/');
-    return /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+    return /^\/(?:(he|fr|es|de|ru)\/?)?$/i.test(p);
   }
 
   function hasOpenedSpok() {
-    try {
-      for (var i = 0; i < SPOK_KEYS.length; i++) {
-        if (localStorage.getItem(SPOK_KEYS[i]) === '1') return true;
-      }
-    } catch (e) {}
-    return false;
-  }
-
-  function hideCalloutLabel() {
-    var lbl = document.getElementById('gat-hero-inline-spok-pill');
-    if (lbl) lbl.style.setProperty('display', 'none', 'important');
-  }
-
-  function markSpokOpenedForever() {
-    try {
-      for (var i = 0; i < SPOK_KEYS.length; i++) {
-        localStorage.setItem(SPOK_KEYS[i], '1');
-      }
-    } catch (e) {}
-    hideCalloutLabel();
-  }
-
-  function injectCleanStyles() {
-    var oldSt = document.getElementById('gat-hero-inline-spok-css');
-    if (oldSt && oldSt.getAttribute('data-v') === 'v9') return;
-    if (oldSt && oldSt.parentElement) oldSt.parentElement.removeChild(oldSt);
-    var st = document.createElement('style');
-    st.id = 'gat-hero-inline-spok-css';
-    st.setAttribute('data-v', 'v9');
-    st.textContent = [
-      '/* Hide ONLY the redundant 3-button track selector card — keep Boxes 1-9 and all headers 100% visible! */',
-      '#gat-3track-funnel-card { display: none !important; }',
-      'details > summary:not(.gat-faq-q):not(.faq-q) {',
-      '  background: #0f172a !important;',
-      '  color: #ffffff !important;',
-      '  -webkit-text-fill-color: #ffffff !important;',
-      '  padding: 12px 16px !important;',
-      '  border-radius: 12px !important;',
-      '  font-weight: 800 !important;',
-      '  border: 1px solid #38bdf8 !important;',
-      '}',
-      '/* Subtle top-to-bottom silver gradient on the blue-bordered container */',
-      '#gat-onboarding-stage { background: transparent !important; }',
-      '.gat-blue-card-with-spok:not(#gat-onboarding-stage) {',
-      '  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 250, 252, 0.95) 55%, rgba(226, 232, 240, 0.92) 100%) !important;',
-      '  border-radius: 20px !important;',
-      '  overflow: hidden !important;',
-      '  background-clip: padding-box !important;',
-      '}',
-      '/* Lock direction:ltr on the Ask Spok row so on Hebrew RTL (/he/) the arrow still points right into the 🖖 button! */',
-      '#gat-hero-inline-spok-row {',
-      '  display: flex !important;',
-      '  align-items: center !important;',
-      '  justify-content: flex-end !important;',
-      '  gap: 10px !important;',
-      '  margin-top: 10px !important;',
-      '  min-height: 54px !important;',
-      '  width: 100% !important;',
-      '  box-sizing: border-box !important;',
-      '}',
-      '#gat-hero-inline-spok-pill {',
-      '  display: inline-flex !important;',
-      '  width: auto !important;',
-      '  flex: 0 0 auto !important;',
-      '  align-items: center !important;',
-      '  justify-content: center !important;',
-      '  gap: 8px !important;',
-      '  background: transparent !important;',
-      '  border: none !important;',
-      '  box-shadow: none !important;',
-      '  padding: 0 4px !important;',
-      '  pointer-events: none !important;',
-      '  user-select: none !important;',
-      '  cursor: default !important;',
-      '  white-space: nowrap !important;',
-      '}',
-      '#gat-hero-inline-spok-pill .gat-spok-2x-sparkle {',
-      '  font-size: 34px !important;',
-      '  line-height: 1 !important;',
-      '  display: inline-flex !important;',
-      '  align-items: center !important;',
-      '  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.55)) drop-shadow(0 2px 5px rgba(71, 85, 105, 0.32)) !important;',
-      '}',
-      '#gat-hero-inline-spok-pill .gat-spok-caps-text {',
-      '  font-size: 16px !important;',
-      '  font-weight: 900 !important;',
-      '  letter-spacing: 0.5px !important;',
-      '  text-transform: uppercase !important;',
-      '  color: #0f172a !important;',
-      '  -webkit-text-fill-color: #0f172a !important;',
-      '}',
-      '#gat-hero-inline-spok-pill .gat-spok-black-arrow {',
-      '  font-size: 21px !important;',
-      '  font-weight: 900 !important;',
-      '  line-height: 1 !important;',
-      '  color: #000000 !important;',
-      '  -webkit-text-fill-color: #000000 !important;',
-      '}',
-      '#gat-draggable-spok-fab {',
-      '  width: 54px !important;',
-      '  height: 54px !important;',
-      '  min-width: 54px !important;',
-      '  min-height: 54px !important;',
-      '  border-radius: 50% !important;',
-      '  background: radial-gradient(circle at 32% 28%, #38bdf8 0%, #0284c7 52%, #0369a1 100%) !important;',
-      '  border: 2px solid #38bdf8 !important;',
-      '  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.44), inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;',
-      '  display: inline-flex !important;',
-      '  align-items: center !important;',
-      '  justify-content: center !important;',
-      '  padding: 0 !important;',
-      '  cursor: grab !important;',
-      '  touch-action: none !important;',
-      '  user-select: none !important;',
-      '  -webkit-user-select: none !important;',
-      '  flex-shrink: 0 !important;',
-      '  z-index: 9998 !important;',
-      '}',
-      '#gat-draggable-spok-fab:active {',
-      '  cursor: grabbing !important;',
-      '}',
-      '#gat-draggable-spok-fab .gat-vulcan-hand {',
-      '  font-size: 34px !important;',
-      '  line-height: 1 !important;',
-      '  display: inline-flex !important;',
-      '  align-items: center !important;',
-      '  justify-content: center !important;',
-      '  transform: translateY(-1px) !important;',
-      '  pointer-events: none !important;',
-      '  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.32)) !important;',
-      '}',
-      '@media (max-width: 768px) {',
-      '  .gat-blue-card-with-spok {',
-      '    padding-top: 12px !important;',
-      '    padding-bottom: 12px !important;',
-      '    margin-top: 6px !important;',
-      '    margin-bottom: 14px !important;',
-      '  }',
-      '  .gat-blue-card-with-spok h1, .gat-blue-card-with-spok h2 {',
-      '    margin-top: 0 !important;',
-      '    margin-bottom: 6px !important;',
-      '    font-size: 21px !important;',
-      '    line-height: 1.22 !important;',
-      '  }',
-      '}'
-    ].join('\n');
-    document.head.appendChild(st);
-  }
-
-  var openedLibraryOnce = false;
-  function ensureBoxes1To9VisibleAndHideOnly3TrackCard() {
-    var funnel = document.getElementById('gat-3track-funnel-card');
-    if (funnel) {
-      funnel.style.setProperty('display', 'none', 'important');
-      var prev = funnel.previousElementSibling;
-      var steps = 0;
-      while (prev && steps < 4) {
-        prev.classList.remove('gat-dup-hero-hide');
-        if (prev.style && prev.style.display === 'none') {
-          prev.style.removeProperty('display');
-        }
-        prev = prev.previousElementSibling;
-        steps++;
-      }
-      if (!openedLibraryOnce) {
-        var det = funnel.closest ? funnel.closest('details') : document.getElementById('gat-seo-hub-details');
-        if (det) {
-          det.setAttribute('open', '');
-          openedLibraryOnce = true;
-        }
-      }
-    }
-    var hiddenEls = document.querySelectorAll('.gat-dup-hero-hide');
-    for (var i = 0; i < hiddenEls.length; i++) {
-      hiddenEls[i].classList.remove('gat-dup-hero-hide');
-      hiddenEls[i].style.removeProperty('display');
-    }
-  }
-
-  function hideAllLegacyFloatingCirclesAndPills() {
-    var oldIds = ['gat-hero-inline-spok-fab', 'gat-persistent-floating-spok-fab'];
-    for (var k = 0; k < oldIds.length; k++) {
-      var oldEl = document.getElementById(oldIds[k]);
-      if (oldEl && oldEl.parentElement) oldEl.parentElement.removeChild(oldEl);
-    }
-
-    var all = document.querySelectorAll('button, a, div, span');
-    for (var i = 0; i < all.length; i++) {
-      var el = all[i];
-      if (!el) continue;
-      if (el.id === 'gat-draggable-spok-fab' || el.id === 'gat-spok-first-time-callout' || el.id === 'gat-hero-inline-spok-pill' || el.id === 'gat-hero-inline-spok-row') continue;
-      if (el.closest && (el.closest('#gat-hero-inline-spok-row') || el.closest('#gat-draggable-spok-fab') || el.closest('#gat-spok-first-time-callout'))) continue;
-
-      var st = window.getComputedStyle(el);
-      if (st.position === 'fixed') {
-        var rect = el.getBoundingClientRect();
-        var txt = (el.textContent || '').replace(/\s+/g, ' ').trim();
-        var isRoundCircle = (rect.width >= 36 && rect.width <= 88 && Math.abs(rect.width - rect.height) <= 14 && (st.borderRadius.indexOf('50%') !== -1 || parseFloat(st.borderRadius || '0') >= 20));
-        var isLegacySpok = (
-          PILL_TEXT_RX.test(txt) ||
-          txt === '\u2728' ||
-          txt === '\ud83d\udd96' ||
-          (txt === '' && isRoundCircle && rect.bottom > window.innerHeight * 0.4) ||
-          ((el.id || '') + ' ' + (typeof el.className === 'string' ? el.className : '')).toLowerCase().indexOf('spok') !== -1
-        );
-        if (isLegacySpok && el.id !== 'gat-hd-drawer' && el.id !== 'spok-drawer') {
-          if (!cachedOrigOpener && (el.tagName === 'BUTTON' || el.onclick || el.getAttribute('onclick'))) {
-            cachedOrigOpener = el;
-          }
-          el.style.setProperty('display', 'none', 'important');
-          el.style.setProperty('visibility', 'hidden', 'important');
-          el.style.setProperty('pointer-events', 'none', 'important');
-        }
-      }
-    }
-  }
-
-  function triggerSpokOpen() {
-    markSpokOpenedForever();
-    if (typeof window.openSpok === 'function') { window.openSpok(); return; }
-    if (typeof window.toggleSpok === 'function') { window.toggleSpok(); return; }
-    if (typeof window.openSpokModal === 'function') { window.openSpokModal(); return; }
-    if (typeof window.openAiAssistant === 'function') { window.openAiAssistant(); return; }
-    if (typeof window.openHelpdesk === 'function') { window.openHelpdesk(); return; }
-    if (typeof window.toggleHelpdesk === 'function') { window.toggleHelpdesk(); return; }
-    if (typeof window.toggleGatHd === 'function') { window.toggleGatHd(); return; }
-    if (typeof window.openGatHd === 'function') { window.openGatHd(); return; }
-
-    var target = cachedOrigOpener || document.querySelector('#spok-fab, #spok-btn, #ai-fab, #gat-hd-fab, [onclick*="Spok"], [onclick*="spok"], [onclick*="Helpdesk"], [onclick*="helpdesk"]');
-    if (target && typeof target.click === 'function') {
-      target.click();
-      return;
-    }
-    var hd = document.getElementById('gat-hd-drawer') || document.getElementById('spok-drawer') || document.getElementById('ai-drawer');
-    if (hd) {
-      hd.classList.add('open', 'active');
-      hd.style.display = 'flex';
-    }
-  }
-
-  function makeFabDraggable(fab) {
-    if (fab.getAttribute('data-gat-drag-wired') === '1') return;
-    fab.setAttribute('data-gat-drag-wired', '1');
-
-    var startX = 0, startY = 0, origLeft = 0, origTop = 0;
-    var isDown = false, hasMoved = false;
-
-    function onStart(clientX, clientY) {
-      isDown = true;
-      hasMoved = false;
-      startX = clientX;
-      startY = clientY;
-      var rect = fab.getBoundingClientRect();
-      origLeft = rect.left;
-      origTop = rect.top;
-    }
-
-    function onMove(clientX, clientY, ev) {
-      if (!isDown) return;
-      var dx = clientX - startX;
-      var dy = clientY - startY;
-      if (!hasMoved && Math.sqrt(dx * dx + dy * dy) > 5) {
-        hasMoved = true;
-        userDraggedFab = true;
-        hideCalloutLabel();
-        if (fab.parentElement !== document.body) {
-          document.body.appendChild(fab);
-        }
-        fab.style.setProperty('position', 'fixed', 'important');
-        fab.style.setProperty('bottom', 'auto', 'important');
-        fab.style.setProperty('right', 'auto', 'important');
-        fab.style.setProperty('margin', '0', 'important');
-      }
-      if (hasMoved) {
-        if (ev && ev.cancelable) ev.preventDefault();
-        var newLeft = Math.max(8, Math.min(window.innerWidth - 62, origLeft + dx));
-        var newTop = Math.max(8, Math.min(window.innerHeight - 62, origTop + dy));
-        fab.style.setProperty('left', Math.round(newLeft) + 'px', 'important');
-        fab.style.setProperty('top', Math.round(newTop) + 'px', 'important');
-      }
-    }
-
-    function onEnd(ev) {
-      if (!isDown) return;
-      isDown = false;
-      if (!hasMoved) {
-        if (ev && ev.cancelable) ev.preventDefault();
-        triggerSpokOpen();
-      }
-    }
-
-    fab.addEventListener('mousedown', function(e) {
-      if (e.button !== 0) return;
-      onStart(e.clientX, e.clientY);
-    });
-    window.addEventListener('mousemove', function(e) {
-      onMove(e.clientX, e.clientY, e);
-    });
-    window.addEventListener('mouseup', function(e) {
-      onEnd(e);
-    });
-
-    fab.addEventListener('touchstart', function(e) {
-      if (!e.touches || !e.touches[0]) return;
-      onStart(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: true });
-    window.addEventListener('touchmove', function(e) {
-      if (!isDown || !e.touches || !e.touches[0]) return;
-      onMove(e.touches[0].clientX, e.touches[0].clientY, e);
-    }, { passive: false });
-    window.addEventListener('touchend', function(e) {
-      onEnd(e);
-    });
-  }
-
-  function ensureSingleDraggableFab() {
-    var fab = document.getElementById('gat-legacy-noop-fab');
-    if (!fab && document.body) {
-      fab = document.createElement('button');
-      fab.type = 'button';
-      fab.id = 'gat-legacy-noop-fab';
-      fab.setAttribute('aria-label', 'Ask Spok');
-      fab.innerHTML = '<span class="gat-vulcan-hand">\ud83d\udd96</span>';
-      document.body.appendChild(fab);
-    }
-    if (fab) {
-      if (!fab.querySelector('.gat-vulcan-hand')) {
-        fab.innerHTML = '<span class="gat-vulcan-hand">\ud83d\udd96</span>';
-      }
-      makeFabDraggable(fab);
-    }
-    return fab;
-  }
-
-  function findExactCtaButton() {
-    var buttons = document.querySelectorAll('button, a');
-    for (var i = 0; i < buttons.length; i++) {
-      var b = buttons[i];
-      if (!b || b.id === 'gat-draggable-spok-fab' || b.id === 'gat-hero-inline-spok-pill') continue;
-      var t = (b.textContent || '').replace(/\s+/g, ' ').trim();
-      if (CTA_TEXT_RX.test(t) || (t.indexOf('\ud83d\ude80') !== -1 && t.length < 44)) {
-        var r = b.getBoundingClientRect();
-        if (r.width > 120 && r.height >= 28 && r.height <= 110) {
-          return b;
-        }
-      }
-    }
-    return null;
-  }
-
-  function syncSpokLayout() {
-    injectCleanStyles();
-    ensureBoxes1To9VisibleAndHideOnly3TrackCard();
-    hideAllLegacyFloatingCirclesAndPills();
-
-    var fab = ensureSingleDraggableFab();
-    if (!fab) return;
-
-    if (userDraggedFab) {
-      fab.style.setProperty('display', 'inline-flex', 'important');
-      return;
-    }
-
-    var ctaBtn = isHomepage() ? findExactCtaButton() : null;
-    var lg = getCurLang();
-    var arrowChar = '\u2794';
-
-    if (isHomepage() && ctaBtn && ctaBtn.parentElement) {
-      var stageEl = document.getElementById('gat-onboarding-stage');
-      if (stageEl) {
-        stageEl.classList.remove('gat-blue-card-with-spok');
-        stageEl.style.setProperty('background', 'transparent', 'important');
-      }
-      var cur = ctaBtn.parentElement;
-      while (cur && cur !== document.body && cur !== document.documentElement && cur.id !== 'gat-onboarding-stage' && cur.id !== 'view-0') {
-        var cs = window.getComputedStyle(cur);
-        if (parseFloat(cs.borderTopWidth || '0') >= 1 && parseFloat(cs.borderTopLeftRadius || '0') >= 8 && cur.getBoundingClientRect().height >= 160) {
-          cur.classList.add('gat-blue-card-with-spok');
-          break;
-        }
-        cur = cur.parentElement;
-      }
-
-      var row = document.getElementById('gat-hero-inline-spok-row');
-      if (!row) {
-        row = document.createElement('div');
-        row.id = 'gat-hero-inline-spok-row';
-
-        var callout = document.createElement('div');
-        callout.id = 'gat-hero-inline-spok-pill';
-        callout.setAttribute('aria-hidden', 'true');
-        callout.innerHTML =
-          '<span class="gat-spok-2x-sparkle">\u2728</span>' +
-          '<span class="gat-spok-caps-text" id="gat-hero-inline-spok-pill-label">' + (CALLOUT_TEXT[lg] || CALLOUT_TEXT.en) + '</span>' +
-          '<span class="gat-spok-black-arrow" id="gat-hero-inline-spok-arrow">' + arrowChar + '</span>';
-        row.appendChild(callout);
-      }
-
-      if (ctaBtn.nextElementSibling !== row) {
-        ctaBtn.insertAdjacentElement('afterend', row);
-      }
-      row.style.setProperty('display', 'flex', 'important');
-
-      var lblEl = document.getElementById('gat-hero-inline-spok-pill-label');
-      if (lblEl && !lblEl.getAttribute('data-i18n')) lblEl.setAttribute('data-i18n', 'spok_ask_callout');
-      var arrEl = document.getElementById('gat-hero-inline-spok-arrow');
-      if (arrEl) arrEl.textContent = arrowChar;
-
-      var inlineCallout = document.getElementById('gat-hero-inline-spok-pill');
-      if (inlineCallout) {
-        if (hasOpenedSpok()) {
-          inlineCallout.style.setProperty('display', 'none', 'important');
-        } else {
-          inlineCallout.style.setProperty('display', 'inline-flex', 'important');
-        }
-      }
-
-      var rowRect = row.getBoundingClientRect();
-      var isRowVisible = (rowRect.width > 0 && rowRect.height > 0 && rowRect.bottom > 50 && rowRect.top < window.innerHeight - 30);
-      if (isRowVisible) {
-        if (false) { row.appendChild(fab);
-        }
-        fab.style.setProperty('position', 'static', 'important');
-        fab.style.setProperty('left', 'auto', 'important');
-        fab.style.setProperty('top', 'auto', 'important');
-        fab.style.setProperty('bottom', 'auto', 'important');
-        fab.style.setProperty('right', 'auto', 'important');
-        fab.style.setProperty('display', 'inline-flex', 'important');
-      } else {
-        if (fab.parentElement !== document.body) {
-          document.body.appendChild(fab);
-        }
-        fab.style.setProperty('position', 'fixed', 'important');
-        fab.style.setProperty('bottom', '76px', 'important');
-        fab.style.setProperty('right', '16px', 'important');
-        fab.style.setProperty('left', 'auto', 'important');
-        fab.style.setProperty('top', 'auto', 'important');
-        fab.style.setProperty('display', 'inline-flex', 'important');
-      }
-      return;
-    }
-
-    var existingRow = document.getElementById('gat-hero-inline-spok-row');
-    if (existingRow) {
-      existingRow.style.setProperty('display', 'none', 'important');
-    }
-    if (fab.parentElement !== document.body) {
-      document.body.appendChild(fab);
-    }
-    fab.style.setProperty('position', 'fixed', 'important');
-    fab.style.setProperty('bottom', '76px', 'important');
-    fab.style.setProperty('right', '16px', 'important');
-    fab.style.setProperty('left', 'auto', 'important');
-    fab.style.setProperty('top', 'auto', 'important');
-    fab.style.setProperty('display', 'inline-flex', 'important');
-  }
-
-  syncSpokLayout();
-  document.addEventListener('DOMContentLoaded', syncSpokLayout);
-  window.addEventListener('load', syncSpokLayout);
-  window.addEventListener('resize', syncSpokLayout);
-  window.addEventListener('scroll', syncSpokLayout, { passive: true });
-  setInterval(syncSpokLayout, 400);
-})();
-
-// === GAT 6-LANG 1:1 BOXES 1-9 SYNC & SMART TRACKER ONBOARDING GATE ===
-(function() {
-  var ONBOARD_KEYS = ['gat_onboarding_done', 'gat_track_established', 'gat_wizard_completed', 'gat_diag_completed'];
-  var CTA_TEXT_RX = /(START\s*MY\s*TRACK|\u05d4\u05ea\u05d7\u05dc\s*\u05d0\u05ea\s*\u05d4\u05de\u05e1\u05dc\u05d5\u05dc|COMMENCER\s*MON\s*PARCOURS|EMPEZAR\s*MI\s*RUTA|MEINEN\s*WEG\s*STARTEN|\u041d\u0410\u0427\u0410\u0422\u042c\s*\u041c\u041e\u0419\s*\u041f\u0423\u0422\u042c)/i;
-
-  var GATE_I18N = {
-    en: {
-      badge: '\ud83e\udded TRACK SETUP REQUIRED',
-      title: 'Establish Your Legal Track First',
-      body: 'In order to track your progress, deadlines, and required government documents, your exact legal track must be established first. Answer 4 quick questions now to unlock your personalized Tracker.',
-      btn: '\ud83d\ude80 Start My Track \u2192',
-      openTracker: '\ud83d\udcca Open My Tracker \u2192',
-      tap: 'TAP \u2192'
-    },
-    he: {
-      badge: '\ud83e\udded \u05e0\u05d3\u05e8\u05e9\u05ea \u05d4\u05d2\u05d3\u05e8\u05ea \u05de\u05e1\u05dc\u05d5\u05dc \u05ea\u05d7\u05d9\u05dc\u05d4',
-      title: '\u05e7\u05d5\u05d3\u05dd \u05d9\u05e9 \u05dc\u05e7\u05d1\u05d5\u05e2 \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05de\u05e9\u05e4\u05d8\u05d9 \u05e9\u05dc\u05da',
-      body: '\u05db\u05d3\u05d9 \u05dc\u05e2\u05e7\u05d5\u05d1 \u05d0\u05d7\u05e8 \u05d4\u05d4\u05ea\u05e7\u05d3\u05de\u05d5\u05ea, \u05de\u05d5\u05e2\u05d3\u05d9 \u05d4\u05d9\u05e2\u05d3 \u05d5\u05d4\u05de\u05e1\u05de\u05db\u05d9\u05dd \u05d4\u05e0\u05d3\u05e8\u05e9\u05d9\u05dd \u05e9\u05dc\u05da, \u05d9\u05e9 \u05dc\u05d4\u05d2\u05d3\u05d9\u05e8 \u05ea\u05d7\u05d9\u05dc\u05d4 \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05de\u05d3\u05d5\u05d9\u05e7 \u05e9\u05dc\u05da. \u05e2\u05e0\u05d5 \u05e2\u05dc 4 \u05e9\u05d0\u05dc\u05d5\u05ea \u05e7\u05e6\u05e8\u05d5\u05ea \u05db\u05d3\u05d9 \u05dc\u05e4\u05ea\u05d5\u05d7 \u05d0\u05ea \u05de\u05e2\u05e7\u05d1 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05d4\u05d0\u05d9\u05e9\u05d9.',
-      btn: '\ud83d\ude80 \u05d4\u05ea\u05d7\u05dc \u05d0\u05ea \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u05e9\u05dc\u05d9 \u2190',
-      openTracker: '\ud83d\udcca \u05e4\u05ea\u05d7 \u05d0\u05ea \u05de\u05e2\u05e7\u05d1 \u05d4\u05de\u05e1\u05dc\u05d5\u05dc \u2190',
-      tap: '\u05dc\u05d7\u05e5 \u2190'
-    },
-    fr: {
-      badge: '\ud83e\udded CONFIGURATION DU PARCOURS REQUISE',
-      title: '\u00c9tablissez d\u2019abord votre parcours l\u00e9gal',
-      body: 'Pour suivre votre progression, vos d\u00e9lais et vos documents officiels requis, votre parcours l\u00e9gal exact doit d\u2019abord \u00eatre \u00e9tabli. R\u00e9pondez \u00e0 4 questions rapides pour activer votre suivi personnalis\u00e9.',
-      btn: '\ud83d\ude80 Commencer mon parcours \u2192',
-      openTracker: '\ud83d\udcca Ouvrir mon suivi \u2192',
-      tap: 'VOIR \u2192'
-    },
-    es: {
-      badge: '\ud83e\udded CONFIGURACI\u00d3N DE RUTA REQUERIDA',
-      title: 'Primero establezca su ruta legal',
-      body: 'Para hacer seguimiento de su progreso, plazos y documentos oficiales requeridos, primero debe establecerse su ruta legal exacta. Responda 4 preguntas r\u00e1pidas para activar su rastreador personalizado.',
-      btn: '\ud83d\ude80 Empezar mi ruta \u2192',
-      openTracker: '\ud83d\udcca Abrir mi rastreador \u2192',
-      tap: 'VER \u2192'
-    },
-    de: {
-      badge: '\ud83e\udded TRACK-EINRICHTUNG ERFORDERLICH',
-      title: 'Legen Sie zuerst Ihren Rechtsweg fest',
-      body: 'Um Ihren Fortschritt, Fristen und erforderliche Beh\u00f6rdendokumente zu verfolgen, muss zuerst Ihr genauer Rechtsweg festgelegt werden. Beantworten Sie 4 kurze Fragen, um Ihren pers\u00f6nlichen Tracker zu starten.',
-      btn: '\ud83d\ude80 Meinen Weg starten \u2192',
-      openTracker: '\ud83d\udcca Meinen Tracker \u00f6ffnen \u2192',
-      tap: 'TIPPEN \u2192'
-    },
-    ru: {
-      badge: '\ud83e\udded \u0422\u0420\u0415\u0411\u0423\u0415\u0422\u0421\u042f \u041d\u0410\u0421\u0422\u0420\u041e\u0419\u041a\u0410 \u041c\u0410\u0420\u0428\u0420\u0423\u0422\u0410',
-      title: '\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0438\u0442\u0435 \u0432\u0430\u0448 \u043f\u0440\u0430\u0432\u043e\u0432\u043e\u0439 \u043c\u0430\u0440\u0448\u0440\u0443\u0442',
-      body: '\u0427\u0442\u043e\u0431\u044b \u043e\u0442\u0441\u043b\u0435\u0436\u0438\u0432\u0430\u0442\u044c \u0432\u0430\u0448 \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441, \u0441\u0440\u043e\u043a\u0438 \u0438 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b, \u0441\u043d\u0430\u0447\u0430\u043b\u0430 \u043d\u0443\u0436\u043d\u043e \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0438\u0442\u044c \u0432\u0430\u0448 \u0442\u043e\u0447\u043d\u044b\u0439 \u043f\u0440\u0430\u0432\u043e\u0432\u043e\u0439 \u043c\u0430\u0440\u0448\u0440\u0443\u0442. \u041e\u0442\u0432\u0435\u0442\u044c\u0442\u0435 \u043d\u0430 4 \u0431\u044b\u0441\u0442\u0440\u044b\u0445 \u0432\u043e\u043f\u0440\u043e\u0441\u0430, \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u043f\u0435\u0440\u0441\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0442\u0440\u0435\u043a\u0435\u0440.',
-      btn: '\ud83d\ude80 \u041d\u0430\u0447\u0430\u0442\u044c \u043c\u043e\u0439 \u043f\u0443\u0442\u044c \u2192',
-      openTracker: '\ud83d\udcca \u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043c\u043e\u0439 \u0442\u0440\u0435\u043a\u0435\u0440 \u2192',
-      tap: '\u041e\u0422\u041a\u0420\u042b\u0422\u042c \u2192'
-    }
-  };
-
-  function getCurLang() {
-    var p = window.location.pathname || '/';
-    var m = p.match(/^\/(he|fr|es|de|ru)(?:\/|$)/i);
-    if (m) return m[1].toLowerCase();
-    var hl = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
-    if (GATE_I18N[hl] && hl !== 'en') return hl;
-    try {
-      var lsLg = (localStorage.getItem('gat_lang') || localStorage.getItem('zehut_lang') || '').slice(0, 2).toLowerCase();
-      if (GATE_I18N[lsLg]) return lsLg;
-    } catch (e) {}
-    return GATE_I18N[hl] ? hl : 'en';
-  }
-
-  window.markGatOnboardingComplete = function() {
-    try {
-      for (var i = 0; i < ONBOARD_KEYS.length; i++) {
-        localStorage.setItem(ONBOARD_KEYS[i], '1');
-      }
-      document.cookie = 'perm_gat_onboarding_done=1; path=/; max-age=315360000; SameSite=Lax';
-    } catch (e) {}
-    syncObstacleModalCtaButton();
-  };
-
-  window.isGatOnboardingComplete = function() {
-    try {
-      for (var i = 0; i < ONBOARD_KEYS.length; i++) {
-        if (localStorage.getItem(ONBOARD_KEYS[i]) === '1') return true;
-      }
-      if (document.cookie.indexOf('perm_gat_onboarding_done=1') !== -1) return true;
-      // Also check if user already completed the 4-question wizard and saved a profile/track in localStorage
-      var savedTrack = localStorage.getItem('gat_wizard_state') || localStorage.getItem('gat_selected_track') || localStorage.getItem('gat_user_track') || '';
-      if (savedTrack && savedTrack.indexOf('done') !== -1) return true;
-    } catch (e) {}
-    return false;
+    return typeof window.isGatOnboardingComplete === 'function' && window.isGatOnboardingComplete();
   };
 
   // Watch the 4-question wizard DOM: when the user completes Question 4 of 4 (or reaches the result playbook), mark onboarding complete!
@@ -15111,7 +14604,7 @@ if (typeof document !== 'undefined') {
 
     // 2. If not on the homepage, navigate to the localized homepage with ?start_onboarding=1
     var p = (window.location.pathname || '/').replace(/\/index\.html$/i, '/');
-    var isHome = /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+    var isHome = /^\/(?:(he|fr|es|de|ru)\/?)?$/i.test(p);
     if (!isHome) {
       var lg = getCurLang();
       window.location.href = (lg === 'en' ? '/' : '/' + lg + '/') + '?start_onboarding=1';
@@ -15453,7 +14946,7 @@ if (typeof document !== 'undefined') {
 
   function isHomepage() {
     var p = (window.location.pathname || '/').replace(/\/index\.html$/i, '/');
-    return /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+    return /^\/(?:(he|fr|es|de|ru)\/?)?$/i.test(p);
   }
 
   window.isGatOnboardingComplete = function() {
@@ -15884,6 +15377,15 @@ if (typeof document !== 'undefined') {
 (function() {
   // Clear legacy v1/v2 test onboarding flags once so current un-onboarded session starts clean
   try {
+    if (!localStorage.getItem('gat_onboard_v4_clean_reset')) {
+      localStorage.setItem('gat_onboard_v4_clean_reset', '1');
+      localStorage.removeItem('gat_onboarding_completed_v3');
+      localStorage.removeItem('gat_onboarding_completed_v2');
+      localStorage.removeItem('gat_onboarding_done');
+      document.cookie = 'perm_gat_onboard_v3=; path=/; max-age=0';
+      document.cookie = 'perm_gat_onboard_v2=; path=/; max-age=0';
+      document.cookie = 'perm_gat_onboarding_done=; path=/; max-age=0';
+    }
     if (!localStorage.getItem('gat_onboard_v3_migrated')) {
       localStorage.setItem('gat_onboard_v3_migrated', '1');
       localStorage.removeItem('gat_onboarding_done');
@@ -16138,9 +15640,43 @@ if (typeof document !== 'undefined') {
     var st = document.createElement('style');
     st.id = 'gat-tracks-and-boxes-v3-css';
     st.textContent = [
-      '.view, #view-0, #view-1, #view-2, #view-3, #view-4 { padding-bottom: 115px !important; }',
+      '/* Pin top .app-header permanently so iOS viewport shifts never clip the logo or icons */',
+      '.app-shell > .app-header {',
+      '  position: fixed !important;',
+      '  top: 0 !important;',
+      '  left: 0 !important;',
+      '  right: 0 !important;',
+      '  width: 100% !important;',
+      '  height: 60px !important;',
+      '  z-index: 9500 !important;',
+      '}',
+      '.app-shell > .app-viewport {',
+      '  padding-top: 64px !important;',
+      '}',
+      '.view, .app-view, #view-0, #view-1, #view-2, #view-3, #view-4 { padding-bottom: 115px !important; }',
       '.obs-card .obs-tag { display: flex !important; justify-content: space-between !important; align-items: center !important; gap: 8px !important; width: 100% !important; }',
-      '.track-tabs, #view-1 .tabs-bar { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; justify-content: center !important; }'
+      '/* Symmetrical 2-column grid for all 6 track buttons on #view-1 — zero horizontal overflow */',
+      '#view-1 .seg-bar, .track-tabs, #view-1 .tabs-bar {',
+      '  display: grid !important;',
+      '  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;',
+      '  gap: 8px !important;',
+      '  width: 100% !important;',
+      '  max-width: 100% !important;',
+      '  overflow: visible !important;',
+      '  white-space: normal !important;',
+      '}',
+      '#view-1 .seg-bar .seg-btn {',
+      '  width: 100% !important;',
+      '  min-width: 0 !important;',
+      '  white-space: normal !important;',
+      '  line-height: 1.25 !important;',
+      '  padding: 10px 8px !important;',
+      '  font-size: 12.5px !important;',
+      '  display: flex !important;',
+      '  align-items: center !important;',
+      '  justify-content: center !important;',
+      '  text-align: center !important;',
+      '}'
     ].join('\n');
     document.head.appendChild(st);
   }
@@ -16153,10 +15689,9 @@ if (typeof document !== 'undefined') {
     var t = TRACKS_TAB_I18N[lg] || TRACKS_TAB_I18N.en;
     var dir = (lg === 'he') ? 'rtl' : 'ltr';
 
-    // 1. Update #view-1 top heading and subtitle
+    // 1. Update #view-1 top heading and subtitle (re-apply if async applyLang overwrote it)
     var hEl = v1.querySelector('h1, h2, .section-title, .view-title');
-    if (hEl && hEl.getAttribute('data-gat-6tracks-lg') !== lg) {
-      hEl.setAttribute('data-gat-6tracks-lg', lg);
+    if (hEl && hEl.textContent !== t.headerTitle) {
       hEl.textContent = t.headerTitle;
       var subEl = hEl.nextElementSibling;
       if (subEl && (subEl.tagName === 'P' || subEl.tagName === 'DIV')) {
@@ -16165,7 +15700,7 @@ if (typeof document !== 'undefined') {
     }
 
     // 2. Find the track pill buttons container inside #view-1
-    var tabBtn1 = v1.querySelector('[onclick*="switchTrack(0)"], [onclick*="selectTrack(0)"], [data-track="0"]');
+    var tabBtn1 = v1.querySelector('[onclick*="switchTrack(0"], [onclick*="selectTrack(0"], [data-track="0"]');
     if (!tabBtn1) {
       var allBtns = v1.querySelectorAll('button');
       for (var i = 0; i < allBtns.length; i++) {
@@ -16178,13 +15713,12 @@ if (typeof document !== 'undefined') {
     if (!tabBtn1 || !tabBtn1.parentElement) return;
 
     var pillBar = tabBtn1.parentElement;
-    pillBar.style.display = 'flex';
-    pillBar.style.flexWrap = 'wrap';
-    pillBar.style.gap = '6px';
+    pillBar.style.setProperty('display', 'grid', 'important');
+    pillBar.style.setProperty('grid-template-columns', 'repeat(2, minmax(0, 1fr))', 'important');
+    pillBar.style.setProperty('gap', '8px', 'important');
 
     // Update Pill 1 label to '✈️ 1. Aliyah & Emergency Exit'
-    if (tabBtn1.getAttribute('data-gat-p1-lg') !== lg) {
-      tabBtn1.setAttribute('data-gat-p1-lg', lg);
+    if (tabBtn1.textContent !== t.t1Pill) {
       tabBtn1.textContent = t.t1Pill;
     }
 
@@ -16365,7 +15899,7 @@ if (typeof document !== 'undefined') {
 
   function isHomepage() {
     var p = (window.location.pathname || '/').replace(/\/index\.html$/i, '/');
-    return /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
+    return /^\/(?:(he|fr|es|de|ru)\/?)?$/i.test(p);
   }
 
   function isSearchCrawler() {
@@ -17635,8 +17169,7 @@ if (typeof document !== 'undefined') {
           fab.style.setProperty('right', 'auto', 'important');
           fab.style.setProperty('bottom', 'auto', 'important');
           fab.style.setProperty('z-index', '9999', 'important');
-          var cPill = document.getElementById('gat-hero-inline-spok-pill');
-          if (cPill) cPill.style.setProperty('display', 'none', 'important');
+          /* keep inline Ask Spok visible */
         }
       }
 
@@ -17959,26 +17492,58 @@ if (typeof document !== 'undefined') {
     if (navTrackerBtn) {
       lastClickWasBottomNavTracker = true;
       setTimeout(function() { lastClickWasBottomNavTracker = false; }, 300);
-      if (typeof window.isGatOnboardingComplete === 'function' && window.isGatOnboardingComplete()) {
-        // User IS onboarded: force #view-4 open immediately!
+      var isDone = (typeof window.isGatOnboardingComplete === 'function' && window.isGatOnboardingComplete());
+      if (!isDone) {
         ev.preventDefault();
         ev.stopPropagation();
-        window.gatForceOpenSmartTrackerNow();
+        if (typeof window.showGatTrackerGatePopup === 'function') {
+          window.showGatTrackerGatePopup();
+        }
         return;
       }
+      if (!document.getElementById('view-4')) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        var l = (typeof window.getUnifiedGatLang === 'function' ? window.getUnifiedGatLang() : (localStorage.getItem('gat_lang') || 'en')).slice(0, 2).toLowerCase();
+        var homeUrl = (l && l !== 'en' && ['he','fr','es','de','ru'].indexOf(l) !== -1) ? ('/' + l + '/?tab=4') : '/?tab=4';
+        window.location.href = homeUrl;
+        return;
+      }
+      // User IS onboarded: force #view-4 open immediately!
+      ev.preventDefault();
+      ev.stopPropagation();
+      window.gatForceOpenSmartTrackerNow();
+      return;
     } else {
       lastClickWasBottomNavTracker = false;
     }
   }, true);
 
   // Force #view-4 (Smart Itemized Tracker) open and hide #view-0..3 with 100% certainty
-  window.gatForceOpenSmartTrackerNow = function() {
-    try {
-      localStorage.setItem(ONBOARD_KEY_V3, '1');
-      localStorage.setItem('gat_onboarding_completed_v2', '1');
-      localStorage.setItem('gat_onboarding_done', '1');
-      document.cookie = 'perm_gat_onboard_v3=1; path=/; max-age=315360000; SameSite=Lax';
-    } catch (e) {}
+  // (Only opens #view-4 if onboarding is already complete, NEVER falsely marks un-onboarded users complete!)
+  window.gatForceOpenSmartTrackerNow = function(markCompleteExplicitly) {
+    if (markCompleteExplicitly === true) {
+      try {
+        localStorage.setItem(ONBOARD_KEY_V3, '1');
+        localStorage.setItem('gat_onboarding_completed_v2', '1');
+        localStorage.setItem('gat_onboarding_done', '1');
+        document.cookie = 'perm_gat_onboard_v3=1; path=/; max-age=315360000; SameSite=Lax';
+      } catch (e) {}
+    } else if (typeof window.isGatOnboardingComplete === 'function' && !window.isGatOnboardingComplete()) {
+      if (typeof window.showGatTrackerGatePopup === 'function') {
+        window.showGatTrackerGatePopup();
+      }
+      return;
+    }
+
+    // If #view-4 does not exist on this page (e.g., user is inside /app/, /pricing/, or /concierge-booking/),
+    // navigate directly to the active language homepage hub with ?tab=4!
+    if (!document.getElementById('view-4')) {
+      var l = (typeof window.getUnifiedGatLang === 'function' ? window.getUnifiedGatLang() : (localStorage.getItem('gat_lang') || 'en')).slice(0, 2).toLowerCase();
+      var homeUrl = (l && l !== 'en' && ['he','fr','es','de','ru'].indexOf(l) !== -1) ? ('/' + l + '/?tab=4') : '/?tab=4';
+      window.location.href = homeUrl;
+      return;
+    }
 
     // Close any gate popup
     var gateModal = document.getElementById('gat-tracker-gate-modal');
@@ -18059,8 +17624,7 @@ if (typeof document !== 'undefined') {
         var numIdx = Number(idx) || 0;
         if (numIdx === 4) {
           var onboarded = (typeof window.isGatOnboardingComplete === 'function' && window.isGatOnboardingComplete());
-          // If called from inside the wizard (not the bottom navbar button) OR already onboarded -> Complete & Open Smart Tracker!
-          if (onboarded || !lastClickWasBottomNavTracker) {
+          if (onboarded) {
             window.gatForceOpenSmartTrackerNow();
             return;
           } else {
@@ -18189,7 +17753,7 @@ if (typeof document !== 'undefined') {
   var fabCss = document.createElement("style");
   fabCss.id = "gat-clean-spok-fab-css";
   fabCss.textContent = [
-    "#gat-legacy-noop-fab, #gat-hd-fab, #gat-ask-spok-bottom-pill, #gat-spok-first-time-callout { display: none !important; visibility: hidden !important; pointer-events: none !important; }",
+    "#gat-legacy-noop-fab, #gat-hd-fab, #gat-ask-spok-bottom-pill, #gat-spok-first-time-callout, #gat-v16-ask-spok-pill, #gat-v17-callout-pill, #gat-floating-ask-spok-pill { display: none !important; visibility: hidden !important; pointer-events: none !important; }",
     "#gat-draggable-spok-fab {",
     "  position: fixed !important;",
     "  width: 56px !important;",
@@ -18273,7 +17837,7 @@ if (typeof document !== 'undefined') {
     };
   }
 
-  var SPOK_OPENED_KEYS = ["gat_spok_ever_opened_v5", "gat_spok_opened_ever", "gat_spok_opened", "spok_opened_once", "gat_spok_intro_completed_v5"];
+  var SPOK_OPENED_KEYS = [];
   var i18nCalloutCache = {"en": "ASK SPOK", "he": "שאל את ספוק", "fr": "DEMANDER À SPOK", "es": "PREGUNTAR A SPOK", "de": "SPOK FRAGEN", "ru": "СПРОСИТЬ СПОКА"};
 
   function getActivePageLang() {
@@ -18314,881 +17878,8 @@ if (typeof document !== 'undefined') {
       .catch(function() {});
   }
 
-  function shouldHideAskSpokForever() {
-    try {
-      for (var i = 0; i < SPOK_OPENED_KEYS.length; i++) {
-        if (localStorage.getItem(SPOK_OPENED_KEYS[i]) === "1") return true;
-      }
-      if (typeof window.isGatOnboardingComplete === "function" && window.isGatOnboardingComplete()) return true;
-      if (localStorage.getItem("gat_onboarding_completed_v3") === "1" || localStorage.getItem("gat_onboarding_done") === "1") return true;
-    } catch (e) {}
-    return false;
-  }
-
-  function dismissFirstTimeCalloutForever() {
-    try {
-      for (var i = 0; i < SPOK_OPENED_KEYS.length; i++) {
-        localStorage.setItem(SPOK_OPENED_KEYS[i], "1");
-      }
-    } catch (e) {}
-    var row = document.getElementById("gat-hero-inline-spok-row");
-    if (row) {
-      row.style.setProperty("display", "none", "important");
-      row.style.setProperty("min-height", "0", "important");
-      row.style.setProperty("height", "0", "important");
-      row.style.setProperty("margin", "0", "important");
-      row.style.setProperty("padding", "0", "important");
-      row.style.setProperty("overflow", "hidden", "important");
-    }
-    var pill = document.getElementById("gat-hero-inline-spok-pill");
-    if (pill) {
-      pill.style.setProperty("display", "none", "important");
-    }
-  }
-
-  function isInlineRowActiveAndVisible() {
-    if (shouldHideAskSpokForever() || isSpokDrawerOpen() || getSavedCoords()) return false;
-    var row = document.getElementById("gat-hero-inline-spok-row");
-    if (!row) return false;
-    var v0 = document.getElementById("view-0");
-    if (v0 && !v0.classList.contains("active") && window.getComputedStyle(v0).display === "none") return false;
+    function shouldHideAskSpokForever() {
     return true;
-  }
-
-  function fixContainerGradientAndInlineAskSpok() {
-    // 1. Keep #gat-onboarding-stage transparent so grey gradient never bleeds with square corners
-    var stage = document.getElementById("gat-onboarding-stage");
-    if (stage) {
-      stage.classList.remove("gat-blue-card-with-spok");
-      stage.style.setProperty("background", "transparent", "important");
-      stage.style.setProperty("box-shadow", "none", "important");
-    }
-
-    var gradCards = document.querySelectorAll(".gat-blue-card-with-spok");
-    for (var g = 0; g < gradCards.length; g++) {
-      var gc = gradCards[g];
-      if (gc.id === "gat-onboarding-stage" || gc.id === "view-0") {
-        gc.classList.remove("gat-blue-card-with-spok");
-        gc.style.setProperty("background", "transparent", "important");
-      } else {
-        gc.style.setProperty("overflow", "hidden", "important");
-        gc.style.setProperty("background-clip", "padding-box", "important");
-      }
-    }
-
-    var row = document.getElementById("gat-hero-inline-spok-row");
-    var pill = document.getElementById("gat-hero-inline-spok-pill");
-    var fab = document.getElementById("gat-draggable-spok-fab");
-
-    // 2. If Spok was opened once OR onboarding finished -> hide row forever & float fab in document.body
-    if (shouldHideAskSpokForever() || isSpokDrawerOpen()) {
-      if (row) {
-        row.style.setProperty("display", "none", "important");
-        row.style.setProperty("min-height", "0", "important");
-        row.style.setProperty("height", "0", "important");
-        row.style.setProperty("margin", "0", "important");
-        row.style.setProperty("padding", "0", "important");
-      }
-      if (pill) {
-        pill.style.setProperty("display", "none", "important");
-      }
-      if (fab && fab.parentElement !== document.body) {
-        document.body.appendChild(fab);
-        fab.style.setProperty("position", "fixed", "important");
-        applyFabPosition(fab);
-      }
-      return;
-    }
-
-    // 3. First-time un-onboarded user: render [✨] [ASK SPOK] [➔] [🖖] inside #gat-hero-inline-spok-row
-    if (row && pill) {
-      var lg = getActivePageLang();
-      var isHeb = (lg === "he");
-
-      row.style.setProperty("display", "flex", "important");
-      row.style.setProperty("visibility", "visible", "important");
-      row.style.setProperty("opacity", "1", "important");
-      row.style.setProperty(" flex-direction", "row", "important");
-      row.style.setProperty("align-items", "center", "important");
-      row.style.setProperty("justify-content", "flex-end", "important");
-      row.style.setProperty("gap", "10px", "important");
-      row.style.setProperty("min-height", "56px", "important");
-      row.style.setProperty("margin-top", "10px", "important");
-      row.style.setProperty("width", "100%", "important");
-      row.style.setProperty("box-sizing", "border-box", "important");
-
-      if (isHeb) {
-        // Hebrew RTL: starts on the right with ✨ -> שאל את ספוק -> left arrow ← -> 🖖 button on the left
-        row.setAttribute("dir", "rtl");
-        row.style.setProperty("direction", "rtl", "important");
-        row.style.setProperty("padding-left", "4px", "important");
-        row.style.setProperty("padding-right", "4px", "important");
-      } else {
-        // Non-Hebrew LTR: shifted 40px+ right (no 66px padding-right!), ✨ -> ASK SPOK -> ➔ -> 🖖 button on the right
-        row.setAttribute("dir", "ltr");
-        row.style.setProperty("direction", "ltr", "important");
-        row.style.setProperty("padding-right", "4px", "important");
-        row.style.setProperty("padding-left", "4px", "important");
-      }
-
-      pill.setAttribute("dir", isHeb ? "rtl" : "ltr");
-      pill.style.setProperty("display", "inline-flex", "important");
-      pill.style.setProperty("visibility", "visible", "important");
-      pill.style.setProperty("opacity", "1", "important");
-      pill.style.setProperty("direction", isHeb ? "rtl" : "ltr", "important");
-      pill.style.setProperty("flex-direction", "row", "important");
-      pill.style.setProperty("align-items", "center", "important");
-      pill.style.setProperty("justify-content", "center", "important");
-      pill.style.setProperty("width", "auto", "important");
-      pill.style.setProperty("flex", "0 0 auto", "important");
-      pill.style.setProperty("gap", "8px", "important");
-      pill.style.setProperty("padding", "0 2px", "important");
-      pill.style.setProperty("pointer-events", "auto", "important");
-      pill.style.setProperty("cursor", "pointer", "important");
-
-      if (!pill.getAttribute("data-click-wired")) {
-        pill.setAttribute("data-click-wired", "1");
-        pill.addEventListener("click", function(ev) {
-          ev.preventDefault();
-          ev.stopPropagation();
-          dismissFirstTimeCalloutForever();
-          openSpokUniversal();
-        });
-      }
-
-      var lblEl = document.getElementById("gat-hero-inline-spok-pill-label");
-      if (lblEl) {
-        lblEl.setAttribute("data-i18n", "spok_ask_callout");
-        fetchI18nCalloutLabel(lg, function(translatedText) {
-          if (translatedText && lblEl.textContent !== translatedText) {
-            lblEl.textContent = translatedText;
-          }
-        });
-      }
-
-      var arrEl = document.getElementById("gat-hero-inline-spok-arrow");
-      if (arrEl) {
-        arrEl.textContent = "➔";
-        if (isHeb) {
-          // Flip ➔ horizontally so it points LEFT (←) toward the 🖖 button on the left!
-          arrEl.style.setProperty("display", "inline-block", "important");
-          arrEl.style.setProperty("transform", "scaleX(-1)", "important");
-        } else {
-          arrEl.style.setProperty("display", "inline-block", "important");
-          arrEl.style.setProperty("transform", "none", "important");
-        }
-      }
-
-      // Dock #gat-draggable-spok-fab directly inside #gat-hero-inline-spok-row as the 2nd flex child
-      // (after #gat-hero-inline-spok-pill) unless the user has manually dragged it!
-      if (fab && !getSavedCoords()) {
-        if (fab.parentElement !== row) {
-          row.appendChild(fab);
-        }
-        fab.style.setProperty("position", "relative", "important");
-        fab.style.setProperty("left", "auto", "important");
-        fab.style.setProperty("top", "auto", "important");
-        fab.style.setProperty("right", "auto", "important");
-        fab.style.setProperty("bottom", "auto", "important");
-        fab.style.setProperty("margin", "0", "important");
-        fab.style.setProperty("flex-shrink", "0", "important");
-      }
-    }
-  }
-
-  function setFabCoords(fab, leftPx, topPx) {
-    fab.style.setProperty("left", leftPx + "px", "important");
-    fab.style.setProperty("top", topPx + "px", "important");
-    fab.style.setProperty("right", "auto", "important");
-    fab.style.setProperty("bottom", "auto", "important");
-  }
-
-  setInterval(fixContainerGradientAndInlineAskSpok, 200);
-  window.addEventListener("scroll", fixContainerGradientAndInlineAskSpok, { passive: true });
-  window.addEventListener("resize", fixContainerGradientAndInlineAskSpok, { passive: true });
-
-  function applyFabPosition(fab) {
-    var saved = getSavedCoords();
-    if (saved) {
-      var c = clampToViewport(saved.left, saved.top);
-      setFabCoords(fab, c.left, c.top);
-    } else {
-      var vw = window.innerWidth || 375;
-      var vh = window.innerHeight || 667;
-      setFabCoords(fab, Math.max(12, vw - 72), Math.max(60, vh - 138));
-    }
-  }
-
-  function getHelpdeskDrawer() {
-    return document.getElementById("gat-hd-drawer") || document.getElementById("gat-hd-panel") || document.getElementById("spok-drawer");
-  }
-
-  function isSpokDrawerOpen() {
-    var dr = document.getElementById("gat-hd-drawer");
-    if (!dr) return false;
-    return dr.classList.contains("open");
-  }
-
-  function syncFabVisibility() {
-    var fab = document.getElementById("gat-draggable-spok-fab");
-    if (!fab) return;
-    if (isSpokDrawerOpen()) {
-      var ftc = document.getElementById("gat-spok-first-time-callout");
-      if (ftc) ftc.style.setProperty("display", "none", "important");
-      fab.style.setProperty("display", "none", "important");
-      fab.style.setProperty("visibility", "hidden", "important");
-      fab.style.setProperty("pointer-events", "none", "important");
-    } else {
-      fab.style.setProperty("display", "inline-flex", "important");
-      fab.style.setProperty("visibility", "visible", "important");
-      fab.style.setProperty("opacity", "1", "important");
-      fab.style.setProperty("pointer-events", "auto", "important");
-    }
-  }
-
-  function openSpokUniversal() {
-    dismissFirstTimeCalloutForever();
-    window.__gatSpokJustOpenedMs = Date.now();
-    if (typeof window.toggleGatHelpdesk === "function") {
-      window.toggleGatHelpdesk(true);
-    }
-    var dr = document.getElementById("gat-hd-drawer");
-    if (dr && !dr.classList.contains("open")) {
-      dr.classList.add("open");
-    }
-    handleSpokDrawerOpened();
-    syncFabVisibility();
-    setTimeout(syncFabVisibility, 50);
-  }
-
-  function mountSpokFab() {
-    if (!document.body) return;
-    var fab = document.getElementById("gat-draggable-spok-fab");
-    if (fab && fab.getAttribute("data-pointer-wired") === "1") {
-      if (!isInlineRowActiveAndVisible() && fab.parentElement !== document.body) {
-        document.body.appendChild(fab);
-        fab.style.setProperty("position", "fixed", "important");
-      }
-      return;
-    }
-    if (fab && fab.parentElement) {
-      fab.parentElement.removeChild(fab);
-    }
-
-    fab = document.createElement("button");
-    fab.type = "button";
-    fab.id = "gat-draggable-spok-fab";
-    fab.setAttribute("data-pointer-wired", "1");
-    fab.setAttribute("aria-label", "Ask Spok");
-    fab.innerHTML = '<span style="font-size:26px;line-height:1;pointer-events:none;">\ud83d\udd96</span>';
-    document.body.appendChild(fab);
-
-    applyFabPosition(fab);
-    syncFabVisibility();
-
-    var activePointerId = null;
-    var startX = 0, startY = 0, startL = 0, startT = 0;
-    var hasDragged = false;
-
-    fab.addEventListener("pointerdown", function(e) {
-      if (e.pointerType === "mouse" && e.button !== 0) return;
-      activePointerId = e.pointerId;
-      hasDragged = false;
-      var rect = fab.getBoundingClientRect();
-      startX = e.clientX;
-      startY = e.clientY;
-      startL = rect.left;
-      startT = rect.top;
-      try { fab.setPointerCapture(e.pointerId); } catch (err) {}
-    });
-
-    fab.addEventListener("pointermove", function(e) {
-      if (activePointerId === null || e.pointerId !== activePointerId) return;
-      // Safety: if mouse button was released outside, cancel drag immediately
-      if (e.pointerType === "mouse" && e.buttons === 0) {
-        try { fab.releasePointerCapture(e.pointerId); } catch (err) {}
-        activePointerId = null;
-        return;
-      }
-      var dx = e.clientX - startX;
-      var dy = e.clientY - startY;
-      if (!hasDragged && Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-      if (!hasDragged) {
-        hasDragged = true;
-        dismissFirstTimeCalloutForever();
-        if (fab.parentElement !== document.body) {
-          document.body.appendChild(fab);
-        }
-        fab.style.setProperty("position", "fixed", "important");
-      }
-      var c = clampToViewport(startL + dx, startT + dy);
-      setFabCoords(fab, c.left, c.top);
-    });
-
-    function finishPointer(e, isCancel) {
-      if (activePointerId === null || (e && e.pointerId !== activePointerId)) return;
-      try { fab.releasePointerCapture(activePointerId); } catch (err) {}
-      activePointerId = null;
-
-      if (hasDragged) {
-        var rect = fab.getBoundingClientRect();
-        var c = clampToViewport(rect.left, rect.top);
-        setFabCoords(fab, c.left, c.top);
-        try { localStorage.setItem(POS_KEY, JSON.stringify(c)); } catch (err) {}
-      } else if (!isCancel) {
-        openSpokUniversal();
-      }
-    }
-
-    fab.addEventListener("pointerup", function(e) {
-      e.stopPropagation();
-      finishPointer(e, false);
-    });
-    fab.addEventListener("pointercancel", function(e) {
-      e.stopPropagation();
-      finishPointer(e, true);
-    });
-    fab.addEventListener("click", function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (!hasDragged && !isSpokDrawerOpen()) {
-        openSpokUniversal();
-      }
-    }, true);
-
-    window.addEventListener("resize", function() {
-      applyFabPosition(fab);
-    }, { passive: true });
-  }
-
-  if (document.body) {
-    mountSpokFab();
-  } else {
-    window.addEventListener("DOMContentLoaded", mountSpokFab);
-  }
-  setTimeout(mountSpokFab, 150);
-  setTimeout(mountSpokFab, 600);
-
-  // ---------------------------------------------------------------------------
-  // PART B: RETURNING USER "WELCOME BACK [USERNAME]" & MINIMIZE HOOK
-  // ---------------------------------------------------------------------------
-  var SPOK_UI_I18N = {
-    en: {
-      wbWithName: "Welcome back, {name}!",
-      wbNoName: "Welcome back!",
-      intakeIntro: "Tell us what's happening below. Enter your WhatsApp number and describe your issue — our senior team will message you directly on WhatsApp:",
-      formTitle: "📬 Direct Support & Issue Intake",
-      waLabelLogged: "📱 Your WhatsApp Number (Pre-filled from your account):",
-      waLabelGuest: "📱 Your WhatsApp Number (Required to continue):",
-      waPh: "e.g. 05X-XXX-XXXX or +1-XXX-XXX-XXXX",
-      waValidMsg: "✓ Valid WhatsApp number",
-      waInvalidMsg: "⚠️ Enter a valid WhatsApp number (9–15 digits) to unlock Submit",
-      probLabel: "💬 What is the exact problem or question Spok couldn't solve?",
-      probPh: "Describe the issue, bug, or specific case question in detail (at least 15 characters)...",
-      probValidMsg: "✓ Issue details ready",
-      probInvalidMsg: "⚠️ Describe your issue in at least a few words (15+ characters) to unlock Submit",
-      submitLocked: "🔒 Fill WhatsApp & Problem Above to Submit",
-      submitUnlocked: "🚀 Send Directly to Senior Team →",
-      sending: "Sending to senior team...",
-      sentOk: "✅ Sent! Our senior team just received your WhatsApp and problem details and will message you directly.",
-      cooldownErr: "You just sent a ticket. Please wait 2 minutes before sending another.",
-      quickEscBtn: "💬 Have a specific problem or need a human? Open Direct Intake Form →"
-    },
-    he: {
-      wbWithName: "ברוך הבא חזרה, {name}!",
-      wbNoName: "ברוכים השבים!",
-      intakeIntro: "אנחנו כאן — בלי סיבובים. הזן/י מספר וואטסאפ ופירוט הבעיה למטה והפנייה תישלח ישירות לצוות הבכיר שלנו:",
-      formTitle: "📬 טופס פנייה ישירה ודיווח על בעיה",
-      waLabelLogged: "📱 מספר הוואטסאפ שלך (מולא אוטומטית מהחשבון שלך):",
-      waLabelGuest: "📱 מספר הוואטסאפ שלך לחזרה (חובה להמשך):",
-      waPh: "למשל: 05X-XXX-XXXX או +972...",
-      waValidMsg: "✓ מספר וואטסאפ תקין",
-      waInvalidMsg: "⚠️ נא להזין מספר וואטסאפ תקין (9–15 ספרות) כדי לפתוח את כפתור השליחה",
-      probLabel: "💬 מה הבעיה, התקלה או השאלה הספציפית שספוק לא פתר?",
-      probPh: "פרט/י כאן את הבעיה או השאלה (לפחות 15 תווים)...",
-      probValidMsg: "✓ פירוט הפנייה תקין",
-      probInvalidMsg: "⚠️ נא לפרט את הבעיה בכמה מילים (לפחות 15 תווים) כדי לפתוח את כפתור השליחה",
-      submitLocked: "🔒 מלא/י וואטסאפ ופירוט הבעיה כדי לשלוח",
-      submitUnlocked: "🚀 שלח ישירות לצוות הבכיר ←",
-      sending: "שולח לצוות הבכיר...",
-      sentOk: "✅ נשלח! הצוות שלנו קיבל את מספר הוואטסאפ והפירוט שלך בזה הרגע ויחזור אליך ישירות.",
-      cooldownErr: "פנייתך כבר נשלחה. נא להמתין 2 דקות לפני שליחת פנייה נוספת.",
-      quickEscBtn: "💬 יש לך בעיה ספציפית או צורך בנציג אנושי? פתח טופס פנייה ישירה ←"
-    },
-    fr: {
-      wbWithName: "Bon retour, {name} !",
-      wbNoName: "Bon retour !",
-      intakeIntro: "Expliquez-nous votre problème ci-dessous. Vérifiez votre numéro WhatsApp et décrivez la situation pour notre équipe :",
-      formTitle: "📬 Formulaire Direct — Support & Réclamation",
-      waLabelLogged: "📱 Votre numéro WhatsApp (Pré-rempli depuis votre compte) :",
-      waLabelGuest: "📱 Votre numéro WhatsApp (Obligatoire pour continuer) :",
-      waPh: "ex. 05X-XXX-XXXX ou +33...",
-      waValidMsg: "✓ Numéro WhatsApp valide",
-      waInvalidMsg: "⚠️ Entrez un numéro WhatsApp valide (9–15 chiffres) pour activer l'envoi",
-      probLabel: "💬 Quel est le problème exact que Spok n'a pas résolu ?",
-      probPh: "Décrivez précisément votre problème ou question (minimum 15 caractères)...",
-      probValidMsg: "✓ Description prête",
-      probInvalidMsg: "⚠️ Décrivez votre problème en quelques mots (15+ caractères) pour activer l'envoi",
-      submitLocked: "🔒 Remplissez WhatsApp & Problème pour envoyer",
-      submitUnlocked: "🚀 Envoyer Directement à l'Équipe →",
-      sending: "Envoi en cours...",
-      sentOk: "✅ Envoyé ! Notre équipe a reçu votre WhatsApp et votre message et vous contactera directement.",
-      cooldownErr: "Message déjà envoyé. Veuillez patienter 2 minutes.",
-      quickEscBtn: "💬 Un problème spécifique ou besoin d'un humain ? Ouvrir le formulaire →"
-    },
-    es: {
-      wbWithName: "¡Bienvenido/a de nuevo, {name}!",
-      wbNoName: "¡Bienvenido/a de nuevo!",
-      intakeIntro: "Cuéntanos tu problema abajo. Confirma tu WhatsApp y describe el inconveniente para que nuestro equipo te responda directamente:",
-      formTitle: "📬 Formulario Directo de Soporte",
-      waLabelLogged: "📱 Tu Número de WhatsApp (Pre-rellenado de tu cuenta):",
-      waLabelGuest: "📱 Tu Número de WhatsApp (Obligatorio para continuar):",
-      waPh: "ej. 05X-XXX-XXXX o +34 / +54...",
-      waValidMsg: "✓ Número de WhatsApp válido",
-      waInvalidMsg: "⚠️ Ingresa un WhatsApp válido (9–15 dígitos) para habilitar el envío",
-      probLabel: "💬 ¿Cuál es el problema exacto que Spok no pudo resolver?",
-      probPh: "Describe tu problema, error o consulta en detalle (mínimo 15 caracteres)...",
-      probValidMsg: "✓ Descripción lista",
-      probInvalidMsg: "⚠️ Describe tu problema en al menos unas palabras (15+ caracteres) para enviar",
-      submitLocked: "🔒 Completa WhatsApp y Problema para enviar",
-      submitUnlocked: "🚀 Enviar Directamente al Equipo →",
-      sending: "Enviando...",
-      sentOk: "✅ ¡Enviado! Nuestro equipo recibió tu WhatsApp y detalles y te escribirá directamente.",
-      cooldownErr: "Ya enviaste un mensaje hace poco. Espera 2 minutos.",
-      quickEscBtn: "💬 ¿Tienes un problema o necesitas a un humano? Abrir formulario →"
-    },
-    de: {
-      wbWithName: "Willkommen zurück, {name}!",
-      wbNoName: "Willkommen zurück!",
-      intakeIntro: "Schildern Sie uns Ihr Anliegen unten. Geben Sie Ihre WhatsApp-Nummer und das genaue Problem an — unser Team meldet sich direkt bei Ihnen:",
-      formTitle: "📬 Direkter Support & Problem-Meldung",
-      waLabelLogged: "📱 Ihre WhatsApp-Nummer (Aus Ihrem Konto vorausgefüllt):",
-      waLabelGuest: "📱 Ihre WhatsApp-Nummer (Erforderlich zum Fortfahren):",
-      waPh: "z.B. 05X-XXX-XXXX oder +49...",
-      waValidMsg: "✓ Gültige WhatsApp-Nummer",
-      waInvalidMsg: "⚠️ Bitte gültige WhatsApp-Nummer (9–15 Ziffern) eingeben",
-      probLabel: "💬 Welches genaue Problem konnte Spok nicht lösen?",
-      probPh: "Beschreiben Sie Ihr Problem oder Ihre Beschwerde im Detail (mind. 15 Zeichen)...",
-      probValidMsg: "✓ Beschreibung vollständig",
-      probInvalidMsg: "⚠️ Bitte beschreiben Sie Ihr Problem in einigen Worten (mind. 15 Zeichen)",
-      submitLocked: "🔒 WhatsApp & Problem ausfüllen zum Senden",
-      submitUnlocked: "🚀 Direkt an das Senior-Team senden →",
-      sending: "Wird gesendet...",
-      sentOk: "✅ Gesendet! Unser Team hat Ihre WhatsApp-Nummer und Ihr Anliegen erhalten und meldet sich direkt.",
-      cooldownErr: "Sie haben gerade eine Anfrage gesendet. Bitte 2 Minuten warten.",
-      quickEscBtn: "💬 Spezifisches Problem oder Mensch gewünscht? Direkt-Formular öffnen →"
-    },
-    ru: {
-      wbWithName: "С возвращением, {name}!",
-      wbNoName: "С возвращением!",
-      intakeIntro: "Опишите вашу проблему ниже. Укажите ваш WhatsApp и суть вопроса — наша старшая команда напишет вам напрямую в WhatsApp:",
-      formTitle: "📬 Прямая форма обращения в поддержку",
-      waLabelLogged: "📱 Ваш номер WhatsApp (Заполнен автоматически из вашего аккаунта):",
-      waLabelGuest: "📱 Ваш номер WhatsApp (Обязательно для продолжения):",
-      waPh: "например, 05X-XXX-XXXX или +7...",
-      waValidMsg: "✓ Номер WhatsApp корректен",
-      waInvalidMsg: "⚠️ Введите корректный номер WhatsApp (9–15 цифр), чтобы разблокировать отправку",
-      probLabel: "💬 Какую именно проблему или жалобу Спок не смог решить?",
-      probPh: "Подробно опишите вашу проблему, ошибку или вопрос (минимум 15 символов)...",
-      probValidMsg: "✓ Описание заполнено",
-      probInvalidMsg: "⚠️ Опишите проблему хотя бы в нескольких словах (15+ символов) для отправки",
-      submitLocked: "🔒 Заполните WhatsApp и описание проблемы",
-      submitUnlocked: "🚀 Отправить напрямую команде →",
-      sending: "Отправка...",
-      sentOk: "✅ Отправлено! Наша команда уже получила ваш WhatsApp и описание проблемы и свяжется с вами напрямую.",
-      cooldownErr: "Вы только что отправили запрос. Подождите 2 минуты.",
-      quickEscBtn: "💬 Есть проблема или нужен человек? Открыть прямую форму →"
-    }
-  };
-
-  function getLang() {
-    var path = (window.location.pathname || "").toLowerCase();
-    var m = path.match(/^\/(he|fr|es|de|ru)(\/|$)/);
-    if (m) return m[1];
-    var hl = (document.documentElement.lang || "en").slice(0, 2).toLowerCase();
-    return SPOK_UI_I18N[hl] ? hl : "en";
-  }
-
-  function cleanFirstName(raw) {
-    if (!raw || typeof raw !== "string") return "";
-    var s = raw.trim().replace(/[@<>{}\[\]]/g, "");
-    if (!s || s.length < 2) return "";
-    var lower = s.toLowerCase();
-    if (lower === "visitor" || lower === "site visitor" || lower === "user" || lower === "anon" || lower === "guest" || lower.indexOf("wa_") === 0 || lower.indexOf("u_") === 0) {
-      return "";
-    }
-    var first = s.split(/\s+/)[0];
-    return first.charAt(0).toUpperCase() + first.slice(1);
-  }
-
-  window.__gatGetUserNameForSpok = function() {
-    try {
-      var lg = getLang();
-      var wantHebrew = (lg === "he");
-      var st = window.gatFormsState || {};
-      var draft = {};
-      try { draft = JSON.parse(localStorage.getItem("gat_form_draft_v1") || "{}") || {}; } catch (e) {}
-
-      if (!wantHebrew) {
-        var latinCands = [
-          st.pf_given_en, st.pf_given_name_en, st.pf_first_name,
-          draft.pf_given_en, draft.pf_given_name_en, draft.pf_first_name,
-          localStorage.getItem("gat_user_name"), localStorage.getItem("gat_last_payer_name")
-        ];
-        for (var c = 0; c < latinCands.length; c++) {
-          var cl = cleanFirstName(latinCands[c]);
-          if (cl && !/[\u0590-\u05FF]/.test(cl)) {
-            return cl.charAt(0).toUpperCase() + cl.slice(1).toLowerCase();
-          }
-        }
-      } else {
-        var hebCands = [st.pf_given_he, draft.pf_given_he, st.pf_given_name_he, draft.pf_given_name_he];
-        for (var h = 0; h < hebCands.length; h++) {
-          var ch = cleanFirstName(hebCands[h]);
-          if (ch) return ch;
-        }
-      }
-
-      var directKeys = ["gat_user_name", "gat_spok_user_name", "gat_name", "gat_wa_name", "userName", "displayName"];
-      for (var i = 0; i < directKeys.length; i++) {
-        var val = cleanFirstName(localStorage.getItem(directKeys[i]));
-        if (val) return val;
-      }
-      var nameFields = ["pf_given_en", "pf_first_name", "pf_given_name", "pf_given_name_en", "pf_given_he", "pf_given_name_he", "firstName", "givenName", "name"];
-      for (var k = 0; k < localStorage.length; k++) {
-        var key = localStorage.key(k);
-        if (!key) continue;
-        var raw = localStorage.getItem(key);
-        if (!raw || raw.charAt(0) !== "{") continue;
-        try {
-          var obj = JSON.parse(raw);
-          if (!obj || typeof obj !== "object") continue;
-          for (var f = 0; f < nameFields.length; f++) {
-            var nf = nameFields[f];
-            if (typeof obj[nf] === "string" && cleanFirstName(obj[nf])) return cleanFirstName(obj[nf]);
-          }
-        } catch (e) {}
-      }
-    } catch (e) {}
-    return "";
-  };
-
-  var INTRO_COMPLETED_KEY = "gat_spok_intro_completed_v5";
-  var isFirstOpenInThisTab = false;
-
-  function applyWelcomeBackToFirstBubble() {
-    var msgsBox = document.getElementById("gat-hd-msgs");
-    if (!msgsBox) return;
-    // Only shorten the initial greeting card when no user chat messages have been sent yet
-    if (msgsBox.querySelectorAll(".gat-hd-bubble.user, .gat-hd-msg.user").length > 0) return;
-
-    var firstBubble = msgsBox.querySelector(".gat-hd-bubble") || msgsBox.querySelector(".gat-welcome-card, .gat-hd-msg");
-    if (!firstBubble) return;
-
-    var lg = getLang();
-    var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
-    var uName = window.__gatGetUserNameForSpok();
-    var wbText = uName ? L.wbWithName.replace("{name}", uName) : L.wbNoName;
-
-    var wantedHtml = '<div style="font-weight:800;font-size:15px;color:#082548;padding:2px 0;">👋 ' + wbText + '</div>';
-    if (firstBubble.innerHTML !== wantedHtml) {
-      firstBubble.innerHTML = wantedHtml;
-    }
-    firstBubble.setAttribute("data-wb-shortened", "1");
-    firstBubble.setAttribute("data-spok-greeted", "1");
-  }
-
-  function handleSpokDrawerOpened() {
-    dismissFirstTimeCalloutForever();
-    var nowOpen = isSpokDrawerOpen();
-    if (!nowOpen) {
-      isFirstOpenInThisTab = false;
-      return;
-    }
-
-    var alreadyCompletedIntro = false;
-    try {
-      alreadyCompletedIntro = localStorage.getItem(INTRO_COMPLETED_KEY) === "1";
-    } catch (e) {}
-
-    if (alreadyCompletedIntro && !isFirstOpenInThisTab) {
-      applyWelcomeBackToFirstBubble();
-      setTimeout(applyWelcomeBackToFirstBubble, 50);
-      setTimeout(applyWelcomeBackToFirstBubble, 180);
-      setTimeout(applyWelcomeBackToFirstBubble, 450);
-    } else {
-      // Very first open ever! Let them read the full intro right now, and lock INTRO_COMPLETED_KEY = "1"
-      // so if they minimize & reopen OR refresh the page, they never see the intro again.
-      isFirstOpenInThisTab = true;
-      try { localStorage.setItem(INTRO_COMPLETED_KEY, "1"); } catch (e) {}
-    }
-  }
-
-  function hookToggleHelpdesk() {
-    if (typeof window.toggleGatHelpdesk === "function" && !window.toggleGatHelpdesk.__gatFabGuardHooked) {
-      var origToggle = window.toggleGatHelpdesk;
-      var wrappedToggle = function(forceState, pulseFabOnMinimize) {
-        if (forceState === false && !pulseFabOnMinimize && window.__gatSpokJustOpenedMs && (Date.now() - window.__gatSpokJustOpenedMs < 350)) {
-          return;
-        }
-        var res = origToggle.apply(this, arguments);
-        setTimeout(function() {
-          mountSpokFab();
-          if (isSpokDrawerOpen()) {
-            handleSpokDrawerOpened();
-          }
-          syncFabVisibility();
-        }, 25);
-        setTimeout(syncFabVisibility, 120);
-        return res;
-      };
-      wrappedToggle.__gatFabGuardHooked = true;
-      window.toggleGatHelpdesk = wrappedToggle;
-    }
-  }
-  hookToggleHelpdesk();
-  setInterval(hookToggleHelpdesk, 500);
-
-  document.addEventListener("click", function(e) {
-    var minBtn = e.target && e.target.closest && e.target.closest("#gat-hd-min, .gat-hd-mini-btn, .gat-hd-jump-btn");
-    if (minBtn) {
-      isFirstOpenInThisTab = false;
-      try { localStorage.setItem("gat_spok_intro_completed_v5", "1"); } catch (err) {}
-      setTimeout(syncFabVisibility, 25);
-      setTimeout(syncFabVisibility, 150);
-    }
-  }, true);
-
-  // ---------------------------------------------------------------------------
-  // PART C: SPOK IN-CHAT INTAKE FORM (PRE-FILLED WA + MANDATORY VALIDATION + SPAM SHIELD)
-  // ---------------------------------------------------------------------------
-  window.__gatGetLoggedWhatsApp = function() {
-    try {
-      var directWaKeys = ["gat_wa_phone", "gat_user_phone", "wa_phone", "userPhone", "gat_verified_phone"];
-      for (var i = 0; i < directWaKeys.length; i++) {
-        var v = (localStorage.getItem(directWaKeys[i]) || "").trim();
-        var d = v.replace(/[^0-9]/g, "");
-        if (d.length >= 9 && d.length <= 15) return { phone: v, isLogged: true };
-      }
-      var uid = (localStorage.getItem("gat_uid") || localStorage.getItem("gat_visitor_uid") || "").trim();
-      if (uid.indexOf("wa_") === 0) {
-        var ud = uid.slice(3).replace(/[^0-9]/g, "");
-        if (ud.length >= 9 && ud.length <= 15) return { phone: "+" + ud, isLogged: true };
-      }
-      for (var k = 0; k < localStorage.length; k++) {
-        var key = localStorage.key(k);
-        var raw = localStorage.getItem(key);
-        if (!raw || raw.charAt(0) !== "{") continue;
-        try {
-          var obj = JSON.parse(raw);
-          var cand = (obj && (obj.pf_phone || obj.pf_mobile || (obj.masterDossier && (obj.masterDossier.pf_phone || obj.masterDossier.pf_mobile)))) || "";
-          var cd = String(cand).replace(/[^0-9]/g, "");
-          if (cd.length >= 9 && cd.length <= 15) return { phone: String(cand).trim(), isLogged: false };
-        } catch (e) {}
-      }
-    } catch (e) {}
-    return { phone: "", isLogged: false };
-  };
-
-  window.__gatIsValidWhatsApp = function(rawVal) {
-    if (!rawVal || typeof rawVal !== "string") return false;
-    var digits = rawVal.replace(/[^0-9]/g, "");
-    if (digits.length < 9 || digits.length > 15) return false;
-    if (/^(\d)\1{6,}$/.test(digits)) return false;
-    if (digits === "123456789" || digits === "1234567890" || digits === "0500000000" || digits === "0512345678" || digits === "987654321") return false;
-    if (digits.indexOf("05") === 0 && digits.length !== 10) return false;
-    return true;
-  };
-
-  window.__gatIsValidProblemText = function(rawText) {
-    if (!rawText || typeof rawText !== "string") return false;
-    var s = rawText.trim();
-    if (s.length < 15) return false;
-    if (/(.)\1{8,}/.test(s)) return false;
-    var words = s.split(/\s+/).filter(function(w) { return w.length >= 2; });
-    return words.length >= 3;
-  };
-
-  window.__gatValidateSpokIntakeLive = function(el) {
-    var card = el.closest(".gat-spok-intake-card");
-    if (!card) return;
-    var lg = getLang();
-    var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
-
-    var waInp = card.querySelector(".gat-spok-intake-wa");
-    var probInp = card.querySelector(".gat-spok-intake-prob");
-    var waHint = card.querySelector(".gat-spok-wa-hint");
-    var probHint = card.querySelector(".gat-spok-prob-hint");
-    var subBtn = card.querySelector(".gat-spok-intake-submit");
-
-    var waOk = window.__gatIsValidWhatsApp(waInp ? waInp.value : "");
-    var probOk = window.__gatIsValidProblemText(probInp ? probInp.value : "");
-
-    if (waInp && waHint) {
-      waInp.style.borderColor = waOk ? "#10b981" : "#f59e0b";
-      waHint.style.color = waOk ? "#059669" : "#b45309";
-      waHint.textContent = waOk ? L.waValidMsg : L.waInvalidMsg;
-    }
-    if (probInp && probHint) {
-      probInp.style.borderColor = probOk ? "#10b981" : "#f59e0b";
-      probHint.style.color = probOk ? "#059669" : "#b45309";
-      probHint.textContent = probOk ? L.probValidMsg : L.probInvalidMsg;
-    }
-
-    if (subBtn) {
-      var bothValid = (waOk && probOk);
-      subBtn.disabled = !bothValid;
-      subBtn.textContent = bothValid ? L.submitUnlocked : L.submitLocked;
-      subBtn.style.background = bothValid ? "#0d9488" : "#94a3b8";
-      subBtn.style.cursor = bothValid ? "pointer" : "not-allowed";
-      subBtn.style.opacity = bothValid ? "1" : "0.65";
-    }
-  };
-
-  window.__gatBuildSpokIntakeHTML = function(prefillProblem) {
-    var lg = getLang();
-    var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
-    var dir = lg === "he" ? "rtl" : "ltr";
-    var align = lg === "he" ? "right" : "left";
-
-    var waInfo = window.__gatGetLoggedWhatsApp();
-    var preWa = (waInfo.phone || "").replace(/"/g, "&quot;");
-    var waLabel = waInfo.isLogged ? L.waLabelLogged : L.waLabelGuest;
-
-    var cleanPrefill = (prefillProblem || "").trim();
-    if (/^(hi|hello|hey|shalom)?\s*(i want to |can i |please )?(speak|talk) (to|with) a (human|person|agent|representative|someone)/i.test(cleanPrefill)) {
-      cleanPrefill = "";
-    }
-    var safePreProb = cleanPrefill.replace(/"/g, "&quot;").replace(/</g, "&lt;");
-
-    var waOk = window.__gatIsValidWhatsApp(waInfo.phone);
-    var probOk = window.__gatIsValidProblemText(cleanPrefill);
-    var bothOk = (waOk && probOk);
-    var nowMs = Date.now();
-
-    return (
-      '<div class="gat-spok-intake-card" data-open-ms="' + nowMs + '" data-logged-wa="' + (waInfo.isLogged ? "1" : "0") + '" dir="' + dir + '" style="text-align:' + align + ';font-family:system-ui,-apple-system,sans-serif;">' +
-        '<div style="font-size:13.5px;font-weight:600;color:#0f172a;line-height:1.45;margin-bottom:10px;">' + L.intakeIntro + '</div>' +
-        '<div class="gat-spok-intake-body" style="background:#f8fafc;border:1.5px solid #0284c7;border-radius:12px;padding:12px;">' +
-          '<div style="font-size:13px;font-weight:800;color:#07223f;margin-bottom:10px;">' + L.formTitle + '</div>' +
-          '<input type="text" class="gat-spok-hp-web" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" aria-hidden="true">' +
-          '<label style="display:block;font-size:12px;font-weight:800;color:#0f172a;margin-bottom:4px;">' + waLabel + '</label>' +
-          '<input type="tel" class="gat-spok-intake-wa" value="' + preWa + '" placeholder="' + L.waPh + '" oninput="window.__gatValidateSpokIntakeLive(this)" onchange="window.__gatValidateSpokIntakeLive(this)" style="width:100%;box-sizing:border-box;padding:9px 10px;border-radius:8px;border:1.5px solid ' + (waOk ? '#10b981' : '#f59e0b') + ';font-size:13.5px;font-weight:700;background:#fff;color:#0f172a;">' +
-          '<div class="gat-spok-wa-hint" style="font-size:11.5px;font-weight:700;margin-top:3px;margin-bottom:10px;color:' + (waOk ? '#059669' : '#b45309') + ';">' + (waOk ? L.waValidMsg : L.waInvalidMsg) + '</div>' +
-          '<label style="display:block;font-size:12px;font-weight:800;color:#0f172a;margin-bottom:4px;">' + L.probLabel + '</label>' +
-          '<textarea class="gat-spok-intake-prob" rows="3" placeholder="' + L.probPh + '" oninput="window.__gatValidateSpokIntakeLive(this)" onchange="window.__gatValidateSpokIntakeLive(this)" style="width:100%;box-sizing:border-box;padding:9px 10px;border-radius:8px;border:1.5px solid ' + (probOk ? '#10b981' : '#f59e0b') + ';font-size:13px;background:#fff;color:#0f172a;resize:vertical;">' + safePreProb + '</textarea>' +
-          '<div class="gat-spok-prob-hint" style="font-size:11.5px;font-weight:700;margin-top:3px;margin-bottom:10px;color:' + (probOk ? '#059669' : '#b45309') + ';">' + (probOk ? L.probValidMsg : L.probInvalidMsg) + '</div>' +
-          '<div class="gat-spok-intake-err" style="display:none;font-size:12px;font-weight:700;color:#dc2626;margin-bottom:8px;"></div>' +
-          '<button type="button" class="gat-spok-intake-submit" ' + (bothOk ? '' : 'disabled') + ' onclick="window.__gatSubmitSpokIntake(this)" style="width:100%;padding:11px 12px;border-radius:9px;border:none;background:' + (bothOk ? '#0d9488' : '#94a3b8') + ';color:#fff;font-size:13.5px;font-weight:800;cursor:' + (bothOk ? 'pointer' : 'not-allowed') + ';opacity:' + (bothOk ? '1' : '0.65') + ';transition:all 0.15s ease;">' + (bothOk ? L.submitUnlocked : L.submitLocked) + '</button>' +
-        '</div>' +
-      '</div>'
-    );
-  };
-
-  window.__gatSubmitSpokIntake = function(btnEl) {
-    var card = btnEl.closest(".gat-spok-intake-card");
-    if (!card) return;
-    var lg = getLang();
-    var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
-
-    var hpVal = (card.querySelector(".gat-spok-hp-web") || {}).value || "";
-    var waVal = ((card.querySelector(".gat-spok-intake-wa") || {}).value || "").trim();
-    var probVal = ((card.querySelector(".gat-spok-intake-prob") || {}).value || "").trim();
-    var errEl = card.querySelector(".gat-spok-intake-err");
-    var openMs = parseInt(card.getAttribute("data-open-ms") || "0", 10) || Date.now();
-    var isLoggedWa = card.getAttribute("data-logged-wa") === "1";
-
-    if (!window.__gatIsValidWhatsApp(waVal) || !window.__gatIsValidProblemText(probVal)) {
-      window.__gatValidateSpokIntakeLive(btnEl);
-      return;
-    }
-
-    try {
-      var lastSent = parseInt(localStorage.getItem("gat_spok_last_ticket_ms") || "0", 10) || 0;
-      if (Date.now() - lastSent < 120 * 1000) {
-        if (errEl) {
-          errEl.style.display = "block";
-          errEl.textContent = L.cooldownErr;
-        }
-        return;
-      }
-    } catch (e) {}
-
-    btnEl.disabled = true;
-    btnEl.textContent = L.sending;
-    btnEl.style.opacity = "0.75";
-    if (errEl) errEl.style.display = "none";
-
-    try {
-      if (!localStorage.getItem("gat_wa_phone")) {
-        localStorage.setItem("gat_wa_phone", waVal);
-      }
-    } catch (e) {}
-
-    var uid = "anon";
-    try { uid = localStorage.getItem("gat_uid") || localStorage.getItem("gat_visitor_uid") || "anon"; } catch (e) {}
-
-    fetch("/api/auditDoc", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        mode: "spok_support_escalation",
-        name: window.__gatGetUserNameForSpok() || "Site Visitor",
-        whatsapp: waVal,
-        isLoggedWa: isLoggedWa,
-        complaint: probVal,
-        hp_website: hpVal,
-        formOpenMs: Date.now() - openMs,
-        pageUrl: window.location.pathname + window.location.search,
-        lang: lg,
-        uid: uid,
-        chatContext: (window.__gatSpokRecentChat || []).slice(-6).join(" | ")
-      })
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(res) {
-      if (res && res.ok) {
-        try { localStorage.setItem("gat_spok_last_ticket_ms", String(Date.now())); } catch (e) {}
-        card.querySelector(".gat-spok-intake-body").innerHTML =
-          '<div style="padding:12px;background:#ecfdf5;border:1.5px solid #10b981;border-radius:10px;color:#065f46;font-weight:700;font-size:13.5px;line-height:1.45;">' +
-          L.sentOk + '</div>';
-      } else {
-        throw new Error((res && res.error) || "Submission error");
-      }
-    })
-    .catch(function(err) {
-      btnEl.disabled = false;
-      btnEl.textContent = L.submitUnlocked;
-      btnEl.style.opacity = "1";
-      if (errEl) {
-        errEl.style.display = "block";
-        errEl.textContent = (err && err.message) || L.waInvalidMsg;
-      }
-    });
-  };
-
-  window.__gatOpenInlineSpokIntake = function(btnEl) {
-    var wrap = btnEl.parentElement;
-    if (!wrap) return;
-    wrap.innerHTML = window.__gatBuildSpokIntakeHTML("");
-  };
-
-  window.__gatIsHumanOrProblemQuery = function(q) {
-    if (!q || typeof q !== "string") return false;
-    var s = q.toLowerCase().trim();
-    var patterns = [
-      /\b(human|person|agent|representative|someone|real person|manager|support|contact us|contact|customer service|operator)\b/,
-      /\b(complaint|complain|issue|problem|broken|bug|error|not working|doesn't work|doesnt work|stuck|wrong|refund|charge|charged|paid|payment|useless|stupid|annoying|frustrat|help me|talk to|speak to|speak with|call me|whatsapp me)\b/,
-      /(נציג|אנושי|בן אדם|מישהו|תמיכה|שירות לקוחות|תלונה|תקלה|לא עובד|בעיה|שגיאה|החזר|תשלום|דבר עם|לדבר עם|וואטסאפ|צור קשר)/,
-      /(humain|personne|conseiller|réclamation|plainte|problème|erreur|ne marche pas|remboursement|contacter)/,
-      /(humano|persona|agente|queja|reclamo|problema|error|no funciona|reembolso|contactar)/,
-      /(mensch|mitarbeiter|beschwerde|problem|fehler|funktioniert nicht|erstattung|kontakt)/,
-      /(человек|оператор|специалист|поддержк|жалоб|проблем|ошибк|не работает|возврат|связаться)/
-    ];
-    for (var i = 0; i < patterns.length; i++) {
-      if (patterns[i].test(s)) return true;
-    }
-    return false;
   };
 
   window.__gatSpokTurnCount = 0;
@@ -19267,7 +17958,7 @@ if (typeof document !== 'undefined') {
         if (bub && window.__gatSpokTurnCount >= 1 && txt.length > 60 && bub.getAttribute("data-intake-btn-added") !== "1") {
           bub.setAttribute("data-intake-btn-added", "1");
           var lg = getLang();
-          var L = SPOK_UI_I18N[lg] || SPOK_UI_I18N.en;
+          var L = (typeof SPOK_UI_I18N !== 'undefined' && (SPOK_UI_I18N[lg] || SPOK_UI_I18N.en)) || { quickEscBtn: '💬 Need Human Help?' };
           var escWrap = document.createElement("div");
           escWrap.className = "gat-spok-open-intake-btn";
           escWrap.style.marginTop = "10px";
@@ -19309,4 +18000,275 @@ if (typeof document !== 'undefined') {
       });
     }, 600);
   }, { once: true });
+})();
+
+/* === GAT ONCE-ONLY POST-HOMEPAGE IDLE /APP/ PRELOADER === */
+(function() {
+  if (window.__gatIdleAppPreloaderInstalled) return;
+  window.__gatIdleAppPreloaderInstalled = true;
+
+  var MANIFEST_KEY = "gat_app_preloaded_v1";
+  var MANIFEST_VER = "ff00db7ea0d8";
+  var APP_ASSETS = ["/app/", "/app/bd_vault.js?v=1795349235", "/app/cp_vault.js?v=1795349235", "/app/songs_vault.js?v=1795349235", "/app/app.js?v=1795580904", "/app/vendor/pdf-lib.min.js?v=1795349235", "/app/vendor/fontkit.umd.min.js?v=1795349235", "/app/stampers/gat_modular_stampers_bundle.js?v=1795349235", "/app/forms_vault.js?v=1795580904", "/app/ref_letters_vault.js?v=1795349235"];
+
+  function shouldPreload() {
+    var p = (window.location.pathname || "/").toLowerCase();
+    if (p.indexOf("/app") === 0 || p.indexOf("/analytics") === 0 || p.indexOf("/concierge") === 0) return false;
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (conn && conn.saveData) return false;
+    try {
+      if (localStorage.getItem(MANIFEST_KEY) === MANIFEST_VER) return false;
+    } catch (e) {}
+    return true;
+  }
+
+  function startPreload() {
+    if (!shouldPreload()) return;
+    var i = 0;
+    function nextAsset() {
+      if ((window.location.pathname || "").toLowerCase().indexOf("/app") === 0) return;
+      if (i >= APP_ASSETS.length) {
+        try { localStorage.setItem(MANIFEST_KEY, MANIFEST_VER); } catch (e) {}
+        return;
+      }
+      var url = APP_ASSETS[i++];
+      fetch(url, {
+        method: "GET",
+        credentials: "same-origin",
+        cache: "force-cache",
+        priority: "low"
+      }).catch(function() {}).finally(function() {
+        setTimeout(nextAsset, 300);
+      });
+    }
+    nextAsset();
+  }
+
+  if (document.readyState === "complete") {
+    setTimeout(startPreload, 2000);
+  } else {
+    window.addEventListener("load", function() {
+      setTimeout(startPreload, 2000);
+    }, { once: true });
+  }
+})();
+/* === END GAT ONCE-ONLY POST-HOMEPAGE IDLE /APP/ PRELOADER === */
+
+  // Clear any stale upload rate-limit lockouts so multi-doc & '+ Page' uploads work smoothly
+  try {
+    for (var rk = localStorage.length - 1; rk >= 0; rk--) {
+      var kName = localStorage.key(rk) || "";
+      if (/rate|cooldown|throttle|lockout|upload_ts|scan_ts|burst/i.test(kName)) {
+        localStorage.removeItem(kName);
+      }
+    }
+  } catch (e) {}
+// === GAT V16: SMALL-SCREEN TOP-ALIGN / LARGE-SCREEN CENTER + GUARANTEED ASK SPOK PILL ===
+(function(){
+  var DRAG_DONE_KEY = 'gat_spok_dragged_once_v1';
+  var INTRO_SEEN_KEY = 'gat_spok_intro_completed_v5';
+
+  var DRAG_TIP_I18N = {
+    en: '\ud83d\udca1 <strong>Tip:</strong> You can drag this window (by its top bar) or the \ud83d\udd96 icon anywhere on your screen.',
+    he: '\ud83d\udca1 <strong>\u05d8\u05d9\u05e4:</strong> \u05e0\u05d9\u05ea\u05df \u05dc\u05d2\u05e8\u05d5\u05e8 \u05d0\u05ea \u05d4\u05d7\u05dc\u05d5\u05df \u05d4\u05d6\u05d4 (\u05de\u05d4\u05e4\u05e1 \u05d4\u05e2\u05dc\u05d9\u05d5\u05df) \u05d0\u05d5 \u05d0\u05ea \u05db\u05e4\u05ea\u05d5\u05e8 \u05d4-\ud83d\udd96 \u05dc\u05db\u05dc \u05de\u05e7\u05d5\u05dd \u05d1\u05de\u05e1\u05da.',
+    fr: '\ud83d\udca1 <strong>Astuce :</strong> Vous pouvez d\u00e9placer cette fen\u00eatre (par sa barre sup\u00e9rieure) ou l\u2019ic\u00f4ne \ud83d\udd96 n\u2019importe o\u00f9 sur l\u2019\u00e9cran.',
+    es: '\ud83d\udca1 <strong>Consejo:</strong> Puedes arrastrar esta ventana (desde su barra superior) o el icono \ud83d\udd96 a cualquier parte de la pantalla.',
+    de: '\ud83d\udca1 <strong>Tipp:</strong> Sie k\u00f6nnen dieses Fenster (an der oberen Leiste) oder das \ud83d\udd96-Symbol frei auf dem Bildschirm verschieben.',
+    ru: '\ud83d\udca1 <strong>\u0421\u043e\u0432\u0435\u0442:</strong> \u0412\u044b \u043c\u043e\u0436\u0435\u0442\u0435 \u043f\u0435\u0440\u0435\u0442\u0430\u0449\u0438\u0442\u044c \u044d\u0442\u043e \u043e\u043a\u043d\u043e (\u0437\u0430 \u0432\u0435\u0440\u0445\u043d\u044e\u044e \u043f\u0430\u043d\u0435\u043b\u044c) \u0438\u043b\u0438 \u0437\u043d\u0430\u0447\u043e\u043a \ud83d\udd96 \u0432 \u043b\u044e\u0431\u043e\u0435 \u043c\u0435\u0441\u0442\u043e \u044d\u043a\u0440\u0430\u043d\u0430.'
+  };
+
+  function getLang(){
+    var m=(location.pathname||'/').toLowerCase().match(/^\/(he|fr|es|de|ru)(\/|$)/);
+    return m ? m[1] : (localStorage.getItem('gat_lang')||'en').slice(0,2).toLowerCase();
+  }
+
+  function isHomeUrl(){
+    var p=(location.pathname||'/').replace(/\/index\.html$/i,'/');
+    return /^\/(?:(he|fr|es|de|ru)\/?)?$/i.test(p);
+  }
+
+  function isUnonboardedOnHome(){
+    if(!isHomeUrl()) return false;
+    var v0=document.getElementById('view-0');
+    if(!v0 || getComputedStyle(v0).display==='none') return false;
+    var hub=document.getElementById('gat-onboarded-active-hub');
+    if(hub && getComputedStyle(hub).display!=='none' && hub.offsetHeight>40) return false;
+    if(typeof window.isGatOnboardingComplete==='function' && window.isGatOnboardingComplete()) return false;
+    return true;
+  }
+
+  function getChatDrawer(){
+    return document.getElementById('gat-hd-drawer') || document.getElementById('gat-spok-drawer');
+  }
+
+  function isChatDrawerOpen(){
+    var d=getChatDrawer();
+    if(!d) return false;
+    var cs=window.getComputedStyle(d);
+    return d.classList.contains('open') && cs.display!=='none' && cs.visibility!=='hidden' && d.offsetHeight>40;
+  }
+
+  function injectDragTipIfNeeded(){
+    var msgs=document.getElementById('gat-hd-msgs')||document.getElementById('gat-spok-messages');
+    if(!msgs || !msgs.firstElementChild) return;
+    var firstBub=msgs.firstElementChild;
+    var dragged=false;
+    try { dragged = localStorage.getItem(DRAG_DONE_KEY)==='1'; } catch(e){}
+    if(dragged){
+      var oldTips=msgs.querySelectorAll('.gat-spok-drag-tip-banner');
+      for(var i=0;i<oldTips.length;i++) oldTips[i].style.display='none';
+      return;
+    }
+    if(!firstBub.querySelector('.gat-spok-drag-tip-banner')){
+      var lg=getLang();
+      var tipTxt=DRAG_TIP_I18N[lg]||DRAG_TIP_I18N.en;
+      var tipEl=document.createElement('div');
+      tipEl.className='gat-spok-drag-tip-banner';
+      tipEl.style.cssText='margin-top:9px;padding:7px 10px;border-radius:9px;background:rgba(14,165,233,0.12);border:1px dashed #38bdf8;color:#0369a1;font-size:11.8px;line-height:1.38;';
+      tipEl.innerHTML=tipTxt;
+      firstBub.appendChild(tipEl);
+    }
+  }
+
+  window.gatOpenSpokDrawerNow = function(){
+    if(typeof window.toggleGatHelpdesk==='function'){
+      try { window.toggleGatHelpdesk(true); } catch(e){}
+    }
+    var d=getChatDrawer();
+    if(d){
+      d.classList.add('open');
+      d.style.setProperty('display','flex','important');
+      d.style.setProperty('visibility','visible','important');
+      d.style.setProperty('opacity','1','important');
+      d.style.setProperty('z-index','2147483645','important');
+      d.style.setProperty('pointer-events','auto','important');
+    }
+    // Keep inline Ask Spok visible on homepage if un-onboarded
+    if(isUnonboardedOnHome()){
+      ['gat-hero-inline-spok-pill','gat-ask-spok-inline-pill'].forEach(function(id){
+        var p=document.getElementById(id);
+        if(p) p.style.setProperty('display','inline-flex','important');
+      });
+    }
+    setTimeout(function(){
+      injectDragTipIfNeeded();
+      try { localStorage.setItem(INTRO_SEEN_KEY, '1'); } catch(e){}
+      var inp=document.getElementById('gat-hd-input')||document.getElementById('gat-spok-input');
+      if(inp) inp.focus();
+    }, 60);
+  };
+
+  window.gatCloseSpokDrawerNow = function(){
+    if(typeof window.toggleGatHelpdesk==='function'){
+      try { window.toggleGatHelpdesk(false); } catch(e){}
+    }
+    var d=getChatDrawer();
+    if(d){
+      d.classList.remove('open');
+      d.style.setProperty('display','none','important');
+    }
+    document.body.classList.remove('gat-hd-lock-scroll');
+  };
+
+  window.gatToggleSpokDrawerNow = function(){
+    if(isChatDrawerOpen()) window.gatCloseSpokDrawerNow();
+    else window.gatOpenSpokDrawerNow();
+  };
+
+  // Hook ALL global opener names checked by triggerSpokOpen() (line 2098) and onboarding_trajectory.js
+  window.openSpok = window.gatOpenSpokDrawerNow;
+  window.toggleSpok = window.gatToggleSpokDrawerNow;
+  window.openSpokModal = window.gatOpenSpokDrawerNow;
+  window.openHelpdesk = window.gatOpenSpokDrawerNow;
+  window.toggleHelpdesk = window.gatToggleSpokDrawerNow;
+  window.openGatHd = window.gatOpenSpokDrawerNow;
+  window.toggleGatHd = window.gatToggleSpokDrawerNow;
+  window.gatOpenSpokNow = window.gatOpenSpokDrawerNow;
+
+  function wireLauncherButtons(){
+    // 1. Wire #gat-hd-fab so calling target.click() from ANY script opens the drawer
+    var hdFab=document.getElementById('gat-hd-fab');
+    if(hdFab && !hdFab.getAttribute('data-v22-click')){
+      hdFab.setAttribute('data-v22-click','1');
+      hdFab.addEventListener('click', function(e){
+        e.preventDefault();
+        window.gatToggleSpokDrawerNow();
+      });
+    }
+
+    // 2. Wire #gat-spok-fab and #gat-draggable-spok-fab and inline Ask Spok pills
+    ['gat-spok-fab','gat-draggable-spok-fab','gat-hero-inline-spok-pill','gat-ask-spok-inline-pill','gat-hero-inline-spok-row','gat-hero-spok-inline-row'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(!el) return;
+      if(isUnonboardedOnHome() && (id.indexOf('pill')!==-1 || id.indexOf('row')!==-1)){
+        el.style.setProperty('display', id.indexOf('row')!==-1 ? 'flex' : 'inline-flex', 'important');
+        el.style.setProperty('visibility', 'visible', 'important');
+        el.style.setProperty('opacity', '1', 'important');
+      }
+      if(!el.getAttribute('data-v22-wired')){
+        el.setAttribute('data-v22-wired','1');
+        var sX=0, sY=0;
+        el.addEventListener('pointerdown', function(e){
+          sX=e.clientX||0; sY=e.clientY||0;
+        }, true);
+        el.addEventListener('pointerup', function(e){
+          var dx=Math.abs((e.clientX||0)-sX), dy=Math.abs((e.clientY||0)-sY);
+          if(dx<10 && dy<10){
+            setTimeout(function(){
+              if(!isChatDrawerOpen()) window.gatOpenSpokDrawerNow();
+            }, 10);
+          } else {
+            try { localStorage.setItem(DRAG_DONE_KEY, '1'); } catch(err){}
+            var tips=document.querySelectorAll('.gat-spok-drag-tip-banner');
+            for(var i=0;i<tips.length;i++) tips[i].style.display='none';
+          }
+        }, true);
+      }
+    });
+
+    // 3. Wire minimize/close button inside #gat-hd-drawer
+    var minBtn=document.getElementById('gat-hd-min');
+    if(minBtn && !minBtn.getAttribute('data-v22-min')){
+      minBtn.setAttribute('data-v22-min','1');
+      minBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        window.gatCloseSpokDrawerNow();
+      }, true);
+    }
+  }
+
+  var lastPad=-1;
+  function alignCardByScreenHeight(){
+    ['gat-v16-ask-spok-pill','gat-v17-callout-pill','gat-floating-ask-spok-pill','gat-ask-spok-bottom-pill','gat-spok-first-time-callout'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(el) el.remove();
+    });
+    wireLauncherButtons();
+
+    var v0=document.getElementById('view-0');
+    var c=document.getElementById('gat-wiz-step-hero_landing')||document.getElementById('gat-onboarding-stage');
+    if(!v0 || !c) return;
+    if(!isUnonboardedOnHome()){
+      if(lastPad!==-1){ v0.style.removeProperty('padding-top'); lastPad=-1; }
+      return;
+    }
+    var isSmallScreen=(window.innerHeight < 750 || window.innerWidth < 430);
+    if(isSmallScreen){
+      if(lastPad!==6){ lastPad=6; v0.style.setProperty('padding-top','6px','important'); }
+      return;
+    }
+    var ch=c.getBoundingClientRect().height || c.offsetHeight || 360;
+    var avail=window.innerHeight - 134;
+    var targetPad=(avail > ch + 28) ? Math.max(16, Math.round((avail - ch) / 2)) : 10;
+    if(Math.abs(targetPad - lastPad) > 3){
+      lastPad = targetPad;
+      v0.style.setProperty('padding-top', targetPad + 'px', 'important');
+    }
+  }
+
+  window.addEventListener('resize',alignCardByScreenHeight);
+  document.addEventListener('DOMContentLoaded',function(){ alignCardByScreenHeight(); setTimeout(alignCardByScreenHeight,200); });
+  setTimeout(alignCardByScreenHeight,20);
+  setInterval(alignCardByScreenHeight,350);
 })();

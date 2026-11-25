@@ -4584,3 +4584,116 @@
     });
   }
 })();
+
+// === DIRECT SPOK DRAWER OPENER INSIDE ONBOARDING_TRAJECTORY.JS ===
+(function(){
+  var lastToggleMs = 0;
+  var downX = 0, downY = 0;
+
+  window.gatOpenSpokDrawerNow = function() {
+    if (typeof window.toggleGatHelpdesk === "function") {
+      try { window.toggleGatHelpdesk(true); } catch (e) {}
+    }
+    var d = document.getElementById("gat-hd-drawer") || document.getElementById("gat-spok-drawer");
+    if (d) {
+      d.classList.add("open");
+      d.setAttribute("data-v16-open", "1");
+      d.style.setProperty("display", "flex", "important");
+      d.style.setProperty("visibility", "visible", "important");
+      d.style.setProperty("opacity", "1", "important");
+      d.style.setProperty("z-index", "2147483645", "important");
+      d.style.setProperty("pointer-events", "auto", "important");
+      // Ensure drawer is never off-screen on mobile viewports
+      if (window.innerWidth < 600) {
+        d.style.setProperty("left", "8px", "important");
+        d.style.setProperty("right", "8px", "important");
+        d.style.setProperty("bottom", "10px", "important");
+      }
+    }
+    setTimeout(function() {
+      var inp = document.getElementById("gat-hd-input") || document.getElementById("gat-spok-input");
+      if (inp && window.innerWidth >= 768) inp.focus();
+    }, 60);
+  };
+
+  window.gatCloseSpokDrawerNow = function() {
+    if (typeof window.toggleGatHelpdesk === "function") {
+      try { window.toggleGatHelpdesk(false); } catch (e) {}
+    }
+    var d = document.getElementById("gat-hd-drawer") || document.getElementById("gat-spok-drawer");
+    if (d) {
+      d.classList.remove("open");
+      d.setAttribute("data-v16-open", "0");
+      d.style.setProperty("display", "none", "important");
+    }
+    document.body.classList.remove("gat-hd-lock-scroll");
+  };
+
+  function recordDown(e) {
+    var pt = (e.touches && e.touches[0]) ? e.touches[0] : e;
+    downX = pt.clientX || 0;
+    downY = pt.clientY || 0;
+  }
+
+  window.addEventListener("touchstart", recordDown, { capture: true, passive: true });
+  window.addEventListener("pointerdown", recordDown, { capture: true, passive: true });
+  window.addEventListener("mousedown", recordDown, { capture: true, passive: true });
+
+  function isLauncherEl(t) {
+    if (!t || !t.closest) return null;
+    var hit = t.closest(
+      "#gat-spok-fab, #gat-draggable-spok-fab, #gat-hd-fab, " +
+      "#gat-ask-spok-inline-pill, #gat-hero-inline-spok-pill, " +
+      ".gat-vulcan-hand"
+    );
+    if (hit) return hit;
+    var btn = t.closest("button, [role='button'], a, div");
+    if (btn && btn.children.length <= 3) {
+      var txt = (btn.textContent || "").trim();
+      if (txt === "\ud83d\udd96" || /(?:Ask\s*Spok|שאל\s*את\s*ספוק|Demander\s*à\s*Spok|Preguntar\s*a\s*Spok|Spok\s*fragen|Спросить\s*Спок)/i.test(txt)) {
+        return btn;
+      }
+    }
+    return null;
+  }
+
+  function handleTapOrClick(e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+
+    var pt = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0] : e;
+    var moved = Math.hypot((pt.clientX || downX) - downX, (pt.clientY || downY) - downY);
+
+    // 1. Minimize / Close button inside the drawer
+    if (t.closest("#gat-hd-min, #gat-spok-close, #gat-hd-close, .gat-hd-mini-btn")) {
+      if (moved > 20) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === "function") e.stopImmediatePropagation();
+      if (Date.now() - lastToggleMs < 350) return;
+      lastToggleMs = Date.now();
+      window.gatCloseSpokDrawerNow();
+      return;
+    }
+
+    // 2. 🖖 icon or Ask Spok callout in any language (EN, RU, HE, FR, ES, DE)
+    var hit = isLauncherEl(t);
+    if (hit) {
+      if (moved > 16) return; // Ignore drags
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === "function") e.stopImmediatePropagation();
+      if (Date.now() - lastToggleMs < 420) return; // Prevent touchend + click double-toggle
+      lastToggleMs = Date.now();
+
+      var d = document.getElementById("gat-hd-drawer") || document.getElementById("gat-spok-drawer");
+      var isOpen = d && d.classList.contains("open") && window.getComputedStyle(d).display !== "none" && d.offsetHeight > 40;
+      if (isOpen) window.gatCloseSpokDrawerNow();
+      else window.gatOpenSpokDrawerNow();
+    }
+  }
+
+  window.addEventListener("touchend", handleTapOrClick, { capture: true, passive: false });
+  window.addEventListener("pointerup", handleTapOrClick, { capture: true, passive: false });
+  window.addEventListener("click", handleTapOrClick, { capture: true, passive: false });
+})();

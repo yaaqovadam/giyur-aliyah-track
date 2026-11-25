@@ -738,7 +738,7 @@ exports.auditDoc = onRequest(
     invoker: "public",
     maxInstances: 20,
     concurrency: 6,
-    timeoutSeconds: 150,
+    timeoutSeconds: 180,
     memory: "1GiB"
   },
   async (req, res) => {
@@ -746,10 +746,10 @@ exports.auditDoc = onRequest(
       return res.status(204).send("");
     }
 
-    // === LAYER 0: HARD 10-SECOND SERVER EXECUTION TIMEOUT & PAYLOAD SIZE CAP ===
-    res.setTimeout(10000, () => {
+    // === LAYER 0: HARD 120-SECOND (2-MINUTE) SERVER EXECUTION TIMEOUT & PAYLOAD SIZE CAP ===
+    res.setTimeout(120000, () => {
       if (!res.headersSent) {
-        res.status(504).json({ ok: false, error: "Server execution timeout (10s limit exceeded)." });
+        res.status(504).json({ ok: false, error: "Server execution timeout (120s / 2-minute limit exceeded)." });
       }
     });
     const _contentLen = Number(req.headers["content-length"] || 0);
@@ -795,7 +795,7 @@ exports.auditDoc = onRequest(
     // 1B. Global RAM Surge Circuit Breaker (Max 30 requests per 10 seconds across instance in RAM)
     if (_nowRam - global.__GAT_RAM_SURGE.winStart < 10000) {
       global.__GAT_RAM_SURGE.count += 1;
-      if (global.__GAT_RAM_SURGE.count > 30) {
+      if (global.__GAT_RAM_SURGE.count > 150) {
         res.set("Retry-After", "30");
         return res.status(429).json({
           ok: false,
@@ -834,7 +834,7 @@ exports.auditDoc = onRequest(
     const _skipBurst = ["track_visit", "visitor_pulse", "get_analytics", "admin_get_analytics", "clear_bot_analytics", "reset_analytics", "delete_visitor", "get_concierge_queue", "verify_admin", "admin_set_entitlements"].includes(_reqMode);
     if (!_skipBurst && (_nowRam - _ipRam.winStart < 10000)) {
       _ipRam.burstCount += 1;
-      if (_ipRam.burstCount > 10) {
+      if (_ipRam.burstCount > 60) {
         _ipRam.banUntilMs = _nowRam + 10 * 60 * 1000;
         global.__GAT_RAM_DOS_SHIELD.set(_ipHash, _ipRam);
         res.set("Retry-After", "600");
@@ -856,7 +856,7 @@ exports.auditDoc = onRequest(
       if (_ipRam.lastEscAttemptMs > 0 && sinceLastEsc < 120 * 1000) {
         _ipRam.strikes += 1;
         if (_ipRam.strikes >= 2) {
-          _ipRam.banUntilMs = _nowRam + 15 * 60 * 1000; // 15-minute hard RAM ban
+          _ipRam.banUntilMs = _nowRam + 115000; // 15-minute hard RAM ban
         }
         global.__GAT_RAM_DOS_SHIELD.set(_ipHash, _ipRam);
         const waitSec = _ipRam.banUntilMs > _nowRam
@@ -885,7 +885,7 @@ exports.auditDoc = onRequest(
     if (_reqMode !== "spok_support_escalation" && !_isTelemetryOrAdmin) {
       const _isOtp = (_reqMode === "wa_send_login");
       const _windowMs = _isOtp ? (10 * 60 * 1000) : (60 * 1000);
-      const _maxReqs = _isOtp ? 4 : 15;
+      const _maxReqs = _isOtp ? 4 : 80;
       const _bucketId = (_isOtp ? "ip_otp_" : "ip_ai_") + _ipHash;
       const _dbShield = admin.firestore();
       try {
@@ -904,11 +904,11 @@ exports.auditDoc = onRequest(
           return true;
         });
         if (!_allowed) {
-          _ipRam.banUntilMs = _nowRam + 5 * 60 * 1000;
+          _ipRam.banUntilMs = _nowRam + 15000;
           global.__GAT_RAM_DOS_SHIELD.set(_ipHash, _ipRam);
           return res.status(429).json({
             ok: false,
-            error: "Rate limit exceeded from your IP address. Please wait 5 minutes."
+            error: "Rate limit exceeded from your IP address. Please wait 15 seconds and try again."
           });
         }
       } catch (shieldErr) {
@@ -1064,7 +1064,7 @@ exports.auditDoc = onRequest(
         });
 
         if (txResult && txResult.blocked) {
-          _ipRam.banUntilMs = nowMs + 5 * 60 * 1000;
+          _ipRam.banUntilMs = nowMs + 15000;
           global.__GAT_RAM_DOS_SHIELD.set(_ipHash, _ipRam);
           return res.status(429).json({ ok: false, error: txResult.reason });
         }
@@ -3941,7 +3941,7 @@ ${dynamicSiteBrain}${trackBlueprintAiContext}
             lang: reqLang,
             waOtp: otp,
             waMagicToken: magicToken,
-            waOtpExpMs: Date.now() + 5 * 60 * 1000,
+            waOtpExpMs: Date.now() + 15000,
             updatedAtMs: Date.now()
           }, { merge: true });
 
@@ -4762,7 +4762,7 @@ exports.paymentWebhook = onRequest(
           tier,
           entitlementsMap: existingMap,
           waMagicToken: magicToken,
-          waOtpExpMs: Date.now() + 5 * 60 * 1000,
+          waOtpExpMs: Date.now() + 15000,
           updatedAtMs: Date.now()
         }, { merge: true });
         await db.collection("pro_entitlements").doc(`wa_${waDigits}`).set({
@@ -4798,7 +4798,7 @@ exports.paymentWebhook = onRequest(
 // GREEN-API + GEMINI 3.8 FLASH 24/7 WHATSAPP AI GATEKEEPER & TECH SUPPORT
 // ============================================================================
 exports.greenApiWebhook = onRequest(
-  { cors: true, secrets: [GEMINI_API_KEY], timeoutSeconds: 60 },
+  { cors: true, secrets: [GEMINI_API_KEY], timeoutSeconds: 120 },
   async (req, res) => {
     if (req.method !== "POST") return res.status(200).send("GreenAPI Webhook Active");
     try {
@@ -4905,7 +4905,7 @@ exports.greenApiWebhook = onRequest(
           permanentPassCode: finalPassCode,
           waOtp: otp,
           waMagicToken: magicToken,
-          waOtpExpMs: Date.now() + 5 * 60 * 1000,
+          waOtpExpMs: Date.now() + 15000,
           updatedAtMs: Date.now()
         }, { merge: true });
 
