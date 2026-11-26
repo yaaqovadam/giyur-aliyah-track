@@ -17803,7 +17803,6 @@ if (typeof document !== 'undefined') {
   fabCss.textContent = [
     "#gat-legacy-noop-fab, #gat-hd-fab, #gat-ask-spok-bottom-pill, #gat-spok-first-time-callout, #gat-v16-ask-spok-pill, #gat-v17-callout-pill, #gat-floating-ask-spok-pill { display: none !important; visibility: hidden !important; pointer-events: none !important; }",
     "#gat-draggable-spok-fab {",
-    "  position: fixed !important;",
     "  width: 56px !important;",
     "  height: 56px !important;",
     "  border-radius: 50% !important;",
@@ -17822,7 +17821,7 @@ if (typeof document !== 'undefined') {
     "  margin: 0 !important;",
     "}",
     "#gat-draggable-spok-fab:active { cursor: grabbing !important; }",
-"#gat-hero-inline-spok-row { max-width: 100% !important; box-sizing: border-box !important; flex-wrap: nowrap !important; padding-left: 0 !important; padding-right: 0 !important; justify-content: center !important; min-height: 56px !important; }",
+"#gat-hero-inline-spok-row { max-width: 100% !important; box-sizing: border-box !important; flex-wrap: nowrap !important; padding-left: 0 !important; padding-right: 0 !important; min-height: 56px !important; }",
     "#gat-hero-inline-spok-pill { white-space: nowrap !important; max-width: calc(100% - 68px) !important; overflow: hidden !important; text-overflow: ellipsis !important; transform: none !important; animation: none !important; transition: none !important; }",
     "#gat-spok-first-time-callout {",
     "  position: fixed !important;",
@@ -18196,13 +18195,17 @@ if (typeof document !== 'undefined') {
       d.style.setProperty('z-index','2147483645','important');
       d.style.setProperty('pointer-events','auto','important');
     }
-    // Keep inline Ask Spok visible on homepage if un-onboarded
-    if(isUnonboardedOnHome()){
-      ['gat-hero-inline-spok-pill','gat-ask-spok-inline-pill'].forEach(function(id){
-        var p=document.getElementById(id);
-        if(p) p.style.setProperty('display','inline-flex','important');
-      });
-    }
+    // Permanently retire Ask Spok callout once chat is opened, and hide the 🖖 FAB while chat window is open
+    try {
+      localStorage.setItem('gat_spok_chat_opened_v1', '1');
+      localStorage.setItem('gat_spok_opened_ever', '1');
+    } catch(e){}
+    ['gat-hero-inline-spok-pill','gat-ask-spok-inline-pill'].forEach(function(id){
+      var p=document.getElementById(id);
+      if(p) p.style.setProperty('display','none','important');
+    });
+    var dragFab=document.getElementById('gat-draggable-spok-fab');
+    if(dragFab) dragFab.style.setProperty('display','none','important');
     setTimeout(function(){
       injectDragTipIfNeeded();
       try { localStorage.setItem(INTRO_SEEN_KEY, '1'); } catch(e){}
@@ -18221,6 +18224,8 @@ if (typeof document !== 'undefined') {
       d.style.setProperty('display','none','important');
     }
     document.body.classList.remove('gat-hd-lock-scroll');
+    var dragFab=document.getElementById('gat-draggable-spok-fab');
+    if(dragFab) dragFab.style.setProperty('display','inline-flex','important');
   };
 
   window.gatToggleSpokDrawerNow = function(){

@@ -3320,7 +3320,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 })();
 </script>
   <script src="/i18n/onboarding_trajectory.js?v=v25_1795639678"></script>
-  <script src="/i18n/tracking_partner.js?v=v27_1795658752"></script>
+  <script src="/i18n/tracking_partner.js?v=v28_1795662630"></script>
 <!-- === GAT 6-LANG APPBAR ROUTER & WHITE FAQ CONTROLLER === -->
 <script id="gat-spok-and-lang-controller">
 (function() {
@@ -3408,18 +3408,21 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 (function() {
   var PILL_TEXT_RX = /(Ask\s*Spok|Preguntar\s*a\s*Spok|Demander\s*\u00e0\s*Spok|\u05e9\u05d0\u05dc\s*\u05d0\u05ea\s*\u05e1\u05e4\u05d5\u05e7|Spok\s*fragen|\u0421\u043f\u0440\u043e\u0441\u0438\u0442\u044c\s*\u0421\u043f\u043e\u043a)/i;
   var CTA_TEXT_RX = /(START\s*MY\s*TRACK|\u05d4\u05ea\u05d7\u05dc\s*\u05d0\u05ea\s*\u05d4\u05de\u05e1\u05dc\u05d5\u05dc|COMMENCER\s*MON\s*PARCOURS|EMPEZAR\s*MI\s*RUTA|MEINEN\s*WEG\s*STARTEN|\u041d\u0410\u0427\u0410\u0422\u042c\s*\u041c\u041e\u0419\s*\u041f\u0423\u0422\u042c)/i;
-  var SPOK_KEYS = ['gat_spok_opened_ever', 'gat_spok_opened', 'spok_opened_once'];
-  var CALLOUT_TEXT = {
-    en: 'ASK SPOK',
-    he: '\u05e9\u05d0\u05dc \u05d0\u05ea \u05e1\u05e4\u05d5\u05e7',
-    fr: 'DEMANDER \u00c0 SPOK',
-    es: 'PREGUNTAR A SPOK',
-    de: 'SPOK FRAGEN',
-    ru: '\u0421\u041f\u0420\u041e\u0421\u0418\u0422\u042c \u0421\u041f\u041e\u041a\u0410'
-  };
+  var SPOK_CHAT_OPENED_KEY = 'gat_spok_chat_opened_v1';
+  var CALLOUT_TEXT = {"en": "ASK SPOK", "he": "\u05e9\u05d0\u05dc \u05d0\u05ea \u05e1\u05e4\u05d5\u05e7", "fr": "DEMANDER \u00c0 SPOK", "es": "PREGUNTAR A SPOK", "de": "SPOK FRAGEN", "ru": "\u0421\u041f\u0420\u041e\u0421\u0418\u0422\u042c \u0421\u041f\u041e\u041a\u0410"};
 
   var userDraggedFab = false;
   var cachedOrigOpener = null;
+
+  // Sync live label from /i18n/<lang>.json if loaded so 6-lang text is never out of sync with JSON dicts
+  function syncCalloutFromJson(lg) {
+    try {
+      var dictCand = (window.i18nData && window.i18nData[lg]) || window.currentI18nDict || window.i18nDict || null;
+      if (dictCand && dictCand.spok_ask_callout) {
+        CALLOUT_TEXT[lg] = dictCand.spok_ask_callout;
+      }
+    } catch (e) {}
+  }
 
   function getCurLang() {
     var p = window.location.pathname || '/';
@@ -3439,11 +3442,33 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     return /^\/(?:(he|fr|es|de|ru)\/)?$/i.test(p);
   }
 
+  function isHeroLandingScreenAlone() {
+    if (!isHomepage()) return false;
+    var v0 = document.getElementById('view-0');
+    if (v0 && (window.getComputedStyle(v0).display === 'none' || !v0.classList.contains('active'))) return false;
+    var hub = document.getElementById('gat-onboarded-active-hub');
+    if (hub && window.getComputedStyle(hub).display !== 'none' && hub.offsetHeight > 20) return false;
+    var heroStep = document.getElementById('gat-wiz-step-hero_landing');
+    if (heroStep) {
+      var hs = window.getComputedStyle(heroStep);
+      return hs.display !== 'none' && hs.visibility !== 'hidden' && heroStep.offsetHeight > 60;
+    }
+    if (window.__gatWizardState && window.__gatWizardState.mode && window.__gatWizardState.mode !== 'hero_landing') {
+      return false;
+    }
+    return true;
+  }
+
+  function isSpokChatWindowOpen() {
+    var d = document.getElementById('gat-hd-drawer') || document.getElementById('spok-drawer') || document.getElementById('gat-spok-drawer');
+    if (!d) return false;
+    var cs = window.getComputedStyle(d);
+    return d.classList.contains('open') && cs.display !== 'none' && cs.visibility !== 'hidden' && d.offsetHeight > 40;
+  }
+
   function hasOpenedSpok() {
     try {
-      for (var i = 0; i < SPOK_KEYS.length; i++) {
-        if (localStorage.getItem(SPOK_KEYS[i]) === '1') return true;
-      }
+      return localStorage.getItem(SPOK_CHAT_OPENED_KEY) === '1';
     } catch (e) {}
     return false;
   }
@@ -3455,20 +3480,19 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   function markSpokOpenedForever() {
     try {
-      for (var i = 0; i < SPOK_KEYS.length; i++) {
-        localStorage.setItem(SPOK_KEYS[i], '1');
-      }
+      localStorage.setItem(SPOK_CHAT_OPENED_KEY, '1');
+      localStorage.setItem('gat_spok_opened_ever', '1');
     } catch (e) {}
     hideCalloutLabel();
   }
 
   function injectCleanStyles() {
     var oldSt = document.getElementById('gat-hero-inline-spok-css');
-    if (oldSt && oldSt.getAttribute('data-v') === 'v9') return;
+    if (oldSt && oldSt.getAttribute('data-v') === 'v10') return;
     if (oldSt && oldSt.parentElement) oldSt.parentElement.removeChild(oldSt);
     var st = document.createElement('style');
     st.id = 'gat-hero-inline-spok-css';
-    st.setAttribute('data-v', 'v9');
+    st.setAttribute('data-v', 'v10');
     st.textContent = [
       '/* Hide ONLY the redundant 3-button track selector card — keep Boxes 1-9 and all headers 100% visible! */',
       '#gat-3track-funnel-card { display: none !important; }',
@@ -3485,10 +3509,9 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       '.gat-blue-card-with-spok {',
       '  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(250, 250, 252, 0.94) 52%, rgba(236, 238, 242, 0.92) 78%, rgba(216, 220, 228, 0.90) 100%) !important;',
       '}',
-      '/* Lock direction:ltr on the Ask Spok row so on Hebrew RTL (/he/) the arrow still points right into the 🖖 button! */',
+      '/* Ask Spok row adapts cleanly to LTR (arrow -> right into 🖖) and Hebrew RTL (arrow <- left into 🖖)! */',
       '#gat-hero-inline-spok-row {',
       '  display: flex !important;',
-      '  direction: ltr !important;',
       '  align-items: center !important;',
       '  justify-content: flex-end !important;',
       '  gap: 10px !important;',
@@ -3499,28 +3522,27 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       '}',
       '#gat-hero-inline-spok-pill {',
       '  display: inline-flex !important;',
-      '  direction: ltr !important;',
       '  align-items: center !important;',
       '  justify-content: center !important;',
       '  gap: 8px !important;',
       '  background: transparent !important;',
       '  border: none !important;',
       '  box-shadow: none !important;',
-      '  padding: 0 4px !important;',
-      '  pointer-events: none !important;',
+      '  padding: 4px 6px !important;',
       '  user-select: none !important;',
-      '  cursor: default !important;',
+      '  -webkit-user-select: none !important;',
+      '  cursor: pointer !important;',
       '  white-space: nowrap !important;',
       '}',
       '#gat-hero-inline-spok-pill .gat-spok-2x-sparkle {',
-      '  font-size: 34px !important;',
+      '  font-size: 28px !important;',
       '  line-height: 1 !important;',
       '  display: inline-flex !important;',
       '  align-items: center !important;',
       '  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.55)) drop-shadow(0 2px 5px rgba(71, 85, 105, 0.32)) !important;',
       '}',
       '#gat-hero-inline-spok-pill .gat-spok-caps-text {',
-      '  font-size: 16px !important;',
+      '  font-size: 15.5px !important;',
       '  font-weight: 900 !important;',
       '  letter-spacing: 0.5px !important;',
       '  text-transform: uppercase !important;',
@@ -3528,11 +3550,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       '  -webkit-text-fill-color: #0f172a !important;',
       '}',
       '#gat-hero-inline-spok-pill .gat-spok-black-arrow {',
-      '  font-size: 21px !important;',
+      '  font-size: 20px !important;',
       '  font-weight: 900 !important;',
       '  line-height: 1 !important;',
-      '  color: #000000 !important;',
-      '  -webkit-text-fill-color: #000000 !important;',
+      '  color: #0f172a !important;',
+      '  -webkit-text-fill-color: #0f172a !important;',
       '}',
       '#gat-draggable-spok-fab {',
       '  width: 54px !important;',
@@ -3616,7 +3638,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   }
 
   function hideAllLegacyFloatingCirclesAndPills() {
-    var oldIds = ['gat-hero-inline-spok-fab', 'gat-persistent-floating-spok-fab'];
+    var oldIds = ['gat-hero-inline-spok-fab', 'gat-persistent-floating-spok-fab', 'gat-meet-spok-early-bar'];
     for (var k = 0; k < oldIds.length; k++) {
       var oldEl = document.getElementById(oldIds[k]);
       if (oldEl && oldEl.parentElement) oldEl.parentElement.removeChild(oldEl);
@@ -3627,7 +3649,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       var el = all[i];
       if (!el) continue;
       if (el.id === 'gat-draggable-spok-fab' || el.id === 'gat-hero-inline-spok-pill' || el.id === 'gat-hero-inline-spok-row') continue;
-      if (el.closest && (el.closest('#gat-hero-inline-spok-row') || el.closest('#gat-draggable-spok-fab'))) continue;
+      if (el.closest && (el.closest('#gat-hero-inline-spok-row') || el.closest('#gat-hero-inline-spok-pill') || el.closest('#gat-draggable-spok-fab'))) continue;
 
       var st = window.getComputedStyle(el);
       if (st.position === 'fixed') {
@@ -3655,6 +3677,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
 
   function triggerSpokOpen() {
     markSpokOpenedForever();
+    if (typeof window.gatOpenSpokDrawerNow === 'function') { window.gatOpenSpokDrawerNow(); return; }
     if (typeof window.openSpok === 'function') { window.openSpok(); return; }
     if (typeof window.toggleSpok === 'function') { window.toggleSpok(); return; }
     if (typeof window.openSpokModal === 'function') { window.openSpokModal(); return; }
@@ -3673,6 +3696,39 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     if (hd) {
       hd.classList.add('open', 'active');
       hd.style.display = 'flex';
+    }
+  }
+
+  function positionCalloutNextToDraggedFab(fab, callout, isRtl) {
+    if (!fab || !callout) return;
+    if (callout.parentElement !== document.body) {
+      document.body.appendChild(callout);
+    }
+    var fr = fab.getBoundingClientRect();
+    callout.style.setProperty('position', 'fixed', 'important');
+    callout.style.setProperty('z-index', '9997', 'important');
+    callout.style.setProperty('background', 'rgba(255,255,255,0.94)', 'important');
+    callout.style.setProperty('border', '1.5px solid #38bdf8', 'important');
+    callout.style.setProperty('border-radius', '999px', 'important');
+    callout.style.setProperty('padding', '5px 12px', 'important');
+    callout.style.setProperty('box-shadow', '0 4px 14px rgba(15,23,42,0.16)', 'important');
+    var cw = callout.offsetWidth || 150;
+    var ch = callout.offsetHeight || 38;
+    var topPx = Math.max(8, Math.min(window.innerHeight - ch - 8, Math.round(fr.top + (fr.height - ch) / 2)));
+    callout.style.setProperty('top', topPx + 'px', 'important');
+    var arrEl = document.getElementById('gat-hero-inline-spok-arrow');
+    // Point dynamically toward whichever side of the screen has room next to 🖖
+    var placeToRightOfFab = isRtl ? (fr.right + 8 + cw <= window.innerWidth - 6) : (fr.left - 8 - cw < 6);
+    if (placeToRightOfFab) {
+      callout.style.setProperty('left', Math.round(fr.right + 8) + 'px', 'important');
+      callout.style.setProperty('right', 'auto', 'important');
+      callout.style.setProperty('direction', 'rtl', 'important');
+      if (arrEl) arrEl.textContent = '\u2190';
+    } else {
+      callout.style.setProperty('left', Math.max(6, Math.round(fr.left - cw - 8)) + 'px', 'important');
+      callout.style.setProperty('right', 'auto', 'important');
+      callout.style.setProperty('direction', 'ltr', 'important');
+      if (arrEl) arrEl.textContent = '\u2192';
     }
   }
 
@@ -3700,7 +3756,6 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       if (!hasMoved && Math.sqrt(dx * dx + dy * dy) > 5) {
         hasMoved = true;
         userDraggedFab = true;
-        hideCalloutLabel();
         if (fab.parentElement !== document.body) {
           document.body.appendChild(fab);
         }
@@ -3715,6 +3770,11 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
         var newTop = Math.max(8, Math.min(window.innerHeight - 62, origTop + dy));
         fab.style.setProperty('left', Math.round(newLeft) + 'px', 'important');
         fab.style.setProperty('top', Math.round(newTop) + 'px', 'important');
+        var callout = document.getElementById('gat-hero-inline-spok-pill');
+        if (callout && !hasOpenedSpok() && isHeroLandingScreenAlone() && !isSpokChatWindowOpen()) {
+          callout.style.setProperty('display', 'inline-flex', 'important');
+          positionCalloutNextToDraggedFab(fab, callout, getCurLang() === 'he');
+        }
       }
     }
 
@@ -3770,8 +3830,10 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     return fab;
   }
 
-  function findExactCtaButton() {
-    var buttons = document.querySelectorAll('button, a');
+  function findExactHeroLandingCtaButton() {
+    var scope = document.getElementById('gat-wiz-step-hero_landing') || document.getElementById('view-0');
+    if (!scope) return null;
+    var buttons = scope.querySelectorAll('button, a');
     for (var i = 0; i < buttons.length; i++) {
       var b = buttons[i];
       if (!b || b.id === 'gat-draggable-spok-fab' || b.id === 'gat-hero-inline-spok-pill') continue;
@@ -3786,6 +3848,31 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     return null;
   }
 
+  function ensureCalloutElement(lg, isRtl) {
+    syncCalloutFromJson(lg);
+    var callout = document.getElementById('gat-hero-inline-spok-pill');
+    var arrowChar = isRtl ? '\u2190' : '\u2192';
+    if (!callout) {
+      callout = document.createElement('div');
+      callout.id = 'gat-hero-inline-spok-pill';
+      callout.setAttribute('role', 'button');
+      callout.innerHTML =
+        '<span class="gat-spok-2x-sparkle">\u2728</span>' +
+        '<span class="gat-spok-caps-text" id="gat-hero-inline-spok-pill-label"></span>' +
+        '<span class="gat-spok-black-arrow" id="gat-hero-inline-spok-arrow"></span>';
+      callout.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        triggerSpokOpen();
+      });
+    }
+    var lblEl = callout.querySelector('#gat-hero-inline-spok-pill-label');
+    if (lblEl) lblEl.textContent = CALLOUT_TEXT[lg] || CALLOUT_TEXT.en;
+    var arrEl = callout.querySelector('#gat-hero-inline-spok-arrow');
+    if (arrEl) arrEl.textContent = arrowChar;
+    return callout;
+  }
+
   function syncSpokLayout() {
     injectCleanStyles();
     ensureBoxes1To9VisibleAndHideOnly3TrackCard();
@@ -3794,16 +3881,39 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     var fab = ensureSingleDraggableFab();
     if (!fab) return;
 
-    if (userDraggedFab) {
-      fab.style.setProperty('display', 'inline-flex', 'important');
+    var lg = getCurLang();
+    var isRtl = (lg === 'he');
+
+    // RULE: When chat window is open, hide BOTH 🖖 button and Ask Spok callout, and permanently mark chat opened!
+    if (isSpokChatWindowOpen()) {
+      markSpokOpenedForever();
+      fab.style.setProperty('display', 'none', 'important');
+      var openRow = document.getElementById('gat-hero-inline-spok-row');
+      if (openRow && userDraggedFab) openRow.style.setProperty('display', 'none', 'important');
       return;
     }
 
-    var ctaBtn = isHomepage() ? findExactCtaButton() : null;
-    var lg = getCurLang();
-    var arrowChar = '\u2794';
+    var onHeroAlone = isHeroLandingScreenAlone();
+    var showCallout = onHeroAlone && !hasOpenedSpok();
+    var callout = ensureCalloutElement(lg, isRtl);
 
-    if (isHomepage() && ctaBtn && ctaBtn.parentElement) {
+    // If user dragged 🖖 to a custom spot, keep 🖖 there and keep ✨ ASK SPOK -> pointing to it (if on Hero screen & never opened)
+    if (userDraggedFab) {
+      var rRow = document.getElementById('gat-hero-inline-spok-row');
+      if (rRow) rRow.style.setProperty('display', 'none', 'important');
+      fab.style.setProperty('display', 'inline-flex', 'important');
+      if (showCallout) {
+        callout.style.setProperty('display', 'inline-flex', 'important');
+        positionCalloutNextToDraggedFab(fab, callout, isRtl);
+      } else {
+        callout.style.setProperty('display', 'none', 'important');
+      }
+      return;
+    }
+
+    var ctaBtn = onHeroAlone ? findExactHeroLandingCtaButton() : null;
+
+    if (onHeroAlone && ctaBtn && ctaBtn.parentElement) {
       var cur = ctaBtn.parentElement;
       while (cur && cur !== document.body && cur !== document.documentElement) {
         var cs = window.getComputedStyle(cur);
@@ -3818,35 +3928,30 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
       if (!row) {
         row = document.createElement('div');
         row.id = 'gat-hero-inline-spok-row';
-
-        var callout = document.createElement('div');
-        callout.id = 'gat-hero-inline-spok-pill';
-        callout.setAttribute('aria-hidden', 'true');
-        callout.innerHTML =
-          '<span class="gat-spok-2x-sparkle">\u2728</span>' +
-          '<span class="gat-spok-caps-text" id="gat-hero-inline-spok-pill-label">' + (CALLOUT_TEXT[lg] || CALLOUT_TEXT.en) + '</span>' +
-          '<span class="gat-spok-black-arrow" id="gat-hero-inline-spok-arrow">' + arrowChar + '</span>';
-        row.appendChild(callout);
       }
-
       if (ctaBtn.nextElementSibling !== row) {
         ctaBtn.insertAdjacentElement('afterend', row);
       }
+      // In LTR: flex-end puts [✨ ASK SPOK →] [🖖] on bottom-right.
+      // In RTL (/he/): direction:rtl + flex-end puts [🖖] on bottom-left and [✨ שאל את ספוק ←] to its right pointing left into 🖖!
       row.style.setProperty('display', 'flex', 'important');
+      row.style.setProperty('direction', isRtl ? 'rtl' : 'ltr', 'important');
+      row.style.setProperty('justify-content', 'flex-end', 'important');
 
-      var lblEl = document.getElementById('gat-hero-inline-spok-pill-label');
-      if (lblEl) lblEl.textContent = CALLOUT_TEXT[lg] || CALLOUT_TEXT.en;
-      var arrEl = document.getElementById('gat-hero-inline-spok-arrow');
-      if (arrEl) arrEl.textContent = arrowChar;
+      // Reset any floating styles on callout when docked inside row
+      callout.style.setProperty('position', 'static', 'important');
+      callout.style.setProperty('left', 'auto', 'important');
+      callout.style.setProperty('right', 'auto', 'important');
+      callout.style.setProperty('top', 'auto', 'important');
+      callout.style.setProperty('background', 'transparent', 'important');
+      callout.style.setProperty('border', 'none', 'important');
+      callout.style.setProperty('box-shadow', 'none', 'important');
+      callout.style.setProperty('direction', isRtl ? 'rtl' : 'ltr', 'important');
 
-      var inlineCallout = document.getElementById('gat-hero-inline-spok-pill');
-      if (inlineCallout) {
-        if (hasOpenedSpok()) {
-          inlineCallout.style.setProperty('display', 'none', 'important');
-        } else {
-          inlineCallout.style.setProperty('display', 'inline-flex', 'important');
-        }
+      if (callout.parentElement !== row) {
+        row.insertBefore(callout, row.firstChild);
       }
+      callout.style.setProperty('display', showCallout ? 'inline-flex' : 'none', 'important');
 
       var rowRect = row.getBoundingClientRect();
       var isRowVisible = (rowRect.width > 0 && rowRect.height > 0 && rowRect.bottom > 50 && rowRect.top < window.innerHeight - 30);
@@ -3866,25 +3971,27 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
         }
         fab.style.setProperty('position', 'fixed', 'important');
         fab.style.setProperty('bottom', '76px', 'important');
-        fab.style.setProperty('right', '16px', 'important');
-        fab.style.setProperty('left', 'auto', 'important');
+        fab.style.setProperty('right', isRtl ? 'auto' : '16px', 'important');
+        fab.style.setProperty('left', isRtl ? '16px' : 'auto', 'important');
         fab.style.setProperty('top', 'auto', 'important');
         fab.style.setProperty('display', 'inline-flex', 'important');
       }
       return;
     }
 
+    // Off the Hero Landing screen (Q1..Q4, Active Hub, Tabs 1..4, or Spoke pages): hide callout & float 🖖 cleanly
     var existingRow = document.getElementById('gat-hero-inline-spok-row');
     if (existingRow) {
       existingRow.style.setProperty('display', 'none', 'important');
     }
+    callout.style.setProperty('display', 'none', 'important');
     if (fab.parentElement !== document.body) {
       document.body.appendChild(fab);
     }
     fab.style.setProperty('position', 'fixed', 'important');
     fab.style.setProperty('bottom', '76px', 'important');
-    fab.style.setProperty('right', '16px', 'important');
-    fab.style.setProperty('left', 'auto', 'important');
+    fab.style.setProperty('right', isRtl ? 'auto' : '16px', 'important');
+    fab.style.setProperty('left', isRtl ? '16px' : 'auto', 'important');
     fab.style.setProperty('top', 'auto', 'important');
     fab.style.setProperty('display', 'inline-flex', 'important');
   }
@@ -3894,7 +4001,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   window.addEventListener('load', syncSpokLayout);
   window.addEventListener('resize', syncSpokLayout);
   window.addEventListener('scroll', syncSpokLayout, { passive: true });
-  setInterval(syncSpokLayout, 400);
+  setInterval(syncSpokLayout, 350);
 })();
 </script>
 <script id="gat-boxes-and-6tracks-upgrader">
