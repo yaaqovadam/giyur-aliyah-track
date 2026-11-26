@@ -3,7 +3,8 @@
 <head>
 <script id="gat-telemetry-zero-flicker-guard">
 (function() {
-  var CACHE_KEY = "gat_telemetry_last_good_v2";
+  var CACHE_KEY = "gat_telemetry_last_good_v4_clean";
+  try { localStorage.removeItem("gat_telemetry_last_good_v2"); localStorage.removeItem("gat_telemetry_last_good_v1"); } catch (e) {}
   window.__gatUserClickedResetLogs = false;
 
   // Track explicit clicks on "Reset All Logs" so intentional resets still clear immediately
@@ -52,7 +53,27 @@
     return null;
   }
 
+  function isExcludedSafedOrBotRow(v) {
+    if (!v || typeof v !== "object") return false;
+    var tz = String(v.tz || "").trim();
+    if (tz === "Europe/Amsterdam" || tz === "Europe/Madrid") return false;
+    var ua = String(v.ua || "");
+    var scr = String(v.screen || "").trim();
+    var ref = String(v.ref || "");
+    var isSafedMac = (
+      tz === "Asia/Jerusalem" &&
+      (/Macintosh|Mac OS X/i.test(ua) || (!ua && scr.indexOf("3") !== 0 && scr.indexOf("4") !== 0)) &&
+      !/iPhone|iPad|Android|Windows/i.test(ua)
+    );
+    var isSafed375 = (tz === "Asia/Jerusalem" && scr.indexOf("375x") === 0);
+    var isLocal = /localhost|127\.0\.0\.1/i.test(ref);
+    var isWrsBot = (tz === "America/Los_Angeles" && (scr === "1024x1024" || scr === "412x732" || scr === "1600x1200" || scr === "1050x1893"));
+    return Boolean(isSafedMac || isSafed375 || isLocal || isWrsBot);
+  }
+
   function mergeVisitorLists(oldArr, newArr) {
+    oldArr = (oldArr || []).filter(function(v) { return !isExcludedSafedOrBotRow(v); });
+    newArr = (newArr || []).filter(function(v) { return !isExcludedSafedOrBotRow(v); });
     var map = {};
     (oldArr || []).forEach(function(v) {
       var id = v && (v.vid || v.uid || v.id || v.visitorId);
@@ -668,6 +689,7 @@
   </div>
 
   <script>
+
   (function() {
     function getCookie(name) {
       var m = document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)"));

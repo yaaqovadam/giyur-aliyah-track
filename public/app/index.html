@@ -732,7 +732,7 @@ span[data-ponr="1"] {
 
 
   <!-- CROSS-DEVICE SYNC & UNIVERSAL SIGN-IN MODAL -->
-  <div class="paywall-backdrop" id="device-sync-modal" onclick="if(event.target===this) window.closeDeviceSyncModal()">
+  <div class="paywall-backdrop" id="device-sync-modal" data-nosnippet onclick="if(event.target===this) window.closeDeviceSyncModal()">
     <div class="paywall-card" role="dialog" aria-modal="true" style="max-width:480px;">
       <div class="pw-head" style="padding:20px 22px;">
         <div>
@@ -778,7 +778,7 @@ span[data-ponr="1"] {
   </div>
 
   <!-- 4-TIER PRO PAYWALL MODAL -->
-  <div class="paywall-backdrop" id="pro-paywall-modal" onclick="if(event.target===this) closeProPaywall()">
+  <div class="paywall-backdrop" id="pro-paywall-modal" data-nosnippet onclick="if(event.target===this) closeProPaywall()">
     <div class="paywall-card" role="dialog" aria-modal="true" style="max-width:640px;">
       <div class="pw-head">
         <div>
@@ -978,7 +978,7 @@ span[data-ponr="1"] {
 
 <script>window.toggleDrawer=window.toggleDrawer||function(open){if(typeof window._gatUnifiedToggleDrawer==='function')return window._gatUnifiedToggleDrawer(open);var d=document.getElementById('app-drawer');if(d)d.classList.toggle('open',typeof open==='boolean'?open:!d.classList.contains('open'));return false;};</script>
 <!-- STATIC SEO HAMBURGER DRAWER -->
-<div id="app-drawer" onclick="if(event.target===this) this.classList.remove('open');">
+<div id="app-drawer" data-nosnippet onclick="if(event.target===this) this.classList.remove('open');">
   <nav class="drawer-panel" aria-label="Main Navigation">
     <div class="drawer-brand-center" style="margin: 0 0 8px 0; padding: 4px 10px 14px 10px; border-bottom: 1.5px solid #e2e8f0; text-align: center;">
       <div style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;white-space:nowrap;font-size:1.28rem;font-weight:900;letter-spacing:-0.02em;color:#082548;line-height:1.1;direction:ltr;">
@@ -1002,8 +1002,8 @@ span[data-ponr="1"] {
     <a href="/pricing/" class="gat-ld-item" style="color:#0288D1;">🔓 View Passes &amp; Pricing</a>
   </nav>
 </div>
-  <script src="/i18n/onboarding_trajectory.js?v=v24_1795588619"></script>
-  <script src="/i18n/tracking_partner.js?v=v24_1795588619"></script>
+  <script src="/i18n/onboarding_trajectory.js?v=v25_1795639678"></script>
+  <script src="/i18n/tracking_partner.js?v=v27_1795658752"></script>
   <img src="/api/auditDoc?mode=pixel&amp;lang=en&amp;path=/app/" alt="" width="1" height="1" loading="eager" decoding="async" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;" />
 <!-- === GAT 6-LANG APPBAR ROUTER & WHITE FAQ CONTROLLER === -->
 <script id="gat-spok-and-lang-controller">

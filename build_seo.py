@@ -605,7 +605,7 @@ def build_static_funnel_html(lang, d):
     b_css = "width:100%;background:linear-gradient(135deg,#082548 0%,#03A9F4 100%);color:#fff;border:2.5px solid #4FC3F7;padding:13px 15px;border-radius:14px;font-size:0.92rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;text-align:start;box-shadow:0 6px 16px rgba(3,169,244,0.22);"
     go_href = "/emergency-aliyah-go-bag-shinui-maamad/" if lang == "en" else f"/{lang}/{SPOKES[0]['l_slugs'][lang]}/"
     return (
-        f'<section id="gat-3track-funnel-card" style="background:#fff;border:2.5px solid #03A9F4;border-radius:20px;padding:15px 14px;margin:8px 0 16px 0;box-shadow:0 12px 32px rgba(3,169,244,0.16);">'
+        f'<section id="gat-3track-funnel-card" data-nosnippet style="background:#fff;border:2.5px solid #03A9F4;border-radius:20px;padding:15px 14px;margin:8px 0 16px 0;box-shadow:0 12px 32px rgba(3,169,244,0.16);">'
         f'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;">'
         f'<div style="background:linear-gradient(135deg,#082548 0%,#0288D1 100%);color:#fff;border:1.5px solid #03A9F4;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">{s1}</div>'
         f'<div style="background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;border-radius:999px;padding:6px 8px;font-size:0.73rem;font-weight:900;text-align:center;">{s2}</div>'
@@ -627,7 +627,7 @@ base_html = open("public/index.html", encoding="utf-8").read()
 
 if 'id="gat-hub-seo-library-drawer"' in base_html:
     base_html = re.sub(
-        r'\s*<div id="gat-onboarding-stage">[\s\S]*?<details id="gat-hub-seo-library-drawer"[^>]*>\s*<summary[^>]*>[\s\S]*?</summary>\s*<div[^>]*>([\s\S]*?)</div>\s*</details>',
+        r'\s*<div id="gat-onboarding-stage" data-nosnippet>[\s\S]*?<details id="gat-hub-seo-library-drawer"[^>]*>\s*<summary[^>]*>[\s\S]*?</summary>\s*<div[^>]*>([\s\S]*?)</div>\s*</details>',
         lambda m: "\n" + re.sub(r'<h2(\b[^>]*data-i18n="hero_h1"[^>]*)>([\s\S]*?)</h2>', r'<h1\1>\2</h1>', m.group(1), count=1),
         base_html,
         count=1
@@ -731,7 +731,7 @@ def apply_common_i18n(out, lang, d):
     for k, val in d.items():
         if not k.startswith("_") and isinstance(val, str):
             out = re.sub(rf'(data-i18n="{re.escape(k)}"[^>]*>)[^<]*(</)', lambda m: m.group(1) + val + m.group(2), out)
-    out = re.sub(r'<section id="gat-3track-funnel-card"[\s\S]*?</section>', lambda _: build_static_funnel_html(lang, d), out, count=1)
+    out = re.sub(r'<section id="gat-3track-funnel-card" data-nosnippet[\s\S]*?</section>', lambda _: build_static_funnel_html(lang, d), out, count=1)
     _, _, _, _, open_pg_lbl, _ = STAGE_UI_STATIC_I18N.get(lang, STAGE_UI_STATIC_I18N["en"])
     out = out.replace("<span>Open Page →</span>", f"<span>{open_pg_lbl}</span>")
     fp = d.get("_funnel_pre_ai", {})
@@ -760,7 +760,7 @@ def apply_common_i18n(out, lang, d):
     if blocks.get("#left-drawer-panel") and not str(blocks["#left-drawer-panel"]).startswith("[EN_DOM_DEFAULT"):
         out = re.sub(r'(<aside class="drawer-panel" id="left-drawer-panel">)[\s\S]*?(</aside>)', lambda m: m.group(1) + "\n" + blocks["#left-drawer-panel"] + "\n  " + m.group(2), out, count=1)
     if blocks.get("#app-drawer .drawer-panel") and not str(blocks["#app-drawer .drawer-panel"]).startswith("[EN_DOM_DEFAULT"):
-        out = re.sub(r'(<div class="drawer-overlay" id="app-drawer"[^>]*>\s*<aside class="drawer-panel">)[\s\S]*?(</aside>)', lambda m: m.group(1) + "\n" + blocks["#app-drawer .drawer-panel"] + "\n  " + m.group(2), out, count=1)
+        out = re.sub(r'(<div class="drawer-overlay" id="app-drawer" data-nosnippet[^>]*>\s*<aside class="drawer-panel">)[\s\S]*?(</aside>)', lambda m: m.group(1) + "\n" + blocks["#app-drawer .drawer-panel"] + "\n  " + m.group(2), out, count=1)
     if blocks.get("#view-3 .vetted-card") and not str(blocks["#view-3 .vetted-card"]).startswith("[EN_DOM_DEFAULT"):
         out = re.sub(r'(<div class="vetted-card"[^>]*>)[\s\S]*?(</div>\s*</section>)', lambda m: m.group(1) + blocks["#view-3 .vetted-card"] + m.group(2), out, count=1)
     if blocks.get("#view-4 .shield-banner") and not str(blocks["#view-4 .shield-banner"]).startswith("[EN_DOM_DEFAULT"):
@@ -1031,7 +1031,7 @@ def _inject_article_at_very_top(html_str, article_html):
         return html_str
     # 1. Strip the homepage hero-center and exodus-alert from #view-0 on spoke/form pages
     html_str = re.sub(
-        r'(<section\b[^>]*\bid="view-0"[^>]*>)[\s\S]*?(?=<section id="gat-3track-funnel-card")',
+        r'(<section\b[^>]*\bid="view-0"[^>]*>)[\s\S]*?(?=<section id="gat-3track-funnel-card" data-nosnippet)',
         lambda m: m.group(1) + "\n        ",
         html_str,
         count=1
@@ -1199,8 +1199,8 @@ def wrap_root_hub_for_clean_onboarding(html_out, lang):
         close_tag = m.group(3)
         inner_clean = re.sub(r'<h1(\b[^>]*)>([\s\S]*?)</h1>', r'<h2\1>\2</h2>', inner, count=1)
         stage_ssr = (
-            f'\n        <div id="gat-onboarding-stage">'
-            f'<div id="gat-wiz-step-hero_landing" class="gat-wiz-card" style="max-width:760px;margin:2px auto 24px auto;text-align:center;padding:13px 13px;background:#ffffff;border:2px solid #03A9F4;border-radius:17px;box-shadow:0 12px 30px rgba(16,56,86,0.10);">'
+            f'\n        <div id="gat-onboarding-stage" data-nosnippet>'
+            f'<div id="gat-wiz-step-hero_landing" data-nosnippet class="gat-wiz-card" style="max-width:760px;margin:2px auto 24px auto;text-align:center;padding:13px 13px;background:#ffffff;border:2px solid #03A9F4;border-radius:17px;box-shadow:0 12px 30px rgba(16,56,86,0.10);">'
             f'<h1 class="gat-ob-h1" style="font-size:clamp(1.14rem,3.8vw,1.48rem);font-weight:900;color:#103856;line-height:1.18;margin:0 0 10px 0;">{html.escape(mh["title"])}</h1>'
             f'<p class="gat-ob-sub" style="font-size:0.79rem;color:#334155;line-height:1.36;max-width:680px;margin:0 auto 19px auto;font-weight:700;">{html.escape(mh["lead"])}</p>'
             f'<ul style="list-style:none;padding:10px 12px;margin:0 auto 11px auto;max-width:720px;background:#f8fafc;border:1.5px solid #bae6fd;border-radius:13px;text-align:start;display:flex;flex-direction:column;gap:8px;">{bullets_li}</ul>'

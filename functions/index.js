@@ -1701,7 +1701,19 @@ exports.auditDoc = onRequest(
         const b = isPixelGet ? req.query : (req.body || {});
         const rawUa = String(b.ua || req.headers["user-agent"] || "").slice(0, 300);
         const botRx = /(bot|crawler|spider|slurp|bingpreview|facebookexternalhit|meta-externalagent|whatsapp|telegrambot|twitterbot|linkedinbot|embedly|applebot|semrush|ahrefs|mj12bot|dotbot|yandex|baiduspider|duckduckbot|gptbot|chatgpt-user|oai-searchbot|claudebot|anthropic|bytespider|perplexity|ccbot|googleother|adsbot|lighthouse|headlesschrome|python|curl|wget|axios|node-fetch|go-http-client)/i;
-        const isBot = Boolean(b.isBot || isPixelGet || botRx.test(rawUa));
+        
+        // === GAT 5-DEVICE SAFED EXCLUSION (KEEPS MOM IN AMSTERDAM & DAD IN MADRID) ===
+        const tzCheck = String(b.tz || "").trim();
+        const scrCheck = String(b.screen || "").trim();
+        const refCheck = String(b.ref || "").trim();
+        const isSafedFamilyMac = (tzCheck === "Asia/Jerusalem" && /Macintosh|Mac OS X/i.test(rawUa) && !/iPhone|iPad/i.test(rawUa));
+        const isSafedFamily375iPhone = (tzCheck === "Asia/Jerusalem" && /iPhone/i.test(rawUa) && scrCheck.startsWith("375x"));
+        const isLocalhostDev = /localhost|127\.0\.0\.1/i.test(refCheck);
+        if (b.ignoreAnalytics || isSafedFamilyMac || isSafedFamily375iPhone || isLocalhostDev) {
+          return res.status(200).json({ ok: true, ignored: "safed_family_device" });
+        }
+        const isHeadlessWrs = (tzCheck === "America/Los_Angeles" && (scrCheck === "1024x1024" || scrCheck === "412x732" || scrCheck === "1600x1200"));
+        const isBot = Boolean(b.isBot || isPixelGet || isHeadlessWrs || botRx.test(rawUa));
 
         function classifyCrawler(ua) {
           const s = String(ua || "");
@@ -2498,6 +2510,77 @@ exports.auditDoc = onRequest(
       const users = {};
       usersSnap.forEach(d => { users[d.id] = d.data(); });
       const visSnap = await db.collection("site_visitors_recent").get();
+        // === GAT PURGE SAFED 5 DEVICES ===
+        if (req.body && req.body.purgeSafedDevices === true) {
+          let purgedCount = 0;
+          const deletes = [];
+          for (const doc of visSnap.docs) {
+            const d = doc.data() || {};
+            const tz = String(d.tz || "");
+            const ua = String(d.ua || "");
+            const scr = String(d.screen || "");
+            const ref = String(d.ref || "");
+            if (tz === "Europe/Amsterdam" || tz === "Europe/Madrid") continue;
+            const isSafedMac = (tz === "Asia/Jerusalem" && /Macintosh|Mac OS X/i.test(ua) && !/iPhone|iPad/i.test(ua));
+            const isSafed375 = (tz === "Asia/Jerusalem" && /iPhone/i.test(ua) && scr.startsWith("375x"));
+            const isLocal = /localhost|127\.0\.0\.1/i.test(ref);
+            const isWrsBot = (tz === "America/Los_Angeles" && (scr === "1024x1024" || scr === "412x732" || scr === "1600x1200"));
+            if (isSafedMac || isSafed375 || isLocal || isWrsBot) {
+              deletes.push(doc.ref.delete());
+              purgedCount++;
+            }
+          }
+          await Promise.all(deletes);
+          // === GAT AUTO-PURGE SAFED 5 DEVICES ON READ ===
+        const isExcludedSafedOrBot = (v) => {
+          if (!v || typeof v !== "object") return false;
+          const tz = String(v.tz || "").trim();
+          if (tz === "Europe/Amsterdam" || tz === "Europe/Madrid") return false;
+          const ua = String(v.ua || "");
+          const scr = String(v.screen || "").trim();
+          const ref = String(v.ref || "");
+          const isSafedMac = (tz === "Asia/Jerusalem" && (/Macintosh|Mac OS X/i.test(ua) || !ua) && !/iPhone|iPad|Android|Windows/i.test(ua));
+          const isSafed375 = (tz === "Asia/Jerusalem" && scr.startsWith("375x"));
+          const isLocal = /localhost|127\.0\.0\.1/i.test(ref);
+          const isWrsBot = (tz === "America/Los_Angeles" && (scr === "1024x1024" || scr === "412x732" || scr === "1600x1200"));
+          const isFbPreviewSpike = (tz === "America/Los_Angeles" && scr === "1050x1893");
+          return Boolean(isSafedMac || isSafed375 || isLocal || isWrsBot || isFbPreviewSpike);
+        };
+        if (Array.isArray(visitors)) {
+          const badVids = [];
+          for (let i = visitors.length - 1; i >= 0; i--) {
+            if (isExcludedSafedOrBot(visitors[i])) {
+              const id = visitors[i].vid || visitors[i].id;
+              if (id) badVids.push(String(id));
+              visitors.splice(i, 1);
+            }
+          }
+          if (badVids.length > 0) {
+            const delOps = [];
+            try {
+              if (typeof visitorsSnap !== "undefined" && visitorsSnap && visitorsSnap.docs) {
+                const badSet = new Set(badVids);
+                for (const d of visitorsSnap.docs) {
+                  if (badSet.has(d.id) || isExcludedSafedOrBot(d.data())) {
+                    delOps.push(d.ref.delete().catch(() => null));
+                  }
+                }
+              }
+            } catch (e) {}
+            for (const vid of badVids) {
+              for (const col of ["site_visitors", "analytics_visitors", "visitors"]) {
+                delOps.push(db.collection(col).doc(vid).delete().catch(() => null));
+              }
+              delOps.push(db.collection("site_analytics").doc("visitors").collection("items").doc(vid).delete().catch(() => null));
+              delOps.push(db.collection("site_analytics").doc("visitors").collection("list").doc(vid).delete().catch(() => null));
+            }
+            await Promise.all(delOps);
+          }
+        }
+        // === END GAT AUTO-PURGE SAFED 5 DEVICES ON READ ===
+        return res.status(200).json({ ok: true, purgedCount });
+        }
+        // === END GAT PURGE SAFED 5 DEVICES ===
       const visitors = {};
       visSnap.forEach(d => { visitors[d.id] = d.data(); });
       const roomsSnap = await db.collection("couples_rooms").get();
@@ -2509,7 +2592,54 @@ exports.auditDoc = onRequest(
       const draftsSnap = await db.collection("user_form_drafts").get();
       const drafts = {};
       draftsSnap.forEach(d => { drafts[d.id] = d.data(); });
-      return res.status(200).json({ ok: true, users, visitors, rooms, drafts });
+      // === GAT AUTO-PURGE SAFED 5 DEVICES ON READ ===
+        const isExcludedSafedOrBot = (v) => {
+          if (!v || typeof v !== "object") return false;
+          const tz = String(v.tz || "").trim();
+          if (tz === "Europe/Amsterdam" || tz === "Europe/Madrid") return false;
+          const ua = String(v.ua || "");
+          const scr = String(v.screen || "").trim();
+          const ref = String(v.ref || "");
+          const isSafedMac = (tz === "Asia/Jerusalem" && (/Macintosh|Mac OS X/i.test(ua) || !ua) && !/iPhone|iPad|Android|Windows/i.test(ua));
+          const isSafed375 = (tz === "Asia/Jerusalem" && scr.startsWith("375x"));
+          const isLocal = /localhost|127\.0\.0\.1/i.test(ref);
+          const isWrsBot = (tz === "America/Los_Angeles" && (scr === "1024x1024" || scr === "412x732" || scr === "1600x1200"));
+          const isFbPreviewSpike = (tz === "America/Los_Angeles" && scr === "1050x1893");
+          return Boolean(isSafedMac || isSafed375 || isLocal || isWrsBot || isFbPreviewSpike);
+        };
+        if (Array.isArray(visitors)) {
+          const badVids = [];
+          for (let i = visitors.length - 1; i >= 0; i--) {
+            if (isExcludedSafedOrBot(visitors[i])) {
+              const id = visitors[i].vid || visitors[i].id;
+              if (id) badVids.push(String(id));
+              visitors.splice(i, 1);
+            }
+          }
+          if (badVids.length > 0) {
+            const delOps = [];
+            try {
+              if (typeof visitorsSnap !== "undefined" && visitorsSnap && visitorsSnap.docs) {
+                const badSet = new Set(badVids);
+                for (const d of visitorsSnap.docs) {
+                  if (badSet.has(d.id) || isExcludedSafedOrBot(d.data())) {
+                    delOps.push(d.ref.delete().catch(() => null));
+                  }
+                }
+              }
+            } catch (e) {}
+            for (const vid of badVids) {
+              for (const col of ["site_visitors", "analytics_visitors", "visitors"]) {
+                delOps.push(db.collection(col).doc(vid).delete().catch(() => null));
+              }
+              delOps.push(db.collection("site_analytics").doc("visitors").collection("items").doc(vid).delete().catch(() => null));
+              delOps.push(db.collection("site_analytics").doc("visitors").collection("list").doc(vid).delete().catch(() => null));
+            }
+            await Promise.all(delOps);
+          }
+        }
+        // === END GAT AUTO-PURGE SAFED 5 DEVICES ON READ ===
+        return res.status(200).json({ ok: true, users, visitors, rooms, drafts });
     }
 
         // ========================================================================
@@ -2766,6 +2896,53 @@ exports.auditDoc = onRequest(
         botSnap.forEach(doc => crawlers.push(doc.data()));
         const dailyHistory = [];
         daysSnap.forEach(doc => dailyHistory.push(doc.data()));
+        // === GAT AUTO-PURGE SAFED 5 DEVICES ON READ ===
+        const isExcludedSafedOrBot = (v) => {
+          if (!v || typeof v !== "object") return false;
+          const tz = String(v.tz || "").trim();
+          if (tz === "Europe/Amsterdam" || tz === "Europe/Madrid") return false;
+          const ua = String(v.ua || "");
+          const scr = String(v.screen || "").trim();
+          const ref = String(v.ref || "");
+          const isSafedMac = (tz === "Asia/Jerusalem" && (/Macintosh|Mac OS X/i.test(ua) || !ua) && !/iPhone|iPad|Android|Windows/i.test(ua));
+          const isSafed375 = (tz === "Asia/Jerusalem" && scr.startsWith("375x"));
+          const isLocal = /localhost|127\.0\.0\.1/i.test(ref);
+          const isWrsBot = (tz === "America/Los_Angeles" && (scr === "1024x1024" || scr === "412x732" || scr === "1600x1200"));
+          const isFbPreviewSpike = (tz === "America/Los_Angeles" && scr === "1050x1893");
+          return Boolean(isSafedMac || isSafed375 || isLocal || isWrsBot || isFbPreviewSpike);
+        };
+        if (Array.isArray(visitors)) {
+          const badVids = [];
+          for (let i = visitors.length - 1; i >= 0; i--) {
+            if (isExcludedSafedOrBot(visitors[i])) {
+              const id = visitors[i].vid || visitors[i].id;
+              if (id) badVids.push(String(id));
+              visitors.splice(i, 1);
+            }
+          }
+          if (badVids.length > 0) {
+            const delOps = [];
+            try {
+              if (typeof visitorsSnap !== "undefined" && visitorsSnap && visitorsSnap.docs) {
+                const badSet = new Set(badVids);
+                for (const d of visitorsSnap.docs) {
+                  if (badSet.has(d.id) || isExcludedSafedOrBot(d.data())) {
+                    delOps.push(d.ref.delete().catch(() => null));
+                  }
+                }
+              }
+            } catch (e) {}
+            for (const vid of badVids) {
+              for (const col of ["site_visitors", "analytics_visitors", "visitors"]) {
+                delOps.push(db.collection(col).doc(vid).delete().catch(() => null));
+              }
+              delOps.push(db.collection("site_analytics").doc("visitors").collection("items").doc(vid).delete().catch(() => null));
+              delOps.push(db.collection("site_analytics").doc("visitors").collection("list").doc(vid).delete().catch(() => null));
+            }
+            await Promise.all(delOps);
+          }
+        }
+        // === END GAT AUTO-PURGE SAFED 5 DEVICES ON READ ===
         return res.status(200).json({
           ok: true,
           today: daySnap.exists ? daySnap.data() : { date: dayStr, totalSeconds: 0, totalPageViews: 0, totalBotHits: 0 },

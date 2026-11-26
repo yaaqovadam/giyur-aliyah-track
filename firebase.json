@@ -155,6 +155,1533 @@
           }
         ]
       }
+    ],
+    "redirects": [
+      {
+        "source": "/he/app",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/he/app/",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/he/app/**",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/fr/app",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/fr/app/",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/fr/app/**",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/es/app",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/es/app/",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/es/app/**",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/de/app",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/de/app/",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/de/app/**",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/ru/app",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/ru/app/",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/ru/app/**",
+        "destination": "/app/",
+        "type": 301
+      },
+      {
+        "source": "/he/aliyah-benefits-sal-klita-24-month-rule-cost-calculator",
+        "destination": "/he/zchuyot-olim-sal-klita-malkodet-24-chodashim-aluyot/",
+        "type": 301
+      },
+      {
+        "source": "/he/aliyah-benefits-sal-klita-24-month-rule-cost-calculator/",
+        "destination": "/he/zchuyot-olim-sal-klita-malkodet-24-chodashim-aluyot/",
+        "type": 301
+      },
+      {
+        "source": "/fr/aliyah-benefits-sal-klita-24-month-rule-cost-calculator",
+        "destination": "/fr/droits-aliyah-sal-klita-piege-24-mois-calculateur-couts/",
+        "type": 301
+      },
+      {
+        "source": "/fr/aliyah-benefits-sal-klita-24-month-rule-cost-calculator/",
+        "destination": "/fr/droits-aliyah-sal-klita-piege-24-mois-calculateur-couts/",
+        "type": 301
+      },
+      {
+        "source": "/es/aliyah-benefits-sal-klita-24-month-rule-cost-calculator",
+        "destination": "/es/beneficios-aliya-sal-klita-regla-24-meses-costos-reales/",
+        "type": 301
+      },
+      {
+        "source": "/es/aliyah-benefits-sal-klita-24-month-rule-cost-calculator/",
+        "destination": "/es/beneficios-aliya-sal-klita-regla-24-meses-costos-reales/",
+        "type": 301
+      },
+      {
+        "source": "/de/aliyah-benefits-sal-klita-24-month-rule-cost-calculator",
+        "destination": "/de/alija-vorteile-sal-klita-24-monate-falle-kosten-rechner/",
+        "type": 301
+      },
+      {
+        "source": "/de/aliyah-benefits-sal-klita-24-month-rule-cost-calculator/",
+        "destination": "/de/alija-vorteile-sal-klita-24-monate-falle-kosten-rechner/",
+        "type": 301
+      },
+      {
+        "source": "/ru/aliyah-benefits-sal-klita-24-month-rule-cost-calculator",
+        "destination": "/ru/lgoty-alii-sal-klita-lovushka-24-mesyacev-realnye-rashody/",
+        "type": 301
+      },
+      {
+        "source": "/ru/aliyah-benefits-sal-klita-24-month-rule-cost-calculator/",
+        "destination": "/ru/lgoty-alii-sal-klita-lovushka-24-mesyacev-realnye-rashody/",
+        "type": 301
+      },
+      {
+        "source": "/he/aliyah-spousal-visa-criminal-record-rehabilitation",
+        "destination": "/he/aliyah-halich-medurag-avar-plili-teudat-yosher/",
+        "type": 301
+      },
+      {
+        "source": "/he/aliyah-spousal-visa-criminal-record-rehabilitation/",
+        "destination": "/he/aliyah-halich-medurag-avar-plili-teudat-yosher/",
+        "type": 301
+      },
+      {
+        "source": "/fr/aliyah-spousal-visa-criminal-record-rehabilitation",
+        "destination": "/fr/aliyah-visa-conjoint-casier-judiciaire-rehabilitation/",
+        "type": 301
+      },
+      {
+        "source": "/fr/aliyah-spousal-visa-criminal-record-rehabilitation/",
+        "destination": "/fr/aliyah-visa-conjoint-casier-judiciaire-rehabilitation/",
+        "type": 301
+      },
+      {
+        "source": "/es/aliyah-spousal-visa-criminal-record-rehabilitation",
+        "destination": "/es/aliya-visa-pareja-antecedentes-penales-rehabilitacion/",
+        "type": 301
+      },
+      {
+        "source": "/es/aliyah-spousal-visa-criminal-record-rehabilitation/",
+        "destination": "/es/aliya-visa-pareja-antecedentes-penales-rehabilitacion/",
+        "type": 301
+      },
+      {
+        "source": "/de/aliyah-spousal-visa-criminal-record-rehabilitation",
+        "destination": "/de/alija-ehepartner-visum-vorstrafe-fuehrungszeugnis/",
+        "type": 301
+      },
+      {
+        "source": "/de/aliyah-spousal-visa-criminal-record-rehabilitation/",
+        "destination": "/de/alija-ehepartner-visum-vorstrafe-fuehrungszeugnis/",
+        "type": 301
+      },
+      {
+        "source": "/ru/aliyah-spousal-visa-criminal-record-rehabilitation",
+        "destination": "/ru/repatriaciya-sst-izrail-sudimost-spravka-mvd/",
+        "type": 301
+      },
+      {
+        "source": "/ru/aliyah-spousal-visa-criminal-record-rehabilitation/",
+        "destination": "/ru/repatriaciya-sst-izrail-sudimost-spravka-mvd/",
+        "type": 301
+      },
+      {
+        "source": "/he/apostille-180-day-clock-fbi-police-check-israel",
+        "destination": "/he/5-mismachei-apostille-teudat-yosher-180-yom/",
+        "type": 301
+      },
+      {
+        "source": "/he/apostille-180-day-clock-fbi-police-check-israel/",
+        "destination": "/he/5-mismachei-apostille-teudat-yosher-180-yom/",
+        "type": 301
+      },
+      {
+        "source": "/fr/apostille-180-day-clock-fbi-police-check-israel",
+        "destination": "/fr/5-documents-apostille-casier-judiciaire-180-jours-israel/",
+        "type": 301
+      },
+      {
+        "source": "/fr/apostille-180-day-clock-fbi-police-check-israel/",
+        "destination": "/fr/5-documents-apostille-casier-judiciaire-180-jours-israel/",
+        "type": 301
+      },
+      {
+        "source": "/es/apostille-180-day-clock-fbi-police-check-israel",
+        "destination": "/es/5-documentos-apostilla-antecedentes-penales-180-dias-israel/",
+        "type": 301
+      },
+      {
+        "source": "/es/apostille-180-day-clock-fbi-police-check-israel/",
+        "destination": "/es/5-documentos-apostilla-antecedentes-penales-180-dias-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/apostille-180-day-clock-fbi-police-check-israel",
+        "destination": "/de/5-apostille-dokumente-fuehrungszeugnis-180-tage-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/apostille-180-day-clock-fbi-police-check-israel/",
+        "destination": "/de/5-apostille-dokumente-fuehrungszeugnis-180-tage-israel/",
+        "type": 301
+      },
+      {
+        "source": "/ru/apostille-180-day-clock-fbi-police-check-israel",
+        "destination": "/ru/5-dokumentov-apostil-spravka-o-nesudimosti-180-dnej-izrail/",
+        "type": 301
+      },
+      {
+        "source": "/ru/apostille-180-day-clock-fbi-police-check-israel/",
+        "destination": "/ru/5-dokumentov-apostil-spravka-o-nesudimosti-180-dnej-izrail/",
+        "type": 301
+      },
+      {
+        "source": "/he/beit-din-conversion-questions-israel",
+        "destination": "/he/sheelot-beit-din-legiyur-700-tshuvot/",
+        "type": 301
+      },
+      {
+        "source": "/he/beit-din-conversion-questions-israel/",
+        "destination": "/he/sheelot-beit-din-legiyur-700-tshuvot/",
+        "type": 301
+      },
+      {
+        "source": "/fr/beit-din-conversion-questions-israel",
+        "destination": "/fr/questions-beit-din-conversion-israel-700/",
+        "type": 301
+      },
+      {
+        "source": "/fr/beit-din-conversion-questions-israel/",
+        "destination": "/fr/questions-beit-din-conversion-israel-700/",
+        "type": 301
+      },
+      {
+        "source": "/es/beit-din-conversion-questions-israel",
+        "destination": "/es/preguntas-beit-din-conversion-israel-700/",
+        "type": 301
+      },
+      {
+        "source": "/es/beit-din-conversion-questions-israel/",
+        "destination": "/es/preguntas-beit-din-conversion-israel-700/",
+        "type": 301
+      },
+      {
+        "source": "/de/beit-din-conversion-questions-israel",
+        "destination": "/de/beit-din-fragen-konversion-giur-israel-700/",
+        "type": 301
+      },
+      {
+        "source": "/de/beit-din-conversion-questions-israel/",
+        "destination": "/de/beit-din-fragen-konversion-giur-israel-700/",
+        "type": 301
+      },
+      {
+        "source": "/ru/beit-din-conversion-questions-israel",
+        "destination": "/ru/voprosy-bejt-dina-giyur-izrail-700/",
+        "type": 301
+      },
+      {
+        "source": "/ru/beit-din-conversion-questions-israel/",
+        "destination": "/ru/voprosy-bejt-dina-giyur-izrail-700/",
+        "type": 301
+      },
+      {
+        "source": "/he/concierge",
+        "destination": "/concierge/",
+        "type": 301
+      },
+      {
+        "source": "/he/concierge/",
+        "destination": "/concierge/",
+        "type": 301
+      },
+      {
+        "source": "/fr/concierge",
+        "destination": "/concierge/",
+        "type": 301
+      },
+      {
+        "source": "/fr/concierge/",
+        "destination": "/concierge/",
+        "type": 301
+      },
+      {
+        "source": "/es/concierge",
+        "destination": "/concierge/",
+        "type": 301
+      },
+      {
+        "source": "/es/concierge/",
+        "destination": "/concierge/",
+        "type": 301
+      },
+      {
+        "source": "/de/concierge",
+        "destination": "/concierge/",
+        "type": 301
+      },
+      {
+        "source": "/de/concierge/",
+        "destination": "/concierge/",
+        "type": 301
+      },
+      {
+        "source": "/ru/concierge",
+        "destination": "/concierge/",
+        "type": 301
+      },
+      {
+        "source": "/ru/concierge/",
+        "destination": "/concierge/",
+        "type": 301
+      },
+      {
+        "source": "/he/dahan-ruling-non-orthodox-conversion-aliyah-truth",
+        "destination": "/he/psak-din-dahan-giyur-reformi-konservativi-rabbanut/",
+        "type": 301
+      },
+      {
+        "source": "/he/dahan-ruling-non-orthodox-conversion-aliyah-truth/",
+        "destination": "/he/psak-din-dahan-giyur-reformi-konservativi-rabbanut/",
+        "type": 301
+      },
+      {
+        "source": "/fr/dahan-ruling-non-orthodox-conversion-aliyah-truth",
+        "destination": "/fr/arret-dahan-conversion-reformee-massorti-aliyah-rabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/fr/dahan-ruling-non-orthodox-conversion-aliyah-truth/",
+        "destination": "/fr/arret-dahan-conversion-reformee-massorti-aliyah-rabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/es/dahan-ruling-non-orthodox-conversion-aliyah-truth",
+        "destination": "/es/fallo-dahan-conversion-reformista-conservadora-aliya-rabinato/",
+        "type": 301
+      },
+      {
+        "source": "/es/dahan-ruling-non-orthodox-conversion-aliyah-truth/",
+        "destination": "/es/fallo-dahan-conversion-reformista-conservadora-aliya-rabinato/",
+        "type": 301
+      },
+      {
+        "source": "/de/dahan-ruling-non-orthodox-conversion-aliyah-truth",
+        "destination": "/de/dahan-urteil-reform-konservativer-giur-alija-rabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/de/dahan-ruling-non-orthodox-conversion-aliyah-truth/",
+        "destination": "/de/dahan-urteil-reform-konservativer-giur-alija-rabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/ru/dahan-ruling-non-orthodox-conversion-aliyah-truth",
+        "destination": "/ru/reshenie-dahan-reformistskij-konservativnyj-giyur-ravvinat/",
+        "type": 301
+      },
+      {
+        "source": "/ru/dahan-ruling-non-orthodox-conversion-aliyah-truth/",
+        "destination": "/ru/reshenie-dahan-reformistskij-konservativnyj-giyur-ravvinat/",
+        "type": 301
+      },
+      {
+        "source": "/he/emergency-aliyah-go-bag-shinui-maamad",
+        "destination": "/he/aliyat-cherum-tik-mismachim-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/he/emergency-aliyah-go-bag-shinui-maamad/",
+        "destination": "/he/aliyat-cherum-tik-mismachim-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/fr/emergency-aliyah-go-bag-shinui-maamad",
+        "destination": "/fr/aliyah-urgence-dossier-apostille-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/fr/emergency-aliyah-go-bag-shinui-maamad/",
+        "destination": "/fr/aliyah-urgence-dossier-apostille-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/es/emergency-aliyah-go-bag-shinui-maamad",
+        "destination": "/es/aliya-emergencia-carpeta-apostilla-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/es/emergency-aliyah-go-bag-shinui-maamad/",
+        "destination": "/es/aliya-emergencia-carpeta-apostilla-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/de/emergency-aliyah-go-bag-shinui-maamad",
+        "destination": "/de/notfall-alija-apostille-dokumente-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/de/emergency-aliyah-go-bag-shinui-maamad/",
+        "destination": "/de/notfall-alija-apostille-dokumente-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/ru/emergency-aliyah-go-bag-shinui-maamad",
+        "destination": "/ru/ekstrennaya-repatriaciya-dokumenty-shinuj-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/ru/emergency-aliyah-go-bag-shinui-maamad/",
+        "destination": "/ru/ekstrennaya-repatriaciya-dokumenty-shinuj-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-ash1-vaadat-charigim-visa-application-israel",
+        "destination": "/he/forms/tofes-ash1-vaadat-charigim-bakashat-ashra/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-ash1-vaadat-charigim-visa-application-israel/",
+        "destination": "/he/forms/tofes-ash1-vaadat-charigim-bakashat-ashra/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-ash1-vaadat-charigim-visa-application-israel",
+        "destination": "/fr/forms/formulaire-ash1-vaadat-charigim-demande-visa-israel/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-ash1-vaadat-charigim-visa-application-israel/",
+        "destination": "/fr/forms/formulaire-ash1-vaadat-charigim-demande-visa-israel/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-ash1-vaadat-charigim-visa-application-israel",
+        "destination": "/es/forms/formulario-ash1-vaadat-jariguim-solicitud-visa-israel/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-ash1-vaadat-charigim-visa-application-israel/",
+        "destination": "/es/forms/formulario-ash1-vaadat-jariguim-solicitud-visa-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-ash1-vaadat-charigim-visa-application-israel",
+        "destination": "/de/forms/formular-ash1-vaadat-charigim-visumantrag-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-ash1-vaadat-charigim-visa-application-israel/",
+        "destination": "/de/forms/formular-ash1-vaadat-charigim-visumantrag-israel/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-ash1-vaadat-charigim-visa-application-israel",
+        "destination": "/ru/forms/anketa-ash1-vaadat-harigim-zayavlenie-na-vizu-izrail/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-ash1-vaadat-charigim-visa-application-israel/",
+        "destination": "/ru/forms/anketa-ash1-vaadat-harigim-zayavlenie-na-vizu-izrail/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-ash3-visa-extension-change-of-status-israel",
+        "destination": "/he/forms/tofes-ash3-haarachat-ashra-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-ash3-visa-extension-change-of-status-israel/",
+        "destination": "/he/forms/tofes-ash3-haarachat-ashra-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-ash3-visa-extension-change-of-status-israel",
+        "destination": "/fr/forms/formulaire-ash3-prolongation-visa-changement-statut-israel/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-ash3-visa-extension-change-of-status-israel/",
+        "destination": "/fr/forms/formulaire-ash3-prolongation-visa-changement-statut-israel/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-ash3-visa-extension-change-of-status-israel",
+        "destination": "/es/forms/formulario-ash3-prorroga-visa-cambio-estatus-israel/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-ash3-visa-extension-change-of-status-israel/",
+        "destination": "/es/forms/formulario-ash3-prorroga-visa-cambio-estatus-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-ash3-visa-extension-change-of-status-israel",
+        "destination": "/de/forms/formular-ash3-visumverlaengerung-statusaenderung-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-ash3-visa-extension-change-of-status-israel/",
+        "destination": "/de/forms/formular-ash3-visumverlaengerung-statusaenderung-israel/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-ash3-visa-extension-change-of-status-israel",
+        "destination": "/ru/forms/anketa-ash3-prodlenie-vizy-smena-statusa-izrail/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-ash3-visa-extension-change-of-status-israel/",
+        "destination": "/ru/forms/anketa-ash3-prodlenie-vizy-smena-statusa-izrail/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-ash456-in-israel-aliyah-shinui-maamad",
+        "destination": "/he/forms/tofes-ash456-shinui-maamad-leoleh-nohal-5-2-0001/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-ash456-in-israel-aliyah-shinui-maamad/",
+        "destination": "/he/forms/tofes-ash456-shinui-maamad-leoleh-nohal-5-2-0001/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-ash456-in-israel-aliyah-shinui-maamad",
+        "destination": "/fr/forms/formulaire-ash456-aliyah-en-israel-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-ash456-in-israel-aliyah-shinui-maamad/",
+        "destination": "/fr/forms/formulaire-ash456-aliyah-en-israel-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-ash456-in-israel-aliyah-shinui-maamad",
+        "destination": "/es/forms/formulario-ash456-aliya-en-israel-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-ash456-in-israel-aliyah-shinui-maamad/",
+        "destination": "/es/forms/formulario-ash456-aliya-en-israel-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-ash456-in-israel-aliyah-shinui-maamad",
+        "destination": "/de/forms/formular-ash456-inlands-alija-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-ash456-in-israel-aliyah-shinui-maamad/",
+        "destination": "/de/forms/formular-ash456-inlands-alija-shinui-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-ash456-in-israel-aliyah-shinui-maamad",
+        "destination": "/ru/forms/anketa-ash456-repatriaciya-vnutri-izrailya-shinuj-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-ash456-in-israel-aliyah-shinui-maamad/",
+        "destination": "/ru/forms/anketa-ash456-repatriaciya-vnutri-izrailya-shinuj-maamad/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel",
+        "destination": "/he/forms/tofes-ash6-halich-medurag-nohal-5-2-0008/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel/",
+        "destination": "/he/forms/tofes-ash6-halich-medurag-nohal-5-2-0008/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel",
+        "destination": "/fr/forms/formulaire-ash6-visa-conjoint-nohal-5-2-0008-israel/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel/",
+        "destination": "/fr/forms/formulaire-ash6-visa-conjoint-nohal-5-2-0008-israel/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel",
+        "destination": "/es/forms/formulario-ash6-visa-conyugal-nohal-5-2-0008-israel/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel/",
+        "destination": "/es/forms/formulario-ash6-visa-conyugal-nohal-5-2-0008-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel",
+        "destination": "/de/forms/formular-ash6-ehepartner-visum-nohal-5-2-0008-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel/",
+        "destination": "/de/forms/formular-ash6-ehepartner-visum-nohal-5-2-0008-israel/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel",
+        "destination": "/ru/forms/anketa-ash6-stupro-viza-suprugov-nohal-5-2-0008-izrail/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-ash6-spousal-visa-nohal-5-2-0008-israel/",
+        "destination": "/ru/forms/anketa-ash6-stupro-viza-suprugov-nohal-5-2-0008-izrail/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-mr14a-first-biometric-teudat-zehut-application",
+        "destination": "/he/forms/tofes-mr14a-bakasha-leteudat-zehut-rishona/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-mr14a-first-biometric-teudat-zehut-application/",
+        "destination": "/he/forms/tofes-mr14a-bakasha-leteudat-zehut-rishona/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-mr14a-first-biometric-teudat-zehut-application",
+        "destination": "/fr/forms/formulaire-mr14a-premiere-teudat-zehut-biometrique/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-mr14a-first-biometric-teudat-zehut-application/",
+        "destination": "/fr/forms/formulaire-mr14a-premiere-teudat-zehut-biometrique/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-mr14a-first-biometric-teudat-zehut-application",
+        "destination": "/es/forms/formulario-mr14a-primera-teudat-zehut-biometrica/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-mr14a-first-biometric-teudat-zehut-application/",
+        "destination": "/es/forms/formulario-mr14a-primera-teudat-zehut-biometrica/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-mr14a-first-biometric-teudat-zehut-application",
+        "destination": "/de/forms/formular-mr14a-erste-biometrische-teudat-zehut/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-mr14a-first-biometric-teudat-zehut-application/",
+        "destination": "/de/forms/formular-mr14a-erste-biometrische-teudat-zehut/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-mr14a-first-biometric-teudat-zehut-application",
+        "destination": "/ru/forms/anketa-mr14a-pervyj-biometricheskij-teudat-zeut/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-mr14a-first-biometric-teudat-zehut-application/",
+        "destination": "/ru/forms/anketa-mr14a-pervyj-biometricheskij-teudat-zeut/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar",
+        "destination": "/he/forms/tofes-mr14b-darkon-rishon-teudat-maavar/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar/",
+        "destination": "/he/forms/tofes-mr14b-darkon-rishon-teudat-maavar/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar",
+        "destination": "/fr/forms/formulaire-mr14b-premier-passeport-israelien-darkon/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar/",
+        "destination": "/fr/forms/formulaire-mr14b-premier-passeport-israelien-darkon/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar",
+        "destination": "/es/forms/formulario-mr14b-primer-pasaporte-israeli-darkon/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar/",
+        "destination": "/es/forms/formulario-mr14b-primer-pasaporte-israeli-darkon/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar",
+        "destination": "/de/forms/formular-mr14b-erster-israelischer-reisepass-darkon/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar/",
+        "destination": "/de/forms/formular-mr14b-erster-israelischer-reisepass-darkon/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar",
+        "destination": "/ru/forms/anketa-mr14b-pervyj-zagranpasport-izrailya-darkon/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/form-mr14b-first-israeli-passport-darkon-teudat-maavar/",
+        "destination": "/ru/forms/anketa-mr14b-pervyj-zagranpasport-izrailya-darkon/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/nativ-11-page-security-family-cv-questionnaire-israel",
+        "destination": "/he/forms/sheelon-nativ-11-amudim-korot-chaim-aliyah/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/nativ-11-page-security-family-cv-questionnaire-israel/",
+        "destination": "/he/forms/sheelon-nativ-11-amudim-korot-chaim-aliyah/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/nativ-11-page-security-family-cv-questionnaire-israel",
+        "destination": "/fr/forms/questionnaire-nativ-11-pages-cv-famille-aliyah-israel/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/nativ-11-page-security-family-cv-questionnaire-israel/",
+        "destination": "/fr/forms/questionnaire-nativ-11-pages-cv-famille-aliyah-israel/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/nativ-11-page-security-family-cv-questionnaire-israel",
+        "destination": "/es/forms/cuestionario-nativ-11-paginas-historial-familiar-aliya/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/nativ-11-page-security-family-cv-questionnaire-israel/",
+        "destination": "/es/forms/cuestionario-nativ-11-paginas-historial-familiar-aliya/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/nativ-11-page-security-family-cv-questionnaire-israel",
+        "destination": "/de/forms/nativ-fragebogen-11-seiten-lebenslauf-alija-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/nativ-11-page-security-family-cv-questionnaire-israel/",
+        "destination": "/de/forms/nativ-fragebogen-11-seiten-lebenslauf-alija-israel/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/nativ-11-page-security-family-cv-questionnaire-israel",
+        "destination": "/ru/forms/anketa-nativ-11-stranic-biografiya-semya-repatriaciya/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/nativ-11-page-security-family-cv-questionnaire-israel/",
+        "destination": "/ru/forms/anketa-nativ-11-stranic-biografiya-semya-repatriaciya/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009",
+        "destination": "/he/forms/nespach-alef-tatzhir-yeduim-betzibur-nohal-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/he/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009/",
+        "destination": "/he/forms/nespach-alef-tatzhir-yeduim-betzibur-nohal-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009",
+        "destination": "/fr/forms/nespach-alef-declaration-13-clauses-concubinage-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/fr/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009/",
+        "destination": "/fr/forms/nespach-alef-declaration-13-clauses-concubinage-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009",
+        "destination": "/es/forms/nespaj-alef-declaracion-jurada-parejas-hecho-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/es/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009/",
+        "destination": "/es/forms/nespaj-alef-declaracion-jurada-parejas-hecho-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009",
+        "destination": "/de/forms/nespach-alef-13-klausel-erklaerung-lebenspartner-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/de/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009/",
+        "destination": "/de/forms/nespach-alef-13-klausel-erklaerung-lebenspartner-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009",
+        "destination": "/ru/forms/nespah-alef-deklaraciya-13-punktov-yaduim-be-cibur-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/ru/forms/nespach-alef-13-clause-common-law-affidavit-nohal-5-2-0009/",
+        "destination": "/ru/forms/nespah-alef-deklaraciya-13-punktov-yaduim-be-cibur-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/he/gush-etzion-private-conversion-aliyah",
+        "destination": "/he/giyur-prati-gush-etzion-bnei-brak-rabbanut-aliyah/",
+        "type": 301
+      },
+      {
+        "source": "/he/gush-etzion-private-conversion-aliyah/",
+        "destination": "/he/giyur-prati-gush-etzion-bnei-brak-rabbanut-aliyah/",
+        "type": 301
+      },
+      {
+        "source": "/fr/gush-etzion-private-conversion-aliyah",
+        "destination": "/fr/conversion-privee-gush-etzion-bnei-brak-aliyah-rabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/fr/gush-etzion-private-conversion-aliyah/",
+        "destination": "/fr/conversion-privee-gush-etzion-bnei-brak-aliyah-rabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/es/gush-etzion-private-conversion-aliyah",
+        "destination": "/es/conversion-privada-gush-etzion-bnei-brak-aliya-rabinato/",
+        "type": 301
+      },
+      {
+        "source": "/es/gush-etzion-private-conversion-aliyah/",
+        "destination": "/es/conversion-privada-gush-etzion-bnei-brak-aliya-rabinato/",
+        "type": 301
+      },
+      {
+        "source": "/de/gush-etzion-private-conversion-aliyah",
+        "destination": "/de/privater-giur-gush-etzion-bnei-brak-alija-rabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/de/gush-etzion-private-conversion-aliyah/",
+        "destination": "/de/privater-giur-gush-etzion-bnei-brak-alija-rabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/ru/gush-etzion-private-conversion-aliyah",
+        "destination": "/ru/chastnyj-giyur-gush-ecion-bnej-brak-repatriaciya-ravvinat/",
+        "type": 301
+      },
+      {
+        "source": "/ru/gush-etzion-private-conversion-aliyah/",
+        "destination": "/ru/chastnyj-giyur-gush-ecion-bnej-brak-repatriaciya-ravvinat/",
+        "type": 301
+      },
+      {
+        "source": "/he/hebrew-clerk-letter-translator-form-ash1-ash3",
+        "destination": "/he/drishat-mismachim-misrad-hapanim-tofes-ash1-ash3/",
+        "type": 301
+      },
+      {
+        "source": "/he/hebrew-clerk-letter-translator-form-ash1-ash3/",
+        "destination": "/he/drishat-mismachim-misrad-hapanim-tofes-ash1-ash3/",
+        "type": 301
+      },
+      {
+        "source": "/fr/hebrew-clerk-letter-translator-form-ash1-ash3",
+        "destination": "/fr/traducteur-lettre-misrad-hapanim-formulaire-ash1-ash3/",
+        "type": 301
+      },
+      {
+        "source": "/fr/hebrew-clerk-letter-translator-form-ash1-ash3/",
+        "destination": "/fr/traducteur-lettre-misrad-hapanim-formulaire-ash1-ash3/",
+        "type": 301
+      },
+      {
+        "source": "/es/hebrew-clerk-letter-translator-form-ash1-ash3",
+        "destination": "/es/traductor-carta-misrad-hapanim-formulario-ash1-ash3/",
+        "type": 301
+      },
+      {
+        "source": "/es/hebrew-clerk-letter-translator-form-ash1-ash3/",
+        "destination": "/es/traductor-carta-misrad-hapanim-formulario-ash1-ash3/",
+        "type": 301
+      },
+      {
+        "source": "/de/hebrew-clerk-letter-translator-form-ash1-ash3",
+        "destination": "/de/misrad-hapanim-schreiben-uebersetzer-formular-ash1-ash3/",
+        "type": 301
+      },
+      {
+        "source": "/de/hebrew-clerk-letter-translator-form-ash1-ash3/",
+        "destination": "/de/misrad-hapanim-schreiben-uebersetzer-formular-ash1-ash3/",
+        "type": 301
+      },
+      {
+        "source": "/ru/hebrew-clerk-letter-translator-form-ash1-ash3",
+        "destination": "/ru/perevod-pisma-mvd-izrailya-anketa-ash1-ash3/",
+        "type": 301
+      },
+      {
+        "source": "/ru/hebrew-clerk-letter-translator-form-ash1-ash3/",
+        "destination": "/ru/perevod-pisma-mvd-izrailya-anketa-ash1-ash3/",
+        "type": 301
+      },
+      {
+        "source": "/he/how-to-convert-to-judaism-in-israel-giyur-guide",
+        "destination": "/he/eich-laavor-giyur-beisrael-mamlachti-prati-rabbanut/",
+        "type": 301
+      },
+      {
+        "source": "/he/how-to-convert-to-judaism-in-israel-giyur-guide/",
+        "destination": "/he/eich-laavor-giyur-beisrael-mamlachti-prati-rabbanut/",
+        "type": 301
+      },
+      {
+        "source": "/fr/how-to-convert-to-judaism-in-israel-giyur-guide",
+        "destination": "/fr/comment-se-convertir-au-judaisme-en-israel-giyur-guide/",
+        "type": 301
+      },
+      {
+        "source": "/fr/how-to-convert-to-judaism-in-israel-giyur-guide/",
+        "destination": "/fr/comment-se-convertir-au-judaisme-en-israel-giyur-guide/",
+        "type": 301
+      },
+      {
+        "source": "/es/how-to-convert-to-judaism-in-israel-giyur-guide",
+        "destination": "/es/como-convertirse-al-judaismo-en-israel-guiur-guia/",
+        "type": 301
+      },
+      {
+        "source": "/es/how-to-convert-to-judaism-in-israel-giyur-guide/",
+        "destination": "/es/como-convertirse-al-judaismo-en-israel-guiur-guia/",
+        "type": 301
+      },
+      {
+        "source": "/de/how-to-convert-to-judaism-in-israel-giyur-guide",
+        "destination": "/de/konversion-zum-judentum-in-israel-giur-leitfaden/",
+        "type": 301
+      },
+      {
+        "source": "/de/how-to-convert-to-judaism-in-israel-giyur-guide/",
+        "destination": "/de/konversion-zum-judentum-in-israel-giur-leitfaden/",
+        "type": 301
+      },
+      {
+        "source": "/ru/how-to-convert-to-judaism-in-israel-giyur-guide",
+        "destination": "/ru/kak-projti-giyur-v-izraile-gosudarstvennyj-chastnyj-gid/",
+        "type": 301
+      },
+      {
+        "source": "/ru/how-to-convert-to-judaism-in-israel-giyur-guide/",
+        "destination": "/ru/kak-projti-giyur-v-izraile-gosudarstvennyj-chastnyj-gid/",
+        "type": 301
+      },
+      {
+        "source": "/he/how-to-make-aliyah-and-giyur-israel-without-lawyers",
+        "destination": "/he/eich-laasot-aliyah-giyur-halich-medurag-bli-orech-din/",
+        "type": 301
+      },
+      {
+        "source": "/he/how-to-make-aliyah-and-giyur-israel-without-lawyers/",
+        "destination": "/he/eich-laasot-aliyah-giyur-halich-medurag-bli-orech-din/",
+        "type": 301
+      },
+      {
+        "source": "/fr/how-to-make-aliyah-and-giyur-israel-without-lawyers",
+        "destination": "/fr/comment-faire-aliyah-conversion-giyur-israel-sans-avocat/",
+        "type": 301
+      },
+      {
+        "source": "/fr/how-to-make-aliyah-and-giyur-israel-without-lawyers/",
+        "destination": "/fr/comment-faire-aliyah-conversion-giyur-israel-sans-avocat/",
+        "type": 301
+      },
+      {
+        "source": "/es/how-to-make-aliyah-and-giyur-israel-without-lawyers",
+        "destination": "/es/como-hacer-aliya-conversion-israel-sin-abogados-guia/",
+        "type": 301
+      },
+      {
+        "source": "/es/how-to-make-aliyah-and-giyur-israel-without-lawyers/",
+        "destination": "/es/como-hacer-aliya-conversion-israel-sin-abogados-guia/",
+        "type": 301
+      },
+      {
+        "source": "/de/how-to-make-aliyah-and-giyur-israel-without-lawyers",
+        "destination": "/de/alija-giur-partner-visum-israel-ohne-anwalt-leitfaden/",
+        "type": 301
+      },
+      {
+        "source": "/de/how-to-make-aliyah-and-giyur-israel-without-lawyers/",
+        "destination": "/de/alija-giur-partner-visum-israel-ohne-anwalt-leitfaden/",
+        "type": 301
+      },
+      {
+        "source": "/ru/how-to-make-aliyah-and-giyur-israel-without-lawyers",
+        "destination": "/ru/kak-sdelat-aliyu-giyur-stupro-v-izraile-bez-advokatov/",
+        "type": 301
+      },
+      {
+        "source": "/ru/how-to-make-aliyah-and-giyur-israel-without-lawyers/",
+        "destination": "/ru/kak-sdelat-aliyu-giyur-stupro-v-izraile-bez-advokatov/",
+        "type": 301
+      },
+      {
+        "source": "/he/israel-unmarried-partner-visa-nohal-5-2-0009",
+        "destination": "/he/halich-medurag-yeduim-betzibur-nohal-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/he/israel-unmarried-partner-visa-nohal-5-2-0009/",
+        "destination": "/he/halich-medurag-yeduim-betzibur-nohal-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/fr/israel-unmarried-partner-visa-nohal-5-2-0009",
+        "destination": "/fr/visa-concubinage-partenaire-non-marie-israel-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/fr/israel-unmarried-partner-visa-nohal-5-2-0009/",
+        "destination": "/fr/visa-concubinage-partenaire-non-marie-israel-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/es/israel-unmarried-partner-visa-nohal-5-2-0009",
+        "destination": "/es/visa-pareja-de-hecho-no-casados-israel-nohal-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/es/israel-unmarried-partner-visa-nohal-5-2-0009/",
+        "destination": "/es/visa-pareja-de-hecho-no-casados-israel-nohal-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/de/israel-unmarried-partner-visa-nohal-5-2-0009",
+        "destination": "/de/lebenspartner-visum-unverheiratete-paare-israel-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/de/israel-unmarried-partner-visa-nohal-5-2-0009/",
+        "destination": "/de/lebenspartner-visum-unverheiratete-paare-israel-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/ru/israel-unmarried-partner-visa-nohal-5-2-0009",
+        "destination": "/ru/stupro-bez-braka-yaduim-be-cibur-izrail-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/ru/israel-unmarried-partner-visa-nohal-5-2-0009/",
+        "destination": "/ru/stupro-bez-braka-yaduim-be-cibur-izrail-5-2-0009/",
+        "type": 301
+      },
+      {
+        "source": "/he/israeli-rabbi-community-letters-beit-din",
+        "destination": "/he/rav-melaveh-madrichat-kallah-michtavei-hamlatza-beit-din/",
+        "type": 301
+      },
+      {
+        "source": "/he/israeli-rabbi-community-letters-beit-din/",
+        "destination": "/he/rav-melaveh-madrichat-kallah-michtavei-hamlatza-beit-din/",
+        "type": 301
+      },
+      {
+        "source": "/fr/israeli-rabbi-community-letters-beit-din",
+        "destination": "/fr/rabbin-accompagnateur-madrichat-kallah-lettres-beit-din/",
+        "type": 301
+      },
+      {
+        "source": "/fr/israeli-rabbi-community-letters-beit-din/",
+        "destination": "/fr/rabbin-accompagnateur-madrichat-kallah-lettres-beit-din/",
+        "type": 301
+      },
+      {
+        "source": "/es/israeli-rabbi-community-letters-beit-din",
+        "destination": "/es/rabino-patrocinador-madrijat-kala-cartas-beit-din/",
+        "type": 301
+      },
+      {
+        "source": "/es/israeli-rabbi-community-letters-beit-din/",
+        "destination": "/es/rabino-patrocinador-madrijat-kala-cartas-beit-din/",
+        "type": 301
+      },
+      {
+        "source": "/de/israeli-rabbi-community-letters-beit-din",
+        "destination": "/de/begleitender-rabbiner-madrichat-kallah-empfehlung-beit-din/",
+        "type": 301
+      },
+      {
+        "source": "/de/israeli-rabbi-community-letters-beit-din/",
+        "destination": "/de/begleitender-rabbiner-madrichat-kallah-empfehlung-beit-din/",
+        "type": 301
+      },
+      {
+        "source": "/ru/israeli-rabbi-community-letters-beit-din",
+        "destination": "/ru/soprovozhdayushchij-ravvin-madrihat-kalla-pisma-bejt-din/",
+        "type": 301
+      },
+      {
+        "source": "/ru/israeli-rabbi-community-letters-beit-din/",
+        "destination": "/ru/soprovozhdayushchij-ravvin-madrihat-kalla-pisma-bejt-din/",
+        "type": 301
+      },
+      {
+        "source": "/he/misrad-hapanim-couples-interview-questions",
+        "destination": "/he/300-sheelot-shimua-zugi-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/he/misrad-hapanim-couples-interview-questions/",
+        "destination": "/he/300-sheelot-shimua-zugi-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/fr/misrad-hapanim-couples-interview-questions",
+        "destination": "/fr/300-questions-entretien-couple-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/fr/misrad-hapanim-couples-interview-questions/",
+        "destination": "/fr/300-questions-entretien-couple-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/es/misrad-hapanim-couples-interview-questions",
+        "destination": "/es/300-preguntas-entrevista-pareja-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/es/misrad-hapanim-couples-interview-questions/",
+        "destination": "/es/300-preguntas-entrevista-pareja-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/de/misrad-hapanim-couples-interview-questions",
+        "destination": "/de/300-fragen-paar-interview-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/de/misrad-hapanim-couples-interview-questions/",
+        "destination": "/de/300-fragen-paar-interview-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/ru/misrad-hapanim-couples-interview-questions",
+        "destination": "/ru/300-voprosov-sobesedovanie-stupro-mvd-izrailya/",
+        "type": 301
+      },
+      {
+        "source": "/ru/misrad-hapanim-couples-interview-questions/",
+        "destination": "/ru/300-voprosov-sobesedovanie-stupro-mvd-izrailya/",
+        "type": 301
+      },
+      {
+        "source": "/he/misrad-hapanim-spousal-visa-nohal-5-2-0008",
+        "destination": "/he/halich-medurag-bnei-zug-nohal-5-2-0008-tofes-ash6/",
+        "type": 301
+      },
+      {
+        "source": "/he/misrad-hapanim-spousal-visa-nohal-5-2-0008/",
+        "destination": "/he/halich-medurag-bnei-zug-nohal-5-2-0008-tofes-ash6/",
+        "type": 301
+      },
+      {
+        "source": "/fr/misrad-hapanim-spousal-visa-nohal-5-2-0008",
+        "destination": "/fr/visa-conjoint-israel-misrad-hapanim-nohal-5-2-0008-ash6/",
+        "type": 301
+      },
+      {
+        "source": "/fr/misrad-hapanim-spousal-visa-nohal-5-2-0008/",
+        "destination": "/fr/visa-conjoint-israel-misrad-hapanim-nohal-5-2-0008-ash6/",
+        "type": 301
+      },
+      {
+        "source": "/es/misrad-hapanim-spousal-visa-nohal-5-2-0008",
+        "destination": "/es/visa-pareja-conyuge-israel-misrad-hapanim-nohal-5-2-0008-ash6/",
+        "type": 301
+      },
+      {
+        "source": "/es/misrad-hapanim-spousal-visa-nohal-5-2-0008/",
+        "destination": "/es/visa-pareja-conyuge-israel-misrad-hapanim-nohal-5-2-0008-ash6/",
+        "type": 301
+      },
+      {
+        "source": "/de/misrad-hapanim-spousal-visa-nohal-5-2-0008",
+        "destination": "/de/ehepartner-visum-israel-misrad-hapanim-nohal-5-2-0008-ash6/",
+        "type": 301
+      },
+      {
+        "source": "/de/misrad-hapanim-spousal-visa-nohal-5-2-0008/",
+        "destination": "/de/ehepartner-visum-israel-misrad-hapanim-nohal-5-2-0008-ash6/",
+        "type": 301
+      },
+      {
+        "source": "/ru/misrad-hapanim-spousal-visa-nohal-5-2-0008",
+        "destination": "/ru/stupenchataya-procedura-sst-mvd-izrailya-nohal-5-2-0008-ash6/",
+        "type": 301
+      },
+      {
+        "source": "/ru/misrad-hapanim-spousal-visa-nohal-5-2-0008/",
+        "destination": "/ru/stupenchataya-procedura-sst-mvd-izrailya-nohal-5-2-0008-ash6/",
+        "type": 301
+      },
+      {
+        "source": "/he/newborn-baby-teudat-zehut-sefach-registration-israel",
+        "destination": "/he/rishum-tinok-sefach-teudat-zehut-misrad-hapanim-bdikat-rikmot/",
+        "type": 301
+      },
+      {
+        "source": "/he/newborn-baby-teudat-zehut-sefach-registration-israel/",
+        "destination": "/he/rishum-tinok-sefach-teudat-zehut-misrad-hapanim-bdikat-rikmot/",
+        "type": 301
+      },
+      {
+        "source": "/fr/newborn-baby-teudat-zehut-sefach-registration-israel",
+        "destination": "/fr/inscription-nouveau-ne-teudat-zehut-sefach-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/fr/newborn-baby-teudat-zehut-sefach-registration-israel/",
+        "destination": "/fr/inscription-nouveau-ne-teudat-zehut-sefach-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/es/newborn-baby-teudat-zehut-sefach-registration-israel",
+        "destination": "/es/registro-bebe-recien-nacido-teudat-zehut-sefach-israel/",
+        "type": 301
+      },
+      {
+        "source": "/es/newborn-baby-teudat-zehut-sefach-registration-israel/",
+        "destination": "/es/registro-bebe-recien-nacido-teudat-zehut-sefach-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/newborn-baby-teudat-zehut-sefach-registration-israel",
+        "destination": "/de/neugeborenes-baby-teudat-zehut-sefach-registrierung-israel/",
+        "type": 301
+      },
+      {
+        "source": "/de/newborn-baby-teudat-zehut-sefach-registration-israel/",
+        "destination": "/de/neugeborenes-baby-teudat-zehut-sefach-registrierung-israel/",
+        "type": 301
+      },
+      {
+        "source": "/ru/newborn-baby-teudat-zehut-sefach-registration-israel",
+        "destination": "/ru/registraciya-novorozhdennogo-rebenka-teudat-zeut-sefah-mvd/",
+        "type": 301
+      },
+      {
+        "source": "/ru/newborn-baby-teudat-zehut-sefach-registration-israel/",
+        "destination": "/ru/registraciya-novorozhdennogo-rebenka-teudat-zeut-sefah-mvd/",
+        "type": 301
+      },
+      {
+        "source": "/he/overseas-conversion-aliyah-ishur-giyur",
+        "destination": "/he/giyur-bachul-rca-london-consistoire-ishur-giyur-aliyah/",
+        "type": 301
+      },
+      {
+        "source": "/he/overseas-conversion-aliyah-ishur-giyur/",
+        "destination": "/he/giyur-bachul-rca-london-consistoire-ishur-giyur-aliyah/",
+        "type": 301
+      },
+      {
+        "source": "/fr/overseas-conversion-aliyah-ishur-giyur",
+        "destination": "/fr/conversion-consistoire-etranger-aliyah-ishur-giyur-rabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/fr/overseas-conversion-aliyah-ishur-giyur/",
+        "destination": "/fr/conversion-consistoire-etranger-aliyah-ishur-giyur-rabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/es/overseas-conversion-aliyah-ishur-giyur",
+        "destination": "/es/conversion-extranjero-amia-fcje-aliya-ishur-giyur-rabinato/",
+        "type": 301
+      },
+      {
+        "source": "/es/overseas-conversion-aliyah-ishur-giyur/",
+        "destination": "/es/conversion-extranjero-amia-fcje-aliya-ishur-giyur-rabinato/",
+        "type": 301
+      },
+      {
+        "source": "/de/overseas-conversion-aliyah-ishur-giyur",
+        "destination": "/de/auslands-giur-ord-ikg-alija-ishur-giyur-oberrabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/de/overseas-conversion-aliyah-ishur-giyur/",
+        "destination": "/de/auslands-giur-ord-ikg-alija-ishur-giyur-oberrabbinat/",
+        "type": 301
+      },
+      {
+        "source": "/ru/overseas-conversion-aliyah-ishur-giyur",
+        "destination": "/ru/zarubezhnyj-giyur-feor-keroor-repatriaciya-ishur-giyur/",
+        "type": 301
+      },
+      {
+        "source": "/ru/overseas-conversion-aliyah-ishur-giyur/",
+        "destination": "/ru/zarubezhnyj-giyur-feor-keroor-repatriaciya-ishur-giyur/",
+        "type": 301
+      },
+      {
+        "source": "/he/proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut",
+        "destination": "/he/hochachat-yahadut-aliyah-nativ-birur-yahadut-rabbanut/",
+        "type": 301
+      },
+      {
+        "source": "/he/proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut/",
+        "destination": "/he/hochachat-yahadut-aliyah-nativ-birur-yahadut-rabbanut/",
+        "type": 301
+      },
+      {
+        "source": "/fr/proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut",
+        "destination": "/fr/preuve-de-judaisme-aliyah-nativ-consistoire-birur-yahadut/",
+        "type": 301
+      },
+      {
+        "source": "/fr/proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut/",
+        "destination": "/fr/preuve-de-judaisme-aliyah-nativ-consistoire-birur-yahadut/",
+        "type": 301
+      },
+      {
+        "source": "/es/proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut",
+        "destination": "/es/prueba-de-judaismo-aliya-nativ-rabinato-birur-yahadut/",
+        "type": 301
+      },
+      {
+        "source": "/es/proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut/",
+        "destination": "/es/prueba-de-judaismo-aliya-nativ-rabinato-birur-yahadut/",
+        "type": 301
+      },
+      {
+        "source": "/de/proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut",
+        "destination": "/de/judentumsnachweis-alija-nativ-rabbinat-birur-jahadut/",
+        "type": 301
+      },
+      {
+        "source": "/de/proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut/",
+        "destination": "/de/judentumsnachweis-alija-nativ-rabbinat-birur-jahadut/",
+        "type": 301
+      },
+      {
+        "source": "/ru/proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut",
+        "destination": "/ru/podtverzhdenie-evrejstva-aliya-nativ-ravvinat-birur-yahadut/",
+        "type": 301
+      },
+      {
+        "source": "/ru/proof-of-judaism-aliyah-nativ-rabbanut-birur-yahadut/",
+        "destination": "/ru/podtverzhdenie-evrejstva-aliya-nativ-ravvinat-birur-yahadut/",
+        "type": 301
+      },
+      {
+        "source": "/he/tourist-visa-israel-remote-work-housing-giyur",
+        "destination": "/he/ashrat-tayar-avoda-merachok-megurim-bituach-refui/",
+        "type": 301
+      },
+      {
+        "source": "/he/tourist-visa-israel-remote-work-housing-giyur/",
+        "destination": "/he/ashrat-tayar-avoda-merachok-megurim-bituach-refui/",
+        "type": 301
+      },
+      {
+        "source": "/fr/tourist-visa-israel-remote-work-housing-giyur",
+        "destination": "/fr/visa-touriste-israel-teletravail-logement-assurance-sante/",
+        "type": 301
+      },
+      {
+        "source": "/fr/tourist-visa-israel-remote-work-housing-giyur/",
+        "destination": "/fr/visa-touriste-israel-teletravail-logement-assurance-sante/",
+        "type": 301
+      },
+      {
+        "source": "/es/tourist-visa-israel-remote-work-housing-giyur",
+        "destination": "/es/visa-turista-israel-trabajo-remoto-alojamiento-seguro-medico/",
+        "type": 301
+      },
+      {
+        "source": "/es/tourist-visa-israel-remote-work-housing-giyur/",
+        "destination": "/es/visa-turista-israel-trabajo-remoto-alojamiento-seguro-medico/",
+        "type": 301
+      },
+      {
+        "source": "/de/tourist-visa-israel-remote-work-housing-giyur",
+        "destination": "/de/touristenvisum-israel-fernstudium-wohnung-krankenversicherung/",
+        "type": 301
+      },
+      {
+        "source": "/de/tourist-visa-israel-remote-work-housing-giyur/",
+        "destination": "/de/touristenvisum-israel-fernstudium-wohnung-krankenversicherung/",
+        "type": 301
+      },
+      {
+        "source": "/ru/tourist-visa-israel-remote-work-housing-giyur",
+        "destination": "/ru/turisticheskaya-viza-izrail-udalennaya-rabota-zhile-strahovka/",
+        "type": 301
+      },
+      {
+        "source": "/ru/tourist-visa-israel-remote-work-housing-giyur/",
+        "destination": "/ru/turisticheskaya-viza-izrail-udalennaya-rabota-zhile-strahovka/",
+        "type": 301
+      },
+      {
+        "source": "/he/utah-zoom-online-marriage-israel-misrad-hapanim",
+        "destination": "/he/nisuei-utah-zoom-misrad-hapanim-rishum-halich-medurag/",
+        "type": 301
+      },
+      {
+        "source": "/he/utah-zoom-online-marriage-israel-misrad-hapanim/",
+        "destination": "/he/nisuei-utah-zoom-misrad-hapanim-rishum-halich-medurag/",
+        "type": 301
+      },
+      {
+        "source": "/fr/utah-zoom-online-marriage-israel-misrad-hapanim",
+        "destination": "/fr/mariage-civil-utah-zoom-en-ligne-israel-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/fr/utah-zoom-online-marriage-israel-misrad-hapanim/",
+        "destination": "/fr/mariage-civil-utah-zoom-en-ligne-israel-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/es/utah-zoom-online-marriage-israel-misrad-hapanim",
+        "destination": "/es/matrimonio-civil-utah-zoom-online-israel-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/es/utah-zoom-online-marriage-israel-misrad-hapanim/",
+        "destination": "/es/matrimonio-civil-utah-zoom-online-israel-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/de/utah-zoom-online-marriage-israel-misrad-hapanim",
+        "destination": "/de/utah-zoom-online-heirat-zivilehe-israel-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/de/utah-zoom-online-marriage-israel-misrad-hapanim/",
+        "destination": "/de/utah-zoom-online-heirat-zivilehe-israel-misrad-hapanim/",
+        "type": 301
+      },
+      {
+        "source": "/ru/utah-zoom-online-marriage-israel-misrad-hapanim",
+        "destination": "/ru/onlajn-brak-yuta-zoom-izrail-registraciya-mvd-stupro/",
+        "type": 301
+      },
+      {
+        "source": "/ru/utah-zoom-online-marriage-israel-misrad-hapanim/",
+        "destination": "/ru/onlajn-brak-yuta-zoom-izrail-registraciya-mvd-stupro/",
+        "type": 301
+      },
+      {
+        "source": "/he/vaadat-charigim-tourist-conversion-israel",
+        "destination": "/he/vaadat-charigim-giyur-ashrat-tayar-tofes-ash1/",
+        "type": 301
+      },
+      {
+        "source": "/he/vaadat-charigim-tourist-conversion-israel/",
+        "destination": "/he/vaadat-charigim-giyur-ashrat-tayar-tofes-ash1/",
+        "type": 301
+      },
+      {
+        "source": "/fr/vaadat-charigim-tourist-conversion-israel",
+        "destination": "/fr/vaadat-charigim-conversion-visa-touriste-israel-ash1/",
+        "type": 301
+      },
+      {
+        "source": "/fr/vaadat-charigim-tourist-conversion-israel/",
+        "destination": "/fr/vaadat-charigim-conversion-visa-touriste-israel-ash1/",
+        "type": 301
+      },
+      {
+        "source": "/es/vaadat-charigim-tourist-conversion-israel",
+        "destination": "/es/vaadat-jariguim-conversion-visa-turista-israel-ash1/",
+        "type": 301
+      },
+      {
+        "source": "/es/vaadat-charigim-tourist-conversion-israel/",
+        "destination": "/es/vaadat-jariguim-conversion-visa-turista-israel-ash1/",
+        "type": 301
+      },
+      {
+        "source": "/de/vaadat-charigim-tourist-conversion-israel",
+        "destination": "/de/vaadat-charigim-giur-touristenvisum-israel-ash1/",
+        "type": 301
+      },
+      {
+        "source": "/de/vaadat-charigim-tourist-conversion-israel/",
+        "destination": "/de/vaadat-charigim-giur-touristenvisum-israel-ash1/",
+        "type": 301
+      },
+      {
+        "source": "/ru/vaadat-charigim-tourist-conversion-israel",
+        "destination": "/ru/vaadat-harigim-giyur-turisticheskaya-viza-izrail-ash1/",
+        "type": 301
+      },
+      {
+        "source": "/ru/vaadat-charigim-tourist-conversion-israel/",
+        "destination": "/ru/vaadat-harigim-giyur-turisticheskaya-viza-izrail-ash1/",
+        "type": 301
+      }
     ]
   }
 }

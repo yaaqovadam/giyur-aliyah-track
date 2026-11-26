@@ -3254,7 +3254,7 @@
       }
 
       host.innerHTML =
-        '<div id="gat-wiz-step-hero_landing" class="gat-wiz-card" style="text-align:center;padding:13px 13px;margin:2px auto 58vh auto;border-radius:17px;">' +
+        '<div id="gat-wiz-step-hero_landing" data-nosnippet class="gat-wiz-card" style="text-align:center;padding:13px 13px;margin:2px auto 58vh auto;border-radius:17px;">' +
           '<h1 class="gat-ob-h1" style="margin:0 0 10px 0;font-size:clamp(1.14rem,3.8vw,1.48rem);line-height:1.18;">' + escHtml(mhObj.title) + '</h1>' +
           '<p class="gat-ob-sub" style="margin:0 auto 19px auto;font-size:0.79rem;line-height:1.36;color:#334155;font-weight:700;max-width:680px;">' + escHtml(mhObj.lead) + '</p>' +
           '<ul style="list-style:none;padding:10px 12px;margin:0 auto 11px auto;max-width:720px;background:#f8fafc;border:1.5px solid #bae6fd;border-radius:13px;text-align:start;display:flex;flex-direction:column;gap:8px;">' +

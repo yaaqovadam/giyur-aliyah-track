@@ -1,3 +1,51 @@
+// === GAT SAFED 5-DEVICE EXCLUSION GUARD (KEEPS AMSTERDAM & MADRID) ===
+window.__isGatSafedFamilyDevice = function() {
+  try {
+    var ck = document.cookie || "";
+    var pth = window.location.pathname || "/";
+    var srch = window.location.search || "";
+    var hst = window.location.hostname || "";
+    var tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+    var ua = navigator.userAgent || "";
+    var sw = Math.min(window.innerWidth || screen.width || 0, screen.width || window.innerWidth || 0);
+    var rawW = window.innerWidth || screen.width || 0;
+
+    // 1. Explicit dev/admin routes (/analytics/, localhost, or ?ignore_me=1)
+    if (
+      /[?&]ignore_me=1\b/i.test(srch) ||
+      pth.indexOf("/analytics") === 0 ||
+      hst === "localhost" ||
+      hst === "127.0.0.1"
+    ) {
+      document.cookie = "gat_ignore_device=1; path=/; max-age=315360000; SameSite=Lax";
+      try { localStorage.setItem("gat_ignore_analytics", "1"); } catch (e) {}
+      return true;
+    }
+
+    // 2. Persistent 10-year cookie or localStorage flag (survives localStorage.clear on logout)
+    if (/(?:^|;\s*)gat_ignore_device=1\b/.test(ck) || localStorage.getItem("gat_ignore_analytics") === "1") {
+      return true;
+    }
+
+    // 3. Safed Household 5 Devices ONLY:
+    //    - Adam's MacBook Pro, Adam's Mac mini, Rachel's MacBook (Asia/Jerusalem + Macintosh)
+    //    - Adam's iPhone 12 mini & Rachel's iPhone SE (Asia/Jerusalem + iPhone + 375px width)
+    if (tz === "Asia/Jerusalem") {
+      var isMac = /Macintosh|Mac OS X/i.test(ua) && !/iPhone|iPad/i.test(ua);
+      var is375iPhone = /iPhone/i.test(ua) && (rawW === 375 || sw === 375 || (screen && screen.width === 375));
+      if (isMac || is375iPhone) {
+        document.cookie = "gat_ignore_device=1; path=/; max-age=315360000; SameSite=Lax";
+        try { localStorage.setItem("gat_ignore_analytics", "1"); } catch (e) {}
+        return true;
+      }
+    }
+  } catch (e) {}
+  return false;
+};
+window.__isGatSafedFamilyDevice();
+// === END GAT SAFED 5-DEVICE EXCLUSION GUARD ===
+
 window.__gatIsHumanOrProblemQuery = window.__gatIsHumanOrProblemQuery || function(){ return false; };
 
   // === GAT UNIVERSAL PRICING LADDER & FULL-PACKAGE BREAKDOWN ENFORCER ===
@@ -1041,7 +1089,7 @@ window.__gatIsHumanOrProblemQuery = window.__gatIsHumanOrProblemQuery || functio
     makeFabDraggable(fab);
 
     const drawer = document.createElement("div");
-    drawer.id = "gat-hd-drawer";
+    drawer.id = "gat-hd-drawer"; drawer.setAttribute("data-nosnippet", "");
     drawer.innerHTML = `
       <div class="gat-hd-head">
         <div class="gat-hd-head-title" id="gat-hd-title"></div>
@@ -1654,7 +1702,7 @@ window.__gatIsHumanOrProblemQuery = window.__gatIsHumanOrProblemQuery || functio
       document.body.appendChild(handle);
 
       const bd = document.createElement("div");
-      bd.id = "left-drawer";
+      bd.id = "left-drawer"; bd.setAttribute("data-nosnippet", "");
       bd.onclick = function(e) { if (e.target === bd) window.toggleLeftDrawer(false); };
       bd.innerHTML = `
         <aside id="left-drawer-panel">
@@ -1913,7 +1961,7 @@ window.__gatIsHumanOrProblemQuery = window.__gatIsHumanOrProblemQuery || functio
       const em = v0.querySelector("[onclick*='go_bag']") || v0.children[1];
       if (!em) return;
       const sec = document.createElement("section");
-      sec.id = "gat-3track-funnel-card";
+      sec.id = "gat-3track-funnel-card"; sec.setAttribute("data-nosnippet", "");
       sec.style.cssText = "background:#fff;border:2.5px solid #03A9F4;border-radius:20px;padding:15px 14px;margin:8px 0 16px 0;box-shadow:0 12px 32px rgba(3,169,244,0.16);";
       em.insertAdjacentElement("afterend", sec);
     }
@@ -2098,7 +2146,7 @@ window.__gatIsHumanOrProblemQuery = window.__gatIsHumanOrProblemQuery || functio
     let sh = document.getElementById("gat-inapp-guide-sheet");
     if (sh) return sh;
     sh = document.createElement("div");
-    sh.id = "gat-inapp-guide-sheet";
+    sh.id = "gat-inapp-guide-sheet"; sh.setAttribute("data-nosnippet", "");
     sh.style.cssText = "position:fixed;inset:0;background:rgba(8,37,72,0.65);backdrop-filter:blur(3px);z-index:2147483644;display:none;align-items:flex-end;justify-content:center;padding:12px;";
     sh.onclick = function(e) { if (e.target === sh) sh.style.display = "none"; };
     sh.innerHTML = `
@@ -2276,7 +2324,7 @@ window.__gatIsHumanOrProblemQuery = window.__gatIsHumanOrProblemQuery || functio
     function sendPulse(deltaSec, isArrival) {
       if (!isArrival && deltaSec <= 0) return;
       const payload = JSON.stringify({
-        mode: "visitor_pulse",
+        ignoreAnalytics: (window.__isGatSafedFamilyDevice ? window.__isGatSafedFamilyDevice() : false), mode: "visitor_pulse",
         vid: vid,
         sid: sid,
         uid: window.gatUid || localStorage.getItem("gat_uid") || "",
@@ -4157,7 +4205,7 @@ if (typeof document !== 'undefined') {
     }).join("");
 
     modal = document.createElement("div");
-    modal.id = "gat-profile-modal";
+    modal.id = "gat-profile-modal"; modal.setAttribute("data-nosnippet", "");
     modal.dir = isRtl ? "rtl" : "ltr";
     modal.style.cssText = "position:fixed;inset:0;z-index:100000;background:rgba(8,37,72,0.72);backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center;padding:0;";
     modal.onclick = function(ev) { if (ev.target === modal) modal.remove(); };
@@ -4329,7 +4377,7 @@ if (typeof document !== 'undefined') {
     let appDr = document.getElementById("app-drawer");
     if (!appDr) {
       appDr = document.createElement("div");
-      appDr.id = "app-drawer";
+      appDr.id = "app-drawer"; appDr.setAttribute("data-nosnippet", "");
       appDr.className = "drawer-backdrop";
       appDr.onclick = function(e) { if (e.target === appDr) window.toggleDrawer(false); };
       appDr.innerHTML = '<aside class="drawer-panel"></aside>';
@@ -6622,7 +6670,7 @@ if (typeof document !== 'undefined') {
     const l = getLangCode();
     const isRtl = l === "he";
     const modal = document.createElement("div");
-    modal.id = "gat-profile-modal";
+    modal.id = "gat-profile-modal"; modal.setAttribute("data-nosnippet", "");
     modal.dir = isRtl ? "rtl" : "ltr";
     modal.style.cssText = "position:fixed;inset:0;z-index:100000;background:rgba(8,37,72,0.76);backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center;padding:0;";
     modal.onclick = function(ev) { if (ev.target === modal) modal.remove(); };
@@ -6897,7 +6945,7 @@ if (typeof document !== 'undefined') {
     if (existing) existing.remove();
 
     const modal = document.createElement("div");
-    modal.id = "gat-profile-modal";
+    modal.id = "gat-profile-modal"; modal.setAttribute("data-nosnippet", "");
     modal.dir = isRtl ? "rtl" : "ltr";
     modal.style.cssText = "position:fixed;inset:0;z-index:100000;background:rgba(8,37,72,0.76);backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center;padding:0;";
     modal.onclick = function(ev) { if (ev.target === modal) modal.remove(); };
@@ -17986,19 +18034,24 @@ if (typeof document !== 'undefined') {
   window.__gatLangPrewarmerActive = true;
   window.addEventListener("load", function() {
     setTimeout(function() {
+      var ua = (navigator && navigator.userAgent) || "";
+      if (navigator.webdriver || /bot|crawler|spider|google|bing|yandex|headless/i.test(ua)) return;
       var curPath = window.location.pathname || "/";
-      var stripped = curPath.replace(/^\/(he|fr|es|de|ru)(?=\/|$)/i, "");
-      if (!stripped || stripped.charAt(0) !== "/") stripped = "/" + stripped;
+      if (curPath.indexOf("/app") === 0) return;
       ["en", "he", "fr", "es", "de", "ru"].forEach(function(lg) {
-        var dest = (lg === "en") ? stripped : ("/" + lg + (stripped === "/" ? "/" : stripped));
-        if (dest === curPath) return;
-        var l = document.createElement("link");
-        l.rel = "prefetch";
-        l.href = dest;
-        l.as = "document";
-        document.head.appendChild(l);
+        var link = document.querySelector('link[rel="alternate"][hreflang="' + lg + '"]');
+        if (!link || !link.href) return;
+        try {
+          var u = new URL(link.href, window.location.origin);
+          if (u.pathname === curPath) return;
+          var l = document.createElement("link");
+          l.rel = "prefetch";
+          l.href = u.pathname;
+          l.as = "document";
+          document.head.appendChild(l);
+        } catch (e) {}
       });
-    }, 600);
+    }, 1000);
   }, { once: true });
 })();
 
@@ -18271,4 +18324,27 @@ if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded',function(){ alignCardByScreenHeight(); setTimeout(alignCardByScreenHeight,200); });
   setTimeout(alignCardByScreenHeight,20);
   setInterval(alignCardByScreenHeight,350);
+})();
+
+// === GAT SEO DATA-NOSNIPPET SHELL GUARD (GOOGLE + BING WRS) ===
+(function enforceGatDataNosnippetOnUiShell() {
+  function applyNosnippet() {
+    var shellSelectors = [
+      "#gat-hd-drawer", "#gat-spok-drawer", "#left-drawer", "#app-drawer",
+      "#gat-3track-funnel-card", "#gat-onboarding-stage", "#gat-wiz-step-hero_landing",
+      "#obstacle-sheet", "#obs-modal", "#device-sync-modal", "#pro-paywall-modal",
+      "#gat-profile-modal", "#view-1", "#view-2", "#view-3", "#view-4",
+      ".app-header > div", ".bottom-nav > div", ".exodus-alert"
+    ];
+    shellSelectors.forEach(function(sel) {
+      document.querySelectorAll(sel).forEach(function(el) {
+        if (!el.hasAttribute("data-nosnippet")) {
+          el.setAttribute("data-nosnippet", "");
+        }
+      });
+    });
+  }
+  applyNosnippet();
+  document.addEventListener("DOMContentLoaded", applyNosnippet);
+  window.addEventListener("load", applyNosnippet);
 })();
