@@ -4856,6 +4856,14 @@ window.fileToCompressedBase64 = function(file) {
 };
 
 window.runVisionAudit = async function(inputEl, mode) {
+  if (typeof window.ensurePaidFormsAccessOrPaywall === 'function') {
+    const allowed = await window.ensurePaidFormsAccessOrPaywall('upload');
+    if (!allowed) { if (inputEl) inputEl.value = ''; return; }
+  } else if (typeof window.hasFormsEngineAccess === 'function' && !window.hasFormsEngineAccess()) {
+    if (inputEl) inputEl.value = '';
+    if (typeof window.redirectToFormsPayment === 'function') window.redirectToFormsPayment();
+    return;
+  }
   const file = inputEl && inputEl.files && inputEl.files[0];
   if (!file) return;
   const lang = window.appLang || localStorage.getItem('gat_lang') || 'en';
@@ -4946,7 +4954,7 @@ renderAll = function() {
   if (clerkTxt && !document.getElementById('vision-clerk-btn')) {
     clerkTxt.insertAdjacentHTML('beforebegin', `
       <input type="file" id="vision-clerk-input" accept="image/*,application/pdf" capture="environment" style="display:none;" onchange="window.runVisionAudit(this, 'clerk_sheet')" />
-      <button type="button" id="vision-clerk-btn" class="btn" style="margin:0 0 10px 0;background:#0f172a;border:1.5px dashed #38bdf8;color:#38bdf8;" onclick="document.getElementById('vision-clerk-input').click()">${vt.btn_clerk}</button>
+      <button type="button" id="vision-clerk-btn" class="btn" style="margin:0 0 10px 0;background:#0f172a;border:1.5px dashed #38bdf8;color:#38bdf8;" onclick="window.gatedTriggerFileInput('vision-clerk-input')">${vt.btn_clerk}</button>
     `);
   }
 
@@ -4956,7 +4964,7 @@ renderAll = function() {
     if (labelParent) {
       labelParent.insertAdjacentHTML('beforebegin', `
         <input type="file" id="vision-doc-input" accept="image/*,application/pdf" capture="environment" style="display:none;" onchange="window.runVisionAudit(this, 'dossier_doc')" />
-        <button type="button" id="vision-doc-btn" class="btn" style="margin:0 0 10px 0;background:#065f46;border:1.5px dashed #34d399;color:#ecfdf5;" onclick="document.getElementById('vision-doc-input').click()">${vt.btn_doc}</button>
+        <button type="button" id="vision-doc-btn" class="btn" style="margin:0 0 10px 0;background:#065f46;border:1.5px dashed #34d399;color:#ecfdf5;" onclick="window.gatedTriggerFileInput('vision-doc-input')">${vt.btn_doc}</button>
         <div id="vision-doc-out" style="display:none;margin-bottom:10px;padding:10px 12px;background:#ecfdf5;border:1.5px solid #10b981;border-radius:10px;"></div>
       `);
     }
@@ -8061,14 +8069,10 @@ window.verifyWhatsAppLoginCode = async function(optionalPhone, optionalToken) {
     }
   }, { passive: false });
 
-  let lastTapMs = 0;
-  document.addEventListener("touchend", function(e) {
-    const now = Date.now();
-    if (now - lastTapMs <= 320 && (!e.touches || e.touches.length === 0)) {
-      if (e.cancelable) e.preventDefault();
-    }
-    lastTapMs = now;
-  }, { passive: false });
+  // Use standard CSS touch-action: manipulation instead of touchend preventDefault() so Android Chrome NEVER drops fast button/link taps!
+  if (document.documentElement) {
+    document.documentElement.style.touchAction = "manipulation";
+  }
 })();
 
 // === IN-APP UNIVERSAL GUIDE MODAL & ANTI-DOOM-SCROLL SUB-TABS ===

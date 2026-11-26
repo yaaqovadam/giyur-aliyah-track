@@ -364,8 +364,12 @@ async function createStamperContext(pdfFilename, rawState, loaderOpts) {
   pdfDoc.registerFontkit(fontkit);
   var fontHebReg = await pdfDoc.embedFont(regFontBytes, { subset: false });
   var fontHebBold = await pdfDoc.embedFont(boldFontBytes, { subset: false });
-  var fontLatReg = await pdfDoc.embedStandardFont(PDFLib.StandardFonts.Helvetica);
-  var fontLatBold = await pdfDoc.embedStandardFont(PDFLib.StandardFonts.HelveticaBold);
+  var fontLatReg = loaderOpts.useMultiScriptFonts
+    ? await pdfDoc.embedFont(await loaderOpts.loadFontBytes('NotoSansMulti-Regular.ttf'), { subset: false })
+    : await pdfDoc.embedStandardFont(PDFLib.StandardFonts.Helvetica);
+  var fontLatBold = loaderOpts.useMultiScriptFonts
+    ? await pdfDoc.embedFont(await loaderOpts.loadFontBytes('NotoSansMulti-Bold.ttf'), { subset: false })
+    : await pdfDoc.embedStandardFont(PDFLib.StandardFonts.HelveticaBold);
 
   var ink = PDFLib.rgb(0.0, 0.28, 0.76);
 
@@ -577,8 +581,8 @@ async function stampAsh1(rawState, loaderOpts) {
   // Particulars of the Applicant — Row 1 (Uniform 7.4pt bold with 2-line wrap)
   put(0, s.pf_surname_en, 388, 501, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
   put(0, s.pf_given_en, 270, 383, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
-  put(0, s.pf_father_en || s.pf_father_he, 155, 264, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
-  put(0, s.pf_mother_en || s.pf_mother_he, 40, 149, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
+  put(0, s.pf_father_en, 155, 264, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
+  put(0, s.pf_mother_en, 40, 149, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
 
   // Row 2: Mother's maiden name, Previous family name, Nationality, Religion
   put(0, s.pf_mother_maiden || s.pf_mother_maiden_en, 438, 558, 493.0, { align: 'center', size: 7.4, yWrapCenter: 494.5, lineShift: 4.0, wrapSize: 7.2 });
@@ -1275,7 +1279,11 @@ async function stampMr14a(rawState, loaderOpts) {
   // =========================================================================
   // 3. ORIGIN, CITIZENSHIP & FOREIGN PASSPORT (y = 592.4)
   // =========================================================================
-  put(0, (abr.country || 'צרפת').replace(/,/g, ''), 371.5, 544.1, 592.4, { align: 'center', size: 8.0, noWrap: true });
+  var mrAbrPtsHe = String(s.pf_abroad_addr_he || '').split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+  var mrAbrCityHe = (mrAbrPtsHe.length >= 2 ? mrAbrPtsHe[mrAbrPtsHe.length - 2] : '') || ctx.abrCityHe || '';
+  var mrAbrCtryHe = (mrAbrPtsHe.length >= 1 ? mrAbrPtsHe[mrAbrPtsHe.length - 1] : '') || ctx.abrCountryHe || '';
+  var mrAbrComboHe = [mrAbrCityHe, mrAbrCtryHe].filter(Boolean).join(' - ') || (s._stressAllCheckboxes ? 'ליון - צרפת' : '');
+  put(0, (mrAbrCtryHe || (s._stressAllCheckboxes ? 'צרפת' : '')).replace(/,/g, ''), 371.5, 544.1, 592.4, { align: 'center', size: 8.0, noWrap: true });
   put(0, (s.pf_citizenship || 'צרפתית').replace(/,/g, ''), 198.3, 371.5, 592.4, { align: 'center', size: 8.0, noWrap: true });
   put(0, s.pf_pass_num || 'FR9876543', 22.9, 198.3, 592.4, { align: 'center', size: 8.5, bold: true, noWrap: true });
 
@@ -1292,8 +1300,8 @@ async function stampMr14a(rawState, loaderOpts) {
   put(0, s.pf_dob_heb_yr  || hebParts.slice(2).join(' ') || 'תשנ״ה', 276.0, 319.0, 561.5, { align: 'center', size: 8.8, bold: true, noWrap: true });
 
   // מקום הלידה: הישוב (128..218) | המדינה (26..116) sitting above the underlines
-  put(0, (s.pf_birth_city_he || abr.city || 'ליון').replace(/,/g, ''), 145.0, 248.0, 562.5, { align: 'center', size: 8.0, noWrap: true });
-  put(0, (s.pf_birth_country_he || abr.country || 'צרפת').replace(/,/g, ''), 28.0, 132.0, 562.5, { align: 'center', size: 8.0, noWrap: true });
+  put(0, (s.pf_birth_city_he || mrAbrCityHe || (s._stressAllCheckboxes ? 'ליון' : '')).replace(/,/g, ''), 145.0, 248.0, 562.5, { align: 'center', size: 8.0, noWrap: true });
+  put(0, (s.pf_birth_country_he || mrAbrCtryHe || (s._stressAllCheckboxes ? 'צרפת' : '')).replace(/,/g, ''), 28.0, 132.0, 562.5, { align: 'center', size: 8.0, noWrap: true });
 
   // =========================================================================
   // 5. NATIONALITY, RELIGION & LAW OF RETURN (y = 524.4)
@@ -1343,7 +1351,7 @@ async function stampMr14a(rawState, loaderOpts) {
   // 8. MARRIAGE DETAILS, PRIOR STATUS & FOREIGN MILITARY (y = 423.5 / 412.5, 385.6)
   // =========================================================================
   putDateYMD_RTL(0, s.pf_marriage_date, '14/08/2022', 430.0, 464.0, 500.0, 538.0, 423.5);
-  put(0, (s.pf_marriage_place_he || abr.city || 'ליון - צרפת').replace(/,/g, ''), 297.1, 420.2, 412.5, { align: 'center', size: 7.8, noWrap: true });
+  put(0, (s.pf_marriage_place_he || (s._stressAllCheckboxes ? 'ליון - צרפת' : '')).replace(/,/g, ''), 297.1, 420.2, 412.5, { align: 'center', size: 7.8, noWrap: true });
   put(0, s.pf_prev_status_il_he || 'ב/2 תייר', 120.9, 297.1, 412.5, { align: 'center', size: 8.0, noWrap: true });
 
   if (s._stressAllCheckboxes) {
@@ -1351,7 +1359,7 @@ async function stampMr14a(rawState, loaderOpts) {
     check(0, 105.9, 411.1, 7.1, 7.1, 'blue');
   }
 
-  put(0, ((abr.city || 'ליון') + ' - ' + (abr.country || 'צרפת')).replace(/,/g, ''), 399.3, 544.1, 385.6, { align: 'center', size: 7.8, noWrap: true });
+  put(0, mrAbrComboHe.replace(/,/g, ''), 399.3, 544.1, 385.6, { align: 'center', size: 7.8, noWrap: true });
   put(0, s.pf_requested_status_he || 'עולה / א/5', 268.0, 399.3, 385.6, { align: 'center', size: 8.0, noWrap: true });
   put(0, s.pf_req_num || '2026-98412', 94.7, 268.0, 385.6, { align: 'center', size: 8.2, bold: true, noWrap: true });
   put(0, s.pf_citizenship_code || '314', 22.9, 94.7, 385.6, { align: 'center', size: 8.2, bold: true, noWrap: true });
@@ -1385,7 +1393,7 @@ async function stampMr14a(rawState, loaderOpts) {
   // =========================================================================
   put(0, s.pf_border_station_he || 'נתב"ג', 399.3, 544.1, 230.7, { align: 'center', size: 8.0, noWrap: true });
   put(0, s.pf_pass_num || 'FR9876543', 399.3, 544.1, 204.4, { align: 'center', size: 8.2, bold: true, noWrap: true });
-  put(0, ((abr.city || 'ליון') + ' - ' + (abr.country || 'צרפת')).replace(/,/g, ''), 399.3, 544.1, 178.1, { align: 'center', size: 7.8, noWrap: true });
+  put(0, mrAbrComboHe.replace(/,/g, ''), 399.3, 544.1, 178.1, { align: 'center', size: 7.8, noWrap: true });
   put(0, pIss.full || '10/03/2024', 399.3, 544.1, 151.8, { align: 'center', size: 8.0, noWrap: true });
   put(0, pExp.full || '09/03/2034', 399.3, 544.1, 125.7, { align: 'center', size: 8.0, noWrap: true });
 
@@ -2539,12 +2547,29 @@ module.exports = { stampSecurityCv: stampSecurityCv };
     d._stressAllCheckboxes = false;
     d._isRealUser = true;
 
+    // Ironclad Script Fence: NEVER allow Hebrew (or Cyrillic on Official Gov PDFs) inside *_en slots!
+    var fenceRx = src._allowUnicodeMirror ? /[\u0590-\u05FF]/ : /[\u0590-\u05FF\u0400-\u04FF]/;
+    Object.keys(d).forEach(function(k) {
+      if (/_en$/.test(k) && typeof d[k] === 'string' && fenceRx.test(d[k])) {
+        delete d[k];
+      }
+    });
+    if (Array.isArray(d.pf_children_rows)) {
+      d.pf_children_rows = d.pf_children_rows.map(function(kr) {
+        if (!kr) return kr;
+        var copyKr = Object.assign({}, kr);
+        if (copyKr.given && fenceRx.test(String(copyKr.given))) copyKr.given = ' ';
+        if (copyKr.country_en && fenceRx.test(String(copyKr.country_en))) copyKr.country_en = ' ';
+        return copyKr;
+      });
+    }
+
     if (!d.pf_tz && d.pf_id_num) d.pf_tz = d.pf_id_num;
     if (!d.pf_id_num && d.pf_tz) d.pf_id_num = d.pf_tz;
     if (!d.pf_maiden_he && d.pf_prior_names) d.pf_maiden_he = d.pf_prior_names;
     if (!d.pf_maiden_surname_he && d.pf_prior_names) d.pf_maiden_surname_he = d.pf_prior_names;
     if (!d.pf_prev_surname_he && d.pf_prior_names) d.pf_prev_surname_he = d.pf_prior_names;
-    if (!d.pf_abroad_addr_he && d.pf_abroad_addr) d.pf_abroad_addr_he = d.pf_abroad_addr;
+    if (!d.pf_abroad_addr_he && d.pf_abroad_addr && /[\u0590-\u05FF]/.test(String(d.pf_abroad_addr))) d.pf_abroad_addr_he = d.pf_abroad_addr;
     if (!d.pf_birth_city_he && d.pf_birth_country) d.pf_birth_city_he = d.pf_birth_country;
     if (!d.pf_birth_country_he && d.pf_birth_country) d.pf_birth_country_he = d.pf_birth_country;
 
@@ -2597,7 +2622,7 @@ module.exports = { stampSecurityCv: stampSecurityCv };
           id_num: cols[0] || '',
           surname_he: cols[1] || d.pf_surname_he || '',
           given_he: cols[2] || '',
-          given: cols[3] || cols[2] || '',
+          given: (cols[3] && !/[\u0590-\u05FF]/.test(cols[3])) ? cols[3] : ((cols[2] && !/[\u0590-\u05FF]/.test(cols[2])) ? cols[2] : ' '),
           country: cols[4] || d.pf_birth_country || '',
           country_en: cols[5] || d.pf_birth_country_en || '',
           dob: cols[6] || '',
@@ -2654,6 +2679,161 @@ module.exports = { stampSecurityCv: stampSecurityCv };
     }
     return d;
   }
+
+
+  var __mirrorSpecCache = null;
+  async function loadMirrorSpecCached() {
+    if (__mirrorSpecCache) return __mirrorSpecCache;
+    var res = await fetch('/forms/gov-pdfs/piba_mirror_spec_v1.json?v=20261126');
+    if (!res.ok) throw new Error('Failed to load piba_mirror_spec_v1.json');
+    __mirrorSpecCache = await res.json();
+    return __mirrorSpecCache;
+  }
+
+  var MIRROR_BANNER_I18N = {
+    en: 'REFERENCE REPLICA IN ENGLISH — DO NOT SUBMIT THIS PAGE TO THE CLERK (SUBMIT THE HEBREW PAGE)',
+    es: 'RÉPLICA EXACTA EN ESPAÑOL (SOLO REFERENCIA) — NO ENTREGAR ESTA PÁGINA AL FUNCIONARIO',
+    fr: 'RÉPLIQUE EXACTE EN FRANÇAIS (RÉFÉRENCE) — NE PAS REMETTRE CETTE PAGE À L\'AGENT',
+    de: 'EXAKTE REPLIK AUF DEUTSCH (NUR ZUR PRÜFUNG) — DIESE SEITE NICHT AM SCHALTER ABGEBEN',
+    ru: 'ТОЧНАЯ КОПИЯ БЛАНКА НА РУССКОМ (ДЛЯ ПРОВЕРКИ) — НЕ СДАВАТЬ ЭТУ СТРАНИЦУ ЧИНОВНИКУ'
+  };
+
+  async function renderTranslatedLabelsOntoBlankPdf(pdfFilename, targetLang) {
+    var spec = await loadMirrorSpecCached();
+    var langIdx = ['en', 'es', 'fr', 'de', 'ru'].indexOf(targetLang);
+    if (langIdx === -1) langIdx = 0;
+
+    var blankBytes = await fetchBytesCached('/forms/gov-pdfs/mirror_blank_' + pdfFilename);
+    var regBytes = await fetchBytesCached('/app/vendor/NotoSansMulti-Regular.ttf');
+    var boldBytes = await fetchBytesCached('/app/vendor/NotoSansMulti-Bold.ttf');
+
+    var PDFLib = window.PDFLib;
+    var pdfDoc = await PDFLib.PDFDocument.load(blankBytes, { ignoreEncryption: true });
+    pdfDoc.registerFontkit(window.fontkit);
+    var fReg = await pdfDoc.embedFont(regBytes, { subset: false });
+    var fBold = await pdfDoc.embedFont(boldBytes, { subset: false });
+
+    var pages = pdfDoc.getPages();
+    var formPagesSpec = (spec.forms && spec.forms[pdfFilename]) || [];
+    var bannerTxt = MIRROR_BANNER_I18N[targetLang] || MIRROR_BANNER_I18N.en;
+
+    for (var pIdx = 0; pIdx < pages.length; pIdx++) {
+      var pg = pages[pIdx];
+      var pSpec = formPagesSpec[pIdx];
+      var pw = pg.getWidth();
+      var ph = pg.getHeight();
+
+      // Top reference strip so clerk & applicant immediately distinguish Official Hebrew page vs Replica page
+      pg.drawRectangle({ x: 14, y: ph - 17.5, width: pw - 28, height: 14.5, color: PDFLib.rgb(0.99, 0.94, 0.94), borderColor: PDFLib.rgb(0.82, 0.15, 0.15), borderWidth: 0.9 });
+      var bSz = 6.8;
+      var bw = fBold.widthOfTextAtSize(bannerTxt, bSz);
+      if (bw > pw - 40) { bSz = bSz * ((pw - 40) / bw); bw = fBold.widthOfTextAtSize(bannerTxt, bSz); }
+      pg.drawText(bannerTxt, { x: (pw - bw) / 2, y: ph - 12.8, size: bSz, font: fBold, color: PDFLib.rgb(0.72, 0.08, 0.08) });
+
+      if (!pSpec || !Array.isArray(pSpec.items)) continue;
+      for (var k = 0; k < pSpec.items.length; k++) {
+        var it = pSpec.items[k];
+        var x0 = it[0], x1 = it[1], py = it[2], origSz = it[3], isWhite = it[4], strOrId = it[5];
+        var txt = (typeof strOrId === 'number')
+          ? ((spec.dict[strOrId] && (spec.dict[strOrId][langIdx] || spec.dict[strOrId][0])) || '')
+          : String(strOrId || '');
+        txt = String(txt || '').replace(/[\u0590-\u05FF]+/g, '').replace(/\s+/g, ' ').trim();
+        if (!txt) continue;
+
+        var boxW = Math.max(12, x1 - x0);
+        var fontUse = (origSz >= 9.2 || isWhite === 1) ? fBold : fReg;
+        var sz = Math.min(origSz * 0.86, 10.5);
+        sz = Math.max(4.6, sz);
+        var tw = fontUse.widthOfTextAtSize(txt, sz);
+
+        // Allow a little natural breathing room if original span was short Hebrew word
+        var maxAllowW = Math.max(boxW + 16, 26);
+        if (x0 + maxAllowW > pw - 16) maxAllowW = Math.max(12, (pw - 16) - x0);
+
+        var col = (isWhite === 1) ? PDFLib.rgb(1, 1, 1) : PDFLib.rgb(0.10, 0.14, 0.20);
+
+        if (tw > maxAllowW && txt.indexOf(' ') !== -1 && sz * (maxAllowW / tw) < 5.2) {
+          // Balanced 2-line wrap inside wide/tall label cell
+          var words = txt.split(/\s+/);
+          var mid = Math.ceil(words.length / 2);
+          var l1 = words.slice(0, mid).join(' ');
+          var l2 = words.slice(mid).join(' ');
+          var wMax = Math.max(fontUse.widthOfTextAtSize(l1, sz), fontUse.widthOfTextAtSize(l2, sz));
+          var wSz = wMax > maxAllowW ? Math.max(4.3, sz * (maxAllowW / wMax)) : sz;
+          pg.drawText(l1, { x: x0, y: py + (wSz * 0.52), size: wSz, font: fontUse, color: col });
+          pg.drawText(l2, { x: x0, y: py - (wSz * 0.58), size: wSz, font: fontUse, color: col });
+        } else {
+          if (tw > maxAllowW) {
+            sz = Math.max(4.2, sz * (maxAllowW / tw));
+            tw = fontUse.widthOfTextAtSize(txt, sz);
+          }
+          pg.drawText(txt, { x: x0, y: py, size: sz, font: fontUse, color: col });
+        }
+      }
+    }
+    return await pdfDoc.save();
+  }
+
+  window.generateOfficialPdfBytesOnly = async function(formKey, rawState) {
+    var fk = formKey || 'ash3';
+    if (fk === 'security_cv' && !window.GAT_MODULAR_STAMPERS.security_cv) fk = 'sec_cv';
+    var opts = makeBrowserLoaderOpts();
+    var state = prepareUserStamperState(rawState || {}, false);
+    if (fk === 'ash456') {
+      var b456 = await window.GAT_MODULAR_STAMPERS.ash456(state, opts);
+      var b14a = await window.GAT_MODULAR_STAMPERS.mr14a(state, opts);
+      var b14b = await window.GAT_MODULAR_STAMPERS.mr14b(state, opts);
+      var mergedDoc = await window.PDFLib.PDFDocument.create();
+      for (var arr of [b456, b14a, b14b]) {
+        var srcDoc = await window.PDFLib.PDFDocument.load(arr);
+        var copied = await mergedDoc.copyPages(srcDoc, srcDoc.getPageIndices());
+        copied.forEach(function(p) { mergedDoc.addPage(p); });
+      }
+      return await mergedDoc.save();
+    }
+    var fn = window.GAT_MODULAR_STAMPERS[fk] || window.GAT_MODULAR_STAMPERS.ash3;
+    return await fn(state, opts);
+  };
+
+  window.generateVisualMirrorPdfBytes = async function(formKey, motherRawState, targetLang) {
+    var fk = formKey || 'ash3';
+    if (fk === 'security_cv' && !window.GAT_MODULAR_STAMPERS.security_cv) fk = 'sec_cv';
+    var mCopy = Object.assign({}, motherRawState || {}, { _allowUnicodeMirror: true });
+    var state = prepareUserStamperState(mCopy, false);
+
+    var preRenderedMap = {};
+    var mirrorOpts = {
+      PDFLib: window.PDFLib,
+      fontkit: window.fontkit,
+      useMultiScriptFonts: true,
+      loadPdfBytes: async function(fname) {
+        if (!preRenderedMap[fname]) {
+          preRenderedMap[fname] = await renderTranslatedLabelsOntoBlankPdf(fname, targetLang);
+        }
+        return preRenderedMap[fname].slice(0);
+      },
+      loadFontBytes: function(fname) {
+        if (fname === 'NotoSansHebrew-Regular.ttf') return fetchBytesCached('/app/vendor/NotoSansMulti-Regular.ttf');
+        if (fname === 'NotoSansHebrew-Bold.ttf') return fetchBytesCached('/app/vendor/NotoSansMulti-Bold.ttf');
+        return fetchBytesCached('/app/vendor/' + fname);
+      }
+    };
+
+    if (fk === 'ash456') {
+      var m456 = await window.GAT_MODULAR_STAMPERS.ash456(state, mirrorOpts);
+      var m14a = await window.GAT_MODULAR_STAMPERS.mr14a(state, mirrorOpts);
+      var m14b = await window.GAT_MODULAR_STAMPERS.mr14b(state, mirrorOpts);
+      var mergedDoc = await window.PDFLib.PDFDocument.create();
+      for (var arr of [m456, m14a, m14b]) {
+        var srcDoc = await window.PDFLib.PDFDocument.load(arr);
+        var copied = await mergedDoc.copyPages(srcDoc, srcDoc.getPageIndices());
+        copied.forEach(function(p) { mergedDoc.addPage(p); });
+      }
+      return await mergedDoc.save();
+    }
+    var fn = window.GAT_MODULAR_STAMPERS[fk] || window.GAT_MODULAR_STAMPERS.ash3;
+    return await fn(state, mirrorOpts);
+  };
 
   window.stampOfficialGovPdf = async function(formKey, rawState, isDemoStress) {
     var fk = formKey || (window.gatFormsState && window.gatFormsState.pf_active_form) || 'ash3';

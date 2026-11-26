@@ -1138,7 +1138,23 @@
 
   window.GAT_FORMS_META = { F: F, FORMS: FORMS, UI: UI };
 
-  function lang() { return window.appLang || localStorage.getItem('gat_lang') || 'en'; }
+  function lang() {
+    var candidates = [
+      typeof window.getUnifiedGatLang === 'function' ? window.getUnifiedGatLang() : '',
+      localStorage.getItem('gat_lang'),
+      localStorage.getItem('giyur_lang'),
+      localStorage.getItem('selectedLang'),
+      window.gatLang,
+      window.appLang,
+      (document.getElementById('globe-lang-lbl') && document.getElementById('globe-lang-lbl').textContent) || '',
+      document.documentElement.lang
+    ];
+    for (var i = 0; i < candidates.length; i++) {
+      var c = String(candidates[i] || '').toLowerCase().trim().slice(0, 2);
+      if (['en', 'he', 'fr', 'es', 'de', 'ru'].indexOf(c) !== -1) return c;
+    }
+    return 'en';
+  }
   function ui() { return UI[lang()] || UI.en; }
   function tr(obj) { var l = lang(); return (obj && (obj[l] || obj.en)) || ''; }
   function esc(s) {
@@ -2387,7 +2403,7 @@
                   tz: String(ch.tz || '').replace(/\D/g, ''),
                   surname_he: ch.surname_he || r.surname_he || '',
                   given_he: ch.given_he || '',
-                  given: ch.given_he || '',
+                  given: (ch.given_en && !/[\u0590-\u05FF]/.test(ch.given_en)) ? String(ch.given_en).toUpperCase().trim() : '',
                   other_parent_he: fullNameHe,
                   country: 'ישראל',
                   country_en: 'ISRAEL',
@@ -2552,8 +2568,10 @@
               setField('pf_dob', r.date_of_birth);
               setField('pf_father_he', r.father_full_name);
               if (r.father_full_name_en) setField('pf_father_en', r.father_full_name_en);
+              if (r.father_dob_iso) setFieldIfEmpty('pf_father_dob', r.father_dob_iso);
               setField('pf_mother_he', r.mother_full_name);
               if (r.mother_full_name_en) setField('pf_mother_en', r.mother_full_name_en);
+              if (r.mother_dob_iso) setFieldIfEmpty('pf_mother_dob', r.mother_dob_iso);
               if (r.mother_maiden_name_he) setField('pf_mother_maiden', r.mother_maiden_name_he);
               if (r.paternal_grandfather_he) setField('pf_foreign_grandfather', r.paternal_grandfather_he);
               setField('pf_birth_country', normBirthPlaceHe);
@@ -2586,6 +2604,15 @@
           var isPoliceOrSingle = !isMarriage && !isBirth && !isPassport && (/police|criminal|fbi|acro|rcmp|יושר|פלילי|single|רווקות|פנויות/i.test(rawDocType) || slotKey === 'police' || slotKey === 'single');
           if (isPoliceOrSingle && targetOwner !== 'partner' && normIssIso) {
             setField('pf_police_issue_date', normIssIso);
+          }
+          var isConversionOrJewishDoc = !isMarriage && (/conversion|hamara|hamará|תעודת המרה|אישור גיור|גיור|rabbinic|יהדות|conversión|konversion|гиюр/i.test(rawDocType + ' ' + String(r.doc_title_detected || '')) || slotKey === 'conversion');
+          if (isConversionOrJewishDoc && targetOwner !== 'partner') {
+            var isFemC = /נקבה|female/i.test(String(window.gatFormsState.pf_gender || r.gender_he || 'נקבה'));
+            var jewStrHe = isFemC ? 'יהודייה' : 'יהודי';
+            setField('pf_religion_nat', jewStrHe + ' • ' + jewStrHe);
+            setField('pf_religion_en', 'JEWISH');
+            setField('pf_nationality_en', 'JEWISH');
+            setFieldIfEmpty('pf_456_shvut', 'סעיף 4ב לחוק השבות — יהודי מלידה או גיור מוכר');
           }
 
           // ------------------------------------------------------------------
@@ -3071,44 +3098,124 @@
     }
 
     if (window.applyGenderInflectionToState && window.applyGenderInflectionToState(s)) { changed = true; }
-    // B. Canonical -> All 8 PDF Stampers 1:1 Bridge
+    // B. Self-heal any previously contaminated *_en fields that contain Hebrew/Cyrillic characters!
+    var STRICT_LATIN_EN_KEYS = [
+      'pf_surname_en', 'pf_given_en', 'pf_prior_names_en', 'pf_birth_country_en',
+      'pf_citizenship_en', 'pf_religion_en', 'pf_nationality_en',
+      'pf_father_en', 'pf_mother_en', 'pf_mother_maiden_en',
+      'pf_il_street_en', 'pf_il_city_en',
+      'pf_inst_name_en', 'pf_inst_addr_en', 'pf_inst_contact_en',
+      'pf_ash3_target_visa_en', 'pf_ash1_cat_en',
+      'pf_sp_surname_en', 'pf_sp_given_en',
+      'pf_prev_rejected_details_en', 'pf_parallel_req_details_en'
+    ];
+    STRICT_LATIN_EN_KEYS.forEach(function(enKey) {
+      if (s[enKey] && /[\u0590-\u05FF\u0400-\u04FF]/.test(String(s[enKey]))) {
+        s[enKey] = '';
+        if (d[enKey]) delete d[enKey];
+        changed = true;
+      }
+    });
+    if (Array.isArray(s.pf_children_rows)) {
+      s.pf_children_rows.forEach(function(kr) {
+        if (kr && kr.given && /[\u0590-\u05FF\u0400-\u04FF]/.test(String(kr.given))) {
+          kr.given = '';
+          changed = true;
+        }
+        if (kr && kr.country_en && /[\u0590-\u05FF\u0400-\u04FF]/.test(String(kr.country_en))) {
+          kr.country_en = '';
+          changed = true;
+        }
+      });
+    }
+
+    function setLatinIfPureAscii(targetEnKey, candidateVal) {
+      if (!candidateVal) return;
+      var cStr = String(candidateVal).trim();
+      if (!cStr || /[\u0590-\u05FF\u0400-\u04FF]/.test(cStr)) return;
+      if (/^[A-Za-z0-9\s.,'\-\/()]+$/.test(cStr)) {
+        setIfEmpty(targetEnKey, cStr.toUpperCase());
+      }
+    }
+
+    // Also pull clean Latin birthPlaceEn / citizenshipEn / fatherEn / motherEn from scanned foreign docs if present
+    if (Array.isArray(scans) && scans.length > 0) {
+      scans.slice().reverse().forEach(function(sc) {
+        if (!sc || sc.ownerParty === 'partner' || sc.tzRole === 'spouse' || sc.isIsraeliTz) return;
+        if (sc.birthCountryEn) setLatinIfPureAscii('pf_birth_country_en', sc.birthCountryEn);
+        if (sc.citizenshipEn) setLatinIfPureAscii('pf_citizenship_en', sc.citizenshipEn);
+        if (sc.fatherNameEn) setLatinIfPureAscii('pf_father_en', sc.fatherNameEn);
+        if (sc.motherNameEn) setLatinIfPureAscii('pf_mother_en', sc.motherNameEn);
+        if (sc.priorNamesEn) setLatinIfPureAscii('pf_prior_names_en', sc.priorNamesEn);
+      });
+    }
+
+    // C. Canonical -> All 8 PDF Stampers 1:1 Bridge (NEVER copy Hebrew into *_en!)
     if (s.pf_prior_names) {
-      mirrorAlways('pf_prior_names_en', s.pf_prior_names);
+      if (/^(ללא|אין|none|n\/a|-)$/i.test(String(s.pf_prior_names).trim())) {
+        setIfEmpty('pf_prior_names_en', 'NONE');
+      } else {
+        setLatinIfPureAscii('pf_prior_names_en', s.pf_prior_names);
+      }
       mirrorAlways('pf_maiden_he', s.pf_prior_names);
       mirrorAlways('pf_maiden_surname_he', s.pf_prior_names);
       mirrorAlways('pf_prev_surname_he', s.pf_prior_names);
     }
-    if (s.pf_father_he) mirrorAlways('pf_father_en', s.pf_father_he);
-    if (s.pf_mother_he) mirrorAlways('pf_mother_en', s.pf_mother_he);
-    if (s.pf_mother_maiden) mirrorAlways('pf_mother_maiden_en', s.pf_mother_maiden);
+    if (s.pf_father_he) setLatinIfPureAscii('pf_father_en', s.pf_father_he);
+    if (s.pf_mother_he) setLatinIfPureAscii('pf_mother_en', s.pf_mother_he);
+    if (s.pf_mother_maiden) {
+      if (/^(ללא|אין|none|n\/a|-)$/i.test(String(s.pf_mother_maiden).trim())) {
+        setIfEmpty('pf_mother_maiden_en', 'NONE');
+      } else {
+        setLatinIfPureAscii('pf_mother_maiden_en', s.pf_mother_maiden);
+      }
+    }
 
     if (s.pf_birth_country) {
-      mirrorAlways('pf_birth_country_en', s.pf_birth_country);
+      setLatinIfPureAscii('pf_birth_country_en', s.pf_birth_country);
       var bParts = String(s.pf_birth_country).split(/[\/,\-]/);
-      mirrorAlways('pf_birth_country_he', bParts[0].trim());
-      if (bParts.length >= 2) mirrorAlways('pf_birth_city_he', bParts.slice(1).join(' ').trim());
-      else mirrorAlways('pf_birth_city_he', s.pf_birth_country);
+      if (/[\u0590-\u05FF]/.test(s.pf_birth_country)) {
+        mirrorAlways('pf_birth_country_he', bParts[bParts.length - 1].trim());
+        if (bParts.length >= 2) mirrorAlways('pf_birth_city_he', bParts[0].trim());
+        else mirrorAlways('pf_birth_city_he', s.pf_birth_country);
+      }
     }
     if (s.pf_citizenship) {
-      mirrorAlways('pf_citizenship_en', s.pf_citizenship);
+      setLatinIfPureAscii('pf_citizenship_en', s.pf_citizenship);
       setIfEmpty('pf_citizenship_code', s.pf_citizenship);
     }
     if (s.pf_religion_nat) {
-      mirrorAlways('pf_religion_en', s.pf_religion_nat);
-      mirrorAlways('pf_nationality_en', s.pf_religion_nat);
-    }
-    if (s.pf_abroad_addr) mirrorAlways('pf_abroad_addr_he', s.pf_abroad_addr);
-    if (s.pf_il_addr_he) {
-      var addrParts = String(s.pf_il_addr_he).split(',');
-      if (addrParts.length >= 2) {
-        mirrorAlways('pf_il_street_en', addrParts[0].trim());
-        mirrorAlways('pf_il_city_en', addrParts.slice(1).join(',').trim());
-        setIfEmpty('pf_mail_street_he', addrParts[0].trim());
-        setIfEmpty('pf_mail_city_he', addrParts.slice(1).join(',').trim());
-        setIfEmpty('pf_456_settlement', addrParts.slice(1).join(',').trim());
+      var rnStr = String(s.pf_religion_nat).trim();
+      if (/יהוד|jewish/i.test(rnStr)) {
+        setIfEmpty('pf_religion_en', 'JEWISH');
+        setIfEmpty('pf_nationality_en', 'JEWISH');
+      } else if (/נוצר|christ/i.test(rnStr)) {
+        setIfEmpty('pf_religion_en', 'CHRISTIAN');
+      } else if (/מוסלמ|muslim|islam/i.test(rnStr)) {
+        setIfEmpty('pf_religion_en', 'MUSLIM');
+      } else if (/חסר דת|no religion|none/i.test(rnStr)) {
+        setIfEmpty('pf_religion_en', 'NONE');
       } else {
-        mirrorAlways('pf_il_street_en', s.pf_il_addr_he);
-        mirrorAlways('pf_il_city_en', s.pf_il_addr_he);
+        setLatinIfPureAscii('pf_religion_en', rnStr);
+        setLatinIfPureAscii('pf_nationality_en', rnStr);
+      }
+    }
+    if (s.pf_abroad_addr && /[\u0590-\u05FF]/.test(String(s.pf_abroad_addr))) {
+      mirrorAlways('pf_abroad_addr_he', s.pf_abroad_addr);
+    }
+    if (s.pf_il_addr_he) {
+      var addrParts = String(s.pf_il_addr_he).split(',').map(function(p){ return p.trim(); }).filter(Boolean);
+      if (!/[\u0590-\u05FF\u0400-\u04FF]/.test(String(s.pf_il_addr_he))) {
+        var noZipParts = String(s.pf_il_addr_he).replace(/\b\d{5,7}\b/g, '').split(',').map(function(p){ return p.trim(); }).filter(Boolean);
+        if (noZipParts.length >= 2) {
+          setLatinIfPureAscii('pf_il_street_en', noZipParts.slice(0, -1).join(', '));
+          setLatinIfPureAscii('pf_il_city_en', noZipParts[noZipParts.length - 1]);
+        }
+      } else if (addrParts.length >= 2) {
+        setIfEmpty('pf_mail_street_he', addrParts[0]);
+        setIfEmpty('pf_mail_city_he', addrParts.slice(1).join(', '));
+        setIfEmpty('pf_456_settlement', addrParts.slice(1).join(', '));
+      } else {
         setIfEmpty('pf_456_settlement', s.pf_il_addr_he);
         setIfEmpty('pf_mail_city_he', s.pf_il_addr_he);
       }
@@ -3117,16 +3224,20 @@
       setIfEmpty('pf_mail_recipient_he', [s.pf_given_he, s.pf_surname_he].filter(Boolean).join(' '));
     }
     if (s.pf_inst_details) {
-      mirrorAlways('pf_inst_addr_he', s.pf_inst_details);
-      mirrorAlways('pf_inst_name_en', s.pf_inst_details);
-      mirrorAlways('pf_inst_addr_en', s.pf_inst_details);
+      if (/[\u0590-\u05FF]/.test(String(s.pf_inst_details))) {
+        setIfEmpty('pf_inst_addr_he', s.pf_inst_details);
+      } else {
+        var iPts = String(s.pf_inst_details).split(/[•|]/).map(function(x){ return x.trim(); });
+        if (iPts[0]) setLatinIfPureAscii('pf_inst_name_en', iPts[0]);
+        if (iPts[2]) setLatinIfPureAscii('pf_inst_contact_en', iPts[2]);
+      }
     }
     if (s.pf_tz) mirrorAlways('pf_id_num', s.pf_tz);
     if (s.pf_entry_date_port) {
       var mIso = String(s.pf_entry_date_port).match(/(\d{4}-\d{2}-\d{2}|\d{2}\/\d{2}\/\d{4})/);
       if (mIso) mirrorAlways('pf_entry_date', mIso[1]);
       var portTxt = String(s.pf_entry_date_port).replace(/(\d{4}-\d{2}-\d{2}|\d{2}\/\d{2}\/\d{4})/, '').replace(/^[\s,\-\/]+|[\s,\-\/]+$/g, '');
-      mirrorAlways('pf_border_station_he', portTxt || s.pf_entry_date_port);
+      if (/[\u0590-\u05FF]/.test(portTxt)) mirrorAlways('pf_border_station_he', portTxt);
     }
     if (s.pf_hebrew_dob) {
       var hParts = String(s.pf_hebrew_dob).trim().split(/\s+/);
@@ -3144,13 +3255,26 @@
       mirrorAlways('pf_requested_status_he', 'עולה (לפי חוק השבות)');
     }
     if (s.pf_ash3_action) {
-      mirrorAlways('pf_ash3_target_visa_he', s.pf_ash3_action);
-      mirrorAlways('pf_ash3_target_visa_en', s.pf_ash3_action);
-      mirrorAlways('pf_ash1_cat_he', s.pf_ash3_action);
-      mirrorAlways('pf_ash1_cat_en', s.pf_ash3_action);
+      var actRaw = String(s.pf_ash3_action).trim();
+      var visaCodeM = actRaw.match(/([AB]\/[1-5]|[אב]\/[1-5])/i);
+      if (visaCodeM) {
+        var rawVc = visaCodeM[1].toUpperCase();
+        var vcEn = rawVc.replace('א', 'A').replace('ב', 'B');
+        var vcHe = vcEn.replace('A', 'א').replace('B', 'ב');
+        if (/החלפה|שינוי|change|switch/i.test(actRaw)) {
+          mirrorAlways('pf_ash3_target_visa_he', vcHe);
+          mirrorAlways('pf_ash3_target_visa_en', vcEn);
+        }
+        mirrorAlways('pf_ash1_cat_he', vcHe);
+        mirrorAlways('pf_ash1_cat_en', vcEn);
+      }
+      var mMonths = actRaw.match(/\b(\d{1,2})\s*(?:חודשים|חודש|months?|mo)\b/i);
+      if (mMonths && !s.pf_ash3_months) {
+        s.pf_ash3_months = mMonths[1];
+      }
     }
-    if (s.pf_prev_rejected_details) mirrorAlways('pf_prev_rejected_details_en', s.pf_prev_rejected_details);
-    if (s.pf_parallel_req_details) mirrorAlways('pf_parallel_req_details_en', s.pf_parallel_req_details);
+    if (s.pf_prev_rejected_details) setLatinIfPureAscii('pf_prev_rejected_details_en', s.pf_prev_rejected_details);
+    if (s.pf_parallel_req_details) setLatinIfPureAscii('pf_parallel_req_details_en', s.pf_parallel_req_details);
 
     if (changed && persist !== false) {
       try {
@@ -3448,7 +3572,7 @@
     });
     if (typeof window.syncCrossFormFields === 'function') window.syncCrossFormFields(true);
 
-    // 2. Collect all non-Hebrew fields across the active form + global state
+    // 2. Collect all non-Hebrew fields across the active form + global state AND missing companion In-English fields
     var curForm = val('pf_active_form', 'ash3');
     var activeFields = (FORMS[curForm] || FORMS.ash3).fields || [];
     var allFieldKeys = Array.from(new Set(activeFields.concat(Object.keys(F))));
@@ -3463,7 +3587,58 @@
       }
     });
 
-    if (Object.keys(toTranslate).length === 0) {
+    // Also translate Latin pf_abroad_addr into pf_abroad_addr_he if pf_abroad_addr_he lacks Hebrew
+    var abrRaw = String(val('pf_abroad_addr', '')).trim();
+    var abrHeCur = String(val('pf_abroad_addr_he', '')).trim();
+    if (abrRaw && (!abrHeCur || !/[\u0590-\u05FF]/.test(abrHeCur) || /[A-Za-z]/.test(abrHeCur))) {
+      toTranslate.pf_abroad_addr_he = abrRaw;
+    }
+
+    // Companion In-English fields needed by Ash/3, Ash/1, Security CV (NEVER touch Passport pf_surname_en / pf_given_en!)
+    var enPairs = [
+      ['pf_prior_names_en',   val('pf_prior_names', '')],
+      ['pf_birth_country_en', val('pf_birth_country', '')],
+      ['pf_citizenship_en',   val('pf_citizenship', '')],
+      ['pf_religion_en',      val('pf_religion_nat', '')],
+      ['pf_nationality_en',   val('pf_religion_nat', '')],
+      ['pf_father_en',        val('pf_father_he', '')],
+      ['pf_mother_en',        val('pf_mother_he', '')],
+      ['pf_mother_maiden_en', val('pf_mother_maiden', '')],
+      ['pf_il_street_en',     val('pf_il_addr_he', '')],
+      ['pf_il_city_en',       val('pf_il_addr_he', '')]
+    ];
+    var instRaw = String(val('pf_inst_details', '')).trim();
+    if (instRaw) {
+      var instPts = instRaw.split(/[•|]/).map(function(x){ return x.trim(); });
+      if (instPts[0]) enPairs.push(['pf_inst_name_en', instPts[0]]);
+      if (instPts[2]) enPairs.push(['pf_inst_contact_en', instPts[2]]);
+      var instAddrSrc = val('pf_inst_addr_he', '') || val('pf_il_addr_he', '');
+      if (instAddrSrc) enPairs.push(['pf_inst_addr_en', instAddrSrc]);
+    }
+
+    var toTranslateEn = {};
+    enPairs.forEach(function(pair) {
+      var enKey = pair[0];
+      var srcVal = String(pair[1] || '').trim();
+      if (!srcVal) return;
+      var curEn = String(val(enKey, '')).trim();
+      if (!curEn || /[\u0590-\u05FF\u0400-\u04FF]/.test(curEn)) {
+        toTranslateEn[enKey] = srcVal;
+      }
+    });
+
+    var kidsArr = Array.isArray(window.gatFormsState && window.gatFormsState.pf_children_rows)
+      ? window.gatFormsState.pf_children_rows
+      : [];
+    var kidsNeedBilingual = kidsArr.some(function(k) {
+      if (!k) return false;
+      var gEn = String(k.given || '').trim();
+      var gHe = String(k.given_he || '').trim();
+      var cEn = String(k.country_en || '').trim();
+      return (gHe && (!gEn || /[\u0590-\u05FF]/.test(gEn))) || (gEn && !gHe) || (k.country && (!cEn || /[\u0590-\u05FF]/.test(cEn)));
+    });
+
+    if (Object.keys(toTranslate).length === 0 && Object.keys(toTranslateEn).length === 0 && !kidsNeedBilingual) {
       if (!silentIfAlreadyHeb && window.showDraftSavedBadge) {
         window.showDraftSavedBadge(c.alreadyHeb, false);
       }
@@ -3484,19 +3659,30 @@
       var fetchOpts = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode: 'translate_form_hebrew', fields: toTranslate, lang: lang() })
+        body: JSON.stringify({
+          mode: 'translate_form_hebrew',
+          fields: toTranslate,
+          enFields: toTranslateEn,
+          childrenRows: kidsNeedBilingual ? kidsArr : [],
+          lang: lang()
+        })
       };
       if (ctrl) fetchOpts.signal = ctrl.signal;
 
       var res = await fetch((window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "https://giyuraliyahtrack.com/api/auditDoc" : "/api/auditDoc"), fetchOpts);
       clearTimeout(timerId);
       var data = await res.json();
-      if (!res.ok || !data.ok || !data.result || !data.result.translated) {
+      if (!res.ok || !data.ok || !data.result || (!data.result.translated && !data.result.translated_en)) {
         throw new Error((data && data.error) || 'Translation server busy');
       }
-      var map = data.result.translated;
-      if (typeof window.savePreHebrewBackup === 'function') {
-        window.savePreHebrewBackup(toTranslate);
+      var map = data.result.translated || {};
+      var mapEn = data.result.translated_en || {};
+      var kidsBi = Array.isArray(data.result.children_bilingual) ? data.result.children_bilingual : [];
+
+      var uiBackup = Object.assign({}, toTranslate);
+      delete uiBackup.pf_abroad_addr_he;
+      if (Object.keys(uiBackup).length > 0 && typeof window.savePreHebrewBackup === 'function') {
+        window.savePreHebrewBackup(uiBackup);
       }
       var d = loadDraft();
       Object.keys(map).forEach(function(fid) {
@@ -3509,6 +3695,24 @@
           el.dataset.lastSavedVal = String(map[fid]);
         }
       });
+      Object.keys(mapEn).forEach(function(enFid) {
+        if (!mapEn[enFid] || enFid === 'pf_surname_en' || enFid === 'pf_given_en') return;
+        var cleanLatin = String(mapEn[enFid]).replace(/[\u0590-\u05FF\u0400-\u04FF]/g, '').trim().toUpperCase();
+        if (!cleanLatin) return;
+        window.gatFormsState[enFid] = cleanLatin;
+        d[enFid] = cleanLatin;
+      });
+      if (kidsBi.length > 0 && Array.isArray(window.gatFormsState.pf_children_rows)) {
+        window.gatFormsState.pf_children_rows.forEach(function(kr, idx) {
+          var kb = kidsBi[idx];
+          if (!kr || !kb) return;
+          if (kb.given_he) kr.given_he = String(kb.given_he).trim();
+          if (kb.given_en && !/[\u0590-\u05FF]/.test(kb.given_en)) kr.given = String(kb.given_en).trim().toUpperCase();
+          if (kb.country_he) kr.country = String(kb.country_he).trim();
+          if (kb.country_en && !/[\u0590-\u05FF]/.test(kb.country_en)) kr.country_en = String(kb.country_en).trim().toUpperCase();
+        });
+        d.pf_children_rows = window.gatFormsState.pf_children_rows;
+      }
       try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch (e) {}
       if (typeof window.syncCrossFormFields === 'function') window.syncCrossFormFields(true);
       if (window.syncFormDraftIfChanged) window.syncFormDraftIfChanged();
@@ -3576,6 +3780,14 @@
   };
 
   window.scanCertIntoFormsEngine = async function(inputEl) {
+    if (typeof window.ensurePaidFormsAccessOrPaywall === 'function') {
+      var okAccess = await window.ensurePaidFormsAccessOrPaywall('upload');
+      if (!okAccess) { if (inputEl) inputEl.value = ''; return; }
+    } else if (typeof window.hasFormsEngineAccess === 'function' && !window.hasFormsEngineAccess()) {
+      if (inputEl) inputEl.value = '';
+      window.redirectToFormsPayment();
+      return;
+    }
     var file = inputEl && inputEl.files && inputEl.files[0];
     if (!file) return;
     var outEl = document.getElementById('pf-forensic-out');
@@ -3624,6 +3836,14 @@
   };
 
   window.scanHandwrittenWorksheet = async function(inputEl) {
+    if (typeof window.ensurePaidFormsAccessOrPaywall === 'function') {
+      var okWs = await window.ensurePaidFormsAccessOrPaywall('worksheet');
+      if (!okWs) { if (inputEl) inputEl.value = ''; return; }
+    } else if (typeof window.hasFormsEngineAccess === 'function' && !window.hasFormsEngineAccess()) {
+      if (inputEl) inputEl.value = '';
+      window.redirectToFormsPayment();
+      return;
+    }
     var file = inputEl && inputEl.files && inputEl.files[0];
     if (!file) return;
     var c = ui();
@@ -3940,8 +4160,8 @@
 
       var topActionBtns = unlocked
         ? '<div class="no-print" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">' +
-            '<button type="button" class="btn" style="flex:1;background:linear-gradient(135deg,#082548 0%,#0288D1 100%);color:#fff;font-weight:900;padding:12px 16px;border-radius:12px;border:2px solid #4FC3F7;cursor:pointer;" onclick="window.stampOfficialGovPdf(\'' + esc(curForm) + '\', window.collectCurrentFormDraft(), !!window.stamperCalibrationMode)">' + esc(gb.btnDownloadPdf) + '</button>' +
-            '<button type="button" class="btn" style="flex:1;background:#fffbeb;color:#92400e;font-weight:900;padding:12px 16px;border-radius:12px;border:2px solid #f59e0b;cursor:pointer;" onclick="window.print()">' + esc(gb.btnPrintGuide) + '</button>' +
+            '<button type="button" class="btn" style="flex:1;min-width:210px;background:#082548;color:#fff;font-weight:900;padding:12px 16px;border-radius:12px;border:2px solid #4FC3F7;cursor:pointer;" onclick="window.downloadGatPibaFormPdf(\'' + esc(curForm) + '\', \'official\')">' + esc(gb.btnDownloadPdf) + '</button>' +
+            '<button type="button" class="btn" style="flex:1;min-width:220px;background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);color:#fff;font-weight:900;padding:12px 16px;border-radius:12px;border:2px solid #7dd3fc;cursor:pointer;" onclick="window.downloadGatPibaFormPdf(\'' + esc(curForm) + '\', \'bilingual\')">📖 ' + esc(gb.btnPrintGuide) + ' (PDF)</button>' +
           '</div>'
         : '';
 

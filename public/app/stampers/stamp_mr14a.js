@@ -71,7 +71,11 @@ async function stampMr14a(rawState, loaderOpts) {
   // =========================================================================
   // 3. ORIGIN, CITIZENSHIP & FOREIGN PASSPORT (y = 592.4)
   // =========================================================================
-  put(0, (abr.country || 'צרפת').replace(/,/g, ''), 371.5, 544.1, 592.4, { align: 'center', size: 8.0, noWrap: true });
+  var mrAbrPtsHe = String(s.pf_abroad_addr_he || '').split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+  var mrAbrCityHe = (mrAbrPtsHe.length >= 2 ? mrAbrPtsHe[mrAbrPtsHe.length - 2] : '') || ctx.abrCityHe || '';
+  var mrAbrCtryHe = (mrAbrPtsHe.length >= 1 ? mrAbrPtsHe[mrAbrPtsHe.length - 1] : '') || ctx.abrCountryHe || '';
+  var mrAbrComboHe = [mrAbrCityHe, mrAbrCtryHe].filter(Boolean).join(' - ') || (s._stressAllCheckboxes ? 'ליון - צרפת' : '');
+  put(0, (mrAbrCtryHe || (s._stressAllCheckboxes ? 'צרפת' : '')).replace(/,/g, ''), 371.5, 544.1, 592.4, { align: 'center', size: 8.0, noWrap: true });
   put(0, (s.pf_citizenship || 'צרפתית').replace(/,/g, ''), 198.3, 371.5, 592.4, { align: 'center', size: 8.0, noWrap: true });
   put(0, s.pf_pass_num || 'FR9876543', 22.9, 198.3, 592.4, { align: 'center', size: 8.5, bold: true, noWrap: true });
 
@@ -88,8 +92,8 @@ async function stampMr14a(rawState, loaderOpts) {
   put(0, s.pf_dob_heb_yr  || hebParts.slice(2).join(' ') || 'תשנ״ה', 276.0, 319.0, 561.5, { align: 'center', size: 8.8, bold: true, noWrap: true });
 
   // מקום הלידה: הישוב (128..218) | המדינה (26..116) sitting above the underlines
-  put(0, (s.pf_birth_city_he || abr.city || 'ליון').replace(/,/g, ''), 145.0, 248.0, 562.5, { align: 'center', size: 8.0, noWrap: true });
-  put(0, (s.pf_birth_country_he || abr.country || 'צרפת').replace(/,/g, ''), 28.0, 132.0, 562.5, { align: 'center', size: 8.0, noWrap: true });
+  put(0, (s.pf_birth_city_he || mrAbrCityHe || (s._stressAllCheckboxes ? 'ליון' : '')).replace(/,/g, ''), 145.0, 248.0, 562.5, { align: 'center', size: 8.0, noWrap: true });
+  put(0, (s.pf_birth_country_he || mrAbrCtryHe || (s._stressAllCheckboxes ? 'צרפת' : '')).replace(/,/g, ''), 28.0, 132.0, 562.5, { align: 'center', size: 8.0, noWrap: true });
 
   // =========================================================================
   // 5. NATIONALITY, RELIGION & LAW OF RETURN (y = 524.4)
@@ -139,7 +143,7 @@ async function stampMr14a(rawState, loaderOpts) {
   // 8. MARRIAGE DETAILS, PRIOR STATUS & FOREIGN MILITARY (y = 423.5 / 412.5, 385.6)
   // =========================================================================
   putDateYMD_RTL(0, s.pf_marriage_date, '14/08/2022', 430.0, 464.0, 500.0, 538.0, 423.5);
-  put(0, (s.pf_marriage_place_he || abr.city || 'ליון - צרפת').replace(/,/g, ''), 297.1, 420.2, 412.5, { align: 'center', size: 7.8, noWrap: true });
+  put(0, (s.pf_marriage_place_he || (s._stressAllCheckboxes ? 'ליון - צרפת' : '')).replace(/,/g, ''), 297.1, 420.2, 412.5, { align: 'center', size: 7.8, noWrap: true });
   put(0, s.pf_prev_status_il_he || 'ב/2 תייר', 120.9, 297.1, 412.5, { align: 'center', size: 8.0, noWrap: true });
 
   if (s._stressAllCheckboxes) {
@@ -147,7 +151,7 @@ async function stampMr14a(rawState, loaderOpts) {
     check(0, 105.9, 411.1, 7.1, 7.1, 'blue');
   }
 
-  put(0, ((abr.city || 'ליון') + ' - ' + (abr.country || 'צרפת')).replace(/,/g, ''), 399.3, 544.1, 385.6, { align: 'center', size: 7.8, noWrap: true });
+  put(0, mrAbrComboHe.replace(/,/g, ''), 399.3, 544.1, 385.6, { align: 'center', size: 7.8, noWrap: true });
   put(0, s.pf_requested_status_he || 'עולה / א/5', 268.0, 399.3, 385.6, { align: 'center', size: 8.0, noWrap: true });
   put(0, s.pf_req_num || '2026-98412', 94.7, 268.0, 385.6, { align: 'center', size: 8.2, bold: true, noWrap: true });
   put(0, s.pf_citizenship_code || '314', 22.9, 94.7, 385.6, { align: 'center', size: 8.2, bold: true, noWrap: true });
@@ -181,7 +185,7 @@ async function stampMr14a(rawState, loaderOpts) {
   // =========================================================================
   put(0, s.pf_border_station_he || 'נתב"ג', 399.3, 544.1, 230.7, { align: 'center', size: 8.0, noWrap: true });
   put(0, s.pf_pass_num || 'FR9876543', 399.3, 544.1, 204.4, { align: 'center', size: 8.2, bold: true, noWrap: true });
-  put(0, ((abr.city || 'ליון') + ' - ' + (abr.country || 'צרפת')).replace(/,/g, ''), 399.3, 544.1, 178.1, { align: 'center', size: 7.8, noWrap: true });
+  put(0, mrAbrComboHe.replace(/,/g, ''), 399.3, 544.1, 178.1, { align: 'center', size: 7.8, noWrap: true });
   put(0, pIss.full || '10/03/2024', 399.3, 544.1, 151.8, { align: 'center', size: 8.0, noWrap: true });
   put(0, pExp.full || '09/03/2034', 399.3, 544.1, 125.7, { align: 'center', size: 8.0, noWrap: true });
 

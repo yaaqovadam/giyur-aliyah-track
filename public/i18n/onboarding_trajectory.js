@@ -4644,15 +4644,22 @@
     var hit = t.closest(
       "#gat-spok-fab, #gat-draggable-spok-fab, #gat-hd-fab, " +
       "#gat-ask-spok-inline-pill, #gat-hero-inline-spok-pill, " +
-      ".gat-vulcan-hand"
+      "#spok-fab-pill, #ask-spok-pill, .spok-fab-pill, .gat-vulcan-hand"
     );
     if (hit) return hit;
-    var btn = t.closest("button, [role='button'], a, div");
-    if (btn && btn.children.length <= 3) {
-      var txt = (btn.textContent || "").trim();
-      if (txt === "\ud83d\udd96" || /(?:Ask\s*Spok|שאל\s*את\s*ספוק|Demander\s*à\s*Spok|Preguntar\s*a\s*Spok|Spok\s*fragen|Спросить\s*Спок)/i.test(txt)) {
-        return btn;
+    // Walk up at most 3 ancestors; ONLY match compact pill-sized elements (<=340x95px), NEVER layout wrapper divs!
+    var cur = t;
+    for (var depth = 0; depth < 4 && cur && cur !== document.body; depth++) {
+      if (cur.getBoundingClientRect) {
+        var r = cur.getBoundingClientRect();
+        if (r.width > 10 && r.width <= 340 && r.height > 10 && r.height <= 95 && cur.children.length <= 3) {
+          var txt = (cur.textContent || "").replace(/\s+/g, " ").trim();
+          if (txt.length <= 46 && (txt === "\ud83d\udd96" || /(?:Ask\s*Spok|שאל(?:ו)?\s*את\s*(?:ספוק|Spok)|Demander\s*à\s*Spok|Preguntar\s*a\s*Spok|Spok\s*fragen|Спросить\s*Спок)/i.test(txt))) {
+            return cur;
+          }
+        }
       }
+      cur = cur.parentElement;
     }
     return null;
   }
@@ -4693,7 +4700,8 @@
     }
   }
 
-  window.addEventListener("touchend", handleTapOrClick, { capture: true, passive: false });
+  // pointerup catches 1st tap immediately even when draggable FAB swallows click on 1-14px trackpad/finger jitter!
+  // Safe on Android & Mac because handleTapOrClick is a complete no-op unless target is Spok or Spok's close button.
   window.addEventListener("pointerup", handleTapOrClick, { capture: true, passive: false });
   window.addEventListener("click", handleTapOrClick, { capture: true, passive: false });
 })();

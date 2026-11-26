@@ -27,8 +27,8 @@ async function stampAsh1(rawState, loaderOpts) {
   // Particulars of the Applicant — Row 1 (Uniform 7.4pt bold with 2-line wrap)
   put(0, s.pf_surname_en, 388, 501, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
   put(0, s.pf_given_en, 270, 383, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
-  put(0, s.pf_father_en || s.pf_father_he, 155, 264, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
-  put(0, s.pf_mother_en || s.pf_mother_he, 40, 149, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
+  put(0, s.pf_father_en, 155, 264, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
+  put(0, s.pf_mother_en, 40, 149, 538.0, { align: 'center', size: 7.4, yWrapCenter: 539.5, lineShift: 4.0, wrapSize: 7.2 });
 
   // Row 2: Mother's maiden name, Previous family name, Nationality, Religion
   put(0, s.pf_mother_maiden || s.pf_mother_maiden_en, 438, 558, 493.0, { align: 'center', size: 7.4, yWrapCenter: 494.5, lineShift: 4.0, wrapSize: 7.2 });

@@ -8209,7 +8209,7 @@ if (typeof document !== 'undefined') {
                 tz: String(ch.tz || "").replace(/\D/g, ""),
                 surname_he: ch.surname_he || r.surname_he || "",
                 given_he: ch.given_he || "",
-                given: ch.given_he || "",
+                given: (ch.given_en && !/[\u0590-\u05FF]/.test(ch.given_en)) ? String(ch.given_en).toUpperCase().trim() : "",
                 other_parent_he: fullHe,
                 country: "ישראל",
                 country_en: "ISRAEL",
@@ -9135,6 +9135,9 @@ if (typeof document !== 'undefined') {
       '</div>' +
     '</div>';
 
+    if (typeof window.buildGatAll8FormsProfileHtml === "function") {
+      html += window.buildGatAll8FormsProfileHtml();
+    }
     listBox.innerHTML = html;
   };
 
@@ -11087,7 +11090,8 @@ if (typeof document !== 'undefined') {
     if (/teudat|zehut|sefach|ספח|תעודת זהות|\btz\b|israeli_id/.test(s)) return "tz";
     if (/passport|דרכון|passeport|pasaporte|reisepass|паспорт|laissez/.test(s)) return "passport";
     if (/birth|לידה|naissance|nacimiento|geburt|рождении/.test(s)) return "birth";
-    if (/police|criminal|fbi|acro|rcmp|יושר|פלילי|casier|antecedentes|führungszeugnis|судимости/.test(s)) return "police";
+    if (/conversion|hamara|hamará|giyur|המרה|גיור|konversion|conversión|гиюр/i.test(s)) return "conversion";
+      if (/police|criminal|fbi|acro|rcmp|יושר|פלילי|casier|antecedentes|führungszeugnis|судимости/.test(s)) return "police";
     if (/single|marital|רווקות|פנויות|célibat|soltería|ledigkeit/.test(s)) return "single";
     return s.replace(/[^a-z0-9_]/g, "") || "doc";
   }
@@ -11313,7 +11317,9 @@ if (typeof document !== 'undefined') {
             setBoth("pf_pass_issue_date", pIss);
             setBoth("pf_pass_exp_date", pExp);
             setBoth("pf_birth_country", bPlace);
+            if (r.birth_country_city_en && !/[\u0590-\u05FF]/.test(r.birth_country_city_en)) setBoth("pf_birth_country_en", String(r.birth_country_city_en).toUpperCase());
             setBoth("pf_citizenship", citHe);
+            if (r.citizenship_en && !/[\u0590-\u05FF]/.test(r.citizenship_en)) setBoth("pf_citizenship_en", String(r.citizenship_en).toUpperCase());
           }
         } else if (nSlot === "tz") {
           const fullHe = [r.given_he, r.surname_he].filter(Boolean).join(" ").trim() || r.person_full_name || "";
@@ -11331,8 +11337,8 @@ if (typeof document !== 'undefined') {
               setBoth("pf_il_addr_he", r.israeli_address_he);
               setBoth("pf_address_il", r.israeli_address_he);
             }
-            if (r.marital_he && /נשוי|נשואה/.test(r.marital_he)) {
-              setBothIfEmpty("pf_marital", "נשוי/אה");
+            if ((r.marital_he && /נשוי|נשואה/.test(r.marital_he)) || r.spouse_tz || r.spouse_full_name_he) {
+              setBoth("pf_marital", "נשוי/אה");
             }
           } else {
             setBoth("pf_tz", rawIdDigits);
@@ -11386,13 +11392,40 @@ if (typeof document !== 'undefined') {
             setBothIfEmpty("pf_dob", r.date_of_birth);
             setBoth("pf_birth_country", r.birth_country_city_he || r.country_or_city_of_birth);
             setBoth("pf_father_he", r.father_full_name);
+            if (r.father_full_name_en && !/[\u0590-\u05FF]/.test(r.father_full_name_en)) setBoth("pf_father_en", String(r.father_full_name_en).toUpperCase());
+            if (r.father_dob_iso) setBothIfEmpty("pf_father_dob", r.father_dob_iso);
             setBoth("pf_mother_he", r.mother_full_name);
+            if (r.mother_full_name_en && !/[\u0590-\u05FF]/.test(r.mother_full_name_en)) setBoth("pf_mother_en", String(r.mother_full_name_en).toUpperCase());
+            if (r.mother_dob_iso) setBothIfEmpty("pf_mother_dob", r.mother_dob_iso);
             if (r.mother_maiden_name_he) setBoth("pf_mother_maiden", r.mother_maiden_name_he);
             if (r.paternal_grandfather_he) setBoth("pf_foreign_grandfather", r.paternal_grandfather_he);
             if (r.prior_or_maiden_names) setBoth("pf_prior_names", r.prior_or_maiden_names);
+            if (r.prior_names_en && !/[\u0590-\u05FF]/.test(r.prior_names_en)) setBoth("pf_prior_names_en", String(r.prior_names_en).toUpperCase());
           }
+        } else if (nSlot === "conversion" && !isPartner) {
+          const isFem = /נקבה|female/i.test(String(state.pf_gender || draft.pf_gender || r.gender_he || "נקבה"));
+          const jewHe = isFem ? "יהודייה" : "יהודי";
+          setBoth("pf_religion_nat", jewHe + " • " + jewHe);
+          setBoth("pf_religion_en", "JEWISH");
+          setBoth("pf_nationality_en", "JEWISH");
+          setBothIfEmpty("pf_456_shvut", "סעיף 4ב לחוק השבות — יהודי מלידה או גיור מוכר");
+          if (r.given_he) setBothIfEmpty("pf_given_he", r.given_he);
+          if (r.surname_he) setBothIfEmpty("pf_surname_he", r.surname_he);
+          if (r.hebrew_date_of_birth) setBothIfEmpty("pf_hebrew_dob", r.hebrew_date_of_birth);
         } else if (nSlot === "police" && !isPartner) {
           setBoth("pf_police_issue_date", r.issue_date_iso);
+        }
+        // Also check ANY non-partner doc whose title/type mentions Conversion / Teudat Hamara / Rabbanut Jewish proof!
+        const anyDocTitle = String((d.docTitle || "") + " " + (d.docType || "") + " " + (r.doc_title_detected || "") + " " + (r.doc_type || ""));
+        if (!isPartner && /conversion|hamara|hamará|תעודת המרה|אישור גיור|גיור|conversión|konversion|гиюр/i.test(anyDocTitle)) {
+          const isFemConv = /נקבה|female/i.test(String(state.pf_gender || draft.pf_gender || r.gender_he || "נקבה"));
+          const jewConvHe = isFemConv ? "יהודייה" : "יהודי";
+          setBoth("pf_religion_nat", jewConvHe + " • " + jewConvHe);
+          setBoth("pf_religion_en", "JEWISH");
+          setBoth("pf_nationality_en", "JEWISH");
+        }
+        if (!isPartner && r.religion_he && !state.pf_religion_nat) {
+          setBothIfEmpty("pf_religion_nat", r.religion_he);
         }
       });
 
@@ -11490,7 +11523,12 @@ if (typeof document !== 'undefined') {
       });
 
       localStorage.setItem("gat_scanned_docs_v1", JSON.stringify(cleanScans));
+      localStorage.setItem("gat_scanned_certs_v1", JSON.stringify(cleanScans));
       localStorage.setItem("gat_form_draft_v1", JSON.stringify(draft));
+      try {
+        const uniDraft = Object.assign({}, JSON.parse(localStorage.getItem("gat_unified_forms_draft_v1") || "{}"), draft, state);
+        localStorage.setItem("gat_unified_forms_draft_v1", JSON.stringify(uniDraft));
+      } catch (e) {}
       window.gatFormsState = state;
       if (typeof window.syncCrossFormFields === "function") window.syncCrossFormFields(true);
       if (typeof window.forceRefreshLivePibaFormDom === "function") window.forceRefreshLivePibaFormDom();
@@ -14360,7 +14398,14 @@ if (typeof document !== 'undefined') {
     window.ensureVaultAutofillAppliedNow = wrappedEnsure;
   }
 
-  const obs = new MutationObserver(function() { window.syncSpokBrandingAndGreeting(); });
+  let _spokSyncTimer = null;
+  const obs = new MutationObserver(function() {
+    if (_spokSyncTimer) return;
+    _spokSyncTimer = setTimeout(function() {
+      _spokSyncTimer = null;
+      window.syncSpokBrandingAndGreeting();
+    }, 150);
+  });
   if (document.body) obs.observe(document.body, { childList: true, subtree: true });
   else document.addEventListener("DOMContentLoaded", function() { obs.observe(document.body, { childList: true, subtree: true }); });
 
@@ -18352,4 +18397,79 @@ if (typeof document !== 'undefined') {
   applyNosnippet();
   document.addEventListener("DOMContentLoaded", applyNosnippet);
   window.addEventListener("load", applyNosnippet);
+})();
+
+
+// === GAT ANDROID & STATIC PAGE GLOBAL NAV FALLBACKS V1 ===
+(function() {
+  if (window._gatGlobalNavFallbacksV1) return;
+  window._gatGlobalNavFallbacksV1 = true;
+
+  if (typeof window.handleBrandClick !== "function") {
+    window.handleBrandClick = function(ev) {
+      var l = (localStorage.getItem("gat_lang") || document.documentElement.lang || "en").toLowerCase().slice(0, 2);
+      var dest = (l && l !== "en" && ["he","fr","es","de","ru"].indexOf(l) !== -1) ? ("/" + l + "/") : "/";
+      if (ev && ev.preventDefault) ev.preventDefault();
+      window.location.href = dest;
+      return false;
+    };
+  }
+
+  if (typeof window.toggleLang !== "function") {
+    window.toggleLang = function(ev) {
+      if (ev && ev.stopPropagation) ev.stopPropagation();
+      var menu = document.getElementById("lang-dropdown") || document.getElementById("gat-floating-lang-menu");
+      if (menu && menu.id === "lang-dropdown") {
+        menu.classList.toggle("open");
+        var isHidden = window.getComputedStyle(menu).display === "none";
+        menu.style.display = isHidden ? "block" : "";
+        return;
+      }
+      var existing = document.getElementById("gat-floating-lang-menu");
+      if (existing) { existing.remove(); return; }
+      var pop = document.createElement("div");
+      pop.id = "gat-floating-lang-menu";
+      pop.style.cssText = "position:fixed;top:58px;right:14px;z-index:2147483646;background:#082548;border:2px solid #38bdf8;border-radius:12px;padding:6px;box-shadow:0 14px 34px rgba(0,0,0,0.45);display:flex;flex-direction:column;gap:4px;min-width:150px;";
+      var opts = [
+        ["en", "🇬🇧 English"], ["he", "🇮🇱 עברית"], ["fr", "🇫🇷 Français"],
+        ["es", "🇪🇸 Español"], ["de", "🇩🇪 Deutsch"], ["ru", "🇷🇺 Русский"]
+      ];
+      opts.forEach(function(pair) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.setAttribute("data-lang", pair[0]);
+        b.textContent = pair[1];
+        b.style.cssText = "background:rgba(255,255,255,0.08);color:#fff;border:none;border-radius:8px;padding:8px 12px;text-align:start;font-size:0.84rem;font-weight:800;cursor:pointer;";
+        b.onclick = function() {
+          try {
+            ["gat_lang", "giyur_lang", "lang", "selectedLang", "app_lang", "i18n_lang"].forEach(function(k) { localStorage.setItem(k, pair[0]); });
+          } catch (e) {}
+          pop.remove();
+          var u = new URL(window.location.href);
+          u.searchParams.set("lang", pair[0]);
+          window.location.href = u.pathname + u.search + u.hash;
+        };
+        pop.appendChild(b);
+      });
+      document.body.appendChild(pop);
+      setTimeout(function() {
+        document.addEventListener("click", function closeOnce() {
+          if (pop.parentNode) pop.remove();
+          document.removeEventListener("click", closeOnce);
+        });
+      }, 40);
+    };
+  }
+})();
+
+
+// === GAT POPUP OPENER DELEGATE FOR REFERENCE GUIDE BUTTONS ===
+(function() {
+  if (window._gatOpenerDlBridge) return;
+  window._gatOpenerDlBridge = true;
+  if (typeof window.downloadGatPibaFormPdf !== "function" && window.opener && typeof window.opener.downloadGatPibaFormPdf === "function") {
+    window.downloadGatPibaFormPdf = function(fk, mode, ev) {
+      return window.opener.downloadGatPibaFormPdf(fk, mode, ev);
+    };
+  }
 })();

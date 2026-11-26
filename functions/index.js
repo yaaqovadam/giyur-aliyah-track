@@ -4327,7 +4327,7 @@ ${dynamicSiteBrain}${trackBlueprintAiContext}
       }
     }
 
-    if (req.body && (req.body.mode === "translate_form_hebrew" || req.body.mode === "scan_worksheet")) {
+    if (req.body && (req.body.mode === "translate_form_hebrew" || req.body.mode === "translate_form_mother" || req.body.mode === "batch_translate_pdf_labels" || req.body.mode === "scan_worksheet")) {
       return require("./forms_ai_helper").handleFormsAi(req, res, typeof GEMINI_API_KEY !== "undefined" ? GEMINI_API_KEY : null, "gemini-3.8-flash");
     }
 
@@ -4382,7 +4382,7 @@ CRITICAL RULES:
    - Set "looks_incomplete_multipage": true if the certificate says "Page 1 of 2", is cut off before signatures/seals, or appears to be missing pages.
 Return ONLY valid JSON with this exact schema:
 {
-  "doc_type": "birth_cert | police_check | single_status | marriage_cert | rabbinic_letter | passport | israeli_id | entry_slip | apostille | other",
+  "doc_type": "birth_cert | conversion_cert | police_check | single_status | marriage_cert | rabbinic_letter | passport | israeli_id | entry_slip | apostille | other",
   "doc_title_detected": "Short title in ${targetLang}",
   "issuing_country": "Country name in ${targetLang} (e.g. USA, France, UK, Israel)",
   "person_full_name": "Exact full name in Latin letters as printed",
@@ -4408,6 +4408,7 @@ Return ONLY valid JSON with this exact schema:
   "sefach_children": [
     {
       "given_he": "Child given name in Hebrew",
+      "given_en": "Child given name transliterated into UPPERCASE Latin letters (e.g. LUNA)",
       "surname_he": "Child surname in Hebrew",
       "tz": "9-digit Israeli ID or passport number of child",
       "dob_iso": "YYYY-MM-DD",
@@ -4437,10 +4438,13 @@ Return ONLY valid JSON with this exact schema:
   "passport_issue_date": "YYYY-MM-DD or empty string",
   "passport_expiry_date": "YYYY-MM-DD or empty string",
   "expiry_date_iso": "YYYY-MM-DD expiration date of passport or Israeli TZ card, else empty string",
+  "religion_he": "יהודייה or יהודי if document is a Conversion Certificate (תעודת המרה / אישור גיור), Rabbinic Jewish Status Letter, or lists Jewish religion/nationality, else empty string",
   "father_full_name": "Father's full name in Hebrew (transliterate to Hebrew if in Latin/Cyrillic) or empty string",
   "father_full_name_en": "Father's full name in Latin letters if visible, else empty string",
+  "father_dob_iso": "YYYY-MM-DD father's date of birth if printed on birth certificate, else empty string",
   "mother_full_name": "Mother's full name in Hebrew (transliterate to Hebrew if in Latin/Cyrillic) or empty string",
   "mother_full_name_en": "Mother's full name in Latin letters if visible, else empty string",
+  "mother_dob_iso": "YYYY-MM-DD mother's date of birth if printed on birth certificate, else empty string",
   "mother_maiden_name_he": "Mother's maiden surname in Hebrew or empty string",
   "paternal_grandfather_he": "Paternal grandfather's name / patronymic in Hebrew if visible or empty string",
   "marriage_date_place_he": "Marriage date (DD/MM/YYYY) and city/country in Hebrew if marriage certificate or empty string",
