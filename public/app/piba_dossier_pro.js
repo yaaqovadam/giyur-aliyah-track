@@ -956,12 +956,67 @@ async function buildMotherTongueStateForReplica(effState, l) {
     try {
       preWin = window.open('about:blank', '_blank');
       if (preWin && preWin.document) {
+        var WAIT_I18N = {
+          en: {
+            title: 'Generating PIBA PDF...',
+            biHead: 'Compiling Official Hebrew + Exact EN Replica PDF...',
+            heHead: 'מפיק PDF עברי רשמי של רשות האוכלוסין...',
+            otherHead: 'Compiling Official Hebrew + Exact {LANG} Replica PDF...',
+            sub: 'Embedding high-precision vector grids & Unicode fonts. Please be patient — this can take a little while.',
+            dir: 'ltr'
+          },
+          he: {
+            title: 'מכין קובץ PDF...',
+            biHead: 'מפיק PDF עברי רשמי + עותק עיון מראה...',
+            heHead: 'מפיק PDF עברי רשמי של רשות האוכלוסין...',
+            otherHead: 'מפיק PDF עברי רשמי + עותק עיון ({LANG})...',
+            sub: 'מטמיע רשתות וקטוריות וגופני יוניקוד. אנא התאזרו בסבלנות — הדבר עשוי להימשך מעט זמן.',
+            dir: 'rtl'
+          },
+          fr: {
+            title: 'Génération du PDF PIBA...',
+            biHead: 'Compilation du PDF Hébreu Officiel + Réplique FR...',
+            heHead: 'Compilation du PDF Hébreu Officiel PIBA...',
+            otherHead: 'Compilation du PDF Hébreu Officiel + Réplique {LANG}...',
+            sub: 'Intégration des grilles vectorielles et polices Unicode. Veuillez patienter — cela peut prendre un certain temps.',
+            dir: 'ltr'
+          },
+          es: {
+            title: 'Generando PDF de PIBA...',
+            biHead: 'Compilando PDF Hebreo Oficial + Réplica ES...',
+            heHead: 'Compilando PDF Hebreo Oficial de PIBA...',
+            otherHead: 'Compilando PDF Hebreo Oficial + Réplica {LANG}...',
+            sub: 'Incrustando cuadrículas vectoriales y fuentes Unicode. Por favor, tenga paciencia; puede tardar un poco.',
+            dir: 'ltr'
+          },
+          de: {
+            title: 'PIBA-PDF wird erstellt...',
+            biHead: 'Erstelle offizielles Hebräisch-PDF + DE-Replik...',
+            heHead: 'Erstelle offizielles Hebräisch-PDF von PIBA...',
+            otherHead: 'Erstelle offizielles Hebräisch-PDF + {LANG}-Replik...',
+            sub: 'Vektorraster und Unicode-Schriften werden eingebettet. Bitte haben Sie etwas Geduld — es kann einen Moment dauern.',
+            dir: 'ltr'
+          },
+          ru: {
+            title: 'Формирование PDF PIBA...',
+            biHead: 'Сборка официального PDF на иврите + точной копии RU...',
+            heHead: 'Сборка официального PDF на иврите PIBA...',
+            otherHead: 'Сборка официального PDF на иврите + копии {LANG}...',
+            sub: 'Встраивание векторных сеток и шрифтов Unicode. Пожалуйста, наберитесь терпения — это может занять некоторое время.',
+            dir: 'ltr'
+          }
+        };
+        var wLang = WAIT_I18N[l] ? l : 'en';
+        var wCopy = WAIT_I18N[wLang];
+        var wHead = (mode !== 'bilingual' || l === 'he')
+          ? wCopy.heHead
+          : (wLang === 'en' ? wCopy.biHead : wCopy.otherHead.replace('{LANG}', String(l || '').toUpperCase()));
         preWin.document.write(
-          '<!doctype html><html><head><meta charset="utf-8"><title>Generating PIBA PDF...</title></head>' +
+          '<!doctype html><html lang="' + esc(wLang) + '" dir="' + wCopy.dir + '"><head><meta charset="utf-8"><title>' + esc(wCopy.title) + '</title></head>' +
           '<body style="margin:0;background:#082548;color:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;text-align:center;padding:24px;">' +
           '<div style="font-size:2.4rem;margin-bottom:14px;">⏳</div>' +
-          '<div style="font-size:1.15rem;font-weight:900;margin-bottom:8px;">Compiling ' + (mode === 'bilingual' ? ('Official Hebrew + Exact ' + l.toUpperCase() + ' Replica PDF') : 'Official Clerk-Hebrew PIBA PDF') + '...</div>' +
-          '<div style="font-size:0.88rem;color:#93c5fd;max-width:440px;line-height:1.5;">Embedding high-precision vector grids & Unicode fonts — your PDF will appear here in 2–4 seconds.</div>' +
+          '<div style="font-size:1.15rem;font-weight:900;margin-bottom:8px;">' + esc(wHead) + '</div>' +
+          '<div style="font-size:0.88rem;color:#93c5fd;max-width:460px;line-height:1.55;">' + esc(wCopy.sub) + '</div>' +
           '</body></html>'
         );
         preWin.document.close();

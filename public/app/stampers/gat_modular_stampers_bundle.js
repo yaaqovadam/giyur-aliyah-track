@@ -2717,11 +2717,54 @@ module.exports = { stampSecurityCv: stampSecurityCv };
     var formPagesSpec = (spec.forms && spec.forms[pdfFilename]) || [];
     var bannerTxt = MIRROR_BANNER_I18N[targetLang] || MIRROR_BANNER_I18N.en;
 
+    var DIAGONAL_NOT_FOR_SUBMISSION_I18N = {
+      en: 'NOT FOR SUBMISSION',
+      he: 'לא להגשה רשמית',
+      fr: 'PAS POUR SOUMISSION',
+      es: 'NO PARA PRESENTACIÓN',
+      de: 'NICHT ZUR EINREICHUNG',
+      ru: 'НЕ ДЛЯ ПОДАЧИ'
+    };
+    var rawDiagTxt = DIAGONAL_NOT_FOR_SUBMISSION_I18N[targetLang] || DIAGONAL_NOT_FOR_SUBMISSION_I18N.en;
+
+    function shapeWatermarkForPdf(str) {
+      var s = String(str || '');
+      if (!/[\u0590-\u05FF]/.test(s)) return s;
+      return s.split(' ').reverse().map(function(tok) {
+        return /[\u0590-\u05FF]/.test(tok) ? tok.split('').reverse().join('') : tok;
+      }).join(' ');
+    }
+    var diagTxt = shapeWatermarkForPdf(rawDiagTxt);
+
     for (var pIdx = 0; pIdx < pages.length; pIdx++) {
       var pg = pages[pIdx];
       var pSpec = formPagesSpec[pIdx];
       var pw = pg.getWidth();
       var ph = pg.getHeight();
+
+      // Large diagonal "NOT FOR SUBMISSION" watermark from bottom-left upward across page at low opacity
+      var diagLen = Math.hypot(pw * 0.86, ph * 0.86);
+      var diagAngleRad = Math.atan2(ph * 0.86, pw * 0.86);
+      var diagAngleDeg = (diagAngleRad * 180) / Math.PI;
+      var wmSize = 44;
+      var wmWidth = fBold.widthOfTextAtSize(diagTxt, wmSize);
+      if (wmWidth > diagLen && wmWidth > 0) {
+        wmSize = Math.max(18, wmSize * (diagLen / wmWidth));
+        wmWidth = fBold.widthOfTextAtSize(diagTxt, wmSize);
+      }
+      var cx = pw * 0.5;
+      var cy = ph * 0.5;
+      var startX = cx - (wmWidth / 2) * Math.cos(diagAngleRad);
+      var startY = cy - (wmWidth / 2) * Math.sin(diagAngleRad);
+      pg.drawText(diagTxt, {
+        x: startX,
+        y: startY,
+        size: wmSize,
+        font: fBold,
+        color: PDFLib.rgb(0.68, 0.08, 0.08),
+        opacity: 0.12,
+        rotate: PDFLib.degrees(diagAngleDeg)
+      });
 
       // Top reference strip so clerk & applicant immediately distinguish Official Hebrew page vs Replica page
       pg.drawRectangle({ x: 14, y: ph - 17.5, width: pw - 28, height: 14.5, color: PDFLib.rgb(0.99, 0.94, 0.94), borderColor: PDFLib.rgb(0.82, 0.15, 0.15), borderWidth: 0.9 });
