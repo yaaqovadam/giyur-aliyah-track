@@ -14626,6 +14626,56 @@ if (typeof document !== 'undefined') {
     de: 'SPOK FRAGEN',
     ru: '\u0421\u041f\u0420\u041e\u0421\u0418\u0422\u042c \u0421\u041f\u041e\u041a\u0410'
   };
+  var GATE_I18N = {
+    en: {
+      badge: '🧭 TRACK SETUP REQUIRED',
+      title: 'Establish Your Legal Track First',
+      body: 'In order to track your progress, deadlines, and required government documents, your exact legal track must be established first. Answer 4 quick questions now to unlock your personalized Tracker.',
+      btn: '🚀 Start My Track →',
+      openTracker: '📊 Open My Tracker →',
+      tap: 'TAP →'
+    },
+    he: {
+      badge: '🧭 נדרשת הגדרת מסלול תחילה',
+      title: 'קודם יש לקבוע את המסלול המשפטי שלך',
+      body: 'כדי לעקוב אחר ההתקדמות, מועדי היעד והמסמכים הנדרשים שלך, יש להגדיר תחילה את המסלול המדויק שלך. ענו על 4 שאלות קצרות כדי לפתוח את מעקב המסלול האישי.',
+      btn: '🚀 התחל את המסלול שלי ←',
+      openTracker: '📊 פתח את מעקב המסלול ←',
+      tap: 'לחץ ←'
+    },
+    fr: {
+      badge: '🧭 CONFIGURATION DU PARCOURS REQUISE',
+      title: 'Établissez d’abord votre parcours légal',
+      body: 'Pour suivre votre progression, vos délais et vos documents officiels requis, votre parcours légal exact doit d’abord être établi. Répondez à 4 questions rapides pour activer votre suivi personnalisé.',
+      btn: '🚀 Commencer mon parcours →',
+      openTracker: '📊 Ouvrir mon suivi →',
+      tap: 'VOIR →'
+    },
+    es: {
+      badge: '🧭 CONFIGURACIÓN DE RUTA REQUERIDA',
+      title: 'Primero establezca su ruta legal',
+      body: 'Para hacer seguimiento de su progreso, plazos y documentos oficiales requeridos, primero debe establecerse su ruta legal exacta. Responda 4 preguntas rápidas para activar su rastreador personalizado.',
+      btn: '🚀 Empezar mi ruta →',
+      openTracker: '📊 Abrir mi rastreador →',
+      tap: 'VER →'
+    },
+    de: {
+      badge: '🧭 TRACK-EINRICHTUNG ERFORDERLICH',
+      title: 'Legen Sie zuerst Ihren Rechtsweg fest',
+      body: 'Um Ihren Fortschritt, Fristen und erforderliche Behördendokumente zu verfolgen, muss zuerst Ihr genauer Rechtsweg festgelegt werden. Beantworten Sie 4 kurze Fragen, um Ihren persönlichen Tracker zu starten.',
+      btn: '🚀 Meinen Weg starten →',
+      openTracker: '📊 Meinen Tracker öffnen →',
+      tap: 'TIPPEN →'
+    },
+    ru: {
+      badge: '🧭 ТРЕБУЕТСЯ НАСТРОЙКА МАРШРУТА',
+      title: 'Сначала определите ваш правовой маршрут',
+      body: 'Чтобы отслеживать ваш прогресс, сроки и необходимые документы, сначала нужно определить ваш точный правовой маршрут. Ответьте на 4 быстрых вопроса, чтобы открыть персональный трекер.',
+      btn: '🚀 Начать мой путь →',
+      openTracker: '📊 Открыть мой трекер →',
+      tap: 'ОТКРЫТЬ →'
+    }
+  };
 
   var userDraggedFab = true;
   var cachedOrigOpener = null;
@@ -14666,10 +14716,10 @@ if (typeof document !== 'undefined') {
   document.addEventListener('click', function(ev) {
     var el = ev.target;
     // Check if the card currently shows QUESTION 4 OF 4 (or localized equivalent '4 / 4' or '4 OF 4' or '4 מתוך 4' or '4 SUR 4' or '4 DE 4' or '4 VON 4' or '4 ИЗ 4')
-    var card = el && el.closest ? el.closest('.gat-blue-card-with-spok, #view-0, .hero-card, .card') : null;
+    var card = (el && el.closest && (!document.getElementById('view-4') || !document.getElementById('view-4').contains(el))) ? el.closest('#gat-onboarding-stage') : null;
     if (card) {
       var cTxt = (card.textContent || '');
-      if (/(?:QUESTION|ШАГ|ВОПРОС|שאלה|PREGUNTA|FRAGE)\s*4\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*4/i.test(cTxt)) {
+      if (/(?:STEP|QUESTION|ШАГ|ВОПРОС|שלב|שאלה|ÉTAPE|PREGUNTA|PASO|SCHRITT|FRAGE)\s*(?:4\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*4|2\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*2)/i.test(cTxt)) {
         var optBtn = el.closest('button, a, [onclick], .wiz-opt, .quiz-opt');
         if (optBtn) {
           var bTxt = (optBtn.textContent || '').trim();
@@ -15044,13 +15094,17 @@ if (typeof document !== 'undefined') {
 
   window.isGatOnboardingComplete = function() {
     try {
-      if (localStorage.getItem(ONBOARD_DONE_KEY) === '1') return true;
-      if (document.cookie.indexOf('perm_gat_onboard_v2=1') !== -1) {
-        localStorage.setItem(ONBOARD_DONE_KEY, '1');
-        return true;
-      }
-    } catch (e) {}
-    return false;
+      if (localStorage.getItem('gat_onboarding_completed_v3') === '1') return true;
+      if (typeof document !== 'undefined' && document.cookie && document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) return true;
+      if (Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId)) return true;
+      var bpRaw = localStorage.getItem('gat_track_blueprint_v1');
+      if (Boolean(bpRaw && bpRaw.indexOf('"trackId"') !== -1)) return true;
+      var v4 = typeof document !== 'undefined' ? document.getElementById('view-4') : null;
+      if (v4 && v4.classList.contains('active') && v4.querySelector('.gat-tl-row')) return true;
+      return false;
+    } catch (e) {
+      return Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId);
+    }
   };
 
   // Read live Track Name, Progress (e.g. '0/7 (0%)'), and Current Focus Step directly from #view-4 Tracker DOM
@@ -15084,15 +15138,15 @@ if (typeof document !== 'undefined') {
           trackTitle = sTxt;
         }
       }
-      // Find Step 1 or Current Focus step title
-      var stepCards = v4.querySelectorAll('[id*="step"], .step-card, .tracker-step');
-      for (var k = 0; k < stepCards.length; k++) {
-        var scTxt = (stepCards[k].textContent || '').replace(/\s+/g, ' ').trim();
-        if (scTxt.length > 15) {
-          var lines = (stepCards[k].innerText || '').split('\n').map(function(l){return l.trim();}).filter(Boolean);
-          if (lines.length >= 2) {
-            nextStepText = lines[0].replace(/Current Focus/i, '').trim() + ' — ' + lines[1];
-            break;
+      // Find Active / Current Focus step title from .gat-tl-row in #view-4
+      var activeRow = v4.querySelector('.gat-tl-row.is-active .gat-tl-step-box') || v4.querySelector('.gat-tl-row .gat-tl-step-box');
+      if (activeRow) {
+        var rowDivs = activeRow.children;
+        if (rowDivs && rowDivs.length >= 2) {
+          var stepHdr = (rowDivs[0].textContent || '').replace(/🎯.*|✓.*|Tap for Blueprint.*/gi, '').replace(/\s+/g, ' ').trim();
+          var stepMainTitle = (rowDivs[1].textContent || '').replace(/\s+/g, ' ').trim();
+          if (stepMainTitle) {
+            nextStepText = stepHdr ? (stepHdr + ' — ' + stepMainTitle) : stepMainTitle;
           }
         }
       }
@@ -15181,51 +15235,11 @@ if (typeof document !== 'undefined') {
 
   // Enter Non-Destructive 'Change My Track' Mode (with Cancel button if already onboarded!)
   window.startGatChangeTrackFlow = function(fromViewIdx) {
-    var alreadyOnboarded = window.isGatOnboardingComplete();
     isEditingTrackMode = true;
     returnToViewAfterCancel = (typeof fromViewIdx === 'number') ? fromViewIdx : 0;
-
-    // Switch to #view-0 (Start tab) without triggering the Tracker lock
-    if (typeof window.gatOpenTab === 'function') window.gatOpenTab(0);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    var heroCard = findHeroWizardCard();
-    if (heroCard) {
-      // Hide the Active Track Summary card and reveal the original wizard children
-      var summaryBox = document.getElementById('gat-onboarded-active-hub');
-      if (summaryBox) summaryBox.style.display = 'none';
-      var kids = heroCard.children;
-      for (var i = 0; i < kids.length; i++) {
-        var kid = kids[i];
-        if (kid.id === 'gat-onboarded-active-hub') continue;
-        if (kid.getAttribute('data-gat-hidden-by-hub') === '1') {
-          kid.removeAttribute('data-gat-hidden-by-hub');
-          kid.style.display = '';
-        }
-      }
+    if (typeof window.gatForceStartChangeTrack === 'function') {
+      window.gatForceStartChangeTrack();
     }
-
-    // Click '🚀 START MY TRACK →' if the welcome screen is showing so the user lands directly on Question 1 of 4
-    setTimeout(function() {
-      var hero = findHeroWizardCard() || document.body;
-      var buttons = hero.querySelectorAll('button, a');
-      for (var j = 0; j < buttons.length; j++) {
-        var b = buttons[j];
-        if (!b || b.id === 'gat-draggable-spok-fab' || b.id === 'gat-hero-inline-spok-pill') continue;
-        var t = (b.textContent || '').replace(/\s+/g, ' ').trim();
-        if (CTA_TEXT_RX.test(t) || (t.indexOf('\ud83d\ude80') !== -1 && t.length < 44)) {
-          var r = b.getBoundingClientRect();
-          if (r.width > 100 && r.height >= 24) {
-            b.click();
-            break;
-          }
-        }
-      }
-      // If user was already onboarded, inject the prominent '✕ Cancel & Keep Current Track' bar at the top of the wizard card!
-      if (alreadyOnboarded) {
-        renderCancelBarInWizard();
-      }
-    }, 90);
   };
 
   // Cancel button handler: closes the onboarding wizard without losing any data and returns to the already-onboarded view!
@@ -15235,6 +15249,14 @@ if (typeof document !== 'undefined') {
       ev.stopPropagation();
     }
     isEditingTrackMode = false;
+    window._gatUserClickedStartTrack = false;
+    if (window.__gatWizardState) {
+      window.__gatWizardState.mode = 'hero_landing';
+      window.__gatWizardState.forceRetake = false;
+    }
+    if (typeof window.renderGatOnboardingStage === 'function') {
+      try { window.renderGatOnboardingStage(); } catch (e) {}
+    }
     var cancelBar = document.getElementById('gat-onboard-cancel-bar');
     if (cancelBar) cancelBar.style.display = 'none';
     syncOnboardingAndTrackerLifecycle();
@@ -15268,94 +15290,58 @@ if (typeof document !== 'undefined') {
   // Render the user-friendly, informative Active Track Hub Card on the Homepage (#view-0) once onboarding is complete
   function renderOnboardedHomepageHub() {
     if (!isHomepage()) return;
-    var heroCard = findHeroWizardCard();
-    if (!heroCard) return;
+    var ua = (typeof navigator !== 'undefined' && navigator.userAgent) ? navigator.userAgent : '';
+    var isSearchBot = /(googlebot|bingbot|yandex|baiduspider|duckduckbot|slurp|facebot|ia_archiver|applebot|twitterbot|linkedinbot|whatsapp|telegrambot|Lighthouse|Google-InspectionTool|Storebot-Google|GoogleOther)/i.test(ua);
 
     var onboarded = window.isGatOnboardingComplete();
-    var hub = document.getElementById('gat-onboarded-active-hub');
+    var st = window.__gatWizardState || window.__gatWizState || {};
+    var inQuiz = Boolean(window.__gatShowRawHeroCover) || Boolean(window.__gatInChangeTrackMode) ||
+                 isEditingTrackMode ||
+                 (['quiz','intro_q1','q2','q2b','q3','q4','em1','em2'].indexOf(st.mode) !== -1) ||
+                 Boolean(st.forceRetake);
 
-    // If not onboarded OR currently in 'Change My Track' editing mode, hide the hub and show the wizard
-    if (!onboarded || isEditingTrackMode) {
-      if (hub) hub.style.display = 'none';
-      var restoredKids = heroCard.querySelectorAll('[data-gat-hidden-by-hub="1"]');
-      for (var rk = 0; rk < restoredKids.length; rk++) {
-        restoredKids[rk].removeAttribute('data-gat-hidden-by-hub');
-        restoredKids[rk].style.display = '';
-      }
-      if (onboarded && isEditingTrackMode) {
-        renderCancelBarInWizard();
+    if (document.body) {
+      if (onboarded) {
+        document.body.setAttribute('data-gat-onboarded', '1');
+        document.body.removeAttribute('data-gat-human-new');
       } else {
-        var cBar = document.getElementById('gat-onboard-cancel-bar');
-        if (cBar) cBar.style.display = 'none';
+        document.body.removeAttribute('data-gat-onboarded');
+        if (!isSearchBot) document.body.setAttribute('data-gat-human-new', '1');
       }
-      return;
+      if (inQuiz) document.body.setAttribute('data-gat-in-quiz', '1');
+      else document.body.removeAttribute('data-gat-in-quiz');
+      if (isSearchBot) document.body.setAttribute('data-gat-seo-bot', '1');
     }
 
-    // User IS onboarded and NOT editing their track: hide the raw onboarding quiz children (except Ask Spok row & our Hub)
-    var cancelBar = document.getElementById('gat-onboard-cancel-bar');
-    if (cancelBar) cancelBar.style.display = 'none';
-
-    var kids = heroCard.children;
-    for (var i = 0; i < kids.length; i++) {
-      var kid = kids[i];
-      if (!kid) continue;
-      if (kid.id === 'gat-onboarded-active-hub' || kid.id === 'gat-hero-inline-spok-row') continue;
-      if (kid.style.display !== 'none') {
-        kid.setAttribute('data-gat-hidden-by-hub', '1');
-        kid.style.display = 'none';
-      }
+    var v0 = document.getElementById('view-0');
+    if (v0 && !isSearchBot) {
+      Array.prototype.forEach.call(v0.children, function(ch) {
+        if (!ch || ch.id === 'gat-onboarding-stage') return;
+        if (!onboarded || inQuiz) {
+          ch.style.setProperty('display', 'none', 'important');
+        } else {
+          ch.style.removeProperty('display');
+        }
+      });
     }
 
-    var lg = getCurLang();
-    var t = I18N[lg] || I18N.en;
-    var dir = (lg === 'he') ? 'rtl' : 'ltr';
-    var summary = readLiveTrackerSummaryFromDOM();
-
-    if (!hub) {
-      hub = document.createElement('div');
-      hub.id = 'gat-onboarded-active-hub';
-      heroCard.insertBefore(hub, heroCard.firstChild);
-    }
-
-    var sig = lg + '|' + summary.trackTitle + '|' + summary.progressRatio + '|' + summary.nextStepText;
-    if (hub.getAttribute('data-render-sig') !== sig) {
-      hub.setAttribute('data-render-sig', sig);
-      hub.setAttribute('dir', dir);
-      hub.style.cssText = 'display:block;width:100%;text-align:' + (lg === 'he' ? 'right' : 'left') + ';padding:4px 2px 6px;';
-      hub.innerHTML =
-        '<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;">' +
-          '<span style="background:#d1fae5;color:#065f46;border:1px solid #34d399;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:900;letter-spacing:0.3px;">' + t.activeBadge + '</span>' +
-          '<button type="button" id="gat-hub-change-track-top" style="background:#f1f5f9;color:#0f172a;border:1px solid #cbd5e1;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:5px;">' + t.changeTrackBtn + '</button>' +
-        '</div>' +
-        '<h2 style="margin:0 0 6px;font-size:21px;line-height:1.25;font-weight:900;color:#0f172a;">' + summary.trackTitle + '</h2>' +
-        '<p style="margin:0 0 12px;font-size:13.5px;line-height:1.48;color:#334155;font-weight:500;">' + t.activeSub + '</p>' +
-        '<div style="background:rgba(255,255,255,0.88);border:1.5px solid #bae6fd;border-radius:14px;padding:12px 14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(2,132,199,0.08);">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
-            '<span style="font-size:11.5px;font-weight:800;text-transform:uppercase;color:#0369a1;">\ud83c\udfaf ' + t.progressLabel + '</span>' +
-            '<span style="background:#e0f2fe;color:#0284c7;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:900;">' + summary.progressRatio + '</span>' +
-          '</div>' +
-          '<div style="font-size:13.5px;font-weight:800;color:#0f172a;line-height:1.35;">\ud83d\udccc ' + t.nextFocusLabel + ': <span style="color:#0284c7;">' + summary.nextStepText + '</span></div>' +
-        '</div>' +
-        '<button type="button" id="gat-hub-open-tracker-cta" style="width:100%;padding:14px 18px;border-radius:14px;border:1.5px solid #38bdf8;background:linear-gradient(135deg,#0f172a 0%,#0284c7 100%);color:#ffffff;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 6px 18px rgba(2,132,199,0.35);display:flex;align-items:center;justify-content:center;gap:8px;">' +
-          t.openTrackerBtn +
-        '</button>';
-
-      var openBtn = document.getElementById('gat-hub-open-tracker-cta');
-      if (openBtn) {
-        openBtn.onclick = function() {
-          if (typeof window.gatOpenTab === 'function') window.gatOpenTab(4);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-      }
-      var chgBtn = document.getElementById('gat-hub-change-track-top');
-      if (chgBtn) {
-        chgBtn.onclick = function() {
-          window.startGatChangeTrackFlow(0);
-        };
+    if (onboarded && !inQuiz) {
+      var stage = document.getElementById('gat-onboarding-stage');
+      var rawHero = document.getElementById('gat-wiz-step-hero_landing');
+      var activeHub = document.getElementById('gat-onboarded-active-hub');
+      if (stage && (rawHero || !activeHub) && typeof window.renderGatOnboardingStage === 'function') {
+        if (window.__gatWizardState) {
+          window.__gatWizardState.forceRetake = false;
+          window.__gatWizardState.mode = 'timeline';
+        }
+        window.renderGatOnboardingStage();
       }
     }
-    hub.style.display = 'block';
   }
+  window.renderOnboardedHomepageHub = renderOnboardedHomepageHub;
+  window.renderOnboardedHomepageHub = renderOnboardedHomepageHub;
+  window.renderOnboardedHomepageHub = renderOnboardedHomepageHub;
+  window.renderOnboardedHomepageHub = renderOnboardedHomepageHub;
 
   // Update the top banner and 'Change Answers' button on #view-4 (Tracker page):
   // - When UN-ONBOARDED: #view-4 is completely hidden & locked!
@@ -15442,11 +15428,33 @@ if (typeof document !== 'undefined') {
 
     modal.style.display = 'flex';
 
-    function dismissAndOpenOnboarding(ev) {
-      if (ev) { ev.preventDefault(); ev.stopPropagation(); }
-      modal.style.display = 'none';
-      if (typeof window.goToFirstPartOfOnboarding === 'function') window.goToFirstPartOfOnboarding();
+    function dismissAndOpenOnboarding(e) {
+      if (e) {
+        if (e.preventDefault) e.preventDefault();
+        if (e.stopPropagation) e.stopPropagation();
+      }
+      if (modal && modal.parentNode) {
+        modal.parentNode.removeChild(modal);
+      }
+      var leftover = document.getElementById('gat-tracker-gate-modal');
+      if (leftover && leftover.parentNode) {
+        leftover.parentNode.removeChild(leftover);
+      }
+      window.gatActiveTab = 0;
+      if (typeof window.gatOpenTab === 'function') {
+        try { window.gatOpenTab(0); } catch (err) {}
+      } else if (typeof window.switchTab === 'function') {
+        try { window.switchTab(0); } catch (err) {}
+      }
+      if (typeof window.gatWizStartQuiz === 'function') {
+        window.gatWizStartQuiz();
+      } else if (typeof window.launchGatOnboardingNow === 'function') {
+        window.launchGatOnboardingNow();
+      }
     }
+    window.goToFirstPartOfOnboarding = dismissAndOpenOnboarding;
+    window.goToFirstPartOfOnboarding = dismissAndOpenOnboarding;
+    window.goToFirstPartOfOnboarding = dismissAndOpenOnboarding;
 
     document.getElementById('gat-gate-close-x').onclick = dismissAndOpenOnboarding;
     document.getElementById('gat-gate-start-btn').onclick = dismissAndOpenOnboarding;
@@ -15461,7 +15469,7 @@ if (typeof document !== 'undefined') {
     var hero = findHeroWizardCard();
     if (hero && hero.contains(el)) {
       var cTxt = hero.textContent || '';
-      if (/(?:QUESTION|ШАГ|ВОПРОС|שאלה|PREGUNTA|FRAGE)\s*4\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*4/i.test(cTxt)) {
+      if (/(?:STEP|QUESTION|ШАГ|ВОПРОС|שלב|שאלה|ÉTAPE|PREGUNTA|PASO|SCHRITT|FRAGE)\s*(?:4\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*4|2\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*2)/i.test(cTxt)) {
         var optBtn = el.closest('button, a, [onclick]');
         if (optBtn && optBtn.id !== 'gat-cancel-change-track-btn') {
           var bTxt = (optBtn.textContent || '').trim();
@@ -15479,6 +15487,7 @@ if (typeof document !== 'undefined') {
     syncView4TrackerBannerAndLock();
     renderOnboardedHomepageHub();
   }
+  window.syncOnboardingAndTrackerLifecycle = syncOnboardingAndTrackerLifecycle;
 
   syncOnboardingAndTrackerLifecycle();
   document.addEventListener('DOMContentLoaded', syncOnboardingAndTrackerLifecycle);
@@ -15492,12 +15501,6 @@ if (typeof document !== 'undefined') {
   try {
     if (!localStorage.getItem('gat_onboard_v4_clean_reset')) {
       localStorage.setItem('gat_onboard_v4_clean_reset', '1');
-      localStorage.removeItem('gat_onboarding_completed_v3');
-      localStorage.removeItem('gat_onboarding_completed_v2');
-      localStorage.removeItem('gat_onboarding_done');
-      document.cookie = 'perm_gat_onboard_v3=; path=/; max-age=0';
-      document.cookie = 'perm_gat_onboard_v2=; path=/; max-age=0';
-      document.cookie = 'perm_gat_onboarding_done=; path=/; max-age=0';
     }
     if (!localStorage.getItem('gat_onboard_v3_migrated')) {
       localStorage.setItem('gat_onboard_v3_migrated', '1');
@@ -15724,13 +15727,17 @@ if (typeof document !== 'undefined') {
   // Override window.isGatOnboardingComplete & window.markGatOnboardingComplete so ALL modules share ONBOARD_KEY_V3
   window.isGatOnboardingComplete = function() {
     try {
-      if (localStorage.getItem(ONBOARD_KEY_V3) === '1') return true;
-      if (document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) {
-        localStorage.setItem(ONBOARD_KEY_V3, '1');
-        return true;
-      }
-    } catch (e) {}
-    return false;
+      if (localStorage.getItem('gat_onboarding_completed_v3') === '1') return true;
+      if (typeof document !== 'undefined' && document.cookie && document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) return true;
+      if (Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId)) return true;
+      var bpRaw = localStorage.getItem('gat_track_blueprint_v1');
+      if (Boolean(bpRaw && bpRaw.indexOf('"trackId"') !== -1)) return true;
+      var v4 = typeof document !== 'undefined' ? document.getElementById('view-4') : null;
+      if (v4 && v4.classList.contains('active') && v4.querySelector('.gat-tl-row')) return true;
+      return false;
+    } catch (e) {
+      return Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId);
+    }
   };
 
   var origMarkComplete = window.markGatOnboardingComplete;
@@ -16028,18 +16035,17 @@ if (typeof document !== 'undefined') {
 
   function isOnboarded() {
     try {
-      if (localStorage.getItem(ONBOARD_KEY_V3) === '1') return true;
-      if (document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) {
-        localStorage.setItem(ONBOARD_KEY_V3, '1');
-        return true;
-      }
+      if (localStorage.getItem('gat_onboarding_completed_v3') === '1') return true;
+      if (typeof document !== 'undefined' && document.cookie && document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) return true;
+      if (Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId)) return true;
       var bpRaw = localStorage.getItem('gat_track_blueprint_v1');
-      if (bpRaw && bpRaw.indexOf('"trackId"') !== -1) {
-        localStorage.setItem(ONBOARD_KEY_V3, '1');
-        return true;
-      }
-    } catch (e) {}
-    return false;
+      if (Boolean(bpRaw && bpRaw.indexOf('"trackId"') !== -1)) return true;
+      var v4 = typeof document !== 'undefined' ? document.getElementById('view-4') : null;
+      if (v4 && v4.classList.contains('active') && v4.querySelector('.gat-tl-row')) return true;
+      return false;
+    } catch (e) {
+      return Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId);
+    }
   }
   window.isGatOnboardingComplete = isOnboarded;
 
@@ -16847,7 +16853,7 @@ if (typeof document !== 'undefined') {
       var isUnlocked = Boolean(sys.unlockedMap[engKey]);
 
       var colWrap = document.createElement('div');
-      colWrap.className = 'gat-itemized-step-column';
+      colWrap.className = 'gat-itemized-step-column'; colWrap.setAttribute("onclick", "event.stopPropagation();"); colWrap.addEventListener("click", function(e) { e.stopPropagation(); });
       colWrap.setAttribute('dir', dir);
       colWrap.style.cssText = 'margin-top:12px;padding:12px;border-radius:14px;background:' + (isUnlocked ? 'linear-gradient(180deg,#f0fdf4 0%,#f8fafc 100%)' : 'linear-gradient(180deg,#f8fafc 0%,#f1f5f9 100%)') + ';border:1.5px solid ' + (isUnlocked ? '#34d399' : '#cbd5e1') + ';text-align:' + align + ';';
 
@@ -17356,7 +17362,7 @@ if (typeof document !== 'undefined') {
 // === GAT Q4 COMPLETION AUTO-REDIRECT + OUTER WIZARD HUB + SMART TRACKER FORCE-RENDER ===
 (function() {
   var ONBOARD_KEY_V3 = 'gat_onboarding_completed_v3';
-  var Q4_RX = /(?:QUESTION|ШАГ|ВОПРОС|שאלה|PREGUNTA|FRAGE)\s*4\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*4/i;
+  var Q4_RX = /(?:STEP|QUESTION|ШАГ|ВОПРОС|שלב|שאלה|ÉTAPE|PREGUNTA|PASO|SCHRITT|FRAGE)\s*(?:4\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*4|2\s*(?:OF|מתוך|SUR|DE|VON|ИЗ|\/)\s*2)/i;
   var BACK_RX = /^(?:\u2190\s*)?(?:Back|חזור|Retour|Atrás|Zurück|Назад)$/i;
 
   // 1. Always find the TRUE outer blue-bordered wizard container on #view-0 (wrapping all #gat-wiz-step-* steps)
@@ -17381,6 +17387,9 @@ if (typeof document !== 'undefined') {
   // 2. When Onboarding Completes: Save State, Transform Homepage into Active Track Hub,
   //    Unlock 9 Boxes 100px Below, and AUTO-REDIRECT Straight to Smart Tracker (#view-4)!
   window.gatCompleteOnboardingAndGoToSmartTracker = function(chosenLabel) {
+    if (window.__gatStepModalIsOpen) return;
+    var _v4Check = document.getElementById("view-4");
+    if (_v4Check && _v4Check.classList.contains("active")) return;
     try {
       localStorage.setItem(ONBOARD_KEY_V3, '1');
       localStorage.setItem('gat_onboarding_completed_v2', '1');
@@ -17460,28 +17469,11 @@ if (typeof document !== 'undefined') {
 
   // 4. Keep the Active Track Hub properly mounted on the OUTER wizard card whenever onboarded
   function syncOuterWizardHubPlacement() {
-    var onboarded = (typeof window.isGatOnboardingComplete === 'function' && window.isGatOnboardingComplete());
-    var outerCard = window.gatFindTrueOuterWizardCard();
-    if (!outerCard) return;
-    var hub = document.getElementById('gat-onboarded-active-hub');
-    var cancelBar = document.getElementById('gat-onboard-cancel-bar');
-    var isEditing = Boolean(cancelBar && cancelBar.style.display !== 'none');
-
-    if (onboarded && !isEditing) {
-      var allSteps = outerCard.querySelectorAll('[id^="gat-wiz-step-"]');
-      for (var i = 0; i < allSteps.length; i++) {
-        if (allSteps[i].style.display !== 'none') {
-          allSteps[i].setAttribute('data-gat-hidden-by-hub', '1');
-          allSteps[i].style.display = 'none';
-        }
+    try {
+      if (typeof window.renderOnboardedHomepageHub === 'function') {
+        window.renderOnboardedHomepageHub();
       }
-      if (hub) {
-        if (hub.parentElement !== outerCard) {
-          outerCard.insertBefore(hub, outerCard.firstChild);
-        }
-        hub.style.display = 'block';
-      }
-    }
+    } catch (e) {}
   }
 
   // 5. Dynamically compute REAL per-item completion % from localStorage (gat_scanned_docs_v1, gat_form_draft_v1, gat_bd_scores, gat_songs_m, gat_cp_ans_*, gat_ref_logger_v1)
@@ -17640,6 +17632,8 @@ if (typeof document !== 'undefined') {
   // Force #view-4 (Smart Itemized Tracker) open and hide #view-0..3 with 100% certainty
   // (Only opens #view-4 if onboarding is already complete, NEVER falsely marks un-onboarded users complete!)
   window.gatForceOpenSmartTrackerNow = function(markCompleteExplicitly) {
+    if (window.__gatStepModalIsOpen) return;
+    window.gatActiveTab = 4;
     if (markCompleteExplicitly === true) {
       try {
         localStorage.setItem(ONBOARD_KEY_V3, '1');
@@ -18572,3 +18566,29 @@ if (typeof document !== 'undefined') {
     }
   } catch (_e) {}
 })();
+
+;(function initGatPermanentOnboardFlagWatcher() {
+  function autoLockOnboardingComplete() {
+    try {
+      var v4 = document.getElementById('view-4');
+      var bp = window.__gatActiveBlueprint;
+      var v4Active = v4 && (v4.classList.contains('active') || v4.style.display === 'block');
+      if ((bp && bp.trackId) || (v4Active && v4.querySelector('.gat-tl-row'))) {
+        if (localStorage.getItem('gat_onboarding_completed_v3') !== '1') {
+          localStorage.setItem('gat_onboarding_completed_v3', '1');
+          localStorage.setItem('gat_onboarding_completed_v2', '1');
+          localStorage.setItem('gat_onboarding_done', '1');
+          document.cookie = 'perm_gat_onboard_v3=1; path=/; max-age=315360000; SameSite=Lax';
+          if (typeof window.renderOnboardedHomepageHub === 'function') {
+            window.renderOnboardedHomepageHub();
+          }
+        }
+        if (bp && bp.trackId) {
+          localStorage.setItem('gat_track_blueprint_v1', JSON.stringify(bp));
+        }
+      }
+    } catch (e) {}
+  }
+  setInterval(autoLockOnboardingComplete, 250);
+})();
+

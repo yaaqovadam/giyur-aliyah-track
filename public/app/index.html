@@ -1003,8 +1003,8 @@ span[data-ponr="1"] {
     <a href="/pricing/" class="gat-ld-item" style="color:#0288D1;">🔓 View Passes &amp; Pricing</a>
   </nav>
 </div>
-  <script src="/i18n/onboarding_trajectory.js?v=1795759614"></script>
-  <script src="/i18n/tracking_partner.js?v=1795759614"></script>
+  <script src="/i18n/onboarding_trajectory.js?v=1795783170"></script>
+  <script src="/i18n/tracking_partner.js?v=1795783170"></script>
   <img src="/api/auditDoc?mode=pixel&amp;lang=en&amp;path=/app/" alt="" width="1" height="1" loading="eager" decoding="async" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;" />
 <!-- === GAT 6-LANG APPBAR ROUTER & WHITE FAQ CONTROLLER === -->
 <script id="gat-spok-and-lang-controller">
@@ -1812,13 +1812,17 @@ span[data-ponr="1"] {
   // Override window.isGatOnboardingComplete & window.markGatOnboardingComplete so ALL modules share ONBOARD_KEY_V3
   window.isGatOnboardingComplete = function() {
     try {
-      if (localStorage.getItem(ONBOARD_KEY_V3) === '1') return true;
-      if (document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) {
-        localStorage.setItem(ONBOARD_KEY_V3, '1');
-        return true;
-      }
-    } catch (e) {}
-    return false;
+      if (localStorage.getItem('gat_onboarding_completed_v3') === '1') return true;
+      if (typeof document !== 'undefined' && document.cookie && document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) return true;
+      if (Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId)) return true;
+      var bpRaw = localStorage.getItem('gat_track_blueprint_v1');
+      if (Boolean(bpRaw && bpRaw.indexOf('"trackId"') !== -1)) return true;
+      var v4 = typeof document !== 'undefined' ? document.getElementById('view-4') : null;
+      if (v4 && v4.classList.contains('active') && v4.querySelector('.gat-tl-row')) return true;
+      return false;
+    } catch (e) {
+      return Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId);
+    }
   };
 
   var origMarkComplete = window.markGatOnboardingComplete;

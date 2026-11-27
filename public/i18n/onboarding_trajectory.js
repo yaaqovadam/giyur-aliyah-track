@@ -16,16 +16,42 @@
 (function initGatOnboardingAndTrajectoryEngine() {
   var arrowChar = "→";
   function readLocalBlueprint() {
-    try { return JSON.parse(localStorage.getItem("gat_track_blueprint_v1") || "null"); } catch (e) { return null; }
+    try {
+      const raw = localStorage.getItem("gat_track_blueprint_v1");
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return (parsed && typeof parsed === "object" && parsed.trackId) ? parsed : null;
+    } catch (e) {
+      return null;
+    }
   }
   function loadLocalBlueprint() { return readLocalBlueprint(); }
+
+  function persistActiveBlueprintToLocal(bp) {
+    try {
+      var target = bp || window.__gatActiveBlueprint;
+      if (target && typeof target === "object" && target.trackId) {
+        localStorage.setItem("gat_track_blueprint_v1", JSON.stringify(target));
+        localStorage.setItem("gat_onboarding_completed_v3", "1");
+        localStorage.setItem("gat_onboarding_completed_v2", "1");
+        localStorage.setItem("gat_onboarding_done", "1");
+        document.cookie = "perm_gat_onboard_v3=1; path=/; max-age=315360000; SameSite=Lax";
+        if (document.body) {
+          document.body.setAttribute("data-gat-onboarded", "1");
+          document.body.removeAttribute("data-gat-in-quiz");
+        }
+      }
+    } catch (e) {}
+  }
+  window.__gatPersistActiveBlueprintToLocal = persistActiveBlueprintToLocal;
+
   if (window._gatOnboardingEngineLoaded) return;
   window._gatOnboardingEngineLoaded = true;
 
   const VALID_LANGS = ["en", "he", "fr", "es", "de", "ru"];
 
   // Strictly RAM-only state (NEVER persisted to localStorage or cookies)
-  window.__gatActiveBlueprint = window.__gatActiveBlueprint || null;
+  window.__gatActiveBlueprint = window.__gatActiveBlueprint || readLocalBlueprint() || null; persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
   window._gatUserClickedStartTrack = false;
   window.__gatWizardState = {
     mode: "hero_landing", // "intro_q1" | "q2" | "q2b" | "q3" | "q4" | "em1" | "em2" | "timeline"
@@ -2652,7 +2678,7 @@
     const preset = TRACK_ID_PRESET_ANSWERS[trackId];
     if (!preset) return false;
     window.__gatWizardState.answers = Object.assign({}, window.__gatWizardState.answers, preset.ans);
-    window.__gatActiveBlueprint = buildBlueprintFromAnswers(window.__gatWizardState.answers, preset.isEm, window.__gatActiveBlueprint);
+    window.__gatActiveBlueprint = buildBlueprintFromAnswers(window.__gatWizardState.answers, preset.isEm, window.__gatActiveBlueprint); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
     window.__gatWizardState.mode = "timeline";
     window.__gatWizardState.forceRetake = false;
     window.renderGatOnboardingStage();
@@ -2711,14 +2737,14 @@
       if (data && data.ok) {
         if (act === "load") {
           if (data.trackBlueprint) {
-            window.__gatActiveBlueprint = enrichServerBlueprint(data.trackBlueprint);
+            window.__gatActiveBlueprint = enrichServerBlueprint(data.trackBlueprint); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
             window.__gatWizardState.mode = "timeline";
             window.renderGatOnboardingStage();
             window.renderAdaptiveTrackTracker();
             return true;
           }
         } else if (act === "reset") {
-          window.__gatActiveBlueprint = null;
+          window.__gatActiveBlueprint = null; persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
         }
         return true;
       }
@@ -2733,7 +2759,7 @@
       if (window.__gatActiveBlueprint && (!serverBp.updatedAtMs || window.__gatActiveBlueprint.updatedAtMs > serverBp.updatedAtMs)) {
         window.syncGatTrackBlueprintToFirestore("save");
       } else {
-        window.__gatActiveBlueprint = enrichServerBlueprint(serverBp);
+        window.__gatActiveBlueprint = enrichServerBlueprint(serverBp); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
         window.__gatWizardState.mode = "timeline";
       }
       window.renderGatOnboardingStage();
@@ -3155,9 +3181,11 @@
       st.mode = "em2";
     } else if (stepKey === "em2") {
       a.em_q2_elig = val;
-      window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, true, window.__gatActiveBlueprint);
+      window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, true, window.__gatActiveBlueprint); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
       st.mode = "timeline";
       st.forceRetake = false;
+      window.__gatInChangeTrackMode = false;
+      if (document.body) document.body.removeAttribute("data-gat-in-quiz");
       window.syncGatTrackBlueprintToFirestore("save");
       window.renderAdaptiveTrackTracker();
     } else if (stepKey === "q1") {
@@ -3168,7 +3196,7 @@
         a.q3_location = "israel_b1_work";
         st.mode = "q2";
       } else if (val === "visa_rejected_rescue") {
-        window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, false, window.__gatActiveBlueprint);
+        window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, false, window.__gatActiveBlueprint); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
         st.mode = "timeline";
         st.forceRetake = false;
         window.syncGatTrackBlueprintToFirestore("save");
@@ -3192,7 +3220,7 @@
     } else if (stepKey === "q3") {
       a.q3_location = val;
       if (val === "visa_rejected_rescue") {
-        window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, false, window.__gatActiveBlueprint);
+        window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, false, window.__gatActiveBlueprint); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
         st.mode = "timeline";
         st.forceRetake = false;
         window.syncGatTrackBlueprintToFirestore("save");
@@ -3202,9 +3230,11 @@
       }
     } else if (stepKey === "q4") {
       a.q4_detail = val;
-      window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, false, window.__gatActiveBlueprint);
+      window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, false, window.__gatActiveBlueprint); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
       st.mode = "timeline";
       st.forceRetake = false;
+      window.__gatInChangeTrackMode = false;
+      if (document.body) document.body.removeAttribute("data-gat-in-quiz");
       window.syncGatTrackBlueprintToFirestore("save");
       window.renderAdaptiveTrackTracker();
     }
@@ -3227,6 +3257,7 @@
   // RENDER MAIN ONBOARDING / TRAJECTORY STAGE INSIDE `#gat-onboarding-stage`
   // ==========================================================================
   window.renderGatOnboardingStage = function() {
+    if (window.__gatStepModalIsOpen) return;
     ensureOnboardingStyles();
     const host = document.getElementById("gat-onboarding-stage");
     if (!host) return;
@@ -3235,12 +3266,43 @@
     const t = UI[l] || UI.en;
     const tk = (window.GAT_TRACKER_I18N_6L && window.GAT_TRACKER_I18N_6L[l]) ? window.GAT_TRACKER_I18N_6L[l] : (window.GAT_TRACKER_I18N_6L ? window.GAT_TRACKER_I18N_6L.en : {});
     const st = window.__gatWizardState;
-    if (!window._gatUserClickedStartTrack) { st.mode = "hero_landing"; st.forceRetake = false; }
+    const isAlreadyOnboarded = (typeof window.isGatOnboardingComplete === "function" && window.isGatOnboardingComplete()) ||
+                               Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId) ||
+                               Boolean(readLocalBlueprint());
+    if (isAlreadyOnboarded && !window.__gatActiveBlueprint) {
+      window.__gatActiveBlueprint = readLocalBlueprint();
+      if (!window.__gatActiveBlueprint && typeof buildBlueprintFromAnswers === "function") {
+        window.__gatActiveBlueprint = buildBlueprintFromAnswers(st.answers || {
+          q1_goal: "giyur_private",
+          q2_household: "solo",
+          q3_location: "abroad",
+          q4_detail: "priv_orthodox_abroad"
+        }, false, null);
+        if (typeof persistActiveBlueprintToLocal === "function") {
+          persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
+        }
+      }
+    }
+    if (typeof enrichBlueprintStepIds === "function" && window.__gatActiveBlueprint) {
+      window.__gatActiveBlueprint = enrichBlueprintStepIds(window.__gatActiveBlueprint);
+    }
+    const quizStepModes = ["intro_q1", "q2", "q2b", "q3", "q4", "em1", "em2"];
+    if (window.__gatShowRawHeroCover) {
+      st.mode = "hero_landing";
+      st.forceRetake = true;
+    } else if (window.__gatInChangeTrackMode) {
+      st.forceRetake = true;
+      if (quizStepModes.indexOf(st.mode) === -1) st.mode = "intro_q1";
+    }
+    if (isAlreadyOnboarded && !st.forceRetake && quizStepModes.indexOf(st.mode) === -1) {
+      st.mode = "timeline";
+    } else if (!isAlreadyOnboarded && !window._gatUserClickedStartTrack) {
+      st.mode = "hero_landing";
+      st.forceRetake = false;
+    }
     const bp = window.__gatActiveBlueprint;
 
-// === STRICT HERO_LANDING TOP PRIORITY GATE ===
-    // 1B. RENDER CLEAN ABOVE-THE-FOLD HERO LANDING (+5px ABOVE SUBHEADER, +10px BELOW SUBHEADER, ALL-CAPS BOLD "START MY TRACK" CTA)
-    if (st.mode === "hero_landing") {
+    if (st.mode === "hero_landing" && (!isAlreadyOnboarded || st.forceRetake || window.__gatShowRawHeroCover)) {
       const mhObj = MASTER_HERO_6LANG[l] || MASTER_HERO_6LANG.en;
       const bulletsArr = mhObj.bullets;
       let bulletsHtml = "";
@@ -3254,7 +3316,7 @@
       }
 
       host.innerHTML =
-        '<div id="gat-wiz-step-hero_landing" data-nosnippet class="gat-wiz-card" style="text-align:center;padding:13px 13px;margin:2px auto 58vh auto;border-radius:17px;">' +
+        '<div id="gat-wiz-step-hero_landing" data-nosnippet class="gat-wiz-card" style="text-align:center;padding:13px 13px;margin:2px auto 24px auto;border-radius:17px;">' +
           '<h1 class="gat-ob-h1" style="margin:0 0 10px 0;font-size:clamp(1.14rem,3.8vw,1.48rem);line-height:1.18;">' + escHtml(mhObj.title) + '</h1>' +
           '<p class="gat-ob-sub" style="margin:0 auto 19px auto;font-size:0.79rem;line-height:1.36;color:#334155;font-weight:700;max-width:680px;">' + escHtml(mhObj.lead) + '</p>' +
           '<ul style="list-style:none;padding:10px 12px;margin:0 auto 11px auto;max-width:720px;background:#f8fafc;border:1.5px solid #bae6fd;border-radius:13px;text-align:start;display:flex;flex-direction:column;gap:8px;">' +
@@ -3266,6 +3328,9 @@
         '</div>';
       if (typeof window.syncLiveAddressableUrl === "function") window.syncLiveAddressableUrl();
       if (typeof window.updateBackBarUI === "function") window.updateBackBarUI();
+      if (typeof window.syncOnboardingAndTrackerLifecycle === "function") {
+        try { window.syncOnboardingAndTrackerLifecycle(); } catch (e) {}
+      }
       return;
     }
     const isRtl = (l === "he");
@@ -3280,88 +3345,261 @@
       }
     }
 
-    // 1. RENDER VERTICAL NUMBERED TRAJECTORY TIMELINE
+    // 1. RENDER COMPACT ONBOARDED HOMEPAGE DASHBOARD (STATS + EXPIRING WARNINGS + CURRENT FOCUS + USEFUL LINKS)
     if (st.mode === "timeline" && window.__gatActiveBlueprint) {
-    // bp initialized at top
       const catalog = getStepCatalog(l, bp);
-      const signedIn = isUserSignedIn();
-      const completed = bp.completedSteps || [];
+      const completed = Array.isArray(bp.completedSteps) ? bp.completedSteps : [];
+      const totalCnt = Array.isArray(bp.stepIds) ? bp.stepIds.length : 0;
+      const doneCnt = completed.length;
+      const stepPct = totalCnt > 0 ? Math.round((doneCnt / totalCnt) * 100) : 0;
 
-      const rowsHtml = bp.stepIds.map(function(sid, idx) {
-        const meta = catalog[sid];
-        if (!meta) return "";
-        const isDone = completed.indexOf(sid) !== -1;
-        const isActive = !isDone && idx === bp.activeStepIdx;
-        const cls = isDone ? "gat-tl-row is-done" : (isActive ? "gat-tl-row is-active" : "gat-tl-row");
-        const badgeTxt = isDone ? ("✓ " + t.stepDoneLbl) : (isActive ? ("🎯 " + t.stepActiveLbl) : t.stepNextLbl);
-        const badgeBg = isDone ? "#dcfce7" : (isActive ? "#e0f2fe" : "#f1f5f9");
-        const badgeCol = isDone ? "#166534" : (isActive ? "#0369a1" : "#475569");
+      let firstOpenIdx = Array.isArray(bp.stepIds) ? bp.stepIds.findIndex(function(id) { return completed.indexOf(id) === -1; }) : 0;
+      if (firstOpenIdx === -1) firstOpenIdx = 0;
+      const activeSid = (bp.stepIds && bp.stepIds[firstOpenIdx]) || "";
+      const activeMeta = catalog[activeSid] || null;
+      const activeTitle = activeMeta
+        ? (typeof activeMeta.title === "object" ? (activeMeta.title[l] || activeMeta.title.en) : String(activeMeta.title || ""))
+        : "";
+      const activeSub = activeMeta
+        ? (typeof activeMeta.sub === "object" ? (activeMeta.sub[l] || activeMeta.sub.en) : String(activeMeta.sub || ""))
+        : "";
 
+      // Compute real Dossier Readiness % from localStorage (docs, forms, flashcards, songs, logger)
+      let readinessScore = stepPct;
+      let docsCnt = 0;
+      let formsFilled = 0;
+      try {
+        const rawDocs = JSON.parse(localStorage.getItem("gat_scanned_docs_v1") || "[]");
+        docsCnt = Array.isArray(rawDocs) ? rawDocs.length : (rawDocs && typeof rawDocs === "object" ? Object.keys(rawDocs).length : 0);
+        const rawForms = JSON.parse(localStorage.getItem("gat_form_draft_v1") || localStorage.getItem("gat_form_draft_snapshot") || "{}");
+        if (rawForms && typeof rawForms === "object") {
+          Object.keys(rawForms).forEach(function(k) { if (rawForms[k] && String(rawForms[k]).trim()) formsFilled++; });
+        }
+        const docPct = Math.min(100, docsCnt * 20);
+        const formPct = Math.min(100, formsFilled * 5);
+        readinessScore = Math.max(stepPct, Math.round((stepPct * 0.5) + (docPct * 0.3) + (formPct * 0.2)));
+      } catch (e) {}
+
+      // Evaluate Expiring Timelines & Warnings for this track (NO date inputs on homepage — pure status & warnings)
+      const clocks = [];
+      const ans = bp.answers || {};
+      if (ans.q3_location === "israel_b2" || ans.em_q1_loc === "in_israel_now") {
+        clocks.push({ key: "b2EntryDateMs", days: 90, label: tk.clockB2 || "🛂 90-Day B/2 Tourist Visa Clock" });
+      }
+      clocks.push({ key: "apostilleIssueDateMs", days: 180, label: tk.clockApostille || "📜 180-Day Foreign Doc & Police Check Clock" });
+      if (String(bp.trackId || "").indexOf("spousal") !== -1 || ans.q4_detail === "spousal_demand") {
+        clocks.push({ key: "clerkDemandDateMs", days: 30, label: tk.clockClerk30d || "⚡ 30-Day Clerk Demand Sheet Shield" });
+      }
+      if (ans.q4_detail === "lor_overseas_giyur") {
+        clocks.push({ key: "mikvahDateMs", days: 270, label: tk.clockMikvah9mo || "🕍 9-Month Post-Mikvah Community Rule" });
+      }
+      if (String(bp.trackId || "").indexOf("aliyah") !== -1) {
+        clocks.push({ key: "aliyahDateMs", days: 730, label: tk.clockSalKlita || "💰 24-Month Sal Klita Benefits Window" });
+      }
+
+      const now = Date.now();
+      let urgentCount = 0;
+      let unsetCount = 0;
+      const clockWarningsHtml = clocks.map(function(c) {
+        const startMs = (bp.timers && bp.timers[c.key]) ? Number(bp.timers[c.key]) : 0;
+        if (!startMs) {
+          unsetCount++;
+          return (
+            '<div onclick="window.gatJumpToRealTracker()" style="cursor:pointer;background:#fffbeb;border:1.5px solid #f59e0b;border-radius:11px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;">' +
+              '<div style="font-size:0.79rem;font-weight:800;color:#92400e;line-height:1.35;">⚠️ ' + escHtml(c.label) + ' — <span style="font-weight:700;color:#78350f;">' + escHtml(tk.setDateHint || "Anchor date not set yet (tap to set in Tracker)") + '</span></div>' +
+              '<span style="font-size:0.78rem;font-weight:900;color:#d97706;white-space:nowrap;">' + arrowChar + '</span>' +
+            '</div>'
+          );
+        }
+        const elapsed = Math.floor((now - startMs) / 86400000);
+        const left = c.days - elapsed;
+        const isUrgent = left <= 35;
+        if (isUrgent) urgentCount++;
+        const bg = left <= 14 ? "#fff1f2" : (left <= 35 ? "#fffbeb" : "#f0fdf4");
+        const bdr = left <= 14 ? "#e11d48" : (left <= 35 ? "#f59e0b" : "#34d399");
+        const col = left <= 14 ? "#9f1239" : (left <= 35 ? "#92400e" : "#065f46");
+        const icon = left <= 14 ? "🚨 " : (left <= 35 ? "⚠️ " : "⏱️ ");
+        const remTxt = left >= 0
+          ? String(tk.daysRemaining || "{n} Days Remaining").replace("{n}", String(left))
+          : String(tk.expiredDaysAgo || "Expired {n}d ago").replace("{n}", String(Math.abs(left)));
         return (
-          '<div id="gat-step-row-' + sid + '" class="' + cls + '" role="button" tabindex="0" onclick="window.openGatStepBlueprintModal(\'' + sid + '\',' + idx + ')">' +
-            '<div class="gat-tl-circle">' + (isDone ? "✓" : (idx + 1)) + '</div>' +
-            '<div class="gat-tl-step-box">' +
-              '<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px;margin-bottom:4px;">' +
-                '<span style="font-size:0.71rem;font-weight:900;color:#0284c7;text-transform:uppercase;letter-spacing:0.03em;">' + escHtml(meta.time) + '</span>' +
-                '<span style="font-size:0.71rem;font-weight:900;padding:2px 8px;border-radius:999px;background:' + badgeBg + ';color:' + badgeCol + ';">' + escHtml(badgeTxt) + '</span>' +
-              '</div>' +
-              '<div style="font-size:0.96rem;font-weight:900;color:#103856;line-height:1.32;margin-bottom:4px;">' + escHtml(meta.title[l] || meta.title.en) + '</div>' +
-              '<div style="font-size:0.8rem;color:#475569;line-height:1.45;font-weight:600;">' + escHtml(meta.sub[l] || meta.sub.en) + '</div>' +
-            '</div>' +
+          '<div onclick="window.gatJumpToRealTracker()" style="cursor:pointer;background:' + bg + ';border:1.5px solid ' + bdr + ';border-radius:11px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;">' +
+            '<div style="font-size:0.8rem;font-weight:800;color:' + col + ';line-height:1.35;">' + icon + escHtml(c.label) + '</div>' +
+            '<span style="font-size:0.82rem;font-weight:900;color:' + col + ';white-space:nowrap;">' + escHtml(remTxt) + ' ' + arrowChar + '</span>' +
           '</div>'
         );
       }).join("");
 
       const trapBanner = bp.trapWarningKey
-        ? '<div style="background:#fff1f2;border:2px solid #e11d48;border-radius:14px;padding:12px 14px;margin:10px 0 12px 0;">' +
-            '<div style="font-size:0.86rem;font-weight:900;color:#9f1239;margin-bottom:4px;">' + escHtml(t.trapAlertTitle) + '</div>' +
-            '<div style="font-size:0.8rem;color:#881337;line-height:1.48;font-weight:600;">' + escHtml(t.trapAlertBody) + '</div>' +
+        ? '<div style="background:#fff1f2;border:1.5px solid #e11d48;border-radius:12px;padding:10px 12px;margin-top:8px;">' +
+            '<div style="font-size:0.82rem;font-weight:900;color:#9f1239;margin-bottom:2px;">' + escHtml(t.trapAlertTitle) + '</div>' +
+            '<div style="font-size:0.77rem;color:#881337;line-height:1.42;font-weight:600;">' + escHtml(t.trapAlertBody) + '</div>' +
           '</div>'
         : "";
 
       const kidsBanner = bp.hasChildrenUnder18
-        ? '<div style="background:#f0f9ff;border:1.5px solid #7dd3fc;border-radius:11px;padding:8px 12px;margin-bottom:10px;font-size:0.78rem;font-weight:800;color:#0c4a6e;">' + escHtml(t.tlKidsBadge) + '</div>'
+        ? '<div style="background:#f0f9ff;border:1.5px solid #7dd3fc;border-radius:11px;padding:8px 12px;margin-top:8px;font-size:0.77rem;font-weight:800;color:#0c4a6e;">' + escHtml(t.tlKidsBadge) + '</div>'
         : "";
 
-      const syncCtaHtml = !signedIn
-        ? '<button type="button" onclick="if(typeof window.openDeviceSyncModal===\'function\') window.openDeviceSyncModal();" style="width:100%;background:linear-gradient(135deg,#103856 0%,#03A9F4 100%);color:#ffffff;border:2px solid #38bdf8;border-radius:13px;padding:12px 15px;font-size:0.86rem;font-weight:900;cursor:pointer;margin-bottom:10px;box-shadow:0 6px 18px rgba(3,169,244,0.25);">' + escHtml(t.tlSyncBtn) + '</button>'
+      const b1Banner = (bp.answers && bp.answers.q3_location === "israel_b1_work")
+        ? '<div style="background:#fffbeb;border:1.5px solid #f59e0b;border-radius:12px;padding:10px 12px;margin-top:8px;font-size:0.78rem;font-weight:800;color:#92400e;">' + escHtml(t.b1DisclaimerTitle) + '</div>'
         : "";
 
-      const b1TimelineBanner = (bp.answers && bp.answers.q3_location === "israel_b1_work")
-        ? '<div style="background:#fffbeb;border:2px solid #f59e0b;border-radius:14px;padding:12px 14px;margin:10px 0 12px 0;">' +
-            '<div style="font-size:0.85rem;font-weight:900;color:#92400e;margin-bottom:4px;">' + escHtml(t.b1DisclaimerTitle) + '</div>' +
-            '<div style="font-size:0.79rem;color:#78350f;line-height:1.48;white-space:pre-line;font-weight:600;margin-bottom:9px;">' + escHtml(t.b1DisclaimerBody) + '</div>' +
-            '<button type="button" onclick="window.openGatAiForB1Visa()" style="width:100%;background:linear-gradient(135deg,#d97706 0%,#b45309 100%);color:#ffffff;border:none;border-radius:10px;padding:9px 12px;font-size:0.79rem;font-weight:900;cursor:pointer;">' + escHtml(t.b1AskAiBtn) + '</button>' +
-          '</div>'
-        : "";
+      const hubI18n = {
+        en: {
+          changeBtn: "🧭 Change My Track",
+          statSteps: "TRACK MILESTONES",
+          statReady: "DOSSIER READINESS",
+          statClocks: "EXPIRING CLOCKS",
+          clockAlertVal: urgentCount > 0 ? (urgentCount + " Expiring") : (unsetCount > 0 ? (unsetCount + " Unset") : "All Safe"),
+          warnHdr: "⏳ Expiring Timelines & Track Warnings:",
+          focusHdr: "📌 Current Track Focus (Step " + (firstOpenIdx + 1) + " of " + totalCnt + "):",
+          linksHdr: "⚡ Useful Tools & Links for Your Track:",
+          openTrackerBtn: "📊 OPEN MY ACTIVE TRACKER →",
+          openDossierBtn: "🛠️ Open Document Vault & Hebrew PDF Stampers (/app/)"
+        },
+        he: {
+          changeBtn: "🧭 החלף את המסלול שלי",
+          statSteps: "שלבי המסלול",
+          statReady: "מוכנות התיק",
+          statClocks: "שעוני תוקף",
+          clockAlertVal: urgentCount > 0 ? (urgentCount + " דחופים") : (unsetCount > 0 ? (unsetCount + " לא הוגדרו") : "תקין"),
+          warnHdr: "⏳ התראות תוקף ושעוני ספירה לאחור למסלול שלך:",
+          focusHdr: "📌 המיקוד הנוכחי שלך (שלב " + (firstOpenIdx + 1) + " מתוך " + totalCnt + "):",
+          linksHdr: "⚡ כלים וקישורים שימושיים למסלול שלך:",
+          openTrackerBtn: "📊 פתח את לוח המעקב הפעיל שלי ←",
+          openDossierBtn: "🛠️ פתיחת כספת המסמכים ומנוע הטפסים בעברית (/app/)"
+        },
+        fr: {
+          changeBtn: "🧭 Changer Mon Parcours",
+          statSteps: "ÉTAPES DU PARCOURS",
+          statReady: "PRÉPARATION DOSSIER",
+          statClocks: "DÉLAIS & HORLOGES",
+          clockAlertVal: urgentCount > 0 ? (urgentCount + " Urgents") : (unsetCount > 0 ? (unsetCount + " À définir") : "OK"),
+          warnHdr: "⏳ Alertes d'Expiration & Délais Légaux :",
+          focusHdr: "📌 Priorité Actuelle (Étape " + (firstOpenIdx + 1) + " sur " + totalCnt + ") :",
+          linksHdr: "⚡ Outils & Liens Utiles pour Votre Parcours :",
+          openTrackerBtn: "📊 OUVRIR MON TRACKER ACTIF →",
+          openDossierBtn: "🛠️ Coffre-Fort Documents & Formulaires PIBA (/app/)"
+        },
+        es: {
+          changeBtn: "🧭 Cambiar Mi Ruta",
+          statSteps: "PASOS DE LA RUTA",
+          statReady: "EXPEDIENTE LISTO",
+          statClocks: "PLAZOS DE VALIDEZ",
+          clockAlertVal: urgentCount > 0 ? (urgentCount + " Urgentes") : (unsetCount > 0 ? (unsetCount + " Sin fecha") : "Al día"),
+          warnHdr: "⏳ Alertas de Vencimiento y Relojes Legales:",
+          focusHdr: "📌 Enfoque Actual (Paso " + (firstOpenIdx + 1) + " de " + totalCnt + "):",
+          linksHdr: "⚡ Herramientas y Enlaces Útiles para Tu Ruta:",
+          openTrackerBtn: "📊 ABRIR MI RASTREADOR ACTIVO →",
+          openDossierBtn: "🛠️ Bóveda de Documentos y Formularios PIBA (/app/)"
+        },
+        de: {
+          changeBtn: "🧭 Meinen Track ändern",
+          statSteps: "TRACK-SCHRITTE",
+          statReady: "AKTEN-BEREITSCHAFT",
+          statClocks: "ABLAUFFRISTEN",
+          clockAlertVal: urgentCount > 0 ? (urgentCount + " Dringend") : (unsetCount > 0 ? (unsetCount + " Offen") : "Aktiv"),
+          warnHdr: "⏳ Ablauffristen & Wichtige Track-Warnungen:",
+          focusHdr: "📌 Aktueller Fokus (Schritt " + (firstOpenIdx + 1) + " von " + totalCnt + "):",
+          linksHdr: "⚡ Nützliche Tools & Links für Ihren Track:",
+          openTrackerBtn: "📊 MEINEN AKTIVEN TRACKER ÖFFNEN →",
+          openDossierBtn: "🛠️ Dokumententresor & Hebräische PIBA-Formulare (/app/)"
+        },
+        ru: {
+          changeBtn: "🧭 Изменить мой маршрут",
+          statSteps: "ШАГИ МАРШРУТА",
+          statReady: "ГОТОВНОСТЬ ДОСЬЕ",
+          statClocks: "СРОКИ ДЕЙСТВИЯ",
+          clockAlertVal: urgentCount > 0 ? (urgentCount + " Срочно") : (unsetCount > 0 ? (unsetCount + " Не задано") : "В норме"),
+          warnHdr: "⏳ Предупреждения о сроках действия документов:",
+          focusHdr: "📌 Текущий фокус (Шаг " + (firstOpenIdx + 1) + " из " + totalCnt + "):",
+          linksHdr: "⚡ Полезные инструменты и ссылки для вашего трека:",
+          openTrackerBtn: "📊 ОТКРЫТЬ МОЙ АКТИВНЫЙ ТРЕКЕР →",
+          openDossierBtn: "🛠️ Хранилище документов и бланки МВД (/app/)"
+        }
+      }[l] || {
+        changeBtn: "🧭 Change My Track",
+        statSteps: "TRACK MILESTONES",
+        statReady: "DOSSIER READINESS",
+        statClocks: "EXPIRING CLOCKS",
+        clockAlertVal: urgentCount > 0 ? (urgentCount + " Expiring") : (unsetCount > 0 ? (unsetCount + " Unset") : "All Safe"),
+        warnHdr: "⏳ Expiring Timelines & Track Warnings:",
+        focusHdr: "📌 Current Track Focus (Step " + (firstOpenIdx + 1) + " of " + totalCnt + "):",
+        linksHdr: "⚡ Useful Tools & Links for Your Track:",
+        openTrackerBtn: "📊 OPEN MY ACTIVE TRACKER →",
+        openDossierBtn: "🛠️ Open Document Vault & Hebrew PDF Stampers (/app/)"
+      };
 
-      const rejTimelineBanner = (bp.trackId === "visa_rejected_rescue_track")
-        ? '<div style="background:#fff1f2;border:2px solid #e11d48;border-radius:14px;padding:12px 14px;margin:10px 0 12px 0;">' +
-            '<div style="font-size:0.86rem;font-weight:900;color:#9f1239;margin-bottom:4px;">' + escHtml(t.rejBannerTitle) + '</div>' +
-            '<div style="font-size:0.8rem;color:#881337;line-height:1.48;font-weight:600;margin-bottom:9px;">' + escHtml(t.rejBannerBody) + '</div>' +
-            '<button type="button" onclick="window.openGatAiForRejection()" style="width:100%;background:linear-gradient(135deg,#e11d48 0%,#be123c 100%);color:#ffffff;border:none;border-radius:10px;padding:9px 12px;font-size:0.8rem;font-weight:900;cursor:pointer;">' + escHtml(t.rejAskAiBtn) + '</button>' +
-          '</div>'
-        : "";
+      // Extract track-specific tools from the user's current active step (plus key track tools)
+      const stepTools = (activeMeta && Array.isArray(activeMeta.tools)) ? activeMeta.tools.slice(0, 3) : [];
+      const toolsLinksHtml = stepTools.map(function(tl) {
+        if (tl.href) {
+          return '<a href="' + escHtml(tl.href) + '" style="text-decoration:none;background:#f8fafc;color:#103856;border:1.5px solid #cbd5e1;border-radius:10px;padding:8px 11px;font-size:0.79rem;font-weight:800;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>' + escHtml((tl.icon ? tl.icon + " " : "") + tl.label) + '</span><span style="color:#0284c7;font-weight:900;">' + arrowChar + '</span></a>';
+        }
+        return '<button type="button" onclick="window.gatJumpToRealTracker()" style="width:100%;background:#f8fafc;color:#103856;border:1.5px solid #cbd5e1;border-radius:10px;padding:8px 11px;font-size:0.79rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:start;"><span>' + escHtml((tl.icon ? tl.icon + " " : "") + tl.label) + '</span><span style="color:#0284c7;font-weight:900;">' + arrowChar + '</span></button>';
+      }).join("");
 
-      const activeSid = bp.stepIds[bp.activeStepIdx] || bp.stepIds[0] || "";
-      const activeIdxNum = bp.activeStepIdx || 0;
+      const cleanBadgeTag = String(t.trkCustomTag || "ADAPTED TO YOUR ACTIVE TRACK").replace(/^[\s🎯]+/, "").trim();
+      const clockStatCol = urgentCount > 0 ? "#dc2626" : (unsetCount > 0 ? "#d97706" : "#059669");
 
       host.innerHTML =
-        '<div id="gat-trajectory-' + escHtml(bp.trackId) + '" class="gat-tl-card">' +
-          '<div class="gat-tl-head-bar">' +
-            '<span class="gat-tl-sync-pill" style="background:' + (signedIn ? '#dcfce7;color:#166534;' : '#fef3c7;color:#92400e;') + '">' + escHtml(signedIn ? t.tlBadgeSynced : t.tlBadgeGuest) + '</span>' +
-            '<button type="button" onclick="window.gatWizRetake()" style="background:#f1f5f9;color:#103856;border:1px solid #cbd5e1;border-radius:999px;padding:5px 11px;font-size:0.75rem;font-weight:800;cursor:pointer;">' + escHtml(t.tlRetakeBtn) + '</button>' +
+        '<div id="gat-onboarded-active-hub" class="gat-tl-card" style="margin:2px auto 18px auto;padding:16px 15px;">' +
+          '<div class="gat-tl-head-bar" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;">' +
+            '<span class="gat-tl-sync-pill" style="background:#dcfce7;color:#166534;border:1px solid #34d399;padding:4px 11px;border-radius:999px;font-size:0.74rem;font-weight:900;">🎯 ' + escHtml(cleanBadgeTag) + '</span>' +
+            '<button type="button" id="gat-hub-change-track-top" onclick="window.gatForceStartChangeTrack(event)" style="background:#f1f5f9;color:#103856;border:1.5px solid #94a3b8;border-radius:999px;padding:6px 13px;font-size:0.78rem;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;gap:5px;">' + escHtml(hubI18n.changeBtn) + '</button>' +
           '</div>' +
-          '<h2 style="font-size:1.18rem;font-weight:900;color:#103856;line-height:1.3;margin:0 0 6px 0;">' + escHtml(bp.trackTitle) + '</h2>' +
-          kidsBanner +
-          trapBanner +
-          b1TimelineBanner +
-          rejTimelineBanner +
-          syncCtaHtml +
-          '<div style="font-size:0.8rem;font-weight:800;color:#0369a1;margin:6px 0 4px 0;">' + escHtml(t.tlTapHint) + '</div>' +
-          '<div class="gat-tl-spine">' + rowsHtml + '</div>' +
-          '<div style="margin-top:14px;padding-top:12px;border-top:1.5px solid #e2e8f0;">' +
-            '<button type="button" onclick="window.openGatStepBlueprintModal(\'' + activeSid + '\',' + activeIdxNum + ')" style="width:100%;background:linear-gradient(135deg,#103856 0%,#03A9F4 100%);color:#ffffff;border:none;border-radius:14px;padding:14px 18px;font-size:0.95rem;font-weight:900;cursor:pointer;box-shadow:0 8px 22px rgba(3,169,244,0.28);display:flex;align-items:center;justify-content:center;gap:8px;">' + escHtml(t.startMyPathBtn || "🚀 Start My Path →") + '</button>' +
+          '<h2 style="font-size:1.18rem;font-weight:900;color:#103856;line-height:1.28;margin:0 0 10px 0;">' + escHtml(bp.trackTitle) + '</h2>' +
+
+          // 3-Box Compact Track Statistics Row
+          '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">' +
+            '<div style="background:#f8fafc;border:1.5px solid #bae6fd;border-radius:12px;padding:9px 8px;text-align:center;">' +
+              '<div style="font-size:0.65rem;font-weight:900;color:#0369a1;letter-spacing:0.02em;margin-bottom:2px;">' + escHtml(hubI18n.statSteps) + '</div>' +
+              '<div style="font-size:0.95rem;font-weight:900;color:#103856;">' + doneCnt + '/' + totalCnt + ' (' + stepPct + '%)</div>' +
+            '</div>' +
+            '<div style="background:#f8fafc;border:1.5px solid #bae6fd;border-radius:12px;padding:9px 8px;text-align:center;">' +
+              '<div style="font-size:0.65rem;font-weight:900;color:#0369a1;letter-spacing:0.02em;margin-bottom:2px;">' + escHtml(hubI18n.statReady) + '</div>' +
+              '<div style="font-size:0.95rem;font-weight:900;color:#0284c7;">' + readinessScore + '%</div>' +
+            '</div>' +
+            '<div onclick="window.gatJumpToRealTracker()" style="cursor:pointer;background:#f8fafc;border:1.5px solid #bae6fd;border-radius:12px;padding:9px 8px;text-align:center;">' +
+              '<div style="font-size:0.65rem;font-weight:900;color:#0369a1;letter-spacing:0.02em;margin-bottom:2px;">' + escHtml(hubI18n.statClocks) + '</div>' +
+              '<div style="font-size:0.88rem;font-weight:900;color:' + clockStatCol + ';">' + escHtml(hubI18n.clockAlertVal) + '</div>' +
+            '</div>' +
+          '</div>' +
+
+          // Expiring Timelines & Track Warnings Box
+          '<div style="margin-bottom:12px;">' +
+            '<div style="font-size:0.75rem;font-weight:900;color:#334155;text-transform:uppercase;margin-bottom:6px;">' + escHtml(hubI18n.warnHdr) + '</div>' +
+            '<div style="display:flex;flex-direction:column;gap:6px;">' + clockWarningsHtml + '</div>' +
+            kidsBanner +
+            trapBanner +
+            b1Banner +
+          '</div>' +
+
+          // Current Step Focus Box (Single card summary — NOT the full 1..4 tracker list)
+          (activeTitle
+            ? '<div onclick="window.openGatStepBlueprintModal(\'' + escHtml(activeSid) + '\',' + firstOpenIdx + ')" style="cursor:pointer;background:#f0f9ff;border:1.5px solid #38bdf8;border-radius:13px;padding:11px 13px;margin-bottom:12px;">' +
+                '<div style="font-size:0.73rem;font-weight:900;color:#0369a1;text-transform:uppercase;margin-bottom:3px;">' + escHtml(hubI18n.focusHdr) + '</div>' +
+                '<div style="font-size:0.93rem;font-weight:900;color:#103856;line-height:1.3;margin-bottom:3px;">' + escHtml(activeTitle) + '</div>' +
+                '<div style="font-size:0.78rem;color:#334155;line-height:1.4;font-weight:600;">' + escHtml(activeSub) + '</div>' +
+              '</div>'
+            : '') +
+
+          // Useful Track Links
+          '<div style="margin-bottom:13px;">' +
+            '<div style="font-size:0.74rem;font-weight:900;color:#334155;text-transform:uppercase;margin-bottom:6px;">' + escHtml(hubI18n.linksHdr) + '</div>' +
+            '<div style="display:flex;flex-direction:column;gap:6px;">' +
+              toolsLinksHtml +
+              '<a href="' + escHtml(appUrl("hebrew-engine", "", l)) + '" style="text-decoration:none;background:#f8fafc;color:#103856;border:1.5px solid #cbd5e1;border-radius:10px;padding:8px 11px;font-size:0.79rem;font-weight:800;display:flex;align-items:center;justify-content:space-between;gap:8px;"><span>' + escHtml(hubI18n.openDossierBtn) + '</span><span style="color:#0284c7;font-weight:900;">' + arrowChar + '</span></a>' +
+            '</div>' +
+          '</div>' +
+
+          // Primary CTA to open the real Tracker tab (#view-4) + Ask Spok
+          '<div style="display:flex;flex-direction:column;gap:8px;">' +
+            '<button type="button" id="gat-hub-open-tracker-cta" onclick="window.gatJumpToRealTracker()" style="width:100%;padding:13px 16px;border-radius:13px;border:2px solid #38bdf8;background:linear-gradient(135deg,#103856 0%,#0284c7 100%);color:#ffffff;font-size:0.95rem;font-weight:900;cursor:pointer;box-shadow:0 6px 18px rgba(2,132,199,0.28);display:flex;align-items:center;justify-content:center;gap:8px;">' +
+              escHtml(hubI18n.openTrackerBtn) +
+            '</button>' +
+            '<button type="button" onclick="window.askGatAiAboutTrackStep(\'' + escHtml(activeSid) + '\',' + (firstOpenIdx + 1) + ')" style="width:100%;background:#f0f9ff;color:#0369a1;border:1.5px solid #38bdf8;border-radius:11px;padding:10px 14px;font-size:0.82rem;font-weight:900;cursor:pointer;">' + escHtml(t.tlAiBtn) + '</button>' +
           '</div>' +
         '</div>';
       if (typeof window.syncLiveAddressableUrl === "function") window.syncLiveAddressableUrl();
@@ -3457,6 +3695,7 @@
     host.innerHTML =
       introHtml +
       '<div id="gat-wiz-step-' + escHtml(st.mode) + '" class="gat-wiz-card">' +
+      ((window.__gatInChangeTrackMode || st.forceRetake) && window.__gatActiveBlueprint ? '<div style="display:flex;justify-content:flex-end;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed #cbd5e1;"><button type="button" onclick="window.gatCancelChangeTrack(event)" style="background:#fee2e2;color:#b91c1c;border:1.5px solid #fca5a5;border-radius:999px;padding:5px 13px;font-size:0.76rem;font-weight:900;cursor:pointer;">✕ Cancel</button></div>' : '') +
         '<div class="gat-wiz-topbar">' +
           ((st.mode !== "hero_landing")
             ? '<button type="button" class="gat-wiz-back" onclick="window.gatWizBack()">' + escHtml(t.backBtn) + '</button>'
@@ -3479,6 +3718,17 @@
   // OPEN STEP BLUEPRINT POPUP MODAL (BLUEPRINT + PITFALLS + TOOLS + GUIDES + AI)
   // ==========================================================================
   window.closeGatStepBlueprintModal = function(skipUrlSync) {
+    if (!window.__gatExplicitUserCloseModal) {
+      return;
+    }
+    window.__gatStepModalIsOpen = false;
+    setTimeout(function() { window.__gatExplicitUserCloseModal = false; }, 0);
+
+    
+
+    
+
+    
     const m = document.getElementById("gat-step-blueprint-modal");
     if (m) m.remove();
     window._gatOpenStepModalId = null;
@@ -3489,6 +3739,13 @@
   };
 
   window.openGatStepBlueprintModal = function(stepId, stepIdx, skipStackPush) {
+    window.__gatStepModalIsOpen = true;
+    window.__gatStepModalOpenedAt = Date.now();
+    window.__gatExplicitUserCloseModal = false;
+    window.gatActiveTab = 4;
+
+    window.__gatStepModalOpenedAt = Date.now();
+    window.__gatAllowStepModalClose = false;
     if (!skipStackPush && !window._gatOpenStepModalId && typeof window.pushGatStack === "function") {
       window.pushGatStack();
     }
@@ -3542,7 +3799,7 @@
     const modal = document.createElement("div");
     modal.id = "gat-step-blueprint-modal";
     modal.dir = isRtl ? "rtl" : "ltr";
-    modal.onclick = function(e) { if (e.target === modal) { window.closeGatStepBlueprintModal(); } };
+    modal.onclick = function(e) { if (e.target === modal) { window.__gatTryBackdropCloseModal(); } };
 
     modal.innerHTML =
       '<div class="gat-sbm-card" role="dialog" aria-modal="true">' +
@@ -3551,7 +3808,7 @@
             '<div style="font-size:0.72rem;font-weight:900;color:#38bdf8;text-transform:uppercase;letter-spacing:0.04em;">' + escHtml((window.GAT_TRACKER_I18N_6L && window.GAT_TRACKER_I18N_6L[l] ? window.GAT_TRACKER_I18N_6L[l].stepWord : 'STEP')) + ' #' + (stepIdx + 1) + ' • ' + escHtml(typeof meta.time === 'object' ? (meta.time[l] || meta.time.en) : meta.time) + '</div>' +
             '<div style="font-size:1.02rem;font-weight:900;line-height:1.28;margin-top:2px;">' + escHtml(meta.title[l] || meta.title.en) + '</div>' +
           '</div>' +
-          '<button type="button" onclick="window.closeGatStepBlueprintModal();" style="background:rgba(255,255,255,0.16);color:#ffffff;border:none;width:34px;height:34px;border-radius:50%;font-size:1rem;font-weight:900;cursor:pointer;flex-shrink:0;">✕</button>' +
+          '<button type="button" onclick="window.__gatTryBackdropCloseModal();" style="background:rgba(255,255,255,0.16);color:#ffffff;border:none;width:34px;height:34px;border-radius:50%;font-size:1rem;font-weight:900;cursor:pointer;flex-shrink:0;">✕</button>' +
         '</div>' +
         '<div class="gat-sbm-body">' +
           '<div style="margin-bottom:15px;">' +
@@ -3581,11 +3838,11 @@
 
     document.body.appendChild(modal);
     if (typeof window._gatSyncModalScrollLock === "function") window._gatSyncModalScrollLock();
-    if (typeof window.syncLiveAddressableUrl === "function") window.syncLiveAddressableUrl();
+    /* do not mutate URL with ?trackId= when opening modal */
     if (typeof window.updateBackBarUI === "function") window.updateBackBarUI();
   };
 
-  window.toggleGatStepComplete = function(stepId) {
+  window.toggleGatStepComplete = function(stepId) { setTimeout(function(){ if(window.__gatActiveBlueprint && typeof window.__gatPersistActiveBlueprintToLocal==="function"){ window.__gatPersistActiveBlueprintToLocal(window.__gatActiveBlueprint); } if(typeof window.renderGatOnboardingStage==="function"){ window.renderGatOnboardingStage(); } }, 20);
     const bp = window.__gatActiveBlueprint;
     if (!bp) return;
     bp.completedSteps = Array.isArray(bp.completedSteps) ? bp.completedSteps : [];
@@ -3626,7 +3883,7 @@
   window.gatWizStartRejectedTrack = function() {
     // st initialized at top
     st.answers.q1_goal = "visa_rejected_rescue";
-    window.__gatActiveBlueprint = buildBlueprintFromAnswers(st.answers, false, window.__gatActiveBlueprint);
+    window.__gatActiveBlueprint = buildBlueprintFromAnswers(st.answers, false, window.__gatActiveBlueprint); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
     st.mode = "timeline";
     st.forceRetake = false;
     window.syncGatTrackBlueprintToFirestore("save");
@@ -3714,7 +3971,7 @@
   // ==========================================================================
   // ADAPTIVE TRACK-SPECIFIC LIVE DEADLINE & MILESTONE TRACKER (`#view-4`)
   // ==========================================================================
-  window.setGatBlueprintTimerDate = function(timerKey, yyyyMmDd) {
+  window.setGatBlueprintTimerDate = function(timerKey, yyyyMmDd) { setTimeout(function(){ if(window.__gatActiveBlueprint && typeof window.__gatPersistActiveBlueprintToLocal==="function"){ window.__gatPersistActiveBlueprintToLocal(window.__gatActiveBlueprint); } if(typeof window.renderGatOnboardingStage==="function"){ window.renderGatOnboardingStage(); } }, 20);
     if (!window.__gatActiveBlueprint || !yyyyMmDd) return;
     const ms = new Date(yyyyMmDd + "T12:00:00").getTime();
     if (!Number.isFinite(ms) || ms <= 0) return;
@@ -3728,6 +3985,7 @@
   };
 
   window.renderAdaptiveTrackTracker = function() {
+    if (window.__gatStepModalIsOpen) return;
     const v4 = document.getElementById("view-4");
     if (!v4) return;
 
@@ -3835,14 +4093,12 @@
   // ==========================================================================
     // === GAT UNIFIED TRACKER & WIZARD ROUTING OVERRIDES START ===
   function saveLocalBlueprint(bp) {
-    try {
-      if (bp) localStorage.setItem("gat_track_blueprint_v1", JSON.stringify(bp));
-    } catch (e) {}
+    persistActiveBlueprintToLocal(bp);
   }
 
   // Alias toggleGatBlueprintStep <-> toggleGatStepComplete so both work seamlessly
   const _origToggleStepComplete = window.toggleGatStepComplete;
-  window.toggleGatStepComplete = function(stepId) {
+  window.toggleGatStepComplete = function(stepId) { setTimeout(function(){ if(window.__gatActiveBlueprint && typeof window.__gatPersistActiveBlueprintToLocal==="function"){ window.__gatPersistActiveBlueprintToLocal(window.__gatActiveBlueprint); } if(typeof window.renderGatOnboardingStage==="function"){ window.renderGatOnboardingStage(); } }, 20);
     if (!window.__gatActiveBlueprint) {
       window.__gatActiveBlueprint = readLocalBlueprint() || buildBlueprintFromAnswers({
         q1_goal: "aliyah_or_spouse", q2_household: "solo", q3_location: "abroad", q4_detail: "lor_maternal_west"
@@ -3881,7 +4137,14 @@
     const a = st.answers;
 
     function finishWizardAndOpenTracker(isEm) {
-      window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, Boolean(isEm), window.__gatActiveBlueprint);
+    window.__gatInChangeTrackMode = false;
+    if (window.__gatWizardState) window.__gatWizardState.forceRetake = false;
+    if (document.body) document.body.removeAttribute("data-gat-in-quiz");
+    window.__gatInChangeTrackMode = false;
+    if (window.__gatWizardState) window.__gatWizardState.forceRetake = false;
+    if (document.body) document.body.removeAttribute("data-gat-in-quiz");
+    setTimeout(function(){ if (window.__gatActiveBlueprint && typeof window.__gatPersistActiveBlueprintToLocal === "function") window.__gatPersistActiveBlueprintToLocal(window.__gatActiveBlueprint); }, 10);
+      window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, Boolean(isEm), window.__gatActiveBlueprint); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
       saveLocalBlueprint(window.__gatActiveBlueprint);
       try {
         localStorage.setItem("gat_onboarding_completed_v3", "1");
@@ -3964,22 +4227,13 @@
   };
 
   window.gatWizReset = function() {
-    if (typeof window.pushGatStack === "function") window.pushGatStack();
-    window._gatUserClickedStartTrack = true;
-    window.__gatWizardState.mode = "intro_q1";
-    window.__gatWizardState.forceRetake = true;
-    if (typeof window.switchTab === "function") {
-      window.switchTab(0);
-    } else {
-      window.gatActiveTab = 0;
-      if (typeof window.syncActiveTabAndTrackUI === "function") window.syncActiveTabAndTrackUI(true);
-    }
-    window.renderGatOnboardingStage();
+    window.gatForceStartChangeTrack();
   };
   window.gatWizRetake = window.gatWizReset;
 
   // Unified Tracker Tab (#view-4): Live Statutory Countdown Clocks + Full Interactive Vertical Numbered Step-by-Step Timeline
   window.renderAdaptiveTrackTracker = function() {
+    if (window.__gatStepModalIsOpen) return;
     ensureOnboardingStyles();
     const v4 = document.getElementById("view-4");
     const legacyHost = document.getElementById("gat-adaptive-track-host");
@@ -4168,6 +4422,7 @@
   // === GAT UNIFIED TRACKER & WIZARD ROUTING OVERRIDES END ===
 
   window.applyUrlDeepLinkToOnboarding = function() {
+    if (window.__gatStepModalIsOpen) return false;
     try {
       const initUrl = window.__GAT_INITIAL_URL_STATE || { search: window.location.search || "", hash: window.location.hash || "" };
       const rawSearch = initUrl.search || window.location.search || "";
@@ -4227,7 +4482,7 @@
         window.restoreGatBlueprintByTrackId(qTrackId, qStepId);
         if (window.__gatActiveBlueprint && (sp.get("g") || sp.get("d") || sp.get("em2"))) {
           const isEm = Boolean(a.em_q1_loc && a.em_q2_elig && !a.q1_goal);
-          window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, isEm, window.__gatActiveBlueprint);
+          window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, isEm, window.__gatActiveBlueprint); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
           window.renderGatOnboardingStage();
           window.renderAdaptiveTrackTracker();
         }
@@ -4239,7 +4494,7 @@
         window._gatDeepLinkLockedBlueprint = true;
         window._gatUserClickedStartTrack = true;
         const isEm = Boolean(a.em_q1_loc && a.em_q2_elig && !a.q1_goal);
-        window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, isEm, window.__gatActiveBlueprint);
+        window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, isEm, window.__gatActiveBlueprint); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
         window.__gatWizardState.mode = "timeline";
         window.__gatWizardState.forceRetake = false;
         window.renderGatOnboardingStage();
@@ -4269,7 +4524,7 @@
     if (!window.__gatActiveBlueprint) {
       const savedBp = readLocalBlueprint();
       if (savedBp && savedBp.trackId) {
-        window.__gatActiveBlueprint = enrichServerBlueprint(savedBp);
+        window.__gatActiveBlueprint = enrichServerBlueprint(savedBp); persistActiveBlueprintToLocal(window.__gatActiveBlueprint);
         try {
           localStorage.setItem("gat_onboarding_completed_v3", "1");
           localStorage.setItem("gat_onboarding_completed_v2", "1");
@@ -4725,3 +4980,635 @@
   window.addEventListener("pointerup", handleTapOrClick, { capture: true, passive: false });
   window.addEventListener("click", handleTapOrClick, { capture: true, passive: false });
 })();
+
+;(function hookGatRenderOnboardingStagePost() {
+  var origRenderStage = window.renderGatOnboardingStage;
+  if (typeof origRenderStage === "function") {
+    var wrappedStage = function() {
+      if (window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId && typeof window.__gatPersistActiveBlueprintToLocal === "function") {
+        window.__gatPersistActiveBlueprintToLocal(window.__gatActiveBlueprint);
+      }
+      var res = origRenderStage.apply(this, arguments);
+      try {
+        var st = window.__gatWizardState || {};
+        var quizModes = ["intro_q1", "q2", "q2b", "q3", "q4", "em1", "em2"];
+        var inQuiz = quizModes.indexOf(st.mode) !== -1 || Boolean(st.forceRetake);
+        var done = (typeof window.isGatOnboardingComplete === "function" && window.isGatOnboardingComplete()) ||
+                   Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId);
+        if (document.body) {
+          if (done) document.body.setAttribute("data-gat-onboarded", "1");
+          else document.body.removeAttribute("data-gat-onboarded");
+          if (inQuiz) document.body.setAttribute("data-gat-in-quiz", "1");
+          else document.body.removeAttribute("data-gat-in-quiz");
+        }
+        if (done && !inQuiz) {
+          if (typeof window.renderOnboardedHomepageHub === "function") {
+            window.renderOnboardedHomepageHub();
+          }
+          if (typeof window.syncOnboardingAndTrackerLifecycle === "function") {
+            window.syncOnboardingAndTrackerLifecycle();
+          }
+        }
+      } catch (e) {}
+      return res;
+    };
+    wrappedStage.__gatHubHooked = true;
+    window.renderGatOnboardingStage = wrappedStage;
+  }
+})();
+
+;(function initGatAuthoritativeHubActions() {
+  // 1. DOM-Level Armor (from V4): Prevent any background timer or listener from removing the open modal
+  if (!window.__gatDomModalArmorInstalled) {
+    window.__gatDomModalArmorInstalled = true;
+
+    var _origRemoveChild = Node.prototype.removeChild;
+    Node.prototype.removeChild = function(child) {
+      try {
+        if (child && (child.__gatProtectedModal || child.id === "gat-step-blueprint-modal" || child.id === "gat-blueprint-modal") && window.__gatStepModalIsOpen && !window.__gatExplicitUserCloseModal) {
+          return child;
+        }
+      } catch (e) {}
+      return _origRemoveChild.apply(this, arguments);
+    };
+
+    var _origElRemove = Element.prototype.remove;
+    Element.prototype.remove = function() {
+      try {
+        if ((this.__gatProtectedModal || this.id === "gat-step-blueprint-modal" || this.id === "gat-blueprint-modal") && window.__gatStepModalIsOpen && !window.__gatExplicitUserCloseModal) {
+          return;
+        }
+      } catch (e) {}
+      return _origElRemove.apply(this, arguments);
+    };
+  }
+
+  function findLiveStepBlueprintModal() {
+    var m = document.getElementById("gat-step-blueprint-modal") ||
+            document.getElementById("gat-blueprint-modal") ||
+            document.querySelector('[id*="blueprint-modal"], [id*="step-blueprint"]');
+    if (m) return m;
+    var fixedDivs = document.querySelectorAll("body > div");
+    for (var i = fixedDivs.length - 1; i >= 0; i--) {
+      var d = fixedDivs[i];
+      var txt = d.textContent || "";
+      if ((txt.indexOf("Interactive Site Tools") !== -1 || txt.indexOf("Step-by-Step Action Blueprint") !== -1 || txt.indexOf("Bureaucratic Pitfalls") !== -1) && d.querySelector("button")) {
+        return d;
+      }
+    }
+    return null;
+  }
+
+  function wireCloseButtonsInsideModal(modalEl) {
+    if (!modalEl) return;
+    var btns = modalEl.querySelectorAll("button, [role='button'], .gat-bp-close");
+    for (var i = 0; i < btns.length; i++) {
+      var b = btns[i];
+      var txt = (b.textContent || "").replace(/\s+/g, "").trim();
+      var oc = (b.getAttribute && b.getAttribute("onclick")) || "";
+      var al = (b.getAttribute && b.getAttribute("aria-label")) || "";
+      if (
+        txt === "✕" ||
+        txt === "×" ||
+        txt === "X" ||
+        txt === "x" ||
+        /^close$/i.test(txt) ||
+        /^close$/i.test(al) ||
+        oc.indexOf("closeGatStepBlueprintModal") !== -1 ||
+        oc.indexOf("__gatTryBackdropCloseModal") !== -1 ||
+        oc.indexOf("gatForceCloseStepBlueprintModalNow") !== -1
+      ) {
+        b.setAttribute("data-gat-bp-close-btn", "1");
+        b.removeAttribute("onclick");
+        b.style.setProperty("cursor", "pointer", "important");
+        b.style.setProperty("pointer-events", "auto", "important");
+        b.style.setProperty("z-index", "2147483647", "important");
+        b.onclick = function(ev) {
+          window.gatForceCloseStepBlueprintModalNow(ev, true);
+          return false;
+        };
+      }
+    }
+  }
+
+  function armorAndLockOpenModal(modalEl) {
+    if (!modalEl || !window.__gatStepModalIsOpen || window.__gatExplicitUserCloseModal) return;
+    modalEl.__gatProtectedModal = true;
+    if (modalEl.parentElement !== document.body) {
+      document.body.appendChild(modalEl);
+    }
+    modalEl.classList.add("open", "active");
+    modalEl.style.setProperty("display", "flex", "important");
+    modalEl.style.setProperty("opacity", "1", "important");
+    modalEl.style.setProperty("visibility", "visible", "important");
+    modalEl.style.setProperty("pointer-events", "auto", "important");
+    modalEl.style.setProperty("z-index", "2147483640", "important");
+
+    wireCloseButtonsInsideModal(modalEl);
+
+    if (!modalEl.__gatArmorObserver) {
+      var obs = new MutationObserver(function() {
+        if (!window.__gatStepModalIsOpen || window.__gatExplicitUserCloseModal) return;
+        var cs = window.getComputedStyle(modalEl);
+        if (cs.display === "none" || cs.visibility === "hidden" || cs.opacity === "0") {
+          modalEl.classList.add("open", "active");
+          modalEl.style.setProperty("display", "flex", "important");
+          modalEl.style.setProperty("opacity", "1", "important");
+          modalEl.style.setProperty("visibility", "visible", "important");
+          modalEl.style.setProperty("pointer-events", "auto", "important");
+        }
+      });
+      obs.observe(modalEl, { attributes: true, attributeFilter: ["style", "class", "hidden"] });
+      modalEl.__gatArmorObserver = obs;
+    }
+  }
+
+  var _rawOpenBpModal = window.openGatStepBlueprintModal;
+  var _rawCloseBpModal = window.closeGatStepBlueprintModal;
+
+  window.openGatStepBlueprintModal = function(sid, idx) {
+    window.__gatStepModalIsOpen = true;
+    window.__gatStepModalOpenedAt = Date.now();
+    window.__gatExplicitUserCloseModal = false;
+    window.gatActiveTab = 4;
+
+    var res;
+    if (typeof _rawOpenBpModal === "function") {
+      res = _rawOpenBpModal.apply(this, arguments);
+    }
+    var m = findLiveStepBlueprintModal();
+    if (m) {
+      armorAndLockOpenModal(m);
+    }
+    // Re-lock at 20ms, 60ms, 140ms, 260ms, 450ms so no 60ms/180ms timer can hide it!
+    [20, 60, 140, 260, 450].forEach(function(ms) {
+      setTimeout(function() {
+        if (window.__gatStepModalIsOpen && !window.__gatExplicitUserCloseModal) {
+          var liveM = findLiveStepBlueprintModal();
+          if (liveM) armorAndLockOpenModal(liveM);
+        }
+      }, ms);
+    });
+    return res;
+  };
+
+  window.gatForceCloseStepBlueprintModalNow = function(ev, isDirectCloseBtn) {
+    var elapsed = Date.now() - (window.__gatStepModalOpenedAt || 0);
+    // Block any auto-close or synthetic tap within the first 450ms of opening (unless user explicitly tapped ✕ after 150ms)
+    if (!isDirectCloseBtn && elapsed < 500) {
+      return;
+    }
+    if (isDirectCloseBtn && elapsed < 120) {
+      return;
+    }
+    if (ev) {
+      if (ev.preventDefault) ev.preventDefault();
+      if (ev.stopPropagation) ev.stopPropagation();
+      if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+    }
+
+    // 1. Disarm the MutationObserver and protection flags FIRST
+    window.__gatExplicitUserCloseModal = true;
+    window.__gatStepModalIsOpen = false;
+
+    var m = findLiveStepBlueprintModal();
+    if (m) {
+      m.__gatProtectedModal = false;
+      if (m.__gatArmorObserver) {
+        try { m.__gatArmorObserver.disconnect(); } catch (e) {}
+        m.__gatArmorObserver = null;
+      }
+      m.classList.remove("open", "active");
+      m.style.setProperty("display", "none", "important");
+      m.style.setProperty("opacity", "0", "important");
+      m.style.setProperty("visibility", "hidden", "important");
+      m.style.setProperty("pointer-events", "none", "important");
+    }
+
+    // 2. Run native close cleanup
+    if (typeof _rawCloseBpModal === "function") {
+      try { _rawCloseBpModal(true); } catch (e) {}
+    }
+
+    if (document.body) {
+      document.body.style.overflow = "";
+    }
+  };
+
+  // Block any background call to window.closeGatStepBlueprintModal() unless __gatExplicitUserCloseModal is true
+  window.closeGatStepBlueprintModal = function() {
+    if (!window.__gatExplicitUserCloseModal) {
+      return;
+    }
+    window.gatForceCloseStepBlueprintModalNow(null, true);
+  };
+
+  // Inline onclick="__gatTryBackdropCloseModal()" inside modal template routes here
+  window.__gatTryBackdropCloseModal = function(ev) {
+    var elapsed = Date.now() - (window.__gatStepModalOpenedAt || 0);
+    if (elapsed < 500) return;
+    window.gatForceCloseStepBlueprintModalNow(ev, true);
+  };
+
+  // Authoritative Back handler for the 4-Question Wizard ('← Back' button on Q1..Q4)
+  window.gatWizBack = function(ev) {
+    if (ev) {
+      if (ev.preventDefault) ev.preventDefault();
+      if (ev.stopPropagation) ev.stopPropagation();
+    }
+    var st = window.__gatWizardState;
+    if (!st) return;
+    var a = st.answers || {};
+
+    if (st.mode === "q4") {
+      st.mode = "q3";
+    } else if (st.mode === "q3") {
+      st.mode = (a.q2_household === "partner" || a.q2_household === "family_kids") ? "q2b" : "q2";
+    } else if (st.mode === "q2b") {
+      st.mode = "q2";
+    } else if (st.mode === "q2") {
+      st.mode = "intro_q1";
+    } else if (st.mode === "em2") {
+      st.mode = "em1";
+    } else {
+      window.__gatInChangeTrackMode = false;
+      window.__gatShowRawHeroCover = true;
+      window._gatUserClickedStartTrack = false;
+      st.forceRetake = true;
+      st.mode = "hero_landing";
+      if (document.body) {
+        document.body.setAttribute("data-gat-in-quiz", "1");
+      }
+    }
+    if (typeof window.renderGatOnboardingStage === "function") {
+      window.renderGatOnboardingStage();
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  var _origStartQuiz = window.gatWizStartQuiz;
+  window.gatWizStartQuiz = function(ev) {
+    if (ev) {
+      if (ev.preventDefault) ev.preventDefault();
+      if (ev.stopPropagation) ev.stopPropagation();
+    }
+    window.__gatShowRawHeroCover = false;
+    window._gatUserClickedStartTrack = true;
+    window.__gatInChangeTrackMode = true;
+    if (window.__gatWizardState) {
+      window.__gatWizardState.forceRetake = true;
+      window.__gatWizardState.mode = "intro_q1";
+    }
+    if (document.body) {
+      document.body.setAttribute("data-gat-in-quiz", "1");
+    }
+    if (typeof _origStartQuiz === "function") {
+      try { _origStartQuiz(); } catch (e) {}
+    }
+    if (window.__gatWizardState) {
+      window.__gatWizardState.forceRetake = true;
+      window.__gatWizardState.mode = "intro_q1";
+    }
+    if (typeof window.renderGatOnboardingStage === "function") {
+      window.renderGatOnboardingStage();
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  window.gatSwitchToTabAuthoritative = function(targetIdx, ev) {
+    targetIdx = Number(targetIdx) || 0;
+    if (window.__gatStepModalIsOpen) {
+      window.gatForceCloseStepBlueprintModalNow(ev, true);
+    }
+    if (targetIdx === 4) {
+      var done = (typeof window.isGatOnboardingComplete === "function" && window.isGatOnboardingComplete()) ||
+                 Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId) ||
+                 Boolean(localStorage.getItem("gat_track_blueprint_v1") && localStorage.getItem("gat_track_blueprint_v1").indexOf('"trackId"') !== -1);
+      if (!done) {
+        if (ev) {
+          if (ev.preventDefault) ev.preventDefault();
+          if (ev.stopPropagation) ev.stopPropagation();
+        }
+        if (typeof window.showGatTrackerGatePopup === "function") {
+          window.showGatTrackerGatePopup();
+        }
+        return false;
+      }
+      window.gatJumpToRealTracker(ev);
+      return false;
+    }
+
+    for (var i = 0; i <= 4; i++) {
+      var v = document.getElementById("view-" + i);
+      if (!v) continue;
+      if (i === targetIdx) {
+        v.classList.add("active");
+        v.style.setProperty("display", "block", "important");
+      } else {
+        v.classList.remove("active");
+        v.style.setProperty("display", "none", "important");
+      }
+    }
+    window.gatActiveTab = targetIdx;
+
+    var navBtns = document.querySelectorAll('nav button, nav a, .bottom-nav button, .bottom-nav a, [onclick*="switchTab("], [onclick*="switchView("], .nav-item, .nav-btn, .tab-item');
+    for (var j = 0; j < navBtns.length; j++) {
+      var nb = navBtns[j];
+      var oc = (nb.getAttribute && nb.getAttribute("onclick")) || "";
+      var dt = (nb.getAttribute && (nb.getAttribute("data-tab") || nb.getAttribute("data-view"))) || "";
+      if (oc.indexOf("(" + targetIdx) !== -1 || dt === String(targetIdx)) {
+        nb.classList.add("active");
+      } else if (/switch(?:Tab|View)\(/.test(oc) || dt !== "") {
+        nb.classList.remove("active");
+      }
+    }
+
+    if (targetIdx === 0 && !window.__gatInChangeTrackMode && !window.__gatShowRawHeroCover && typeof window.renderGatOnboardingStage === "function") {
+      window.renderGatOnboardingStage();
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return false;
+  };
+
+  window.gatJumpToRealTracker = function(ev) {
+    if (ev) {
+      if (ev.preventDefault) ev.preventDefault();
+      if (ev.stopPropagation) ev.stopPropagation();
+    }
+    try {
+      localStorage.setItem("gat_onboarding_completed_v3", "1");
+      localStorage.setItem("gat_onboarding_completed_v2", "1");
+      localStorage.setItem("gat_onboarding_done", "1");
+      document.cookie = "perm_gat_onboard_v3=1; path=/; max-age=315360000; SameSite=Lax";
+      if (window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId) {
+        localStorage.setItem("gat_track_blueprint_v1", JSON.stringify(window.__gatActiveBlueprint));
+      }
+    } catch (e) {}
+
+    window.__gatInChangeTrackMode = false;
+    window.__gatShowRawHeroCover = false;
+    if (window.__gatWizardState) {
+      window.__gatWizardState.forceRetake = false;
+    }
+    if (document.body) {
+      document.body.setAttribute("data-gat-onboarded", "1");
+      document.body.removeAttribute("data-gat-in-quiz");
+    }
+
+    if (!document.getElementById("view-4")) {
+      var seg = (window.location.pathname.split("/")[1] || "").toLowerCase();
+      var homeUrl = (["he", "fr", "es", "de", "ru"].indexOf(seg) !== -1) ? ("/" + seg + "/?tab=4") : "/?tab=4";
+      window.location.href = homeUrl;
+      return;
+    }
+
+    for (var i = 0; i <= 4; i++) {
+      var v = document.getElementById("view-" + i);
+      if (!v) continue;
+      if (i === 4) {
+        v.classList.add("active");
+        v.style.setProperty("display", "block", "important");
+      } else {
+        v.classList.remove("active");
+        v.style.setProperty("display", "none", "important");
+      }
+    }
+    window.gatActiveTab = 4;
+
+    if (typeof window.renderAdaptiveTrackTracker === "function" && !window.__gatStepModalIsOpen) {
+      try { window.renderAdaptiveTrackTracker(); } catch (e) {}
+    }
+
+    var v4 = document.getElementById("view-4");
+    if (v4) {
+      v4.classList.add("active");
+      v4.style.setProperty("display", "block", "important");
+    }
+
+    var navBtns = document.querySelectorAll('nav button, nav a, .bottom-nav button, .bottom-nav a, [onclick*="switchTab("], [onclick*="switchView("], .nav-item, .nav-btn, .tab-item');
+    for (var j = 0; j < navBtns.length; j++) {
+      var nb = navBtns[j];
+      var oc = (nb.getAttribute && nb.getAttribute("onclick")) || "";
+      var dt = (nb.getAttribute && (nb.getAttribute("data-tab") || nb.getAttribute("data-view"))) || "";
+      if (oc.indexOf("(4") !== -1 || dt === "4") {
+        nb.classList.add("active");
+      } else if (/switch(?:Tab|View)\(/.test(oc) || dt !== "") {
+        nb.classList.remove("active");
+      }
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  window.gatForceStartChangeTrack = function(ev) {
+    if (ev) {
+      if (ev.preventDefault) ev.preventDefault();
+      if (ev.stopPropagation) ev.stopPropagation();
+    }
+    if (window.__gatStepModalIsOpen) {
+      window.gatForceCloseStepBlueprintModalNow(ev, true);
+    }
+    for (var i = 0; i <= 4; i++) {
+      var v = document.getElementById("view-" + i);
+      if (!v) continue;
+      if (i === 0) {
+        v.classList.add("active");
+        v.style.setProperty("display", "block", "important");
+      } else {
+        v.classList.remove("active");
+        v.style.setProperty("display", "none", "important");
+      }
+    }
+    window.gatActiveTab = 0;
+
+    var navBtns = document.querySelectorAll('nav button, nav a, .bottom-nav button, .bottom-nav a, [onclick*="switchTab("], [onclick*="switchView("], .nav-item, .nav-btn, .tab-item');
+    for (var j = 0; j < navBtns.length; j++) {
+      var nb = navBtns[j];
+      var oc = (nb.getAttribute && nb.getAttribute("onclick")) || "";
+      var dt = (nb.getAttribute && (nb.getAttribute("data-tab") || nb.getAttribute("data-view"))) || "";
+      if (oc.indexOf("(0") !== -1 || dt === "0") {
+        nb.classList.add("active");
+      } else if (/switch(?:Tab|View)\(/.test(oc) || dt !== "") {
+        nb.classList.remove("active");
+      }
+    }
+
+    window.__gatShowRawHeroCover = false;
+    window._gatUserClickedStartTrack = true;
+    window.__gatInChangeTrackMode = true;
+    if (window.__gatWizardState) {
+      window.__gatWizardState.forceRetake = true;
+      window.__gatWizardState.mode = "intro_q1";
+    }
+    if (document.body) {
+      document.body.setAttribute("data-gat-in-quiz", "1");
+    }
+
+    if (typeof window.renderGatOnboardingStage === "function") {
+      window.renderGatOnboardingStage();
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  window.gatCancelChangeTrack = function(ev) {
+    if (ev) {
+      if (ev.preventDefault) ev.preventDefault();
+      if (ev.stopPropagation) ev.stopPropagation();
+    }
+    window.__gatInChangeTrackMode = false;
+    window.__gatShowRawHeroCover = false;
+    if (window.__gatWizardState) {
+      window.__gatWizardState.forceRetake = false;
+      window.__gatWizardState.mode = "timeline";
+    }
+    if (document.body) {
+      document.body.removeAttribute("data-gat-in-quiz");
+    }
+    if (typeof window.renderGatOnboardingStage === "function") {
+      window.renderGatOnboardingStage();
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  window.gatWizReset = window.gatForceStartChangeTrack;
+  window.gatWizRetake = window.gatForceStartChangeTrack;
+
+  document.addEventListener("keydown", function(ev) {
+    if (ev.key === "Escape" && window.__gatStepModalIsOpen) {
+      window.gatForceCloseStepBlueprintModalNow(ev, true);
+    }
+  }, true);
+
+  window.addEventListener("click", function(ev) {
+    var t = ev.target;
+    if (!t) return;
+    var el = (t.nodeType === 3) ? t.parentElement : t;
+    if (!el || !el.closest) return;
+
+    // 1. Inside an open Step Blueprint Modal:
+    var bpModal = findLiveStepBlueprintModal();
+    if (bpModal && window.__gatStepModalIsOpen && bpModal.contains(el)) {
+      var elapsed = Date.now() - (window.__gatStepModalOpenedAt || 0);
+      var closeBtn = el.closest("[data-gat-bp-close-btn='1'], [onclick*='closeGatStepBlueprintModal'], [onclick*='__gatTryBackdropCloseModal'], [onclick*='gatForceCloseStepBlueprintModalNow'], .gat-bp-close, button[aria-label='Close']");
+      if (!closeBtn) {
+        var candBtn = el.closest("button, [role='button']");
+        if (candBtn) {
+          var bTxt = (candBtn.textContent || "").replace(/\s+/g, "").trim();
+          if (bTxt === "✕" || bTxt === "×" || bTxt === "X" || bTxt === "x" || /^close$/i.test(bTxt)) {
+            closeBtn = candBtn;
+          }
+        }
+      }
+      if (closeBtn) {
+        window.gatForceCloseStepBlueprintModalNow(ev, true);
+        return;
+      }
+      if (el === bpModal) {
+        if (elapsed >= 500) {
+          window.gatForceCloseStepBlueprintModalNow(ev, true);
+        } else {
+          ev.preventDefault();
+          ev.stopPropagation();
+          if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+        }
+        return;
+      }
+      // Keep any other click inside the open modal from bubbling out to tracking_partner.js document listeners
+      ev.stopPropagation();
+      return;
+    }
+
+    // 2. Clicking '← Back' inside the 4-Question Wizard
+    var wizBackBtn = el.closest("[onclick*='gatWizBack']");
+    if (wizBackBtn) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+      window.gatWizBack(ev);
+      return;
+    }
+
+    // 3. Clicking '🚀 START MY TRACK →' on the cover screen
+    var startQuizBtn = el.closest("[onclick*='gatWizStartQuiz']");
+    if (startQuizBtn) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+      window.gatWizStartQuiz(ev);
+      return;
+    }
+
+    // 4. Clicking any Step Card (.gat-tl-row / .gat-tl-circle / 'Tap for Blueprint') to open the Step Blueprint Modal:
+    var stepOpenEl = el.closest("[onclick*='openGatStepBlueprintModal']");
+    if (stepOpenEl) {
+      var markDoneBtn = el.closest("[onclick*='toggleGatStepComplete']");
+      var itemizedCol = el.closest(".gat-itemized-step-column");
+      if (!markDoneBtn && !itemizedCol) {
+        var ocAttr = stepOpenEl.getAttribute("onclick") || "";
+        var mArgs = ocAttr.match(/openGatStepBlueprintModal\(\s*['"]([^'"]+)['"]\s*(?:,\s*(\d+))?\s*\)/);
+        if (mArgs) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+          window.openGatStepBlueprintModal(mArgs[1], Number(mArgs[2]) || 0);
+          return;
+        }
+      }
+    }
+
+    // 5. Bottom Navbar Tab Buttons (Start=0, Tracks=1, Savings=2, Rabbi=3, Tracker=4)
+    var navBtn = el.closest("nav [onclick*='switchTab('], nav [onclick*='switchView('], .bottom-nav [onclick*='switchTab('], .bottom-nav [onclick*='switchView('], nav [onclick*='gatUniversalNav'], .bottom-nav [onclick*='gatUniversalNav'], nav [data-tab], nav [data-view], .bottom-nav [data-tab], .bottom-nav [data-view], .nav-item[onclick*='switchTab('], .nav-btn[onclick*='switchTab(']");
+    if (!navBtn) {
+      var possibleTab4 = el.closest("[onclick*='switchTab(4'], [onclick*='switchView(4'], [data-tab='4'], [data-view='4']");
+      var v0 = document.getElementById("view-0");
+      var obsModal = document.getElementById("obs-modal");
+      if (possibleTab4 && (!v0 || !v0.contains(possibleTab4)) && (!obsModal || !obsModal.contains(possibleTab4))) {
+        navBtn = possibleTab4;
+      }
+    }
+    if (navBtn) {
+      var nbOc = (navBtn.getAttribute && navBtn.getAttribute("onclick")) || "";
+      var nbDt = (navBtn.getAttribute && (navBtn.getAttribute("data-tab") || navBtn.getAttribute("data-view"))) || "";
+      var mTab = nbOc.match(/switch(?:Tab|View)\(\s*(\d+)/) || nbOc.match(/gatUniversalNav\(\s*['"]tab['"]\s*,\s*(\d+)/);
+      var targetTabIdx = mTab ? Number(mTab[1]) : (nbDt !== "" ? Number(nbDt) : -1);
+      if (targetTabIdx >= 0 && targetTabIdx <= 4) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+        window.gatSwitchToTabAuthoritative(targetTabIdx, ev);
+        return;
+      }
+    }
+
+    // 6. '🧭 Change My Track' button
+    var chgBtn = el.closest("#gat-hub-change-track-top, [onclick*='gatForceStartChangeTrack'], [onclick*='gatWizReset'], [onclick*='gatWizRetake']");
+    if (chgBtn) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+      window.gatForceStartChangeTrack(ev);
+      return;
+    }
+
+    // 7. '📊 Open My Active Tracker' button
+    var trkBtn = el.closest("#gat-hub-open-tracker-cta, [onclick*='gatJumpToRealTracker']");
+    if (trkBtn) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+      window.gatJumpToRealTracker(ev);
+      return;
+    }
+
+    // 8. '✕ Cancel' change track button
+    var cancelBtn = el.closest("[onclick*='gatCancelChangeTrack'], #gat-cancel-change-track-btn");
+    if (cancelBtn) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+      window.gatCancelChangeTrack(ev);
+      return;
+    }
+  }, true);
+})();
+

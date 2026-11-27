@@ -1523,6 +1523,35 @@
   <link rel="alternate" hreflang="ru" href="https://giyuraliyahtrack.com/ru/onlajn-brak-yuta-zoom-izrail-registraciya-mvd-stupro/" />
   <script>(function(){var h=location.hostname;if(h&&!/^(localhost|127\.0\.0\.1|giyuraliyahtrack\.com|www\.giyuraliyahtrack\.com|giyur-aliyah-track\.(web\.app|firebaseapp\.com))$/.test(h)){location.replace('https://giyuraliyahtrack.com'+location.pathname+location.search+location.hash);}})();</script>
 <style id="gat-kill-old-spok-pill-css">#gat-ask-spok-bottom-pill,#spok-fab-pill,#left-edge-handle,.left-edge-handle{display:none!important;visibility:hidden!important;pointer-events:none!important;}</style>
+<style id="gat-strict-homepage-isolation-css">
+  /* For human new users (never search bots): only show #gat-onboarding-stage on #view-0 */
+  body[data-gat-human-new="1"]:not([data-gat-onboarded="1"]) #view-0 > *:not(#gat-onboarding-stage),
+  body[data-gat-in-quiz="1"] #view-0 > *:not(#gat-onboarding-stage) {
+    display: none !important;
+  }
+</style>
+<script id="gat-early-onboard-attr-boot">
+  (function() {
+    try {
+      var ua = (typeof navigator !== 'undefined' && navigator.userAgent) ? navigator.userAgent : '';
+      var isBot = /(googlebot|bingbot|yandex|baiduspider|duckduckbot|slurp|facebot|ia_archiver|applebot|twitterbot|linkedinbot|whatsapp|telegrambot|Lighthouse|Google-InspectionTool|Storebot-Google|GoogleOther)/i.test(ua);
+      var done = localStorage.getItem('gat_onboarding_completed_v3') === '1' ||
+                 (document.cookie && document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) ||
+                 Boolean(localStorage.getItem('gat_track_blueprint_v1') && localStorage.getItem('gat_track_blueprint_v1').indexOf('"trackId"') !== -1);
+      function applyBodyFlags() {
+        if (!document.body) return;
+        if (done) {
+          document.body.setAttribute('data-gat-onboarded', '1');
+          document.body.removeAttribute('data-gat-human-new');
+        } else if (!isBot) {
+          document.body.setAttribute('data-gat-human-new', '1');
+        }
+      }
+      applyBodyFlags();
+      document.addEventListener('DOMContentLoaded', applyBodyFlags);
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
 
@@ -3456,7 +3485,7 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
     if (window.isSpokePage()) {
       location.href = (l === 'en' ? '/' : '/' + l + '/');
     } else {
-      if (typeof window.closeGatStepBlueprintModal === 'function') window.closeGatStepBlueprintModal(true);
+      if (window.__gatExplicitUserCloseModal && typeof window.closeGatStepBlueprintModal === 'function') window.closeGatStepBlueprintModal(true);
       if (typeof window.closeObstacle === 'function') window.closeObstacle();
       if (window.__gatWizardState) {
         window.__gatWizardState.mode = 'hero_landing';
@@ -3473,6 +3502,8 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   };
 
   window.handleSmartBack = function(e){
+    if (window.__gatStepModalIsOpen && typeof window.gatForceCloseStepBlueprintModalNow === "function") { window.gatForceCloseStepBlueprintModalNow(e); return false; }
+    if (window.__gatWizardState && ["intro_q1","q2","q2b","q3","q4","em1","em2"].indexOf(window.__gatWizardState.mode) !== -1 && typeof window.gatWizBack === "function") { window.gatWizBack(e); return false; }
     if (e) e.preventDefault();
     try { sessionStorage.setItem('gat_skip_intro_once', '1'); } catch(err){}
 
@@ -3560,8 +3591,8 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   window.addEventListener('pageshow', restoreOnLoad);
 })();
 </script>
-  <script src="/i18n/onboarding_trajectory.js?v=1795759614"></script>
-  <script src="/i18n/tracking_partner.js?v=1795759614"></script>
+  <script src="/i18n/onboarding_trajectory.js?v=1795783170"></script>
+  <script src="/i18n/tracking_partner.js?v=1795783170"></script>
 <!-- === GAT 6-LANG APPBAR ROUTER & WHITE FAQ CONTROLLER === -->
 <script id="gat-spok-and-lang-controller">
 (function() {
@@ -4368,13 +4399,17 @@ html[dir="rtl"] .enemy-card, html[dir="rtl"] .track-card, html[dir="rtl"] .sub-i
   // Override window.isGatOnboardingComplete & window.markGatOnboardingComplete so ALL modules share ONBOARD_KEY_V3
   window.isGatOnboardingComplete = function() {
     try {
-      if (localStorage.getItem(ONBOARD_KEY_V3) === '1') return true;
-      if (document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) {
-        localStorage.setItem(ONBOARD_KEY_V3, '1');
-        return true;
-      }
-    } catch (e) {}
-    return false;
+      if (localStorage.getItem('gat_onboarding_completed_v3') === '1') return true;
+      if (typeof document !== 'undefined' && document.cookie && document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) return true;
+      if (Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId)) return true;
+      var bpRaw = localStorage.getItem('gat_track_blueprint_v1');
+      if (Boolean(bpRaw && bpRaw.indexOf('"trackId"') !== -1)) return true;
+      var v4 = typeof document !== 'undefined' ? document.getElementById('view-4') : null;
+      if (v4 && v4.classList.contains('active') && v4.querySelector('.gat-tl-row')) return true;
+      return false;
+    } catch (e) {
+      return Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId);
+    }
   };
 
   var origMarkComplete = window.markGatOnboardingComplete;

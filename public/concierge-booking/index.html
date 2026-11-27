@@ -2153,7 +2153,7 @@
   })();
   </script>
 
-  <script src="/i18n/tracking_partner.js?v=1795759614"></script>
+  <script src="/i18n/tracking_partner.js?v=1795783170"></script>
 <!-- SLIDE-OUT HAMBURGER DRAWER (EXACT ZEHUT 2026 STYLE FROM INDEX.HTML) -->
 <style id="gat-pricing-zehut-drawer-css">
   header.app-header {
@@ -3211,13 +3211,17 @@
   // Override window.isGatOnboardingComplete & window.markGatOnboardingComplete so ALL modules share ONBOARD_KEY_V3
   window.isGatOnboardingComplete = function() {
     try {
-      if (localStorage.getItem(ONBOARD_KEY_V3) === '1') return true;
-      if (document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) {
-        localStorage.setItem(ONBOARD_KEY_V3, '1');
-        return true;
-      }
-    } catch (e) {}
-    return false;
+      if (localStorage.getItem('gat_onboarding_completed_v3') === '1') return true;
+      if (typeof document !== 'undefined' && document.cookie && document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) return true;
+      if (Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId)) return true;
+      var bpRaw = localStorage.getItem('gat_track_blueprint_v1');
+      if (Boolean(bpRaw && bpRaw.indexOf('"trackId"') !== -1)) return true;
+      var v4 = typeof document !== 'undefined' ? document.getElementById('view-4') : null;
+      if (v4 && v4.classList.contains('active') && v4.querySelector('.gat-tl-row')) return true;
+      return false;
+    } catch (e) {
+      return Boolean(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackId);
+    }
   };
 
   var origMarkComplete = window.markGatOnboardingComplete;
