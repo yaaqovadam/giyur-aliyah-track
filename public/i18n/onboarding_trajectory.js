@@ -3836,7 +3836,7 @@
     // === GAT UNIFIED TRACKER & WIZARD ROUTING OVERRIDES START ===
   function saveLocalBlueprint(bp) {
     try {
-      if (bp) (function(_k,_v){ /* zero-localStorage enforced: Firestore 5-device sync only */ })("gat_track_blueprint_v1", JSON.stringify(bp));
+      if (bp) localStorage.setItem("gat_track_blueprint_v1", JSON.stringify(bp));
     } catch (e) {}
   }
 
@@ -3883,6 +3883,16 @@
     function finishWizardAndOpenTracker(isEm) {
       window.__gatActiveBlueprint = buildBlueprintFromAnswers(a, Boolean(isEm), window.__gatActiveBlueprint);
       saveLocalBlueprint(window.__gatActiveBlueprint);
+      try {
+        localStorage.setItem("gat_onboarding_completed_v3", "1");
+        localStorage.setItem("gat_onboarding_completed_v2", "1");
+        localStorage.setItem("gat_onboarding_done", "1");
+        document.cookie = "perm_gat_onboard_v3=1; path=/; max-age=315360000; SameSite=Lax";
+        document.cookie = "perm_gat_onboard_v2=1; path=/; max-age=315360000; SameSite=Lax";
+      } catch (e) {}
+      if (typeof window.markGatOnboardingComplete === "function") {
+        try { window.markGatOnboardingComplete(window.__gatActiveBlueprint && window.__gatActiveBlueprint.trackTitle); } catch (e) {}
+      }
       // Reset Start tab back to clean Hero Landing and auto-switch user to Tab 5 (Tracker / #view-4)!
       st.mode = "hero_landing";
       st.forceRetake = false;
@@ -4256,11 +4266,21 @@
   };
 
   function bootOnboarding() {
+    if (!window.__gatActiveBlueprint) {
+      const savedBp = readLocalBlueprint();
+      if (savedBp && savedBp.trackId) {
+        window.__gatActiveBlueprint = enrichServerBlueprint(savedBp);
+        try {
+          localStorage.setItem("gat_onboarding_completed_v3", "1");
+          localStorage.setItem("gat_onboarding_completed_v2", "1");
+        } catch (e) {}
+      }
+    }
     const handledByUrl = window.applyUrlDeepLinkToOnboarding();
     if (!handledByUrl) {
       window.__gatWizardState.mode = "hero_landing";
-      window.renderGatOnboardingStage();
       window.renderAdaptiveTrackTracker();
+      window.renderGatOnboardingStage();
       if (isUserSignedIn() && !window.__gatActiveBlueprint && !window._gatDeepLinkLockedBlueprint) {
         window.syncGatTrackBlueprintToFirestore("load");
       }

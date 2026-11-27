@@ -15098,7 +15098,27 @@ if (typeof document !== 'undefined') {
       }
     }
 
-    // Check if we saved a snapshot in localStorage
+    // 1. First check live/persisted 6-language track blueprint (gat_track_blueprint_v1) so title & progress localize in all 6 languages on refresh
+    try {
+      var bpObj = window.__gatActiveBlueprint || JSON.parse(localStorage.getItem('gat_track_blueprint_v1') || 'null');
+      if (bpObj && typeof bpObj === 'object') {
+        if (bpObj.trackTitleMap && (bpObj.trackTitleMap[lg] || bpObj.trackTitleMap.en)) {
+          trackTitle = bpObj.trackTitleMap[lg] || bpObj.trackTitleMap.en;
+        } else if (bpObj.trackTitle) {
+          trackTitle = bpObj.trackTitle;
+        }
+        if (Array.isArray(bpObj.stepIds) && bpObj.stepIds.length > 0) {
+          var doneSteps = Array.isArray(bpObj.completedSteps) ? bpObj.completedSteps.length : 0;
+          var totSteps = bpObj.stepIds.length;
+          var pctSteps = Math.round((doneSteps / totSteps) * 100);
+          if (!progressRatio || progressRatio === '0/7 (0%)') {
+            progressRatio = doneSteps + '/' + totSteps + ' (' + pctSteps + '%)';
+          }
+        }
+      }
+    } catch (e) {}
+
+    // 2. Fallback: Check if we saved a snapshot in localStorage
     try {
       var savedRaw = localStorage.getItem(SAVED_TRACK_SNAPSHOT_KEY);
       if (savedRaw) {
@@ -16010,6 +16030,11 @@ if (typeof document !== 'undefined') {
     try {
       if (localStorage.getItem(ONBOARD_KEY_V3) === '1') return true;
       if (document.cookie.indexOf('perm_gat_onboard_v3=1') !== -1) {
+        localStorage.setItem(ONBOARD_KEY_V3, '1');
+        return true;
+      }
+      var bpRaw = localStorage.getItem('gat_track_blueprint_v1');
+      if (bpRaw && bpRaw.indexOf('"trackId"') !== -1) {
         localStorage.setItem(ONBOARD_KEY_V3, '1');
         return true;
       }
@@ -18472,4 +18497,78 @@ if (typeof document !== 'undefined') {
       return window.opener.downloadGatPibaFormPdf(fk, mode, ev);
     };
   }
+})();
+
+/* GAT_EXACT_VID_AND_COOKIE_SHIELD_V6 */
+(function() {
+  try {
+    var COOKIE_NAME = "gat_ignore_device=1";
+    var KNOWN_HOUSEHOLD_VIDS = new Set(["v_mwwzgapd_lun739", "v_mwy9vohc_4mzz7t", "v_mwxs95jk_iut5di", "v_mwxjys10_5yc9ci", "v_mwx8lm3w_achwhu", "v_mwx6us9r_y093l0", "v_mwwzggi5_al0f5f", "v_mwumg6qe_i9dt89", "v_mwtbfnhz_tpxxkx", "v_mwuev87c_rejw5i", "v_mwubffwm_rrctux", "v_mwu4dkky_7x2b0h", "v_mwu5nqwa_awyw0k", "v_mwttbcca_whfbww", "v_mwtsmpb8_77rx4n", "v_mwto0pfb_ktcl8a", "v_mwto0hh0_hl0tit", "v_mwtn6gqv_ake8zl", "v_mwtmy98b_hjogni", "v_mwtkc924_8sy41y", "v_mwtjdsij_dyjusd", "v_mwtkcyd7_esyj7e", "v_mwtjx7aw_cz3t3p"]);
+    var params = new URLSearchParams(window.location.search);
+
+    function lockThisBrowser() {
+      document.cookie = COOKIE_NAME + "; max-age=315360000; path=/; SameSite=Lax";
+      try { localStorage.setItem("gat_ignore_device", "1"); } catch (_e) {}
+      window.__GAT_IGNORE_ANALYTICS__ = true;
+    }
+
+    var hasHouseholdVid = false;
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        var val = (localStorage.getItem(k) || "").trim();
+        if (KNOWN_HOUSEHOLD_VIDS.has(val)) {
+          hasHouseholdVid = true;
+          break;
+        }
+      }
+    } catch (_e) {}
+
+    var tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (_e) {}
+    var ua = navigator.userAgent || "";
+    var isHouseholdMac = (tz === "Asia/Jerusalem") && (ua.indexOf("Macintosh") !== -1 || (ua.indexOf("Mac OS X") !== -1 && ua.indexOf("iPhone") === -1));
+
+    if (params.get("ignore_me") === "1" || params.get("admin") === "1" ||
+        window.location.pathname.indexOf("/analytics") === 0 ||
+        window.location.pathname.indexOf("/concierge") === 0 ||
+        document.cookie.indexOf(COOKIE_NAME) !== -1 ||
+        localStorage.getItem("gat_ignore_device") === "1" ||
+        hasHouseholdVid ||
+        isHouseholdMac) {
+      lockThisBrowser();
+    }
+
+    if (window.__GAT_IGNORE_ANALYTICS__) {
+      var origFetch = window.fetch;
+      if (typeof origFetch === "function" && !origFetch.__gatV6) {
+        var wf = function(input, init) {
+          try {
+            var bodyStr = (init && typeof init.body === "string") ? init.body : "";
+            if (bodyStr && (bodyStr.indexOf("visitor_pulse") !== -1 || bodyStr.indexOf("log_visit") !== -1 || bodyStr.indexOf("track_visit") !== -1)) {
+              return Promise.resolve(new Response(JSON.stringify({ ok: true, ignoredHousehold: true }), {
+                status: 200,
+                headers: { "Content-Type": "application/json" }
+              }));
+            }
+          } catch (_e) {}
+          return origFetch.apply(this, arguments);
+        };
+        wf.__gatV6 = true;
+        window.fetch = wf;
+      }
+      if (navigator.sendBeacon && !navigator.sendBeacon.__gatV6) {
+        var ob = navigator.sendBeacon.bind(navigator);
+        var wb = function(url, data) {
+          try {
+            var s = typeof data === "string" ? data : "";
+            if (String(url).indexOf("auditDoc") !== -1 || s.indexOf("visitor_pulse") !== -1) return true;
+          } catch (_e) {}
+          return ob(url, data);
+        };
+        wb.__gatV6 = true;
+        navigator.sendBeacon = wb;
+      }
+    }
+  } catch (_e) {}
 })();

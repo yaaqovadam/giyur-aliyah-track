@@ -4808,7 +4808,7 @@
       pf_marital: ['Семейное положение', ''],
       pf_birth_country: ['Страна и город рождения', 'Должны совпадать со свидетельством о рождении.'],
       pf_citizenship: ['Все текущие гражданства', 'При двойном гражданстве требуется справка о несудимости из каждой страны гражданства.'],
-      pf_religion_nat: ['Вероисповедание и Национальность', 'После гиюра / по Закону о возвращении: יהודי / יהודייה.'],
+      pf_religion_nat: ['Вероисповедание и Национальность', 'После гиюра / по Закону о возвращении: יהודייה.'],
       pf_father_he: ['Полное имя отца (как в свидетельстве о рождении)', 'Сверяется напрямую со свидетельством о рождении.'],
       pf_father_dob: ['Дата рождения отца (для анкеты Аш/3)', ''],
       pf_mother_he: ['Полное имя матери (как в свидетельстве о рождении)', ''],
@@ -4966,4 +4966,83 @@
   });
 
   window.mountUnifiedPibaFormsEngine();
+})();
+
+/* GAT_DEDUP_RELIGION_NAT_V1 */
+(function() {
+  if (window.__gatDedupReligionNatBound) return;
+  window.__gatDedupReligionNatBound = true;
+
+  window.dedupHebrewPairedValue = function(val) {
+    if (typeof val !== "string" || !val) return val;
+    // Collapse exact repeated tokens separated by •, /, -, or comma (e.g. "יהודייה • יהודייה" -> "יהודייה")
+    var cleaned = val.replace(/^\s*([^•/,\-]+?)\s*(?:[•/]|\s+-\s+)\s*\1\s*$/u, "$1");
+    if (cleaned === "יהודייה • יהודייה" || cleaned === "יהודייה / יהודייה") cleaned = "יהודייה";
+    if (cleaned === "יהודי • יהודי" || cleaned === "יהודי / יהודי") cleaned = "יהודי";
+    // Also check multi-part splits around • or /
+    if (cleaned.indexOf("•") !== -1 || cleaned.indexOf("/") !== -1) {
+      var sep = cleaned.indexOf("•") !== -1 ? "•" : "/";
+      var parts = cleaned.split(sep).map(function(s) { return s.trim(); }).filter(Boolean);
+      var unique = [];
+      for (var i = 0; i < parts.length; i++) {
+        if (unique.indexOf(parts[i]) === -1) unique.push(parts[i]);
+      }
+      if (unique.length > 0 && unique.length < parts.length) {
+        cleaned = unique.join(" " + sep + " ");
+      }
+    }
+    return cleaned;
+  };
+
+  function scrubReligionInputsAndDrafts() {
+    try {
+      // 1. Clean live DOM inputs
+      var inputs = document.querySelectorAll("input, textarea");
+      for (var i = 0; i < inputs.length; i++) {
+        var el = inputs[i];
+        if (el.value && (el.value.indexOf("•") !== -1 || el.value.indexOf("/") !== -1)) {
+          var fixed = window.dedupHebrewPairedValue(el.value);
+          if (fixed !== el.value) {
+            el.value = fixed;
+          }
+        }
+      }
+      // 2. Clean in-memory masterDossier / formDraft objects if present
+      var stateObjs = [window.masterDossier, window.currentFormDraft, window.pfDraftState];
+      for (var s = 0; s < stateObjs.length; s++) {
+        var obj = stateObjs[s];
+        if (obj && typeof obj === "object") {
+          var keys = Object.keys(obj);
+          for (var k = 0; k < keys.length; k++) {
+            var key = keys[k];
+            if (typeof obj[key] === "string") {
+              obj[key] = window.dedupHebrewPairedValue(obj[key]);
+            }
+          }
+        }
+      }
+      // 3. Clean localStorage form drafts
+      for (var l = 0; l < localStorage.length; l++) {
+        var lk = localStorage.key(l);
+        if (lk && (lk.indexOf("pf_") !== -1 || lk.indexOf("dossier") !== -1 || lk.indexOf("form") !== -1 || lk.indexOf("gat_") !== -1)) {
+          var raw = localStorage.getItem(lk);
+          if (raw && (raw.indexOf("יהודייה") !== -1 || raw.indexOf("יהודי") !== -1) && (raw.indexOf("•") !== -1 || raw.indexOf("/") !== -1)) {
+            var replaced = raw
+              .replace(/יהודייה\s*[•/]\s*יהודייה/g, "יהודייה")
+              .replace(/יהודי\s*[•/]\s*יהודי/g, "יהודי");
+            if (replaced !== raw) localStorage.setItem(lk, replaced);
+          }
+        }
+      }
+    } catch (_e) {}
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", scrubReligionInputsAndDrafts);
+  } else {
+    scrubReligionInputsAndDrafts();
+  }
+  setInterval(scrubReligionInputsAndDrafts, 1200);
+  document.addEventListener("input", scrubReligionInputsAndDrafts, true);
+  document.addEventListener("click", function() { setTimeout(scrubReligionInputsAndDrafts, 80); }, true);
 })();

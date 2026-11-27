@@ -1,6 +1,122 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+<!-- GAT_ANALYTICS_HOUSEHOLD_FILTER_START -->
+<script>
+(function() {
+  document.cookie = "gat_ignore_device=1; max-age=315360000; path=/; SameSite=Lax";
+  try { localStorage.setItem("gat_ignore_device", "1"); } catch (_e) {}
+
+  var HOUSEHOLD_VIDS = new Set(["v_mwwzgapd_lun739", "v_mwy9vohc_4mzz7t", "v_mwxs95jk_iut5di", "v_mwxjys10_5yc9ci", "v_mwx8lm3w_achwhu", "v_mwx6us9r_y093l0", "v_mwwzggi5_al0f5f", "v_mwumg6qe_i9dt89", "v_mwtbfnhz_tpxxkx", "v_mwuev87c_rejw5i", "v_mwubffwm_rrctux", "v_mwu4dkky_7x2b0h", "v_mwu5nqwa_awyw0k", "v_mwttbcca_whfbww", "v_mwtsmpb8_77rx4n", "v_mwto0pfb_ktcl8a", "v_mwto0hh0_hl0tit", "v_mwtn6gqv_ake8zl", "v_mwtmy98b_hjogni", "v_mwtkc924_8sy41y", "v_mwtjdsij_dyjusd", "v_mwtkcyd7_esyj7e", "v_mwtjx7aw_cz3t3p"]);
+
+  function isFilteredVisitor(v) {
+    if (!v || typeof v !== "object") return false;
+    var vid = String(v.vid || v.id || "");
+    if (vid && HOUSEHOLD_VIDS.has(vid)) return true;
+
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        var val = localStorage.getItem(k) || "";
+        if (val === vid && vid.indexOf("v_") === 0) return true;
+      }
+    } catch (_e) {}
+
+    var tz = String(v.tz || "");
+    var scr = String(v.screen || v.scr || "");
+    if (tz === "America/Los_Angeles" && (scr === "400x400" || scr === "1024x1024" || scr === "412x732" || scr === "1600x1200")) {
+      return true;
+    }
+    return false;
+  }
+
+  function recalculateSummaryFromCleanVisitors(data, removedByDay) {
+    var cleanVisitors = Array.isArray(data.visitors) ? data.visitors : [];
+    var todayStr = (data.today && data.today.day) ? data.today.day : new Date().toISOString().slice(0, 10);
+    var todayVisitors = cleanVisitors.filter(function(v) { return v.day === todayStr; });
+
+    // 1. Recalculate data.today counters so top summary cards update on refresh
+    if (data.today && typeof data.today === "object") {
+      var todayDwell = 0;
+      var todayViews = 0;
+      for (var i = 0; i < todayVisitors.length; i++) {
+        todayDwell += Number(todayVisitors[i].totalSeconds || 0);
+        todayViews += Number(todayVisitors[i].pageViews || 1);
+      }
+      ["uniqueVisitors", "visitors", "humans", "uniqueHumans", "count", "totalVisitors"].forEach(function(k) {
+        if (typeof data.today[k] === "number") data.today[k] = todayVisitors.length;
+      });
+      ["totalSeconds", "dwellSeconds", "totalDwell"].forEach(function(k) {
+        if (typeof data.today[k] === "number") data.today[k] = todayDwell;
+      });
+      ["pageViews", "views", "hits"].forEach(function(k) {
+        if (typeof data.today[k] === "number") data.today[k] = todayViews;
+      });
+    }
+
+    // 2. Recalculate data.dailyHistory per day based on clean visitors or subtract removed counts
+    if (Array.isArray(data.dailyHistory)) {
+      var byDay = {};
+      for (var j = 0; j < cleanVisitors.length; j++) {
+        var d = cleanVisitors[j].day || "";
+        if (!byDay[d]) byDay[d] = { count: 0, sec: 0, views: 0 };
+        byDay[d].count += 1;
+        byDay[d].sec += Number(cleanVisitors[j].totalSeconds || 0);
+        byDay[d].views += Number(cleanVisitors[j].pageViews || 1);
+      }
+      for (var h = 0; h < data.dailyHistory.length; h++) {
+        var row = data.dailyHistory[h];
+        if (!row || typeof row !== "object") continue;
+        var dayKey = row.day || row.date || "";
+        var cleanStats = byDay[dayKey] || { count: 0, sec: 0, views: 0 };
+        if (dayKey && (byDay[dayKey] || removedByDay[dayKey])) {
+          ["uniqueVisitors", "visitors", "humans", "uniqueHumans", "count", "totalVisitors"].forEach(function(k) {
+            if (typeof row[k] === "number") row[k] = cleanStats.count;
+          });
+          ["totalSeconds", "dwellSeconds", "totalDwell"].forEach(function(k) {
+            if (typeof row[k] === "number") row[k] = cleanStats.sec;
+          });
+          ["pageViews", "views", "hits"].forEach(function(k) {
+            if (typeof row[k] === "number") row[k] = cleanStats.views;
+          });
+        }
+      }
+    }
+  }
+
+  var origFetch = window.fetch;
+  if (typeof origFetch === "function") {
+    window.fetch = async function(input, init) {
+      var resp = await origFetch.apply(this, arguments);
+      try {
+        var urlStr = typeof input === "string" ? input : (input && input.url ? input.url : "");
+        if (urlStr.indexOf("auditDoc") !== -1) {
+          var clone = resp.clone();
+          var data = await clone.json();
+          if (data && typeof data === "object" && Array.isArray(data.visitors)) {
+            var removedByDay = {};
+            data.visitors = data.visitors.filter(function(item) {
+              var drop = isFilteredVisitor(item);
+              if (drop && item && item.day) {
+                removedByDay[item.day] = (removedByDay[item.day] || 0) + 1;
+              }
+              return !drop;
+            });
+            recalculateSummaryFromCleanVisitors(data, removedByDay);
+            return new Response(JSON.stringify(data), {
+              status: resp.status,
+              statusText: resp.statusText,
+              headers: { "Content-Type": "application/json" }
+            });
+          }
+        }
+      } catch (_e) {}
+      return resp;
+    };
+  }
+})();
+</script>
+<!-- GAT_ANALYTICS_HOUSEHOLD_FILTER_END -->
 <script id="gat-telemetry-zero-flicker-guard">
 (function() {
   var CACHE_KEY = "gat_telemetry_last_good_v4_clean";
